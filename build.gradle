@@ -1,0 +1,99 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+
+
+version = "${mod_version}"
+group = "${mod_group}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "${mod_archives_base_name}"
+
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = "${mc_version}-${forge_version}"
+    runDir = "run"
+
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "${mappings_version}"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+
+    replace "@VERSION@", project.version
+    replaceIn "com/mraof/minestuck/Minestuck.java"
+}
+
+repositories {
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
+    maven {
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        url = "http://maven.blamejared.com"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "modmaven.k-4u.nl"
+    }
+    maven {
+        // Refined Storage
+        name "Raoulvdberge Repo"
+        url "https://repo.raoulvdberge.com/"
+    }
+}
+
+dependencies {
+	deobfCompile "refinedstorage:refinedstorage:${rs_version}:api"
+	deobfCompile "CraftTweaker2:CraftTweaker2-API:4.1.6.457"
+	deobfCompile name: "carryon-1.12.2-1.12.3.15-deobf"
+    deobfCompile name: "Minestuck-${mc_version}-${minestuck_version}-deobf"
+    deobfCompile name: "Thaumcraft-${mc_version}-${thaumcraft_version}-deobf"
+    deobfCompile name: "Baubles-${mc_version}-${baubles_version}-deobf"
+    compile files("libs/Baubles-${mc_version}-${baubles_version}-api.jar")
+    deobfCompile name: "Botania+r1.10-363-deobf"
+    deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
+    
+    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+    runtime name: "Minestuck-${mc_version}-${minestuck_version}-deobf"
+    runtime name: "Thaumcraft-${mc_version}-${thaumcraft_version}-deobf"
+    runtime name: "Baubles-${mc_version}-${baubles_version}-deobf"
+    runtime name: "carryon-1.12.2-1.12.3.15-deobf"
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
