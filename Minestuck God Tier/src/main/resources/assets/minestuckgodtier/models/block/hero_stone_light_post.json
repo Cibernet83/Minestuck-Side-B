@@ -1,0 +1,6 @@
+{
+    "parent": "block/wall_post",
+    "textures": {
+        "wall": "blocks/minestuckgodtier:secondary_hero_stone_light"
+    }
+}

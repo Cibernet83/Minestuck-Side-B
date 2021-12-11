@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "minestuckgodtier:derse_pillar" },
+        "axis=z":   { "model": "minestuckgodtier:derse_pillar", "x": 90 },
+        "axis=x":   { "model": "minestuckgodtier:derse_pillar", "x": 90, "y": 90 }
+    }
+}
+

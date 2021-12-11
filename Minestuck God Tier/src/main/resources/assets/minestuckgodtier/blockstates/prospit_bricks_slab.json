@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom,variant=default": { "model": "minestuckgodtier:half_slab_prospit_bricks" },
+        "half=top,variant=default": { "model": "minestuckgodtier:upper_slab_prospit_bricks" }
+    }
+}

@@ -1,0 +1,16 @@
+[
+{
+  "modid": "minestuckgodtier",
+  "name": "Minestuck God Tier",
+  "description": "This Minestuck Addon adds God Tier armor and a handful of God Tier mechanics.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Cibernet", "JDubSupreme"],
+  "credits": "Special thanks to ThatLameOverlord and Ishumire for making the armor models, and Rose for making some item textures.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

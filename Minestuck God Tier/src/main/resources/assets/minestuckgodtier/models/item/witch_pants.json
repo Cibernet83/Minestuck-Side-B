@@ -1,0 +1,8 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "minestuckgodtier:items/blank",
+        "layer1": "minestuckgodtier:items/blank",
+        "layer2": "minestuckgodtier:items/pants/witch_skirt"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "minestuckgodtier:prospit_pillar" },
+        "axis=z":   { "model": "minestuckgodtier:prospit_pillar", "x": 90 },
+        "axis=x":   { "model": "minestuckgodtier:prospit_pillar", "x": 90, "y": 90 }
+    }
+}
+

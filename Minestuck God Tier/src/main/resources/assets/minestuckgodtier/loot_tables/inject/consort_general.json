@@ -1,0 +1,20 @@
+{
+    "pools": [
+        {
+            "rolls": 4,
+            "name": "items",
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minestuckgodtier:tome_of_the_ancients",
+                    "weight": 5
+                },
+                {
+                    "type": "item",
+                    "name": "minestuck:record_retro_battle",
+                    "weight": 1
+                }
+            ]
+        }
+    ]
+}

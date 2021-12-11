@@ -1,0 +1,11 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "minestuckgodtier:items/kit_base",
+        "layer1": "minestuckgodtier:items/blank",
+        "layer2": "minestuckgodtier:items/blank",
+        "layer3": "minestuckgodtier:items/blank",
+        "layer4": "minestuckgodtier:items/kit_top"
+
+    }
+}

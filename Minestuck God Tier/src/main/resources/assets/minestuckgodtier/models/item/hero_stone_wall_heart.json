@@ -1,0 +1,6 @@
+{
+    "parent": "minestuckgodtier:item/hero_stone_wall",
+    "textures": {
+        "wall": "minestuckgodtier:blocks/secondary_hero_stone_heart"
+    }
+}

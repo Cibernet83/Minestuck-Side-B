@@ -1,0 +1,15 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "minestuckgodtier:items/blank",
+        "layer1": "minestuckgodtier:items/blank",
+        "layer2": "minestuckgodtier:items/blank",
+        "layer3": "minestuckgodtier:items/shoes/maid_shoes",
+        "layer4": "minestuckgodtier:items/shoes/maid_shoes_bottom",
+        "layer5": "minestuckgodtier:items/blank",
+        "layer6": "minestuckgodtier:items/blank",
+        "layer7": "minestuckgodtier:items/blank",
+        "layer8": "minestuckgodtier:items/shoes/maid_bandages"
+
+    }
+}

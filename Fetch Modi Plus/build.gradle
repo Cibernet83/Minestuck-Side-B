@@ -1,0 +1,93 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+
+
+version = "${mod_version}"
+group = "com.cibernet.fetchmodiplus" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "fetchmodiplus"
+
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = "1.12.2-14.23.5.2816"
+    runDir = "run"
+
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "snapshot_20171003"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+
+    replace"@VERSION@", project.version
+    replaceIn "FetchModiPlus.java"
+}
+
+repositories {
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
+    maven {
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        url = "http://maven.blamejared.com"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "modmaven.k-4u.nl"
+    }
+    maven {
+        // Refined Storage
+        name "Raoulvdberge Repo"
+        url "https://repo.raoulvdberge.com/"
+    }
+}
+
+dependencies {
+    def mc_version = "1.12.2"
+    def jei_version = "4.9.1.168"
+    // http://chickenbones.net/maven
+    //compile "codechicken:CodeChickenLib:1.10.2-2.4.3.124:universal"
+    //compile "codechicken:CodeChickenCore:1.10.2-2.3.5.91:universal"
+    //compile "codechicken:NotEnoughItems:1.10.2-2.1.2.163:universal"
+    // http://dvs1.progwml6.com/files/maven
+    //compile "mezz.jei:jei_1.9.4:3.6.8.225"
+    //deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}"
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}

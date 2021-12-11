@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "fetchmodiplus:blocks/operandi_log_top",
+        "side": "fetchmodiplus:blocks/operandi_log"
+    }
+}

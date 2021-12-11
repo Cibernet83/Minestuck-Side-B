@@ -1,0 +1,8 @@
+{
+    "parent": "block/outer_stairs",
+    "textures": {
+        "bottom": "minestuckgodtier:blocks/prospit_bricks",
+        "top": "minestuckgodtier:blocks/prospit_bricks",
+        "side": "minestuckgodtier:blocks/prospit_bricks"
+    }
+}

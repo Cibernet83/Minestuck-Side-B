@@ -1,0 +1,9 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "minestuckgodtier:items/blank",
+        "layer1": "minestuckgodtier:items/blank",
+        "layer2": "minestuckgodtier:items/shoes/page_shoes_top",
+        "layer3": "minestuckgodtier:items/shoes/page_shoes_bottom"
+    }
+}

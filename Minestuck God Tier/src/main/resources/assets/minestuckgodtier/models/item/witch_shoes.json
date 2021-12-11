@@ -1,0 +1,12 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "minestuckgodtier:items/blank",
+        "layer1": "minestuckgodtier:items/blank",
+        "layer2": "minestuckgodtier:items/blank",
+        "layer3": "minestuckgodtier:items/shoes/witch_shoes",
+        "layer4": "minestuckgodtier:items/blank",
+        "layer5": "minestuckgodtier:items/shoes/witch_socks",
+        "layer6": "minestuckgodtier:items/shoes/witch_socks_detail"
+    }
+}

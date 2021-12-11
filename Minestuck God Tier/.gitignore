@@ -1,0 +1,28 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+classes
+.gradle
+
+# other
+eclipse
+run
+server
+
+# Files from Forge MDK
+forge*changelog.txt
+src/main/java/com/cibernet/minestuckgodtier/models/armor/ModelGTKnightReimport.java

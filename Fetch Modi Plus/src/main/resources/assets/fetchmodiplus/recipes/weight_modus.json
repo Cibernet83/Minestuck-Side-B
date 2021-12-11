@@ -1,0 +1,23 @@
+{
+  "type": "minestuck:empty_card",
+  "pattern": [
+    "IxI",
+    "IOI",
+    " I "
+  ],
+  "key": {
+    "O": {
+      "item": "minestuck:captcha_card"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "x": {
+      "item": "minestuck:raw_cruxite"
+    }
+  },
+  "result": {
+    "item": "fetchmodiplus:weight_modus",
+    "count": 1
+  }
+}

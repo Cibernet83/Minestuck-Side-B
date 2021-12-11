@@ -1,0 +1,7 @@
+{
+	"variants": {
+        "axis=y": { "model": "fetchmodiplus:operandi_log" },
+        "axis=z": { "model": "fetchmodiplus:operandi_log", "x": 90 },
+        "axis=x": { "model": "fetchmodiplus:operandi_log", "x": 90, "y": 90 }
+    }
+}

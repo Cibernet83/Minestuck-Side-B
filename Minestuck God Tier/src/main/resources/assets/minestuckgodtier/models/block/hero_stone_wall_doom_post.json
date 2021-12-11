@@ -1,0 +1,6 @@
+{
+    "parent": "minestuckgodtier:block/hero_stone_wall_post",
+    "textures": {
+        "wall": "minestuckgodtier:blocks/secondary_hero_stone_doom"
+    }
+}
