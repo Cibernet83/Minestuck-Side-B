@@ -99,25 +99,21 @@ public class ClientProxy extends CommonProxy
 				MinestuckItems.cruxiteDowel, MinestuckItems.cruxiteApple, MinestuckItems.cruxitePotion);
 		mc.getBlockColors().registerBlockColorHandler(new BlockColorCruxite(), MinestuckBlocks.alchemiter[0], MinestuckBlocks.totemlathe[1], MinestuckBlocks.blockCruxiteDowel);
 
-		mc.getItemColors().registerItemColorHandler(new IItemColor()
-        {
-            public int colorMultiplier(ItemStack stack, int tintIndex)
-            {
-            	ItemFrog item = ((ItemFrog)stack.getItem());
-            	int color = -1;
-            	
-            	if((stack.getMetadata() > EntityFrog.maxTypes() || stack.getMetadata() < 1))
-            	{
-	            	switch(tintIndex)
-	            	{
-	            	case 0: color = item.getSkinColor(stack); break;
-	            	case 1: color = item.getEyeColor(stack); break;
-	            	case 2: color = item.getBellyColor(stack); break; 
-	            	}
-            	}
-                return color;
-            }
-        }, MinestuckItems.itemFrog);
+		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
+			ItemFrog item = ((ItemFrog)stack.getItem());
+			int color = -1;
+
+			if((stack.getMetadata() > EntityFrog.maxTypes() || stack.getMetadata() < 1))
+			{
+				switch(tintIndex)
+				{
+				case 0: color = item.getSkinColor(stack); break;
+				case 1: color = item.getEyeColor(stack); break;
+				case 2: color = item.getBellyColor(stack); break;
+				}
+			}
+		    return color;
+		}, MinestuckItems.itemFrog);
 	}
 	
 	@Override
@@ -164,6 +160,8 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void init()
 	{
+		ClientProxy.registerRenderers();
+
 		super.init();
 		MinecraftForge.EVENT_BUS.register(ClientEditHandler.instance);
 		MinecraftForge.EVENT_BUS.register(new MinestuckConfig());

@@ -18,12 +18,12 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemNet extends Item
+public class ItemNet extends MSItemBase
 {
 	
 	public ItemNet()
 	{
-		setUnlocalizedName("net");
+		super("net");
 		setCreativeTab(TabMinestuck.instance);
 		setMaxStackSize(1);
 		setMaxDamage(64);

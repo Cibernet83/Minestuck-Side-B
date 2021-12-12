@@ -1,6 +1,7 @@
-package com.mraof.minestuck.item;
+package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
+import com.mraof.minestuck.item.ItemFood;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.creativetab.CreativeTabs;

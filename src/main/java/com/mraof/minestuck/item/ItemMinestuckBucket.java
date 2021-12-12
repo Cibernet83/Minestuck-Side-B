@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -7,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -14,11 +16,12 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemMinestuckBucket extends ItemBucket	//Unsure if anything more should update for 1.9
+public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem<Item> //Unsure if anything more should update for 1.9
 {
 	public List<IBlockState> fillFluids = new ArrayList<IBlockState>();
 	
@@ -29,6 +32,7 @@ public class ItemMinestuckBucket extends ItemBucket	//Unsure if anything more sh
 		setCreativeTab(TabMinestuck.instance);
 		setContainerItem(Items.BUCKET);
 		setHasSubtypes(true);
+		MSItemBase.items.add(this);
 	}
 	
 	@Override
@@ -122,5 +126,11 @@ public class ItemMinestuckBucket extends ItemBucket	//Unsure if anything more sh
 	{
 		fillFluids.add(block);
 	}
-	
+
+	@Override
+	public void register(IForgeRegistry<Item> registry)
+	{
+		setRegistryName("minestuck_bucket");
+		registry.register(this);
+	}
 }

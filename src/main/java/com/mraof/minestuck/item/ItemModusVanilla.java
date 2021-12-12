@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-public class ItemModusVanilla extends Item
+public class ItemModusVanilla extends MSItemBase
 {
 	
 	public static final String[] NAMES = {"stack", "queue", "queuestack", "tree", "hashmap", "set"};
@@ -13,10 +13,10 @@ public class ItemModusVanilla extends Item
 	// TODO: Expand these into their own items
 	public ItemModusVanilla()
 	{
+		super("modusCard");
 		this.maxStackSize = 1;
 		this.setHasSubtypes(true);
 		this.setCreativeTab(TabMinestuck.instance);
-		this.setUnlocalizedName("modusCard");
 	}
 	
 	@Override

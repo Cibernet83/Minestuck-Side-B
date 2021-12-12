@@ -1,9 +1,12 @@
-package com.mraof.minestuck.item;
+package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.entity.EntityAbstractOperandiThrowable;
 import com.mraof.minestuck.entity.EntityOperandiEightBall;
 import com.mraof.minestuck.entity.EntityOperandiSplashPotion;
+import com.mraof.minestuck.item.MSItemBase;
+import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.TabMinestuck;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,7 +17,7 @@ import net.minecraft.world.World;
 
 import static com.mraof.minestuck.util.ModusStorage.getStoredItem;
 
-public class ItemOperandiThrowable extends Item
+public class ItemOperandiThrowable extends MSItemBase
 {
 	protected float projectileSpeed;
 	protected float pitchOffset;
@@ -22,7 +25,7 @@ public class ItemOperandiThrowable extends Item
 	
 	public ItemOperandiThrowable(String name, float pitchOffset, float projSpeed, SoundEvent thrownSound)
 	{
-		setUnlocalizedName(name);
+		super(name);
 		setCreativeTab(TabMinestuck.instance);
 		setMaxStackSize(1);
 		OperandiModus.itemPool.add(this);

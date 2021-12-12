@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/crystal_eight_ball"
+        "layer0": "minestuck:items/crystal_eight_ball"
     }
 }

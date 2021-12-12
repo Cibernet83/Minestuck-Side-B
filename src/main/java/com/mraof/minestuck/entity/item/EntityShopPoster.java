@@ -55,7 +55,7 @@ public class EntityShopPoster extends EntityHangingArt<EntityShopPoster.ShopArt>
 	@Override
 	public ItemStack getStackDropped()
 	{
-		return new ItemStack(MinestuckItems.shopPoster, 1, getType());
+		return ItemStack.EMPTY; //return new ItemStack(MinestuckItems.shopPoster, 1, getType());
 	}
 	
 	private void setType(int i) 

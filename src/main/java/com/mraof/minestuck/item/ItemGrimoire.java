@@ -11,9 +11,10 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-public class ItemGrimoire extends Item {
-	public ItemGrimoire() {
-		this.setCreativeTab(TabMinestuck.instance);
+public class ItemGrimoire extends MSItemBase { //TODO merge into ItemSound once we add that
+	public ItemGrimoire()
+	{
+		super("grimoire");
 	}
 	
 	@Override

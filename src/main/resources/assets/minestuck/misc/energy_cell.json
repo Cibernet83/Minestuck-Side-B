@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "fetchmodiplus:energy_cell"
+      "minestuck:energy_cell"
     ]
   },
   "criteria": {
@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "fetchmodiplus:energy_modus"
+            "item": "minestuck:energy_modus"
           }
         ]
       }
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "fetchmodiplus:energy_cell"
+        "recipe": "minestuck:energy_cell"
       }
     }
   },

@@ -1,4 +1,4 @@
-package com.mraof.minestuck.item;
+package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.util.ModusStorage;

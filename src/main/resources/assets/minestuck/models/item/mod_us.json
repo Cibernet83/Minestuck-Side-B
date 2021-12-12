@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/mod_us"
+        "layer0": "minestuck:items/mod_us"
     }
 }

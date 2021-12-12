@@ -1,7 +1,7 @@
 package com.mraof.minestuck.event;
 
 import com.mraof.minestuck.util.ModusStorage;
-import com.mraof.minestuck.item.ItemOperandiArmor;
+import com.mraof.minestuck.item.operandi.ItemOperandiArmor;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.underling.EntityUnderling;

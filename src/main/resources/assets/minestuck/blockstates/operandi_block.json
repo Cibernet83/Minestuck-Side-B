@@ -1,7 +1,7 @@
 {
     "variants": {
         "normal": 
-            { "model": "fetchmodiplus:operandi_block" }
+            { "model": "minestuck:operandi_block" }
         
     }
 }

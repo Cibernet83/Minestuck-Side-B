@@ -56,7 +56,7 @@ import net.minecraft.world.chunk.Chunk.EnumCreateEntityType;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.fml.common.Loader;
 
-public abstract class ItemCruxiteArtifact extends Item implements Teleport.ITeleporter
+public abstract class ItemCruxiteArtifact extends MSItemBase implements Teleport.ITeleporter
 {
 	private int xDiff;
 	private int yDiff;
@@ -68,9 +68,9 @@ public abstract class ItemCruxiteArtifact extends Item implements Teleport.ITele
 	
 	private static boolean isRefinedStorageInstalled = Loader.isModLoaded("refinedstorage");
 	
-	public ItemCruxiteArtifact() 
+	public ItemCruxiteArtifact(String name)
 	{
-		this.setCreativeTab(TabMinestuck.instance);
+		super(name);
 		setUnlocalizedName("cruxiteArtifact");
 		this.maxStackSize = 1;
 		setHasSubtypes(true);

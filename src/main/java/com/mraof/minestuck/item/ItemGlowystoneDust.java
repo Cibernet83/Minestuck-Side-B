@@ -11,11 +11,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemGlowystoneDust extends Item
+public class ItemGlowystoneDust extends MSItemBase
 {
     public ItemGlowystoneDust()
     {
-        this.setCreativeTab(TabMinestuck.instance);
+        super("glowystoneDust", TabMinestuck.instance);
     }
 
     /**

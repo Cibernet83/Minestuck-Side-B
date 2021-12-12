@@ -12,10 +12,10 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-public class ItemRazorBlade extends Item {
+public class ItemRazorBlade extends MSItemBase {
 	public ItemRazorBlade() {
+		super("razorBlade");
 		this.setCreativeTab(TabMinestuck.instance);
-		this.setUnlocalizedName("razorBlade");
 	}
 	
 	@Override

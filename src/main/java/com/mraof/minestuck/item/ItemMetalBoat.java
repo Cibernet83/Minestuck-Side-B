@@ -14,8 +14,7 @@ public class ItemMetalBoat extends ItemCustomBoat
 	
 	public ItemMetalBoat()
 	{
-		super();
-		setUnlocalizedName("metalBoat");
+		super("metalBoat");
 		setHasSubtypes(true);
 	}
 	
