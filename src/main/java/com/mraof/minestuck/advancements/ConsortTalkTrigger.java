@@ -7,13 +7,10 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.entity.consort.EntityConsort;
-import com.mraof.minestuck.entity.consort.EnumConsort;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
-import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.List;
@@ -22,7 +19,7 @@ import java.util.Set;
 
 public class ConsortTalkTrigger implements ICriterionTrigger<ConsortTalkTrigger.Instance>
 {
-	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MOD_ID, "consort_talk");
+	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MODID, "consort_talk");
 	private final Map<PlayerAdvancements, Listeners> listenersMap = Maps.newHashMap();
 	
 	@Override

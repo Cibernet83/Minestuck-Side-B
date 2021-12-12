@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class PunchDesignixTrigger implements ICriterionTrigger<PunchDesignixTrigger.Instance>
 {
-	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MOD_ID, "punch_designix");
+	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MODID, "punch_designix");
 	private final Map<PlayerAdvancements, Listeners> listenersMap = Maps.newHashMap();
 	
 	@Override

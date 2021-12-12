@@ -4,7 +4,6 @@ import org.apache.logging.log4j.Logger;
 
 public class Debug
 {
-	
 	//public static boolean isDebugMode;
 	public static Logger logger;
 

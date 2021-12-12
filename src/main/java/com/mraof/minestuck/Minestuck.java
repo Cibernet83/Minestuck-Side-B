@@ -5,7 +5,7 @@ import com.mraof.minestuck.client.ClientProxy;
 import com.mraof.minestuck.command.*;
 import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.editmode.ServerEditHandler;
-import com.mraof.minestuck.event.ServerEventHandler;
+import com.mraof.minestuck.event.CommonEventHandler;
 import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
 import com.mraof.minestuck.modSupport.crafttweaker.CraftTweakerSupport;
 import com.mraof.minestuck.tileentity.*;
@@ -23,11 +23,11 @@ import java.util.Random;
 
 import static com.mraof.minestuck.Minestuck.*;
 
-@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, guiFactory = "com.mraof.minestuck.client.gui.MinestuckGuiFactory", acceptedMinecraftVersions = "[1.12,1.12.2]")
+@Mod(modid = MODID, name = MOD_NAME, version = VERSION, guiFactory = "com.mraof.minestuck.client.gui.MinestuckGuiFactory", acceptedMinecraftVersions = "[1.12,1.12.2]")
 public class Minestuck
 {
 	public static final String MOD_NAME = "Minestuck";
-	public static final String MOD_ID = "minestuck";
+	public static final String MODID = "minestuck";
 	public static final String VERSION = "@VERSION@";
 	
 	/**
@@ -49,11 +49,34 @@ public class Minestuck
 	public static long worldSeed = 0;	//TODO proper usage of seed when generating titles, land aspects, and land dimension data
 
 	public static final long startTime = System.currentTimeMillis(); // Yes I'm being very stupid, for render effects
-	
+
+	public static boolean isMSULoaded;
+	public static boolean isMSGTLoaded;
+	public static boolean isMekanismLoaded;
+	public static boolean isCyclicLoaded;
+	public static boolean isBOPLoaded;
+	public static boolean isChiselLoaded;
+	public static boolean isVampirismLoaded;
+	public static boolean isMysticalWorldLoaded;
+	public static boolean isIndustrialForegoingLoaded;
+
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) 
 	{
 		isClientRunning = event.getSide().isClient();
+
+		Debug.logger = event.getModLog();
+
+		Minestuck.isMSULoaded = Loader.isModLoaded("minestuckuniverse");
+		Minestuck.isMSGTLoaded = Loader.isModLoaded("minestuckgodtier");
+		Minestuck.isMekanismLoaded = Loader.isModLoaded("mekanism");
+		Minestuck.isCyclicLoaded = Loader.isModLoaded("cyclicmagic");
+		Minestuck.isChiselLoaded = Loader.isModLoaded("chisel");
+		Minestuck.isBOPLoaded = Loader.isModLoaded("biomesoplenty");
+		Minestuck.isVampirismLoaded = Loader.isModLoaded("vampirism");
+		Minestuck.isMysticalWorldLoaded = Loader.isModLoaded("mysticalworld");
+		Minestuck.isIndustrialForegoingLoaded = Loader.isModLoaded("industrialforegoing");
 		
 		Debug.logger = event.getModLog();
 		
@@ -126,7 +149,7 @@ public class Minestuck
 		event.registerServerCommand(new CommandLandDebug());
 		
 		worldSeed = event.getServer().worlds[0].getSeed();
-		ServerEventHandler.lastDay = event.getServer().worlds[0].getWorldTime() / 24000L;
+		CommonEventHandler.lastDay = event.getServer().worlds[0].getWorldTime() / 24000L;
 		CaptchaDeckHandler.rand = new Random();
 	}
 	

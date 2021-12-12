@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.util;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.*;
 import com.mraof.minestuck.entity.EntityFrog;
@@ -29,6 +30,7 @@ import java.util.Collections;
 
 import static com.mraof.minestuck.block.MinestuckBlocks.*;
 import static com.mraof.minestuck.item.MinestuckItems.*;
+import static com.mraof.minestuck.item.MinestuckItems.operandiBlock;
 
 @SideOnly(Side.CLIENT)
 public class MinestuckModelManager
@@ -182,8 +184,8 @@ public class MinestuckModelManager
 		register(minestuckBucket, 3, "bucket_watercolors");
 		register(minestuckBucket, 4, "bucket_ender");
 		register(minestuckBucket, 5, "bucket_light_water");
-		for(int i = 0; i < ItemModus.NAMES.length; i++)
-			register(modusCard, i, "modus_" + ItemModus.NAMES[i]);
+		for(int i = 0; i < ItemModusVanilla.NAMES.length; i++)
+			register(modusCard, i, "modus_" + ItemModusVanilla.NAMES[i]);
 		register(goldSeeds);
 		register(razorBlade);
 		for(int i = 0; i < ItemMetalBoat.NAMES.length; i++)
@@ -254,6 +256,70 @@ public class MinestuckModelManager
 		for(EnumShopPoster type : EnumShopPoster.values())
 			register(shopPoster, type.ordinal(), "shop_poster"+type.ordinal());
 		*/
+
+		register(wildMagicModus);
+		register(weightModus);
+		register(bookModus);
+		register(capitalistModus);
+		register(modUs);
+		register(operandiModus);
+		register(onionModus);
+		register(slimeModus);
+		register(popTartModus);
+		register(deckModus);
+		register(hueModus);
+		register(hueStackModus);
+		register(chatModus);
+		register(cycloneModus);
+		register(energyModus);
+		register(scratchAndSniffModus);
+		register(eightBallModus);
+		register(chasityModus);
+		register(jujuModus);
+		register(alcheModus);
+		register(arrayModus);
+		register(monsterModus);
+		register(walletModus);
+		register(crystalBallModus);
+		register(hashchatModus);
+		register(sacrificeModus);
+
+		register(popTart);
+		register(eightBall);
+		register(popBall);
+		register(floatStone);
+		register(energyCell);
+		register(captchalogueBook);
+		register(chasityKey);
+		register(crystalEightBall);
+		register(cruxiteGel);
+		register(dragonGel);
+		register(cruxtruderGel);
+
+		register(operandiPickaxe);
+		register(operandiAxe);
+		register(operandiShovel);
+		register(operandiHoe);
+		register(operandiSword);
+		register(operandiHammer);
+		register(operandiClub);
+		register(operandiBattleaxe);
+		register(operandiApple);
+		register(operandiPotion);
+		register(operandiPopTart);
+		register(operandiEightBall);
+		register(operandiSplashPotion);
+		register(operandiHelmet);
+		register(operandiChestplate);
+		register(operandiLeggings);
+		register(operandiBoots);
+		register(operandiBlock);
+		register(MinestuckItems.operandiStone);
+		register(MinestuckItems.operandiLog);
+		register(MinestuckItems.operandiGlass);
+
+		register(MinestuckItems.hardStone);
+		register(walletEntityItem);
 	}
 	
 	private static void blockModels()
@@ -431,12 +497,15 @@ public class MinestuckModelManager
 	
 	private static void register(Item item)
 	{
-		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		if(item.getHasSubtypes())
+			ModelLoader.setCustomMeshDefinition(item, new SubtypesItemDefinition(Item.REGISTRY.getNameForObject(item).toString()));
+		else
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Item.REGISTRY.getNameForObject(item), "inventory"));
 	}
 	
 	private static void register(Item item, int meta, String modelResource)
 	{
-		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation("minestuck:"+modelResource, "inventory"));
+		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Minestuck.MODID + ":" + modelResource, "inventory"));
 	}
 	
 	private static void register(Block block)
@@ -453,6 +522,20 @@ public class MinestuckModelManager
 		if(item == Items.AIR)
 			throw new IllegalArgumentException("That block doesn't have an item, and this method is only intended for blocks with a connected itemblock.");
 		register(item, meta, modelResource);
+	}
+
+	private static class SubtypesItemDefinition implements ItemMeshDefinition
+	{
+		private String name;
+		SubtypesItemDefinition(String name)
+		{
+			this.name = name;
+		}
+		@Override
+		public ModelResourceLocation getModelLocation(ItemStack stack)
+		{
+			return new ModelResourceLocation(name, "inventory");
+		}
 	}
 	
 	private static class CrockerSporkDefinition implements ItemMeshDefinition

@@ -22,7 +22,7 @@ import java.util.Set;
 
 public class ConsortItemTrigger implements ICriterionTrigger<ConsortItemTrigger.Instance>
 {
-	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MOD_ID, "consort_item");
+	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MODID, "consort_item");
 	private final Map<PlayerAdvancements, Listeners> listenersMap = Maps.newHashMap();
 	
 	@Override

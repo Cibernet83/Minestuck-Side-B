@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class CaptchalogueTrigger implements ICriterionTrigger<CaptchalogueTrigger.Instance>
 {
-	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MOD_ID, "captchalogue");
+	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MODID, "captchalogue");
 	private final Map<PlayerAdvancements, Listeners> listenersMap = Maps.newHashMap();
 	
 	@Override

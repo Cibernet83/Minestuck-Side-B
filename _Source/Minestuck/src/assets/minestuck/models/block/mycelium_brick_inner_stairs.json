@@ -1,8 +1,0 @@
-{
-    "parent": "block/inner_stairs",
-    "textures": {
-        "bottom": "minestuck:blocks/mycelium_bricks",
-        "top": "minestuck:blocks/mycelium_bricks",
-        "side": "minestuck:blocks/mycelium_bricks"
-    }
-}

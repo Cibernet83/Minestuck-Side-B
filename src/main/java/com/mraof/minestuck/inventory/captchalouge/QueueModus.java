@@ -1,7 +1,7 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
-import com.mraof.minestuck.client.gui.captchalouge.QueueGuiHandler;
-import com.mraof.minestuck.client.gui.captchalouge.SylladexGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.QueueGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import net.minecraft.item.ItemStack;

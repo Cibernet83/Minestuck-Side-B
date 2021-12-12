@@ -15,7 +15,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Minestuck.MOD_ID)
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class GristType extends IForgeRegistryEntry.Impl<GristType> implements Comparable<GristType>
 {
 	public static final GristType Amber = new GristType("amber", 0.5F, 1.5F, new ResourceLocation("minestuck", "amber"));

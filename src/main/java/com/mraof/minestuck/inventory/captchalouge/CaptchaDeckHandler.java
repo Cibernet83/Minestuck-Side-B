@@ -13,12 +13,11 @@ import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
@@ -49,18 +48,58 @@ public class CaptchaDeckHandler
 	
 	static
 	{
-		registerModusType(new ResourceLocation(Minestuck.MOD_ID, "stack"), StackModus.class, new ItemStack(MinestuckItems.modusCard, 1, 0));
-		registerModusType(new ResourceLocation(Minestuck.MOD_ID, "queue"), QueueModus.class, new ItemStack(MinestuckItems.modusCard, 1, 1));
-		registerModusType(new ResourceLocation(Minestuck.MOD_ID, "queue_stack"), QueuestackModus.class, new ItemStack(MinestuckItems.modusCard, 1, 2));
-		registerModusType(new ResourceLocation(Minestuck.MOD_ID, "tree"), TreeModus.class, new ItemStack(MinestuckItems.modusCard, 1, 3));
-		registerModusType(new ResourceLocation(Minestuck.MOD_ID, "hashmap"), HashmapModus.class, new ItemStack(MinestuckItems.modusCard, 1, 4));
-		registerModusType(new ResourceLocation(Minestuck.MOD_ID, "set"), SetModus.class, new ItemStack(MinestuckItems.modusCard, 1, 5));
+		registerModusType(new ResourceLocation(Minestuck.MODID, "stack"), StackModus.class, new ItemStack(MinestuckItems.modusCard, 1, 0));
+		registerModusType(new ResourceLocation(Minestuck.MODID, "queue"), QueueModus.class, new ItemStack(MinestuckItems.modusCard, 1, 1));
+		registerModusType(new ResourceLocation(Minestuck.MODID, "queue_stack"), QueuestackModus.class, new ItemStack(MinestuckItems.modusCard, 1, 2));
+		registerModusType(new ResourceLocation(Minestuck.MODID, "tree"), TreeModus.class, new ItemStack(MinestuckItems.modusCard, 1, 3));
+		registerModusType(new ResourceLocation(Minestuck.MODID, "hashmap"), HashmapModus.class, new ItemStack(MinestuckItems.modusCard, 1, 4));
+		registerModusType(new ResourceLocation(Minestuck.MODID, "set"), SetModus.class, new ItemStack(MinestuckItems.modusCard, 1, 5));
+		registerModusType(new ResourceLocation(Minestuck.MODID, "cyclone_modus"), CycloneModus.class, MinestuckItems.cycloneModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "wild_magic_modus"), WildMagicModus.class, MinestuckItems.wildMagicModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "capitalist_modus"), CapitalistModus.class, MinestuckItems.capitalistModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "mod_us"), CommunistModus.class, MinestuckItems.modUs);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "deck_modus"), DeckModus.class, MinestuckItems.deckModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "pop_tart_modus"), PopTartModus.class, MinestuckItems.popTartModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "hue_modus"), HueModus.class, MinestuckItems.hueModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "hue_stack_modus"), HueStackModus.class, MinestuckItems.hueStackModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "chat_modus"), ChatModus.class, MinestuckItems.chatModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "onion_modus"), OnionModus.class, MinestuckItems.onionModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "slime_modus"), SlimeModus.class, MinestuckItems.slimeModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "scratch_and_sniff_modus"), ScratchAndSniffModus.class, MinestuckItems.scratchAndSniffModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "eight_ball_modus"), EightBallModus.class, MinestuckItems.eightBallModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "juju_modus"), JujuModus.class, MinestuckItems.jujuModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "alchemodus"), AlchemyModus.class, MinestuckItems.alcheModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "operandi_modus"), OperandiModus.class, MinestuckItems.operandiModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "weight_modus"), WeightModus.class, MinestuckItems.weightModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "book_modus"), BookModus.class, MinestuckItems.bookModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "energy_modus"), EnergyModus.class, MinestuckItems.energyModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "chasity_modus"), ChasityModus.class, MinestuckItems.chasityModus);
+
+
+		registerModusType(new ResourceLocation(Minestuck.MODID, "array_modus"), ArrayModus.class, MinestuckItems.arrayModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "monster_modus"), MonsterModus.class, MinestuckItems.monsterModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "wallet_modus"), WalletModus.class, MinestuckItems.walletModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "crystal_ball_modus"), CrystalBallModus.class, MinestuckItems.crystalBallModus);
+
+		/*
+		registerModusType(new ResourceLocation(Minestuck.MODID, "ouija_modus"), OuijaModus.class, FMPItems.ouijaModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "cipher_modus"), CipherModus.class, FMPItems.cipherModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "memory_modus"), MemoryModus.class, FMPItems.memoryModus);
+		*/
+
+		registerModusType(new ResourceLocation(Minestuck.MODID, "hashchat_modus"), HashchatModus.class, MinestuckItems.hashchatModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "sacrifice_modus"), SacrificeModus.class, MinestuckItems.sacrificeModus);
 	}
 	
 	public static void registerModusType(ResourceLocation registryName, Class<? extends Modus> c, ItemStack item)
 	{
 		modusClassMap.put(registryName, c);
 		modusItemMap.put(registryName, item);
+	}
+
+	public static void registerModusType(ResourceLocation registryName, Class<? extends Modus> c, Item item)
+	{
+		registerModusType(registryName, c, new ItemStack(item, 1));
 	}
 	
 	public static Modus createInstance(ResourceLocation location, Side side)
@@ -466,7 +505,7 @@ public class CaptchaDeckHandler
 		if(nbt.hasKey("type", 99))	//Integer from the old format
 		{
 			int i = nbt.getInteger("type");
-			name = new ResourceLocation(Minestuck.MOD_ID, metaConvert[MathHelper.clamp(i, 0, 5)]);
+			name = new ResourceLocation(Minestuck.MODID, metaConvert[MathHelper.clamp(i, 0, 5)]);
 		} else
 		{
 			name = new ResourceLocation(nbt.getString("type"));

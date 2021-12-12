@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumMap;
 
-public class MinestuckChannelHandler extends FMLIndexedMessageToMessageCodec<MinestuckPacket> 
+public class MinestuckChannelHandler extends FMLIndexedMessageToMessageCodec<MinestuckPacket>
 {
 	
 	public static MinestuckChannelHandler instance = new MinestuckChannelHandler();

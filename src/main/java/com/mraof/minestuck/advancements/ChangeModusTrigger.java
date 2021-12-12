@@ -11,10 +11,7 @@ import com.mraof.minestuck.inventory.captchalouge.Modus;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
-import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.List;
@@ -23,7 +20,7 @@ import java.util.Set;
 
 public class ChangeModusTrigger implements ICriterionTrigger<ChangeModusTrigger.Instance>
 {
-	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MOD_ID, "change_modus");
+	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MODID, "change_modus");
 	private final Map<PlayerAdvancements, Listeners> listenersMap = Maps.newHashMap();
 	
 	@Override

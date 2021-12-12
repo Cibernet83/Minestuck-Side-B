@@ -1,6 +1,6 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
-import com.mraof.minestuck.client.gui.captchalouge.SylladexGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

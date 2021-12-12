@@ -1,8 +1,8 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.client.gui.captchalouge.HashmapGuiHandler;
-import com.mraof.minestuck.client.gui.captchalouge.SylladexGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.HashmapGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.CaptchaDeckPacket;
 import com.mraof.minestuck.network.MinestuckChannelHandler;

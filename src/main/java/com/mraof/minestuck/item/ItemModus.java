@@ -1,35 +1,15 @@
 package com.mraof.minestuck.item;
 
-import net.minecraft.creativetab.CreativeTabs;
+import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 
 public class ItemModus extends Item
 {
-	
-	public static final String[] NAMES = {"stack", "queue", "queuestack", "tree", "hashmap", "set"};
-	
-	public ItemModus()
+	public ItemModus(String name)
 	{
-		this.maxStackSize = 1;
-		this.setHasSubtypes(true);
-		this.setCreativeTab(TabMinestuck.instance);
-		this.setUnlocalizedName("modusCard");
+		setUnlocalizedName(name);
+		setMaxStackSize(1);
+		setCreativeTab(TabMinestuck.instance);
 	}
-	
-	@Override
-	public String getUnlocalizedName(ItemStack stack)
-	{
-		return getUnlocalizedName()+"."+ NAMES[stack.getItemDamage()];
-	}
-	
-	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-	{
-		if(this.isInCreativeTab(tab))
-			for(int i = 0; i < 6; i++)
-				items.add(new ItemStack(this, 1, i));
-	}
-	
 }

@@ -63,6 +63,11 @@ public final class MinestuckEntities
 		registerEntity(EntitySbahjPoster.class, "sbahjPoster", "sbahj_poster");
 		registerEntity(EntityShopPoster.class, "shopPoster", "shop_poster");
 		registerEntity(EntityHologram.class, "holoItem", "holo_item");
+		registerEntity(EntityCruxiteSlime.class, "cruxite_slime");
+		registerEntity(EntityEightBall.class, "eight_ball");
+		registerEntity(EntityCrystalEightBall.class, "crystal_eight_ball");
+		registerEntity(EntityOperandiEightBall.class, "operandi_eight_ball");
+		registerEntity(EntityOperandiSplashPotion.class, "operandi_splash_potion");
 		
 	}
 	

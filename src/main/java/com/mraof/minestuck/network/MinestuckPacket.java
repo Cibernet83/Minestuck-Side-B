@@ -8,7 +8,7 @@ import java.util.EnumSet;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-public abstract class MinestuckPacket 
+public abstract class MinestuckPacket
 {
 	public enum Type
 	{
@@ -32,6 +32,16 @@ public abstract class MinestuckPacket
 		SELECTION(SelectionPacket.class),
 		DATA_CHECKER(DataCheckerPacket.class),
 		EFFECT_TOGGLE(EffectTogglePacket.class),
+		CHAT_MODUS_EJECT(ChatModusEjectPacket.class),
+		UPDATE_MODUS(ModusUpdatePacket.class),
+		BOOK_UPDATE_PAGE(BookModusPagePacket.class),
+		REQUEST_UPDATE_MODUS(RequestModusUpdatePacket.class),
+		JUJU_UPDATE(JujuModusPacket.class),
+		COM_UPDATE(CommunistUpdatePacket.class),
+		REQUEST_COM_UPDATE(RequestCommunistUpdatePacket.class),
+		ALCHEM_WILDCARD(AlchemyWildcardPacket.class),
+		BOOK_PUBLISH(BookPublishPacket.class),
+		WALLET_CAPTCHA(WalletCaptchaloguePacket.class),
 		;
 		
 		Class<? extends MinestuckPacket> packetType;

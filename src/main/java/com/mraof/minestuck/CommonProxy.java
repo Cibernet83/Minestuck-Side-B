@@ -10,7 +10,8 @@ import com.mraof.minestuck.entity.MinestuckEntities;
 import com.mraof.minestuck.entity.consort.ConsortDialogue;
 import com.mraof.minestuck.entity.consort.ConsortRewardHandler;
 import com.mraof.minestuck.event.MinestuckFluidHandler;
-import com.mraof.minestuck.event.ServerEventHandler;
+import com.mraof.minestuck.event.CommonEventHandler;
+import com.mraof.minestuck.event.SaveHandler;
 import com.mraof.minestuck.item.ItemMinestuckCandy;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
@@ -29,14 +30,8 @@ import com.mraof.minestuck.world.lands.structure.MapGenLandStructure;
 import com.mraof.minestuck.world.lands.structure.village.ConsortVillageComponents;
 import com.mraof.minestuck.world.storage.MinestuckSaveHandler;
 import com.mraof.minestuck.world.storage.loot.MinestuckLoot;
-import com.mraof.minestuck.world.storage.loot.conditions.ConsortLootCondition;
-import com.mraof.minestuck.world.storage.loot.conditions.LandAspectLootCondition;
-import com.mraof.minestuck.world.storage.loot.functions.SetBoondollarCount;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
-import net.minecraft.world.storage.loot.conditions.LootConditionManager;
-import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -48,6 +43,7 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(MinestuckSoundHandler.instance);
 		MinecraftForge.EVENT_BUS.register(MinestuckBlocks.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckItems.class);
+		MinecraftForge.EVENT_BUS.register(MinestuckSounds.class);
 		MinecraftForge.EVENT_BUS.register(BiomeMinestuck.class);
 		
 		MinestuckSoundHandler.initSound();
@@ -90,7 +86,7 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(new MinestuckFluidHandler());
 		MinecraftForge.EVENT_BUS.register(ServerEditHandler.instance);
 		MinecraftForge.EVENT_BUS.register(MinestuckPlayerTracker.instance);
-		MinecraftForge.EVENT_BUS.register(ServerEventHandler.instance);
+		MinecraftForge.EVENT_BUS.register(CommonEventHandler.instance);
 		MinecraftForge.EVENT_BUS.register(MinestuckChannelHandler.instance);
 		MinecraftForge.EVENT_BUS.register(new ConnectionListener());
 		
@@ -132,5 +128,7 @@ public class CommonProxy
 		ComputerProgram.registerProgram(1, SburbServer.class, new ItemStack(MinestuckItems.disk, 1, 1));
 		
 		SessionHandler.maxSize = 144;//acceptTitleCollision?(generateSpecialClasses?168:144):12;
+
+		MinecraftForge.EVENT_BUS.register(new SaveHandler());
 	}
 }

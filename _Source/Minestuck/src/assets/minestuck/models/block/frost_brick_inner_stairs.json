@@ -1,8 +1,0 @@
-{
-    "parent": "block/inner_stairs",
-    "textures": {
-        "bottom": "minestuck:blocks/frost_brick",
-        "top": "minestuck:blocks/frost_brick",
-        "side": "minestuck:blocks/frost_brick"
-    }
-}

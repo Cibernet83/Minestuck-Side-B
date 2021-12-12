@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class TreeModusRootTrigger implements ICriterionTrigger<TreeModusRootTrigger.Instance>
 {
-	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MOD_ID, "tree_modus_root");
+	private static final ResourceLocation ID = new ResourceLocation(Minestuck.MODID, "tree_modus_root");
 	private final Map<PlayerAdvancements, Listeners> listenersMap = Maps.newHashMap();
 	
 	@Override

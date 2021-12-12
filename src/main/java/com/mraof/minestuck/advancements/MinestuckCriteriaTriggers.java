@@ -6,8 +6,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class MinestuckCriteriaTriggers
 {
-	public static final EventTrigger SBURB_CONNECTION = new EventTrigger(new ResourceLocation(Minestuck.MOD_ID, "sburb_connection"));
-	public static final EventTrigger CRUXITE_ARTIFACT = new EventTrigger(new ResourceLocation(Minestuck.MOD_ID, "cruxite_artifact"));
+	public static final EventTrigger SBURB_CONNECTION = new EventTrigger(new ResourceLocation(Minestuck.MODID, "sburb_connection"));
+	public static final EventTrigger CRUXITE_ARTIFACT = new EventTrigger(new ResourceLocation(Minestuck.MODID, "cruxite_artifact"));
 	public static final PunchDesignixTrigger PUNCH_DESIGNIX = new PunchDesignixTrigger();
 	public static final CaptchalogueTrigger CAPTCHALOGUE = new CaptchalogueTrigger();
 	public static final ChangeModusTrigger CHANGE_MODUS = new ChangeModusTrigger();

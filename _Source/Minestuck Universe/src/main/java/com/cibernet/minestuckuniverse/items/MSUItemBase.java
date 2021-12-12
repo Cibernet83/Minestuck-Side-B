@@ -36,6 +36,7 @@ public class MSUItemBase extends Item implements IRegistryItem
         add("_draconix");
         add("Owo_XxX_owO");
         add("carefreeDesigner");
+        add("JDubSupreme");
     }};
 
     public MSUItemBase(String name, String unlocName)

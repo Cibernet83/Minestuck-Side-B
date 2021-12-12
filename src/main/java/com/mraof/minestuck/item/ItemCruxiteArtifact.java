@@ -13,7 +13,7 @@ import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.block.BlockGate;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.editmode.ServerEditHandler;
-import com.mraof.minestuck.event.ServerEventHandler;
+import com.mraof.minestuck.event.CommonEventHandler;
 import com.mraof.minestuck.modSupport.RefinedStorageSupport;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
@@ -393,7 +393,7 @@ public abstract class ItemCruxiteArtifact extends Item implements Teleport.ITele
 			placeGate(1, new BlockPos(x + xDiff, GateHandler.gateHeight1, z + zDiff), worldserver1);
 			placeGate(2, new BlockPos(x + xDiff, GateHandler.gateHeight2, z + zDiff), worldserver1);
 			
-			ServerEventHandler.tickTasks.add(new PostEntryTask(worldserver1.provider.getDimension(), x + xDiff, y + yDiff, z + zDiff, artifactRange, (byte) 0));
+			CommonEventHandler.tickTasks.add(new PostEntryTask(worldserver1.provider.getDimension(), x + xDiff, y + yDiff, z + zDiff, artifactRange, (byte) 0));
 			
 			Debug.info("Entry finished");
 		}

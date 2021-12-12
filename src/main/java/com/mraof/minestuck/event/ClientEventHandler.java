@@ -2,6 +2,7 @@ package com.mraof.minestuck.event;
 
 import javax.annotation.Nullable;
 
+import com.mraof.minestuck.util.ModusStorage;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
@@ -9,15 +10,19 @@ import com.mraof.minestuck.client.gui.GuiColorSelector;
 import com.mraof.minestuck.client.gui.playerStats.GuiDataChecker;
 import com.mraof.minestuck.client.gui.playerStats.GuiEcheladder;
 import com.mraof.minestuck.client.gui.playerStats.GuiPlayerStats;
+import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.inventory.ContainerConsortMerchant;
 import com.mraof.minestuck.inventory.ContainerEditmode;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.inventory.captchalouge.*;
+import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.network.*;
 import com.mraof.minestuck.network.skaianet.SkaiaClient;
 import com.mraof.minestuck.util.ColorCollector;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 
+import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -26,23 +31,33 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
+
+import java.util.UUID;
 
 /**
  * Used to track mixed client sided events.
@@ -50,7 +65,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ClientEventHandler
 {
-	
+	private static int shake = 0;
+	private static int shakeCooldown = 0;
+	private static int prevSelectedSlot = 0;
+
+	private static int eightBallMessage = -1;
+	private static int maxEightBallMsgs = 20;
+
+	private static final UUID WEIGHT_MODUS_SPEED_UUID = MathHelper.getRandomUUID(ThreadLocalRandom.current());
+	private boolean captchaKeyPressed = false;
+
 	@SubscribeEvent
 	public void onConnectedToServer(ClientConnectedToServerEvent event)	//Reset all static client-side data here
 	{
@@ -81,6 +105,85 @@ public class ClientEventHandler
 			}
 			
 		}
+
+		EntityPlayer player = Minecraft.getMinecraft().player;
+
+		if(player == null || event.phase != TickEvent.Phase.START)
+			return;
+
+		Modus modus = CaptchaDeckHandler.clientSideModus;
+
+		if(modus != null)
+		{
+			double floatstoneValue = 0;
+			double speedMod = 0;
+
+			if(modus instanceof WeightModus)
+			{
+				floatstoneValue = ((WeightModus)modus).getFloatStones()*1.5;
+				speedMod = (modus.getNonEmptyCards()-floatstoneValue) / -((WeightModus) modus).getItemCap();
+			}
+
+			AttributeModifier WEIGHT_MODUS_SPEED = (new AttributeModifier(WEIGHT_MODUS_SPEED_UUID, "Backpack Modus speed penalty", Math.min(0, speedMod), 2)).setSaved(false);
+
+			IAttributeInstance attributeInstance = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+			if(attributeInstance.hasModifier(WEIGHT_MODUS_SPEED))
+				attributeInstance.removeModifier(WEIGHT_MODUS_SPEED);
+
+			if(modus instanceof WeightModus)
+			{
+				attributeInstance.applyModifier(WEIGHT_MODUS_SPEED);
+				if(!player.capabilities.isFlying)
+					player.motionY += Math.min(0, speedMod+0.3)*(player.isInWater() || player.isElytraFlying() ? 0.07 : 0.1);
+			}
+		}
+		if(modus instanceof CycloneModus)
+			((CycloneModus) modus).cycle();
+
+		if(prevSelectedSlot != player.inventory.currentItem)
+			shakeCooldown = 1;
+
+		float currentCameraAvg = (player.rotationPitch + player.rotationYawHead)/2f;
+		float prevCameraAvg = (player.prevRotationPitch + player.prevRotationYawHead)/2f;
+
+		if(Math.abs(currentCameraAvg - prevCameraAvg) > 10)
+		{
+			shake++;
+			shakeCooldown = 16;
+		}
+		else if(shakeCooldown == 1)
+		{
+			shake = 0;
+			shakeCooldown--;
+			eightBallMessage = -1;
+		}
+		else if(shakeCooldown > 0) shakeCooldown--;
+
+		if(player.getHeldItemMainhand().getItem().equals(MinestuckItems.eightBall))
+		{
+			if(shake > 30)
+			{
+				if(eightBallMessage == -1)
+					eightBallMessage = player.world.rand.nextInt(maxEightBallMsgs);
+				ITextComponent msg = new TextComponentTranslation("status.eightBallMessage." + eightBallMessage).setStyle(new Style().setColor(TextFormatting.BLUE));
+				ItemStack storedStack = ModusStorage.getStoredItem(player.getHeldItemMainhand());
+				player.sendStatusMessage(storedStack.isEmpty() ? msg : storedStack.getTextComponent().setStyle(new Style().setColor(TextFormatting.BLUE)), true);
+			}
+		}
+		else if(player.getHeldItemOffhand().getItem().equals(MinestuckItems.eightBall))
+		{
+			if(shake > 30)
+			{
+				if(eightBallMessage == -1)
+					eightBallMessage = player.world.rand.nextInt(maxEightBallMsgs);
+				ITextComponent msg = new TextComponentTranslation("status.eightBallMessage."+eightBallMessage).setStyle(new Style().setColor(TextFormatting.BLUE));
+				ItemStack storedStack = ModusStorage.getStoredItem(player.getHeldItemOffhand());
+				player.sendStatusMessage(storedStack.isEmpty() ? msg : storedStack.getTextComponent().setStyle(new Style().setColor(TextFormatting.BLUE)), true);
+			}
+		}
+		else if( shakeCooldown > 0) shakeCooldown = 0;
+
+		prevSelectedSlot = player.inventory.currentItem;
 	}
 	
 	@SubscribeEvent(priority=EventPriority.HIGHEST)
@@ -148,5 +251,44 @@ public class ClientEventHandler
 				return red << 16 | green << 8 | blue;
 			}
 		}, MinestuckBlocks.strawberryStem);
+	}
+
+	@SubscribeEvent
+	public static void onClientSendChat(ClientChatEvent event)
+	{
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		if(CaptchaDeckHandler.clientSideModus instanceof ChatModus)
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.CHAT_MODUS_EJECT, event.getMessage(), true));
+	}
+
+	@SubscribeEvent
+	public static void onReceiveChat(ClientChatReceivedEvent event)
+	{
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		if(CaptchaDeckHandler.clientSideModus instanceof ChatModus)
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.CHAT_MODUS_EJECT, event.getMessage().getFormattedText(), false));
+	}
+
+	@SubscribeEvent
+	public static void onKeyInput(InputEvent.KeyInputEvent event)	//This is only called during the game, when no gui is active
+	{
+		if(Keyboard.isKeyDown(MinestuckKeyHandler.instance.captchaKey.getKeyCode()) && Minecraft.getMinecraft().player.getHeldItemMainhand().isEmpty())
+		{
+			if(CaptchaDeckHandler.clientSideModus instanceof OuijaModus)
+				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.GET, 0, false));
+			if(CaptchaDeckHandler.clientSideModus instanceof WalletModus || CaptchaDeckHandler.clientSideModus instanceof CrystalBallModus)
+				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.WALLET_CAPTCHA, Minecraft.getMinecraft().objectMouseOver));
+		}
+	}
+
+
+	@SubscribeEvent
+	public void onTick(TickEvent.ClientTickEvent event)
+	{
+		try
+		{
+			this.captchaKeyPressed = Keyboard.isKeyDown(MinestuckKeyHandler.instance.captchaKey.getKeyCode());
+		} catch(IndexOutOfBoundsException ignored)
+		{}
 	}
 }
