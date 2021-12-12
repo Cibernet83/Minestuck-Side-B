@@ -1,8 +1,7 @@
 {
     "display": {
         "icon": {
-            "item": "minestuck:modus_card",
-            "data": 2
+            "item": "minestuck:queue_stack_modus"
         },
         "title": {
             "translate": "advancements.minestuck.all_modi.title"
@@ -13,68 +12,62 @@
     },
     "parent": "minestuck:minestuck/new_modus",
     "criteria": {
-        "stack": {
+        "stack_modus": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "minestuck:modus_card",
-                        "data": 0
+                        "item": "minestuck:stack_modus"
                     }
                 ]
             }
         },
-        "queue": {
+        "queue_modus": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "minestuck:modus_card",
-                        "data": 1
+                        "item": "minestuck:queue_modus"
                     }
                 ]
             }
         },
-        "queuestack": {
+        "queue_stack_modus": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "minestuck:modus_card",
-                        "data": 2
+                        "item": "minestuck:queue_stack_modus"
                     }
                 ]
             }
         },
-        "tree": {
+        "tree_modus": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "minestuck:modus_card",
-                        "data": 3
+                        "item": "minestuck:tree_modus"
                     }
                 ]
             }
         },
-        "hashmap": {
+        "hashmap_modus": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "minestuck:modus_card",
-                        "data": 4
+                        "item": "minestuck:hashmap_modus"
                     }
                 ]
             }
         },
-        "set": {
+        "set_modus": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "minestuck:modus_card",
-                        "data": 5
+                        "item": "minestuck:set_modus"
                     }
                 ]
             }
