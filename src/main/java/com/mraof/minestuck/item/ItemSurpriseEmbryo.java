@@ -1,15 +1,12 @@
 package com.mraof.minestuck.item;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.SoundCategory;
@@ -22,9 +19,8 @@ import scala.util.Random;
 public class ItemSurpriseEmbryo extends ItemFood {
 
 	public ItemSurpriseEmbryo(int amount, float saturation, boolean isWolfFood) {
-		super(amount, saturation, isWolfFood);
+		super("surpriseEmbryo", amount, saturation, isWolfFood);
 		this.setCreativeTab(TabMinestuck.instance);
-		this.setUnlocalizedName("surpriseEmbryo");
 	}
 	
 	@Override

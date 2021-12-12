@@ -21,14 +21,12 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemCaptchaCard extends Item
+public class ItemCaptchaCard extends MSItemBase
 {
 	
 	public ItemCaptchaCard()
 	{
-		this.setCreativeTab(TabMinestuck.instance);
-		//this.setHasSubtypes(true);
-		this.setUnlocalizedName("captchaCard");
+		super("captchaCard");
 	}
 	
 	@Override

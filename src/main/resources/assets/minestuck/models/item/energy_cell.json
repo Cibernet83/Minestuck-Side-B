@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/energy_cell"
+        "layer0": "minestuck:items/energy_cell"
     }
 }

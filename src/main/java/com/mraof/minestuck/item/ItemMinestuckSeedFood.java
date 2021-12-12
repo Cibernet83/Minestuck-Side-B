@@ -4,7 +4,6 @@ import com.mraof.minestuck.util.Debug;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -23,9 +22,9 @@ public class ItemMinestuckSeedFood extends ItemFood implements net.minecraftforg
 {
 	protected IBlockState plant;
 	
-	public ItemMinestuckSeedFood(int amount, float saturation)
+	public ItemMinestuckSeedFood(int amount, float saturation, String name)
 	{
-		super(amount, saturation, false);
+		super(name, amount, saturation, false);
 	}
 	
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)

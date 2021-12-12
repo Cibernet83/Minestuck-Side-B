@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "fetchmodiplus:items/operandi/operandi_axe"
+        "layer0": "minestuck:items/operandi/operandi_axe"
     }
 }

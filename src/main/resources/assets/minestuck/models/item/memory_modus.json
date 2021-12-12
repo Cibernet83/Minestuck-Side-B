@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/memory_modus"
+        "layer0": "minestuck:items/memory_modus"
     }
 }

@@ -18,6 +18,7 @@ public abstract class ItemShopPoster  extends ItemHanging
 {
 	public ItemShopPoster()
     {
+    	super("shopPoster");
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
         this.setCreativeTab(TabMinestuck.instance);

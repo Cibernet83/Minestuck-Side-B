@@ -19,12 +19,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemBoondollars extends Item
+public class ItemBoondollars extends MSItemBase
 {
 	public ItemBoondollars()	//TODO Add custom crafting recipe that merges boondollar stacks
 	{
-		setUnlocalizedName("boondollars");
-		setCreativeTab(TabMinestuck.instance);
+		super("boondollars");
 		setMaxStackSize(1);
 	}
 	

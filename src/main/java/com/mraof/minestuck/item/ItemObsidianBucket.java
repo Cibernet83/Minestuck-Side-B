@@ -12,12 +12,12 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
-public class ItemObsidianBucket extends Item
+public class ItemObsidianBucket extends MSItemBase
 {
 	
 	public ItemObsidianBucket()
 	{
-		setUnlocalizedName("bucketObsidian");
+		super("bucketObsidian");
 		setCreativeTab(TabMinestuck.instance);
 		setMaxStackSize(1);
 		setContainerItem(Items.BUCKET);

@@ -1,6 +1,8 @@
-package com.mraof.minestuck.item;
+package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
+import com.mraof.minestuck.item.MSItemBase;
+import com.mraof.minestuck.item.TabMinestuck;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.google.common.collect.Multimap;
 import com.mraof.minestuck.util.ModusStorage;
@@ -21,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Set;
 
-public class ItemOperandiTool extends Item
+public class ItemOperandiTool extends MSItemBase
 {
 	protected float efficiency;
 	/** Damage versus entities. */
@@ -33,6 +35,7 @@ public class ItemOperandiTool extends Item
 	
 	public ItemOperandiTool(String name, String toolClass, float attackDamageIn, float attackSpeedIn, float efficiency, int maxUses)
 	{
+		super(name);
 		OperandiModus.itemPool.add(this);
 		
 		this.efficiency = 4.0F;
@@ -43,7 +46,6 @@ public class ItemOperandiTool extends Item
 		this.attackSpeed = attackSpeedIn;
 		this.toolClass = toolClass;
 
-		setUnlocalizedName(name);
 		setCreativeTab(TabMinestuck.instance);
 	}
 	

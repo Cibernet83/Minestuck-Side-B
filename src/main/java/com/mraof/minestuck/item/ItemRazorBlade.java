@@ -12,10 +12,10 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-public class ItemRazorBlade extends Item {
+public class ItemRazorBlade extends MSItemBase {
 	public ItemRazorBlade() {
+		super("razorBlade");
 		this.setCreativeTab(TabMinestuck.instance);
-		this.setUnlocalizedName("razorBlade");
 	}
 	
 	@Override
@@ -28,7 +28,7 @@ public class ItemRazorBlade extends Item {
 					razor.setPickupDelay(40);
 					attacker.world.spawnEntity(razor);
             		stack.shrink(1);
-            		ITextComponent message = new TextComponentTranslation("While you handle the razor blade, you accidentally cut yourself and drop it.");       
+            		ITextComponent message = new TextComponentTranslation("item.razorBlade.mishandle");
             		attacker.sendMessage(message);
 				}
 				((EntityPlayer) attacker).setHealth(((EntityPlayer) attacker).getHealth() - 1);
@@ -47,7 +47,7 @@ public class ItemRazorBlade extends Item {
 					razor.setPickupDelay(40);
 					entityLiving.world.spawnEntity(razor);
             		stack.shrink(1);
-            		ITextComponent message = new TextComponentTranslation("While you handle the razor blade, you accidentally cut yourself and drop it.");       
+            		ITextComponent message = new TextComponentTranslation("item.razorBlade.mishandle");
             		entityLiving.sendMessage(message);
 				}
 				((EntityPlayer) entityLiving).setHealth(((EntityPlayer) entityLiving).getHealth() - 1);

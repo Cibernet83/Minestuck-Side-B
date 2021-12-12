@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/magic_pop_balls"
+        "layer0": "minestuck:items/magic_pop_balls"
     }
 }

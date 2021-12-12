@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/book_modus"
+        "layer0": "minestuck:items/book_modus"
     }
 }

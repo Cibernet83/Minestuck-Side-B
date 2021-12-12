@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/capitalist_modus"
+        "layer0": "minestuck:items/capitalist_modus"
     }
 }

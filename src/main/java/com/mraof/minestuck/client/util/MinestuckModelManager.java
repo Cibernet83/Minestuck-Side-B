@@ -7,6 +7,7 @@ import com.mraof.minestuck.entity.EntityFrog;
 import com.mraof.minestuck.item.*;
 import com.mraof.minestuck.item.weapon.ItemDualWeapon;
 import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCactus;
 import net.minecraft.block.BlockSlab;
@@ -25,6 +26,7 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Collections;
 
@@ -45,150 +47,26 @@ public class MinestuckModelManager
 	
 	private static void itemModels()
 	{
-		//3D Models
-		if(MinestuckConfig.oldItemModels)
-		{
-			register(clawHammer, 0, "claw_hammer_old");
-			register(zillyhooHammer, 0, "zillyhoo_hammer_old");
-		} else
-		{
-			//register(clawHammer);
-			register(clawHammer, 0, "claw_hammer_old");	//Until the issues with the model are fixed
-			register(zillyhooHammer);
-		}
-		
-		//Other
-		register(sledgeHammer);
-		register(blacksmithHammer);
-		register(pogoHammer);
-		register(telescopicSassacrusher);
-		register(regiHammer);
-		register(fearNoAnvil);
-		register(meltMasher);
-		register(qEHammerAxe);
-		register(dDEHammerAxe);
-		register(popamaticVrillyhoo);
-		register(scarletZillyhoo);
-		register(mwrthwl);
-		
-		register(sord);
-		register(cactusCutlass);
-		register(steakSword);
-		register(beefSword);
-		register(irradiatedSteakSword);
-		register(katana);
-		register(unbreakableKatana);
-		register(firePoker);
-		register(hotHandle);
-		register(caledscratch);
-		register(caledfwlch);
-		register(royalDeringer);
-		register(claymore);
-		register(zillywairCutlass);
-		register(regisword);
-		register(scarletRibbitar);
-		register(doggMachete);
-		register(cobaltSabre);
-		register(quantumSabre);
-		register(shatterBeacon);
-		
-		register(batleacks);
-		register(battleaxe);
-		register(blacksmithBane);
-		register(scraxe);
-		register(rubyCroak);
-		register(hephaestusLumber);
-		register(copseCrusher);
-		register(qPHammerAxe);
-		register(qFHammerAxe);
-		
-		register(dice);
-		register(fluoriteOctet);
-		
+		//sheathed weapons
 		ModelLoader.registerItemVariants(catClaws, new ResourceLocation("minestuck:catclaws_sheathed"), new ResourceLocation("minestuck:catclaws_drawn"));
 		ModelLoader.setCustomMeshDefinition(catClaws, new DualWeaponDefinition(catClaws));
-		
-		register(sickle);
-		register(homesSmellYaLater);
-		register(fudgeSickle);
-		register(regiSickle);
-		register(clawSickle);
-		register(clawOfNrubyiglith);
-		register(candySickle);
-		
-		register(deuceClub);
-		register(nightClub);
-		register(pogoClub);
-		register(metalBat);
-		register(spikedClub);
-		
-		register(cane);
-		register(ironCane);
-		register(spearCane);
-		register(paradisesPortabello);
-		register(regiCane);
-		register(dragonCane);
-		register(pogoCane);
-		register(upStick);
-		
-		register(woodenSpoon);
-		register(silverSpoon);
-		ModelLoader.registerItemVariants(crockerSpork, new ResourceLocation("minestuck:crocker_fork"), new ResourceLocation("minestuck:crocker_spoon"));
-		ModelLoader.setCustomMeshDefinition(crockerSpork, new CrockerSporkDefinition());
-		register(skaiaFork);
-		register(fork);
-		register(spork);
-		register(goldenSpork);
-		
-		register(emeraldSword);
-		register(emeraldAxe);
-		register(emeraldPickaxe);
-		register(emeraldShovel);
-		register(emeraldHoe);
-		
-		register(prismarineHelmet);
-		register(prismarineChestplate);
-		register(prismarineLeggings);
-		register(prismarineBoots);
-		
-		register(bugNet);
-		register(goldenGrasshopper);
+
+		//meta variants
+		register(disk, 0, "disk_client");
+		register(disk, 1, "disk_server");
+
 
 		for(int type = 0; type <= EntityFrog.maxTypes(); type++)
 			register(itemFrog, type, "frog_"+type);
-		
-		register(rawCruxite);
-		register(rawUranium);
-		register(energyCore);
-		ModelLoader.registerItemVariants(boondollars, new ResourceLocation("minestuck:boondollars0"), new ResourceLocation("minestuck:boondollars1"), new ResourceLocation("minestuck:boondollars2"),
-				new ResourceLocation("minestuck:boondollars3"), new ResourceLocation("minestuck:boondollars4"), new ResourceLocation("minestuck:boondollars5"), new ResourceLocation("minestuck:boondollars6"));
-		ModelLoader.setCustomMeshDefinition(boondollars, new BoondollarsDefinition());
-		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation("minestuck:dowel_uncarved"), new ResourceLocation("minestuck:dowel_carved"), new ResourceLocation("minestuck:dowel_uncarved_blank"), new ResourceLocation("minestuck:dowel_carved_blank"));
-		ModelLoader.setCustomMeshDefinition(cruxiteDowel, new CruxiteDowelDefinition());
-		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation("minestuck:card_empty"), new ResourceLocation("minestuck:card_full"), new ResourceLocation("minestuck:card_punched"), new ResourceLocation("minestuck:card_ghost"));
-		ModelLoader.setCustomMeshDefinition(captchaCard, new CaptchaCardDefinition());
-		ModelLoader.registerItemVariants(shunt, new ResourceLocation("minestuck:shunt_empty"), new ResourceLocation("minestuck:shunt_full"));
-		ModelLoader.setCustomMeshDefinition(shunt, new ShuntDefinition());
-		ModelLoader.registerItemVariants(cruxiteApple, new ResourceLocation("minestuck:cruxite_apple"), new ResourceLocation("minestuck:cruxite_apple_blank"));
-		ModelLoader.setCustomMeshDefinition(cruxiteApple, new ColoredItemDefinition("minestuck:cruxite_apple"));
-		ModelLoader.registerItemVariants(cruxitePotion, new ResourceLocation("minestuck:cruxite_potion"), new ResourceLocation("minestuck:cruxite_potion_blank"));
-		ModelLoader.setCustomMeshDefinition(cruxitePotion, new ColoredItemDefinition("minestuck:cruxite_potion"));
-		register(disk, 0, "disk_client");
-		register(disk, 1, "disk_server");
-		register(chessboard);
-		register(grimoire);
-		register(longForgottenWarhorn);
+
 		register(minestuckBucket, 0, "bucket_oil");
 		register(minestuckBucket, 1, "bucket_blood");
 		register(minestuckBucket, 2, "bucket_brain_juice");
 		register(minestuckBucket, 3, "bucket_watercolors");
 		register(minestuckBucket, 4, "bucket_ender");
 		register(minestuckBucket, 5, "bucket_light_water");
-		register(goldSeeds);
-		register(razorBlade);
 		for(int i = 0; i < ItemMetalBoat.NAMES.length; i++)
 			register(metalBoat, i, "boat_" + ItemMetalBoat.NAMES[i]);
-		register(obsidianBucket);
 
 		register(candy, 0, "candy_corn");
 		register(candy, GristType.REGISTRY.getID(GristType.Amber) + 1, "amber_gummy_worm");
@@ -212,118 +90,44 @@ public class MinestuckModelManager
 		register(candy, GristType.REGISTRY.getID(GristType.Tar) + 1, "tar_black_licorice");
 		register(candy, GristType.REGISTRY.getID(GristType.Uranium) + 1, "uranium_gummy_bear");
 		register(candy, GristType.REGISTRY.getID(GristType.Zillium) + 1, "zillium_skittles");
-		
+
 		for(int i = 0; i < ItemMinestuckBeverage.NAMES.length; i++)
 			register(beverage, i, ItemMinestuckBeverage.NAMES[i]);
-		register(bugOnAStick);
-		register(chocolateBeetle);
-		register(coneOfFlies);
-		register(grasshopper);
-		register(jarOfBugs);
-		register(onion);
-		register(salad);
-		register(desertFruit);
-		register(irradiatedSteak);
-		register(rockCookie);
-		register(fungalSpore);
-		register(sporeo);
-		register(morelMushroom);
-		register(frenchFry);
-		register(strawberryChunk);
-		register(surpriseEmbryo);
-		register(unknowableEgg);
 
-		register(threshDvd);
-		register(gamebroMagazine);
-		register(gamegrlMagazine);
-		register(crewPoster);
-		register(sbahjPoster);
-		
-		register(carvingTool);
-		register(crumplyHat);
-		register(frogStatueReplica);
-		register(stoneEyeballs);
-		register(stoneSlab);
-		register(recordEmissaryOfDance);
-		register(recordDanceStab);
-		register(recordRetroBattle);
-		register(glowystoneDust);
-		register(fakeArms);
-		register(captcharoidCamera);
-		/*
-		for(EnumShopPoster type : EnumShopPoster.values())
-			register(shopPoster, type.ordinal(), "shop_poster"+type.ordinal());
-		*/
 
-		register(stackModus);
-		register(queueModus);
-		register(queueStackModus);
-		register(treeModus);
-		register(setModus);
-		register(hashmapModus);
-		register(wildMagicModus);
-		register(weightModus);
-		register(bookModus);
-		register(capitalistModus);
-		register(modUs);
-		register(operandiModus);
-		register(onionModus);
-		register(slimeModus);
-		register(popTartModus);
-		register(deckModus);
-		register(hueModus);
-		register(hueStackModus);
-		register(chatModus);
-		register(cycloneModus);
-		register(energyModus);
-		register(scratchAndSniffModus);
-		register(eightBallModus);
-		register(chasityModus);
-		register(jujuModus);
-		register(alcheModus);
-		register(arrayModus);
-		register(monsterModus);
-		register(walletModus);
-		register(crystalBallModus);
-		register(hashchatModus);
-		register(sacrificeModus);
+		//Misc Renderers
 
-		register(popTart);
-		register(eightBall);
-		register(popBall);
-		register(floatStone);
-		register(energyCell);
-		register(captchalogueBook);
-		register(chasityKey);
-		register(crystalEightBall);
-		register(cruxiteGel);
-		register(dragonGel);
-		register(cruxtruderGel);
+		ModelLoader.registerItemVariants(boondollars, new ResourceLocation("minestuck:boondollars0"), new ResourceLocation("minestuck:boondollars1"), new ResourceLocation("minestuck:boondollars2"),
+				new ResourceLocation("minestuck:boondollars3"), new ResourceLocation("minestuck:boondollars4"), new ResourceLocation("minestuck:boondollars5"), new ResourceLocation("minestuck:boondollars6"));
+		ModelLoader.setCustomMeshDefinition(boondollars, new BoondollarsDefinition());
+		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation("minestuck:dowel_uncarved"), new ResourceLocation("minestuck:dowel_carved"), new ResourceLocation("minestuck:dowel_uncarved_blank"), new ResourceLocation("minestuck:dowel_carved_blank"));
+		ModelLoader.setCustomMeshDefinition(cruxiteDowel, new CruxiteDowelDefinition());
+		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation("minestuck:card_empty"), new ResourceLocation("minestuck:card_full"), new ResourceLocation("minestuck:card_punched"), new ResourceLocation("minestuck:card_ghost"));
+		ModelLoader.setCustomMeshDefinition(captchaCard, new CaptchaCardDefinition());
+		ModelLoader.registerItemVariants(shunt, new ResourceLocation("minestuck:shunt_empty"), new ResourceLocation("minestuck:shunt_full"));
+		ModelLoader.setCustomMeshDefinition(shunt, new ShuntDefinition());
+		ModelLoader.registerItemVariants(cruxiteApple, new ResourceLocation("minestuck:cruxite_apple"), new ResourceLocation("minestuck:cruxite_apple_blank"));
+		ModelLoader.setCustomMeshDefinition(cruxiteApple, new ColoredItemDefinition("minestuck:cruxite_apple"));
+		ModelLoader.registerItemVariants(cruxitePotion, new ResourceLocation("minestuck:cruxite_potion"), new ResourceLocation("minestuck:cruxite_potion_blank"));
+		ModelLoader.setCustomMeshDefinition(cruxitePotion, new ColoredItemDefinition("minestuck:cruxite_potion"));
 
-		register(operandiPickaxe);
-		register(operandiAxe);
-		register(operandiShovel);
-		register(operandiHoe);
-		register(operandiSword);
-		register(operandiHammer);
-		register(operandiClub);
-		register(operandiBattleaxe);
-		register(operandiApple);
-		register(operandiPotion);
-		register(operandiPopTart);
-		register(operandiEightBall);
-		register(operandiSplashPotion);
-		register(operandiHelmet);
-		register(operandiChestplate);
-		register(operandiLeggings);
-		register(operandiBoots);
-		register(operandiBlock);
-		register(MinestuckItems.operandiStone);
-		register(MinestuckItems.operandiLog);
-		register(MinestuckItems.operandiGlass);
 
-		register(MinestuckItems.hardStone);
-		register(walletEntityItem);
+		//3D Models
+		if(MinestuckConfig.oldItemModels)
+		{
+			register(clawHammer, 0, "claw_hammer_old");
+			register(zillyhooHammer, 0, "zillyhoo_hammer_old");
+		} else
+		{
+			//register(clawHammer);
+			register(clawHammer, 0, "claw_hammer_old");	//Until the issues with the model are fixed
+			register(zillyhooHammer);
+			//TODO FNA 3D
+		}
+
+		//everything else
+		for (IRegistryItem<Item> item : MSItemBase.items)
+			item.registerModel();
 	}
 	
 	private static void blockModels()
@@ -504,7 +308,7 @@ public class MinestuckModelManager
 		if(item.getHasSubtypes())
 			ModelLoader.setCustomMeshDefinition(item, new SubtypesItemDefinition(Item.REGISTRY.getNameForObject(item).toString()));
 		else
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Item.REGISTRY.getNameForObject(item), "inventory"));
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 	
 	private static void register(Item item, int meta, String modelResource)
@@ -528,10 +332,10 @@ public class MinestuckModelManager
 		register(item, meta, modelResource);
 	}
 
-	private static class SubtypesItemDefinition implements ItemMeshDefinition
+	public static class SubtypesItemDefinition implements ItemMeshDefinition
 	{
 		private String name;
-		SubtypesItemDefinition(String name)
+		public SubtypesItemDefinition(String name)
 		{
 			this.name = name;
 		}
@@ -541,15 +345,7 @@ public class MinestuckModelManager
 			return new ModelResourceLocation(name, "inventory");
 		}
 	}
-	
-	private static class CrockerSporkDefinition implements ItemMeshDefinition
-	{
-		@Override
-		public ModelResourceLocation getModelLocation(ItemStack stack)
-		{
-			return new ModelResourceLocation("minestuck:" + (crockerSpork.isSpoon(stack) ? "crocker_spoon" : "crocker_fork"), "inventory");
-		}
-	}
+
 	
 	private static class DualWeaponDefinition implements ItemMeshDefinition
 	{

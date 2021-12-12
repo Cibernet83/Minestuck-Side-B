@@ -2,7 +2,6 @@ package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.alchemy.GristType;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
@@ -19,10 +18,9 @@ public class ItemMinestuckCandy extends ItemFood
 
 	public ItemMinestuckCandy()
 	{
-		super(0, 0, false);
+		super("candy", 0, 0, false);
 		this.setHasSubtypes(true);
 		this.setCreativeTab(TabMinestuck.instance);
-		this.setUnlocalizedName("candy");
 
 		candyMap = new TreeMap<>();
 

@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/cake_modus"
+        "layer0": "minestuck:items/cake_modus"
     }
 }

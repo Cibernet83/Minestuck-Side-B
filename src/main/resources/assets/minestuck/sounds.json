@@ -282,7 +282,7 @@
   },
   "chat_ping": {
     "subtitle": "subtitle.chat_ping",
-    "sounds": [ "fetchmodiplus:chat_ping" ]
+    "sounds": [ "minestuck:chat_ping" ]
   },
   "eight_ball_throw": {
     "subtitle": "subtitle.eight_ball_throw",

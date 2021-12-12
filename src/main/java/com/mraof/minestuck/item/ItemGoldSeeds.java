@@ -1,8 +1,10 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -10,14 +12,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class ItemGoldSeeds extends ItemSeeds
+public class ItemGoldSeeds extends ItemSeeds implements IRegistryItem<Item>
 {
 
 	public ItemGoldSeeds()
 	{
 		super(MinestuckBlocks.blockGoldSeeds, Blocks.FARMLAND);
 		setCreativeTab(TabMinestuck.instance);
+		MSItemBase.items.add(this);
 	}
 	
 	@Override
@@ -40,5 +44,12 @@ public class ItemGoldSeeds extends ItemSeeds
 		/*if(result == EnumActionResult.SUCCESS)
 			player.addStat(MinestuckAchievementHandler.goldSeeds);*/
 		return result;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Item> registry)
+	{
+		setRegistryName("gold_seeds");
+		registry.register(this);
 	}
 }

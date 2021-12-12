@@ -1,10 +1,10 @@
 {
     "variants": {
         "normal": [
-            { "model": "fetchmodiplus:hard_stone" },
-            { "model": "fetchmodiplus:hard_stone_mirrored" },
-            { "model": "fetchmodiplus:hard_stone", "y": 180 },
-            { "model": "fetchmodiplus:hard_stone_mirrored", "y": 180 }
+            { "model": "minestuck:hard_stone" },
+            { "model": "minestuck:hard_stone_mirrored" },
+            { "model": "minestuck:hard_stone", "y": 180 },
+            { "model": "minestuck:hard_stone_mirrored", "y": 180 }
         ]
     }
 }

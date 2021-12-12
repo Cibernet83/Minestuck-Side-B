@@ -21,16 +21,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemCaptcharoidCamera extends Item {
+public class ItemCaptcharoidCamera extends MSItemBase {
 
 	public ItemCaptcharoidCamera()
 	{
-		super();
+		super("captcharoidCamera");
 		this.maxStackSize = 1;
 		this.setMaxDamage(64);
-		
-		this.setUnlocalizedName("captcharoidCamera");
-		//this.setRegistryName("captcharoid_camera");
 	}
 
 	@Override

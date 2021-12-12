@@ -7,7 +7,7 @@
     ],
     "key": {
         "#": {
-            "item": "fetchmodiplus:cruxite_gel",
+            "item": "minestuck:cruxite_gel",
       "data": 10
         },
         "C": {
@@ -18,7 +18,7 @@
         }
     },
     "result": {
-        "item": "fetchmodiplus:cruxtruder_gel",
+        "item": "minestuck:cruxtruder_gel",
         "count": 1,
         "data": 10
     }

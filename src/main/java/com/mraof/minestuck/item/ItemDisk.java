@@ -5,18 +5,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-public class ItemDisk extends Item
+//TODO separate into independent items
+public class ItemDisk extends MSItemBase
 {
 	
 	private String[] subNames = { "Client", "Server" };
 	
 	public ItemDisk()
 	{
-		super();
+		super("computerDisk");
 		this.maxStackSize = 1;
 		this.setHasSubtypes(true);
 		this.setCreativeTab(TabMinestuck.instance);
-		this.setUnlocalizedName("disk");
 	}
 	
 	@Override

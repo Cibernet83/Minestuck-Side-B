@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/hashchat_modus"
+        "layer0": "minestuck:items/hashchat_modus"
     }
 }

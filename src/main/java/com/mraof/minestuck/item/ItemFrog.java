@@ -41,12 +41,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-public class ItemFrog extends Item
+public class ItemFrog extends MSItemBase
 {
 	public ItemFrog()
 	{
+		super("frog");
 		this.setHasSubtypes(true);
-		setUnlocalizedName("frog");
 		setCreativeTab(TabMinestuck.instance);
 		
 	}

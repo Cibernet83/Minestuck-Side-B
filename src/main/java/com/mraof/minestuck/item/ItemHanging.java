@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -11,9 +12,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 
-public abstract class ItemHanging extends Item
+public abstract class ItemHanging extends MSItemBase
 {
-	
+
+	public ItemHanging(String name)
+	{
+		super(name);
+	}
+
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{

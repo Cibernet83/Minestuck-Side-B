@@ -1,4 +1,4 @@
-﻿//apparently this line will be disregarded by the Root Achievement, so don't type anything related to it here, k?
+﻿bepiswarning=apparently this line will be disregarded by the Root Achievement, so don't type anything related to it here, k?
 advancements.minestuck.root.title=Minestuck
 advancements.minestuck.root.description=The Beginning of Something Really Excellent
 advancements.minestuck.setup_connection.title=Connect
@@ -82,20 +82,20 @@ minecraft:diamond_block.book_desc=The best way to say "I wasted my time and diam
 minecraft:iron_block.book_desc=Crafted with 9 Iron Ingots, the Block of Iron can be a versatile component in Alchemy, or used to make Beacon bases, anvils, or store large amounts of Iron. It can also be used to make Iron Golems by building a vertical T-Shape out of them and putting a pumpkin on top.
 minecraft:anvil.book_desc=The Anvil, one of the handier, yet deadlier blocks in the game. Dropping this from a high distance on someone’s head will be sure to give them headache, and possibly a trip back to spawn. It can also be used to repair, rename, and apply Enchanted Books to most items, as well as used in the creation of some weapons such as the Blacksmith’s Hammer and the Blacksmith’s Bane.
 
-fetchmodiplus:wild_magic_modus.book_desc=The Wild Magic Modus, One of the more unpredictable fetch modi that exist, this modus makes you roll a d20 dice every time you try to retrieve an item, rolling a high enough number will let you do so, other than that, you’ll be granted certain effects tied to each number. This modus is suitable for people that like to rely on luck, or for adept light players that might have it in abundance.
-fetchmodiplus:weight_modus.book_desc=This modus is slightly different from the rest, as it has its own weight of sorts, with it increasing every time an item is captchalogued, reducing the user’s walking speed by a noticeable amount. However, the modus’ weight can be counteracted by captchaloguing float stones. This modus is perfect for people that don’t mind slowing down for a bit, or for those rich enough in build grist to alchemize enough float stones.
-fetchmodiplus:book_modus.book_desc=The Book Modus, one of the handier Fetch Modi there are,++ and the one you’re currently using right now! This modus stores all your cards into an alphabetically organized book, filled with boundless wisdom about most, if not some items. It’s one downside being that you can only see one card per page, making it incredibly tedious to use when storing large quantities of items. You can also get a physical copy of the book by clicking the Publish button, allowing you to share your sylladex with others, or storing your items by categories. You can then swap it out with your currently active book by simply captchaloguing it.
-fetchmodiplus:capitalist_modus.book_desc=Some people say that nothing in life is free, and the Capitalist Modus stands by that premise, it’ll allow you to retrieve any item from any slot, but at the price of some boondollars, but fear not, buying every item at once will grant you a 20% discount. Each item’s price is determined by its stack size and grist cost. This modus is mostly suitable for players with copious amounts of boons, or for any local Overlord that might be associated with capitalism.
-fetchmodiplus:mod_us.book_desc=The ModUs is practically the opposite to the capitalist modus, as it’ll let you retrieve items for free, however, you’ll have to share your Sylladex with everyone else that has this Fetch Modus. This does come with some perks, as you won’t lose your Sylladex when you die. Perfect for people that like to share their belongings, and for a certain SBURB session associated with communism.
-fetchmodiplus:operandi_modus.book_desc=The Operandi Modus gives you a special item each time you try to retrieve something from your Sylladex, you’ll then be tasked to use said item correctly, whether it’s by throwing it, eating it, or hitting something with it, to get your item back. Great for people that like doing mindless tasks.
-fetchmodiplus:onion_modus.book_desc=Like onions, this Fetch Modus has layers. The Onion Modus stores items into ring-shaped layers, with each layer having more items than the last, only allowing you to retrieve items from the top-most layer.
-fetchmodiplus:slime_modus.book_desc=The Slime Modus is shaped like a friend, then retrieving items while using it, a slime containing said item will appear in its place. You can get your item back by either killing the slime, or taming it by feeding it apples, raw chicken, cookies or carrots. These peculiar slimes will excrete a special substance known as Cruxite Gel when well fed, and will grow in size or change color when fed an enchanted golden apple or a cruxite dowel respectively. This modus is perfect for people that like having a lot of pets, or cold-hearted murderers.
+minestuck:wild_magic_modus.book_desc=The Wild Magic Modus, One of the more unpredictable fetch modi that exist, this modus makes you roll a d20 dice every time you try to retrieve an item, rolling a high enough number will let you do so, other than that, you’ll be granted certain effects tied to each number. This modus is suitable for people that like to rely on luck, or for adept light players that might have it in abundance.
+minestuck:weight_modus.book_desc=This modus is slightly different from the rest, as it has its own weight of sorts, with it increasing every time an item is captchalogued, reducing the user’s walking speed by a noticeable amount. However, the modus’ weight can be counteracted by captchaloguing float stones. This modus is perfect for people that don’t mind slowing down for a bit, or for those rich enough in build grist to alchemize enough float stones.
+minestuck:book_modus.book_desc=The Book Modus, one of the handier Fetch Modi there are,++ and the one you’re currently using right now! This modus stores all your cards into an alphabetically organized book, filled with boundless wisdom about most, if not some items. It’s one downside being that you can only see one card per page, making it incredibly tedious to use when storing large quantities of items. You can also get a physical copy of the book by clicking the Publish button, allowing you to share your sylladex with others, or storing your items by categories. You can then swap it out with your currently active book by simply captchaloguing it.
+minestuck:capitalist_modus.book_desc=Some people say that nothing in life is free, and the Capitalist Modus stands by that premise, it’ll allow you to retrieve any item from any slot, but at the price of some boondollars, but fear not, buying every item at once will grant you a 20% discount. Each item’s price is determined by its stack size and grist cost. This modus is mostly suitable for players with copious amounts of boons, or for any local Overlord that might be associated with capitalism.
+minestuck:mod_us.book_desc=The ModUs is practically the opposite to the capitalist modus, as it’ll let you retrieve items for free, however, you’ll have to share your Sylladex with everyone else that has this Fetch Modus. This does come with some perks, as you won’t lose your Sylladex when you die. Perfect for people that like to share their belongings, and for a certain SBURB session associated with communism.
+minestuck:operandi_modus.book_desc=The Operandi Modus gives you a special item each time you try to retrieve something from your Sylladex, you’ll then be tasked to use said item correctly, whether it’s by throwing it, eating it, or hitting something with it, to get your item back. Great for people that like doing mindless tasks.
+minestuck:onion_modus.book_desc=Like onions, this Fetch Modus has layers. The Onion Modus stores items into ring-shaped layers, with each layer having more items than the last, only allowing you to retrieve items from the top-most layer.
+minestuck:slime_modus.book_desc=The Slime Modus is shaped like a friend, then retrieving items while using it, a slime containing said item will appear in its place. You can get your item back by either killing the slime, or taming it by feeding it apples, raw chicken, cookies or carrots. These peculiar slimes will excrete a special substance known as Cruxite Gel when well fed, and will grow in size or change color when fed an enchanted golden apple or a cruxite dowel respectively. This modus is perfect for people that like having a lot of pets, or cold-hearted murderers.
 
-fetchmodiplus:cyclone_modus.book_desc=Crated with 4 Cruxite Lumps surrounding a Captchalogue Card, the Cyclone Modus arranges all of your cards in a slowly rotating, ring-like shape, only allowing you to access the top-most card in the ring. Perfect for stimulating your patience, resourcefulness, and card management.
-fetchmodiplus:energy_modus.book_desc=> The Energy Modus is one of the more versatile, yet more energy-consuming quite modus to use, or well, the only energy-consuming modus that exists. With this modus, you'll be able to captchalogue and retrieve any item at any time, as long as you have enough energy stored. The Energy Modus can be charged by captchaloguing an Energy Cell, each one corresponding to one point. Starting off your Energy Modus will only be able to hold up to 20 energy points, with it gaining more capacity as you climb your echeladder, maxing out at 100 points.
+minestuck:cyclone_modus.book_desc=Crated with 4 Cruxite Lumps surrounding a Captchalogue Card, the Cyclone Modus arranges all of your cards in a slowly rotating, ring-like shape, only allowing you to access the top-most card in the ring. Perfect for stimulating your patience, resourcefulness, and card management.
+minestuck:energy_modus.book_desc=> The Energy Modus is one of the more versatile, yet more energy-consuming quite modus to use, or well, the only energy-consuming modus that exists. With this modus, you'll be able to captchalogue and retrieve any item at any time, as long as you have enough energy stored. The Energy Modus can be charged by captchaloguing an Energy Cell, each one corresponding to one point. Starting off your Energy Modus will only be able to hold up to 20 energy points, with it gaining more capacity as you climb your echeladder, maxing out at 100 points.
 
-fetchmodiplus:hue_modus.book_desc=The Hue Modus acts like a regular Stack Modus, this means that you’ll only be able to retrieve the first item in your sylladex, but it also sorts items by their color, the order being Red > Orange > Yellow > Green > Cyan > Blue > Magenta > Light Gray > Dark Gray > Rainbow.
-fetchmodiplus:hue_stack_modus.book_desc=The Hue-Stack modus is a step up from the Hue Modus, as it not just stores your items by color, but it also lets you retrieve the first captchalogued item from each color. This Modus is perfect for people that like to sort their skittles.
+minestuck:hue_modus.book_desc=The Hue Modus acts like a regular Stack Modus, this means that you’ll only be able to retrieve the first item in your sylladex, but it also sorts items by their color, the order being Red > Orange > Yellow > Green > Cyan > Blue > Magenta > Light Gray > Dark Gray > Rainbow.
+minestuck:hue_stack_modus.book_desc=The Hue-Stack modus is a step up from the Hue Modus, as it not just stores your items by color, but it also lets you retrieve the first captchalogued item from each color. This Modus is perfect for people that like to sort their skittles.
 
 commands.checkLand.usage=/checkLand
 commands.grist.usage=/grist [player] <add|set> <gristtype value ...> OR /grist [player] get
@@ -683,7 +683,7 @@ cruxite_color.17=Purple
 cruxite_color.18=Violet
 cruxite_color.19=Fucshia
 
-death.attack.fetchmodiplus:sacrifice=%s sacrificed their soul to the captchalogue gods
+death.attack.minestuck:sacrifice=%s sacrificed their soul to the captchalogue gods
 
 #Denizen Names
 denizen.blood.name=Jormungandr
@@ -783,8 +783,8 @@ entity.minestuck.basilisk.type=%s Basilisk
 entity.minestuck.lich.name=Lich
 entity.minestuck.lich.type=%s Lich
 
-entity.fetchmodiplus.cruxite_slime.name=Cruxite Slime
-entity.fetchmodiplus.eight_ball.name=Magic 8-Ball
+entity.minestuck.cruxite_slime.name=Cruxite Slime
+entity.minestuck.eight_ball.name=Magic 8-Ball
 entity.EnderCrystal.name=Ender Crystal
 
 #Grist Names
@@ -1001,6 +1001,7 @@ item.disk.Server.name=SBURB Server Disk
 tile.chessboard.name=Chessboard
 item.grimoire.name=Grimoire for Summoning the Zoologically Dubious
 item.grimoire.tooltip=This book is absolutely indispensable for enthusiasts of your ilk. Of which there are very few.
+item.grimoire.read=After flipping through some pages, you feel significantly more insignificant.
 item.longForgottenWarhorn.name=The Long Forgotten Warhorn of the Acolytes
 item.longForgottenWarhorn.tooltip=Some things are better left forgotten.
 item.minestuckBucket.oil.name=Bucket of Oil
@@ -1627,6 +1628,7 @@ tile.goldSeeds.name=Golden seeds
 item.goldSeeds.tooltip=These seeds are made out of 24-karat gold!
 item.razorBlade.name=Razor Blade
 item.razorBlade.tooltip=Only a fool would try to pick this up.
+item.razorBlade.mishandle=While you handle the razor blade, you accidentally cut yourself and drop it.
 tile.petrifiedPoppy.name=Petrified Poppy
 tile.petrifiedGrass.name=Petrified Grass
 tile.petrifiedLog.name=Petrified Log

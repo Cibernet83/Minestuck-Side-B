@@ -14,7 +14,7 @@ import net.minecraft.util.SoundCategory;
 
 import java.util.Random;
 
-public class ItemLongForgottenWarhorn extends Item {
+public class ItemLongForgottenWarhorn extends MSItemBase {
     static PotionEffect[] effect = new PotionEffect[] {new PotionEffect(MobEffects.BLINDNESS, 400, 0),
             new PotionEffect(MobEffects.WITHER, 300, 1),
             new PotionEffect(MobEffects.POISON, 300, 2),
@@ -41,7 +41,9 @@ public class ItemLongForgottenWarhorn extends Item {
             new PotionEffect(MobEffects.LEVITATION, 200, 2),
             new PotionEffect(MobEffects.MINING_FATIGUE, 300, 2),
             new PotionEffect(MobEffects.SATURATION, 400, 1)};
-    public ItemLongForgottenWarhorn() {
+    public ItemLongForgottenWarhorn()
+    {
+        super("longForgottenWarhorn");
         setMaxDamage(100);
         setMaxStackSize(1);
         setCreativeTab(TabMinestuck.instance);

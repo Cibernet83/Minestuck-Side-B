@@ -11,7 +11,11 @@ import net.minecraft.world.World;
 
 public class ItemCruxitePotion extends ItemCruxiteArtifact
 {
-	
+
+	public ItemCruxitePotion() {
+		super("cruxitePotion");
+	}
+
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack)
 	{

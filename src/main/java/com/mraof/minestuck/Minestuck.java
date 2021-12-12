@@ -87,11 +87,6 @@ public class Minestuck
 	public void load(FMLInitializationEvent event) 
 	{
 		//Register textures and renders
-		if(isClientRunning)
-		{
-			ClientProxy.registerRenderers();
-		}
-		
 		proxy.init();
 	}
 

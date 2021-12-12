@@ -18,13 +18,13 @@ import java.util.List;
 
 import static com.mraof.minestuck.util.ModusStorage.getStoredItem;
 
-public class ItemEightBall extends Item
+public class ItemEightBall extends MSItemBase
 {
 	private final boolean isCrystal;
 
 	public ItemEightBall(String name, boolean isCrystal)
 	{
-		setUnlocalizedName(name);
+		super(name);
 		setCreativeTab(TabMinestuck.instance);
 		setMaxStackSize(8);
 		this.isCrystal = isCrystal;

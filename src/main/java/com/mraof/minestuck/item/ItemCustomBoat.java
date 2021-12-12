@@ -18,11 +18,12 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public abstract class ItemCustomBoat extends Item
+public abstract class ItemCustomBoat extends MSItemBase
 {
 	
-	public ItemCustomBoat()
+	public ItemCustomBoat(String name)
 	{
+		super(name);
 		this.maxStackSize = 1;
 		setCreativeTab(TabMinestuck.instance);
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, new BehaivorDispenseCustomBoat());

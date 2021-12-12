@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.TabMinestuck;
 
@@ -25,8 +26,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-//TODO add system for Minestuck weapons that can replace enchantments
-public class ItemWeapon extends ItemSword //To allow enchantments such as sharpness
+//TODO use MSUWeaponBase
+public class ItemWeapon extends MSItemBase
 {
 	protected double weaponDamage;
 	protected double weaponSpeed;
@@ -43,14 +44,13 @@ public class ItemWeapon extends ItemSword //To allow enchantments such as sharpn
 	
 	public ItemWeapon(ToolMaterial material, int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
 	{
-		super(material);
+		super(name);
 		this.maxStackSize = 1;
 		super.setCreativeTab(CreativeTabs.COMBAT);	//Needed to place recipes in the combat/tools tab
 		this.setMaxDamage(maxUses);
 		this.weaponDamage = damageVsEntity;
 		this.enchantability = enchantability;
 		this.weaponSpeed = weaponSpeed;
-		this.setUnlocalizedName(name);
 	}
 
 	@Override

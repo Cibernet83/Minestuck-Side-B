@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/tech_hop_modus"
+        "layer0": "minestuck:items/tech_hop_modus"
     }
 }

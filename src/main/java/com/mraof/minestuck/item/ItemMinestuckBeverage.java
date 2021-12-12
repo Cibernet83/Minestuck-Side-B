@@ -2,7 +2,6 @@ package com.mraof.minestuck.item;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
@@ -17,7 +16,7 @@ public class ItemMinestuckBeverage extends ItemFood
 	
 	public ItemMinestuckBeverage()
 	{
-		super(0, 0, false);
+		super("beverage", 0, 0, false);
 		this.setHasSubtypes(true);
 		this.setCreativeTab(TabMinestuck.instance);
 		this.setUnlocalizedName("beverage");
@@ -40,7 +39,7 @@ public class ItemMinestuckBeverage extends ItemFood
 			unlocalizedNames[i] = "item.beverage"+name;
 		}
 		
-		setAlwaysEdible();
+		//setAlwaysEdible();
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
-package com.mraof.minestuck.item;
+package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
+import com.mraof.minestuck.item.MSBlockItem;
 import com.mraof.minestuck.item.TabMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import com.mraof.minestuck.util.ModusStorage;
@@ -13,7 +14,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemOperandiBlock extends ItemBlock
+public class ItemOperandiBlock extends MSBlockItem
 {
 	public ItemOperandiBlock(String name, Block block)
 	{

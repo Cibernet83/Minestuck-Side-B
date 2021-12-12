@@ -3,16 +3,14 @@ package com.mraof.minestuck.item;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 public class ItemUnknowableEgg extends ItemFood {
-    public ItemUnknowableEgg(int amount, float saturation, boolean isWolfFood) {
-        super(amount, saturation, isWolfFood);
+    public ItemUnknowableEgg(int amount, float saturation, boolean isWolfFood, String name) {
+        super(name, amount, saturation, isWolfFood);
         setCreativeTab(TabMinestuck.instance);
         setMaxStackSize(16);
     }

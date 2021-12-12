@@ -13,11 +13,11 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
-public class ItemWalletEntity extends Item
+public class ItemWalletEntity extends MSItemBase
 {
     public ItemWalletEntity(String name)
     {
-        setUnlocalizedName(name);
+        super(name);
     }
 
     @Override

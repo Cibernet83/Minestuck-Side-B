@@ -13,7 +13,11 @@ import net.minecraft.world.World;
 
 public class ItemCruxiteApple extends ItemCruxiteArtifact
 {
-	
+
+	public ItemCruxiteApple() {
+		super("cruxiteApple");
+	}
+
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack)
 	{
@@ -30,7 +34,7 @@ public class ItemCruxiteApple extends ItemCruxiteArtifact
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
 	{
 		stack.shrink(1);
-		
+
 		if(entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer entityplayer = (EntityPlayer)entityLiving;

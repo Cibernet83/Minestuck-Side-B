@@ -1,6 +1,8 @@
-package com.mraof.minestuck.item;
+package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
+import com.mraof.minestuck.item.MSItemBase;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.item.TabMinestuck;
 import com.mraof.minestuck.util.ModusStorage;
@@ -9,24 +11,30 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class ItemOperandiHoe extends ItemHoe
+public class ItemOperandiHoe extends ItemHoe implements IRegistryItem<Item>
 {
+	private final String regName;
+
 	public ItemOperandiHoe(String name)
 	{
 		super(ToolMaterial.IRON);
 		setMaxDamage(10);
-		
+
+		regName = IRegistryItem.unlocToReg(name);
 		setUnlocalizedName(name);
 		setCreativeTab(TabMinestuck.instance);
 
 		OperandiModus.itemPool.add(this);
+		MSItemBase.items.add(this);
 	}
 	
 	@Override
@@ -66,5 +74,11 @@ public class ItemOperandiHoe extends ItemHoe
 			if(!player.addItemStackToInventory(storedStack))
 				player.dropItem(storedStack, true);
 		}
+	}
+
+	@Override
+	public void register(IForgeRegistry<Item> registry) {
+		setRegistryName(regName);
+		registry.register(this);
 	}
 }

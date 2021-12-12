@@ -1,9 +1,9 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fetchmodiplus:items/chasity_key_0",
-        "layer1": "fetchmodiplus:items/chasity_key_1",
-        "layer2": "fetchmodiplus:items/chasity_key_2"
+        "layer0": "minestuck:items/chasity_key_0",
+        "layer1": "minestuck:items/chasity_key_1",
+        "layer2": "minestuck:items/chasity_key_2"
     },
     "display": {
         "thirdperson_righthand": {
