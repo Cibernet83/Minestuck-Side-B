@@ -39,12 +39,17 @@ public class ItemWeapon extends MSItemBase
 	
 	public ItemWeapon(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
 	{
-		this(ToolMaterial.IRON, maxUses, damageVsEntity, weaponSpeed, enchantability, name);
+		this(ToolMaterial.IRON, maxUses, damageVsEntity, weaponSpeed, enchantability, name, false);
 	}
 	
 	public ItemWeapon(ToolMaterial material, int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
 	{
-		super(name);
+		this(material, maxUses, damageVsEntity, weaponSpeed, enchantability, name, false);
+	}
+
+	public ItemWeapon(ToolMaterial material, int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name, boolean hasCustomModel)
+	{
+		super(name, hasCustomModel);
 		this.maxStackSize = 1;
 		super.setCreativeTab(CreativeTabs.COMBAT);	//Needed to place recipes in the combat/tools tab
 		this.setMaxDamage(maxUses);

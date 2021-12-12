@@ -15,7 +15,7 @@ public class ItemGlowystoneDust extends MSItemBase
 {
     public ItemGlowystoneDust()
     {
-        super("glowystoneDust", TabMinestuck.instance);
+        super("glowystoneDust");
     }
 
     /**

@@ -16,10 +16,13 @@ public class ItemDualWeapon extends ItemWeapon{
 	public double ShiethedPower;
 	public double Speed;
 	public double ShiethedSpeed;
-	public ItemDualWeapon(int maxUses, double damageVsEntity,double damagedVsEntityWhileShiethed,double weaponSpeed,double weaponSpeedWhileShiethed, int enchantability, String name) {
-		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
-		
-		this.Prefex=name;
+	public ItemDualWeapon(int maxUses, double damageVsEntity,double damagedVsEntityWhileShiethed,double weaponSpeed,double weaponSpeedWhileShiethed, int enchantability, String name)
+	{
+		super(ToolMaterial.IRON, maxUses, damageVsEntity, weaponSpeed, enchantability, name, true);
+
+
+
+		this.Prefex = name;
 		this.Power=damageVsEntity;
 		this.ShiethedPower= damagedVsEntityWhileShiethed;
 		this.Speed=weaponSpeed;

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.block.MinestuckBlocks;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
@@ -15,6 +16,6 @@ public class TabMinestuck extends CreativeTabs
 	@Override
 	public ItemStack getTabIconItem()
 	{
-		return new ItemStack(MinestuckItems.zillyhooHammer);
+		return new ItemStack(MinestuckBlocks.genericObject);
 	}
 }

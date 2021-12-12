@@ -26,7 +26,7 @@ public class ItemCaptchaCard extends MSItemBase
 	
 	public ItemCaptchaCard()
 	{
-		super("captchaCard");
+		super("captchaCard", true);
 	}
 	
 	@Override

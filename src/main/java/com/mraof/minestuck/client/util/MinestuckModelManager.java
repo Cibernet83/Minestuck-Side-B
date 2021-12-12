@@ -199,7 +199,9 @@ public class MinestuckModelManager
 		register(frostBrickStairs);
 		register(castIronStairs);
 		register(myceliumBrickStairs);
-		
+		register(frogStatueReplica);
+		register(chessboard);
+
 		for(BlockMinestuckLog1.BlockType type : BlockMinestuckLog1.BlockType.values())
 			register(log, type.ordinal(), type.getName()+"_log");
 		
