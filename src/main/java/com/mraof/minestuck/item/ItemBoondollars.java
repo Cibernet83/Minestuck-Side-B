@@ -23,7 +23,7 @@ public class ItemBoondollars extends MSItemBase
 {
 	public ItemBoondollars()	//TODO Add custom crafting recipe that merges boondollar stacks
 	{
-		super("boondollars");
+		super("boondollars", true);
 		setMaxStackSize(1);
 	}
 	
