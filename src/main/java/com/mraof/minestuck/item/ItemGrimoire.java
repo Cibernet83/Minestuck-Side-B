@@ -20,7 +20,7 @@ public class ItemGrimoire extends MSItemBase { //TODO merge into ItemSound once 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		if(!worldIn.isRemote && playerIn != null) {
-			ITextComponent message = new TextComponentTranslation("After flipping through some pages, you feel significantly more insignificant.");
+			ITextComponent message = new TextComponentTranslation("item.grimoire.read");
 			playerIn.sendMessage(message);
 			playerIn.world.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, MinestuckSoundHandler.soundWhispers, SoundCategory.AMBIENT, 0.5F, 0.8F);
 		}

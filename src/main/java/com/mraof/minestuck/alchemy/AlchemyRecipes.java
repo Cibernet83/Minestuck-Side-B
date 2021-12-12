@@ -638,10 +638,6 @@ public class AlchemyRecipes
 		
 		GristRegistry.addGristConversion(new ItemStack(captcharoidCamera), false, new GristSet(new GristType[] {GristType.Build, GristType.Caulk, GristType.Gold, GristType.Marble, GristType.Mercury, GristType.Shale}, new int[] {5000, 500, 500, 500, 500, 500}));
 		GristRegistry.addGristConversion(new ItemStack(transportalizer), false, new GristSet(new GristType[] {GristType.Build, GristType.Amethyst, GristType.Rust, GristType.Uranium}, new int[] {350, 27, 36, 18}));
-		GristRegistry.addGristConversion(new ItemStack(modusCard, 1, 2), true, new GristSet(GristType.Build, 140));
-		GristRegistry.addGristConversion(new ItemStack(modusCard, 1, 3), true, new GristSet(new GristType[] {GristType.Build, GristType.Amber}, new int[] {400, 35}));
-		GristRegistry.addGristConversion(new ItemStack(modusCard, 1, 4), true, new GristSet(new GristType[] {GristType.Build, GristType.Ruby}, new int[] {280, 23}));
-		GristRegistry.addGristConversion(new ItemStack(modusCard, 1, 5), true, new GristSet(new GristType[] {GristType.Build, GristType.Mercury}, new int[] {350, 29}));
 		GristRegistry.addGristConversion(new ItemStack(metalBoat, 1, 0), true, new GristSet(GristType.Rust, 30));
 		GristRegistry.addGristConversion(new ItemStack(metalBoat, 1, 1), true, new GristSet(GristType.Gold, 30));
 		GristRegistry.addGristConversion(new ItemStack(layeredSand), new GristSet(GristType.Build, 1));
@@ -767,43 +763,47 @@ public class AlchemyRecipes
 		GristRegistry.addGristConversion(new ItemStack(vein), new GristSet(new GristType[] {GristType.Garnet, GristType.Iodine}, new int[] {12, 8}));
 
 		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.hardStone), new GristSet(new GristType[] {Build}, new int[] {4}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.floatStone), new GristSet(new GristType[] {Build}, new int[] {400}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.energyCell), new GristSet(new GristType[] {Gold, Rust, Uranium}, new int[] {20, 10, 10}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.popBall), new GristSet(new GristType[] {Iodine, Amber, Shale}, new int[] {8, 5, 2}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.dragonGel), new GristSet(new GristType[] {Build, Sulfur, Uranium, Zillium}, new int[] {1010, 500, 742, 1525}));
+		GristRegistry.addGristConversion(new ItemStack(floatStone), new GristSet(new GristType[] {Build}, new int[] {400}));
+		GristRegistry.addGristConversion(new ItemStack(energyCell), new GristSet(new GristType[] {Gold, Rust, Uranium}, new int[] {20, 10, 10}));
+		GristRegistry.addGristConversion(new ItemStack(popBall), new GristSet(new GristType[] {Iodine, Amber, Shale}, new int[] {8, 5, 2}));
+		GristRegistry.addGristConversion(new ItemStack(dragonGel), new GristSet(new GristType[] {Build, Sulfur, Uranium, Zillium}, new int[] {1010, 500, 742, 1525}));
 
 		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.operandiBlock), new GristSet(new GristType[] {Build, Garnet}, new int[] {1, 1}));
 		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.operandiStone), new GristSet(new GristType[] {Build, Garnet}, new int[] {1, 1}));
 		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.operandiLog), new GristSet(new GristType[] {Build, Garnet}, new int[] {1, 1}));
 		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.operandiGlass), new GristSet(new GristType[] {Build, Garnet}, new int[] {1, 1}));
 
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.cycloneModus), new GristSet(new GristType[] {Build}, new int[] {16}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.wildMagicModus), new GristSet(new GristType[] {Build, Garnet, Amethyst}, new int[] {310, 32, 65}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.capitalistModus), new GristSet(new GristType[] {Build, Gold, Diamond}, new int[] {270, 55, 5}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.deckModus), new GristSet(new GristType[] {Build, Ruby}, new int[] {250, 52}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.popTartModus), new GristSet(new GristType[] {Build, Chalk, Iodine}, new int[] {320, 34, 20}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.eightBallModus), new GristSet(new GristType[] {Build, Mercury, Cobalt}, new int[] {320, 16, 38}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.eightBallModus), new GristSet(new GristType[] {Build, Mercury, Cobalt}, new int[] {320, 16, 38}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.scratchAndSniffModus), new GristSet(new GristType[] {Build, Amethyst, Cobalt}, new int[] {260, 40, 20}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.chasityModus), new GristSet(new GristType[] {Build, Rust, Quartz}, new int[] {210, 36, 2}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.slimeModus), new GristSet(new GristType[] {Build, Caulk}, new int[] {340, 28}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.onionModus), new GristSet(new GristType[] {Build, Iodine, Amber}, new int[] {210, 30, 13}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.chatModus), new GristSet(new GristType[] {Build, Garnet, Artifact}, new int[] {310, 32, 10}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.hueModus), new GristSet(new GristType[] {Build, Cobalt, Amber, Amethyst, Ruby}, new int[] {290, 3, 3, 3, 3}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.hueStackModus), new GristSet(new GristType[] {Build, Cobalt, Amber, Amethyst, Ruby, Zillium}, new int[] {585, 12, 12, 12, 12, 1}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.jujuModus), new GristSet(new GristType[] {Build, Zillium}, new int[] {604, 100}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.modUs), new GristSet(new GristType[] {Build, Gold, Ruby}, new int[] {707, 128, 128}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.alcheModus), new GristSet(new GristType[] {Build, Uranium, Zillium}, new int[] {2500, 640, 4}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.operandiModus), new GristSet(new GristType[] {Build, Garnet, Shale}, new int[] {340, 24, 33}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.weightModus), new GristSet(new GristType[] {Build, Rust}, new int[] {32, 10}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.energyModus), new GristSet(new GristType[] {Build, Gold, Uranium}, new int[] {180, 32, 21}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.bookModus), new GristSet(new GristType[] {Build, Iodine, Chalk}, new int[] {980, 18, 26}));
+		GristRegistry.addGristConversion(new ItemStack(queueStackModus), true, new GristSet(GristType.Build, 140));
+		GristRegistry.addGristConversion(new ItemStack(treeModus), true, new GristSet(new GristType[] {GristType.Build, GristType.Amber}, new int[] {400, 35}));
+		GristRegistry.addGristConversion(new ItemStack(hashmapModus), true, new GristSet(new GristType[] {GristType.Build, GristType.Ruby}, new int[] {280, 23}));
+		GristRegistry.addGristConversion(new ItemStack(setModus), true, new GristSet(new GristType[] {GristType.Build, GristType.Mercury}, new int[] {350, 29}));
+		GristRegistry.addGristConversion(new ItemStack(cycloneModus), new GristSet(new GristType[] {Build}, new int[] {16}));
+		GristRegistry.addGristConversion(new ItemStack(wildMagicModus), new GristSet(new GristType[] {Build, Garnet, Amethyst}, new int[] {310, 32, 65}));
+		GristRegistry.addGristConversion(new ItemStack(capitalistModus), new GristSet(new GristType[] {Build, Gold, Diamond}, new int[] {270, 55, 5}));
+		GristRegistry.addGristConversion(new ItemStack(deckModus), new GristSet(new GristType[] {Build, Ruby}, new int[] {250, 52}));
+		GristRegistry.addGristConversion(new ItemStack(popTartModus), new GristSet(new GristType[] {Build, Chalk, Iodine}, new int[] {320, 34, 20}));
+		GristRegistry.addGristConversion(new ItemStack(eightBallModus), new GristSet(new GristType[] {Build, Mercury, Cobalt}, new int[] {320, 16, 38}));
+		GristRegistry.addGristConversion(new ItemStack(eightBallModus), new GristSet(new GristType[] {Build, Mercury, Cobalt}, new int[] {320, 16, 38}));
+		GristRegistry.addGristConversion(new ItemStack(scratchAndSniffModus), new GristSet(new GristType[] {Build, Amethyst, Cobalt}, new int[] {260, 40, 20}));
+		GristRegistry.addGristConversion(new ItemStack(chasityModus), new GristSet(new GristType[] {Build, Rust, Quartz}, new int[] {210, 36, 2}));
+		GristRegistry.addGristConversion(new ItemStack(slimeModus), new GristSet(new GristType[] {Build, Caulk}, new int[] {340, 28}));
+		GristRegistry.addGristConversion(new ItemStack(onionModus), new GristSet(new GristType[] {Build, Iodine, Amber}, new int[] {210, 30, 13}));
+		GristRegistry.addGristConversion(new ItemStack(chatModus), new GristSet(new GristType[] {Build, Garnet, Artifact}, new int[] {310, 32, 10}));
+		GristRegistry.addGristConversion(new ItemStack(hueModus), new GristSet(new GristType[] {Build, Cobalt, Amber, Amethyst, Ruby}, new int[] {290, 3, 3, 3, 3}));
+		GristRegistry.addGristConversion(new ItemStack(hueStackModus), new GristSet(new GristType[] {Build, Cobalt, Amber, Amethyst, Ruby, Zillium}, new int[] {585, 12, 12, 12, 12, 1}));
+		GristRegistry.addGristConversion(new ItemStack(jujuModus), new GristSet(new GristType[] {Build, Zillium}, new int[] {604, 100}));
+		GristRegistry.addGristConversion(new ItemStack(modUs), new GristSet(new GristType[] {Build, Gold, Ruby}, new int[] {707, 128, 128}));
+		GristRegistry.addGristConversion(new ItemStack(alcheModus), new GristSet(new GristType[] {Build, Uranium, Zillium}, new int[] {2500, 640, 4}));
+		GristRegistry.addGristConversion(new ItemStack(operandiModus), new GristSet(new GristType[] {Build, Garnet, Shale}, new int[] {340, 24, 33}));
+		GristRegistry.addGristConversion(new ItemStack(weightModus), new GristSet(new GristType[] {Build, Rust}, new int[] {32, 10}));
+		GristRegistry.addGristConversion(new ItemStack(energyModus), new GristSet(new GristType[] {Build, Gold, Uranium}, new int[] {180, 32, 21}));
+		GristRegistry.addGristConversion(new ItemStack(bookModus), new GristSet(new GristType[] {Build, Iodine, Chalk}, new int[] {980, 18, 26}));
 
 
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.arrayModus), new GristSet(new GristType[] {Build}, new int[] {350}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.walletModus), new GristSet(new GristType[] {Build, Iodine, Diamond, Zillium, Artifact}, new int[] {3000, 540, 20, 4050, 110}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.crystalBallModus), new GristSet(new GristType[] {Build, Iodine, Diamond, Zillium, Artifact, Cobalt, Iodine}, new int[] {4000, 800, 40, 10000, 500, 800, 400}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.monsterModus), new GristSet(new GristType[] {Build, Rust, Chalk}, new int[] {230, 24, 17}));
+		GristRegistry.addGristConversion(new ItemStack(arrayModus), new GristSet(new GristType[] {Build}, new int[] {350}));
+		GristRegistry.addGristConversion(new ItemStack(walletModus), new GristSet(new GristType[] {Build, Iodine, Diamond, Zillium, Artifact}, new int[] {3000, 540, 20, 4050, 110}));
+		GristRegistry.addGristConversion(new ItemStack(crystalBallModus), new GristSet(new GristType[] {Build, Iodine, Diamond, Zillium, Artifact, Cobalt, Iodine}, new int[] {4000, 800, 40, 10000, 500, 800, 400}));
+		GristRegistry.addGristConversion(new ItemStack(monsterModus), new GristSet(new GristType[] {Build, Rust, Chalk}, new int[] {230, 24, 17}));
 
 		/*
 		GristRegistry.addGristConversion(new ItemStack(FMPItems.memoryModus), new GristSet(new GristType[] {Build, Amethyst, Chalk}, new int[] {140, 22, 8}));
@@ -817,8 +817,8 @@ public class AlchemyRecipes
 		GristRegistry.addGristConversion(new ItemStack(FMPItems.cipherModus), new GristSet(new GristType[] {Build, Rust, Amber}, new int[] {190, 22, 26}));
 		*/
 
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.hashchatModus), new GristSet(new GristType[] {Build, Garnet, Artifact}, new int[] {510, 64, 10}));
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.sacrificeModus), new GristSet(new GristType[] {Build, Rust, Tar}, new int[] {210, 45, 8}));
+		GristRegistry.addGristConversion(new ItemStack(hashchatModus), new GristSet(new GristType[] {Build, Garnet, Artifact}, new int[] {510, 64, 10}));
+		GristRegistry.addGristConversion(new ItemStack(sacrificeModus), new GristSet(new GristType[] {Build, Rust, Tar}, new int[] {210, 45, 8}));
 
 		//add Designix and Lathe combinations
 		
@@ -918,12 +918,12 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination(new ItemStack(captchaCard), new ItemStack(MinestuckBlocks.blockComputerOff), MODE_AND, false, false, new ItemStack(captcharoidCamera));
 		CombinationRegistry.addCombination(new ItemStack(captchaCard), new ItemStack(Items.ENDER_EYE), MODE_OR, false, false, new ItemStack(captcharoidCamera));
 		
-		CombinationRegistry.addCombination(new ItemStack(modusCard, 1, 0), new ItemStack(modusCard, 1, 1), MODE_AND, true, true, new ItemStack(modusCard, 1, 2));
-		CombinationRegistry.addCombination("stickWood", modusCard, OreDictionary.WILDCARD_VALUE, MODE_OR, new ItemStack(modusCard, 1, 3));
-		CombinationRegistry.addCombination("treeSapling", modusCard, OreDictionary.WILDCARD_VALUE, MODE_OR, new ItemStack(modusCard, 1, 3));
-		CombinationRegistry.addCombination("treeLeaves", modusCard, OreDictionary.WILDCARD_VALUE, MODE_OR, new ItemStack(modusCard, 1, 3));	//Not planks and logs though. Too little branch-related.
-		CombinationRegistry.addCombination(new ItemStack(modusCard), new ItemStack(blockComputerOff), MODE_AND, false, true, new ItemStack(modusCard, 1, 4));
-		CombinationRegistry.addCombination(new ItemStack(modusCard), new ItemStack(Items.ITEM_FRAME), MODE_AND, false, true, new ItemStack(modusCard, 1, 5));
+		CombinationRegistry.addCombination(new ItemStack(stackModus), new ItemStack(queueModus), MODE_AND, true, true, new ItemStack(queueStackModus));
+		CombinationRegistry.addCombination("stickWood", "modus", MODE_OR, new ItemStack(treeModus));
+		CombinationRegistry.addCombination("treeSapling", "modus", MODE_OR, new ItemStack(treeModus));
+		CombinationRegistry.addCombination("treeLeaves", "modus", MODE_OR, new ItemStack(treeModus));	//Not planks and logs though. Too little branch-related.
+		CombinationRegistry.addCombination("modus", new ItemStack(blockComputerOff), true, MODE_AND, new ItemStack(hashmapModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Items.ITEM_FRAME), true, MODE_AND, new ItemStack(setModus));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.IRON_BARS),new ItemStack(Items.LEATHER), MODE_AND, false, true, new ItemStack(catClaws));
 		CombinationRegistry.addCombination(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.GOLD_NUGGET), MODE_AND, new ItemStack(goldSeeds));
 		CombinationRegistry.addCombination(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.GOLD_INGOT), MODE_AND, new ItemStack(goldSeeds));
@@ -1084,88 +1084,82 @@ public class AlchemyRecipes
 		//CombinationRegistry.addCombination(new ItemStack(beverage, 1, 2), new ItemStack(Items.DYE, 1, 9), MODE_AND, true, true, new ItemStack(beverage, 1, 8));			//Peach F
 		//CombinationRegistry.addCombination(new ItemStack(beverage, 1, 1), new ItemStack(Blocks.TNT), MODE_OR, true, false, new ItemStack(beverage, 1, 9));				//Redpop F
 
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.rawCruxite), new ItemStack(Items.EMERALD), MODE_OR, new ItemStack(MinestuckItems.boondollars));
+		CombinationRegistry.addCombination(new ItemStack(rawCruxite), new ItemStack(Items.EMERALD), MODE_OR, new ItemStack(boondollars));
 
 		CombinationRegistry.addCombination(new ItemStack(Blocks.STONE), new ItemStack(Blocks.OBSIDIAN), MODE_OR, new ItemStack(MinestuckItems.hardStone));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.STONE), new ItemStack(Blocks.BEDROCK), MODE_AND, new ItemStack(MinestuckItems.hardStone));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckBlocks.cruxiteBlock), new ItemStack(Items.FEATHER), MODE_AND, new ItemStack(MinestuckItems.floatStone));
-		CombinationRegistry.addCombination(new ItemStack(Items.ENDER_EYE), new ItemStack(Items.BOOK), MODE_OR, new ItemStack(MinestuckItems.eightBall));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.eightBall), new ItemStack(MinestuckItems.popTart), MODE_AND, new ItemStack(MinestuckItems.popBall));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.cruxiteGel), new ItemStack(Items.DRAGON_BREATH), MODE_OR, false, false, new ItemStack(MinestuckItems.dragonGel));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.dragonGel), new ItemStack(MinestuckItems.popBall), MODE_AND, Zillium.getCandyItem());
+		CombinationRegistry.addCombination(new ItemStack(MinestuckBlocks.cruxiteBlock), new ItemStack(Items.FEATHER), MODE_AND, new ItemStack(floatStone));
+		CombinationRegistry.addCombination(new ItemStack(Items.ENDER_EYE), new ItemStack(Items.BOOK), MODE_OR, new ItemStack(eightBall));
+		CombinationRegistry.addCombination(new ItemStack(eightBall), new ItemStack(popTart), MODE_AND, new ItemStack(popBall));
+		CombinationRegistry.addCombination(new ItemStack(cruxiteGel), new ItemStack(Items.DRAGON_BREATH), MODE_OR, false, false, new ItemStack(dragonGel));
+		CombinationRegistry.addCombination(new ItemStack(dragonGel), new ItemStack(popBall), MODE_AND, Zillium.getCandyItem());
 
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.grimoire), new ItemStack(MinestuckItems.modusCard), MODE_OR, true, false, new ItemStack(MinestuckItems.wildMagicModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.BOOK), new ItemStack(MinestuckItems.modusCard), MODE_OR, true, false, new ItemStack(MinestuckItems.bookModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.WRITABLE_BOOK), new ItemStack(MinestuckItems.modusCard), MODE_AND, true, false, new ItemStack(MinestuckItems.bookModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.WRITTEN_BOOK), new ItemStack(MinestuckItems.modusCard), MODE_AND, true, false, new ItemStack(MinestuckItems.bookModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.ENCHANTED_BOOK), new ItemStack(MinestuckItems.modusCard), MODE_AND, true, false, new ItemStack(MinestuckItems.bookModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.boondollars), new ItemStack(MinestuckItems.modusCard), MODE_OR, true, false, new ItemStack(MinestuckItems.capitalistModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.captchaCard), new ItemStack(MinestuckItems.modusCard, 1, 5), MODE_AND, new ItemStack(MinestuckItems.deckModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.CAKE), new ItemStack(MinestuckItems.modusCard), MODE_AND, true, false, new ItemStack(MinestuckItems.popTartModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.eightBall), new ItemStack(MinestuckItems.modusCard), MODE_OR, true, false, new ItemStack(MinestuckItems.eightBallModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.bookModus), new ItemStack(Items.ENDER_EYE), MODE_OR, true, false, new ItemStack(MinestuckItems.eightBallModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.DYE), new ItemStack(MinestuckItems.modusCard, 1, 1), MODE_OR, false, true, new ItemStack(MinestuckItems.hueModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.DYE), new ItemStack(MinestuckItems.modusCard, 1, 2), MODE_OR, false, true, new ItemStack(MinestuckItems.hueStackModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.hueModus), new ItemStack(MinestuckItems.modusCard, 1, 0), MODE_AND, new ItemStack(MinestuckItems.hueStackModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckBlocks.blockComputerOff), new ItemStack(MinestuckItems.modusCard, 1, 5), MODE_OR, false, true, new ItemStack(MinestuckItems.chatModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.ITEM_FRAME), new ItemStack(MinestuckItems.modusCard, 1, 4), MODE_AND, false, true, new ItemStack(MinestuckItems.chatModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.deckModus), new ItemStack(MinestuckItems.hueModus), MODE_AND, new ItemStack(MinestuckItems.scratchAndSniffModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.APPLE), new ItemStack(MinestuckItems.modusCard, 1, 5), MODE_OR, new ItemStack(MinestuckItems.scratchAndSniffModus));
-		CombinationRegistry.addCombination(new ItemStack(Blocks.LEVER), new ItemStack(MinestuckItems.operandiModus), MODE_AND, new ItemStack(MinestuckItems.chasityModus));
-		CombinationRegistry.addCombination(new ItemStack(Blocks.IRON_TRAPDOOR), new ItemStack(MinestuckItems.modusCard), MODE_OR, true, false, new ItemStack(MinestuckItems.chasityModus));
-		CombinationRegistry.addCombination(new ItemStack(Blocks.TRAPDOOR), new ItemStack(MinestuckItems.weightModus), MODE_OR, true, false, new ItemStack(MinestuckItems.chasityModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.SLIME_BALL), new ItemStack(MinestuckItems.modusCard, 1, 5), MODE_AND,true, false, new ItemStack(MinestuckItems.slimeModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.cycloneModus), new ItemStack(MinestuckItems.onion), MODE_OR, new ItemStack(MinestuckItems.onionModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.cycloneModus), new ItemStack(MinestuckItems.modusCard, 1, 3), MODE_AND, new ItemStack(MinestuckItems.onionModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.energyCell), new ItemStack(MinestuckItems.modusCard, 4), MODE_OR, false, true, new ItemStack(MinestuckItems.energyModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.weightModus), new ItemStack(MinestuckItems.energyCore), MODE_AND, new ItemStack(MinestuckItems.energyModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.eightBallModus), new ItemStack(MinestuckItems.popTartModus), MODE_AND, new ItemStack(MinestuckItems.operandiModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.REDSTONE), new ItemStack(MinestuckItems.modusCard, 1, 4), MODE_AND, new ItemStack(MinestuckItems.operandiModus));
-		CombinationRegistry.addCombination(new ItemStack(Blocks.IRON_BLOCK), new ItemStack(MinestuckItems.modusCard), MODE_OR, true, false, new ItemStack(MinestuckItems.weightModus));
-		CombinationRegistry.addCombination(new ItemStack(Blocks.CHEST), new ItemStack(MinestuckItems.jujuModus), MODE_AND, new ItemStack(MinestuckItems.modUs));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckBlocks.alchemiter[0]), new ItemStack(MinestuckItems.modusCard), MODE_OR, true, false, new ItemStack(MinestuckItems.alcheModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckBlocks.sburbMachine, 1, 3), new ItemStack(MinestuckItems.modusCard), MODE_OR, true, false, new ItemStack(MinestuckItems.alcheModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(grimoire), MODE_OR, new ItemStack(wildMagicModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Items.BOOK), MODE_OR, new ItemStack(bookModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Items.WRITABLE_BOOK), MODE_AND, new ItemStack(bookModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Items.WRITTEN_BOOK), MODE_AND, new ItemStack(bookModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Items.ENCHANTED_BOOK), MODE_AND, new ItemStack(bookModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(boondollars), MODE_OR, new ItemStack(capitalistModus));
+		CombinationRegistry.addCombination(new ItemStack(captchaCard), new ItemStack(setModus), MODE_AND, new ItemStack(deckModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Items.CAKE), MODE_AND, new ItemStack(popTartModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(eightBall), MODE_OR, new ItemStack(eightBallModus));
+		CombinationRegistry.addCombination(new ItemStack(bookModus), new ItemStack(Items.ENDER_EYE), MODE_OR, true, false, new ItemStack(eightBallModus));
+		CombinationRegistry.addCombination(new ItemStack(Items.DYE), new ItemStack(queueModus), MODE_OR, false, true, new ItemStack(hueModus));
+		CombinationRegistry.addCombination(new ItemStack(Items.DYE), new ItemStack(queueStackModus), MODE_OR, false, true, new ItemStack(hueStackModus));
+		CombinationRegistry.addCombination(new ItemStack(hueModus), new ItemStack(stackModus), MODE_AND, new ItemStack(hueStackModus));
+		CombinationRegistry.addCombination(new ItemStack(MinestuckBlocks.blockComputerOff), new ItemStack(setModus), MODE_OR, false, true, new ItemStack(chatModus));
+		CombinationRegistry.addCombination(new ItemStack(Items.ITEM_FRAME), new ItemStack(hashmapModus), MODE_AND, false, true, new ItemStack(chatModus));
+		CombinationRegistry.addCombination(new ItemStack(deckModus), new ItemStack(hueModus), MODE_AND, new ItemStack(scratchAndSniffModus));
+		CombinationRegistry.addCombination(new ItemStack(Items.APPLE), new ItemStack(setModus), MODE_OR, new ItemStack(scratchAndSniffModus));
+		CombinationRegistry.addCombination(new ItemStack(Blocks.LEVER), new ItemStack(operandiModus), MODE_AND, new ItemStack(chasityModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Blocks.IRON_TRAPDOOR), MODE_OR, new ItemStack(chasityModus));
+		CombinationRegistry.addCombination(new ItemStack(Blocks.TRAPDOOR), new ItemStack(weightModus), MODE_OR, true, false, new ItemStack(chasityModus));
+		CombinationRegistry.addCombination(new ItemStack(Items.SLIME_BALL), new ItemStack(setModus), MODE_AND,true, false, new ItemStack(slimeModus));
+		CombinationRegistry.addCombination(new ItemStack(cycloneModus), new ItemStack(onion), MODE_OR, new ItemStack(onionModus));
+		CombinationRegistry.addCombination(new ItemStack(cycloneModus), new ItemStack(treeModus), MODE_AND, new ItemStack(onionModus));
+		CombinationRegistry.addCombination(new ItemStack(energyCell), new ItemStack(hashmapModus), MODE_OR, false, true, new ItemStack(energyModus));
+		CombinationRegistry.addCombination(new ItemStack(weightModus), new ItemStack(energyCore), MODE_AND, new ItemStack(energyModus));
+		CombinationRegistry.addCombination(new ItemStack(eightBallModus), new ItemStack(popTartModus), MODE_AND, new ItemStack(operandiModus));
+		CombinationRegistry.addCombination(new ItemStack(Items.REDSTONE), new ItemStack(hashmapModus), MODE_AND, new ItemStack(operandiModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Blocks.IRON_BLOCK), MODE_OR, new ItemStack(weightModus));
+		CombinationRegistry.addCombination(new ItemStack(Blocks.CHEST), new ItemStack(jujuModus), MODE_AND, new ItemStack(modUs));
+		CombinationRegistry.addCombination("modus", new ItemStack(MinestuckBlocks.alchemiter[0]), MODE_OR, new ItemStack(alcheModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(MinestuckBlocks.sburbMachine, 1, 3), MODE_OR, new ItemStack(alcheModus));
 
 
 
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.rawCruxite), new ItemStack(MinestuckItems.modusCard), MODE_AND, false, false, new ItemStack(MinestuckItems.arrayModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.arrayModus), new ItemStack(Items.LEATHER), MODE_AND, false, false, new ItemStack(MinestuckItems.walletModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.walletModus), new ItemStack(MinestuckItems.eightBallModus), MODE_AND, false, false, new ItemStack(MinestuckItems.crystalBallModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.walletModus), new ItemStack(MinestuckItems.eightBall), MODE_AND, false, false, new ItemStack(MinestuckItems.crystalBallModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.modusCard), new ItemStack(MinestuckItems.crystalEightBall), MODE_OR, false, false, new ItemStack(MinestuckItems.crystalBallModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.arrayModus), new ItemStack(MinestuckItems.crystalEightBall), MODE_OR, false, false, new ItemStack(MinestuckItems.crystalBallModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.modusCard), new ItemStack(Items.ROTTEN_FLESH), MODE_OR, false, false, new ItemStack(MinestuckItems.monsterModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.modusCard), new ItemStack(Items.BONE), MODE_OR, false, false, new ItemStack(MinestuckItems.monsterModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(rawCruxite), MODE_AND, new ItemStack(arrayModus));
+		CombinationRegistry.addCombination(new ItemStack(arrayModus), new ItemStack(Items.LEATHER), MODE_AND, false, false, new ItemStack(walletModus));
+		CombinationRegistry.addCombination(new ItemStack(walletModus), new ItemStack(eightBallModus), MODE_AND, false, false, new ItemStack(crystalBallModus));
+		CombinationRegistry.addCombination(new ItemStack(walletModus), new ItemStack(eightBall), MODE_AND, false, false, new ItemStack(crystalBallModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(crystalEightBall), MODE_OR, new ItemStack(crystalBallModus));
+		CombinationRegistry.addCombination(new ItemStack(arrayModus), new ItemStack(crystalEightBall), MODE_OR, false, false, new ItemStack(crystalBallModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Items.ROTTEN_FLESH), MODE_OR, new ItemStack(monsterModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(Items.BONE), MODE_OR, new ItemStack(monsterModus));
 
 		/*
-		CombinationRegistry.addCombination(new ItemStack(Items.DYE, 1, 5), new ItemStack(FMPItems.deckModus), MODE_OR, true, true, new ItemStack(FMPItems.memoryModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.minestuckBucket, 1, 2), new ItemStack(MinestuckItems.modusCard, 1, 5), MODE_OR, true, true, new ItemStack(FMPItems.memoryModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.crockerSpoon), new ItemStack(MinestuckItems.modusCard), MODE_AND, false, false, new ItemStack(FMPItems.recipeModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.GLASS_BOTTLE), new ItemStack(MinestuckItems.modusCard), MODE_OR, false, false, new ItemStack(FMPItems.bottledMsgModus));
-		CombinationRegistry.addCombination(new ItemStack(FMPItems.cruxiteBottle), new ItemStack(MinestuckItems.modusCard), MODE_OR, false, false, new ItemStack(FMPItems.bottledMsgModus));
-		CombinationRegistry.addCombination(new ItemStack(Blocks.JUKEBOX), new ItemStack(MinestuckItems.modusCard, 1, 4), MODE_OR, false, true, new ItemStack(FMPItems.techHopModus));
-		CombinationRegistry.addCombination(new ItemStack(FMPItems.chasityModus), new ItemStack(MinestuckBlocks.blockComputerOff), MODE_AND, false, true, new ItemStack(FMPItems.encryptionModus));
-		CombinationRegistry.addCombination(new ItemStack(Blocks.IRON_TRAPDOOR), new ItemStack(MinestuckItems.modusCard, 1, 4), MODE_OR, false, true, new ItemStack(FMPItems.encryptionModus));
-		CombinationRegistry.addCombination(new ItemStack(FMPItems.chatModus), new ItemStack(MinestuckItems.grimoire), MODE_AND, false, false, new ItemStack(FMPItems.ouijaModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.modusCard, 1, 2), new ItemStack(Items.RABBIT_HIDE), MODE_OR, true, false, new ItemStack(FMPItems.bundleModus));
-		CombinationRegistry.addCombination(new ItemStack(Items.CAKE), new ItemStack(MinestuckItems.modusCard), MODE_OR, true, false, new ItemStack(FMPItems.cakeModus));
-		CombinationRegistry.addCombination(new ItemStack(FMPItems.popTartModus), new ItemStack(FMPItems.bundleModus), MODE_AND, false, false, new ItemStack(FMPItems.cakeModus));
-		CombinationRegistry.addCombination(new ItemStack(FMPItems.popTart), new ItemStack(FMPItems.bundleModus), MODE_AND, false, false, new ItemStack(FMPItems.cakeModus));
-		CombinationRegistry.addCombination(new ItemStack(FMPItems.encryptionModus), new ItemStack(FMPItems.bookModus), MODE_OR, false, false, new ItemStack(FMPItems.cipherModus));
+		CombinationRegistry.addCombination(new ItemStack(Items.DYE, 1, 5), new ItemStack(deckModus), MODE_OR, true, true, new ItemStack(memoryModus));
+		CombinationRegistry.addCombination(new ItemStack(minestuckBucket, 1, 2), new ItemStack(modusCard, 1, 5), MODE_OR, true, true, new ItemStack(memoryModus));
+		CombinationRegistry.addCombination(new ItemStack(crockerSpoon), new ItemStack(modusCard), MODE_AND, false, false, new ItemStack(recipeModus));
+		CombinationRegistry.addCombination(new ItemStack(Items.GLASS_BOTTLE), new ItemStack(modusCard), MODE_OR, false, false, new ItemStack(bottledMsgModus));
+		CombinationRegistry.addCombination(new ItemStack(cruxiteBottle), new ItemStack(modusCard), MODE_OR, false, false, new ItemStack(bottledMsgModus));
+		CombinationRegistry.addCombination(new ItemStack(Blocks.JUKEBOX), new ItemStack(modusCard, 1, 4), MODE_OR, false, true, new ItemStack(techHopModus));
+		CombinationRegistry.addCombination(new ItemStack(chasityModus), new ItemStack(blockComputerOff), MODE_AND, false, true, new ItemStack(encryptionModus));
+		CombinationRegistry.addCombination(new ItemStack(Blocks.IRON_TRAPDOOR), new ItemStack(modusCard, 1, 4), MODE_OR, false, true, new ItemStack(encryptionModus));
+		CombinationRegistry.addCombination(new ItemStack(chatModus), new ItemStack(grimoire), MODE_AND, false, false, new ItemStack(ouijaModus));
+		CombinationRegistry.addCombination(new ItemStack(modusCard, 1, 2), new ItemStack(Items.RABBIT_HIDE), MODE_OR, true, false, new ItemStack(bundleModus));
+		CombinationRegistry.addCombination(new ItemStack(Items.CAKE), new ItemStack(modusCard), MODE_OR, true, false, new ItemStack(cakeModus));
+		CombinationRegistry.addCombination(new ItemStack(popTartModus), new ItemStack(bundleModus), MODE_AND, false, false, new ItemStack(cakeModus));
+		CombinationRegistry.addCombination(new ItemStack(popTart), new ItemStack(bundleModus), MODE_AND, false, false, new ItemStack(cakeModus));
+		CombinationRegistry.addCombination(new ItemStack(encryptionModus), new ItemStack(bookModus), MODE_OR, false, false, new ItemStack(cipherModus));
 		*/
 
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.modusCard, 1, 4), new ItemStack(MinestuckItems.chatModus), MODE_OR, true, false, new ItemStack(MinestuckItems.hashchatModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.monsterModus), new ItemStack(MinestuckItems.minestuckBucket, 1, 1), MODE_OR, false, true, new ItemStack(MinestuckItems.sacrificeModus));
+		CombinationRegistry.addCombination(new ItemStack(hashchatModus), new ItemStack(chatModus), MODE_OR, true, false, new ItemStack(hashchatModus));
+		CombinationRegistry.addCombination(new ItemStack(monsterModus), new ItemStack(minestuckBucket, 1, 1), MODE_OR, false, true, new ItemStack(sacrificeModus));
 
-		if(Minestuck.isMSULoaded)
-		{
-			CombinationRegistry.addCombination(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minestuckuniverse", "zillystone_shard"))),
-											   new ItemStack(MinestuckItems.modusCard), MODE_AND, true, false, new ItemStack(MinestuckItems.jujuModus));
-			//CombinationRegistry.addCombination(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minestuckuniverse", "moonstone"))),
-			//		new ItemStack(FMPItems.slimeModus), MODE_AND, true, false, new ItemStack(FMPItems.monsterModus));
-		}
-		else CombinationRegistry.addCombination(Zillium.getCandyItem(), new ItemStack(MinestuckItems.modusCard, 5), MODE_AND, true, false, new ItemStack(MinestuckItems.jujuModus));
-
+		// TODO: re enable this
+		//CombinationRegistry.addCombination("modus", new ItemStack(zillystone_shard), MODE_AND, new ItemStack(jujuModus));
+		//CombinationRegistry.addCombination(new ItemStack(moonstone), new ItemStack(slimeModus), MODE_AND, true, false, new ItemStack(FMPItems.monsterModus));
 	}
 	
 	public static void registerModRecipes() 
@@ -1554,7 +1548,7 @@ public class AlchemyRecipes
 	
 	public static boolean isPunchedCard(ItemStack item)
 	{
-		return item.getItem() == MinestuckItems.captchaCard && item.hasTagCompound() && item.getTagCompound().getBoolean("punched");
+		return item.getItem() == captchaCard && item.hasTagCompound() && item.getTagCompound().getBoolean("punched");
 	}
 	
 	public static boolean hasDecodedItem(ItemStack item)

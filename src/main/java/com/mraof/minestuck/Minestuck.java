@@ -50,8 +50,6 @@ public class Minestuck
 
 	public static final long startTime = System.currentTimeMillis(); // Yes I'm being very stupid, for render effects
 
-	public static boolean isMSULoaded;
-	public static boolean isMSGTLoaded;
 	public static boolean isMekanismLoaded;
 	public static boolean isCyclicLoaded;
 	public static boolean isBOPLoaded;
@@ -68,8 +66,6 @@ public class Minestuck
 
 		Debug.logger = event.getModLog();
 
-		Minestuck.isMSULoaded = Loader.isModLoaded("minestuckuniverse");
-		Minestuck.isMSGTLoaded = Loader.isModLoaded("minestuckgodtier");
 		Minestuck.isMekanismLoaded = Loader.isModLoaded("mekanism");
 		Minestuck.isCyclicLoaded = Loader.isModLoaded("cyclicmagic");
 		Minestuck.isChiselLoaded = Loader.isModLoaded("chisel");

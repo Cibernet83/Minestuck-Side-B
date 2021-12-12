@@ -58,7 +58,12 @@ public class CombinationRegistry {
 			Debug.warnf("Item %s in a recipe for %s appears to be using damage value. This might not be intended.", input2, output);
 		addCombination(input1.getItem(), useDamage1 ? input1.getItemDamage() : OreDictionary.WILDCARD_VALUE, input2.getItem(), useDamage2 ? input2.getItemDamage() : OreDictionary.WILDCARD_VALUE, mode, output);
 	}
-	
+
+	public static void addCombination(String oreDictInput, @Nonnull ItemStack itemInput, Mode mode, @Nonnull ItemStack output)
+	{
+		addCombination(oreDictInput, itemInput, !itemInput.getItem().isDamageable(), mode, output);
+	}
+
 	public static void addCombination(String oreDictInput, @Nonnull ItemStack itemInput, boolean useDamage, Mode mode, @Nonnull ItemStack output)
 	{
 		addCombination(oreDictInput, itemInput.getItem(), useDamage ? itemInput.getItemDamage() : OreDictionary.WILDCARD_VALUE, mode, output);

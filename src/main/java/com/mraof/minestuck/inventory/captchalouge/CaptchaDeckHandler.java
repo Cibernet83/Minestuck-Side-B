@@ -48,12 +48,12 @@ public class CaptchaDeckHandler
 	
 	static
 	{
-		registerModusType(new ResourceLocation(Minestuck.MODID, "stack"), StackModus.class, new ItemStack(MinestuckItems.modusCard, 1, 0));
-		registerModusType(new ResourceLocation(Minestuck.MODID, "queue"), QueueModus.class, new ItemStack(MinestuckItems.modusCard, 1, 1));
-		registerModusType(new ResourceLocation(Minestuck.MODID, "queue_stack"), QueuestackModus.class, new ItemStack(MinestuckItems.modusCard, 1, 2));
-		registerModusType(new ResourceLocation(Minestuck.MODID, "tree"), TreeModus.class, new ItemStack(MinestuckItems.modusCard, 1, 3));
-		registerModusType(new ResourceLocation(Minestuck.MODID, "hashmap"), HashmapModus.class, new ItemStack(MinestuckItems.modusCard, 1, 4));
-		registerModusType(new ResourceLocation(Minestuck.MODID, "set"), SetModus.class, new ItemStack(MinestuckItems.modusCard, 1, 5));
+		registerModusType(new ResourceLocation(Minestuck.MODID, "stack_modus"), StackModus.class, MinestuckItems.stackModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "queue_modus"), QueueModus.class, MinestuckItems.queueModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "queue_stack_modus"), QueueStackModus.class, MinestuckItems.queueStackModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "tree_modus"), TreeModus.class, MinestuckItems.treeModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "hashmap_modus"), HashmapModus.class, MinestuckItems.hashmapModus);
+		registerModusType(new ResourceLocation(Minestuck.MODID, "set_modus"), SetModus.class, MinestuckItems.setModus);
 		registerModusType(new ResourceLocation(Minestuck.MODID, "cyclone_modus"), CycloneModus.class, MinestuckItems.cycloneModus);
 		registerModusType(new ResourceLocation(Minestuck.MODID, "wild_magic_modus"), WildMagicModus.class, MinestuckItems.wildMagicModus);
 		registerModusType(new ResourceLocation(Minestuck.MODID, "capitalist_modus"), CapitalistModus.class, MinestuckItems.capitalistModus);
@@ -74,8 +74,6 @@ public class CaptchaDeckHandler
 		registerModusType(new ResourceLocation(Minestuck.MODID, "book_modus"), BookModus.class, MinestuckItems.bookModus);
 		registerModusType(new ResourceLocation(Minestuck.MODID, "energy_modus"), EnergyModus.class, MinestuckItems.energyModus);
 		registerModusType(new ResourceLocation(Minestuck.MODID, "chasity_modus"), ChasityModus.class, MinestuckItems.chasityModus);
-
-
 		registerModusType(new ResourceLocation(Minestuck.MODID, "array_modus"), ArrayModus.class, MinestuckItems.arrayModus);
 		registerModusType(new ResourceLocation(Minestuck.MODID, "monster_modus"), MonsterModus.class, MinestuckItems.monsterModus);
 		registerModusType(new ResourceLocation(Minestuck.MODID, "wallet_modus"), WalletModus.class, MinestuckItems.walletModus);

@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class QueuestackModus extends StackModus {
+public class QueueStackModus extends StackModus {
 	
 	@Override
 	public ItemStack getItem(int id, boolean asCard)

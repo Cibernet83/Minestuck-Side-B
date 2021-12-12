@@ -65,9 +65,6 @@ public class MinestuckModelManager
 		register(minestuckBucket, 3, "bucket_watercolors");
 		register(minestuckBucket, 4, "bucket_ender");
 		register(minestuckBucket, 5, "bucket_light_water");
-		for(int i = 0; i < ItemModusVanilla.NAMES.length; i++)
-			register(modusCard, i, "modus_" + ItemModusVanilla.NAMES[i]);
-
 		for(int i = 0; i < ItemMetalBoat.NAMES.length; i++)
 			register(metalBoat, i, "boat_" + ItemMetalBoat.NAMES[i]);
 
