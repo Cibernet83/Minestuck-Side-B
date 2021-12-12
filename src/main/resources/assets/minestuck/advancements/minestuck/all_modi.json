@@ -42,6 +42,16 @@
                 ]
             }
         },
+        "array_modus": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minestuck:array_modus"
+                    }
+                ]
+            }
+        },
         "tree_modus": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
@@ -58,16 +68,6 @@
                 "items": [
                     {
                         "item": "minestuck:hashmap_modus"
-                    }
-                ]
-            }
-        },
-        "set_modus": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "minestuck:set_modus"
                     }
                 ]
             }
