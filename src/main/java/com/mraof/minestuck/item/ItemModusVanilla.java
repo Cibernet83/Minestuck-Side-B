@@ -32,5 +32,5 @@ public class ItemModusVanilla extends Item
 			for(int i = 0; i < 6; i++)
 				items.add(new ItemStack(this, 1, i));
 	}
-	
+
 }

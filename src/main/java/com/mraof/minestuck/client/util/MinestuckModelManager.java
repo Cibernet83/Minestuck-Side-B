@@ -184,8 +184,6 @@ public class MinestuckModelManager
 		register(minestuckBucket, 3, "bucket_watercolors");
 		register(minestuckBucket, 4, "bucket_ender");
 		register(minestuckBucket, 5, "bucket_light_water");
-		for(int i = 0; i < ItemModusVanilla.NAMES.length; i++)
-			register(modusCard, i, "modus_" + ItemModusVanilla.NAMES[i]);
 		register(goldSeeds);
 		register(razorBlade);
 		for(int i = 0; i < ItemMetalBoat.NAMES.length; i++)
@@ -257,6 +255,12 @@ public class MinestuckModelManager
 			register(shopPoster, type.ordinal(), "shop_poster"+type.ordinal());
 		*/
 
+		register(stackModus);
+		register(queueModus);
+		register(queueStackModus);
+		register(treeModus);
+		register(setModus);
+		register(hashmapModus);
 		register(wildMagicModus);
 		register(weightModus);
 		register(bookModus);

@@ -188,7 +188,6 @@ public class MinestuckItems
 	//public static final Item chessboard = new Item().setUnlocalizedName("chessboard").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
 	public static final Item minestuckBucket = new ItemMinestuckBucket();
 	public static final Item obsidianBucket = new ItemObsidianBucket();
-	public static final Item modusCard = new ItemModusVanilla();
 	public static final Item goldSeeds = new ItemGoldSeeds();
 	public static final Item razorBlade = new ItemRazorBlade();
 	public static final Item metalBoat = new ItemMetalBoat();
@@ -234,6 +233,12 @@ public class MinestuckItems
 	public static final Item recordDanceStab = new ItemMinestuckRecord("danceStab", MinestuckSoundHandler.soundDanceStabDance).setUnlocalizedName("record");
 	public static final Item recordRetroBattle = new ItemMinestuckRecord("retroBattle",MinestuckSoundHandler.soundRetroBattleTheme).setUnlocalizedName("record");
 
+	public static final Item stackModus = new Item().setUnlocalizedName("stackModus").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
+	public static final Item queueModus = new Item().setUnlocalizedName("queueModus").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
+	public static final Item queueStackModus = new Item().setUnlocalizedName("queueStackModus").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
+	public static final Item treeModus = new Item().setUnlocalizedName("treeModus").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
+	public static final Item hashmapModus = new Item().setUnlocalizedName("hashmapModus").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
+	public static final Item setModus = new Item().setUnlocalizedName("setModus").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
 	public static final Item wildMagicModus = new Item().setUnlocalizedName("wildMagicModus").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
 	public static final Item weightModus = new Item().setUnlocalizedName("weightModus").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
 	public static final Item bookModus = new Item().setUnlocalizedName("bookModus").setMaxStackSize(1).setCreativeTab(TabMinestuck.instance);
@@ -612,7 +617,6 @@ public class MinestuckItems
 		registry.register(longForgottenWarhorn.setRegistryName("long_forgotten_warhorn"));
 		registry.register(minestuckBucket.setRegistryName("minestuck_bucket"));
 		registry.register(obsidianBucket.setRegistryName("bucket_obsidian"));
-		registry.register(modusCard.setRegistryName("modus_card"));
 		registry.register(goldSeeds.setRegistryName("gold_seeds"));
 		registry.register(razorBlade.setRegistryName("razor_blade"));
 		registry.register(metalBoat.setRegistryName("metal_boat"));
@@ -636,6 +640,12 @@ public class MinestuckItems
 		registry.register(recordDanceStab.setRegistryName("record_dance_stab"));
 		registry.register(recordRetroBattle.setRegistryName("record_retro_battle"));
 
+		registry.register(stackModus.setRegistryName("stack_modus"));
+		registry.register(queueModus.setRegistryName("queue_modus"));
+		registry.register(queueStackModus.setRegistryName("queue_stack_modus"));
+		registry.register(hashmapModus.setRegistryName("hashmap_modus"));
+		registry.register(treeModus.setRegistryName("tree_modus"));
+		registry.register(setModus.setRegistryName("set_modus"));
 		registry.register(wildMagicModus.setRegistryName("wild_magic_modus"));
 		registry.register(weightModus.setRegistryName("weight_modus"));
 		registry.register(bookModus.setRegistryName("book_modus"));
@@ -663,12 +673,12 @@ public class MinestuckItems
 		registry.register(hashchatModus.setRegistryName("hashchat_modus"));
 		registry.register(sacrificeModus.setRegistryName("sacrifice_modus"));
 
-		OreDictionary.registerOre("modus", new ItemStack(modusCard, 1, 0));
-		OreDictionary.registerOre("modus", new ItemStack(modusCard, 1, 1));
-		OreDictionary.registerOre("modus", new ItemStack(modusCard, 1, 2));
-		OreDictionary.registerOre("modus", new ItemStack(modusCard, 1, 3));
-		OreDictionary.registerOre("modus", new ItemStack(modusCard, 1, 4));
-		OreDictionary.registerOre("modus", new ItemStack(modusCard, 1, 5));
+		OreDictionary.registerOre("modus", stackModus);
+		OreDictionary.registerOre("modus", queueModus);
+		OreDictionary.registerOre("modus", queueStackModus);
+		OreDictionary.registerOre("modus", treeModus);
+		OreDictionary.registerOre("modus", hashmapModus);
+		OreDictionary.registerOre("modus", setModus);
 		OreDictionary.registerOre("modus", wildMagicModus);
 		OreDictionary.registerOre("modus", weightModus);
 		OreDictionary.registerOre("modus", bookModus);
