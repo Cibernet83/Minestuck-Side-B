@@ -1,0 +1,29 @@
+[
+    {
+        "name": "Minestuck Side B",
+        "parent": "", 
+        "url": "https://www.curseforge.com/minecraft/mc-mods/minestuck-universe",
+        "logoFile": "/minestuck_logo.png", 
+        "updateUrl": "",
+        "credits": "Andrew Sussie.",
+        "version": "${version}",
+        "modid": "minestuck", 
+        "authors": [
+            "Cibernet",
+            "Badadamadaba",
+            "JDubSupreme",
+            "AnarchoVera",
+            "aridThought",
+            "Ishumire",
+            "Akisephila",
+            "SarahK",
+            "blankMushroom"
+        ], 
+        "mcversion": "${mcversion}", 
+        "screenshots": [], 
+        "dependencies": [
+            "Forge@[23.4,)"
+        ], 
+        "description": "Adds Homestuck to your Minecraft! B-Side."
+    }
+]

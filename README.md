@@ -1,5 +1,4 @@
 # Minestuck: Side B
-=========
 
 * Discord Server: https://discord.gg/GaZHqy3
 * Curseforge Page + Download: https://www.curseforge.com/minecraft/mc-mods/minestuck-universe

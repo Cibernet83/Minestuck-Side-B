@@ -34,7 +34,7 @@ minecraft {
 
 
     replace "@VERSION@", project.version
-    replaceIn "com/mraof/minestuck/Minestuck.java"
+    replaceIn "${mod_main_file}"
 }
 
 repositories {
@@ -57,26 +57,15 @@ repositories {
     maven {
         // Refined Storage
         name "Raoulvdberge Repo"
-        url "https://repo.raoulvdberge.com/"
+        url "https://repo.refinedmods.com/"
     }
 }
 
 dependencies {
-	deobfCompile "refinedstorage:refinedstorage:${rs_version}:api"
-	deobfCompile "CraftTweaker2:CraftTweaker2-API:4.1.6.457"
-	deobfCompile name: "carryon-1.12.2-1.12.3.15-deobf"
-    deobfCompile name: "Minestuck-${mc_version}-${minestuck_version}-deobf"
-    deobfCompile name: "Thaumcraft-${mc_version}-${thaumcraft_version}-deobf"
-    deobfCompile name: "Baubles-${mc_version}-${baubles_version}-deobf"
-    compile files("libs/Baubles-${mc_version}-${baubles_version}-api.jar")
-    deobfCompile name: "Botania+r1.10-363-deobf"
     deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
-    
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
-    runtime name: "Minestuck-${mc_version}-${minestuck_version}-deobf"
-    runtime name: "Thaumcraft-${mc_version}-${thaumcraft_version}-deobf"
-    runtime name: "Baubles-${mc_version}-${baubles_version}-deobf"
-    runtime name: "carryon-1.12.2-1.12.3.15-deobf"
+    deobfCompile "CraftTweaker2:CraftTweaker2-API:${crafttweaker_version}"
+    deobfCompile "refinedstorage:refinedstorage:${refinedstorage_version}:api"
 }
 
 processResources {
