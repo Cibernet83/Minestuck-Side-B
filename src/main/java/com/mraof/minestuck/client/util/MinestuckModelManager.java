@@ -65,6 +65,7 @@ public class MinestuckModelManager
 		register(minestuckBucket, 3, "bucket_watercolors");
 		register(minestuckBucket, 4, "bucket_ender");
 		register(minestuckBucket, 5, "bucket_light_water");
+
 		for(int i = 0; i < ItemMetalBoat.NAMES.length; i++)
 			register(metalBoat, i, "boat_" + ItemMetalBoat.NAMES[i]);
 
@@ -115,14 +116,12 @@ public class MinestuckModelManager
 		//3D Models
 		if(MinestuckConfig.oldItemModels)
 		{
-			register(clawHammer, 0, "claw_hammer_old");
 			register(zillyhooHammer, 0, "zillyhoo_hammer_old");
+			register(fearNoAnvil, 0, "fear_no_anvil_old");
 		} else
 		{
-			//register(clawHammer);
-			register(clawHammer, 0, "claw_hammer_old");	//Until the issues with the model are fixed
 			register(zillyhooHammer);
-			//TODO FNA 3D
+			register(fearNoAnvil);
 		}
 
 		//everything else

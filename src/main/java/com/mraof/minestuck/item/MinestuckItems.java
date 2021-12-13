@@ -63,17 +63,17 @@ public class MinestuckItems
 	;
 	public static final Item.ToolMaterial toolUranium = EnumHelper.addToolMaterial("URANIUM", 3, 1220, 12.0F, 6.0F, 15);
 	//hammers
-	public static final Item clawHammer = new ItemWeapon(131, 4.0D, -2.4D, 10, "clawHammer").setTool("pickaxe", 0, 1.0F);
+	public static final Item clawHammer = new ItemWeapon(131, 4.0D, -2.4D, 10, "clawHammer" ).setTool("pickaxe", 0, 1.0F);
 	public static final Item sledgeHammer = new ItemWeapon(250, 6.0D, -2.8D, 8, "sledgeHammer").setTool("pickaxe", 2, 4.0F);
 	public static final Item blacksmithHammer = new ItemWeapon(450, 7.0D, -2.8D, 10, "blacksmithHammer").setTool("pickaxe", 2, 3.5F);
 	public static final Item pogoHammer = new ItemPogoWeapon(400, 7.0D, -2.8D, 8, "pogoHammer", 0.7).setTool("pickaxe", 1, 2.0F);
 	public static final Item telescopicSassacrusher = new ItemWeapon(1024, 9.0D, -2.9D, 15, "telescopicSassacrusher").setTool("pickaxe", 2, 5.0F);
 	public static final Item regiHammer = new ItemWeapon(812, 6.0D, -2.4D, 5, "regiHammer");
-	public static final Item fearNoAnvil = new ItemPotionWeapon(2048, 10.0D, -2.8D, 12, "fearNoAnvil", new PotionEffect(MobEffects.SLOWNESS, 100, 3)).setTool("pickaxe", 3, 7.0F);
+	public static final Item fearNoAnvil = new ItemPotionWeapon(2048, 10.0D, -2.8D, 12, "fearNoAnvil", new PotionEffect(MobEffects.SLOWNESS, 100, 3), true).setTool("pickaxe", 3, 7.0F);
 	public static final Item meltMasher = new ItemFireWeapon(1413, 10.5, -2.8, 20, "meltMasher", 25).setTool("pickaxe", 4, 12.0F);
 	public static final Item qEHammerAxe = new ItemPogoFarmine(6114, 11.0D, -2.8D, 40, "estrogenEmpoweredEverythingEradicator", Integer.MAX_VALUE, 200, 0.7).setTool("pickaxe", 3, 9.0F).setTool("shovel", 3, 9.0F).setTool("sickle", 3, 7.0F).setTool("axe", 3, 12.0F);
 	public static final Item dDEHammerAxe = new ItemSbahjEEEE(6114, 11.01D, -2.8D, 40, "eeeeeeeeeeee", 0.2);
-	public static final Item zillyhooHammer = new ItemWeapon(3000, 11.0D, -2.8D, 30, "zillyhooHammer").setTool("pickaxe", 4, 15.0F);
+	public static final Item zillyhooHammer = new ItemWeapon(3000, 11.0D, -2.8D, 30, "zillyhooHammer", true).setTool("pickaxe", 4, 15.0F);
 
 	public static final Item popamaticVrillyhoo = new ItemRandomWeapon(3000, 8.0D, -2.8D, 30, "popamaticVrillyhoo").setTool("pickaxe", 4, 15.0F);
 	public static final Item scarletZillyhoo = new ItemFireWeapon(2000, 11.0D, -2.8D, 16, "scarletZillyhoo", 50).setTool("pickaxe", 3, 4.0F);
@@ -336,9 +336,10 @@ public class MinestuckItems
 		{
 			if(entry.key.getResourcePath().equals("crocker_spork"))
 				entry.remap(crockerSpoon);
+			else if(entry.key.getResourcePath().equals("modus_card"))
+				entry.remap(stackModus);
 			else
 			{
-				System.out.println(entry.key + " " + Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())));
 				if(Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())) != null)
 					entry.remap(Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())));
 			}

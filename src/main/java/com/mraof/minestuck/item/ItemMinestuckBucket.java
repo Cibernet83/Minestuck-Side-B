@@ -133,4 +133,7 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem<Ite
 		setRegistryName("minestuck_bucket");
 		registry.register(this);
 	}
+
+	@Override
+	public void registerModel() {}
 }
