@@ -114,13 +114,6 @@ public class MinestuckModelManager
 		ModelLoader.registerItemVariants(shunt, new ResourceLocation("minestuck:shunt_empty"), new ResourceLocation("minestuck:shunt_full"));
 		ModelLoader.setCustomMeshDefinition(shunt, new ShuntDefinition());
 
-		ModelLoader.registerItemVariants(cruxiteApple, new ResourceLocation("minestuck:cruxite_apple"), new ResourceLocation("minestuck:cruxite_apple_blank"));
-		ModelLoader.setCustomMeshDefinition(cruxiteApple, new ColoredItemDefinition("minestuck:cruxite_apple"));
-
-		ModelLoader.registerItemVariants(cruxitePotion, new ResourceLocation("minestuck:cruxite_potion"), new ResourceLocation("minestuck:cruxite_potion_blank"));
-		ModelLoader.setCustomMeshDefinition(cruxitePotion, new ColoredItemDefinition("minestuck:cruxite_potion"));
-
-
 		//3D Models
 		if(MinestuckConfig.oldItemModels)
 		{

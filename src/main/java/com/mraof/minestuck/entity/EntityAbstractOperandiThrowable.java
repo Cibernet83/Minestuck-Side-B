@@ -14,12 +14,12 @@ import net.minecraft.world.World;
 public abstract class EntityAbstractOperandiThrowable extends EntityThrowable
 {
 	protected ItemStack storedStack = ItemStack.EMPTY;
-	
+
 	public EntityAbstractOperandiThrowable(World worldIn)
 	{
 		super(worldIn);
 	}
-	
+
 	public EntityAbstractOperandiThrowable(World worldIn, EntityLivingBase throwerIn, ItemStack stack)
 	{
 		super(worldIn, throwerIn);
@@ -47,6 +47,7 @@ public abstract class EntityAbstractOperandiThrowable extends EntityThrowable
 		
 		if (!this.world.isRemote)
 		{
+
 			world.playSound(null, thrower == null ? getPosition() : thrower.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 			spawnItem();
 			this.world.setEntityState(this, (byte)3);

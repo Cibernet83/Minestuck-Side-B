@@ -569,9 +569,9 @@ public class AlchemyRecipes
 		GristRegistry.addGristConversion(new ItemStack(grimoire), true, new GristSet(new GristType[] {GristType.Build, GristType.Amethyst, GristType.Garnet}, new int[] {120, 60, 33}));
 		GristRegistry.addGristConversion(new ItemStack(longForgottenWarhorn), true, new GristSet(new GristType[] {GristType.Build, GristType.Amethyst, GristType.Tar, GristType.Garnet}, new int[] {550, 120, 50, 80}));
 
-		GristRegistry.addGristConversion(new ItemStack(cruxiteApple, 1), false, new GristSet());
-		GristRegistry.addGristConversion(new ItemStack(cruxitePotion, 1), false, new GristSet());
-		
+		for(Item i : cruxiteArtifacts)
+			GristRegistry.addGristConversion(new ItemStack(i), new GristSet());
+
 		GristRegistry.addGristConversion(new ItemStack(catClaws),false,new GristSet(new GristType[] {GristType.Build,GristType.Rust},new int[] {15,5}));
 		
 		GristRegistry.addGristConversion(new ItemStack(clawHammer), false, new GristSet(GristType.Build, 8));

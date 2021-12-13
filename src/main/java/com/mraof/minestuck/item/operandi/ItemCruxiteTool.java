@@ -2,6 +2,7 @@ package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.item.MSItemBase;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.TabMinestuck;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.google.common.collect.Multimap;
@@ -23,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Set;
 
-public class ItemOperandiTool extends MSItemBase
+public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TODO extend MSUWeaponBase
 {
 	protected float efficiency;
 	/** Damage versus entities. */
@@ -32,11 +33,21 @@ public class ItemOperandiTool extends MSItemBase
 	/** The material this tool is made from. */
 	//protected Item.ToolMaterial toolMaterial;
 	protected String toolClass = "";
+	private final CruxiteArtifactTeleporter teleporter;
 	
-	public ItemOperandiTool(String name, String toolClass, float attackDamageIn, float attackSpeedIn, float efficiency, int maxUses)
+	public ItemCruxiteTool(String name, String toolClass, float attackDamageIn, float attackSpeedIn, float efficiency, int maxUses, boolean isEntryArtifact)
 	{
 		super(name);
-		OperandiModus.itemPool.add(this);
+		if(isEntryArtifact)
+		{
+			teleporter =  new CruxiteArtifactTeleporter();
+			OperandiModus.itemPool.add(this);
+		}
+		else
+		{
+			teleporter = null;
+			MinestuckItems.cruxiteArtifacts.add(this);
+		}
 		
 		this.efficiency = 4.0F;
 		this.maxStackSize = 1;
@@ -49,9 +60,9 @@ public class ItemOperandiTool extends MSItemBase
 		setCreativeTab(TabMinestuck.instance);
 	}
 	
-	public ItemOperandiTool(String name, String toolClass)
+	public ItemCruxiteTool(String name, String toolClass, boolean isEntryArtifact)
 	{
-		this(name, toolClass, 0.0F, 0.0F, 7.0f, 3);
+		this(name, toolClass, 0.0F, 0.0F, 7.0f, 3, isEntryArtifact);
 	}
 	
 	@Override
@@ -91,6 +102,12 @@ public class ItemOperandiTool extends MSItemBase
 					stack.damageItem(1, entityLiving);
 				if(stack.isEmpty())
 				{
+					if(isEntryArtifact() && entityLiving instanceof EntityPlayer)
+					{
+						getTeleporter().onArtifactActivated((EntityPlayer) entityLiving);
+						return true;
+					}
+
 					worldIn.playSound(null, entityLiving.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 					
 					if((entityLiving instanceof EntityPlayer) && !((EntityPlayer)entityLiving).addItemStackToInventory(storedStack))
@@ -172,5 +189,15 @@ public class ItemOperandiTool extends MSItemBase
 	public Set<String> getToolClasses(ItemStack stack)
 	{
 		return toolClass != null ? com.google.common.collect.ImmutableSet.of(toolClass) : super.getToolClasses(stack);
+	}
+
+	@Override
+	public boolean isEntryArtifact() {
+		return teleporter != null;
+	}
+
+	@Override
+	public CruxiteArtifactTeleporter getTeleporter() {
+		return teleporter;
 	}
 }

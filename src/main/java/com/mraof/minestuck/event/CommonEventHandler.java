@@ -1,7 +1,7 @@
 package com.mraof.minestuck.event;
 
 import com.mraof.minestuck.util.ModusStorage;
-import com.mraof.minestuck.item.operandi.ItemOperandiArmor;
+import com.mraof.minestuck.item.operandi.ItemCruxiteArmor;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
@@ -25,7 +25,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -159,7 +158,8 @@ public class CommonEventHandler
 		
 		MinestuckPlayerData.getData(event.player).echeladder.resendAttributes(event.player);
 	}
-	
+
+	/*
 	@SubscribeEvent(priority=EventPriority.LOW, receiveCanceled=false)
 	public void onServerChat(ServerChatEvent event)
 	{
@@ -167,6 +167,7 @@ public class CommonEventHandler
 		if(modus instanceof HashmapModus)
 			((HashmapModus) modus).onChatMessage(event.getMessage());
 	}
+	*/
 	
 	//This functionality uses an event to maintain compatibility with mod items having hoe functionality but not extending ItemHoe, like TiCon mattocks.
 	@SubscribeEvent
@@ -258,7 +259,7 @@ public class CommonEventHandler
 
 		for(EntityEquipmentSlot slot : EntityEquipmentSlot.values())
 		{
-			if(slot.getSlotType().equals(EntityEquipmentSlot.Type.ARMOR) && event.getEntityLiving().getItemStackFromSlot(slot).getItem() instanceof ItemOperandiArmor)
+			if(slot.getSlotType().equals(EntityEquipmentSlot.Type.ARMOR) && event.getEntityLiving().getItemStackFromSlot(slot).getItem() instanceof ItemCruxiteArmor)
 			{
 				operandiArmor = event.getEntityLiving().getItemStackFromSlot(slot);
 				break;
@@ -272,10 +273,15 @@ public class CommonEventHandler
 
 			if(event.getAmount() < event.getEntityLiving().getHealth())
 			{
-				event.getEntityLiving().world.playSound(null, event.getEntityLiving().getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
+				if(((ItemCruxiteArmor)operandiArmor.getItem()).isEntryArtifact() && (event.getEntityLiving() instanceof EntityPlayer))
+					((ItemCruxiteArmor) operandiArmor.getItem()).getTeleporter().onArtifactActivated((EntityPlayer) event.getEntityLiving());
+				else
+				{
+					event.getEntityLiving().world.playSound(null, event.getEntityLiving().getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-				if((event.getEntityLiving() instanceof EntityPlayer) && !((EntityPlayer) event.getEntityLiving()).addItemStackToInventory(storedStack))
-					((EntityPlayer) event.getEntityLiving()).dropItem(storedStack, true);
+					if((event.getEntityLiving() instanceof EntityPlayer) && !((EntityPlayer) event.getEntityLiving()).addItemStackToInventory(storedStack))
+						((EntityPlayer) event.getEntityLiving()).dropItem(storedStack, true);
+				}
 			}
 		}
 	}

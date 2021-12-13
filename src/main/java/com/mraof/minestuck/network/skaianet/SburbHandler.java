@@ -57,6 +57,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -528,13 +529,14 @@ public class SburbHandler
 		if(c == null)
 			artifact = MinestuckItems.cruxiteApple;
 		
-		else switch(c.artifactType)
-		{
-		case 1: artifact = MinestuckItems.cruxitePotion; break;
-		default: artifact = MinestuckItems.cruxiteApple;
-		}
-		
-		return new ItemStack(artifact, 1, colorIndex + 1);
+		else artifact = MinestuckItems.cruxiteArtifacts.get(c.artifactType);
+
+		ItemStack stack = new ItemStack(artifact);
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setInteger("ColorID", colorIndex);
+		stack.setTagCompound(nbt);
+
+		return stack;
 	}
 	
 	public static GristType getPrimaryGristType(PlayerIdentifier player)
@@ -737,7 +739,7 @@ public class SburbHandler
 	static void onConnectionCreated(SburbConnection c)
 	{
 		Random rand = MinestuckRandom.getPlayerSpecificRandom(c.getClientIdentifier());
-		c.artifactType = rand.nextInt(2);
+		c.artifactType = rand.nextInt(MinestuckItems.cruxiteArtifacts.size());
 		Debug.infof("Randomized artifact type to be: %d for player %s.", c.artifactType, c.getClientIdentifier().getUsername());
 	}
 	
