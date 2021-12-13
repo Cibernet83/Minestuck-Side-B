@@ -9,15 +9,15 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class RocketBootsPacket extends MSUPacket
+public class RocketBootsPacket extends MinestuckPacket
 {
 	@Override
-	public MSUPacket generatePacket(Object... args) {
+	public MinestuckPacket generatePacket(Object... args) {
 		return this;
 	}
 
 	@Override
-	public MSUPacket consumePacket(ByteBuf data) {
+	public MinestuckPacket consumePacket(ByteBuf data) {
 		return this;
 	}
 

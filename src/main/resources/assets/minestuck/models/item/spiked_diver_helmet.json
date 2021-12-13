@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckuniverse:items/spiked_helmet"
+        "layer0": "Minestuck:items/spiked_helmet"
     }
 }

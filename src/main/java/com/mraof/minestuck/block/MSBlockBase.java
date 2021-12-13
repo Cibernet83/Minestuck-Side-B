@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.IRegistryItem;
 import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -11,19 +11,26 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class MSUBlockBase extends Block implements IRegistryItem
+public class MSBlockBase extends Block implements IRegistryItem<Block>
 {
-    final String registryName;
-
-    public MSUBlockBase(Material blockMaterialIn, MapColor blockMapColorIn, String registryName)
+    private final String regName;
+    
+    public MSBlockBase(Material blockMaterialIn, MapColor blockMapColorIn, String name)
     {
         super(blockMaterialIn, blockMapColorIn);
-        this.setCreativeTab(TabsMinestuck.main);
-        this.registryName = registryName;
+        this.setCreativeTab(TabsMinestuck.minestuck);
+        this.setUnlocalizedName(name);
+        this.regName = IRegistryItem.unlocToReg(name);
+    }
+
+    public MSBlockBase(Material blockMaterialIn, String name)
+    {
+        this(blockMaterialIn, blockMaterialIn.getMaterialMapColor(), name);
     }
 
     @SideOnly(Side.CLIENT)
@@ -35,20 +42,11 @@ public class MSUBlockBase extends Block implements IRegistryItem
             tooltip.add(I18n.translateToLocal(key));
         super.addInformation(stack, player, tooltip, advanced);
     }
-    
-    public MSUBlockBase(Material blockMaterialIn, MapColor blockMapColorIn, String registryName, String unlocalizedName)
-    {
-        this(blockMaterialIn, blockMapColorIn, registryName);
-        this.setUnlocalizedName(unlocalizedName);
-    }
-
-    public MSUBlockBase(Material blockMaterialIn, String registryName, String unlocalizedName)
-    {
-        this(blockMaterialIn, blockMaterialIn.getMaterialMapColor(), registryName, unlocalizedName);
-    }
 
     @Override
-    public void setRegistryName() {
-        setRegistryName(registryName);
+    public void register(IForgeRegistry<Block> registry)
+    {
+        setRegistryName(regName);
+        registry.register(this);
     }
 }

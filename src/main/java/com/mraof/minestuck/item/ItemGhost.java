@@ -8,17 +8,16 @@ import net.minecraft.util.NonNullList;
 
 import java.util.TreeMap;
 
-public class ItemGhost extends MSUItemBase
+public class ItemGhost extends MSItemBase
 {
     private final Block block;
 
     public static final TreeMap<BlockEntry, Item> ghostItems = new TreeMap<>();
 
-    public ItemGhost(String regName, Block block)
+    public ItemGhost(String name, Block block)
     {
-        super(regName);
+        super(name);
         this.block = block;
-        setUnlocalizedName(regName);
         if(block != null)
             ghostItems.put(new BlockEntry(block), this);
     }

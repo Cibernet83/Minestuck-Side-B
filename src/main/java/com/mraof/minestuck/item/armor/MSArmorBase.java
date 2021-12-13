@@ -1,42 +1,43 @@
 package com.mraof.minestuck.item.armor;
 
-import com.mraof.minestuck.item.IRegistryItem;
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MSItemBase;
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class MSUArmorBase extends ItemArmor implements IRegistryItem
+public class MSArmorBase extends ItemArmor implements IRegistryItem<Item>
 {
     private final String registryName;
     private ModelBiped model;
     ArrayList<ItemStack> repairMaterials = new ArrayList<>();
 
-    public MSUArmorBase(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String unlocName, String registryName)
+    public MSArmorBase(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name)
     {
         super(materialIn, renderIndexIn, equipmentSlotIn);
-        setUnlocalizedName(unlocName);
-        this.registryName = registryName;
-        setCreativeTab(registryName.contains(Minestuck.MOD_ID+":") ? TabsMinestuck.minestuck : TabMinestuckUniverse.main);
-
+        setUnlocalizedName(name);
+        registryName = IRegistryItem.unlocToReg(name);
+        MSItemBase.items.add(this);
     }
 
-    public MSUArmorBase(int maxUses, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String unlocName, String registryName)
+    public MSArmorBase(int maxUses, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name)
     {
-        this(materialIn, renderIndexIn, equipmentSlotIn, unlocName, registryName);
+        this(materialIn, renderIndexIn, equipmentSlotIn, name);
         setMaxDamage(maxUses);
     }
 
@@ -55,7 +56,7 @@ public class MSUArmorBase extends ItemArmor implements IRegistryItem
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
     {
-        return MinestuckUniverse.MODID + ":textures/models/armor/" + getRegistryName().getResourcePath() + ".png";
+        return Minestuck.MODID + ":textures/models/armor/" + getRegistryName().getResourcePath() + ".png";
     }
 
     @Override
@@ -66,7 +67,7 @@ public class MSUArmorBase extends ItemArmor implements IRegistryItem
 
         if(!stack.isEmpty())
         {
-            if(stack.getItem() instanceof MSUArmorBase)
+            if(stack.getItem() instanceof MSArmorBase)
             {
                 ModelBiped model = this.model;
 
@@ -96,20 +97,20 @@ public class MSUArmorBase extends ItemArmor implements IRegistryItem
     }
 
 
-    public MSUArmorBase setRepairMaterials(ItemStack... stacks)
+    public MSArmorBase setRepairMaterials(ItemStack... stacks)
     {
         for(ItemStack i : stacks)
             repairMaterials.add(i);
         return this;
     }
 
-    public MSUArmorBase setRepairMaterials(Collection<ItemStack> stacks)
+    public MSArmorBase setRepairMaterials(Collection<ItemStack> stacks)
     {
         repairMaterials.addAll(stacks);
         return this;
     }
 
-    public MSUArmorBase setRepairMaterial(String oredic)
+    public MSArmorBase setRepairMaterial(String oredic)
     {
         if(OreDictionary.doesOreNameExist(oredic))
             setRepairMaterials(OreDictionary.getOres(oredic));
@@ -122,13 +123,15 @@ public class MSUArmorBase extends ItemArmor implements IRegistryItem
     {
 
         for(ItemStack mat : repairMaterials)
-            if (!mat.isEmpty() && net.minecraftforge.oredict.OreDictionary.itemMatches(mat, repair, false)) return true;
+            if (!mat.isEmpty() && OreDictionary.itemMatches(mat, repair, false)) return true;
 
         return super.getIsRepairable(toRepair, repair);
     }
 
     @Override
-    public void setRegistryName() {
-        setRegistryName(registryName);
+    public void register(IForgeRegistry<Item> registry)
+    {
+       setRegistryName(registryName);
+       registry.register(this);
     }
 }

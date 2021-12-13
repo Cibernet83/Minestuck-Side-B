@@ -1,11 +1,11 @@
 {
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"parent": "minestuckuniverse:item/obsidian_shield",
+	"parent": "Minestuck:item/obsidian_shield",
 	"textures": {
-		"0": "minestuckuniverse:models/crying_obsidian_shield",
-		"1": "minestuckuniverse:models/obsidian_shield_frame",
-		"particle": "minestuckuniverse:models/crying_obsidian_shield"
+		"0": "Minestuck:models/crying_obsidian_shield",
+		"1": "Minestuck:models/obsidian_shield_frame",
+		"particle": "Minestuck:models/crying_obsidian_shield"
 	},
 	"elements": [
 		{

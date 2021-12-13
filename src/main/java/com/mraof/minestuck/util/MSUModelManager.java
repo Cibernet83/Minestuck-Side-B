@@ -1,7 +1,6 @@
 package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristType;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -15,13 +14,11 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import com.mraof.minestuck.util.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.mraof.minestuck.item.MinestuckUniverseItems.*;
 import static com.mraof.minestuck.item.MinestuckItems.*;
-import static com.mraof.minestuck.item.MinestuckItems.unbreakableKatana;
 
 public class MSUModelManager // TODO: remove
 {
@@ -40,29 +37,6 @@ public class MSUModelManager // TODO: remove
     @SideOnly(Side.CLIENT)
     private static void ItemModels()
     {
-        register(unbreakableKatana, 0, "unbreakable_katana");
-        register(caledfwlch, 0, "caledfwlch");
-        register(caledscratch, 0, "caledscratch");
-        register(royalDeringer, 0, "royal_deringer");
-        register(scarletRibbitar, 0, "scarlet_ribbitar");
-        register(dDEHammerAxe, 0, "eeeeeeeeeeee");
-
-        if(!Minestuck.isArsenalLoaded)
-        {
-            if(MinestuckConfig.oldItemModels)
-                register(fearNoAnvil);
-            else register(fearNoAnvil, 0, "fear_no_anvil");
-        }
-
-        register(grimoire, 0, "grimoire");
-        ModelLoader.setCustomModelResourceLocation(crockerSpork, 0, new ModelResourceLocation(Minestuck.MOD_ID+":crocker_spoon", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(crockerFork, 0, new ModelResourceLocation(Minestuck.MOD_ID+":crocker_fork", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(clawHammer, 0, new ModelResourceLocation(Minestuck.MOD_ID+":claw_hammer_old", "inventory"));
-
-        DualWeaponDefinition catClawsDef = new DualWeaponDefinition("catclaws_drawn", "catclaws_sheathed");
-        ModelLoader.registerItemVariants(catClaws, catClawsDef.getResourceLocations());
-        ModelLoader.setCustomMeshDefinition(catClaws, catClawsDef);
-
         for(Item item : items)
             register(item);
 
@@ -72,7 +46,7 @@ public class MSUModelManager // TODO: remove
             ModelLoader.setCustomMeshDefinition(pair.object1, pair.object2);
         }
 
-        //ModelLoader.registerItemVariants(batteryBeamBlade, new ModelResourceLocation[]{new ModelResourceLocation("minestuck:catclaws_sheathed"), new ModelResourceLocation("minestuck:catclaws_drawn")});
+        //ModelLoader.registerItemVariants(batteryBeamBlade, new ModelResourceLocation[]{new ModelResourceLocation(Minestuck.MODID+":catclaws_sheathed"), new ModelResourceLocation(Minestuck.MODID+":catclaws_drawn")});
         //ModelLoader.setCustomMeshDefinition(batteryBeamBlade, new DualWeaponDefinition(batteryBeamBlade));
 
 
@@ -104,7 +78,7 @@ public class MSUModelManager // TODO: remove
     @SideOnly(Side.CLIENT)
     private static void register(Item item, int meta, String modelResource)
     {
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(MinestuckUniverse.MODID+":"+modelResource, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Minestuck.MODID+":"+modelResource, "inventory"));
     }
 
     @SideOnly(Side.CLIENT)
@@ -129,12 +103,12 @@ public class MSUModelManager // TODO: remove
         }
 
         public ModelResourceLocation getModelLocation(ItemStack stack) {
-            return new ModelResourceLocation( MinestuckUniverse.MODID+":" + (batteryBeamBlade.isDrawn(stack) ? model1 : model2), "inventory");
+            return new ModelResourceLocation( Minestuck.MODID+":" + (batteryBeamBlade.isDrawn(stack) ? model1 : model2), "inventory");
         }
 
         @Override
         public ResourceLocation[] getResourceLocations() {
-            return new ResourceLocation[]{new ResourceLocation(MinestuckUniverse.MODID+":" + model1), new ResourceLocation(MinestuckUniverse.MODID+":" + model2)};
+            return new ResourceLocation[]{new ResourceLocation(Minestuck.MODID, "" + model1), new ResourceLocation(Minestuck.MODID, "" + model2)};
         }
     }
 
@@ -153,7 +127,7 @@ public class MSUModelManager // TODO: remove
             ResourceLocation[] result = new ResourceLocation[EnumDyeColor.values().length];
 
             for(int i = 0; i < result.length; i++)
-                result[i] = new ResourceLocation(MinestuckUniverse.MODID, model + "_" + EnumDyeColor.byDyeDamage(i).getName());
+                result[i] = new ResourceLocation(Minestuck.MODID, model + "_" + EnumDyeColor.byDyeDamage(i).getName());
 
             return result;
         }

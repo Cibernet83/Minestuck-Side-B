@@ -1,12 +1,13 @@
 package com.mraof.minestuck.item.weapon;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MSUCapabilities;
 import com.mraof.minestuck.capabilities.beam.Beam;
 import com.mraof.minestuck.item.properties.PropertyDualWield;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -22,17 +23,17 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class ItemBeamWeapon extends MSUWeaponBase implements IBeamStats
+public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 {
 	public float beamRadius;
 	public float beamDamage;
 	public float beamSpeed;
 	public int beamHurtTime;
 	public int beamTime;
-	protected ResourceLocation beamTexture = new ResourceLocation(MinestuckUniverse.MODID, "textures/entity/projectiles/beam.png");
+	protected ResourceLocation beamTexture = new ResourceLocation(Minestuck.MODID, "textures/entity/projectiles/beam.png");
 
-	public ItemBeamWeapon(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int beamHurtTime, int enchantability, String name, String unlocName) {
-		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name, unlocName);
+	public ItemBeamWeapon(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int beamHurtTime, int enchantability, String name) {
+		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
 		this.beamDamage = beamDamage;
 		this.beamRadius = beamRadius;
 		this.beamSpeed = beamSpeed;
@@ -40,12 +41,12 @@ public class ItemBeamWeapon extends MSUWeaponBase implements IBeamStats
 		this.beamTime = beamTime;
 	}
 
-	public ItemBeamWeapon(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int enchantability, String name, String unlocName) {
-		this(maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, beamTime,15, enchantability, name, unlocName);
+	public ItemBeamWeapon(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int enchantability, String name) {
+		this(maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, beamTime,15, enchantability, name);
 	}
 
-	public ItemBeamWeapon(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int enchantability, String name, String unlocName) {
-		this(maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, 72000, enchantability, name, unlocName);
+	public ItemBeamWeapon(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int enchantability, String name) {
+		this(maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, 72000, enchantability, name);
 	}
 
 	@Override
@@ -114,7 +115,7 @@ public class ItemBeamWeapon extends MSUWeaponBase implements IBeamStats
 						((EntityPlayer) entityIn).getCooldownTracker().setCooldown(stack.getItem(), beam.getDuration());
 					beam.releaseBeam();
 					for(EntityPlayer player : beam.world.playerEntities)
-						MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.UPDATE_BEAMS, beam.world), player);
+						MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_BEAMS, beam.world), player);
 				}
 			}
 

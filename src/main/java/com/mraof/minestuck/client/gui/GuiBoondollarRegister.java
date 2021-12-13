@@ -1,8 +1,9 @@
 package com.mraof.minestuck.client.gui;
 
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.network.BoondollarRegisterPacket;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.tileentity.TileEntityBoondollarRegister;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class GuiBoondollarRegister extends GuiScreen
 {
-	public static final ResourceLocation TEXTURES = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/boondollar_register.png");
+	public static final ResourceLocation TEXTURES = new ResourceLocation(Minestuck.MODID, "textures/gui/boondollar_register.png");
 	public EntityPlayer player;
 	public TileEntityBoondollarRegister vault;
 	public Minecraft mc;
@@ -135,7 +136,7 @@ public class GuiBoondollarRegister extends GuiScreen
 			mavTextField.textboxKeyTyped(typedChar, keyCode);
 			try {vault.mav = mavTextField.getText().isEmpty() ? 0 : Integer.parseInt(mavTextField.getText()); }
 			catch (NumberFormatException e) {vault.mav = Integer.MAX_VALUE;}
-			MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.VAULT, new Object[] {BoondollarRegisterPacket.EnumType.MAV, vault}));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.VAULT, BoondollarRegisterPacket.EnumType.MAV, vault));
 			mavTextField.setText(String.valueOf(vault.mav));
 		}
 
@@ -148,8 +149,8 @@ public class GuiBoondollarRegister extends GuiScreen
 		super.actionPerformed(button);
 
 		if(button == autoButton)
-			MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.VAULT, new Object[] {BoondollarRegisterPacket.EnumType.AUTO, vault}));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.VAULT, BoondollarRegisterPacket.EnumType.AUTO, vault));
 		if(button == withdrawButton)
-			MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.VAULT, new Object[] {BoondollarRegisterPacket.EnumType.TAKE, vault}));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.VAULT, BoondollarRegisterPacket.EnumType.TAKE, vault));
 	}
 }

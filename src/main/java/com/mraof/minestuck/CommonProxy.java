@@ -25,7 +25,6 @@ import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.modSupport.BotaniaSupport;
 import com.mraof.minestuck.modSupport.CarryOnSupport;
 import com.mraof.minestuck.modSupport.SplatcraftSupport;
-import com.mraof.minestuck.network.MSUChannelHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.skaianet.SessionHandler;
 import com.mraof.minestuck.potions.MSUPotions;
@@ -60,7 +59,6 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(BiomeMinestuck.class);
 		MinecraftForge.EVENT_BUS.register(MSUPotions.class);
 		MinecraftForge.EVENT_BUS.register(MSUEnchantments.class);
-		MinecraftForge.EVENT_BUS.register(MSUSoundHandler.class);
 		MinecraftForge.EVENT_BUS.register(KindAbstratus.class);
 		MinecraftForge.EVENT_BUS.register(MSUKindAbstrata.class);
 		MinecraftForge.EVENT_BUS.register(StrifeEventHandler.class);
@@ -87,31 +85,31 @@ public class CommonProxy
 		
 		MinestuckEntities.registerEntities();
 		//register Tile Entities
-		GameRegistry.registerTileEntity(TileEntitySkaiaPortal.class, "minestuck:gate_portal");
-		GameRegistry.registerTileEntity(TileEntitySburbMachine.class, "minestuck:sburb_machine");
-		GameRegistry.registerTileEntity(TileEntityPunchDesignix.class, "Minestuck:punch_designix");
-		GameRegistry.registerTileEntity(TileEntityTotemLathe.class, "Minestuck:totem_lathe");
-		GameRegistry.registerTileEntity(TileEntityAlchemiter.class,"Minestuck:alchemiter");
-		GameRegistry.registerTileEntity(TileEntityCruxtruder.class, "Minestuck:cruxtruder");
-		GameRegistry.registerTileEntity(TileEntityItemStack.class, "Minestuck:item_stack");
-		GameRegistry.registerTileEntity(TileEntityCrockerMachine.class, "minestuck:crocker_machine");
-		GameRegistry.registerTileEntity(TileEntityComputer.class, "minestuck:computer_sburb");
-		GameRegistry.registerTileEntity(TileEntityTransportalizer.class, "minestuck:transportalizer");
-		GameRegistry.registerTileEntity(TileEntityGate.class, "minestuck:gate");
-		GameRegistry.registerTileEntity(TileEntityUraniumCooker.class, "minestuck:uranium_cooker");
-		GameRegistry.registerTileEntity(TileEntityJumperBlock.class, "minestuck:jumper_block_extension");
-		GameRegistry.registerTileEntity(TileEntityUpgradedAlchemiter.class,  "minestuck:upgraded_alchemiter");
-		GameRegistry.registerTileEntity(TileEntityAlchemiterUpgrade.class,  "minestuck:alchemiter_upgrade");
-		GameRegistry.registerTileEntity(TileEntityHolopad.class, "minestuck:holopad");
-		GameRegistry.registerTileEntity(TileEntityGristHopper.class, "minestuck:grist_hopper");
-		GameRegistry.registerTileEntity(TileEntityAutoWidget.class, "minestuck:auto_widget");
-		GameRegistry.registerTileEntity(TileEntityAutoCaptcha.class, "minestuck:auto_captcha");
-		GameRegistry.registerTileEntity(TileEntityMachineChasis.class, "minestuck:machine_chasis");
-		GameRegistry.registerTileEntity(TileEntityRedTransportalizer.class, "minestuck:red_transportalizer");
-		GameRegistry.registerTileEntity(TileEntityParadoxTransportalizer.class, "minestuck:paradox_transportalizer");
-		GameRegistry.registerTileEntity(TileEntityPlatinumTransportalizer.class, "minestuck:platinum_transportalizer");
-		GameRegistry.registerTileEntity(TileEntityEffectBeacon.class, "minestuck:effect_beacon");
-		GameRegistry.registerTileEntity(TileEntityBoondollarRegister.class, "minestuck:porkhollow_vault");
+		GameRegistry.registerTileEntity(TileEntitySkaiaPortal.class, Minestuck.MODID+":gate_portal");
+		GameRegistry.registerTileEntity(TileEntitySburbMachine.class, Minestuck.MODID+":sburb_machine");
+		GameRegistry.registerTileEntity(TileEntityPunchDesignix.class, Minestuck.MODID+":punch_designix");
+		GameRegistry.registerTileEntity(TileEntityTotemLathe.class, Minestuck.MODID+":totem_lathe");
+		GameRegistry.registerTileEntity(TileEntityAlchemiter.class,Minestuck.MODID+":alchemiter");
+		GameRegistry.registerTileEntity(TileEntityCruxtruder.class, Minestuck.MODID+":cruxtruder");
+		GameRegistry.registerTileEntity(TileEntityItemStack.class, Minestuck.MODID+":item_stack");
+		GameRegistry.registerTileEntity(TileEntityCrockerMachine.class, Minestuck.MODID+":crocker_machine");
+		GameRegistry.registerTileEntity(TileEntityComputer.class, Minestuck.MODID+":computer_sburb");
+		GameRegistry.registerTileEntity(TileEntityTransportalizer.class, Minestuck.MODID+":transportalizer");
+		GameRegistry.registerTileEntity(TileEntityGate.class, Minestuck.MODID+":gate");
+		GameRegistry.registerTileEntity(TileEntityUraniumCooker.class, Minestuck.MODID+":uranium_cooker");
+		GameRegistry.registerTileEntity(TileEntityJumperBlock.class, Minestuck.MODID+":jumper_block_extension");
+		GameRegistry.registerTileEntity(TileEntityUpgradedAlchemiter.class,  Minestuck.MODID+":upgraded_alchemiter");
+		GameRegistry.registerTileEntity(TileEntityAlchemiterUpgrade.class,  Minestuck.MODID+":alchemiter_upgrade");
+		GameRegistry.registerTileEntity(TileEntityHolopad.class, Minestuck.MODID+":holopad");
+		GameRegistry.registerTileEntity(TileEntityGristHopper.class, Minestuck.MODID+":grist_hopper");
+		GameRegistry.registerTileEntity(TileEntityAutoWidget.class, Minestuck.MODID+":auto_widget");
+		GameRegistry.registerTileEntity(TileEntityAutoCaptcha.class, Minestuck.MODID+":auto_captcha");
+		GameRegistry.registerTileEntity(TileEntityMachineChasis.class, Minestuck.MODID+":machine_chasis");
+		GameRegistry.registerTileEntity(TileEntityRedTransportalizer.class, Minestuck.MODID+":red_transportalizer");
+		GameRegistry.registerTileEntity(TileEntityParadoxTransportalizer.class, Minestuck.MODID+":paradox_transportalizer");
+		GameRegistry.registerTileEntity(TileEntityPlatinumTransportalizer.class, Minestuck.MODID+":platinum_transportalizer");
+		GameRegistry.registerTileEntity(TileEntityEffectBeacon.class, Minestuck.MODID+":effect_beacon");
+		GameRegistry.registerTileEntity(TileEntityBoondollarRegister.class, Minestuck.MODID+":porkhollow_vault");
 		
 		//Register event handlers
 		MinecraftForge.EVENT_BUS.register(new MinestuckSaveHandler());
@@ -123,16 +121,14 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(new ConnectionListener());
 		MinecraftForge.EVENT_BUS.register(com.mraof.minestuck.event.handlers.CommonEventHandler.class);
 		MinecraftForge.EVENT_BUS.register(ArmorEventHandler.class);
-		MinecraftForge.EVENT_BUS.register(MSULoot.class);
 		MinecraftForge.EVENT_BUS.register(IDBasedAlchemyHandler.class);
 		MinecraftForge.EVENT_BUS.register(BlockArtifact.class);
 		PropertyEventHandler.register();
 
-		NetworkRegistry.INSTANCE.registerGuiHandler(MinestuckUniverse.instance, new MSUGuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new MSUGuiHandler());
 		
 		//register channel handler
 		MinestuckChannelHandler.setupChannel();
-		MSUChannelHandler.setupChannel(); // TODO:  remove
 		
 		//Register structures
 		MapGenStructureIO.registerStructure(StructureCastleStart.class, "SkaiaCastle");

@@ -1,6 +1,6 @@
 {
-    "parent": "minestuckuniverse:item/crabbow",
+    "parent": "Minestuck:item/crabbow",
     "textures": {
-        "layer0": "minestuckuniverse:items/crabbow_pulling_1"
+        "layer0": "Minestuck:items/crabbow_pulling_1"
     }
 }

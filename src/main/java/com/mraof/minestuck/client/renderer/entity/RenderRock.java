@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.renderer.entity;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.model.ModelRock;
 import com.mraof.minestuck.entity.EntityRock;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
@@ -11,7 +12,7 @@ import javax.annotation.Nullable;
 public class RenderRock extends RenderLivingBase<EntityRock>
 {
 	private static final ModelRock MODEL = new ModelRock();
-	private static final ResourceLocation TEXTURE = new ResourceLocation(MinestuckUniverse.MODID, "textures/entity/rock.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Minestuck.MODID, "textures/entity/rock.png");
 
 	public RenderRock(RenderManager renderManagerIn) {
 		super(renderManagerIn, MODEL, 1f);

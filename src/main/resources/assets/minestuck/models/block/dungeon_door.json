@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "minestuckuniverse:blocks/dungeon_door"
+        "all": "Minestuck:blocks/dungeon_door"
     }
 }

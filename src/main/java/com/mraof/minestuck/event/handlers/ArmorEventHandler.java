@@ -1,8 +1,9 @@
 package com.mraof.minestuck.event.handlers;
 
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.armor.ItemPogoBoots;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -23,17 +24,17 @@ public class ArmorEventHandler
 {@SubscribeEvent
 public static void onEntityHurt(LivingDamageEvent event)
 {
-	if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckUniverseItems.spikedHelmet))
+	if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckItems.spikedHelmet))
 	{
 		if(event.getEntityLiving().world.rand.nextInt(2) == 0 && event.getSource().getImmediateSource() != null)
 			event.getSource().getImmediateSource().attackEntityFrom(DamageSource.causeThornsDamage(event.getEntityLiving()), 4);
 	}
-	if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckUniverseItems.wizardHat) && event.getSource().isMagicDamage())
+	if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckItems.wizardHat) && event.getSource().isMagicDamage())
 	{
 		event.setAmount(event.getAmount()*0.5f);
 		event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).damageItem(1, event.getEntityLiving());
 	}
-	if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckUniverseItems.archmageHat) && event.getSource().isMagicDamage())
+	if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckItems.archmageHat) && event.getSource().isMagicDamage())
 	{
 		event.setAmount(event.getAmount()*0.2f);
 		event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).damageItem(1, event.getEntityLiving());
@@ -69,7 +70,7 @@ public static void onEntityHurt(LivingDamageEvent event)
 					entity.setFire(5);
 			}
 		}
-		else if(footwear == MinestuckUniverseItems.rocketBoots)
+		else if(footwear == MinestuckItems.rocketBoots)
 			event.setDamageMultiplier(event.getDamageMultiplier()*0.4f);
 	}
 
@@ -86,9 +87,9 @@ public static void onEntityHurt(LivingDamageEvent event)
 			if (!entity.isSneaking())
 				entity.motionY *= 0.25 + item.power;
 		}
-		else if(footwear == MinestuckUniverseItems.windWalkers)
+		else if(footwear == MinestuckItems.windWalkers)
 			entity.motionY *= 2f;
-		else if(footwear == MinestuckUniverseItems.airJordans || footwear == MinestuckUniverseItems.cobaltJordans)
+		else if(footwear == MinestuckItems.airJordans || footwear == MinestuckItems.cobaltJordans)
 		{
 			for(int i = 0; i < 10; i++)
 				entity.world.spawnParticle(EnumParticleTypes.CLOUD, entity.posX + entity.getRNG().nextFloat()-0.5f, entity.posY + entity.getRNG().nextFloat()*0.1f-0.05f, entity.posZ + entity.getRNG().nextFloat()-0.5f,
@@ -105,11 +106,11 @@ public static void onEntityHurt(LivingDamageEvent event)
 	public static void onInputUpdate(InputUpdateEvent event)
 	{
 		ItemStack footwear = event.getEntityPlayer().getItemStackFromSlot(EntityEquipmentSlot.FEET);
-		if(!event.getEntityPlayer().isElytraFlying() && event.getMovementInput().jump && footwear.getItem() == MinestuckUniverseItems.rocketBoots)
+		if(!event.getEntityPlayer().isElytraFlying() && event.getMovementInput().jump && footwear.getItem() == MinestuckItems.rocketBoots)
 		{
 			event.getEntityPlayer().moveRelative(event.getMovementInput().moveStrafe*0.5f, 1, event.getMovementInput().moveForward*0.5f, 0.165f);
 			event.getEntityPlayer().fallDistance *= 0.8f;
-			MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.ROCKET_BOOTS));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.ROCKET_BOOTS));
 		}
 	}
 
@@ -118,9 +119,9 @@ public static void onEntityHurt(LivingDamageEvent event)
 	{
 
 		Item footwear = event.player.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem();
-		if(footwear == MinestuckUniverseItems.airJordans || footwear == MinestuckUniverseItems.cobaltJordans)
+		if(footwear == MinestuckItems.airJordans || footwear == MinestuckItems.cobaltJordans)
 			event.player.onGround = true;
-		else if(footwear == MinestuckUniverseItems.windWalkers)
+		else if(footwear == MinestuckItems.windWalkers)
 		{
 			event.player.motionY *= 0.65 +0.3 * Math.max(0, Math.min(1, event.player.motionY*50f));
 			event.player.fallDistance = 0;

@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/shocker_shell",
+	"parent": "Minestuck:item/shocker_shell",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

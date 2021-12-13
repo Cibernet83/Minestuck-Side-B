@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/hereticus_aurum"
+        "layer0": "Minestuck:items/hereticus_aurum"
     }
 }

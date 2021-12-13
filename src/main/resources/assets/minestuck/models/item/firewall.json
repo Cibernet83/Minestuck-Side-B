@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "minestuckuniverse:models/firewall"
+		"0": "Minestuck:models/firewall"
 	},
 	"elements": [
 		{
@@ -128,30 +128,30 @@
     "overrides": [
         {
             "predicate": {
-                "minestuckuniverse:active": 1
+                "Minestuck:active": 1
             },
-            "model": "minestuckuniverse:item/firewall_active"
+            "model": "Minestuck:item/firewall_active"
         }
     ],
     "overrides": [
         {
             "predicate": {
-                "minestuckuniverse:active": 1
+                "Minestuck:active": 1
             },
-            "model": "minestuckuniverse:item/firewall_active"
+            "model": "Minestuck:item/firewall_active"
         },
         {
             "predicate": {
                 "blocking": 1
             },
-            "model": "minestuckuniverse:item/firewall_blocking"
+            "model": "Minestuck:item/firewall_blocking"
         },
         {
             "predicate": {
                 "blocking": 1,
-                "minestuckuniverse:active": 1
+                "Minestuck:active": 1
             },
-            "model": "minestuckuniverse:item/firewall_blocking_active"
+            "model": "Minestuck:item/firewall_blocking_active"
         }
     ]
 }

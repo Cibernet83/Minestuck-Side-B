@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.properties;
 
+import com.mraof.minestuck.Minestuck;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -45,7 +46,7 @@ public class PropertyBloodBound extends WeaponProperty implements IEnchantablePr
 				{
 					if(stack.isItemDamaged())
 					{
-						entityIn.attackEntityFrom(new DamageSource(MinestuckUniverse.MODID+".bloodSword").setDamageIsAbsolute(), 1);
+						entityIn.attackEntityFrom(new DamageSource(Minestuck.MODID + ".bloodSword").setDamageIsAbsolute(), 1);
 						stack.setItemDamage(Math.max(0, stack.getItemDamage()-5));
 					}
 				}

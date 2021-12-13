@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/clear_shield",
+	"parent": "Minestuck:item/clear_shield",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

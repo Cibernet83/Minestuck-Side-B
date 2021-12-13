@@ -9,39 +9,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MSUToolClass
+public class MSToolClass
 {
 	protected List<Material> harvestMaterials = new ArrayList<>();
 	protected List<Enchantment> enchantments = new ArrayList<>();
 	protected List<EnumEnchantmentType> enchantmentTypes = new ArrayList<>();
 	protected List<String> baseTool = new ArrayList<>();
-	public List<MSUToolClass> parents = new ArrayList<>();
+	public List<MSToolClass> parents = new ArrayList<>();
 	protected boolean disablesShield = false;
 	public final String name;
 
-	public MSUToolClass(String name)
+	public MSToolClass(String name)
 	{
 		this.name = name;
 	}
 
-	public MSUToolClass(String name, String... baseTools)
+	public MSToolClass(String name, String... baseTools)
 	{
 		this(name);
 		for(String baseTool : baseTools)
 			this.baseTool.add(baseTool);
 	}
 	
-	public MSUToolClass(String name, Material... materials)
+	public MSToolClass(String name, Material... materials)
 	{
 		this(name);
 		for(Material mat : materials)
 			harvestMaterials.add(mat);
 	}
 	
-	public MSUToolClass(String name, MSUToolClass... classCombo)
+	public MSToolClass(String name, MSToolClass... classCombo)
 	{
 		this(name);
-		for(MSUToolClass cls : classCombo)
+		for(MSToolClass cls : classCombo)
 		{
 			harvestMaterials.addAll(cls.harvestMaterials);
 			enchantments.addAll(cls.enchantments);
@@ -60,27 +60,27 @@ public class MSUToolClass
 		return effective.get();
 	}
 	
-	public MSUToolClass addBaseTool(String... name)
+	public MSToolClass addBaseTool(String... name)
 	{
 		for(String baseTool : name)
 			this.baseTool.add(baseTool);
 		return this;
 	}
 	
-	public MSUToolClass addEnchantments(Enchantment... enchantments)
+	public MSToolClass addEnchantments(Enchantment... enchantments)
 	{
 		for(Enchantment ench : enchantments)
 			this.enchantments.add(ench);
 		return this;
 	}
 
-	public MSUToolClass addEnchantments(List<Enchantment> enchantments)
+	public MSToolClass addEnchantments(List<Enchantment> enchantments)
 	{
 		this.enchantments.addAll(enchantments);
 		return this;
 	}
 
-	public MSUToolClass addEnchantments(EnumEnchantmentType... enchantmentTypes)
+	public MSToolClass addEnchantments(EnumEnchantmentType... enchantmentTypes)
 	{
 		for(EnumEnchantmentType ench : enchantmentTypes)
 			this.enchantmentTypes.add(ench);
@@ -109,18 +109,18 @@ public class MSUToolClass
 		 return result;
 	}
 
-	public boolean isCompatibleWith(MSUToolClass other)
+	public boolean isCompatibleWith(MSToolClass other)
 	{
 		if(other == null)
 			return false;
 
-		for(MSUToolClass parent : other.parents)
+		for(MSToolClass parent : other.parents)
 			if(parent.isCompatibleWith(this))
 				return true;
 		return equals(other);
 	}
 
-	public MSUToolClass setDisablesShield()
+	public MSToolClass setDisablesShield()
 	{
 		disablesShield = true;
 		return this;

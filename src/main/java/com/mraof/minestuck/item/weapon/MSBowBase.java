@@ -27,7 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
-public class MSUBowBase extends MSUWeaponBase
+public class MSBowBase extends MSWeaponBase
 {
 	protected ResourceLocation arrowTexture = new ResourceLocation("textures/entity/projectiles/arrow.png");
 	protected IIsArrow arrowCheck = stack -> stack.getItem() instanceof ItemArrow;
@@ -38,9 +38,9 @@ public class MSUBowBase extends MSUWeaponBase
 	public float arrowDamage;
 	public boolean firesCustom;
 
-	public MSUBowBase(int maxUses, double damageVsEntity, double weaponSpeed, float arrowDamage, int drawTime, float arrowVel, float inaccuracy,  int enchantability, boolean usesArrowProperties, String name, String unlocName)
+	public MSBowBase(int maxUses, double damageVsEntity, double weaponSpeed, float arrowDamage, int drawTime, float arrowVel, float inaccuracy,  int enchantability, boolean usesArrowProperties, String name)
 	{
-		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name, unlocName);
+		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
 
 		this.arrowDamage = arrowDamage;
 		this.drawTime = drawTime;
@@ -56,7 +56,7 @@ public class MSUBowBase extends MSUWeaponBase
 
 				if (entityIn == null)
 					return 0.0F;
-				else return !(entityIn.getActiveItemStack().getItem() instanceof MSUBowBase) ? 0.0F : (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / (float)getDrawTime(entityIn, stack);
+				else return !(entityIn.getActiveItemStack().getItem() instanceof MSBowBase) ? 0.0F : (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / (float)getDrawTime(entityIn, stack);
 			}
 		});
 		this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter()
@@ -78,9 +78,9 @@ public class MSUBowBase extends MSUWeaponBase
 		return result;
 	}
 
-	public MSUBowBase(int maxUses, float arrowDamage, int drawSpeed, float arrowVel, float inaccuracy,  int enchantability, boolean firesCustom, String name, String unlocName)
+	public MSBowBase(int maxUses, float arrowDamage, int drawSpeed, float arrowVel, float inaccuracy,  int enchantability, boolean firesCustom, String name)
 	{
-		this(maxUses, 0, 0, arrowDamage, drawSpeed, arrowVel, inaccuracy, enchantability, firesCustom, name, unlocName);
+		this(maxUses, 0, 0, arrowDamage, drawSpeed, arrowVel, inaccuracy, enchantability, firesCustom, name);
 	}
 
 
@@ -292,13 +292,13 @@ public class MSUBowBase extends MSUWeaponBase
 		return arrowCheck.check(stack);
 	}
 
-	public MSUBowBase setArrowCheck(IIsArrow check)
+	public MSBowBase setArrowCheck(IIsArrow check)
 	{
 		arrowCheck = check;
 		return this;
 	}
 
-	public MSUBowBase requireNoAmmo()
+	public MSBowBase requireNoAmmo()
 	{
 		arrowCheck = null;
 		return this;
@@ -314,13 +314,13 @@ public class MSUBowBase extends MSUWeaponBase
 		return arrowTexture;
 	}
 
-	public MSUBowBase setArrowTexture(String fileName)
+	public MSBowBase setArrowTexture(String fileName)
 	{
 		arrowTexture = new ResourceLocation(getRegistryName().getResourceDomain(), "textures/entity/projectiles/"+fileName+".png");
 		return this;
 	}
 
-	public MSUBowBase setCustomArrowTexture()
+	public MSBowBase setCustomArrowTexture()
 	{
 		return this.setArrowTexture(getRegistryName().getResourcePath());
 	}

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client;
 
+import com.mraof.minestuck.Minestuck;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -31,7 +32,7 @@ public class MSUFontRenderer extends FontRenderer
 	public static void registerFonts()
 	{
 		Minecraft mc = Minecraft.getMinecraft();
-		fontSpecibus = new MSUFontRenderer(mc.gameSettings, new ResourceLocation(MinestuckUniverse.MODID, "textures/font/lucida_console_small.png"), mc.renderEngine, true, 4, 8);
+		fontSpecibus = new MSUFontRenderer(mc.gameSettings, new ResourceLocation(Minestuck.MODID, "textures/font/lucida_console_small.png"), mc.renderEngine, true, 4, 8);
 	}
 
 	@Override

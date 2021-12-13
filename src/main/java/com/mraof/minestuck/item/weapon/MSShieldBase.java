@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.weapon;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.properties.shieldkind.IPropertyShield;
 import com.google.common.collect.HashMultimap;
@@ -23,14 +24,14 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class MSUShieldBase extends MSUWeaponBase
+public class MSShieldBase extends MSWeaponBase
 {
 	protected int parryTime;
 	protected float parryDeflect;
 
-	public MSUShieldBase(int maxUses, double damageVsEntity, double weaponSpeed, int parryTimeFrame, float parryDamageDeflect, int enchantability, String name, String unlocName)
+	public MSShieldBase(int maxUses, double damageVsEntity, double weaponSpeed, int parryTimeFrame, float parryDamageDeflect, int enchantability, String name)
 	{
-		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name, unlocName);
+		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
 		this.parryDeflect = parryDamageDeflect;
 		this.parryTime = parryTimeFrame;
 
@@ -38,9 +39,9 @@ public class MSUShieldBase extends MSUWeaponBase
 
 	}
 
-	public MSUShieldBase(int maxUses, int parryTimeFrame, float parryDamageDeflect, int enchantability, String name, String unlocName)
+	public MSShieldBase(int maxUses, int parryTimeFrame, float parryDamageDeflect, int enchantability, String name)
 	{
-		this(maxUses, 0, 0, parryTimeFrame, parryDamageDeflect, enchantability, name, unlocName);
+		this(maxUses, 0, 0, parryTimeFrame, parryDamageDeflect, enchantability, name);
 	}
 
 	@Override
@@ -245,7 +246,7 @@ public class MSUShieldBase extends MSUWeaponBase
 
 		public ParryDamageSource(ItemStack shield, @Nullable Entity damageSourceEntityIn)
 		{
-			super(MinestuckUniverse.MODID+".parry", damageSourceEntityIn);
+			super(Minestuck.MODID + ".parry", damageSourceEntityIn);
 			this.shield = shield;
 		}
 

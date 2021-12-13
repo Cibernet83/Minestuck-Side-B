@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.weapon;
 
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.properties.PropertyElectric;
 import com.mraof.minestuck.item.properties.PropertySweep;
 import com.mraof.minestuck.item.properties.WeaponProperty;
@@ -19,17 +20,25 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemBeamBlade extends MSUWeaponBase
+public class ItemBeamBlade extends MSWeaponBase
 {
     public EnumDyeColor color = null;
-    public ItemBeamBlade(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name, String unlocName) {
-        super(maxUses, damageVsEntity, weaponSpeed, enchantability, name, unlocName);
+    public ItemBeamBlade(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name) {
+        super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
         addProperties(new PropertySweep(), new PropertyElectric(10, 2, 0.6f, false));
-        setRepairMaterials(new ItemStack(MinestuckUniverseItems.battery));
+        setRepairMaterials(new ItemStack(MinestuckItems.battery));
     }
 
-    public ItemBeamBlade setColor(EnumDyeColor color) {this.color = color; return this;}
-    public EnumDyeColor getColor() {return color;}
+    public ItemBeamBlade setColor(EnumDyeColor color)
+    {
+        this.color = color;
+        return this;
+    }
+
+    public EnumDyeColor getColor()
+    {
+        return color;
+    }
 
     public boolean isDrawn(ItemStack itemStack) {
         return this.checkTagCompound(itemStack).getBoolean("IsDrawn");
@@ -101,7 +110,7 @@ public class ItemBeamBlade extends MSUWeaponBase
     }
 
     @Override
-    public ItemBeamBlade setTool(MSUToolClass cls, int harvestLevel, float harvestSpeed) {
+    public ItemBeamBlade setTool(MSToolClass cls, int harvestLevel, float harvestSpeed) {
         super.setTool(cls, harvestLevel, harvestSpeed);
         return this;
     }

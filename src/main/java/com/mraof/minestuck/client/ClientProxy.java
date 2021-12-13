@@ -28,7 +28,6 @@ import com.mraof.minestuck.entity.consort.EntitySalamander;
 import com.mraof.minestuck.entity.consort.EntityTurtle;
 import com.mraof.minestuck.entity.item.EntityCrewPoster;
 import com.mraof.minestuck.entity.item.EntityGrist;
-import com.mraof.minestuck.entity.item.EntityHologram;
 import com.mraof.minestuck.entity.item.EntityMetalBoat;
 import com.mraof.minestuck.entity.item.EntitySbahjPoster;
 import com.mraof.minestuck.entity.item.EntityShopPoster;
@@ -44,7 +43,6 @@ import com.mraof.minestuck.item.ItemFrog;
 import com.mraof.minestuck.item.ItemWarpMedallion;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.weapon.ItemBeamBlade;
-import com.mraof.minestuck.network.MSUChannelHandler;
 import com.mraof.minestuck.tileentity.TileEntityGate;
 import com.mraof.minestuck.tileentity.TileEntitySkaiaPortal;
 import com.mraof.minestuck.util.ColorCollector;
@@ -52,6 +50,7 @@ import com.mraof.minestuck.util.ColorCollector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -80,11 +79,11 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGate.class, new RenderGate());
 //		MinecraftForgeClient.registerItemRenderer(Minestuck.captchaCard, new RenderCard());
 
-		Item[] cruxiteItems = new Item[MinestuckItems.cruxiteArtifacts.size()+1];
+		Item[] cruxiteItems = new Item[MinestuckItems.cruxiteArtifacts.size() + 1];
 
 		cruxiteItems[0] = MinestuckItems.cruxiteDowel;
 		for(int i = 1; i <= MinestuckItems.cruxiteArtifacts.size(); i++)
-			cruxiteItems[i] = MinestuckItems.cruxiteArtifacts.get(i);
+			cruxiteItems[i] = MinestuckItems.cruxiteArtifacts.get(i - 1);
 
 		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? -1 : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex), cruxiteItems);
 		mc.getBlockColors().registerBlockColorHandler(new BlockColorCruxite(), MinestuckBlocks.alchemiter[0], MinestuckBlocks.totemlathe[1], MinestuckBlocks.blockCruxiteDowel);
@@ -117,7 +116,6 @@ public class ClientProxy extends CommonProxy
 		MinestuckItems.setClientsideVariables();
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityFrog.class, manager -> new RenderFrog(manager, new ModelBiped(), 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityHologram.class, manager -> new RenderHologram(manager));
 		RenderingRegistry.registerEntityRenderingHandler(EntityNakagator.class, RenderEntityMinestuck.getFactory(new ModelNakagator(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySalamander.class, RenderEntityMinestuck.getFactory(new ModelSalamander(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityIguana.class, RenderEntityMinestuck.getFactory(new ModelIguana(), 0.5F));
@@ -149,8 +147,10 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityMSUArrow.class, RenderArrow::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityUnrealAir.class, RenderUnrealAir::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityRock.class, RenderRock::new);
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHolopad.class, new RenderHologram());
 
 		MinestuckKeyHandler.instance.registerKeys();
+
 		MinecraftForge.EVENT_BUS.register(MinestuckKeyHandler.instance);
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 		MinecraftForge.EVENT_BUS.register(MinestuckModelManager.class);
@@ -158,7 +158,6 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(MSURenderMachineOutline.class);
 		MinecraftForge.EVENT_BUS.register(RenderBeams.class);
 		MinecraftForge.EVENT_BUS.register(GuiStrifeSwitcher.class);
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHolopad.class, new RenderHologram());
 	}
 	
 	@Override
@@ -168,7 +167,6 @@ public class ClientProxy extends CommonProxy
 
 		super.init();
 		MinecraftForge.EVENT_BUS.register(ClientEditHandler.instance);
-		MinecraftForge.EVENT_BUS.register(MSUChannelHandler.instance); // TODO: remove
 		MinecraftForge.EVENT_BUS.register(new MinestuckConfig());
 		MinecraftForge.EVENT_BUS.register(RenderMachineOutline.class);
 

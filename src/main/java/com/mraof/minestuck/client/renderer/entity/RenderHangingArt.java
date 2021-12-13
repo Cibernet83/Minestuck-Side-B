@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.renderer.entity;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.entity.item.EntityHangingArt;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,7 +24,7 @@ public class RenderHangingArt<T extends EntityHangingArt> extends Render<T>
 	public RenderHangingArt(RenderManager renderManagerIn, String artPath)
 	{
 		super(renderManagerIn);
-		ART_TEXTURE = new ResourceLocation("minestuck:textures/paintings/" + artPath + ".png");
+		ART_TEXTURE = new ResourceLocation(Minestuck.MODID, "textures/paintings/" + artPath + ".png");
 	}
 	
 	@Override

@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/bladed_shield",
+	"parent": "Minestuck:item/bladed_shield",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

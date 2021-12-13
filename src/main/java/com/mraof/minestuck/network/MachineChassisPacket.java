@@ -9,12 +9,12 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class MachineChassisPacket extends MSUPacket
+public class MachineChassisPacket extends MinestuckPacket
 {
     public BlockPos pos;
 
     @Override
-    public MSUPacket generatePacket(Object... dat)
+    public MinestuckPacket generatePacket(Object... dat)
     {
         TileEntity te = (TileEntity)dat[0];
         this.data.writeInt(te.getPos().getX());
@@ -24,7 +24,7 @@ public class MachineChassisPacket extends MSUPacket
     }
 
     @Override
-    public MSUPacket consumePacket(ByteBuf data)
+    public MinestuckPacket consumePacket(ByteBuf data)
     {
         this.pos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
         return this;

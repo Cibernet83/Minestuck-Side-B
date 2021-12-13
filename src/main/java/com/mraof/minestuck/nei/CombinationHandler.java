@@ -58,7 +58,7 @@ public class CombinationHandler extends TemplateRecipeHandler
 
 	@Override
 	public String getGuiTexture() {
-		return "minestuck:textures/gui/Combination.png";
+		return Minestuck.MODID+":textures/gui/Combination.png";
 	}
 	
 	@Override
@@ -153,7 +153,7 @@ public class CombinationHandler extends TemplateRecipeHandler
 		CachedCombinationRecipe crecipe = (CachedCombinationRecipe) arecipes.get(recipe);
 		
 		//render progress bar
-		changeTexture("minestuck:textures/gui/progress/designix.png");
+		changeTexture(Minestuck.MODID+":textures/gui/progress/designix.png");
 		drawProgressBar(59, 27, 0, 0, 42, 17, 50, 0);
 		
 		//render combo mode

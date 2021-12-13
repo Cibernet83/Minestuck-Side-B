@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "minestuckuniverse:grist_block_build" }
+        "normal": { "model": "Minestuck:grist_block_build" }
     }
 }

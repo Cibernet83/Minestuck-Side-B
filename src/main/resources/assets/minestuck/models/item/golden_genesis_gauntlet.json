@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "minestuckuniverse:models/golden_genesis_gauntlet",
-		"particle": "minestuckuniverse:models/golden_genesis_gauntlet"
+		"0": "Minestuck:models/golden_genesis_gauntlet",
+		"particle": "Minestuck:models/golden_genesis_gauntlet"
 	},
 	"elements": [
 		{

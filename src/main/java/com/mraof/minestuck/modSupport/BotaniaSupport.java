@@ -3,6 +3,7 @@ package com.mraof.minestuck.modSupport;
 import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
+import com.mraof.minestuck.block.MinestuckBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +17,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.mraof.minestuck.block.MinestuckUniverseBlocks.gristBlockMana;
+import static com.mraof.minestuck.block.MinestuckBlocks.gristBlockMana;
 import static com.mraof.minestuck.alchemy.CombinationRegistry.Mode.MODE_AND;
 import static com.mraof.minestuck.alchemy.CombinationRegistry.Mode.MODE_OR;
 import static com.mraof.minestuck.alchemy.GristType.Build;
@@ -40,7 +41,7 @@ public class BotaniaSupport
             if(recipe.getCatalyst() != null)
                 continue;
 
-            if(out.getItem() != ModItems.manaBottle && out.getItem() != Item.getItemFromBlock(MinestuckUniverseBlocks.magicBlock))
+            if(out.getItem() != ModItems.manaBottle && out.getItem() != Item.getItemFromBlock(MinestuckBlocks.magicBlock))
             {
                 CombinationRegistry.addCombination(in, new ItemStack(gristBlockMana), CombinationRegistry.Mode.MODE_AND, false, false, out);
                 CombinationRegistry.addCombination(in, new ItemStack(ModItems.manaBottle), CombinationRegistry.Mode.MODE_OR, false, false, out);

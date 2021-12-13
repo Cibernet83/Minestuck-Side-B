@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.renderer.entity.RenderThrowable;
 import com.mraof.minestuck.entity.EntityMSUThrowable;
 import com.mraof.minestuck.item.properties.WeaponProperty;
@@ -33,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MSUThrowableBase extends MSUItemBase implements IPropertyWeapon<MSUThrowableBase>
+public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThrowableBase>
 {
 
 	protected int useDuration;
@@ -48,9 +49,9 @@ public class MSUThrowableBase extends MSUItemBase implements IPropertyWeapon<MSU
 
 	protected final ArrayList<WeaponProperty> properties = new ArrayList<>();
 
-	public MSUThrowableBase(int useDuration, int cooldownTime, int stackSize, float throwSpeed, double meleeDamage, double meleeSpeed, String name, String unlocName)
+	public MSThrowableBase(int useDuration, int cooldownTime, int stackSize, float throwSpeed, double meleeDamage, double meleeSpeed, String name)
 	{
-		super(name, unlocName);
+		super(name);
 
 		this.useDuration = Math.max(1, useDuration);
 		this.cooldownTime = cooldownTime;
@@ -59,10 +60,10 @@ public class MSUThrowableBase extends MSUItemBase implements IPropertyWeapon<MSU
 		this.throwSpeed = throwSpeed;
 
 		setMaxStackSize(stackSize);
-		setCreativeTab(TabMinestuckUniverse.weapons);
+		setCreativeTab(TabsMinestuck.weapons);
 
 
-		this.addPropertyOverride(new ResourceLocation(MinestuckUniverse.MODID,"thrown"), new IItemPropertyGetter()
+		this.addPropertyOverride(new ResourceLocation(Minestuck.MODID, "thrown"), new IItemPropertyGetter()
 		{
 			@SideOnly(Side.CLIENT)
 			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
@@ -81,26 +82,26 @@ public class MSUThrowableBase extends MSUItemBase implements IPropertyWeapon<MSU
 				ItemStack thrownStack = stackIn.copy();
 				thrownStack.setCount(1);
 				EntityMSUThrowable proj = new EntityMSUThrowable(worldIn, position.getX(), position.getY(), position.getZ(), thrownStack);
-				if(stackIn.getItem() instanceof MSUThrowableBase)
-					proj.setProjectileSize(((MSUThrowableBase)stackIn.getItem()).getSize());
+				if(stackIn.getItem() instanceof MSThrowableBase)
+					proj.setProjectileSize(((MSThrowableBase)stackIn.getItem()).getSize());
 				return proj;
 			}
 		});
 	}
 
-	public MSUThrowableBase(int useDuration, int cooldownTime, int stackSize, String name, String unlocName)
+	public MSThrowableBase(int useDuration, int cooldownTime, int stackSize, String name)
 	{
-		this(useDuration, cooldownTime, stackSize, 1.5f,  0, 0, name, unlocName);
+		this(useDuration, cooldownTime, stackSize, 1.5f,  0, 0, name);
 	}
 
 	//Throwable Material
-	public MSUThrowableBase(String name, String unlocName)
+	public MSThrowableBase(String name)
 	{
-		this(1, 0, 64, 1.5f, 0, 1.5f, name, unlocName);
-		setCreativeTab(TabMinestuckUniverse.main);
+		this(1, 0, 64, 1.5f, 0, 1.5f, name);
+		setCreativeTab(TabsMinestuck.minestuck);
 	}
 
-	public MSUThrowableBase setSize(float size)
+	public MSThrowableBase setSize(float size)
 	{
 		this.size = size;
 		return this;
@@ -321,7 +322,7 @@ public class MSUThrowableBase extends MSUItemBase implements IPropertyWeapon<MSU
 	}
 
 	@SideOnly(Side.CLIENT)
-	public MSUThrowableBase setRenderProperties(RenderThrowable.IRenderProperties properties)
+	public MSThrowableBase setRenderProperties(RenderThrowable.IRenderProperties properties)
 	{
 		renderProperties = properties;
 		return this;

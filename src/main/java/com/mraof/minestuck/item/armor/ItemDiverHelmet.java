@@ -8,10 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemDiverHelmet extends MSUArmorBase
+public class ItemDiverHelmet extends MSArmorBase
 {
-    public ItemDiverHelmet(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String unlocName, String registryName) {
-        super(materialIn, renderIndexIn, equipmentSlotIn, unlocName, registryName);
+    public ItemDiverHelmet(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
+        super(materialIn, renderIndexIn, equipmentSlotIn, name);
     }
 
     @Override

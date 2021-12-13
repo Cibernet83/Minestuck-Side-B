@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "minestuckuniverse:items/iron_club"
+    "layer0": "Minestuck:items/iron_club"
   }
 }

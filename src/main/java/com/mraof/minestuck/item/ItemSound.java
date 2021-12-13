@@ -5,12 +5,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
-public class ItemSound extends MSUItemBase
+public class ItemSound extends MSItemBase
 {
 	protected SoundEvent sound;
-	public ItemSound(String name, String unloc, SoundEvent sound)
+	public ItemSound(String name, SoundEvent sound)
 	{
-		super(name, unloc);
+		super(name);
 		this.sound = sound;
 	}
 	

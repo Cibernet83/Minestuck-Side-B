@@ -1,5 +1,6 @@
 package com.mraof.minestuck.world;
 
+import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.lands.decorator.ILandDecorator;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
@@ -25,8 +26,8 @@ public class LandAspectBedrock extends TerrainLandAspect
 		registry.setBlockState("structure_primary", Blocks.BEDROCK.getDefaultState());
 		registry.setBlockState("structure_primary_decorative", Blocks.BEDROCK.getDefaultState());
 		registry.setBlockState("structure_secondary", Blocks.BEDROCK.getDefaultState());
-		registry.setBlockState("structure_primary_stairs", MinestuckUniverseBlocks.bedrockStairs.getDefaultState());
-		registry.setBlockState("structure_secondary_stairs", MinestuckUniverseBlocks.bedrockStairs.getDefaultState());
+		registry.setBlockState("structure_primary_stairs", MinestuckBlocks.bedrockStairs.getDefaultState());
+		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.bedrockStairs.getDefaultState());
 		registry.setBlockState("structure_secondary_decorative", Blocks.BEDROCK.getDefaultState());
 		registry.setBlockState("structure_planks", Blocks.BEDROCK.getDefaultState());
 		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE));

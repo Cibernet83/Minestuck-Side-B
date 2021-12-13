@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/nightmare_mace"
+        "layer0": "Minestuck:items/nightmare_mace"
     }
 }

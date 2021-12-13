@@ -1,9 +1,11 @@
 package com.mraof.minestuck.world.conditions;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.game.GameData;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.item.Item;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -44,7 +46,7 @@ public class JujuLootCondition implements LootCondition
 
 		public Serializer()
 		{
-			super(new ResourceLocation(MinestuckUniverse.MODID, "juju"), JujuLootCondition.class);
+			super(new ResourceLocation(Minestuck.MODID, "juju"), JujuLootCondition.class);
 		}
 
 		@Override
@@ -58,7 +60,7 @@ public class JujuLootCondition implements LootCondition
 		public JujuLootCondition deserialize(JsonObject json, JsonDeserializationContext context)
 		{
 			float chance = JsonUtils.getFloat(json, "chance", 1);
-			Item juju = Item.REGISTRY.getObject(new ResourceLocation(JsonUtils.getString(json, "juju", MinestuckUniverseItems.cueBall.getRegistryName().toString())));
+			Item juju = Item.REGISTRY.getObject(new ResourceLocation(JsonUtils.getString(json, "juju", MinestuckItems.cueBall.getRegistryName().toString())));
 
 			return new JujuLootCondition(chance, juju);
 		}

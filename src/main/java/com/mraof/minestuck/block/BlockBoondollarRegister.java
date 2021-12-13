@@ -1,11 +1,14 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.IRegistryItem;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityBoondollarRegister;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MSUUtils;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.IdentifierHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
@@ -33,12 +36,13 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockBoondollarRegister extends BlockContainer implements IRegistryItem
+public class BlockBoondollarRegister extends BlockContainer implements IRegistryItem<Block>
 {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool POWERED = PropertyBool.create("powered");
@@ -48,7 +52,7 @@ public class BlockBoondollarRegister extends BlockContainer implements IRegistry
         setUnlocalizedName("boondollarRegister");
         setHarvestLevel("pickaxe", 0);
         setHardness(3.0F);
-        setCreativeTab(TabMinestuckUniverse.main);
+        setCreativeTab(TabsMinestuck.minestuck);
 
         setDefaultState(getDefaultState().withProperty(POWERED, false));
     }
@@ -205,7 +209,7 @@ public class BlockBoondollarRegister extends BlockContainer implements IRegistry
 
     public ItemStack getItem(TileEntityBoondollarRegister vault)
     {
-        ItemStack stack = new ItemStack(MinestuckUniverseBlocks.boondollarRegister);
+        ItemStack stack = new ItemStack(MinestuckBlocks.boondollarRegister);
 
         if(vault.owner != null)
             stack.setTagCompound(vault.saveToNBT(new NBTTagCompound()));
@@ -266,7 +270,7 @@ public class BlockBoondollarRegister extends BlockContainer implements IRegistry
             return false;
         }
         else if(playerIdentifier.equals(te.owner) && !stack.getItem().equals(Items.PAPER) && !stack.getItem().equals(MinestuckItems.boondollars))
-                playerIn.openGui(MinestuckUniverse.instance, MSUUtils.BOONDOLLAR_REGISTER_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                playerIn.openGui(Minestuck.instance, MSUUtils.BOONDOLLAR_REGISTER_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 
@@ -302,7 +306,9 @@ public class BlockBoondollarRegister extends BlockContainer implements IRegistry
     }
 
     @Override
-    public void setRegistryName() {
+    public void register(IForgeRegistry<Block> registry)
+    {
         setRegistryName("boondollar_register");
+        registry.register(this);
     }
 }

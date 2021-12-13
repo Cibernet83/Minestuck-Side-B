@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client;
 
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.SpaceSaltUtils;
 import com.mraof.minestuck.block.BlockSburbMachine;
 import net.minecraft.block.Block;
@@ -35,7 +36,7 @@ public class MSURenderMachineOutline
 			
 			
 			IBlockState state = mc.player.getEntityWorld().getBlockState(mc.objectMouseOver.getBlockPos());
-			if (mc.player.getHeldItemMainhand().getItem().equals(MinestuckUniverseItems.spaceSalt) && state.getBlock() instanceof BlockSburbMachine)
+			if (mc.player.getHeldItemMainhand().getItem().equals(MinestuckItems.spaceSalt) && state.getBlock() instanceof BlockSburbMachine)
 			{
 				BlockSburbMachine.MachineType type = state.getValue(BlockSburbMachine.MACHINE_TYPE);
 				EnumFacing facing = state.getValue(BlockSburbMachine.FACING);

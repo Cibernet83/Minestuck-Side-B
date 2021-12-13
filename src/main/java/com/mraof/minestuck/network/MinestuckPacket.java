@@ -43,6 +43,20 @@ public abstract class MinestuckPacket
 		BOOK_PUBLISH(BookPublishPacket.class),
 		WALLET_CAPTCHA(WalletCaptchaloguePacket.class),
 		STONE_TABLET(StoneTabletPacket.class),
+		MACHINE_CHASSIS(MachineChassisPacket.class),
+		ATM(PorkhollowAtmPacket.class),
+		VAULT(BoondollarRegisterPacket.class),
+		FLIGHT_EFFECT(StopFlightEffectPacket.class),
+		BUILD_INHIBIT_EFFECT(StopBuildInhibitEffectPacket.class),
+		RESET_COOLDOWN(ResetCooldownPacket.class),
+		UPDATE_STRIFE(UpdateStrifeDataPacket.class),
+		ASSIGN_STRIFE(AssignStrifePacket.class),
+		RETRIEVE_STRIFE(RetrieveStrifeCardPacket.class),
+		SET_ACTIVE_STRIFE(SetActiveStrifePacket.class),
+		SWAP_OFFHAND_STRIFE(SwapOffhandStrifePacket.class),
+		UPDATE_BEAMS(UpdateBeamDataPacket.class),
+		LEFT_CLICK_EMPTY(LeftClickEmptyPacket.class),
+		ROCKET_BOOTS(RocketBootsPacket.class),
 		;
 		
 		Class<? extends MinestuckPacket> packetType;

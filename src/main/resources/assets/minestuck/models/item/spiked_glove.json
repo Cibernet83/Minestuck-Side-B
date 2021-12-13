@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "minestuckuniverse:models/spiked_glove",
-		"particle": "minestuckuniverse:models/spiked_glove"
+		"0": "Minestuck:models/spiked_glove",
+		"particle": "Minestuck:models/spiked_glove"
 	},
 	"elements": [
 		{

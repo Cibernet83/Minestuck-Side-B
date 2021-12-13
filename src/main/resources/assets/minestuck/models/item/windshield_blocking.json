@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/windshield",
+	"parent": "Minestuck:item/windshield",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

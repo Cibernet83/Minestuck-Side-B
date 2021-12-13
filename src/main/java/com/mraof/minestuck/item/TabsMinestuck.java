@@ -19,7 +19,7 @@ public class TabsMinestuck
 	{
 		@Override
 		public ItemStack getTabIconItem() {
-			return  new ItemStack(MinestuckUniverseItems.batteryBeamBlade);
+			return  new ItemStack(MinestuckItems.batteryBeamBlade);
 		}
 	};
 }

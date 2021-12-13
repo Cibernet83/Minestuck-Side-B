@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/golden_cuestaff"
+        "layer0": "Minestuck:items/golden_cuestaff"
     }
 }

@@ -14,16 +14,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import java.util.EnumSet;
 import java.util.List;
 
-public class LeftClickEmptyPacket extends MSUPacket
+public class LeftClickEmptyPacket extends MinestuckPacket
 {
 	@Override
-	public MSUPacket generatePacket(Object... args)
+	public MinestuckPacket generatePacket(Object... args)
 	{
 		return this;
 	}
 
 	@Override
-	public MSUPacket consumePacket(ByteBuf data)
+	public MinestuckPacket consumePacket(ByteBuf data)
 	{
 		return this;
 	}
@@ -32,7 +32,7 @@ public class LeftClickEmptyPacket extends MSUPacket
 	public void execute(EntityPlayer player)
 	{
 		ItemStack stack = player.getHeldItemMainhand();
-		boolean checkAssigned = MinestuckConfig.combatOverhaul && MinestuckConfig.restrictedStrife;
+		boolean checkAssigned = MinestuckConfig.restrictedStrife;
 
 		if(checkAssigned)
 		{

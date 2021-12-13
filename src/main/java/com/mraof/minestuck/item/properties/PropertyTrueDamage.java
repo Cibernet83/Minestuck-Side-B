@@ -2,7 +2,7 @@ package com.mraof.minestuck.item.properties;
 
 import com.mraof.minestuck.event.handlers.CommonEventHandler;
 import com.mraof.minestuck.item.IPropertyWeapon;
-import com.mraof.minestuck.item.weapon.MSUWeaponBase;
+import com.mraof.minestuck.item.weapon.MSWeaponBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDamage;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,8 +25,8 @@ public class PropertyTrueDamage extends WeaponProperty implements IEnchantablePr
 			if(stack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyTrueDamage.class, stack))
 			{
 				float pow = source instanceof EntityPlayer ? CommonEventHandler.getCooledAttackStrength((EntityPlayer) source) : 1;
-				event.setAmount((float) ((source.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getModifier(MSUWeaponBase.getAttackDamageUUID()).getAmount() +
-						source.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue()) * (0.2F + pow * pow * 0.8F)));
+				event.setAmount((float) ((source.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getModifier(MSWeaponBase.getAttackDamageUUID()).getAmount() +
+										  source.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue()) * (0.2F + pow * pow * 0.8F)));
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.tileentity;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.recipes.MachineChasisRecipes;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -119,7 +120,7 @@ public class TileEntityMachineChasis extends TileEntity implements IInventory, I
         return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
     }
 
-    public String getGuiID() {return MinestuckUniverse.MODID + ":machine_chasis";}
+    public String getGuiID() {return Minestuck.MODID + ":machine_chasis";}
 
     @Override
     public void openInventory(EntityPlayer player) {}

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.armor;
 
+import com.mraof.minestuck.Minestuck;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -10,10 +11,10 @@ import net.minecraft.util.text.translation.I18n;
 
 import javax.annotation.Nullable;
 
-public class ItemScarf extends MSUArmorBase
+public class ItemScarf extends MSArmorBase
 {
-	public ItemScarf(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String unlocName, String registryName) {
-		super(materialIn, renderIndexIn, equipmentSlotIn, unlocName, registryName);
+	public ItemScarf(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
+		super(materialIn, renderIndexIn, equipmentSlotIn, name);
 		setHasSubtypes(true);
 	}
 
@@ -41,6 +42,6 @@ public class ItemScarf extends MSUArmorBase
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
 	{
-		return MinestuckUniverse.MODID + ":textures/models/armor/scarf/" + getRegistryName().getResourcePath() + "_" + getDyeColor(stack).getDyeColorName() + ".png";
+		return Minestuck.MODID + ":textures/models/armor/scarf/" + getRegistryName().getResourcePath() + "_" + getDyeColor(stack).getDyeColorName() + ".png";
 	}
 }

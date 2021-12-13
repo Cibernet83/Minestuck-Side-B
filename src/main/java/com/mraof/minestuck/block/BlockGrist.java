@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class BlockGrist extends MSUBlockBase
+public class BlockGrist extends MSBlockBase
 {
 	public GristType type;
 	public int value;

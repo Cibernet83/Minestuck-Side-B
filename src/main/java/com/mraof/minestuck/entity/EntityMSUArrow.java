@@ -1,9 +1,10 @@
 package com.mraof.minestuck.entity;
 
 import com.mraof.minestuck.item.IPropertyWeapon;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.properties.bowkind.IPropertyArrow;
-import com.mraof.minestuck.item.weapon.MSUBowBase;
+import com.mraof.minestuck.item.weapon.MSBowBase;
 import com.google.common.base.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -262,7 +263,7 @@ public class EntityMSUArrow extends EntityArrow
 	@Override
 	public boolean canRenderOnFire()
 	{
-		return !getBowStack().getItem().equals(MinestuckUniverseItems.bowOfLight) && super.canRenderOnFire();
+		return !getBowStack().getItem().equals(MinestuckItems.bowOfLight) && super.canRenderOnFire();
 	}
 
 	@Nullable
@@ -304,8 +305,8 @@ public class EntityMSUArrow extends EntityArrow
 	public ResourceLocation getArrowTexture()
 	{
 		ItemStack stack = getBowStack();
-		if(stack.getItem() instanceof MSUBowBase)
-			return ((MSUBowBase) stack.getItem()).getArrowTexture();
+		if(stack.getItem() instanceof MSBowBase)
+			return ((MSBowBase) stack.getItem()).getArrowTexture();
 		return TEXTURE;
 	}
 

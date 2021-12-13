@@ -12,11 +12,11 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemYarnBall extends MSUThrowableBase
+public class ItemYarnBall extends MSThrowableBase
 {
-    public ItemYarnBall(String regName, String unlocName)
+    public ItemYarnBall(String regName)
     {
-        super(regName, unlocName);
+        super(regName);
         setHasSubtypes(true);
     }
 
@@ -54,7 +54,7 @@ public class ItemYarnBall extends MSUThrowableBase
             NBTTagCompound nbt = worldIn.getTileEntity(pos).writeToNBT(new NBTTagCompound());
             TileEntity te = MinestuckBlocks.transportalizer.createTileEntity(worldIn, MinestuckBlocks.transportalizer.getDefaultState());
             te.readFromNBT(nbt);
-            worldIn.setBlockState(pos, MinestuckUniverseBlocks.sleevedTransportalizers.get(EnumDyeColor.byDyeDamage(stack.getItemDamage())).getDefaultState());
+            worldIn.setBlockState(pos, MinestuckBlocks.sleevedTransportalizers.get(EnumDyeColor.byDyeDamage(stack.getItemDamage())).getDefaultState());
             worldIn.setTileEntity(pos, te);
             if(!player.isCreative())
                 stack.shrink(1);

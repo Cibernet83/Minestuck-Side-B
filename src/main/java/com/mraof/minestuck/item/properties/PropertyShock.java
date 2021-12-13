@@ -1,12 +1,15 @@
 package com.mraof.minestuck.item.properties;
 
-import com.mraof.minestuck.event.LivingShockEvent;
-import com.mraof.minestuck.event.handlers.CommonEventHandler;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.event.LivingShockEvent;
+import com.mraof.minestuck.event.handlers.CommonEventHandler;
+import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.util.MinestuckSoundHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -55,7 +58,7 @@ public class PropertyShock extends WeaponProperty
 	public static void shockTarget(EntityLivingBase player, EntityLivingBase target, int time, float damage)
 	{
 		LivingShockEvent event = new LivingShockEvent(target, player, time, damage);
-		if((!target.isInWater() && target.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == MinestuckUniverseItems.rubberBoots) || MinecraftForge.EVENT_BUS.post(event))
+		if((!target.isInWater() && target.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == MinestuckItems.rubberBoots) || MinecraftForge.EVENT_BUS.post(event))
 			return;
 
 		time = event.getTime();
@@ -67,7 +70,7 @@ public class PropertyShock extends WeaponProperty
 			if(player == null || target == player)
 				((EntityPlayer) target).getCooldownTracker().setCooldown(target.getHeldItemOffhand().getItem(), time);
 			((EntityPlayer) target).resetCooldown();
-			MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.RESET_COOLDOWN), (EntityPlayer) target);
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.RESET_COOLDOWN), (EntityPlayer) target);
 		}
 
 		if(!player.world.isRemote)
@@ -82,7 +85,7 @@ public class PropertyShock extends WeaponProperty
 				}
 			}
 
-		target.playSound(MSUSoundHandler.shock, 1, Math.max(1, (target.world.rand.nextFloat() - target.world.rand.nextFloat()) * 0.2F + 1.0F));
+		target.playSound(MinestuckSoundHandler.shock, 1, Math.max(1, (target.world.rand.nextFloat() - target.world.rand.nextFloat()) * 0.2F + 1.0F));
 		if(damage > 0)
 		{
 			target.hurtResistantTime = 0;
@@ -101,7 +104,7 @@ public class PropertyShock extends WeaponProperty
 	{
 		public ShockDamage(@Nullable Entity damageSourceEntityIn)
 		{
-			super(MinestuckUniverse.MODID+".shock", damageSourceEntityIn);
+			super(Minestuck.MODID + ".shock", damageSourceEntityIn);
 			setDamageBypassesArmor();
 		}
 

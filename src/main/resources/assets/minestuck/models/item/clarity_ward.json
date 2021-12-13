@@ -3,7 +3,7 @@
 	"ambientocclusion": false,
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "minestuckuniverse:models/clarity_ward"
+		"0": "Minestuck:models/clarity_ward"
 	},
 	"elements": [
 		{
@@ -379,7 +379,7 @@
 			"predicate": {
 				"blocking": 1
 			},
-			"model": "minestuckuniverse:item/clarity_ward_blocking"
+			"model": "Minestuck:item/clarity_ward_blocking"
 		}
 	],
 	"display": {

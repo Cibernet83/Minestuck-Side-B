@@ -1,6 +1,6 @@
 {
-    "parent": "minestuckuniverse:item/claw",
+    "parent": "Minestuck:item/claw",
     "textures": {
-        "layer0": "minestuckuniverse:items/blizzard_cutters"
+        "layer0": "Minestuck:items/blizzard_cutters"
     }
 }

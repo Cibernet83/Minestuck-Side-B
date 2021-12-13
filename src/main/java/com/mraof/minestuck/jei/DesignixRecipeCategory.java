@@ -24,14 +24,14 @@ public class DesignixRecipeCategory implements IRecipeCategory<DesignixRecipeWra
 
     DesignixRecipeCategory(IGuiHelper guiHelper)
     {
-        ResourceLocation punchDesignixBackground = new ResourceLocation("minestuck:textures/gui/designix.png");
+        ResourceLocation punchDesignixBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/designix.png");
         background = guiHelper.createDrawable(punchDesignixBackground, 43, 25, 94, 42);
     }
     
     @Override
     public String getModName()
     {
-        return Minestuck.MOD_NAME;
+        return Minestuck.NAME;
     }
     
     @Override

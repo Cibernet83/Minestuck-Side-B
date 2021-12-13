@@ -10,13 +10,13 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockEffectBeacon extends MSUBlockBase
+public class BlockEffectBeacon extends MSBlockBase
 {
     protected final PotionEffect effect;
 
-    public BlockEffectBeacon(MapColor blockMapColorIn, PotionEffect effect, String registryName, String unlocalizedName)
+    public BlockEffectBeacon(MapColor blockMapColorIn, PotionEffect effect, String name)
     {
-        super(Material.IRON, blockMapColorIn, registryName, unlocalizedName);
+        super(Material.IRON, blockMapColorIn, name);
         this.effect = effect;
         setBlockUnbreakable();
         setResistance(6000000.0F);

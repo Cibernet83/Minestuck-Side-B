@@ -2,10 +2,10 @@
 	"parent": "block/block",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "minestuckuniverse:blocks/thaum_chasis",
-		"1": "minestuckuniverse:blocks/thaum_chasis_back",
-		"2": "minestuckuniverse:blocks/thaum_chasis_inner",
-		"particle": "minestuckuniverse:blocks/thaum_chasis"
+		"0": "Minestuck:blocks/thaum_chasis",
+		"1": "Minestuck:blocks/thaum_chasis_back",
+		"2": "Minestuck:blocks/thaum_chasis_inner",
+		"particle": "Minestuck:blocks/thaum_chasis"
 	},
 	"elements": [
 		{

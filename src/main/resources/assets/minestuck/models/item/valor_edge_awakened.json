@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/valors_edge_awakened"
+        "layer0": "Minestuck:items/valors_edge_awakened"
     }
 }

@@ -2,6 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.TabsMinestuck;
 
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -23,24 +24,28 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockDecor extends Block
+public class MSBlockDecor extends Block implements IRegistryItem<Block>
 {
-
-	private EnumBB bb = EnumBB.CHESSBOARD;
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	protected BlockDecor(String unlocalizedName, SoundType sound) {
+
+	private String regName;
+	private EnumBB bb = EnumBB.CHESSBOARD;
+
+	protected MSBlockDecor(String name, SoundType sound) {
 		super(Material.ROCK);
 		setSoundType(sound);
-		setUnlocalizedName(unlocalizedName);
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
 		setCreativeTab(TabsMinestuck.minestuck);
 		setHardness(0.5f);
 	}
 
 	
-	protected BlockDecor(String unlocalizedName)
+	protected MSBlockDecor(String name)
 	{
-		this(unlocalizedName, SoundType.STONE);
+		this(name, SoundType.STONE);
 	}
 	
 	@Override
@@ -56,7 +61,9 @@ public class BlockDecor extends Block
 		{
 			case CHESSBOARD:
 				return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
-			case BLENDER: case FROG_STATUE: default:
+			case BLENDER:
+			case FROG_STATUE:
+			default:
 				return BlockFaceShape.UNDEFINED;
 		}
 	}
@@ -176,13 +183,20 @@ public class BlockDecor extends Block
 
     	switch(unlocalizedName)
     	{
-    	case "tile.chessboard": boundingBox = EnumBB.CHESSBOARD; break;
-    	case "tile.frogStatueReplica": boundingBox = EnumBB.FROG_STATUE; break;
-    	case "tile.blender": boundingBox = EnumBB.BLENDER; break;
+    		case "tile.chessboard": boundingBox = EnumBB.CHESSBOARD; break;
+    		case "tile.frogStatueReplica": boundingBox = EnumBB.FROG_STATUE; break;
+    		case "tile.blender": boundingBox = EnumBB.BLENDER; break;
     	}
 		return boundingBox;
 
     }
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
 
 	public enum EnumBB implements IStringSerializable
 	{

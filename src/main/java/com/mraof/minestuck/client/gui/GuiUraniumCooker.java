@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.BlockUraniumCooker.MachineType;
 import com.mraof.minestuck.inventory.ContainerUraniumCooker;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
@@ -42,8 +43,8 @@ public class GuiUraniumCooker extends GuiMachine
 		super(new ContainerUraniumCooker(inventoryPlayer, tileEntity), tileEntity);
 		this.te = tileEntity;
 		this.type = tileEntity.getMachineType();
-		guiBackground = new ResourceLocation("minestuck:textures/gui/" + guis[type.ordinal()] + ".png");
-		guiProgress = new ResourceLocation("minestuck:textures/gui/progress/" + guis[type.ordinal()] + ".png");
+		guiBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/" + guis[type.ordinal()] + ".png");
+		guiProgress = new ResourceLocation(Minestuck.MODID, "textures/gui/progress/" + guis[type.ordinal()] + ".png");
 		
 		//sets progress bar information based on machine type
 		switch (type)

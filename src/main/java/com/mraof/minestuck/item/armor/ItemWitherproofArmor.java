@@ -6,10 +6,10 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemWitherproofArmor extends MSUArmorBase
+public class ItemWitherproofArmor extends MSArmorBase
 {
-    public ItemWitherproofArmor(int maxUses, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String unlocName, String registryName) {
-        super(maxUses, materialIn, renderIndexIn, equipmentSlotIn, unlocName, registryName);
+    public ItemWitherproofArmor(int maxUses, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
+        super(maxUses, materialIn, renderIndexIn, equipmentSlotIn, name);
     }
 
     @Override

@@ -1,29 +1,25 @@
 package com.mraof.minestuck.item.weapon;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.mraof.minestuck.item.MSItemBase;
-import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.TabsMinestuck;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 //TODO use MSUWeaponBase
 public class ItemWeapon extends MSItemBase
@@ -142,15 +138,6 @@ public class ItemWeapon extends MSItemBase
 			}
 		}
 		return super.getDestroySpeed(stack, state);
-	}
-
-	@Override
-	public void onCreated(ItemStack stack, World world, EntityPlayer player)
-	{
-		if(this == MinestuckItems.clawHammer)
-		{
-			//player.addStat(MinestuckAchievementHandler.getHammer);
-		}
 	}
 
 	//Thanks to Mraof for supplying the base for this method.

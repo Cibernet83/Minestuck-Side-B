@@ -1,27 +1,24 @@
 package com.mraof.minestuck.event.handlers;
 
-import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.enchantments.MSUEnchantments;
-import com.mraof.minestuck.item.IPropertyWeapon;
-import com.mraof.minestuck.item.ItemGhost;
-import com.mraof.minestuck.item.MSUItemBase;
-import com.mraof.minestuck.item.properties.PropertyRandomDamage;
-import com.mraof.minestuck.item.properties.WeaponProperty;
-import com.mraof.minestuck.item.weapon.ItemBeamBlade;
-import com.mraof.minestuck.item.weapon.MSUWeaponBase;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
-import com.mraof.minestuck.potions.MSUPotions;
-import com.mraof.minestuck.util.MSUUtils;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.enchantments.MSUEnchantments;
 import com.mraof.minestuck.event.AlchemizeItemEvent;
 import com.mraof.minestuck.event.UnderlingSpoilsEvent;
-import com.mraof.minestuck.item.ItemCaptcharoidCamera;
-import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.*;
+import com.mraof.minestuck.item.properties.PropertyRandomDamage;
+import com.mraof.minestuck.item.properties.WeaponProperty;
+import com.mraof.minestuck.item.weapon.ItemBeamBlade;
+import com.mraof.minestuck.item.weapon.MSWeaponBase;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.potions.MSUPotions;
+import com.mraof.minestuck.util.MSUUtils;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -46,7 +43,9 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
-import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -65,7 +64,7 @@ import java.util.UUID;
 
 public class CommonEventHandler
 {
-	public static final IAttribute COOLED_ATTACK_STRENGTH = new RangedAttribute(null, MinestuckUniverse.MODID+".cooledAttackStrength", 0, 0, 1).setDescription("Cooled Attack Strength");
+	public static final IAttribute COOLED_ATTACK_STRENGTH = new RangedAttribute(null, Minestuck.MODID + ".cooledAttackStrength", 0, 0, 1).setDescription("Cooled Attack Strength");
 
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event)
@@ -243,9 +242,9 @@ public class CommonEventHandler
 								attackString = newAttackString;
 							}
 
-							if(MinestuckDimensionHandler.isLandDimension(event.getEntityPlayer().world.provider.getDimension()) && stack.getItem() instanceof MSUWeaponBase && event.getToolTip().contains(attackString))
+							if(MinestuckDimensionHandler.isLandDimension(event.getEntityPlayer().world.provider.getDimension()) && stack.getItem() instanceof MSWeaponBase && event.getToolTip().contains(attackString))
 							{
-								d0 = ((MSUWeaponBase)stack.getItem()).getUnmodifiedAttackDamage(stack);
+								d0 = ((MSWeaponBase)stack.getItem()).getUnmodifiedAttackDamage(stack);
 								if (attributemodifier.getOperation() != 1 && attributemodifier.getOperation() != 2)
 									d1 = d0;
 								else d1 = d0 * 100.0D;
@@ -284,19 +283,19 @@ public class CommonEventHandler
 
 			if(potion == MSUPotions.EARTHBOUND && player.isCreative())
 			{
-				MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.FLIGHT_EFFECT, potion == MSUPotions.EARTHBOUND), player);
+				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.FLIGHT_EFFECT, potion == MSUPotions.EARTHBOUND), player);
 				player.capabilities.allowFlying = true;
 			}
 			if(potion == MSUPotions.SKYHBOUND && !player.isCreative())
 			{
-				MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.FLIGHT_EFFECT, potion == MSUPotions.EARTHBOUND), player);
+				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.FLIGHT_EFFECT, potion == MSUPotions.EARTHBOUND), player);
 				player.capabilities.allowFlying = false;
 				player.capabilities.isFlying = false;
 			}
 			if(!player.isCreative() && potion == MSUPotions.CREATIVE_SHOCK)
 			{
 				player.capabilities.allowEdit = !MSUUtils.getPlayerGameType(player).hasLimitedInteractions();
-				MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.BUILD_INHIBIT_EFFECT), player);
+				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.BUILD_INHIBIT_EFFECT), player);
 			}
 		}
 	}
@@ -325,7 +324,7 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public static void playSoundEvent(PlaySoundAtEntityEvent entityEvent)
 	{
-		if(SoundEvents.ITEM_ARMOR_EQUIP_GENERIC.equals(entityEvent.getSound()) && entityEvent.getEntity() instanceof EntityPlayer && ((EntityPlayer) entityEvent.getEntity()).getActiveItemStack().getItem() instanceof MSUItemBase)
+		if(SoundEvents.ITEM_ARMOR_EQUIP_GENERIC.equals(entityEvent.getSound()) && entityEvent.getEntity() instanceof EntityPlayer && ((EntityPlayer) entityEvent.getEntity()).getActiveItemStack().getItem() instanceof MSItemBase)
 			entityEvent.setCanceled(true);
 	}
 
@@ -335,7 +334,7 @@ public class CommonEventHandler
 		//pebbles
 		if(!new ItemStack(event.getState().getBlock()).isEmpty() && ArrayUtils.contains(OreDictionary.getOreIDs(new ItemStack(event.getState().getBlock())), OreDictionary.getOreID("dirt")) &&
 			event.getHarvester() != null && event.getHarvester().getHeldItemMainhand().isEmpty() && event.getHarvester().getRNG().nextFloat() < 0.4f)
-				event.getDrops().add(new ItemStack(MinestuckUniverseItems.pebble, event.getHarvester().getRNG().nextInt(4)));
+				event.getDrops().add(new ItemStack(MinestuckItems.pebble, event.getHarvester().getRNG().nextInt(4)));
 
 	}
 
@@ -363,7 +362,7 @@ public class CommonEventHandler
 	{
 		if(event.getItemStack().getItem() == Items.PAPER && event.getItemStack().getCount() == 1)
 		{
-			event.getEntityPlayer().setHeldItem(event.getHand(), new ItemStack(MinestuckUniverseItems.rolledUpPaper));
+			event.getEntityPlayer().setHeldItem(event.getHand(), new ItemStack(MinestuckItems.rolledUpPaper));
 			event.getEntityPlayer().swingArm(event.getHand());
 		}
 
@@ -375,7 +374,7 @@ public class CommonEventHandler
 			ItemStack stack = ItemStack.EMPTY;
 
 			if(MinestuckDimensionHandler.isLandDimension(world.provider.getDimension()) && player.rotationPitch < -75)
-				stack = new ItemStack(MinestuckUniverseItems.skaia);
+				stack = new ItemStack(MinestuckItems.skaia);
 			else if(world.provider.getDimension() == 0)
 			{
 				Vec3d playerPosVec = new Vec3d(player.posX, player.posY, player.posZ);
@@ -388,7 +387,7 @@ public class CommonEventHandler
 
 				for(Entity weatherEffect : world.weatherEffects)
 					if(weatherEffect instanceof EntityLightningBolt)
-						stack = new ItemStack(MinestuckUniverseItems.lightning);
+						stack = new ItemStack(MinestuckItems.lightning);
 
 				if(stack.isEmpty() && !world.isThundering())
 				{
@@ -398,9 +397,9 @@ public class CommonEventHandler
 					Vec3d moonVec = getVecFromRotation((celestialAngle+180f) % 360f, -90);
 
 					if(playerLookVec.squareDistanceTo(sunVec) < 0.07f)
-						stack = new ItemStack(MinestuckUniverseItems.sun);
+						stack = new ItemStack(MinestuckItems.sun);
 					else if(playerLookVec.distanceTo(moonVec) < 0.07f)
-						stack = new ItemStack(MinestuckUniverseItems.moon);
+						stack = new ItemStack(MinestuckItems.moon);
 				}
 
 			}

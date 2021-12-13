@@ -4,7 +4,7 @@ import com.cibernet.minestuckgodtier.MinestuckGodTier;
 import com.cibernet.minestuckgodtier.capabilities.MSGTCapabilities;
 import com.cibernet.minestuckgodtier.client.gui.MSGTGuiHandler;
 import com.cibernet.minestuckgodtier.items.MSGTItems;
-import com.cibernet.minestuckuniverse.items.MinestuckUniverseItems;
+import com.cibernet.Minestuck.items.MinestuckItems;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -92,7 +92,7 @@ public class BlockHeroStone extends Block implements IGodTierBlock
 	{
 		ItemStack stack = playerIn.getHeldItem(hand);
 
-		if(stack.getItem().equals(MinestuckUniverseItems.moonstoneChisel))
+		if(stack.getItem().equals(MinestuckItems.moonstoneChisel))
 		{
 			if(!worldIn.isRemote)
 			{

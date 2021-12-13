@@ -1,8 +1,8 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckuniverse:items/return_medallion",
-        "layer1": "minestuckuniverse:items/empty",
-        "layer2": "minestuckuniverse:items/return_medallion_overlay"
+        "layer0": "Minestuck:items/return_medallion",
+        "layer1": "Minestuck:items/empty",
+        "layer2": "Minestuck:items/return_medallion_overlay"
     }
 }

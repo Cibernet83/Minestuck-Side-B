@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.renderer.entity;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.entity.EntityUnrealAir;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -47,6 +48,6 @@ public class RenderUnrealAir  extends Render<EntityUnrealAir>
 	}
 
 	protected ResourceLocation getEntityTexture(EntityUnrealAir entity) {
-		return new ResourceLocation(MinestuckUniverse.MODID, "textures/entity/unreal_air.png");
+		return new ResourceLocation(Minestuck.MODID, "textures/entity/unreal_air.png");
 	}
 }

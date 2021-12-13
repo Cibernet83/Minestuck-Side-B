@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockGristHopper extends MSUBlockBase implements ITileEntityProvider
+public class BlockGristHopper extends MSBlockBase implements ITileEntityProvider
 {
 
     public BlockGristHopper()

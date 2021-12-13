@@ -1,5 +1,5 @@
 {
-    "type": "minestuckuniverse:knitting",
+    "type": "Minestuck:knitting",
     "pattern": [
         "k# ",
         " ##",
@@ -7,14 +7,14 @@
     ],
     "key": {
         "k": {
-            "item": "minestuckuniverse:knitting_needle"
+            "item": "Minestuck:knitting_needle"
         },
         "#": {
-            "item": "minestuckuniverse:wizardbeard_yarn"
+            "item": "Minestuck:wizardbeard_yarn"
         }
     },
     "result": {
-        "item": "minestuckuniverse:archmage_hat",
+        "item": "Minestuck:archmage_hat",
         "count": 1
     }
 }

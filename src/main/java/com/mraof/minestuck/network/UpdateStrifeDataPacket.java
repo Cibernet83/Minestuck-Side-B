@@ -15,12 +15,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public class UpdateStrifeDataPacket extends MSUPacket
+public class UpdateStrifeDataPacket extends MinestuckPacket
 {
 	private NBTTagCompound nbtData;
 
 	@Override
-	public MSUPacket generatePacket(Object... args)
+	public MinestuckPacket generatePacket(Object... args)
 	{
 		EntityLivingBase entity = (EntityLivingBase) args[0];
 		NBTTagCompound nbt;
@@ -49,7 +49,7 @@ public class UpdateStrifeDataPacket extends MSUPacket
 	}
 
 	@Override
-	public MSUPacket consumePacket(ByteBuf data)
+	public MinestuckPacket consumePacket(ByteBuf data)
 	{
 		nbtData = ByteBufUtils.readTag(data);
 		return this;

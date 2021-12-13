@@ -1,7 +1,8 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.IRegistryItem;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.potions.MSUPotions;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MSUModelManager;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristType;
@@ -51,9 +52,9 @@ public class MinestuckBlocks
 	public static final Block uraniumBlock = new Block(Material.ROCK, MapColor.LIME).setLightLevel(0.5F).setUnlocalizedName("uraniumBlock").setHardness(3.0F).setCreativeTab(TabsMinestuck.minestuck);
 	public static final Block genericObject = new BlockCustom(Material.GOURD, MapColor.LIME, SoundType.WOOD).setUnlocalizedName("genericObject").setHardness(1.0F).setCreativeTab(TabsMinestuck.minestuck);
 	
-	public static final Block blender = new BlockDecor("blender",SoundType.METAL).setCreativeTab(TabsMinestuck.minestuck);
-	public static final Block chessboard = new BlockDecor("chessboard").setCreativeTab(TabsMinestuck.minestuck);
-	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica").setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block blender = new MSBlockDecor("blender", SoundType.METAL).setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block chessboard = new MSBlockDecor("chessboard").setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block frogStatueReplica = new MSBlockDecor("frogStatueReplica").setCreativeTab(TabsMinestuck.minestuck);
 	
 	public static final Block sburbMachine = new BlockSburbMachine();
 	public static final Block crockerMachine = new BlockCrockerMachine();
@@ -61,7 +62,6 @@ public class MinestuckBlocks
 	public static final Block blockComputerOn = new BlockComputerOn();
 	public static final Block blockLaptopOff = new BlockVanityLaptopOff().setCreativeTab(null);
 	public static final Block blockLaptopOn = new BlockVanityLaptopOn();
-	public static final Block transportalizer = new BlockTransportalizer();
 	
 	public static final Block punchDesignix = new BlockPunchDesignix();
 	public static final BlockTotemLathe[] totemlathe = BlockTotemLathe.createBlocks();
@@ -169,84 +169,85 @@ public class MinestuckBlocks
 	public static final BlockLayered layeredSand = (BlockLayered) new BlockLayered(Blocks.SAND.getDefaultState()).setUnlocalizedName("layeredSand");
 	public static final Block glowystoneWire = new BlockGlowystoneWire().setUnlocalizedName("glowystoneWire");
 
-	public static Block dungeonDoor = new BlockDungeonDoor("dungeon_door", "dungeonDoor");
-	public static Block dungeonDoorKeyhole = new BlockDungeonDoor("dungeon_door_keyhole", "dungeonDoorKeyhole");
+	public static final MSBlockBase dungeonDoor = new BlockDungeonDoor("dungeonDoor");
+	public static final MSBlockBase dungeonDoorKeyhole = new BlockDungeonDoor("dungeonDoorKeyhole");
 
-	public static Block magicBlock = new MSUBlockBase(Material.CLAY, "magic_block", "magicBlock");
-	public static Block wizardStatue = new BlockMSUDecor("wizardStatue", "wizard_statue");
-	public static Block netherReactorCore = new MSUBlockBase(Material.ROCK, "nether_reactor_core", "netherReactorCore").setHardness(30.0F).setResistance(6);
-	public static Block sbahjTree = new BlockSbahjTree("kringlefucker", "kringlefucker");
-	public static Block fluoriteBlock = new MSUBlockBase(Material.ROCK, MapColor.LAPIS, "fluorite_block", "fluoriteBlock").setHardness(3.0F).setResistance(5.0F);
-	public static Block fluoriteOre = new MSUBlockBase(Material.ROCK, "fluorite_ore", "fluoriteOre").setHardness(3.0F).setResistance(5.0F);
-	public static Block moonstoneOre = new MSUBlockBase(Material.IRON, "moonstone_ore", "moonstoneOre").setHardness(3.0F).setResistance(5.0F);
+	public static final MSBlockBase magicBlock = new MSBlockBase(Material.CLAY, "magicBlock");
+	public static final MSBlockDecor wizardStatue = new MSBlockDecor("wizardStatue");
+	public static final MSBlockBase netherReactorCore = (MSBlockBase) new MSBlockBase(Material.ROCK, "netherReactorCore").setHardness(30.0F).setResistance(6);
+	public static final MSBlockBase sbahjTree = new BlockSbahjTree("kringlefucker");
+	public static final MSBlockBase fluoriteBlock = (MSBlockBase) new MSBlockBase(Material.ROCK, MapColor.LAPIS, "fluoriteBlock").setHardness(3.0F).setResistance(5.0F);
+	public static final MSBlockBase fluoriteOre = (MSBlockBase) new MSBlockBase(Material.ROCK, "fluoriteOre").setHardness(3.0F).setResistance(5.0F);
+	public static final MSBlockBase moonstoneOre = (MSBlockBase) new MSBlockBase(Material.IRON, "moonstoneOre").setHardness(3.0F).setResistance(5.0F);
 
-	public static Block sbahjBedrock = new MSUBlockBase(Material.CAKE, "sbahj_bedrock", "sbahjBedrock").setResistance(0F).setHardness(-1F);
-	public static Block zillyStone = new MSUBlockBase(Material.ROCK, "zillystone", "zillystone").setResistance(999F).setHardness(5.5F);
-	public static Block smoothIron = new MSUBlockBase(Material.IRON, "smooth_iron", "smoothIron").setHardness(3.0F);
-	public static Block bedrockStairs = new BlockMSUStairs(Blocks.BEDROCK.getDefaultState(), "bedrockStairs", "bedrock_stairs");
+	public static final MSBlockBase sbahjBedrock = (MSBlockBase) new MSBlockBase(Material.CAKE, "sbahjBedrock").setResistance(0F).setHardness(-1F);
+	public static final MSBlockBase zillyStone = (MSBlockBase) new MSBlockBase(Material.ROCK, "zillystone").setResistance(999F).setHardness(5.5F);
+	public static final MSBlockBase smoothIron = (MSBlockBase) new MSBlockBase(Material.IRON, "smoothIron").setHardness(3.0F);
+	public static final MSBlockStairs bedrockStairs = new MSBlockStairs(Blocks.BEDROCK.getDefaultState(), "bedrockStairs");
 
-	public static Block holopad = new BlockHolopad();
+	public static final BlockHolopad holopad = new BlockHolopad();
 
-	public static Block machineChasis = new BlockMachineChasis();
-	public static Block gristHopper = new BlockGristHopper();
-	public static Block autoWidget = new BlockAutoWidget();
-	public static Block autoCaptcha = new BlockAutoCaptcha();
-	public static Block porkhollowAtm = new BlockPorkhollowAtm();
-	public static Block boondollarRegister = new BlockBoondollarRegister();
+	public static final BlockMachineChasis machineChasis = new BlockMachineChasis();
+	public static final BlockGristHopper gristHopper = new BlockGristHopper();
+	public static final BlockAutoWidget autoWidget = new BlockAutoWidget();
+	public static final BlockAutoCaptcha autoCaptcha = new BlockAutoCaptcha();
+	public static final BlockPorkhollowAtm porkhollowAtm = new BlockPorkhollowAtm();
+	public static final BlockBoondollarRegister boondollarRegister = new BlockBoondollarRegister();
 
-	public static BlockWoolTransportalizer whiteWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.WHITE);
-	public static BlockWoolTransportalizer orangeWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.ORANGE);
-	public static BlockWoolTransportalizer magentaWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.MAGENTA);
-	public static BlockWoolTransportalizer lightBlueWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.LIGHT_BLUE);
-	public static BlockWoolTransportalizer yellowWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.YELLOW);
-	public static BlockWoolTransportalizer limeWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.LIME);
-	public static BlockWoolTransportalizer pinkWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.PINK);
-	public static BlockWoolTransportalizer grayWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.GRAY);
-	public static BlockWoolTransportalizer silverWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.SILVER);
-	public static BlockWoolTransportalizer cyanWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.CYAN);
-	public static BlockWoolTransportalizer purpleWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.PURPLE);
-	public static BlockWoolTransportalizer blueWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.BLUE);
-	public static BlockWoolTransportalizer brownWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.BROWN);
-	public static BlockWoolTransportalizer greenWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.GREEN);
-	public static BlockWoolTransportalizer redWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.RED);
-	public static BlockWoolTransportalizer blackWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.BLACK);
-	public static Block rubyRedTransportalizer = new BlockRedTransportalizer();
-	public static Block goldenTransportalizer = new BlockGoldTransportalizer();
-	public static Block paradoxTransportalizer = new BlockParadoxTransportalizer();
-	public static Block platinumTransportalizer = new BlockPlatinumTransportalizer();
+	public static final BlockTransportalizer transportalizer = new BlockTransportalizer();
+	public static final BlockWoolTransportalizer whiteWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.WHITE);
+	public static final BlockWoolTransportalizer orangeWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.ORANGE);
+	public static final BlockWoolTransportalizer magentaWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.MAGENTA);
+	public static final BlockWoolTransportalizer lightBlueWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.LIGHT_BLUE);
+	public static final BlockWoolTransportalizer yellowWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.YELLOW);
+	public static final BlockWoolTransportalizer limeWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.LIME);
+	public static final BlockWoolTransportalizer pinkWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.PINK);
+	public static final BlockWoolTransportalizer grayWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.GRAY);
+	public static final BlockWoolTransportalizer silverWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.SILVER);
+	public static final BlockWoolTransportalizer cyanWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.CYAN);
+	public static final BlockWoolTransportalizer purpleWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.PURPLE);
+	public static final BlockWoolTransportalizer blueWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.BLUE);
+	public static final BlockWoolTransportalizer brownWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.BROWN);
+	public static final BlockWoolTransportalizer greenWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.GREEN);
+	public static final BlockWoolTransportalizer redWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.RED);
+	public static final BlockWoolTransportalizer blackWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.BLACK);
+	public static final BlockCustomTransportalizer rubyRedTransportalizer = new BlockRedTransportalizer();
+	public static final BlockCustomTransportalizer goldenTransportalizer = new BlockGoldTransportalizer();
+	public static final BlockCustomTransportalizer platinumTransportalizer = new BlockPlatinumTransportalizer();
+	public static final BlockParadoxTransportalizer paradoxTransportalizer = new BlockParadoxTransportalizer();
 
-	public static Block gristBlockAmber = new BlockGrist(GristType.Amber);
-	public static Block gristBlockAmethyst = new BlockGrist(GristType.Amethyst);
-	public static Block gristBlockArtifact = new BlockGrist(GristType.Artifact);
-	public static Block gristBlockBuild = new BlockGrist(GristType.Build);
-	public static Block gristBlockCaulk = new BlockGrist(GristType.Caulk);
-	public static Block gristBlockChalk = new BlockGrist(GristType.Chalk);
-	public static Block gristBlockCobalt = new BlockGrist(GristType.Cobalt);
-	public static Block gristBlockDiamond = new BlockGrist(GristType.Diamond);
-	public static Block gristBlockGarnet = new BlockGrist(GristType.Garnet);
-	public static Block gristBlockGold = new BlockGrist(GristType.Gold);
-	public static Block gristBlockIodine = new BlockGrist(GristType.Iodine);
-	public static Block gristBlockMarble = new BlockGrist(GristType.Marble);
-	public static Block gristBlockMercury = new BlockGrist(GristType.Mercury);
-	public static Block gristBlockQuartz = new BlockGrist(GristType.Quartz);
-	public static Block gristBlockRuby = new BlockGrist(GristType.Ruby);
-	public static Block gristBlockRust = new BlockGrist(GristType.Rust);
-	public static Block gristBlockShale = new BlockGrist(GristType.Shale);
-	public static Block gristBlockSulfur = new BlockGrist(GristType.Sulfur);
-	public static Block gristBlockTar = new BlockGrist(GristType.Tar);
-	public static Block gristBlockUranium = new BlockGrist(GristType.Uranium);
-	public static Block gristBlockZillium = new BlockGrist(GristType.Zillium);
-	public static Block gristBlockVis = new BlockGrist(GristType.Vis);
-	public static Block gristBlockMana = new BlockGrist(GristType.Mana);
+	public static final MSBlockBase gristBlockAmber = new BlockGrist(GristType.Amber);
+	public static final MSBlockBase gristBlockAmethyst = new BlockGrist(GristType.Amethyst);
+	public static final MSBlockBase gristBlockArtifact = new BlockGrist(GristType.Artifact);
+	public static final MSBlockBase gristBlockBuild = new BlockGrist(GristType.Build);
+	public static final MSBlockBase gristBlockCaulk = new BlockGrist(GristType.Caulk);
+	public static final MSBlockBase gristBlockChalk = new BlockGrist(GristType.Chalk);
+	public static final MSBlockBase gristBlockCobalt = new BlockGrist(GristType.Cobalt);
+	public static final MSBlockBase gristBlockDiamond = new BlockGrist(GristType.Diamond);
+	public static final MSBlockBase gristBlockGarnet = new BlockGrist(GristType.Garnet);
+	public static final MSBlockBase gristBlockGold = new BlockGrist(GristType.Gold);
+	public static final MSBlockBase gristBlockIodine = new BlockGrist(GristType.Iodine);
+	public static final MSBlockBase gristBlockMarble = new BlockGrist(GristType.Marble);
+	public static final MSBlockBase gristBlockMercury = new BlockGrist(GristType.Mercury);
+	public static final MSBlockBase gristBlockQuartz = new BlockGrist(GristType.Quartz);
+	public static final MSBlockBase gristBlockRuby = new BlockGrist(GristType.Ruby);
+	public static final MSBlockBase gristBlockRust = new BlockGrist(GristType.Rust);
+	public static final MSBlockBase gristBlockShale = new BlockGrist(GristType.Shale);
+	public static final MSBlockBase gristBlockSulfur = new BlockGrist(GristType.Sulfur);
+	public static final MSBlockBase gristBlockTar = new BlockGrist(GristType.Tar);
+	public static final MSBlockBase gristBlockUranium = new BlockGrist(GristType.Uranium);
+	public static final MSBlockBase gristBlockZillium = new BlockGrist(GristType.Zillium);
+	public static final MSBlockBase gristBlockVis = new BlockGrist(GristType.Vis);
+	public static final MSBlockBase gristBlockMana = new BlockGrist(GristType.Mana);
 
-	public static Block dungeonShield = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.CREATIVE_SHOCK, 40, 0), "dungeon_shield", "dungeonShield");
-	public static Block flightBeacon = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.SKYHBOUND, 40, 0), "flight_beacon", "flightBeacon");
-	public static Block flightInhibitor = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.EARTHBOUND, 40, 0), "flight_inhibitor", "flightInhibitor");
+	public static final MSBlockBase dungeonShield = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.CREATIVE_SHOCK, 40, 0), "dungeonShield");
+	public static final MSBlockBase flightBeacon = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.SKYHBOUND, 40, 0), "flightBeacon");
+	public static final MSBlockBase flightInhibitor = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.EARTHBOUND, 40, 0), "flightInhibitor");
 
-	public static Block uniqueObject = new MSUBlockBase(Material.CORAL, MapColor.DIAMOND, "unique_object", "uniqueObject");
-	public static Block artifact = new BlockArtifact(Material.FIRE, MapColor.PURPLE, "artifact", "artifact");
+	public static final MSBlockBase uniqueObject = new MSBlockBase(Material.CORAL, MapColor.DIAMOND, "uniqueObject");
+	public static final MSBlockBase artifact = new BlockArtifact(Material.FIRE, MapColor.PURPLE, "artifact");
 
-	public static Block thaumChasis = new MSUBlockBase(Material.IRON, "thaumic_machine_frame", "thaumChasis");
+	public static final MSBlockBase thaumChasis = new MSBlockBase(Material.IRON, "thaumChasis");
 
 	public static final Fluid fluidOil = createFluid("oil", new ResourceLocation("minestuck", "blocks/oil_still"), new ResourceLocation("minestuck", "blocks/oil_flowing"), "tile.oil");
 	public static final Fluid fluidBlood = createFluid("blood", new ResourceLocation("minestuck", "blocks/blood_still"), new ResourceLocation("minestuck", "blocks/blood_flowing"), "tile.blood");
@@ -382,7 +383,6 @@ public class MinestuckBlocks
 		
 		registry.register(sburbMachine.setRegistryName("sburb_machine"));
 		registry.register(crockerMachine.setRegistryName("crocker_machine"));
-		registry.register(transportalizer.setRegistryName("transportalizer"));
 		registry.register(uraniumCooker.setRegistryName("uranium_cooker"));
 		
 		registry.register(punchDesignix.setRegistryName("punch_designix"));
@@ -537,6 +537,7 @@ public class MinestuckBlocks
 		registerBlock(registry, porkhollowAtm, true);
 		registerBlock(registry, boondollarRegister, true);
 
+		registerBlock(registry, transportalizer, true);
 		registerBlock(registry, whiteWoolTransportalizer, true);
 		registerBlock(registry, orangeWoolTransportalizer, true);
 		registerBlock(registry, magentaWoolTransportalizer, true);
@@ -593,14 +594,13 @@ public class MinestuckBlocks
 	}
 
 	// TODO: Yeet this
-	private static Block registerBlock(IForgeRegistry<Block> registry, Block block, boolean hasItem)
+	private static <BLOCK extends Block & IRegistryItem<Block>> Block registerBlock(IForgeRegistry<Block> registry, BLOCK block, boolean hasItem)
 	{
-		((IRegistryItem)block).setRegistryName();
-		registry.register(block);
+		block.register(registry);
 		MSUModelManager.blocks.add(block);
 
 		if(hasItem)
-			MinestuckUniverseItems.itemBlocks.add(block);
+			MinestuckItems.itemBlocks.add(block);
 
 		return block;
 	}
@@ -620,16 +620,16 @@ public class MinestuckBlocks
 	
 	public enum EnumSlabStairMaterial implements IStringSerializable
 	{
-		TREATED	(treatedPlanks.getDefaultState(),	"treated_planks"),
-		RAINBOW	(planks.getDefaultState(),		"rainbow_planks"),
-		END		(endPlanks.getDefaultState(),	"end_planks"),
-		DEAD	(deadPlanks.getDefaultState(),	"dead_planks"),
+		TREATED	(treatedPlanks.getDefaultState(),	"treatedPlanks"),
+		RAINBOW	(planks.getDefaultState(),		"rainbowPlanks"),
+		END		(endPlanks.getDefaultState(),	"endPlanks"),
+		DEAD	(deadPlanks.getDefaultState(),	"deadPlanks"),
 		CHALK	(chalk.getDefaultState(),		"chalk"),
-		CHALK_BRICK	(chalkBricks.getDefaultState(),	"chalk_bricks"),
-		PINK_BRICK	(pinkStoneBricks.getDefaultState(),	"pink_stone_bricks");
-		
+		CHALK_BRICK	(chalkBricks.getDefaultState(),	"chalkBricks"),
+		PINK_BRICK	(pinkStoneBricks.getDefaultState(),	"pinkStoneBricks");
+
 		private final String name;
-		private final String unlocalizedName;
+		private final String regName;
 		
 		private final Block stair;
 		private final Block slab;
@@ -639,18 +639,11 @@ public class MinestuckBlocks
 		EnumSlabStairMaterial(IBlockState modelState, String name)
 		{
 			this.name = name;
-			String[] nameParts = name.split("_");
-			StringBuilder unlocName = new StringBuilder(nameParts[0]);
-			for(int i=1; i<nameParts.length; i++)
-			{
-				unlocName.append(nameParts[i].substring(0, 1).toUpperCase());
-				unlocName.append(nameParts[i].substring(1));
-			}
-			this.unlocalizedName = unlocName.toString();
+			this.regName = IRegistryItem.unlocToReg(name);
 			
-			stair = new BlockMinestuckStairs(modelState).setUnlocalizedName("stairsMinestuck." + unlocalizedName);
-			slab = new BlockMinestuckSlab(modelState, this, false).setUnlocalizedName("slabMinestuck." + unlocalizedName);
-			slabF = new BlockMinestuckSlab(modelState, this, true).setUnlocalizedName("slabMinestuckFull." + unlocalizedName);
+			stair = new BlockMinestuckStairs(modelState).setUnlocalizedName("stairsMinestuck." + name);
+			slab = new BlockMinestuckSlab(modelState, this, false).setUnlocalizedName("slabMinestuck." + name);
+			slabF = new BlockMinestuckSlab(modelState, this, true).setUnlocalizedName("slabMinestuckFull." + name);
 			
 			if(modelState.getBlock().getHarvestLevel(modelState) >= 0)
 			{
@@ -659,7 +652,7 @@ public class MinestuckBlocks
 			}
 			
 			slabItem = new ItemSlab(getSlab(), (BlockSlab) getSlab(), (BlockSlab) getSlabFull());
-			slabItem.setUnlocalizedName("slabMinestuck." + unlocalizedName).setHasSubtypes(false);
+			slabItem.setUnlocalizedName("slabMinestuck." + name).setHasSubtypes(false);
 		}
 		
 		public Block getStair()	{	return stair;	}
@@ -669,13 +662,13 @@ public class MinestuckBlocks
 		
 		public String getUnlocalizedName()
 		{
-			return unlocalizedName;
+			return name;
 		}
 		
 		@Override
 		public String getName()
 		{
-			return name;
+			return regName;
 		}
 	}
 }

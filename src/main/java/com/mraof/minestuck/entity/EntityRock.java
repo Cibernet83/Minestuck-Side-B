@@ -1,5 +1,6 @@
 package com.mraof.minestuck.entity;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MSUCapabilities;
 import com.mraof.minestuck.capabilities.strife.IStrifeData;
 import com.mraof.minestuck.strife.MSUKindAbstrata;
@@ -24,7 +25,7 @@ import javax.annotation.Nullable;
 
 public class EntityRock extends EntityLivingBase
 {
-	public static final DamageSource ROCK_DAMAGE = new DamageSource(MinestuckUniverse.MODID+".rock");
+	public static final DamageSource ROCK_DAMAGE = new DamageSource(Minestuck.MODID + ".rock");
 
 	private double motionCalcX = 0;
 	private double motionCalcZ = 0;

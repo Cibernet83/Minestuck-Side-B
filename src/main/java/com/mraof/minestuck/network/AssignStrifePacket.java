@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class AssignStrifePacket extends MSUPacket
+public class AssignStrifePacket extends MinestuckPacket
 {
 	EnumHand hand;
 	StrifeSpecibus specibus;
@@ -23,7 +23,7 @@ public class AssignStrifePacket extends MSUPacket
 	int slot;
 
 	@Override
-	public MSUPacket generatePacket(Object... args)
+	public MinestuckPacket generatePacket(Object... args)
 	{
 		data.writeBoolean(args[0] instanceof ItemStack);
 
@@ -43,7 +43,7 @@ public class AssignStrifePacket extends MSUPacket
 	}
 
 	@Override
-	public MSUPacket consumePacket(ByteBuf data)
+	public MinestuckPacket consumePacket(ByteBuf data)
 	{
 		if(data.readBoolean())
 		{
@@ -62,9 +62,6 @@ public class AssignStrifePacket extends MSUPacket
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(!MinestuckConfig.combatOverhaul)
-			return;
-
 		if(stack != null)
 		{
 			StrifePortfolioHandler.addWeapontoSlot(player, stack, slot);

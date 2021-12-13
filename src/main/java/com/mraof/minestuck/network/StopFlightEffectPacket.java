@@ -6,19 +6,19 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class StopFlightEffectPacket extends MSUPacket
+public class StopFlightEffectPacket extends MinestuckPacket
 {
     boolean isBadEffect;
 
     @Override
-    public MSUPacket generatePacket(Object... args)
+    public MinestuckPacket generatePacket(Object... args)
     {
         data.writeBoolean((Boolean) args[0]);
         return this;
     }
 
     @Override
-    public MSUPacket consumePacket(ByteBuf data)
+    public MinestuckPacket consumePacket(ByteBuf data)
     {
         isBadEffect = data.readBoolean();
         return this;

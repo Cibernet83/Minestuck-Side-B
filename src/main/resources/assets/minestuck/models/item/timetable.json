@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "minestuckuniverse:models/timetables",
-		"particle": "minestuckuniverse:models/timetables"
+		"0": "Minestuck:models/timetables",
+		"particle": "Minestuck:models/timetables"
 	},
 	"elements": [
 		{

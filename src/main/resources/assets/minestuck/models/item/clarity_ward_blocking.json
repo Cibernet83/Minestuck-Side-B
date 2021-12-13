@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/clarity_ward",
+	"parent": "Minestuck:item/clarity_ward",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

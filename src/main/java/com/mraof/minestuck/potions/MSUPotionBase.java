@@ -1,5 +1,6 @@
 package com.mraof.minestuck.potions;
 
+import com.mraof.minestuck.Minestuck;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MSUPotionBase extends Potion
 {
-    private static final ResourceLocation TEXTURES = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/potions.png");
+    private static final ResourceLocation TEXTURES = new ResourceLocation(Minestuck.MODID, "textures/gui/potions.png");
     private final int index;
 
     private static int currentIndex = 0;
@@ -22,7 +23,7 @@ public class MSUPotionBase extends Potion
     {
         super(isBadEffectIn, liquidColorIn);
         this.index = currentIndex++;
-        setPotionName("effect.minestuckuniverse."+name);
+        setPotionName("effect.Minestuck."+name);
     }
 
     @Override

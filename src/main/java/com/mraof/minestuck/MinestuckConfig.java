@@ -193,8 +193,8 @@ public class MinestuckConfig
 		}
 		
 		initialModusSize = config.get("Modus", "initialModusSize", 5).setMinValue(0).setLanguageKey("config.minestuck.initialModusSize").getInt();
-		defaultModusTypes = config.get("Modus", "defaultModusTypes", new String[] {"minestuck:stack", "minestuck:queue"},
-				"An array with the possible modus types to be assigned. Written with mod-id and modus name, for example \"minestuck:queue_stack\" or \"minestuck:hashmap\"").setLanguageKey("config.minestuck.defaultModusType").getStringList();
+		defaultModusTypes = config.get("Modus", "defaultModusTypes", new String[] {Minestuck.MODID+":stack", Minestuck.MODID+":queue"},
+				"An array with the possible modus types to be assigned. Written with mod-id and modus name, for example \""+Minestuck.MODID+":queue_stack\" or \""+Minestuck.MODID+":hashmap\"").setLanguageKey("config.minestuck.defaultModusType").getStringList();
 		modusMaxSize = config.get("Modus", "modusMaxSize", 0, "The max size on a modus. Ignored if the value is 0.").setMinValue(0).setLanguageKey("config.minestuck.modusMaxSize").getInt();
 		if(initialModusSize > modusMaxSize && modusMaxSize > 0)
 			initialModusSize = modusMaxSize;

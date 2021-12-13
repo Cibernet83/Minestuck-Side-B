@@ -32,13 +32,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemWarpMedallion extends MSUItemBase
+public class ItemWarpMedallion extends MSItemBase
 {
     protected EnumTeleportType teleportType;
 
-    public ItemWarpMedallion(String unlocName, String registryName, EnumTeleportType type, int uses)
+    public ItemWarpMedallion(String name, EnumTeleportType type, int uses)
     {
-        super(registryName, unlocName);
+        super(name);
         this.teleportType = type;
 
         if(uses >= 0)

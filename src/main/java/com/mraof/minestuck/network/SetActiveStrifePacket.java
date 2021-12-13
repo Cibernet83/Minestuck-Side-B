@@ -12,13 +12,13 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class SetActiveStrifePacket extends MSUPacket
+public class SetActiveStrifePacket extends MinestuckPacket
 {
 	boolean isSpecibus;
 	int index;
 
 	@Override
-	public MSUPacket generatePacket(Object... args)
+	public MinestuckPacket generatePacket(Object... args)
 	{
 		data.writeInt((int) args[0]);
 		data.writeBoolean((boolean) args[1]);
@@ -26,7 +26,7 @@ public class SetActiveStrifePacket extends MSUPacket
 	}
 
 	@Override
-	public MSUPacket consumePacket(ByteBuf data)
+	public MinestuckPacket consumePacket(ByteBuf data)
 	{
 		index = data.readInt();
 		isSpecibus = data.readBoolean();
@@ -36,7 +36,7 @@ public class SetActiveStrifePacket extends MSUPacket
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(!MinestuckConfig.combatOverhaul || !player.hasCapability(MSUCapabilities.STRIFE_DATA, null))
+		if(!player.hasCapability(MSUCapabilities.STRIFE_DATA, null))
 			return;
 
 		IStrifeData cap = player.getCapability(MSUCapabilities.STRIFE_DATA, null);
@@ -52,7 +52,7 @@ public class SetActiveStrifePacket extends MSUPacket
 		}
 		else cap.setSelectedWeaponIndex(index);
 
-		MSUChannelHandler.sendToPlayer(makePacket(Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.INDEXES), player);
+		MinestuckChannelHandler.sendToPlayer(makePacket(Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.INDEXES), player);
 	}
 
 	@Override

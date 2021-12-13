@@ -1,5 +1,6 @@
 package com.mraof.minestuck.entity;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -11,10 +12,10 @@ public abstract class EntityMSUUnderling extends EntityUnderling
     @Override
     public ResourceLocation getTextureResource()
     {
-        this.textureResource = new ResourceLocation(MinestuckUniverse.MODID, this.getTexture());
+        this.textureResource = new ResourceLocation(Minestuck.MODID, this.getTexture());
 
         if(this.textureResource == null) {
-            this.textureResource = new ResourceLocation(MinestuckUniverse.MODID, this.getUnderlingName() + ".png");
+            this.textureResource = new ResourceLocation(Minestuck.MODID, this.getUnderlingName() + ".png");
         }
         return this.textureResource;
     }

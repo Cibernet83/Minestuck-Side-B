@@ -1,5 +1,7 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.util.MSUUtils;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
@@ -14,7 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockPorkhollowAtm extends MSUBlockBase
+public class BlockPorkhollowAtm extends MSBlockBase
 {
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	protected BlockPorkhollowAtm()
@@ -23,7 +25,7 @@ public class BlockPorkhollowAtm extends MSUBlockBase
 		setUnlocalizedName("porkhollowATM");
 		setHarvestLevel("pickaxe", 0);
 		setHardness(3.0F);
-		setCreativeTab(TabMinestuckUniverse.main);
+		setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	@Override
@@ -35,7 +37,7 @@ public class BlockPorkhollowAtm extends MSUBlockBase
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(worldIn.isRemote)
-			playerIn.openGui(MinestuckUniverse.instance, MSUUtils.PORKHOLLOW_ATM_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(Minestuck.instance, MSUUtils.PORKHOLLOW_ATM_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 	

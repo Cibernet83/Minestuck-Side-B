@@ -3,19 +3,20 @@ package com.mraof.minestuck.event.handlers;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.capabilities.MSUCapabilities;
 import com.mraof.minestuck.capabilities.strife.IStrifeData;
-import com.mraof.minestuck.event.WeaponAssignedEvent;
 import com.mraof.minestuck.client.gui.GuiStrifePortfolio;
+import com.mraof.minestuck.client.gui.playerStats.GuiStrifeSpecibus;
+import com.mraof.minestuck.entity.underling.EntityUnderling;
+import com.mraof.minestuck.event.WeaponAssignedEvent;
 import com.mraof.minestuck.item.ItemStrifeCard;
-import com.mraof.minestuck.item.weapon.MSUWeaponBase;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.weapon.MSWeaponBase;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.UpdateStrifeDataPacket;
 import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.MSUKindAbstrata;
 import com.mraof.minestuck.strife.StrifePortfolioHandler;
 import com.mraof.minestuck.strife.StrifeSpecibus;
-import com.mraof.minestuck.client.gui.playerStats.GuiStrifeSpecibus;
-import com.mraof.minestuck.entity.underling.EntityUnderling;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -90,16 +91,16 @@ public class StrifeEventHandler
 		ItemStack stack = source.getHeldItemMainhand();
 
 		//bypass MSUConfig.weaponAttackMultiplier against underlings
-		if(event.getEntityLiving() instanceof EntityUnderling && stack.getItem() instanceof MSUWeaponBase)
+		if(event.getEntityLiving() instanceof EntityUnderling && stack.getItem() instanceof MSWeaponBase)
 		{
 			IAttributeInstance dmgAttr = source.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-			AttributeModifier weaponMod = dmgAttr.getModifier(MSUWeaponBase.getAttackDamageUUID());
-			double dmg = ((MSUWeaponBase) stack.getItem()).getUnmodifiedAttackDamage(stack);
+			AttributeModifier weaponMod = dmgAttr.getModifier(MSWeaponBase.getAttackDamageUUID());
+			double dmg = ((MSWeaponBase) stack.getItem()).getUnmodifiedAttackDamage(stack);
 
 			if(weaponMod != null && weaponMod.getAmount() != dmg)
 			{
-				dmgAttr.removeModifier(MSUWeaponBase.getAttackDamageUUID());
-				dmgAttr.applyModifier(new AttributeModifier(MSUWeaponBase.getAttackDamageUUID(), "Weapon modifier", dmg, 0));
+				dmgAttr.removeModifier(MSWeaponBase.getAttackDamageUUID());
+				dmgAttr.applyModifier(new AttributeModifier(MSWeaponBase.getAttackDamageUUID(), "Weapon modifier", dmg, 0));
 
 				event.getEntityLiving().attackEntityFrom(event.getSource(), (float) dmgAttr.getAttributeValue());
 				event.setCanceled(true);
@@ -110,7 +111,7 @@ public class StrifeEventHandler
 	@SubscribeEvent
 	public static void onPlayerAttack(LivingAttackEvent event)
 	{
-		if(!MinestuckConfig.combatOverhaul || !MinestuckConfig.restrictedStrife || !(event.getSource().getImmediateSource() instanceof EntityPlayer) || event.getSource().getImmediateSource() instanceof FakePlayer)
+		if(!MinestuckConfig.restrictedStrife || !(event.getSource().getImmediateSource() instanceof EntityPlayer) || event.getSource().getImmediateSource() instanceof FakePlayer)
 			return;
 
 		EntityLivingBase source = (EntityLivingBase) event.getSource().getImmediateSource();
@@ -145,11 +146,11 @@ public class StrifeEventHandler
 
 	public static final List<Item> USABLE_ASSIGNED_ONLY = new ArrayList<Item>()
 	{{
-		add(MinestuckUniverseItems.needlewands);
-		add(MinestuckUniverseItems.oglogothThorn);
-		add(MinestuckUniverseItems.litGlitterBeamTransistor);
-		add(MinestuckUniverseItems.archmageDaggers);
-		add(MinestuckUniverseItems.gasterBlaster);
+		add(MinestuckItems.needlewands);
+		add(MinestuckItems.oglogothThorn);
+		add(MinestuckItems.litGlitterBeamTransistor);
+		add(MinestuckItems.archmageDaggers);
+		add(MinestuckItems.gasterBlaster);
 	}};
 	public static final List<Item> FORCED_USABLE_UNASSIGNED = new ArrayList<Item>()
 	{{
@@ -161,13 +162,13 @@ public class StrifeEventHandler
 		add(Items.ENDER_PEARL);
 		add(Items.EXPERIENCE_BOTTLE);
 		add(Items.POTIONITEM);
-		add(MinestuckUniverseItems.yarnBall);
+		add(MinestuckItems.yarnBall);
 	}};
 
 	@SubscribeEvent
 	public static void onItemInteract(PlayerInteractEvent.RightClickItem event)
 	{
-		if(!MinestuckConfig.combatOverhaul || !MinestuckConfig.restrictedStrife || event.getEntityPlayer() instanceof FakePlayer)
+		if(!MinestuckConfig.restrictedStrife || event.getEntityPlayer() instanceof FakePlayer)
 			return;
 
 		ItemStack stack = event.getItemStack();
@@ -251,7 +252,7 @@ public class StrifeEventHandler
 		if(!event.player.world.isRemote && cap.abstrataSwitcherUnlocked() != unlockSwitcher)
 		{
 			cap.unlockAbstrataSwitcher(unlockSwitcher);
-			MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.UPDATE_STRIFE, event.player, UpdateStrifeDataPacket.UpdateType.CONFIG), event.player);
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, event.player, UpdateStrifeDataPacket.UpdateType.CONFIG), event.player);
 
 			if(unlockSwitcher)
 				event.player.sendStatusMessage(new TextComponentTranslation("status.strife.unlockSwitcher"), false);
@@ -278,7 +279,7 @@ public class StrifeEventHandler
 				if(!player.world.isRemote)
 				{
 					cap.setArmed(false);
-					MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.INDEXES), player);
+					MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.INDEXES), player);
 				}
 				return;
 			}
@@ -304,7 +305,7 @@ public class StrifeEventHandler
 					if(!player.world.isRemote)
 					{
 						cap.setArmed(false);
-						MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.INDEXES), player);
+						MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.INDEXES), player);
 					}
 					return;
 				}
@@ -353,7 +354,7 @@ public class StrifeEventHandler
 
 								specibus.switchKindAbstratus(abstratusList.get(0), player);
 								if(!player.world.isRemote)
-									MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.PORTFOLIO, cap.getSelectedSpecibusIndex()), player);
+									MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.PORTFOLIO, cap.getSelectedSpecibusIndex()), player);
 							}
 							else
 							{
@@ -450,7 +451,7 @@ public class StrifeEventHandler
 
 	public static boolean isStackAssigned(ItemStack stack)
 	{
-		return MinestuckConfig.combatOverhaul && !stack.isEmpty() && stack.hasTagCompound() && stack.getTagCompound().getBoolean("StrifeAssigned");
+		return !stack.isEmpty() && stack.hasTagCompound() && stack.getTagCompound().getBoolean("StrifeAssigned");
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -472,7 +473,7 @@ public class StrifeEventHandler
 				{
 					StrifeSpecibus specibus = new StrifeSpecibus(abstrata.get(source.world.rand.nextInt(abstrata.size())));
 					specibus.putItemStack(item.getItem());
-					item.setItem(ItemStrifeCard.injectStrifeSpecibus(specibus, new ItemStack(MinestuckUniverseItems.strifeCard)));
+					item.setItem(ItemStrifeCard.injectStrifeSpecibus(specibus, new ItemStack(MinestuckItems.strifeCard)));
 					cap.setDroppedCards(cap.getDroppedCards()+1);
 					droppedCard = true;
 					break;
@@ -487,7 +488,7 @@ public class StrifeEventHandler
 				abstrata.add(null);
 
 				EntityItem item = new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ,
-						ItemStrifeCard.injectStrifeSpecibus(new StrifeSpecibus(abstrata.get(source.world.rand.nextInt(abstrata.size()))), new ItemStack(MinestuckUniverseItems.strifeCard)));
+						ItemStrifeCard.injectStrifeSpecibus(new StrifeSpecibus(abstrata.get(source.world.rand.nextInt(abstrata.size()))), new ItemStack(MinestuckItems.strifeCard)));
 				item.setDefaultPickupDelay();
 				event.getDrops().add(item);
 				cap.setDroppedCards(cap.getDroppedCards()+1);
@@ -515,9 +516,6 @@ public class StrifeEventHandler
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onPlayerDrops(PlayerDropsEvent event)
 	{
-		if(!MinestuckConfig.combatOverhaul)
-			return;
-
 		IStrifeData cap = event.getEntityPlayer().getCapability(MSUCapabilities.STRIFE_DATA, null);
 
 		ItemStack selectedWeapon = !MinestuckConfig.keepPortfolioOnDeath && cap.isArmed() && cap.getPortfolio().length > 0 && cap.getSelectedSpecibusIndex() >= 0 && cap.getSelectedWeaponIndex() >= 0
@@ -545,7 +543,7 @@ public class StrifeEventHandler
 		{
 			for(StrifeSpecibus specibus : cap.getPortfolio())
 				if(specibus != null)
-					event.getDrops().add(event.getEntityPlayer().dropItem(ItemStrifeCard.injectStrifeSpecibus(specibus, new ItemStack(MinestuckUniverseItems.strifeCard)), true, false));
+					event.getDrops().add(event.getEntityPlayer().dropItem(ItemStrifeCard.injectStrifeSpecibus(specibus, new ItemStack(MinestuckItems.strifeCard)), true, false));
 			cap.clearPortfolio();
 			cap.setSelectedSpecibusIndex(-1);
 		}

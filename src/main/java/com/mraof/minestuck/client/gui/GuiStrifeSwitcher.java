@@ -1,11 +1,12 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MSUCapabilities;
 import com.mraof.minestuck.capabilities.strife.IStrifeData;
 import com.mraof.minestuck.client.MSUKeys;
 import com.mraof.minestuck.event.handlers.StrifeEventHandler;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.UpdateStrifeDataPacket;
 import com.mraof.minestuck.strife.StrifeSpecibus;
 import net.minecraft.client.Minecraft;
@@ -30,7 +31,7 @@ import java.util.LinkedList;
 public class GuiStrifeSwitcher extends Gui
 {
 
-	private static final ResourceLocation WIDGETS = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/icons.png");
+	private static final ResourceLocation WIDGETS = new ResourceLocation(Minestuck.MODID, "textures/gui/icons.png");
 	private static final String iconsLoc = "textures/gui/strife_specibus/icons/";
 
 	public static boolean showSwitcher = false;
@@ -87,13 +88,13 @@ public class GuiStrifeSwitcher extends Gui
 					{
 						cap.setSelectedWeaponIndex(selWeaponIndex);
 						cap.setSelectedSpecibusIndex(selSpecibusIndex);
-						MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.UPDATE_STRIFE, mc.player, UpdateStrifeDataPacket.UpdateType.INDEXES));
+						MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, mc.player, UpdateStrifeDataPacket.UpdateType.INDEXES));
 					}
 					if(!(mc.player.isSneaking() && canUseAbstrataSwitcher()))
 					{
 						if(offhandMode)
-							MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.SWAP_OFFHAND_STRIFE, selSpecibus, selWeapon));
-						else MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.RETRIEVE_STRIFE, cap.getSelectedWeaponIndex(), false, hand));
+							MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.SWAP_OFFHAND_STRIFE, selSpecibus, selWeapon));
+						else MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.RETRIEVE_STRIFE, cap.getSelectedWeaponIndex(), false, hand));
 					}
 				}
 			}

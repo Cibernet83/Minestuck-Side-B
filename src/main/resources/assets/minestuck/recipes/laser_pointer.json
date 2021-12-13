@@ -10,7 +10,7 @@
             "item": "minecraft:iron_ingot"
         },
         "O": {
-            "item": "minestuckuniverse:battery"
+            "item": "Minestuck:battery"
         },
         "b": {
             "item": "minecraft:stone_button"
@@ -20,7 +20,7 @@
         }
     },
     "result": {
-        "item": "minestuckuniverse:laser_pointer",
+        "item": "Minestuck:laser_pointer",
         "count": 1
     }
 }

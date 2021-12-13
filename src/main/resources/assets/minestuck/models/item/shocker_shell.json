@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "minestuckuniverse:models/shocker_shell"
+		"0": "Minestuck:models/shocker_shell"
 	},
 	"elements": [
 		{
@@ -234,21 +234,21 @@
 		{
 			"predicate": {
 				"blocking": 1,
-				"minestuckuniverse:active": 1
+				"Minestuck:active": 1
 			},
-			"model": "minestuckuniverse:item/shocker_shell_blocking_active"
+			"model": "Minestuck:item/shocker_shell_blocking_active"
 		},
 		{
 			"predicate": {
-				"minestuckuniverse:active": 1
+				"Minestuck:active": 1
 			},
-			"model": "minestuckuniverse:item/shocker_shell_active"
+			"model": "Minestuck:item/shocker_shell_active"
 		},
 		{
 			"predicate": {
 				"blocking": 1
 			},
-			"model": "minestuckuniverse:item/shocker_shell_blocking"
+			"model": "Minestuck:item/shocker_shell_blocking"
 		}
 	],
 	"display": {

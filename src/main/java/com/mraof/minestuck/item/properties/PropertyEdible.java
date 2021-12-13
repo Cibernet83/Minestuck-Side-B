@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item.properties;
 
 import com.mraof.minestuck.item.properties.shieldkind.IPropertyShield;
-import com.mraof.minestuck.item.weapon.MSUShieldBase;
+import com.mraof.minestuck.item.weapon.MSShieldBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -59,7 +59,7 @@ public class PropertyEdible extends WeaponProperty implements IPropertyShield
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		if(stack.getItem() instanceof MSUShieldBase && stack.hasTagCompound() && !stack.getTagCompound().getBoolean("Eat"))
+		if(stack.getItem() instanceof MSShieldBase && stack.hasTagCompound() && !stack.getTagCompound().getBoolean("Eat"))
 			return super.getItemUseAction(stack);
 		return EnumAction.EAT;
 	}
@@ -77,7 +77,7 @@ public class PropertyEdible extends WeaponProperty implements IPropertyShield
 	{
 		ItemStack stack = playerIn.getHeldItem(handIn);
 
-		if(stack.getItem() instanceof MSUShieldBase || stack.getItem().isShield(stack, playerIn))
+		if(stack.getItem() instanceof MSShieldBase || stack.getItem().isShield(stack, playerIn))
 		{
 			boolean shouldEat = playerIn.isSneaking() && playerIn.getFoodStats().needFood();
 

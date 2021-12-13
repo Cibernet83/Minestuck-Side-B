@@ -3,9 +3,9 @@
 	"parent": "block/block",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "minestuckuniverse:models/skaia_inner",
-		"1": "minestuckuniverse:models/skaia_outer",
-		"particle": "minestuckuniverse:models/skaia_inner"
+		"0": "Minestuck:models/skaia_inner",
+		"1": "Minestuck:models/skaia_outer",
+		"particle": "Minestuck:models/skaia_inner"
 	},
 	"elements": [
 		{

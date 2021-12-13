@@ -1,8 +1,10 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.MSUFontRenderer;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.StrifeSpecibus;
 import net.minecraft.client.Minecraft;
@@ -24,7 +26,7 @@ public class GuiStrifeCard extends GuiScreen
 {
 	private static int guiWidth = 147, guiHeight = 185;
 	private static int xOffset, yOffset;
-	private static final ResourceLocation guiStrifeSelector = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/strife_specibus/strife_selector.png");
+	private static final ResourceLocation guiStrifeSelector = new ResourceLocation(Minestuck.MODID, "textures/gui/strife_specibus/strife_selector.png");
 	private float scale = 1;
 	private static final int columnWidth = 50,columns = 2;
 	private static EntityPlayer player;
@@ -110,12 +112,12 @@ public class GuiStrifeCard extends GuiScreen
 				color = 0x000000;
 				if(Mouse.getEventButtonState() && Mouse.isButtonDown(0))
 				{
-					EnumHand hand = (player.getHeldItemMainhand().isItemEqual(new ItemStack(MinestuckUniverseItems.strifeCard)) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND);
+					EnumHand hand = (player.getHeldItemMainhand().isItemEqual(new ItemStack(MinestuckItems.strifeCard)) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND);
 					ItemStack card = player.getHeldItem(hand);
 
-					if(card.isItemEqual(new ItemStack(MinestuckUniverseItems.strifeCard)))
+					if(card.isItemEqual(new ItemStack(MinestuckItems.strifeCard)))
 					{
-						MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.ASSIGN_STRIFE, hand, new StrifeSpecibus(type)));
+						MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.ASSIGN_STRIFE, hand, new StrifeSpecibus(type)));
 						this.mc.displayGuiScreen(null);
 					}
 

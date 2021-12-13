@@ -1,6 +1,6 @@
 {
-    "parent": "minestuckuniverse:item/suitarang",
+    "parent": "Minestuck:item/suitarang",
     "textures": {
-        "layer0": "minestuckuniverse:items/suitarang_diamonds"
+        "layer0": "Minestuck:items/suitarang_diamonds"
     }
 }

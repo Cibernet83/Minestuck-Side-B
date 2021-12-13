@@ -1,9 +1,13 @@
 package com.mraof.minestuck.jei;
 
-import com.mraof.minestuck.alchemy.*;
+import com.mraof.minestuck.alchemy.CombinationRegistry;
+import com.mraof.minestuck.alchemy.GristAmount;
+import com.mraof.minestuck.alchemy.GristRegistry;
+import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.block.BlockSburbMachine;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.recipes.MachineChasisRecipes;
 import com.mraof.minestuck.util.Debug;
 import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
@@ -17,15 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mraof on 2017 January 23 at 2:11 AM.
- */
 @JEIPlugin
 public class MinestuckJeiPlugin implements IModPlugin
 {
 	AlchemiterRecipeCategory alchemiterCategory;
 	TotemLatheRecipeCategory totemLatheCategory;
 	DesignixRecipeCategory designixCategory;
+	AssemblyRecipeCategory assemblyRecipeCategory;
+
     @Override
     public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry)
     {
@@ -48,6 +51,8 @@ public class MinestuckJeiPlugin implements IModPlugin
 		registry.addRecipeCategories(totemLatheCategory);
 		designixCategory = new DesignixRecipeCategory(registry.getJeiHelpers().getGuiHelper());
 		registry.addRecipeCategories(designixCategory);
+		assemblyRecipeCategory = new AssemblyRecipeCategory(registry.getJeiHelpers().getGuiHelper());
+		registry.addRecipeCategories(assemblyRecipeCategory);
 	}
 	
 	@Override
@@ -88,6 +93,13 @@ public class MinestuckJeiPlugin implements IModPlugin
         registry.addRecipes(designixRecipes, designixCategory.getUid());
         registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.sburbMachine, 1, BlockSburbMachine.MachineType.TOTEM_LATHE.ordinal()), totemLatheCategory.getUid());
         registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.sburbMachine, 1, BlockSburbMachine.MachineType.PUNCH_DESIGNIX.ordinal()), designixCategory.getUid());
+
+		ArrayList<AssemblyRecipeWrapper> assemblyRecipes = new ArrayList<>();
+		for(Map.Entry<String, Block> entry : MachineChasisRecipes.getRecipes().entrySet())
+			assemblyRecipes.add(new AssemblyRecipeWrapper(MachineChasisRecipes.getIngredientList(entry.getKey()), new ItemStack(entry.getValue())));
+
+		registry.addRecipes(assemblyRecipes, assemblyRecipeCategory.getUid());
+		registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.machineChasis), assemblyRecipeCategory.getUid()); // FIXME: machine chasis is air for some reason
     }
 
     private List<ItemStack> getItemStacks(Object item, int metadata)

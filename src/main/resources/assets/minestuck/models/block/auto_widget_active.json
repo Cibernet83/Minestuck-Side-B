@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"parent": "blocks/block",
 	"textures": {
-		"0": "minestuckuniverse:machines/auto_widget",
-		"1": "minestuckuniverse:machines/auto_widget_side",
-		"particle": "minestuckuniverse:machines/auto_widget"
+		"0": "Minestuck:machines/auto_widget",
+		"1": "Minestuck:machines/auto_widget_side",
+		"particle": "Minestuck:machines/auto_widget"
 	},
 	"elements": [
 		{

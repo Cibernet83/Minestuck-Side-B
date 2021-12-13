@@ -1,5 +1,7 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.MinestuckConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -40,11 +42,11 @@ public class MSUGuiFactory implements IModGuiFactory
 
 	static class Config extends GuiConfig {
 		public Config(GuiScreen parentScreen) {
-			super(parentScreen, getConfigElements(), MinestuckUniverse.MODID, false, false, I18n.format("config.minestuckuniverse.title"));
+			super(parentScreen, getConfigElements(), Minestuck.MODID, false, false, I18n.format("config.Minestuck.title"));
 		}
 
 		private static List<IConfigElement> getConfigElements() {
-			Configuration config = MSUConfig.config;
+			Configuration config = MinestuckConfig.config;
 			List<IConfigElement> list = new ArrayList();
 
 			for(String category : config.getCategoryNames())

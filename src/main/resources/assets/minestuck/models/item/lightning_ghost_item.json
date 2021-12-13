@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "minestuckuniverse:models/lightning",
-		"particle": "minestuckuniverse:models/lightning"
+		"0": "Minestuck:models/lightning",
+		"particle": "Minestuck:models/lightning"
 	},
 	"elements": [
 		{

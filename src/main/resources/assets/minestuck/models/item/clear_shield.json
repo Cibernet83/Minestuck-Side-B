@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "minestuckuniverse:models/clear_shield",
-		"particle": "minestuckuniverse:models/clear_shield"
+		"0": "Minestuck:models/clear_shield",
+		"particle": "Minestuck:models/clear_shield"
 	},
 	"elements": [
 		{
@@ -38,7 +38,7 @@
 			"predicate": {
 				"blocking": 1
 			},
-			"model": "minestuckuniverse:item/clear_shield_blocking"
+			"model": "Minestuck:item/clear_shield_blocking"
 		}
 	],
 	"display": {

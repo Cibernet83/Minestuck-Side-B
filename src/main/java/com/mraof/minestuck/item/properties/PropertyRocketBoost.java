@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item.properties;
 
-import com.mraof.minestuck.item.weapon.MSUShieldBase;
+import com.mraof.minestuck.item.weapon.MSShieldBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -28,7 +28,7 @@ public class PropertyRocketBoost extends WeaponProperty
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		return (stack.getItem() instanceof MSUShieldBase) ? null : EnumAction.BOW;
+		return (stack.getItem() instanceof MSShieldBase) ? null : EnumAction.BOW;
 	}
 
 	@Override

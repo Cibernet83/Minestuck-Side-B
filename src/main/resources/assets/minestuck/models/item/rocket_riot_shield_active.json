@@ -2,8 +2,8 @@
 	"credit": "Made by Ishumire",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "minestuckuniverse:models/rocket_riot_shield",
-		"1": "minestuckuniverse:models/rocket_flame"
+		"0": "Minestuck:models/rocket_riot_shield",
+		"1": "Minestuck:models/rocket_flame"
 	},
 	"elements": [
 		{

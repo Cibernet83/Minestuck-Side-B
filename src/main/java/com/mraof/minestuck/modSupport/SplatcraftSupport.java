@@ -7,6 +7,7 @@ import com.cibernet.splatcraft.recipes.RecipesInkwellVat;
 import com.cibernet.splatcraft.registries.SplatCraftItems;
 import com.cibernet.splatcraft.utils.InkColors;
 import com.cibernet.splatcraft.world.save.SplatCraftPlayerData;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiColorSelector;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.block.material.MapColor;
@@ -52,9 +53,9 @@ public class SplatcraftSupport
 		addColor("CRUXITE_VIOLET",6946922, MapColor.LIGHT_BLUE, "cruxiteViolet");
 		addColor("CRUXITE_FUCSHIA",7798844, MapColor.LIGHT_BLUE, "cruxiteFucshia");
 
-		RecipesInkwellVat.addRecipe((ItemFilter) MinestuckUniverseItems.splatcraftCruxiteFilter, cruxiteColors.toArray(new InkColors[21]));
-		GameRegistry.addShapelessRecipe(new ResourceLocation(MinestuckUniverse.MODID, "splatcraft_cruxite_filter"), null, new ItemStack(MinestuckUniverseItems.splatcraftCruxiteFilter),
-				Ingredient.fromItem(SplatCraftItems.filterEmpty), Ingredient.fromItem(MinestuckItems.rawCruxite), Ingredient.fromItem(MinestuckItems.rawUranium));
+		RecipesInkwellVat.addRecipe((ItemFilter) MinestuckItems.splatcraftCruxiteFilter, cruxiteColors.toArray(new InkColors[21]));
+		GameRegistry.addShapelessRecipe(new ResourceLocation(Minestuck.MODID, "splatcraft_cruxite_filter"), null, new ItemStack(MinestuckItems.splatcraftCruxiteFilter),
+										Ingredient.fromItem(SplatCraftItems.filterEmpty), Ingredient.fromItem(MinestuckItems.rawCruxite), Ingredient.fromItem(MinestuckItems.rawUranium));
 
 	}
 

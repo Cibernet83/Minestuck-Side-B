@@ -1,8 +1,11 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.IRegistryItem;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityAutoCaptcha;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MSUUtils;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
@@ -23,11 +26,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockAutoCaptcha extends BlockContainer implements IRegistryItem
+public class BlockAutoCaptcha extends BlockContainer implements IRegistryItem<Block>
 {
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	
@@ -37,7 +41,7 @@ public class BlockAutoCaptcha extends BlockContainer implements IRegistryItem
 		setUnlocalizedName("autoCaptcha");
 		setHarvestLevel("pickaxe", 0);
 		setHardness(3.0F);
-		setCreativeTab(TabMinestuckUniverse.main);
+		setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	
@@ -66,7 +70,7 @@ public class BlockAutoCaptcha extends BlockContainer implements IRegistryItem
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote)
-			playerIn.openGui(MinestuckUniverse.instance, MSUUtils.AUTO_CAPTCHA_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(Minestuck.instance, MSUUtils.AUTO_CAPTCHA_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 	
@@ -135,7 +139,9 @@ public class BlockAutoCaptcha extends BlockContainer implements IRegistryItem
 	}
 
 	@Override
-	public void setRegistryName() {
+	public void register(IForgeRegistry<Block> registry)
+	{
 		setRegistryName("auto_captcha");
+		registry.register(this);
 	}
 }

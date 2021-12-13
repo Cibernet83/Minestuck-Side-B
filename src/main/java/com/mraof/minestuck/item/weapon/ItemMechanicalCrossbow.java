@@ -20,14 +20,14 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
-public class ItemMechanicalCrossbow extends MSUWeaponBase
+public class ItemMechanicalCrossbow extends MSWeaponBase
 {
 
 	protected float power;
 
-	public ItemMechanicalCrossbow(int maxUses, float power, String name, String unlocName)
+	public ItemMechanicalCrossbow(int maxUses, float power, String name)
 	{
-		super(maxUses, 0, 0, 1, name, unlocName);
+		super(maxUses, 0, 0, 1, name);
 		this.power = power;
 	}
 

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.recipes;
 
-import static com.mraof.minestuck.block.MinestuckUniverseBlocks.*;
-import static com.mraof.minestuck.item.MinestuckUniverseItems.*;
+import static com.mraof.minestuck.block.MinestuckBlocks.*;
+import static com.mraof.minestuck.item.MinestuckItems.*;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.MinestuckItems;

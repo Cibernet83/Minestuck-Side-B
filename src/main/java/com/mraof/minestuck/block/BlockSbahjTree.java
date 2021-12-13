@@ -23,13 +23,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockSbahjTree extends MSUBlockBase
+public class BlockSbahjTree extends MSBlockBase
 {
     protected static final AxisAlignedBB BUSH_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
 
-    public BlockSbahjTree(String registryName, String unlocalizedName)
+    public BlockSbahjTree(String name)
     {
-        super(Material.PLANTS, MapColor.MAGENTA, registryName, unlocalizedName);
+        super(Material.PLANTS, MapColor.MAGENTA, name);
         this.setTickRandomly(true);
     }
 

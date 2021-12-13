@@ -41,14 +41,12 @@ import vazkii.botania.common.item.ModItems;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-import static com.mraof.minestuck.block.MinestuckUniverseBlocks.*;
-import static com.mraof.minestuck.block.MinestuckUniverseBlocks.gristBlockZillium;
-import static com.mraof.minestuck.item.MinestuckUniverseItems.*;
-import static com.mraof.minestuck.item.MinestuckUniverseItems.returnNode;
+import static com.mraof.minestuck.block.MinestuckBlocks.*;
+import static com.mraof.minestuck.block.MinestuckBlocks.gristBlockZillium;
+import static com.mraof.minestuck.item.MinestuckItems.*;
+import static com.mraof.minestuck.item.MinestuckItems.returnNode;
 import static com.mraof.minestuck.MinestuckConfig.oreMultiplier;
 import static com.mraof.minestuck.alchemy.GristType.*;
-import static com.mraof.minestuck.block.MinestuckBlocks.*;
-import static com.mraof.minestuck.item.MinestuckItems.*;
 import static com.mraof.minestuck.alchemy.CombinationRegistry.Mode.*;
 import static com.mraof.minestuck.item.MinestuckItems.crumplyHat;
 import static com.mraof.minestuck.item.MinestuckItems.fluoriteOctet;
@@ -957,7 +955,7 @@ public class AlchemyRecipes
 		GristRegistry.addGristConversion(new ItemStack(battery), new GristSet(new GristType[] {Build, Mercury}, new int[] {1, 2}));
 		GristRegistry.addGristConversion(new ItemStack(batteryBeamBlade), new GristSet(new GristType[]{Build, Uranium, Mercury}, new int[]{27, 54, 83}));
 		GristRegistry.addGristConversion(new ItemStack(bloodKatana), new GristSet(new GristType[] {Rust, Iodine}, new int[] {2600, 30}));
-		GristRegistry.addGristConversion(new ItemStack(trueUnbreakableKatana), new GristSet(Zillium, 1000));
+		GristRegistry.addGristConversion(new ItemStack(unbreakableKatana), new GristSet(Zillium, 1000));
 		GristRegistry.addGristConversion(new ItemStack(quantumEntangloporter), new GristSet(new GristType[] {Iodine, Uranium, Diamond}, new int[] {4400, 680, 2}));
 		GristRegistry.addGristConversion(new ItemStack(lightbringer), new GristSet(new GristType[] {Gold, Tar, Sulfur, Diamond}, new int[] {3400, 1200, 800, 22}));
 		GristRegistry.addGristConversion(new ItemStack(cybersword), new GristSet(new GristType[] {Gold, Cobalt, Uranium, Diamond}, new int[] {4400, 8030, 8, 220}));
@@ -1081,7 +1079,7 @@ public class AlchemyRecipes
 
 		GristRegistry.addGristConversion(new ItemStack(fluoriteOre), new GristSet(new GristType[] {Cobalt, Diamond, Build}, new int[] {20, 1, 4}));
 
-		GristRegistry.addGristConversion(new ItemStack(trueUnbreakableKatana) , new GristSet(Zillium, 1000));
+		GristRegistry.addGristConversion(new ItemStack(unbreakableKatana) , new GristSet(Zillium, 1000));
 
 		GristRegistry.addGristConversion(new ItemStack(returnMedallion) , new GristSet(new GristType[] {Build, Rust, Artifact, Quartz}, new int[] {10000, 1000, 250, 500}));
 		GristRegistry.addGristConversion(new ItemStack(teleportMedallion) , new GristSet(new GristType[] {Build, Uranium, Rust, Artifact}, new int[] {5000, 5000, 1000, 250}));
@@ -1495,9 +1493,9 @@ public class AlchemyRecipes
 
 		//bladekind
 		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.katana), new ItemStack(MinestuckItems.minestuckBucket, 1, 1), MODE_OR, false, true, new ItemStack(bloodKatana));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.unbreakableKatana), new ItemStack(Blocks.BEDROCK), MODE_AND, false, false, new ItemStack(trueUnbreakableKatana));
+		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.unbreakableKatana), new ItemStack(Blocks.BEDROCK), MODE_AND, false, false, new ItemStack(unbreakableKatana));
 		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.katana), new ItemStack(battery), MODE_AND, false, false, new ItemStack(batteryBeamBlade));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.unbreakableKatana), new ItemStack(Blocks.BEDROCK), MODE_AND, false, false, new ItemStack(trueUnbreakableKatana));
+		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.unbreakableKatana), new ItemStack(Blocks.BEDROCK), MODE_AND, false, false, new ItemStack(unbreakableKatana));
 		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.cactusCutlass), new ItemStack(wormholePiercer), MODE_AND, false, false, new ItemStack(quantumEntangloporter));
 		CombinationRegistry.addCombination(new ItemStack(Items.DIAMOND_SWORD), new ItemStack(MinestuckItems.itemFrog, 1, 6), MODE_OR, false, true, new ItemStack(crystallineRibbitar));
 		CombinationRegistry.addCombination(new ItemStack(cozySweater), new ItemStack(crystallineRibbitar), CombinationRegistry.Mode.MODE_AND, false, false, new ItemStack(valorsEdge));
@@ -1546,15 +1544,15 @@ public class AlchemyRecipes
 
 		//clawkind
 		CombinationRegistry.removeCombination(new ItemStack(Blocks.IRON_BARS), new ItemStack(Items.LEATHER), CombinationRegistry.Mode.MODE_AND, false, true);
-		CombinationRegistry.addCombination(new ItemStack(Blocks.IRON_BARS), new ItemStack(fancyGlove), MODE_OR, false, false, new ItemStack(catclaws));
-		CombinationRegistry.addCombination(new ItemStack(catclaws), new ItemStack(fluorite), MODE_AND, false, false, new ItemStack(actionClaws));
+		CombinationRegistry.addCombination(new ItemStack(Blocks.IRON_BARS), new ItemStack(fancyGlove), MODE_OR, false, false, new ItemStack(catClaws));
+		CombinationRegistry.addCombination(new ItemStack(catClaws), new ItemStack(fluorite), MODE_AND, false, false, new ItemStack(actionClaws));
 		CombinationRegistry.addCombination(new ItemStack(yarnBall, 1, 0), new ItemStack(actionClaws), MODE_AND, true, false, new ItemStack(sneakyDaggers));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.ICE), new ItemStack(actionClaws), MODE_OR, false, false, new ItemStack(blizzardCutters));
 		CombinationRegistry.addCombination(new ItemStack(battery), new ItemStack(blizzardCutters), MODE_AND, false, false, new ItemStack(thunderbirdTalons));
 		CombinationRegistry.addCombination(new ItemStack(bladesOfTheWarrior), new ItemStack(archmageHat), MODE_OR, false, false, new ItemStack(archmageDaggers));
 		CombinationRegistry.addCombination(new ItemStack(katars), new ItemStack(Items.FIREWORKS), MODE_AND, false, false, new ItemStack(rocketKatars));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.candy, 1, 0), new ItemStack(catclaws), MODE_OR, true, false, new ItemStack(candyCornClaws));
-		CombinationRegistry.addCombination(new ItemStack(zillyStone), new ItemStack(catclaws), MODE_OR, false, false, new ItemStack(katarsOfZillywhomst));
+		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.candy, 1, 0), new ItemStack(catClaws), MODE_OR, true, false, new ItemStack(candyCornClaws));
+		CombinationRegistry.addCombination(new ItemStack(zillyStone), new ItemStack(catClaws), MODE_OR, false, false, new ItemStack(katarsOfZillywhomst));
 		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.clawSickle), new ItemStack(MinestuckItems.grimoire), MODE_AND, false, false, new ItemStack(MinestuckItems.clawOfNrubyiglith));
 		CombinationRegistry.removeCombination(new ItemStack(MinestuckItems.catClaws), new ItemStack(MinestuckItems.grimoire), MODE_AND, false, true);
 
@@ -2060,7 +2058,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination(new ItemStack(BlocksTC.leafSilverwood, 1, 0), new ItemStack(BlocksTC.leafSilverwood, 1, 5), MODE_AND, new ItemStack(BlocksTC.saplingSilverwood));
 
 		//Crucible Recipes
-		ThaumcraftApi.addCrucibleRecipe(new ResourceLocation("minestuckuniverse", "magicBlock"), new CrucibleRecipe("UNLOCKALCHEMY@1", new ItemStack(magicBlock), new ItemStack(MinestuckBlocks.genericObject), (new AspectList()).merge(Aspect.MAGIC, 10).merge(Aspect.ALCHEMY, 10)));
+		ThaumcraftApi.addCrucibleRecipe(new ResourceLocation("Minestuck", "magicBlock"), new CrucibleRecipe("UNLOCKALCHEMY@1", new ItemStack(magicBlock), new ItemStack(MinestuckBlocks.genericObject), (new AspectList()).merge(Aspect.MAGIC, 10).merge(Aspect.ALCHEMY, 10)));
 	}
 
 	public static void registerBotania()

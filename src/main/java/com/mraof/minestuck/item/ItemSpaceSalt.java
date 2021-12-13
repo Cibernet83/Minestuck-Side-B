@@ -11,10 +11,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemSpaceSalt extends MSUItemBase {
+public class ItemSpaceSalt extends MSItemBase {
 
     public ItemSpaceSalt() {
-        super("space_salt", "spaceSalt");
+        super("spaceSalt");
     }
 
     @Override

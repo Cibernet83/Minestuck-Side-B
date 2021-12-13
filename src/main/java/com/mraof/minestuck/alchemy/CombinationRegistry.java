@@ -1,13 +1,6 @@
 package com.mraof.minestuck.alchemy;
 
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import com.mraof.minestuck.block.MinestuckBlocks;
-
 import com.mraof.minestuck.event.AlchemyCombinationEvent;
 import com.mraof.minestuck.util.Debug;
 import net.minecraft.block.Block;
@@ -15,6 +8,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
+
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.List;
 
 public class CombinationRegistry {
 	private static Hashtable<List<Object>, ItemStack> combRecipes = new Hashtable<List<Object>, ItemStack>();
@@ -41,14 +39,10 @@ public class CombinationRegistry {
 			return this == MODE_AND;
 		}
 	}
-	
-	/**
-	 * Creates an entry for a result of combining the cards of two items. Used in the Punch Designix.
-	 */
+
 	public static void addCombination(@Nonnull ItemStack input1, @Nonnull ItemStack input2, Mode mode, @Nonnull ItemStack output) {
 		addCombination(input1, input2, mode, !input1.getItem().isDamageable(), !input2.getItem().isDamageable(), output);
 	}
-	
 	
 	public static void addCombination(@Nonnull ItemStack input1, @Nonnull ItemStack input2, Mode mode, boolean useDamage1, boolean useDamage2, @Nonnull ItemStack output)
 	{

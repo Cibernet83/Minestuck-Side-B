@@ -9,14 +9,14 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class BoondollarRegisterPacket extends MSUPacket
+public class BoondollarRegisterPacket extends MinestuckPacket
 {
     BlockPos pos;
     EnumType type;
     int mav;
 
     @Override
-    public MSUPacket generatePacket(Object... dat)
+    public MinestuckPacket generatePacket(Object... dat)
     {
         this.data.writeInt(((EnumType)dat[0]).ordinal());
         TileEntityBoondollarRegister te = (TileEntityBoondollarRegister) dat[1];
@@ -29,7 +29,7 @@ public class BoondollarRegisterPacket extends MSUPacket
     }
 
     @Override
-    public MSUPacket consumePacket(ByteBuf dat)
+    public MinestuckPacket consumePacket(ByteBuf dat)
     {
         type = EnumType.values()[dat.readInt()];
         pos = new BlockPos(dat.readInt(), dat.readInt(), dat.readInt());

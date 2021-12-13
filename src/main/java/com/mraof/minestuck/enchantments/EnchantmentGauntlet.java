@@ -1,5 +1,6 @@
 package com.mraof.minestuck.enchantments;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.IClassedTool;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDamage;
@@ -13,7 +14,7 @@ public class EnchantmentGauntlet extends EnchantmentKnockback
 	protected EnchantmentGauntlet(Rarity rarityIn, EntityEquipmentSlot... slots)
 	{
 		super(rarityIn, slots);
-		setName(MinestuckUniverse.MODID+".superpunch");
+		setName(Minestuck.MODID + ".superpunch");
 	}
 
 	public boolean canApplyTogether(Enchantment ench)

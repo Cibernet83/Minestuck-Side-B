@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class PorkhollowAtmPacket extends MSUPacket
+public class PorkhollowAtmPacket extends MinestuckPacket
 {
 	Type type;
 	EntityPlayer reciever;
@@ -18,7 +18,7 @@ public class PorkhollowAtmPacket extends MSUPacket
 	int n;
 	
 	@Override
-	public MSUPacket generatePacket(Object... dat)
+	public MinestuckPacket generatePacket(Object... dat)
 	{
 		IdentifierHandler.PlayerIdentifier identifier = IdentifierHandler.encode((EntityPlayer) dat[1]);
 		int n = 1;
@@ -32,7 +32,7 @@ public class PorkhollowAtmPacket extends MSUPacket
 	}
 	
 	@Override
-	public MSUPacket consumePacket(ByteBuf data)
+	public MinestuckPacket consumePacket(ByteBuf data)
 	{
 		type = Type.values()[data.readInt()];
 		reciever = IdentifierHandler.getById(data.readInt()).getPlayer();

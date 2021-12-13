@@ -27,7 +27,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
 
-public class ItemTimetable extends MSUItemBase
+public class ItemTimetable extends MSItemBase
 {
 	public ItemTimetable()
 	{

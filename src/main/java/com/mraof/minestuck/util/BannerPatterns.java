@@ -1,6 +1,7 @@
 package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -15,13 +16,14 @@ public class BannerPatterns
 
     public static void init()
     {
-        if(Minestuck.isMSGTLoaded)
+        // TODO: uncomment
+        /*if(Minestuck.isMSGTLoaded)
         {
             for(EnumAspect aspect : EnumAspect.values())
                 registerPattern(aspect.toString(), new ItemStack(Item.REGISTRY.getObject(new ResourceLocation("minestuckgodtier", "hero_stone_shard_"+aspect.toString()))));
         }
         else
-        {
+        {*/
             registerPattern("light", new ItemStack(Items.GLOWSTONE_DUST));
             registerPattern("void", new ItemStack(Items.COAL));
             registerPattern("space", new ItemStack(Items.COMPASS));
@@ -34,15 +36,15 @@ public class BannerPatterns
             registerPattern("blood", new ItemStack(Items.REDSTONE));
             registerPattern("rage", new ItemStack(Items.ROTTEN_FLESH));
             registerPattern("hope", new ItemStack(Items.GHAST_TEAR));
-        }
+        //}
 
-        registerPattern("moon", new ItemStack(MinestuckUniverseItems.moonstone));
+        registerPattern("moon", new ItemStack(MinestuckItems.moonstone));
     }
 
     public static BannerPattern registerPattern(String id, ItemStack ingredient)
     {
         Class<?>[] paramTypes = new Class[] {String.class, String.class, ItemStack.class};
-        Object[] paramVals = new Object[] {MinestuckUniverse.SHORT.toLowerCase() + "_" + id, MinestuckUniverse.SHORT.toLowerCase() + "." + id, ingredient};
+        Object[] paramVals = new Object[] {Minestuck.MODID + "_" + id, Minestuck.MODID + "." + id, ingredient};
         return EnumHelper.addEnum(BannerPattern.class, id.toUpperCase(), paramTypes, paramVals);
     }
 }

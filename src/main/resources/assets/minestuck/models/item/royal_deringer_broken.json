@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/broken_royal_deringer"
+        "layer0": "Minestuck:items/broken_royal_deringer"
     }
 }

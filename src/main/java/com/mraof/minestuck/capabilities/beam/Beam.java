@@ -1,14 +1,15 @@
 package com.mraof.minestuck.capabilities.beam;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MSUCapabilities;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.properties.beams.IPropertyBeam;
 import com.mraof.minestuck.item.weapon.IBeamStats;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -186,7 +187,7 @@ public class Beam
 					if(p instanceof IPropertyBeam)
 						damageName = ((IPropertyBeam) p).beamDamageName(this, sourceStack, damageName);
 
-				DamageSource damageSource = new EntityDamageSource(MinestuckUniverse.MODID+"."+damageName, source);
+				DamageSource damageSource = new EntityDamageSource(Minestuck.MODID + "." + damageName, source);
 
 				if(sourceStack != null && sourceStack.getItem() instanceof IPropertyWeapon)
 				{
@@ -243,7 +244,7 @@ public class Beam
 		beam.world.getCapability(MSUCapabilities.BEAM_DATA, null).addBeam(beam);
 		if(!beam.world.isRemote)
 			for(EntityPlayer player : beam.world.playerEntities)
-				MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.UPDATE_BEAMS, beam.world), player);
+				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_BEAMS, beam.world), player);
 	}
 
 	public void readFromNBT(NBTTagCompound nbt)
@@ -419,7 +420,7 @@ public class Beam
 		this.duration = duration;
 	}
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(MinestuckUniverse.MODID, "textures/entity/projectiles/beam.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Minestuck.MODID, "textures/entity/projectiles/beam.png");
 	public ResourceLocation getTexture()
 	{
 		if(sourceStack.getItem() instanceof IBeamStats)

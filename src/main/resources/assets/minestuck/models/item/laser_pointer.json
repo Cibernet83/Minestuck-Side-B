@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/laser_pointer"
+        "layer0": "Minestuck:items/laser_pointer"
     },
     "display": {
         "thirdperson_righthand": {

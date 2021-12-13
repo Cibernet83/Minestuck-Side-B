@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.inventory.ContainerAutoCaptcha;
 import com.mraof.minestuck.tileentity.TileEntityAutoCaptcha;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -9,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiAutoCaptcha extends GuiContainer
 {
-	private static final ResourceLocation TEXTURES = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/auto_captcha.png");
+	private static final ResourceLocation TEXTURES = new ResourceLocation(Minestuck.MODID, "textures/gui/auto_captcha.png");
 	private final InventoryPlayer player;
 	private final TileEntityAutoCaptcha tileEntity;
 	

@@ -2,7 +2,7 @@ package com.cibernet.minestuckgodtier.blocks;
 
 import com.cibernet.minestuckgodtier.items.MSGTItems;
 import com.cibernet.minestuckgodtier.potions.MSGTPotions;
-import com.cibernet.minestuckuniverse.blocks.BlockEffectBeacon;
+import com.cibernet.Minestuck.blocks.BlockEffectBeacon;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;

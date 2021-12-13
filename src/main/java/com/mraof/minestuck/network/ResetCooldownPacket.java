@@ -6,16 +6,16 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class ResetCooldownPacket extends MSUPacket
+public class ResetCooldownPacket extends MinestuckPacket
 {
 	@Override
-	public MSUPacket generatePacket(Object... var1)
+	public MinestuckPacket generatePacket(Object... var1)
 	{
 		return this;
 	}
 
 	@Override
-	public MSUPacket consumePacket(ByteBuf var1)
+	public MinestuckPacket consumePacket(ByteBuf var1)
 	{
 		return this;
 	}

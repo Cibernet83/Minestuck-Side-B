@@ -1,8 +1,9 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.BlockWoolTransportalizer;
 import com.mraof.minestuck.item.properties.PropertyDualWield;
-import com.mraof.minestuck.item.weapon.MSUWeaponBase;
+import com.mraof.minestuck.item.weapon.MSWeaponBase;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,14 +23,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
-public class ItemKnittingNeedles extends MSUWeaponBase
+public class ItemKnittingNeedles extends MSWeaponBase
 {
-    public ItemKnittingNeedles(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name, String unlocName)
+    public ItemKnittingNeedles(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
     {
-        super(maxUses, damageVsEntity, weaponSpeed, enchantability, name, unlocName);
+        super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
         setMaxStackSize(2);
 
-        this.addPropertyOverride(new ResourceLocation(MinestuckUniverse.MODID,"plural"), new IItemPropertyGetter()
+        this.addPropertyOverride(new ResourceLocation(Minestuck.MODID, "plural"), new IItemPropertyGetter()
         {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
@@ -70,7 +71,7 @@ public class ItemKnittingNeedles extends MSUWeaponBase
 
             stack.damageItem(1, player);
             if(!worldIn.isRemote)
-                InventoryHelper.spawnItemStack(worldIn,pos.getX(),pos.getY(),pos.getZ(), new ItemStack(MinestuckUniverseItems.yarnBall, 1, color.getDyeDamage()));
+                InventoryHelper.spawnItemStack(worldIn,pos.getX(),pos.getY(),pos.getZ(), new ItemStack(MinestuckItems.yarnBall, 1, color.getDyeDamage()));
             worldIn.playSound(null, pos, SoundEvents.BLOCK_CLOTH_BREAK, SoundCategory.BLOCKS, 0.5f, 1);
 
             return EnumActionResult.SUCCESS;

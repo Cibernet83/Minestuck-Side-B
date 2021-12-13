@@ -15,13 +15,13 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class ItemDragonCharge extends MSUItemBase
+public class ItemDragonCharge extends MSItemBase
 {
-	public ItemDragonCharge(String name, String unlocName)
+	public ItemDragonCharge(String name)
 	{
-		super(name, unlocName);
+		super(name);
 		setMaxStackSize(16);
-		setCreativeTab(TabMinestuckUniverse.weapons);
+		setCreativeTab(TabsMinestuck.weapons);
 
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, new BehaviorDefaultDispenseItem()
 		{

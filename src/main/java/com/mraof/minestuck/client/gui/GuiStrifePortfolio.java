@@ -1,14 +1,15 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.capabilities.MSUCapabilities;
 import com.mraof.minestuck.client.MSUFontRenderer;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.client.gui.playerStats.GuiPlayerStats;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.StrifePortfolioHandler;
 import com.mraof.minestuck.strife.StrifeSpecibus;
-import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.client.gui.playerStats.GuiPlayerStats;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -24,11 +25,11 @@ import java.util.List;
 public class GuiStrifePortfolio extends GuiPlayerStats
 {
 
-	private static final ResourceLocation guiStrifePortfolio = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/strife_specibus/strife_portfolio.png");
-	private static final ResourceLocation guiPortfolioTabs = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/strife_specibus/portfolio_tabs.png");
-	private static final ResourceLocation guiStrifePortfolioBg = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/strife_specibus/portfolio_bg.png");
-	private static final ResourceLocation guiStrifeCard = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/strife_specibus/strife_card.png");
-	public static final ResourceLocation icons = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/icons.png");
+	private static final ResourceLocation guiStrifePortfolio = new ResourceLocation(Minestuck.MODID, "textures/gui/strife_specibus/strife_portfolio.png");
+	private static final ResourceLocation guiPortfolioTabs = new ResourceLocation(Minestuck.MODID, "textures/gui/strife_specibus/portfolio_tabs.png");
+	private static final ResourceLocation guiStrifePortfolioBg = new ResourceLocation(Minestuck.MODID, "textures/gui/strife_specibus/portfolio_bg.png");
+	private static final ResourceLocation guiStrifeCard = new ResourceLocation(Minestuck.MODID, "textures/gui/strife_specibus/strife_card.png");
+	public static final ResourceLocation icons = new ResourceLocation(Minestuck.MODID, "textures/gui/icons.png");
 	private static final String iconsLoc = "textures/gui/strife_specibus/icons/";
 
 	private static final int columnWidth = 70, columns = 3;
@@ -186,14 +187,14 @@ public class GuiStrifePortfolio extends GuiPlayerStats
 					if(!mousePressed)
 					{
 						StrifePortfolioHandler.retrieveCard(mc.player, i);
-						MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.RETRIEVE_STRIFE, i));
+						MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.RETRIEVE_STRIFE, i));
 					}
 					mousePressed = true;
 				}
 				else if(Mouse.isButtonDown(0))
 				{
 					if(!mousePressed)
-						MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.SET_ACTIVE_STRIFE, i, true));
+						MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.SET_ACTIVE_STRIFE, i, true));
 					mousePressed = true;
 				}
 				else mousePressed = false;
@@ -233,13 +234,13 @@ public class GuiStrifePortfolio extends GuiPlayerStats
 			if(Mouse.isButtonDown(1))
 			{
 				if(!mousePressed)
-					MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.RETRIEVE_STRIFE, index, true));
+					MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.RETRIEVE_STRIFE, index, true));
 				mousePressed = true;
 			}
 			else if(Mouse.isButtonDown(0))
 			{
 				if(!mousePressed)
-					MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.SET_ACTIVE_STRIFE, index, true));
+					MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.SET_ACTIVE_STRIFE, index, true));
 				mousePressed = true;
 			}
 			else mousePressed = false;

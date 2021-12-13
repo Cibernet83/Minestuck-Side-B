@@ -58,7 +58,7 @@ public class AlchemiterHandler extends TemplateRecipeHandler
 	@Override
 	public String getGuiTexture()
 	{
-		return "minestuck:textures/gui/alchemiter.png";
+		return Minestuck.MODID+":textures/gui/alchemiter.png";
 	}
 	
 	@Override
@@ -110,11 +110,11 @@ public class AlchemiterHandler extends TemplateRecipeHandler
 	{
 		
 		//render progress bar
-		changeTexture("minestuck:textures/gui/progress/alchemiter.png");
+		changeTexture(Minestuck.MODID+":textures/gui/progress/alchemiter.png");
 		drawProgressBar(49, 12, 0, 0, 71, 10, 50, 0);
 		
 		//render carved dowel
-		changeTexture("minestuck:textures/items/cruxite_carved.png");
+		changeTexture(Minestuck.MODID+":textures/items/cruxite_carved.png");
 		Gui.drawModalRectWithCustomSizedTexture(22, 9, 0, 0, 16, 16,16,16);
 		
 		//Render grist requirements

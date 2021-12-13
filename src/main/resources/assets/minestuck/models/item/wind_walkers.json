@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckuniverse:items/wind_walkers"
+        "layer0": "Minestuck:items/wind_walkers"
     }
 }

@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemDualClaw extends MSUWeaponBase
+public class ItemDualClaw extends MSWeaponBase
 {
     public double damage;
     public double damageSheathed;
@@ -24,8 +24,8 @@ public class ItemDualClaw extends MSUWeaponBase
 
     protected final ArrayList<WeaponProperty> sheathedProperties = new ArrayList<>();
 
-    public ItemDualClaw(int maxUses, double damageVsEntity, double damagedVsEntityWhileShiethed, double weaponSpeed, double weaponSpeedWhileShiethed, int enchantability, String name, String regName) {
-        super(maxUses, damageVsEntity, weaponSpeed, enchantability, regName, name);
+    public ItemDualClaw(int maxUses, double damageVsEntity, double damagedVsEntityWhileShiethed, double weaponSpeed, double weaponSpeedWhileShiethed, int enchantability, String name) {
+        super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
         this.damage = damageVsEntity;
         this.damageSheathed = damagedVsEntityWhileShiethed;
         this.attackSpeed = weaponSpeed;
@@ -97,7 +97,7 @@ public class ItemDualClaw extends MSUWeaponBase
     }
 
     @Override
-    public MSUWeaponBase addProperties(WeaponProperty... properties)
+    public MSWeaponBase addProperties(WeaponProperty... properties)
     {
         List<WeaponProperty> propertiesList = sheathedProperties;
         for(WeaponProperty p : properties)
@@ -111,7 +111,7 @@ public class ItemDualClaw extends MSUWeaponBase
         return super.addProperties(properties);
     }
 
-    public MSUWeaponBase addProperties(boolean drawn, WeaponProperty... properties)
+    public MSWeaponBase addProperties(boolean drawn, WeaponProperty... properties)
     {
         List<WeaponProperty> propertiesList = (drawn ? getProperties() : sheathedProperties);
         for(WeaponProperty p : properties)

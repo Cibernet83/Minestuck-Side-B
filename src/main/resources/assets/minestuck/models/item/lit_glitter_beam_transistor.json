@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/lit_glitter_beam_transistor"
+        "layer0": "Minestuck:items/lit_glitter_beam_transistor"
     }
 }

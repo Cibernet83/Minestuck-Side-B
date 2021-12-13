@@ -3,7 +3,7 @@
 	"ambientocclusion": false,
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "minestuckuniverse:models/clarity_ward"
+		"0": "Minestuck:models/clarity_ward"
 	},
 	"elements": [
 		{
@@ -235,9 +235,9 @@
                 {
                     "predicate":
                     {
-                        "minestuckuniverse:left": 1
+                        "Minestuck:left": 1
                     },
-                    "model": "minestuckuniverse:item/blades_of_the_warrior_left"
+                    "model": "Minestuck:item/blades_of_the_warrior_left"
                 }
             ]
 }

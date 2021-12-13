@@ -1,6 +1,6 @@
 {
-    "parent": "minestuckuniverse:item/wormhole_piercer",
+    "parent": "Minestuck:item/wormhole_piercer",
     "textures": {
-        "layer0": "minestuckuniverse:items/wormhole_piercer_pulling_2"
+        "layer0": "Minestuck:items/wormhole_piercer_pulling_2"
     }
 }

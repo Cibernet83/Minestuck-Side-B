@@ -48,9 +48,9 @@ public class IDBasedAlchemyHandler
 	{
 		if(item == Item.getItemFromBlock(MinestuckBlocks.genericObject))
 			return 0;
-		if(item == Item.getItemFromBlock(MinestuckUniverseBlocks.uniqueObject))
+		if(item == Item.getItemFromBlock(MinestuckBlocks.uniqueObject))
 			return MAX_ID;
-		if(item == Item.getItemFromBlock(MinestuckUniverseBlocks.artifact))
+		if(item == Item.getItemFromBlock(MinestuckBlocks.artifact))
 			return -1;
 		return Item.REGISTRY.getIDForObject(item);
 	}
@@ -60,16 +60,16 @@ public class IDBasedAlchemyHandler
 		if(id == 0)
 			return Item.getItemFromBlock(MinestuckBlocks.genericObject);
 		if(id > MAX_ID)
-			return Item.getItemFromBlock(MinestuckUniverseBlocks.uniqueObject);
+			return Item.getItemFromBlock(MinestuckBlocks.uniqueObject);
 
 		Item result = Item.REGISTRY.getObjectById(id);
 
-		if(result == Item.getItemFromBlock(MinestuckUniverseBlocks.uniqueObject))
+		if(result == Item.getItemFromBlock(MinestuckBlocks.uniqueObject))
 			result = null;
-		if(result == Item.getItemFromBlock(MinestuckUniverseBlocks.artifact))
+		if(result == Item.getItemFromBlock(MinestuckBlocks.artifact))
 			result = null;
 
-		return result == null ? Item.getItemFromBlock(MinestuckUniverseBlocks.artifact) : result;
+		return result == null ? Item.getItemFromBlock(MinestuckBlocks.artifact) : result;
 	}
 
 	@Deprecated //DO NOT USE, only for CommonProxy.postInit

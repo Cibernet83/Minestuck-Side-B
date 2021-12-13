@@ -1,5 +1,7 @@
 package com.mraof.minestuck.entity;
 
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -13,7 +15,7 @@ import net.minecraft.world.WorldServer;
 
 public class EntityUnrealAir extends Entity
 {
-	public static DamageSource UNREAL_DAMAGE = new DamageSource(MinestuckUniverse.MODID+".unrealDamage").setDamageBypassesArmor().setDamageAllowedInCreativeMode().setDamageIsAbsolute();
+	public static DamageSource UNREAL_DAMAGE = new DamageSource(Minestuck.MODID + ".unrealDamage").setDamageBypassesArmor().setDamageAllowedInCreativeMode().setDamageIsAbsolute();
 
 	public EntityUnrealAir(World worldIn)
 	{
@@ -82,9 +84,9 @@ public class EntityUnrealAir extends Entity
 			Vec3d vec3d1 = new Vec3d(((double)this.rand.nextFloat() - 0.5D) * width, d0, 0.6D);
 			vec3d1 = vec3d1.addVector(this.posX+0.5f, this.posY + height/2f, this.posZ+0.5f);
 			if (this.world instanceof WorldServer) //Forge: Fix MC-2518 spawnParticle is nooped on server, need to use server specific variant
-				((WorldServer)this.world).spawnParticle(EnumParticleTypes.ITEM_CRACK, vec3d1.x, vec3d1.y, vec3d1.z, 0,  vec3d.x, vec3d.y + 0.05D, vec3d.z, 0.0D, Item.getIdFromItem(MinestuckUniverseItems.unrealAir));
+				((WorldServer)this.world).spawnParticle(EnumParticleTypes.ITEM_CRACK, vec3d1.x, vec3d1.y, vec3d1.z, 0,  vec3d.x, vec3d.y + 0.05D, vec3d.z, 0.0D, Item.getIdFromItem(MinestuckItems.unrealAir));
 			else //Fix the fact that spawning ItemCrack uses TWO arguments.
-				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, vec3d1.x, vec3d1.y, vec3d1.z, vec3d.x, vec3d.y + 0.05D, vec3d.z, Item.getIdFromItem(MinestuckUniverseItems.unrealAir));
+				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, vec3d1.x, vec3d1.y, vec3d1.z, vec3d.x, vec3d.y + 0.05D, vec3d.z, Item.getIdFromItem(MinestuckItems.unrealAir));
 
 		}
 	}

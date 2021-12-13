@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "minestuckuniverse:models/pogo_fist",
-		"particle": "minestuckuniverse:models/pogo_fist"
+		"0": "Minestuck:models/pogo_fist",
+		"particle": "Minestuck:models/pogo_fist"
 	},
 	"elements": [
 		{

@@ -2,11 +2,11 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"6": "minestuckuniverse:blocks/grist_block_zillium",
-		"7": "minestuckuniverse:blocks/grist_block_zillium_flipped",
-		"8": "minestuckuniverse:blocks/grist_block_zillium_bottom",
-		"9": "minestuckuniverse:blocks/grist_block_zillium_top",
-		"particle": "minestuckuniverse:blocks/grist_block_zillium"
+		"6": "Minestuck:blocks/grist_block_zillium",
+		"7": "Minestuck:blocks/grist_block_zillium_flipped",
+		"8": "Minestuck:blocks/grist_block_zillium_bottom",
+		"9": "Minestuck:blocks/grist_block_zillium_top",
+		"particle": "Minestuck:blocks/grist_block_zillium"
 	},
 	"elements": [
 		{

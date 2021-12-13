@@ -41,8 +41,8 @@ public class GristType extends IForgeRegistryEntry.Impl<GristType> implements Co
 	public static final GristType Zillium = new GristType("zillium", 0.0F, 10, new ResourceLocation("minestuck", "zillium"));
 
 	//Magic Grist (Thaum, Botania, etc.)
-	public static final GristType Vis = new GristType("vis", 0F, 5.0F, new ResourceLocation("minestuckuniverse", "vis"));
-	public static final GristType Mana = new GristType("mana", 0F, 5.0F, new ResourceLocation("minestuckuniverse", "mana"));
+	public static final GristType Vis = new GristType("vis", 0F, 5.0F, new ResourceLocation("Minestuck", "vis"));
+	public static final GristType Mana = new GristType("mana", 0F, 5.0F, new ResourceLocation("Minestuck", "mana"));
 
 	public static ForgeRegistry<GristType> REGISTRY;
 
@@ -69,7 +69,7 @@ public class GristType extends IForgeRegistryEntry.Impl<GristType> implements Co
 	{
 		if (!string.contains(":"))
 		{
-			string = "minestuck:" + string;
+			string = Minestuck.MODID+":" + string;
 		}
 		return REGISTRY.getValue(new ResourceLocation(string));
 	}

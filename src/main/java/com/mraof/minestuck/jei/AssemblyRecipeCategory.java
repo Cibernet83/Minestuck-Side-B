@@ -1,5 +1,6 @@
-package com.mraof.minestuck.modSupport.jei;
+package com.mraof.minestuck.jei;
 
+import com.mraof.minestuck.Minestuck;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
@@ -19,13 +20,13 @@ public class AssemblyRecipeCategory implements IRecipeCategory<AssemblyRecipeWra
 	
 	public AssemblyRecipeCategory(IGuiHelper helper)
 	{
-		background = helper.createDrawable(new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/machine_chassis.png"), 0, 166, 126, 68);
+		background = helper.createDrawable(new ResourceLocation(Minestuck.MODID, "textures/gui/machine_chassis.png"), 0, 166, 126, 68);
 	}
 	
 	@Override
 	public String getUid()
 	{
-		return MinestuckUniverse.MODID + ".assembly";
+		return Minestuck.MODID + ".assembly";
 	}
 	
 	@Override
@@ -37,7 +38,7 @@ public class AssemblyRecipeCategory implements IRecipeCategory<AssemblyRecipeWra
 	@Override
 	public String getModName()
 	{
-		return MinestuckUniverse.NAME;
+		return Minestuck.NAME;
 	}
 	
 	@Override

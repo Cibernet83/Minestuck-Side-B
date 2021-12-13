@@ -45,10 +45,10 @@ public class MSGTChannelHandler extends FMLIndexedMessageToMessageCodec<MSGTPack
         msg.consumePacket(source);
     }
 
-    private static class MSUPacketHandler extends SimpleChannelInboundHandler<MSGTPacket>
+    private static class MinestuckPacketHandler extends SimpleChannelInboundHandler<MSGTPacket>
     {
         private final Side side;
-        private MSUPacketHandler(Side side)
+        private MinestuckPacketHandler(Side side)
         {
             this.side = side;
         }
@@ -75,9 +75,9 @@ public class MSGTChannelHandler extends FMLIndexedMessageToMessageCodec<MSGTPack
         {
             channels = NetworkRegistry.INSTANCE.newChannel("MinestuckGodTier", MSGTChannelHandler.instance);
             String targetName = channels.get(Side.CLIENT).findChannelHandlerNameForType(MSGTChannelHandler.class);
-            channels.get(Side.CLIENT).pipeline().addAfter(targetName, "MSGTPacketHandler", new MSUPacketHandler(Side.CLIENT));
+            channels.get(Side.CLIENT).pipeline().addAfter(targetName, "MSGTPacketHandler", new MinestuckPacketHandler(Side.CLIENT));
             targetName = channels.get(Side.SERVER).findChannelHandlerNameForType(MSGTChannelHandler.class);	//Not sure if this is necessary
-            channels.get(Side.SERVER).pipeline().addAfter(targetName, "MSGTPacketHandler", new MSUPacketHandler(Side.SERVER));
+            channels.get(Side.SERVER).pipeline().addAfter(targetName, "MSGTPacketHandler", new MinestuckPacketHandler(Side.SERVER));
         }
     }
 

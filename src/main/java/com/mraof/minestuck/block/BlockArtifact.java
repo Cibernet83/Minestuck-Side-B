@@ -21,10 +21,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockArtifact extends MSUBlockBase
+public class BlockArtifact extends MSBlockBase
 {
-	public BlockArtifact(Material fire, MapColor purple, String artifact, String artifact1) {
-		super(fire, purple, artifact, artifact1);
+	public BlockArtifact(Material fire, MapColor purple, String name) {
+		super(fire, purple, name);
 
 		setHardness(0);
 		setResistance(0);

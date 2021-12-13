@@ -1,7 +1,8 @@
 package com.mraof.minestuck.strife;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.IClassedTool;
-import com.mraof.minestuck.item.weapon.MSUToolClass;
+import com.mraof.minestuck.item.weapon.MSToolClass;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -16,7 +17,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.ArrayList;
 
-@Mod.EventBusSubscriber(modid = MinestuckUniverse.MODID)
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> implements Comparable<KindAbstratus>
 {
 	public static ForgeRegistry<KindAbstratus> REGISTRY;
@@ -28,14 +29,14 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 	protected boolean isFist = false;
 	protected boolean preventRightClick = false;
 
-	protected final ArrayList<MSUToolClass> toolClasses = new ArrayList<>();
+	protected final ArrayList<MSToolClass> toolClasses = new ArrayList<>();
 	protected final ArrayList<Class<? extends Item>> itemClasses = new ArrayList<>();
 	protected final ArrayList<Item> toolItems = new ArrayList<>();
 	protected final ArrayList<String> keywords = new ArrayList<>();
 
 	protected IAbstratusConditional conditional;
 
-	public KindAbstratus(String unlocName, MSUToolClass... toolClasses)
+	public KindAbstratus(String unlocName, MSToolClass... toolClasses)
 	{
 		ID = idAt++;
 
@@ -82,9 +83,9 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 		return conditional;
 	}
 
-	public KindAbstratus addToolClasses(MSUToolClass... toolClasses)
+	public KindAbstratus addToolClasses(MSToolClass... toolClasses)
 	{
-		for(MSUToolClass tc : toolClasses)
+		for(MSToolClass tc : toolClasses)
 			if(tc != null && !this.toolClasses.contains(tc))
 				this.toolClasses.add(tc);
 		return this;
@@ -122,7 +123,7 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 		return toolItems;
 	}
 
-	public ArrayList<MSUToolClass> getToolClasses() {
+	public ArrayList<MSToolClass> getToolClasses() {
 		return toolClasses;
 	}
 
@@ -135,7 +136,7 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 		boolean result = false;
 
 		if(item instanceof IClassedTool || item instanceof ItemTool)
-		for(MSUToolClass tc : toolClasses)
+		for(MSToolClass tc : toolClasses)
 		{
 			if((item instanceof IClassedTool && tc.isCompatibleWith(((IClassedTool) item).getToolClass())) || (item instanceof ItemTool && tc.getBaseTools().contains(((ItemTool) item).getToolMaterialName())))
 			{
@@ -213,8 +214,8 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 	@SubscribeEvent
 	public static void registerRegistry(RegistryEvent.NewRegistry event)
 	{
-		KindAbstratus.REGISTRY = (ForgeRegistry)(new RegistryBuilder()).setName(new ResourceLocation(MinestuckUniverse.MODID, "kind_abstrata"))
-				.setType(KindAbstratus.class).setDefaultKey(new ResourceLocation(MinestuckUniverse.MODID)).create();
+		KindAbstratus.REGISTRY = (ForgeRegistry)(new RegistryBuilder()).setName(new ResourceLocation(Minestuck.MODID, "kind_abstrata"))
+				.setType(KindAbstratus.class).setDefaultKey(new ResourceLocation(Minestuck.MODID)).create();
 	}
 
 	@Override

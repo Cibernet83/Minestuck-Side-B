@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
-@Mod(modid = MinestuckGodTier.MODID, name = MinestuckGodTier.NAME, version = MinestuckGodTier.VERSION, dependencies = "required-after:minestuck@[1.4.301,);required-after:minestuckuniverse@[1.3.0,);")
+@Mod(modid = MinestuckGodTier.MODID, name = MinestuckGodTier.NAME, version = MinestuckGodTier.VERSION, dependencies = "required-after:minestuck@[1.4.301,);required-after:Minestuck@[1.3.0,);")
 public class MinestuckGodTier
 {
     public static final String MODID = "minestuckgodtier";

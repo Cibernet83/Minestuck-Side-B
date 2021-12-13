@@ -9,11 +9,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemBigRock extends MSUItemBase
+public class ItemBigRock extends MSItemBase
 {
-	public ItemBigRock(String name, String unlocName)
+	public ItemBigRock(String name)
 	{
-		super(name, unlocName);
+		super(name);
 		setMaxStackSize(1);
 	}
 

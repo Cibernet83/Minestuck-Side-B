@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckuniverse:items/wisdom_hookshot_standby"
+        "layer0": "Minestuck:items/wisdom_hookshot_standby"
     },
     "display": {
         "thirdperson_righthand": {
@@ -30,50 +30,50 @@
             "predicate": {
                 "pulling": 1
             },
-            "model": "minestuckuniverse:item/wisdom_hookshot_pulling_0"
+            "model": "Minestuck:item/wisdom_hookshot_pulling_0"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.65
             },
-            "model": "minestuckuniverse:item/wisdom_hookshot_pulling_1"
+            "model": "Minestuck:item/wisdom_hookshot_pulling_1"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.9
             },
-            "model": "minestuckuniverse:item/wisdom_hookshot_pulling_2"
+            "model": "Minestuck:item/wisdom_hookshot_pulling_2"
         },
         {
             "predicate": {
-                "minestuckuniverse:awakened": 0.2
+                "Minestuck:awakened": 0.2
             },
-            "model": "minestuckuniverse:item/wisdom_hookshot_awakened"
+            "model": "Minestuck:item/wisdom_hookshot_awakened"
         },
         {
             "predicate": {
                 "pulling": 1,
-                "minestuckuniverse:awakened": 0.2
+                "Minestuck:awakened": 0.2
             },
-            "model": "minestuckuniverse:item/wisdom_hookshot_awakened_pulling_0"
+            "model": "Minestuck:item/wisdom_hookshot_awakened_pulling_0"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.65,
-                "minestuckuniverse:awakened": 0.2
+                "Minestuck:awakened": 0.2
             },
-            "model": "minestuckuniverse:item/wisdom_hookshot_awakened_pulling_1"
+            "model": "Minestuck:item/wisdom_hookshot_awakened_pulling_1"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.9,
-                "minestuckuniverse:awakened": 0.2
+                "Minestuck:awakened": 0.2
             },
-            "model": "minestuckuniverse:item/wisdom_hookshot_awakened_pulling_2"
+            "model": "Minestuck:item/wisdom_hookshot_awakened_pulling_2"
         }
     ]
 }

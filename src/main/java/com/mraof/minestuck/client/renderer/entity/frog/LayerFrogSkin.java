@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.renderer.entity.frog;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.model.ModelFrog;
 import com.mraof.minestuck.entity.EntityFrog;
 
@@ -55,28 +56,28 @@ public class LayerFrogSkin implements LayerRenderer<EntityFrog> {
 		switch (type) {
 		default:
 		case 0:
-			path = "minestuck:textures/mobs/frog/skin.png";
+			path = "textures/mobs/frog/skin.png";
 			break;
 		case 1:
-			path = "minestuck:textures/mobs/frog/totally_normal_frog.png";
+			path = "textures/mobs/frog/totally_normal_frog.png";
 			break;
 		case 2:
-			path = "minestuck:textures/mobs/frog/ruby_contraband.png";
+			path = "textures/mobs/frog/ruby_contraband.png";
 			break;
 		case 3:
-			path = "minestuck:textures/mobs/frog/genesis_frog.png";
+			path = "textures/mobs/frog/genesis_frog.png";
 			break;
 		case 4:
-			path = "minestuck:textures/mobs/frog/null_frog.png";
+			path = "textures/mobs/frog/null_frog.png";
 			break;
 		case 5:
-			path = "minestuck:textures/mobs/frog/golden_frog.png";
+			path = "textures/mobs/frog/golden_frog.png";
 			break;
 		case 6:
-			path = "minestuck:textures/mobs/frog/susan.png";
+			path = "textures/mobs/frog/susan.png";
 			break;
 		}
-		return new ResourceLocation(path);
+		return new ResourceLocation(Minestuck.MODID, path);
 	}
 
 	@Override

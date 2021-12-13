@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/living_shield",
+	"parent": "Minestuck:item/living_shield",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

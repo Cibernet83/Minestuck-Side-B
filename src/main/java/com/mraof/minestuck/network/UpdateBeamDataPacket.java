@@ -10,13 +10,13 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class UpdateBeamDataPacket extends MSUPacket
+public class UpdateBeamDataPacket extends MinestuckPacket
 {
 	int worldId;
 	NBTTagCompound nbt;
 
 	@Override
-	public MSUPacket generatePacket(Object... args)
+	public MinestuckPacket generatePacket(Object... args)
 	{
 		data.writeInt(((World)args[0]).provider.getDimension());
 		ByteBufUtils.writeTag(data, ((World)args[0]).getCapability(MSUCapabilities.BEAM_DATA, null).writeToNBT());
@@ -25,7 +25,7 @@ public class UpdateBeamDataPacket extends MSUPacket
 	}
 
 	@Override
-	public MSUPacket consumePacket(ByteBuf data)
+	public MinestuckPacket consumePacket(ByteBuf data)
 	{
 		worldId = data.readInt();
 		nbt = ByteBufUtils.readTag(data);

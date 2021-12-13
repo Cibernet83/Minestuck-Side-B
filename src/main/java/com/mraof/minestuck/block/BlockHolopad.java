@@ -1,8 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.IRegistryItem;
 import com.mraof.minestuck.tileentity.TileEntityHolopad;
 import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -21,18 +22,19 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockHolopad extends BlockContainer implements IRegistryItem
+public class BlockHolopad extends BlockContainer implements IRegistryItem<Block>
 {
 
 	public BlockHolopad()
 	{
 		super(Material.ROCK, MapColor.SNOW);
 		setUnlocalizedName("holopad");
-		setCreativeTab(TabsMinestuck.main);
+		setCreativeTab(TabsMinestuck.minestuck);
 		this.setHardness(2.0F);
 		this.setHarvestLevel("pickaxe", 0);
 	}
@@ -169,7 +171,9 @@ public class BlockHolopad extends BlockContainer implements IRegistryItem
 	}
 
 	@Override
-	public void setRegistryName() {
+	public void register(IForgeRegistry<Block> registry)
+	{
 		setRegistryName("holopad");
+		registry.register(this);
 	}
 }

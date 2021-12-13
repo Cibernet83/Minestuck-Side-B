@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/home_run_bat"
+        "layer0": "Minestuck:items/home_run_bat"
     }
 }

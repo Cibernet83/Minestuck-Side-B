@@ -1,15 +1,17 @@
 package com.mraof.minestuck.event.handlers;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import com.mraof.minestuck.item.properties.PropertyAutoSmelt;
 import com.mraof.minestuck.item.properties.PropertyTrueDamage;
 import com.mraof.minestuck.item.properties.throwkind.PropertyVariableItem;
-import com.mraof.minestuck.item.weapon.MSUShieldBase;
+import com.mraof.minestuck.item.weapon.MSShieldBase;
 import com.mraof.minestuck.item.properties.PropertyGristSetter;
 import com.mraof.minestuck.item.properties.WeaponProperty;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.util.MinestuckSoundHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -79,11 +81,11 @@ public class PropertyEventHandler
 	public static final HashMap<Item, CustomDamageSource> CUSTOM_DAMAGE = new HashMap<Item, CustomDamageSource>()
 	{{
 		put(MinestuckItems.cactusCutlass, new CustomDamageSource("cactus"));
-		put(MinestuckUniverseItems.needlewands, (CustomDamageSource) new CustomDamageSource("magic").setDamageBypassesArmor().setMagicDamage());
-		put(MinestuckUniverseItems.oglogothThorn, (CustomDamageSource) new CustomDamageSource("magic").setDamageBypassesArmor().setMagicDamage());
-		put(MinestuckUniverseItems.archmageDaggers, (CustomDamageSource) new CustomDamageSource("magic").setDamageBypassesArmor().setMagicDamage());
-		put(MinestuckUniverseItems.gasterBlaster, new CustomDamageSource("sans"));
-		put(MinestuckUniverseItems.sbahjWhip, new CustomDamageSource("sbahj"));
+		put(MinestuckItems.needlewands, (CustomDamageSource) new CustomDamageSource("magic").setDamageBypassesArmor().setMagicDamage());
+		put(MinestuckItems.oglogothThorn, (CustomDamageSource) new CustomDamageSource("magic").setDamageBypassesArmor().setMagicDamage());
+		put(MinestuckItems.archmageDaggers, (CustomDamageSource) new CustomDamageSource("magic").setDamageBypassesArmor().setMagicDamage());
+		put(MinestuckItems.gasterBlaster, new CustomDamageSource("sans"));
+		put(MinestuckItems.sbahjWhip, new CustomDamageSource("sbahj"));
 		put(MinestuckItems.sord, new CustomDamageSource("sbahj"));
 		put(MinestuckItems.batleacks, new CustomDamageSource("sbahj"));
 	}};
@@ -104,7 +106,7 @@ public class PropertyEventHandler
 		public ITextComponent getDeathMessage(EntityLivingBase entityLivingBaseIn)
 		{
 			ItemStack itemstack = this.damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase)this.damageSourceEntity).getHeldItemMainhand() : ItemStack.EMPTY;
-			String s = "death.attack." + MinestuckUniverse.MODID + "." + this.damageType;
+			String s = "death.attack." + Minestuck.MODID + "." + this.damageType;
 			String s1 = s + ".item";
 			return !itemstack.isEmpty() && itemstack.hasDisplayName() && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, new Object[] {entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName(), itemstack.getTextComponent()}) : new TextComponentTranslation(s, new Object[] {entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName()});
 		}
@@ -116,7 +118,7 @@ public class PropertyEventHandler
 	public static void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event)
 	{
 		EntityPlayer player = event.getEntityPlayer();
-		MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.LEFT_CLICK_EMPTY, player));
+		MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.LEFT_CLICK_EMPTY, player));
 	}
 
 	@SubscribeEvent
@@ -137,18 +139,18 @@ public class PropertyEventHandler
 		{
 			ItemStack stack = event.getEntityLiving().getActiveItemStack();
 
-			if(stack.getItem().isShield(stack, event.getEntityLiving()) && stack.getItem() instanceof MSUShieldBase && (!(event.getEntityLiving() instanceof EntityPlayer) || !((EntityPlayer) event.getEntityLiving()).getCooldownTracker().hasCooldown(stack.getItem())))
-				((MSUShieldBase) stack.getItem()).onHitWhileShielding(stack, event.getEntityLiving(), event.getSource(), event.getAmount(), MSUShieldBase.canBlockDamageSource(event.getEntityLiving(), event.getSource()));
+			if(stack.getItem().isShield(stack, event.getEntityLiving()) && stack.getItem() instanceof MSShieldBase && (!(event.getEntityLiving() instanceof EntityPlayer) || !((EntityPlayer) event.getEntityLiving()).getCooldownTracker().hasCooldown(stack.getItem())))
+				((MSShieldBase) stack.getItem()).onHitWhileShielding(stack, event.getEntityLiving(), event.getSource(), event.getAmount(), MSShieldBase.canBlockDamageSource(event.getEntityLiving(), event.getSource()));
 
-			stack = event.getEntityLiving().getHeldItemMainhand().getItem() instanceof MSUShieldBase ? event.getEntityLiving().getHeldItemMainhand()
-					: event.getEntityLiving().getHeldItemOffhand().getItem() instanceof MSUShieldBase ? event.getEntityLiving().getHeldItemOffhand() : ItemStack.EMPTY;
+			stack = event.getEntityLiving().getHeldItemMainhand().getItem() instanceof MSShieldBase ? event.getEntityLiving().getHeldItemMainhand()
+																									: event.getEntityLiving().getHeldItemOffhand().getItem() instanceof MSShieldBase ? event.getEntityLiving().getHeldItemOffhand() : ItemStack.EMPTY;
 
 
 			boolean isStunned = false;
 			if(event.getEntityLiving() instanceof EntityPlayer)
 				isStunned = ((EntityPlayer) event.getEntityLiving()).getCooldownTracker().hasCooldown(stack.getItem());
 
-			if(!stack.isEmpty() && !isStunned && !event.getSource().isUnblockable() && ((MSUShieldBase)stack.getItem()).isParrying(stack) && ((MSUShieldBase)stack.getItem()).onShieldParry(stack, event.getEntityLiving(), event.getSource(), event.getAmount()))
+			if(!stack.isEmpty() && !isStunned && !event.getSource().isUnblockable() && ((MSShieldBase)stack.getItem()).isParrying(stack) && ((MSShieldBase)stack.getItem()).onShieldParry(stack, event.getEntityLiving(), event.getSource(), event.getAmount()))
 			{
 				if (!event.getSource().isProjectile())
 				{
@@ -160,7 +162,7 @@ public class PropertyEventHandler
 				}
 
 				EntityLivingBase player = event.getEntityLiving();
-				player.world.playSound(null, player.posX, player.posY, player.posZ, MSUSoundHandler.shieldParry, SoundCategory.PLAYERS, 1.0F, 0.8F + event.getEntity().world.rand.nextFloat() * 0.4F);
+				player.world.playSound(null, player.posX, player.posY, player.posZ, MinestuckSoundHandler.shieldParry, SoundCategory.PLAYERS, 1.0F, 0.8F + event.getEntity().world.rand.nextFloat() * 0.4F);
 				event.setCanceled(true);
 			}
 		}

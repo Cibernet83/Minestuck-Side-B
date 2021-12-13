@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/perfect_aegis_active",
+	"parent": "Minestuck:item/perfect_aegis_active",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

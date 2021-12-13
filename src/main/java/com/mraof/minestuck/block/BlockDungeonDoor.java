@@ -1,5 +1,6 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,14 +13,14 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class BlockDungeonDoor extends MSUBlockBase
+public class BlockDungeonDoor extends MSBlockBase
 {
     private static final int BLOCK_LIMIT = 100;
     private static int blockCount = 0;
 
-    public BlockDungeonDoor(String registryName, String unlocalizedName)
+    public BlockDungeonDoor(String name)
     {
-        super(Material.ROCK, registryName, unlocalizedName);
+        super(Material.ROCK, name);
         setBlockUnbreakable();
         setResistance(6000000.0F);
         disableStats();
@@ -29,7 +30,7 @@ public class BlockDungeonDoor extends MSUBlockBase
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         ItemStack stack = playerIn.getHeldItem(hand);
-        if(stack.getItem() == MinestuckUniverseItems.dungeonKey)
+        if(stack.getItem() == MinestuckItems.dungeonKey)
         {
             activateDoor(worldIn, pos);
             if(!playerIn.isCreative())

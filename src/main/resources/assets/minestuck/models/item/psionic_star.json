@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/psionic_star"
+        "layer0": "Minestuck:items/psionic_star"
     }
 }

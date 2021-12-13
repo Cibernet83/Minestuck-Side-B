@@ -1,7 +1,7 @@
 package com.cibernet.minestuckgodtier.potions;
 
 import com.cibernet.minestuckgodtier.MinestuckGodTier;
-import com.cibernet.minestuckuniverse.MinestuckUniverse;
+import com.cibernet.Minestuck.Minestuck;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;

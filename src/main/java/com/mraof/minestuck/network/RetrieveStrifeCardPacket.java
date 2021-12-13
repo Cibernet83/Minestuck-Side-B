@@ -9,14 +9,14 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class RetrieveStrifeCardPacket extends MSUPacket
+public class RetrieveStrifeCardPacket extends MinestuckPacket
 {
 	int index;
 	boolean isCard;
 	EnumHand hand;
 
 	@Override
-	public MSUPacket generatePacket(Object... args)
+	public MinestuckPacket generatePacket(Object... args)
 	{
 		data.writeInt((int) args[0]);
 		data.writeBoolean(args.length <= 1 || (boolean)args[1]);
@@ -25,7 +25,7 @@ public class RetrieveStrifeCardPacket extends MSUPacket
 	}
 
 	@Override
-	public MSUPacket consumePacket(ByteBuf data)
+	public MinestuckPacket consumePacket(ByteBuf data)
 	{
 		index = data.readInt();
 		isCard = data.readBoolean();
@@ -36,13 +36,10 @@ public class RetrieveStrifeCardPacket extends MSUPacket
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(!MinestuckConfig.combatOverhaul)
-			return;
-
 		if(isCard)
 			StrifePortfolioHandler.retrieveCard(player, index);
 		else StrifePortfolioHandler.retrieveWeapon(player, index, hand);
-		MSUChannelHandler.sendToPlayer(makePacket(Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.PORTFOLIO), player);
+		MinestuckChannelHandler.sendToPlayer(makePacket(Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.PORTFOLIO), player);
 	}
 
 	@Override

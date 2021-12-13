@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "minestuckuniverse:models/wall_of_thorns",
-		"particle": "minestuckuniverse:models/wall_of_thorns"
+		"0": "Minestuck:models/wall_of_thorns",
+		"particle": "Minestuck:models/wall_of_thorns"
 	},
 	"elements": [
 		{
@@ -690,7 +690,7 @@
             "predicate": {
                 "blocking": 1
             },
-            "model": "minestuckuniverse:item/wall_of_thorns_blocking"
+            "model": "Minestuck:item/wall_of_thorns_blocking"
         }
     ]
 }

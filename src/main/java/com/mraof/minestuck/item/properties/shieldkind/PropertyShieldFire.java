@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item.properties.shieldkind;
 
-import com.mraof.minestuck.item.weapon.MSUShieldBase;
+import com.mraof.minestuck.item.weapon.MSShieldBase;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -41,7 +41,7 @@ public class PropertyShieldFire extends WeaponProperty implements IPropertyShiel
 	{
 		if(!stack.hasTagCompound())
 			return false;
-		if(chanceParry > 0 && stack.getItem() instanceof MSUShieldBase && ((MSUShieldBase) stack.getItem()).isParrying(stack))
+		if(chanceParry > 0 && stack.getItem() instanceof MSShieldBase && ((MSShieldBase) stack.getItem()).isParrying(stack))
 			return true;
 		return stack.getTagCompound().getBoolean("Lit");
 	}
@@ -74,7 +74,7 @@ public class PropertyShieldFire extends WeaponProperty implements IPropertyShiel
 		if(chance > 0 && isLit(stack) && stack.equals(player.getActiveItemStack()))
 			return true;
 
-		return chanceParry > 0 && stack.getItem() instanceof MSUShieldBase && ((MSUShieldBase) stack.getItem()).isParrying(stack);
+		return chanceParry > 0 && stack.getItem() instanceof MSShieldBase && ((MSShieldBase) stack.getItem()).isParrying(stack);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckuniverse:items/knitting_needles"
+        "layer0": "Minestuck:items/knitting_needles"
     }
 }

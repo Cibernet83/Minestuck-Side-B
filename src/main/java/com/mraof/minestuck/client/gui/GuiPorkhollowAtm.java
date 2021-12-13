@@ -1,7 +1,8 @@
 package com.mraof.minestuck.client.gui;
 
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.PorkhollowAtmPacket;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class GuiPorkhollowAtm extends GuiScreen
 {
-	public static final ResourceLocation TEXTURES = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/porkhollow_atm.png");
+	public static final ResourceLocation TEXTURES = new ResourceLocation(Minestuck.MODID, "textures/gui/porkhollow_atm.png");
 	public EntityPlayer player;
 	public Minecraft mc;
 	
@@ -199,7 +200,7 @@ public class GuiPorkhollowAtm extends GuiScreen
 			int amount = getInt(amountTextField);
 			int n = getInt(nTextField);
 			amount *= n;
-			MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.ATM, new Object[] {tab == 1 ? PorkhollowAtmPacket.Type.TAKE : PorkhollowAtmPacket.Type.SEND, player, amount, n}));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.ATM, tab == 1 ? PorkhollowAtmPacket.Type.TAKE : PorkhollowAtmPacket.Type.SEND, player, amount, n));
 			this.mc.displayGuiScreen(null);
 			if (this.mc.currentScreen == null)
 				this.mc.setIngameFocus();

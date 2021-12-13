@@ -28,8 +28,7 @@ public class BlockRedTransportalizer extends BlockCustomTransportalizer
 {
 
     public BlockRedTransportalizer() {
-        super(MapColor.RED);
-        this.setUnlocalizedName("redTransportalizer");
+        super(MapColor.RED, "rubyRedTransportalizer");
         this.setHardness(3.5F);
         this.setHarvestLevel("pickaxe", 0);
     }
@@ -97,10 +96,5 @@ public class BlockRedTransportalizer extends BlockCustomTransportalizer
             te.owner = IdentifierHandler.encode((EntityPlayer) placer);
 
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-    }
-
-    @Override
-    public void setRegistryName() {
-        this.setRegistryName("ruby_red_transportalizer");
     }
 }

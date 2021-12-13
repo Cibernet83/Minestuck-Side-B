@@ -1,7 +1,6 @@
 package com.mraof.minestuck;
 
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
-import com.mraof.minestuck.client.ClientProxy;
 import com.mraof.minestuck.command.*;
 import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.editmode.ServerEditHandler;
@@ -23,10 +22,10 @@ import java.util.Random;
 
 import static com.mraof.minestuck.Minestuck.*;
 
-@Mod(modid = MODID, name = MOD_NAME, version = VERSION, guiFactory = "com.mraof.minestuck.client.gui.MinestuckGuiFactory", acceptedMinecraftVersions = "[1.12,1.12.2]")
+@Mod(modid = MODID, name = NAME, version = VERSION, guiFactory = "com.mraof.minestuck.client.gui.MinestuckGuiFactory", acceptedMinecraftVersions = "[1.12,1.12.2]")
 public class Minestuck
 {
-	public static final String MOD_NAME = "Minestuck";
+	public static final String NAME = "Minestuck";
 	public static final String MODID = "minestuck";
 	public static final String VERSION = "@VERSION@";
 	
@@ -62,8 +61,8 @@ public class Minestuck
 	public static boolean isSplatcraftLodaded;
 	public static boolean isCarryOnLoaded;
 	public static boolean isVcLoaded;
-	public static boolean isMSGTLoaded;
 	public static boolean isFutureMcLoaded;
+	public static boolean isArsenalLoaded;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) 
@@ -82,10 +81,10 @@ public class Minestuck
 		Minestuck.isThaumLoaded = Loader.isModLoaded("thaumcraft");
 		Minestuck.isBotaniaLoaded = Loader.isModLoaded("botania");
 		Minestuck.isSplatcraftLodaded = Loader.isModLoaded("splatcraft");
-		Minestuck.isMSGTLoaded = Loader.isModLoaded("minestuckgodtier");
 		Minestuck.isCarryOnLoaded = Loader.isModLoaded("carryon");
 		Minestuck.isVcLoaded = Loader.isModLoaded("variedcommodities");
 		Minestuck.isFutureMcLoaded = Loader.isModLoaded("futuremc");
+		Minestuck.isArsenalLoaded = Loader.isModLoaded("minestuckarsenal");
 		
 		Debug.logger = event.getModLog();
 		

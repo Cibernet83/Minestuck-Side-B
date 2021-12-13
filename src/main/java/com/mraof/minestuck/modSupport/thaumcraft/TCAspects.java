@@ -69,9 +69,8 @@ public class TCAspects
         register(shunt, new AspectList().add(Aspect.ALCHEMY, 5).add(Aspect.MECHANISM, 5));
         register(captcharoidCamera, new AspectList().add(Aspect.SENSES, 10).add(Aspect.TRAP, 5));
 
-        //Modi TODO
-        AspectList modusAspects = new AspectList().add(Aspect.VOID, 15).add(Aspect.TRAP, 5);
-        register(modusCard, 0, modusAspects);
+        //Modi
+        register("modus", new AspectList().add(Aspect.VOID, 15).add(Aspect.TRAP, 5));
 
         //Records
         AspectList recordAspects = new AspectList().add(Aspect.SENSES, 15).add(Aspect.AIR, 5).add(Aspect.DESIRE, 10);
@@ -83,10 +82,10 @@ public class TCAspects
         register(threshDvd, new AspectList().add(Aspect.SENSES, 5).add(Aspect.DESIRE, 10));
         register(crewPoster, (new AspectList()).add(Aspect.SENSES, 10).add(Aspect.CRAFT, 5).add(Aspect.DARKNESS, 5));
         register(sbahjPoster, (new AspectList()).add(Aspect.SENSES, 1).add(Aspect.CRAFT, 1).add(Aspect.ENTROPY, 10));
-        register(shopPoster, (new AspectList()).add(Aspect.SENSES, 10).add(Aspect.CRAFT, 5).add(Aspect.DESIRE, 5));
+        //register(shopPoster, (new AspectList()).add(Aspect.SENSES, 10).add(Aspect.CRAFT, 5).add(Aspect.DESIRE, 5));
         register(carvingTool, (new AspectList()).add(Aspect.TOOL, 5));
         register(stoneEyeballs, (new AspectList()).add(Aspect.EARTH, 8));
-        register(stoneSlab, (new AspectList()).add(Aspect.EARTH, 5).add(Aspect.MIND, 2));
+        //register(stoneSlab, (new AspectList()).add(Aspect.EARTH, 5).add(Aspect.MIND, 2));
         register(glowystoneDust, (new AspectList()).add(Aspect.LIGHT, 10).add(Aspect.ENERGY, 5));
         register(fakeArms, (new AspectList()).add(Aspect.MAN, 5));
     }
@@ -95,9 +94,9 @@ public class TCAspects
     {
         register(oreUranium, (new AspectList()).add(Aspect.METAL, 10).add(Aspect.DEATH, 5).add(Aspect.ENERGY, 10));
         register(oreCruxite, (new AspectList()).add(Aspect.METAL, 5).add(Aspect.ALCHEMY, 15).add(Aspect.MECHANISM, 4));
-
     }
 
+    private void register(String oreDict, AspectList aspects)        {proxy.registerObjectTag(oreDict, aspects);}
     private void register(ItemStack stack, AspectList aspects)       {proxy.registerObjectTag(stack, aspects);}
     private void register(Item item, AspectList aspects)             {register(new ItemStack(item), aspects);}
     private void register(Item item, int meta, AspectList aspects)   {register(new ItemStack(item, 1, meta), aspects);}

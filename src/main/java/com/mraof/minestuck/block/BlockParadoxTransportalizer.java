@@ -1,7 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.IRegistryItem;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityParadoxTransportalizer;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -18,11 +20,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockParadoxTransportalizer extends BlockContainer implements IRegistryItem
+public class BlockParadoxTransportalizer extends BlockContainer implements IRegistryItem<Block>
 {
 	protected static final AxisAlignedBB TRANSPORTALIZER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
 	public BlockParadoxTransportalizer()
@@ -31,7 +34,7 @@ public class BlockParadoxTransportalizer extends BlockContainer implements IRegi
 		setUnlocalizedName("paradoxTransportalizer");
 		this.setHardness(3.5F);
 		this.setHarvestLevel("pickaxe", 0);
-		setCreativeTab(TabMinestuckUniverse.main);
+		setCreativeTab(TabsMinestuck.minestuck);
 	}
 
 	@Override
@@ -89,7 +92,9 @@ public class BlockParadoxTransportalizer extends BlockContainer implements IRegi
 	}
 
 	@Override
-	public void setRegistryName() {
+	public void register(IForgeRegistry<Block> registry)
+	{
 		setRegistryName("paradox_transportalizer");
+		registry.register(this);
 	}
 }

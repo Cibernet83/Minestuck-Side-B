@@ -8,13 +8,13 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class SwapOffhandStrifePacket extends MSUPacket
+public class SwapOffhandStrifePacket extends MinestuckPacket
 {
 	int specibusIndex;
 	int weaponIndex;
 
 	@Override
-	public MSUPacket generatePacket(Object... args)
+	public MinestuckPacket generatePacket(Object... args)
 	{
 		data.writeInt((int) args[0]);
 		data.writeInt((int) args[1]);
@@ -22,7 +22,7 @@ public class SwapOffhandStrifePacket extends MSUPacket
 	}
 
 	@Override
-	public MSUPacket consumePacket(ByteBuf data)
+	public MinestuckPacket consumePacket(ByteBuf data)
 	{
 		specibusIndex = data.readInt();
 		weaponIndex = data.readInt();
@@ -32,11 +32,8 @@ public class SwapOffhandStrifePacket extends MSUPacket
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(!MinestuckConfig.combatOverhaul)
-			return;
-
 		StrifePortfolioHandler.swapOffhandWeapon(player, specibusIndex, weaponIndex);
-		MSUChannelHandler.sendToPlayer(makePacket(Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.PORTFOLIO), player);
+		MinestuckChannelHandler.sendToPlayer(makePacket(Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.PORTFOLIO), player);
 	}
 
 	@Override

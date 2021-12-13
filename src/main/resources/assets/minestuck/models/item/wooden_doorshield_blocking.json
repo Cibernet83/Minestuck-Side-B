@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/wooden_doorshield",
+	"parent": "Minestuck:item/wooden_doorshield",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

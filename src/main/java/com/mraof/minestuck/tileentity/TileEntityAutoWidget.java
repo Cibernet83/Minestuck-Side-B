@@ -2,6 +2,7 @@ package com.mraof.minestuck.tileentity;
 
 import com.mraof.minestuck.block.BlockAutoWidget;
 import com.mraof.minestuck.alchemy.*;
+import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.item.EntityGrist;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.block.state.IBlockState;
@@ -238,7 +239,7 @@ public class TileEntityAutoWidget extends TileEntity implements ITickable, ISide
 	@Override
 	public String getName()
 	{
-		return I18n.translateToLocal(MinestuckUniverseBlocks.autoWidget.getUnlocalizedName());
+		return I18n.translateToLocal(MinestuckBlocks.autoWidget.getUnlocalizedName());
 	}
 	
 	@Override

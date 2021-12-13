@@ -1,14 +1,14 @@
 package com.mraof.minestuck.capabilities;
 
-import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.beam.BeamData;
 import com.mraof.minestuck.capabilities.beam.IBeamData;
 import com.mraof.minestuck.capabilities.game.GameData;
 import com.mraof.minestuck.capabilities.game.IGameData;
 import com.mraof.minestuck.capabilities.strife.IStrifeData;
 import com.mraof.minestuck.capabilities.strife.StrifeData;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.UpdateStrifeDataPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -50,17 +50,17 @@ public class MSUCapabilities
 	@SubscribeEvent
 	public static void attachWorldCap(AttachCapabilitiesEvent<World> event)
 	{
-		event.addCapability(new ResourceLocation(MinestuckUniverse.MODID, "beam_data"), new MSUCapabilityProvider<>(BEAM_DATA, event.getObject()));
+		event.addCapability(new ResourceLocation(Minestuck.MODID, "beam_data"), new MSUCapabilityProvider<>(BEAM_DATA, event.getObject()));
 
 		if (event.getObject().provider.getDimension() == 0)
-			event.addCapability(new ResourceLocation(MinestuckUniverse.MODID, "game_data"), new MSUCapabilityProvider<>(GAME_DATA, event.getObject()));
+			event.addCapability(new ResourceLocation(Minestuck.MODID, "game_data"), new MSUCapabilityProvider<>(GAME_DATA, event.getObject()));
 	}
 
 	@SubscribeEvent
 	public static void attachEntityCap(AttachCapabilitiesEvent<Entity> event)
 	{
 		if(event.getObject() instanceof EntityPlayer)
-			event.addCapability(new ResourceLocation(MinestuckUniverse.MODID, "strife_data"), new MSUCapabilityProvider<>(STRIFE_DATA, (EntityLivingBase) event.getObject()));
+			event.addCapability(new ResourceLocation(Minestuck.MODID, "strife_data"), new MSUCapabilityProvider<>(STRIFE_DATA, (EntityLivingBase) event.getObject()));
 	}
 
 	@SubscribeEvent
@@ -69,9 +69,9 @@ public class MSUCapabilities
 		if(event.getEntity() instanceof EntityPlayerMP && !(event.getEntity() instanceof FakePlayer))
 		{
 			IStrifeData cap = event.getEntity().getCapability(STRIFE_DATA, null);
-			cap.setStrifeEnabled(MinestuckConfig.combatOverhaul);
-			MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.UPDATE_STRIFE, event.getEntity(), UpdateStrifeDataPacket.UpdateType.ALL), ((EntityPlayer)event.getEntity()));
-			MSUChannelHandler.sendToPlayer(MSUPacket.makePacket(MSUPacket.Type.UPDATE_BEAMS, event.getWorld()), ((EntityPlayer)event.getEntity()));
+			cap.setStrifeEnabled(true);
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, event.getEntity(), UpdateStrifeDataPacket.UpdateType.ALL), ((EntityPlayer)event.getEntity()));
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_BEAMS, event.getWorld()), ((EntityPlayer)event.getEntity()));
 		}
 	}
 

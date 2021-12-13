@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckuniverse:items/telegravitational_warper_standby"
+        "layer0": "Minestuck:items/telegravitational_warper_standby"
     },
     "display": {
         "thirdperson_righthand": {
@@ -30,21 +30,21 @@
             "predicate": {
                 "pulling": 1
             },
-            "model": "minestuckuniverse:item/telegravitational_warper_pulling_0"
+            "model": "Minestuck:item/telegravitational_warper_pulling_0"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.65
             },
-            "model": "minestuckuniverse:item/telegravitational_warper_pulling_1"
+            "model": "Minestuck:item/telegravitational_warper_pulling_1"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.9
             },
-            "model": "minestuckuniverse:item/telegravitational_warper_pulling_2"
+            "model": "Minestuck:item/telegravitational_warper_pulling_2"
         }
     ]
 }

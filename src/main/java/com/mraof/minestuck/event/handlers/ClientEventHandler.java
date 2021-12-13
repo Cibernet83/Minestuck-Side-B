@@ -233,7 +233,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void onModelBake(ModelBakeEvent event)
 	{
-		Debug.info(event.getModelManager().getModel(new ModelResourceLocation("minestuck:alchemiter#facing=east,has_dowel=true,part=totem_pad")));
+		Debug.info(event.getModelManager().getModel(new ModelResourceLocation(Minestuck.MODID+":alchemiter#facing=east,has_dowel=true,part=totem_pad")));
 	}
 	
 	@SubscribeEvent

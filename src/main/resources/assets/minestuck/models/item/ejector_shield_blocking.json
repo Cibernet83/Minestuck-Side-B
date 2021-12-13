@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/ejector_shield",
+	"parent": "Minestuck:item/ejector_shield",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

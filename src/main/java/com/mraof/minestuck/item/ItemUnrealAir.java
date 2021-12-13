@@ -12,10 +12,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class ItemUnrealAir extends MSUItemBase
+public class ItemUnrealAir extends MSItemBase
 {
-	public ItemUnrealAir(String name, String unlocName) {
-		super(name, unlocName);
+	public ItemUnrealAir(String name) {
+		super(name);
 		setMaxStackSize(1);
 	}
 

@@ -2,7 +2,7 @@ package com.cibernet.minestuckgodtier.events.handlers;
 
 import com.cibernet.minestuckgodtier.badges.MSGTBadges;
 import com.cibernet.minestuckgodtier.capabilities.MSGTCapabilities;
-import com.cibernet.minestuckuniverse.util.SpaceSaltUtils;
+import com.cibernet.Minestuck.util.SpaceSaltUtils;
 import com.mraof.minestuck.block.BlockSburbMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

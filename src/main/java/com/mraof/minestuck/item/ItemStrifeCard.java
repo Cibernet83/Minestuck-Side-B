@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.strife.StrifePortfolioHandler;
 import com.mraof.minestuck.strife.StrifeSpecibus;
 import com.mraof.minestuck.util.MSUUtils;
@@ -19,14 +20,14 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemStrifeCard extends MSUItemBase
+public class ItemStrifeCard extends MSItemBase
 {
-	public ItemStrifeCard(String name, String unlocName)
+	public ItemStrifeCard(String name)
 	{
-		super(name, unlocName);
+		super(name);
 		setMaxStackSize(1);
 
-		addPropertyOverride(new ResourceLocation(MinestuckUniverse.MODID, "assigned"), ((stack, worldIn, entityIn) -> hasSpecibus(stack) ? getStrifeSpecibus(stack).isAssigned() ? 1 : 0.5f : 0));
+		addPropertyOverride(new ResourceLocation(Minestuck.MODID, "assigned"), ((stack, worldIn, entityIn) -> hasSpecibus(stack) ? getStrifeSpecibus(stack).isAssigned() ? 1 : 0.5f : 0));
 	}
 
 	@Override
@@ -76,7 +77,7 @@ public class ItemStrifeCard extends MSUItemBase
 				StrifePortfolioHandler.assignStrife(playerIn, handIn);
 			else injectStrifeSpecibus(StrifeSpecibus.empty(), stack);
 		}
-		else playerIn.openGui(MinestuckUniverse.instance, MSUUtils.STRIFE_CARD_GUI, worldIn, (int)playerIn.posX, (int)playerIn.posY, (int)playerIn.posZ);
+		else playerIn.openGui(Minestuck.instance, MSUUtils.STRIFE_CARD_GUI, worldIn, (int)playerIn.posX, (int)playerIn.posY, (int)playerIn.posZ);
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}

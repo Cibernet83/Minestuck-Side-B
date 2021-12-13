@@ -3,8 +3,8 @@
 	"parent": "minecraft:block/block",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "minestuckuniverse:machines/grist_hopper",
-		"particle": "minestuckuniverse:machines/grist_hopper"
+		"0": "Minestuck:machines/grist_hopper",
+		"particle": "Minestuck:machines/grist_hopper"
 	},
 	"elements": [
 		{

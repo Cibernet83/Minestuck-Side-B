@@ -1,6 +1,6 @@
 {
-    "parent": "minestuckuniverse:item/telegravitational_warper",
+    "parent": "Minestuck:item/telegravitational_warper",
     "textures": {
-        "layer0": "minestuckuniverse:items/telegravitational_warper_pulling_2"
+        "layer0": "Minestuck:items/telegravitational_warper_pulling_2"
     }
 }

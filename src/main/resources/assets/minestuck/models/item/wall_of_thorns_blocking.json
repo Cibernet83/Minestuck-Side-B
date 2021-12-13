@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/wall_of_thorns",
+	"parent": "Minestuck:item/wall_of_thorns",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

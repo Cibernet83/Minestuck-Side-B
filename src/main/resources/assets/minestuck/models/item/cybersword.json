@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/cybersword"
+        "layer0": "Minestuck:items/cybersword"
     }
 }

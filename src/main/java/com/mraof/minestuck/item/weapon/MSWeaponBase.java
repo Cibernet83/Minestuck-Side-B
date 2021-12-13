@@ -1,17 +1,16 @@
 package com.mraof.minestuck.item.weapon;
 
-import com.mraof.minestuck.item.IClassedTool;
-import com.mraof.minestuck.item.IPropertyWeapon;
-import com.mraof.minestuck.item.MSUItemBase;
-import com.mraof.minestuck.item.properties.IEnchantableProperty;
-import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.item.IClassedTool;
+import com.mraof.minestuck.item.IPropertyWeapon;
+import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.properties.IEnchantableProperty;
+import com.mraof.minestuck.item.properties.WeaponProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -35,7 +34,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public class MSUWeaponBase extends MSUItemBase implements IClassedTool, ISortedTabItem, IPropertyWeapon<MSUWeaponBase>
+public class MSWeaponBase extends MSItemBase implements IClassedTool, ISortedTabItem, IPropertyWeapon<MSWeaponBase>
 {
     public static int slotIndex = 0;
     private int tabSlot = 0;
@@ -47,16 +46,15 @@ public class MSUWeaponBase extends MSUItemBase implements IClassedTool, ISortedT
     protected ToolMaterial material;
     ArrayList<ItemStack> repairMaterials = new ArrayList<>();
 
-
-    protected MSUToolClass tool = null;
+    protected MSToolClass tool = null;
     protected float harvestSpeed = 0;
     private int harvestLevel = 0;
 
     protected final ArrayList<WeaponProperty> properties = new ArrayList<>();
 
-    public MSUWeaponBase(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name, String unlocName)
+    public MSWeaponBase(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
     {
-        super(name, unlocName);
+        super(name);
         this.setCreativeTab(TabsMinestuck.weapons);
 
         this.unbreakable = maxUses <= 0;
@@ -66,43 +64,13 @@ public class MSUWeaponBase extends MSUItemBase implements IClassedTool, ISortedT
         this.weaponSpeed = weaponSpeed;
         this.enchantability = enchantability;
 
-        this.addPropertyOverride(new ResourceLocation(MinestuckUniverse.MODID,"active"), (stack, worldIn, entityIn) -> isAbilityActive(stack, worldIn, entityIn) ? 1 : 0);
+        this.addPropertyOverride(new ResourceLocation(Minestuck.MODID, "active"), (stack, worldIn, entityIn) -> isAbilityActive(stack, worldIn, entityIn) ? 1 : 0);
     }
 
-    public MSUWeaponBase(double damageVsEntity, double weaponSpeed, int enchantability, String name, String unlocName)
+    public MSWeaponBase(double damageVsEntity, double weaponSpeed, int enchantability, String name)
     {
-        this(-1, damageVsEntity, weaponSpeed, enchantability, name, unlocName);
+        this(-1, damageVsEntity, weaponSpeed, enchantability, name);
         unbreakable = true;
-    }
-
-    public MSUWeaponBase(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
-    {
-        this(maxUses, damageVsEntity, weaponSpeed, enchantability, name, name);
-    }
-
-    public MSUWeaponBase(double damageVsEntity, double weaponSpeed, int enchantability, String name)
-    {
-        this(damageVsEntity, weaponSpeed, enchantability, name, name);
-    }
-
-    @Override
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-    {
-        if(!isSecret && isInCreativeTab(tab))
-        {
-            if(tab == TabMinestuckUniverse.weapons)
-            {
-                if(items.isEmpty())
-                    items.add(new ItemStack(this));
-                else
-                {
-                    while(items.size() < slotIndex)
-                        items.add(ItemStack.EMPTY);
-                    items.set(tabSlot, new ItemStack(this));
-                }
-            }
-            else super.getSubItems(tab, items);
-        }
     }
 
     @Override
@@ -114,26 +82,26 @@ public class MSUWeaponBase extends MSUItemBase implements IClassedTool, ISortedT
         return name;
     }
 
-    public MSUWeaponBase setMaterial(Item.ToolMaterial material)
+    public MSWeaponBase setMaterial(Item.ToolMaterial material)
     {
         this.material = material;
         return this;
     }
 
-    public MSUWeaponBase setRepairMaterials(ItemStack... stacks)
+    public MSWeaponBase setRepairMaterials(ItemStack... stacks)
     {
         for(ItemStack i : stacks)
             repairMaterials.add(i);
         return this;
     }
 
-    public MSUWeaponBase setRepairMaterials(Collection<ItemStack> stacks)
+    public MSWeaponBase setRepairMaterials(Collection<ItemStack> stacks)
     {
         repairMaterials.addAll(stacks);
         return this;
     }
 
-    public MSUWeaponBase setRepairMaterial(String oredic)
+    public MSWeaponBase setRepairMaterial(String oredic)
     {
         if(OreDictionary.doesOreNameExist(oredic))
             setRepairMaterials(OreDictionary.getOres(oredic));
@@ -355,7 +323,7 @@ public class MSUWeaponBase extends MSUItemBase implements IClassedTool, ISortedT
         return multimap;
     }
 
-    public MSUWeaponBase setTool(MSUToolClass cls, int harvestLevel, float harvestSpeed)
+    public MSWeaponBase setTool(MSToolClass cls, int harvestLevel, float harvestSpeed)
     {
         tool = cls;
         this.harvestLevel = harvestLevel;
@@ -363,7 +331,7 @@ public class MSUWeaponBase extends MSUItemBase implements IClassedTool, ISortedT
         return this;
     }
 
-    public MSUToolClass getTool() {return tool;}
+    public MSToolClass getTool() {return tool;}
 
     @Override
     public float getDestroySpeed(ItemStack stack, IBlockState state)
@@ -426,7 +394,7 @@ public class MSUWeaponBase extends MSUItemBase implements IClassedTool, ISortedT
     }
 
     @Override
-    public MSUToolClass getToolClass() {
+    public MSToolClass getToolClass() {
         return tool;
     }
 

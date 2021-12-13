@@ -7,7 +7,7 @@ import com.cibernet.minestuckgodtier.client.particles.MSGTParticles;
 import com.cibernet.minestuckgodtier.items.ItemManipulatedMatter;
 import com.cibernet.minestuckgodtier.items.MSGTItems;
 import com.cibernet.minestuckgodtier.util.MSGTUtils;
-import com.cibernet.minestuckuniverse.items.MinestuckUniverseItems;
+import com.cibernet.Minestuck.items.MinestuckItems;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -30,7 +30,7 @@ public class BadgeUtilSpace extends BadgeHeroAspectUtil
 {
 	public BadgeUtilSpace()
 	{
-		super(EnumAspect.SPACE, new ItemStack(MinestuckUniverseItems.spaceSalt, 200));
+		super(EnumAspect.SPACE, new ItemStack(MinestuckItems.spaceSalt, 200));
 	}
 
 	@Override

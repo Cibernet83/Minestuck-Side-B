@@ -1,8 +1,9 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.inventory.ContainerMachineChasis;
-import com.mraof.minestuck.network.MSUChannelHandler;
-import com.mraof.minestuck.network.MSUPacket;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.tileentity.TileEntityMachineChasis;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,7 +15,7 @@ import java.io.IOException;
 
 public class GuiMachineChasis extends GuiContainer
 {
-    private static final ResourceLocation TEXTURES = new ResourceLocation(MinestuckUniverse.MODID, "textures/gui/machine_chassis.png");
+    private static final ResourceLocation TEXTURES = new ResourceLocation(Minestuck.MODID, "textures/gui/machine_chassis.png");
     private final InventoryPlayer player;
     private final TileEntityMachineChasis tileEntity;
     private GuiButton goButton;
@@ -41,7 +42,7 @@ public class GuiMachineChasis extends GuiContainer
         super.actionPerformed(button);
         if(button == goButton)
         {
-            MSUChannelHandler.sendToServer(MSUPacket.makePacket(MSUPacket.Type.MACHINE_CHASSIS, new Object[] {tileEntity}));
+            MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.MACHINE_CHASSIS, new Object[] {tileEntity}));
         }
 
     }

@@ -1,23 +1,28 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.IRegistryItem;
+import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockWoolTransportalizer extends BlockTransportalizer implements IRegistryItem
+public class BlockWoolTransportalizer extends BlockTransportalizer implements IRegistryItem<Block>
 {
 	public EnumDyeColor color;
 	public BlockWoolTransportalizer(EnumDyeColor color)
 	{
 		super();
-		this.setCreativeTab(TabMinestuckUniverse.main);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 		this.setUnlocalizedName("woolTransportalizer."+color.getUnlocalizedName());
 		this.color = color;
 
-		MinestuckUniverseBlocks.sleevedTransportalizers.put(color, this);
+		MinestuckBlocks.sleevedTransportalizers.put(color, this);
 	}
 
 	@Override
-	public void setRegistryName() {
-		this.setRegistryName(color.getName()+"_wool_transportalizer");
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(color.getName()+"_wool_transportalizer");
+		registry.register(this);
 	}
 }

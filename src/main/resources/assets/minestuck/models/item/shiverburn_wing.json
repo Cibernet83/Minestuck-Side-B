@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckuniverse:items/shiverburn_wing_standby"
+        "layer0": "Minestuck:items/shiverburn_wing_standby"
     },
     "display": {
         "thirdperson_righthand": {
@@ -30,21 +30,21 @@
             "predicate": {
                 "pulling": 1
             },
-            "model": "minestuckuniverse:item/shiverburn_wing_pulling_0"
+            "model": "Minestuck:item/shiverburn_wing_pulling_0"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.65
             },
-            "model": "minestuckuniverse:item/shiverburn_wing_pulling_1"
+            "model": "Minestuck:item/shiverburn_wing_pulling_1"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.9
             },
-            "model": "minestuckuniverse:item/shiverburn_wing_pulling_2"
+            "model": "Minestuck:item/shiverburn_wing_pulling_2"
         }
     ]
 }

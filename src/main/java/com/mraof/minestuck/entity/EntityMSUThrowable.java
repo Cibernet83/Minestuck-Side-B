@@ -2,7 +2,8 @@ package com.mraof.minestuck.entity;
 
 import com.mraof.minestuck.client.renderer.entity.RenderThrowable;
 import com.mraof.minestuck.item.IPropertyWeapon;
-import com.mraof.minestuck.item.MSUThrowableBase;
+import com.mraof.minestuck.item.MSThrowableBase;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.properties.throwkind.IPropertyThrowable;
 import net.minecraft.entity.EntityLivingBase;
@@ -48,8 +49,8 @@ public class EntityMSUThrowable extends EntityThrowable
     @SideOnly(Side.CLIENT)
     public RenderThrowable.IRenderProperties getRenderProperties()
     {
-        if(getStack().getItem() instanceof MSUThrowableBase)
-            return ((MSUThrowableBase) getStack().getItem()).getRenderProperties();
+        if(getStack().getItem() instanceof MSThrowableBase)
+            return ((MSThrowableBase) getStack().getItem()).getRenderProperties();
         return null;
     }
 
@@ -57,7 +58,7 @@ public class EntityMSUThrowable extends EntityThrowable
     protected void entityInit()
     {
         super.entityInit();
-        dataManager.register(STACK, new ItemStack(MinestuckUniverseItems.wizardbeardYarn));
+        dataManager.register(STACK, new ItemStack(MinestuckItems.wizardbeardYarn));
         dataManager.register(SIZE, 1f);
     }
 

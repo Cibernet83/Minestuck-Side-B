@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/pointy_stick"
+        "layer0": "Minestuck:items/pointy_stick"
     }
 }

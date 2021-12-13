@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/gravedigger_shovel"
+        "layer0": "Minestuck:items/gravedigger_shovel"
     }
 }

@@ -1,5 +1,5 @@
 {
-	"parent": "minestuckuniverse:item/obsidian_shield_active",
+	"parent": "Minestuck:item/obsidian_shield_active",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

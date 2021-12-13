@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "minestuckuniverse:models/living_shield",
-		"particle": "minestuckuniverse:models/living_shield"
+		"0": "Minestuck:models/living_shield",
+		"particle": "Minestuck:models/living_shield"
 	},
 	"elements": [
 		{
@@ -206,7 +206,7 @@
             "predicate": {
                 "blocking": 1
             },
-            "model": "minestuckuniverse:item/living_shield_blocking"
+            "model": "Minestuck:item/living_shield_blocking"
         }
     ]
 }

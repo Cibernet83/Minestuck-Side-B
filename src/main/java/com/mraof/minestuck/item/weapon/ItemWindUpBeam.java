@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.weapon;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MSUCapabilities;
 import com.mraof.minestuck.capabilities.beam.Beam;
 import com.mraof.minestuck.item.properties.PropertyDualWield;
@@ -12,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
-public class ItemWindUpBeam extends MSUWeaponBase implements IBeamStats
+public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 {
 	public float beamRadius;
 	public float beamDamage;
@@ -23,10 +24,10 @@ public class ItemWindUpBeam extends MSUWeaponBase implements IBeamStats
 	protected SoundEvent chargeSound = null;
 	protected SoundEvent releaseSound = null;
 	
-	protected ResourceLocation beamTexture = new ResourceLocation(MinestuckUniverse.MODID, "textures/entity/projectiles/beam.png");
+	protected ResourceLocation beamTexture = new ResourceLocation(Minestuck.MODID, "textures/entity/projectiles/beam.png");
 
-	public ItemWindUpBeam(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int beamHurtTime, int enchantability, String name, String unlocName) {
-		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name, unlocName);
+	public ItemWindUpBeam(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int beamHurtTime, int enchantability, String name) {
+		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
 		this.beamDamage = beamDamage;
 		this.beamRadius = beamRadius;
 		this.beamSpeed = beamSpeed;
@@ -34,8 +35,8 @@ public class ItemWindUpBeam extends MSUWeaponBase implements IBeamStats
 		this.chargeTime = chargeTime;
 	}
 
-	public ItemWindUpBeam(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int enchantability, String name, String unlocName) {
-		this(maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, chargeTime,15, enchantability, name, unlocName);
+	public ItemWindUpBeam(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int enchantability, String name) {
+		this(maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, chargeTime,15, enchantability, name);
 	}
 
 	@Override

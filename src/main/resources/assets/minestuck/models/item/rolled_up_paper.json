@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/rolled_up_paper"
+        "layer0": "Minestuck:items/rolled_up_paper"
     },
     "display": {
         "thirdperson_righthand": {

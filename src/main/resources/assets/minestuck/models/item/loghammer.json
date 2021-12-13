@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/loghammer"
+        "layer0": "Minestuck:items/loghammer"
     }
 }

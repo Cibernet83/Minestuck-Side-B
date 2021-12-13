@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "minestuckuniverse:blocks/flight_inhibitor"
+        "all": "Minestuck:blocks/flight_inhibitor"
     }
 }

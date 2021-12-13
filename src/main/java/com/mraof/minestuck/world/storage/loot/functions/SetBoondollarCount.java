@@ -3,6 +3,7 @@ package com.mraof.minestuck.world.storage.loot.functions;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.ItemBoondollars;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonUtils;
@@ -33,7 +34,7 @@ public class SetBoondollarCount extends LootFunction
 	{
 		public Serializer()
 		{
-			super(new ResourceLocation("minestuck:set_boondollar_count"), SetBoondollarCount.class);
+			super(new ResourceLocation(Minestuck.MODID, "set_boondollar_count"), SetBoondollarCount.class);
 		}
 		
 		public void serialize(JsonObject object, SetBoondollarCount functionClazz, JsonSerializationContext serializationContext)

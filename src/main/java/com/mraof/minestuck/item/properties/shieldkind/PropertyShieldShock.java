@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item.properties.shieldkind;
 
-import com.mraof.minestuck.item.weapon.MSUShieldBase;
+import com.mraof.minestuck.item.weapon.MSShieldBase;
 import com.mraof.minestuck.item.properties.PropertyShock;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,7 +36,7 @@ public class PropertyShieldShock extends WeaponProperty implements IPropertyShie
 	public boolean isAbilityActive(ItemStack stack, World world, EntityLivingBase player)
 	{
 		if(chanceParry > 0)
-			return stack.getItem() instanceof MSUShieldBase && ((MSUShieldBase) stack.getItem()).isParrying(stack);
+			return stack.getItem() instanceof MSShieldBase && ((MSShieldBase) stack.getItem()).isParrying(stack);
 
 		return chance > 0 && stack.equals(player.getActiveItemStack());
 	}

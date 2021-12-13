@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckuniverse:items/crystalline_ribbitar"
+        "layer0": "Minestuck:items/crystalline_ribbitar"
     }
 }
