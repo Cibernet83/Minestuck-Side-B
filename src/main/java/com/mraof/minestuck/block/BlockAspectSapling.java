@@ -32,7 +32,7 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
 
     protected BlockAspectSapling()
 	{
-        regName = "aspect_log_1";
+        regName = "aspect_sapling";
         MSBlockBase.blocks.add(this);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockType.ASPECT_BLOOD));
 		this.setCreativeTab(TabMinestuck.instance);

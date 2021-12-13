@@ -276,6 +276,7 @@ public class MinestuckModelManager
 		
 		for(EnumSlabStairMaterial mat : EnumSlabStairMaterial.values())
 		{
+			mat.getName();
 			register(mat.getStair());
 			register(mat.getSlab());
 			ModelLoader.setCustomStateMapper(mat.getSlab(), (new StateMap.Builder()).ignore(BlockMinestuckSlab.dummy).build());

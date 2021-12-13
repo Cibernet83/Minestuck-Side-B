@@ -35,7 +35,7 @@ public class BlockDenseCloud extends MSBlockBase
 	
 	public BlockDenseCloud()
 	{
-		super("dense_cloud",Material.GLASS, MapColor.YELLOW);
+		super("denseCloud",Material.GLASS, MapColor.YELLOW);
 		setHardness(0.5F);
 		setSoundType(SoundType.SNOW);
 	}

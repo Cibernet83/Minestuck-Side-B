@@ -26,8 +26,7 @@ public class BlockPunchDesignix extends BlockLargeMachine
 	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public BlockPunchDesignix()
 	{
-		super("punch_designix");
-		setUnlocalizedName("punchDesignix");
+		super("punchDesignix");
 		setDefaultState(blockState.getBaseState());
 	} 
 	

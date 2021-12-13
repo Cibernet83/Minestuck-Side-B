@@ -1,5 +1,6 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
@@ -20,7 +21,13 @@ public class BlockMinestuckLog1 extends BlockMinestuckLog
 
 	public BlockMinestuckLog1(String name)
 	{
-		super(name);
+		this(name, IRegistryItem.unlocToReg(name));
+		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.VINE_OAK).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
+	}
+
+	public BlockMinestuckLog1(String unloc, String reg)
+	{
+		super(unloc, reg);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.VINE_OAK).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 	}
 

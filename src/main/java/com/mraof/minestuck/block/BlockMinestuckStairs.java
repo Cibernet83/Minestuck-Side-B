@@ -11,14 +11,19 @@ public class BlockMinestuckStairs extends BlockStairs implements IRegistryItem<B
 {
 	private final String regName;
 
-	public BlockMinestuckStairs(String name, IBlockState modelState)
+	public BlockMinestuckStairs(String unloc, String reg, IBlockState modelState)
 	{
 		super(modelState);
 		setCreativeTab(TabMinestuck.instance);
 		this.useNeighborBrightness = true;
-		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		setUnlocalizedName(unloc);
+		regName = reg;
 		MSBlockBase.blocks.add(this);
+	}
+
+	public BlockMinestuckStairs(String name, IBlockState modelState)
+	{
+		this(name, IRegistryItem.unlocToReg(name), modelState);
 	}
 
 	@Override

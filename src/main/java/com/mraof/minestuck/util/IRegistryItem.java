@@ -27,15 +27,20 @@ public interface IRegistryItem<T extends IForgeRegistryEntry<T>>
 
 	static String unlocToReg(String unloc)
 	{
-		StringBuilder reg = new StringBuilder();
-		for (int i = 0; i < unloc.length(); i++)
+		String unlocc = unloc;
+		/*if(unloc.indexOf('.') < 0 && unloc.indexOf('.') < unloc.length())
 		{
-			if (Character.isUpperCase(unloc.charAt(i)) && (
-					(i > 0 && Character.isLowerCase(unloc.charAt(i - 1))) ||
-							(i < unloc.length() - 1 && Character.isLowerCase(unloc.charAt(i + 1)))
+			unlocc = unlocc.substring(unloc.indexOf('.')+1);
+		}*/
+		StringBuilder reg = new StringBuilder();
+		for (int i = 0; i < unlocc.length(); i++)
+		{
+			if (Character.isUpperCase(unlocc.charAt(i)) && (
+					(i > 0 && Character.isLowerCase(unlocc.charAt(i - 1))) ||
+							(i < unlocc.length() - 1 && Character.isLowerCase(unlocc.charAt(i + 1)))
 			))
 				reg.append('_');
-			reg.append(unloc.charAt(i));
+			reg.append(unlocc.charAt(i));
 		}
 		return reg.toString().toLowerCase();
 	}

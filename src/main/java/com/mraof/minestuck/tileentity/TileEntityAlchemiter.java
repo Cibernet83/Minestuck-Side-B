@@ -35,7 +35,7 @@ public class TileEntityAlchemiter extends TileEntity
 	protected boolean broken = false;
 	protected ItemStack dowel = ItemStack.EMPTY;
 	protected ItemStack upgradeItem[] = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY,ItemStack.EMPTY,ItemStack.EMPTY};
-	protected AlchemiterUpgrades upgrade[] = new AlchemiterUpgrades[7];
+	//protected AlchemiterUpgrades upgrade[] = new AlchemiterUpgrades[7];
 	public boolean upgraded = false;
 	protected TileEntity jbe = null;
 	
@@ -59,7 +59,7 @@ public class TileEntityAlchemiter extends TileEntity
 	
 	public ItemStack getOutput()
 	{
-		if(hasUpgrade(AlchemiterUpgrades.captchaCard))
+		if(false)//hasUpgrade(AlchemiterUpgrades.captchaCard)) [asks for upgrade]
 		{
 		if (!AlchemyRecipes.hasDecodedItem(dowel))
 			return AlchemyRecipes.createCard(new ItemStack(MinestuckBlocks.genericObject), false);
@@ -128,7 +128,8 @@ public class TileEntityAlchemiter extends TileEntity
 			}
 		}
 	}
-	
+
+	/* to upgrade alc
 	public void setUpgraded(boolean bool, BlockPos pos)
 	{
 		
@@ -141,7 +142,8 @@ public class TileEntityAlchemiter extends TileEntity
 			Debug.warnf("%s is not a jbe tile entity", te);
 			return;
 		}
-		
+
+		//an alc upgrade
 		TileEntityJumperBlock jbeTe = (TileEntityJumperBlock) te;
 		this.upgraded = bool;
 		
@@ -164,12 +166,13 @@ public class TileEntityAlchemiter extends TileEntity
 		
 		this.upgrade = AlchemiterUpgrades.getUpgradesFromList(getUpgradeItemsList());
 	}
-	
-		
+	*/
+
+	/* alc upgrade
 	public boolean hasUpgrade(AlchemiterUpgrades upgrade)
 	{
 		return AlchemiterUpgrades.hasUpgrade(getUpgradeItemsList(), upgrade);
-	}
+	}*/
 	
 	public boolean isUpgraded()
 	{
@@ -196,12 +199,14 @@ public class TileEntityAlchemiter extends TileEntity
 		}
 		return !broken;
 	}
-	
+
+	/* alc upgrade
 	public AlchemiterUpgrades[] getUpgradeList()
 	{
 		return upgrade;
 	}
-	
+	*/
+
 	public ItemStack[] getUpgradeItemsList()
 	{
 		return this.upgradeItem;
@@ -344,8 +349,10 @@ public class TileEntityAlchemiter extends TileEntity
 		}
 		else
 		{
+			/*blender alc upgrade
 			if(hasUpgrade(AlchemiterUpgrades.blender) && !dowel.isEmpty())
 				doTheBlenderThing();
+				*/
 		}
 		BlockPos mainPos = pos;
 		TileEntity te = worldIn.getTileEntity(mainPos);
@@ -413,7 +420,7 @@ public class TileEntityAlchemiter extends TileEntity
 			{
 				ItemStack stack = newItem.copy();
 				//TODO
-				if(hasUpgrade(AlchemiterUpgrades.captchaCard)) {
+				if(false){//hasUpgrade(AlchemiterUpgrades.captchaCard)) { (asks for alc upgrade)
 					int stackCount =  Math.min(AlchemyRecipes.getDecodedItem(stack).getMaxStackSize(), quantity);
 					
 					stack = AlchemyRecipes.changeEncodeSize(stack, stackCount);
@@ -440,8 +447,11 @@ public class TileEntityAlchemiter extends TileEntity
 		ItemStack dowel = getDowel();
 		GristSet set;
 		ItemStack stack = getOutput();
+		/* alc upgrade
 		if(hasUpgrade(AlchemiterUpgrades.captchaCard))
 			stack = AlchemyRecipes.getDecodedItem(getOutput());
+			*/
+
 		boolean useSelectedType;
 		if(dowel.isEmpty())
 			return null;

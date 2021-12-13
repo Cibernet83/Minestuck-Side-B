@@ -32,8 +32,8 @@ public class BlockEndLog extends BlockLog implements IRegistryItem<Block>
 		super();
 		setCreativeTab(TabMinestuck.instance);
 		setDefaultState(blockState.getBaseState().withProperty(SECOND_AXIS, EnumAxis.NONE).withProperty(LOG_AXIS, EnumAxis.Y));
-		setUnlocalizedName("logEnd");
-		regName = IRegistryItem.unlocToReg("logEnd");
+		setUnlocalizedName("endLog");
+		regName = IRegistryItem.unlocToReg("end_log");
 		MSBlockBase.blocks.add(this);
 	}
 

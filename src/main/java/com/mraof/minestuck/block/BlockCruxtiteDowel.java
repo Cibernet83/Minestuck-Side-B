@@ -37,7 +37,7 @@ public class BlockCruxtiteDowel extends MSBlockBase
 	
 	public BlockCruxtiteDowel()
 	{
-		super("dowelCruxite",Material.GLASS);
+		super("cruxiteDowel",Material.GLASS);
 		setDefaultState(getDefaultState().withProperty(TYPE, Type.DOWEL));
 	}
 	

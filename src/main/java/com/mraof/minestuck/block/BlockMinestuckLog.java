@@ -17,14 +17,19 @@ public class BlockMinestuckLog extends BlockLog implements IRegistryItem<Block>
 {
 	private final String regName;
 
-	public BlockMinestuckLog(String name)
+	public BlockMinestuckLog(String unloc, String reg)
 	{
 		super();
 		setDefaultState(blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 		setCreativeTab(TabMinestuck.instance);
-		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		setUnlocalizedName(unloc);
+		regName = reg;
 		MSBlockBase.blocks.add(this);
+	}
+
+	public BlockMinestuckLog(String name)
+	{
+		this(name, IRegistryItem.unlocToReg(name));
 	}
 
 	@Override

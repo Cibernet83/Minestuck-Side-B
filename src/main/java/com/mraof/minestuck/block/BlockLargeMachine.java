@@ -46,14 +46,21 @@ public abstract class BlockLargeMachine extends BlockContainer implements IRegis
 		return false;
 	}
 
-	public BlockLargeMachine(String name)
+	public BlockLargeMachine(String unloc, String reg)
 	{
 		super(Material.ROCK);
-		regName = name;
+		regName = reg;
+		setUnlocalizedName(unloc);
 		MSBlockBase.blocks.add(this);
 		this.setHardness(2);
 		this.setCreativeTab(TabMinestuck.instance);
-	}	
+	}
+
+	public BlockLargeMachine(String name)
+	{
+		this(name, IRegistryItem.unlocToReg(name));
+	}
+
 	//keeps the blocks from dropping something
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world,BlockPos pos,IBlockState state,int fortune)

@@ -26,7 +26,7 @@ public class BlockMinestuckPlanks extends MSBlockBase
 	
 	public BlockMinestuckPlanks()
 	{
-		super("planksMinestuck",Material.WOOD);
+		super("planks",Material.WOOD);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.RAINBOW));
 		this.setHardness(2.0F);
 		this.setSoundType(SoundType.WOOD);

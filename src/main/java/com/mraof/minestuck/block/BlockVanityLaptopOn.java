@@ -17,6 +17,7 @@ import com.mraof.minestuck.network.skaianet.SkaiaClient;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
 
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -47,7 +48,7 @@ public class BlockVanityLaptopOn extends BlockComputerOff implements ITileEntity
 	
 	public BlockVanityLaptopOn(String name)
 	{
-		super(name);
+		super(name, IRegistryItem.unlocToReg(name));
 		setDefaultState(getDefaultState().withProperty(BSOD, false));
 	}
 	

@@ -563,7 +563,7 @@ public class MinestuckItems
 		/*for(Block block : liquidGrists)
 		{
 			minestuckBucket.addBlock(block.getDefaultState());
-		}*/
+		}
 
 		minestuckBucket.addBlock(blockOil.getDefaultState());
 		minestuckBucket.addBlock(blockBlood.getDefaultState());
@@ -571,6 +571,7 @@ public class MinestuckItems
 		minestuckBucket.addBlock(blockWatercolors.getDefaultState());
 		minestuckBucket.addBlock(blockEnder.getDefaultState());
 		minestuckBucket.addBlock(blockLightWater.getDefaultState());
+		*/
 
 		for (IRegistryItem<Item> item : MSItemBase.items)
 			item.register(registry);

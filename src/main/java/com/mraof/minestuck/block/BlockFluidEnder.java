@@ -21,24 +21,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockFluidEnder extends BlockFluidClassic implements IRegistryItem<Block>
+public class BlockFluidEnder extends MSFluidBase implements IRegistryItem<Block>
 {
-	private final String regName;
 
 	public BlockFluidEnder(String name, Fluid fluid, Material material)
 	{
-		super(fluid, material);
-		setTickRandomly(true);
-		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
-		MSBlockBase.blocks.add(this);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		super(name, fluid, material);
 	}
 
 	@SideOnly (Side.CLIENT)

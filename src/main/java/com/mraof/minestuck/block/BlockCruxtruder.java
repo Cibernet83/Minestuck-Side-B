@@ -28,7 +28,6 @@ public class BlockCruxtruder extends BlockLargeMachine
 	public BlockCruxtruder()
 	{
 		super("cruxtruder");
-		setUnlocalizedName("cruxtruder");
 	}
 	//not sure how to do this.
 	@Override

@@ -34,8 +34,13 @@ public class BlockMinestuckSlab extends BlockSlab implements IRegistryItem<Block
 	 * As a result, this dummy property exists to be the return value of that method. It does nothing else.
 	 */
 	public final static PropertyInteger dummy = PropertyInteger.create("dummy", 0, 1);
-	
+
 	public BlockMinestuckSlab(String name, IBlockState modelState, EnumSlabStairMaterial slabStairMaterial, boolean isDouble)
+	{
+		this(name, IRegistryItem.unlocToReg(name), modelState,slabStairMaterial, isDouble);
+	}
+
+	public BlockMinestuckSlab(String unloc, String reg, IBlockState modelState, EnumSlabStairMaterial slabStairMaterial, boolean isDouble)
 	{
 		super(modelState.getMaterial());
 		setCreativeTab(TabMinestuck.instance);
@@ -43,10 +48,10 @@ public class BlockMinestuckSlab extends BlockSlab implements IRegistryItem<Block
 		this.isDouble = isDouble;
 		this.useNeighborBrightness = true;
 		this.ssm = slabStairMaterial;
-		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		setUnlocalizedName(unloc);
+		regName = reg;
 		MSBlockBase.blocks.add(this);
-		
+
 		//TODO: Use the modelState's hardness.
 		setHardness(modelState.getMaterial()==Material.WOOD ? 1.0F : 3.0F);
 	}

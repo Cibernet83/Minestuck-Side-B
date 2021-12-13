@@ -31,7 +31,7 @@ public class BlockAspectLog2 extends BlockLog implements IRegistryItem<Block>
 		MSBlockBase.blocks.add(this);
 		setCreativeTab(TabMinestuck.instance);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.ASPECT_HOPE).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
-		setUnlocalizedName("logAspect");
+		setUnlocalizedName("aspectLog2");
 	}
 
 	@Override

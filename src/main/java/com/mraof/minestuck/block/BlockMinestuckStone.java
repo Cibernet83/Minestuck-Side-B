@@ -32,19 +32,11 @@ public class BlockMinestuckStone extends MSBlockBase
 	
 	public BlockMinestuckStone()
 	{
-		super("stoneMinestuck",Material.ROCK);
+		super("stone",Material.ROCK);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.COARSE));
 		setHardness(1.5F);
 		setResistance(10.0F);
 		setSoundType(SoundType.STONE);
-	}
-
-	public BlockMinestuckStone(String name, MapColor mapColor)
-	{
-		super(name,Material.ROCK, mapColor);
-		setSoundType(SoundType.STONE);
-		setHardness(1.0F);
-		setHarvestLevel("pickaxe", 0);
 	}
 
 	@Override

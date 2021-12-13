@@ -3,6 +3,7 @@ package com.mraof.minestuck.block;
 import java.util.Random;
 
 import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -30,10 +31,15 @@ public abstract class BlockMinestuckLeaves extends MSBlockBase implements net.mi
 	protected boolean leavesFancy = true;	//TODO Update this setting
 	
 	int[] surroundings;
-	
+
 	public BlockMinestuckLeaves(String name)
 	{
-		super(name,Material.LEAVES);
+		this(name, IRegistryItem.unlocToReg(name));
+	}
+
+	public BlockMinestuckLeaves(String unloc, String reg)
+	{
+		super(unloc, reg,Material.LEAVES);
 		this.setTickRandomly(true);
 		this.setHardness(0.2F);
 		this.setLightOpacity(1);

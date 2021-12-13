@@ -43,8 +43,7 @@ public class BlockAlchemiter extends BlockLargeMachine
 	
 	public BlockAlchemiter(String name, int index, PropertyEnum<EnumParts> property)
 	{
-		super(name);
-		setUnlocalizedName(name);
+		super(name,name);
 		this.index = index;
 		this.PART = property;
 	}
