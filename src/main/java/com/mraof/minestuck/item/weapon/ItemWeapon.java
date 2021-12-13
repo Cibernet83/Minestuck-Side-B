@@ -41,6 +41,11 @@ public class ItemWeapon extends MSItemBase
 		this(ToolMaterial.IRON, maxUses, damageVsEntity, weaponSpeed, enchantability, name, false);
 	}
 	
+	public ItemWeapon(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name, boolean hasCustomModel)
+	{
+		this(ToolMaterial.IRON, maxUses, damageVsEntity, weaponSpeed, enchantability, name, hasCustomModel);
+	}
+
 	public ItemWeapon(ToolMaterial material, int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
 	{
 		this(material, maxUses, damageVsEntity, weaponSpeed, enchantability, name, false);

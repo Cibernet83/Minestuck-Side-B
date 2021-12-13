@@ -65,6 +65,7 @@ public class MinestuckModelManager
 		register(minestuckBucket, 3, "bucket_watercolors");
 		register(minestuckBucket, 4, "bucket_ender");
 		register(minestuckBucket, 5, "bucket_light_water");
+
 		for(int i = 0; i < ItemMetalBoat.NAMES.length; i++)
 			register(metalBoat, i, "boat_" + ItemMetalBoat.NAMES[i]);
 
@@ -97,32 +98,31 @@ public class MinestuckModelManager
 
 		//Misc Renderers
 
+		ModelLoader.registerItemVariants(stoneTablet, new ResourceLocation("minestuck:stone_tablet"), new ResourceLocation("minestuck:stone_tablet_written"));
+		ModelLoader.setCustomMeshDefinition(stoneTablet, new StoneSlabDefinition());
+
 		ModelLoader.registerItemVariants(boondollars, new ResourceLocation("minestuck:boondollars0"), new ResourceLocation("minestuck:boondollars1"), new ResourceLocation("minestuck:boondollars2"),
 				new ResourceLocation("minestuck:boondollars3"), new ResourceLocation("minestuck:boondollars4"), new ResourceLocation("minestuck:boondollars5"), new ResourceLocation("minestuck:boondollars6"));
 		ModelLoader.setCustomMeshDefinition(boondollars, new BoondollarsDefinition());
+
 		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation("minestuck:dowel_uncarved"), new ResourceLocation("minestuck:dowel_carved"), new ResourceLocation("minestuck:dowel_uncarved_blank"), new ResourceLocation("minestuck:dowel_carved_blank"));
 		ModelLoader.setCustomMeshDefinition(cruxiteDowel, new CruxiteDowelDefinition());
+
 		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation("minestuck:card_empty"), new ResourceLocation("minestuck:card_full"), new ResourceLocation("minestuck:card_punched"), new ResourceLocation("minestuck:card_ghost"));
 		ModelLoader.setCustomMeshDefinition(captchaCard, new CaptchaCardDefinition());
+
 		ModelLoader.registerItemVariants(shunt, new ResourceLocation("minestuck:shunt_empty"), new ResourceLocation("minestuck:shunt_full"));
 		ModelLoader.setCustomMeshDefinition(shunt, new ShuntDefinition());
-		ModelLoader.registerItemVariants(cruxiteApple, new ResourceLocation("minestuck:cruxite_apple"), new ResourceLocation("minestuck:cruxite_apple_blank"));
-		ModelLoader.setCustomMeshDefinition(cruxiteApple, new ColoredItemDefinition("minestuck:cruxite_apple"));
-		ModelLoader.registerItemVariants(cruxitePotion, new ResourceLocation("minestuck:cruxite_potion"), new ResourceLocation("minestuck:cruxite_potion_blank"));
-		ModelLoader.setCustomMeshDefinition(cruxitePotion, new ColoredItemDefinition("minestuck:cruxite_potion"));
-
 
 		//3D Models
 		if(MinestuckConfig.oldItemModels)
 		{
-			register(clawHammer, 0, "claw_hammer_old");
 			register(zillyhooHammer, 0, "zillyhoo_hammer_old");
+			register(fearNoAnvil, 0, "fear_no_anvil_old");
 		} else
 		{
-			//register(clawHammer);
-			register(clawHammer, 0, "claw_hammer_old");	//Until the issues with the model are fixed
 			register(zillyhooHammer);
-			//TODO FNA 3D
+			register(fearNoAnvil);
 		}
 
 		//everything else
@@ -421,6 +421,20 @@ public class MinestuckModelManager
 				str = "shunt_full";
 
 			else str = "shunt_empty";
+			return new ModelResourceLocation("minestuck:" + str, "inventory");
+		}
+	}
+
+	private static class StoneSlabDefinition implements ItemMeshDefinition
+	{
+		@Override
+		public ModelResourceLocation getModelLocation(ItemStack stack)
+		{
+			NBTTagCompound nbt = stack.getTagCompound();
+			String str = "stone_tablet";
+			if(nbt != null && nbt.hasKey("text") && nbt.getString("text") != "")
+				str += "_written";
+
 			return new ModelResourceLocation("minestuck:" + str, "inventory");
 		}
 	}

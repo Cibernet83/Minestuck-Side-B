@@ -2,8 +2,8 @@
 	"credit": "Made by not.so.br1",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "minestuckuniverse:models/fear_no_anvil",
-		"particle": "minestuckuniverse:models/fear_no_anvil"
+		"0": "minestuck:models/fear_no_anvil",
+		"particle": "minestuck:items/fear_no_anvil"
 	},
 	"elements": [
 		{

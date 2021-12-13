@@ -79,9 +79,14 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySkaiaPortal.class, new RenderSkaiaPortal());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGate.class, new RenderGate());
 //		MinecraftForgeClient.registerItemRenderer(Minestuck.captchaCard, new RenderCard());
-		
-		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? -1 : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex),
-				MinestuckItems.cruxiteDowel, MinestuckItems.cruxiteApple, MinestuckItems.cruxitePotion);
+
+		Item[] cruxiteItems = new Item[MinestuckItems.cruxiteArtifacts.size()+1];
+
+		cruxiteItems[0] = MinestuckItems.cruxiteDowel;
+		for(int i = 1; i <= MinestuckItems.cruxiteArtifacts.size(); i++)
+			cruxiteItems[i] = MinestuckItems.cruxiteArtifacts.get(i);
+
+		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? -1 : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex), cruxiteItems);
 		mc.getBlockColors().registerBlockColorHandler(new BlockColorCruxite(), MinestuckBlocks.alchemiter[0], MinestuckBlocks.totemlathe[1], MinestuckBlocks.blockCruxiteDowel);
 
 		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> {

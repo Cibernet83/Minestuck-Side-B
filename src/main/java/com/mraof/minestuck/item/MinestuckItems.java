@@ -154,8 +154,25 @@ public class MinestuckItems
 	public static final Item energyCore = new MSItemBase("energyCore");
 	public static final ItemDowel cruxiteDowel = new ItemDowel(MinestuckBlocks.blockCruxiteDowel);
 	public static final Item captchaCard = new ItemCaptchaCard();
-	public static final Item cruxiteApple = new ItemCruxiteApple();
-	public static final Item cruxitePotion = new ItemCruxitePotion();
+
+	public static final ArrayList<Item> cruxiteArtifacts = new ArrayList<>();
+	public static final Item cruxiteApple = new ItemCruxiteFood("cruxiteApple", 0, 0, true);
+	public static final Item cruxitePotion = new ItemCruxiteFood("cruxitePotion", 0, 0, EnumAction.DRINK, true);
+	public static final Item cruxitePopTart = new ItemCruxiteFood("cruxitePopTart", 0, 0, true);
+	public static final Item cruxitePickaxe = new ItemCruxiteTool("cruxitePickaxe", "pickaxe", 1.0F, -2.8F, 7.0f, 3, true);
+	public static final Item cruxiteAxe = new ItemCruxiteTool("cruxiteAxe", "axe", 5.0f, -3.2F, 7.0f, 3, true);
+	public static final Item cruxiteShovel = new ItemCruxiteTool("cruxiteShovel", "shovel", 1.5F, -3.0F, 7.0F, 3, true);
+	public static final Item cruxiteHoe = new ItemCruxiteHoe("cruxiteHoe", true);
+	public static final Item cruxiteSword = new ItemCruxiteWeapon("cruxiteSword", "", 4.0f, -2.4000000953674316f, 0f, 3, true);
+	public static final Item cruxiteHammer = new ItemCruxiteWeapon("cruxiteHammer", "pickaxe", 5.0f, -2.45f, 7.0f, 4, true);
+	public static final Item cruxiteClub = new ItemCruxiteWeapon("cruxiteClub", "club", 4.0F, -2.2F, 7.0f, 5, true);
+	public static final Item cruxiteBattleaxe = new ItemCruxiteWeapon("cruxiteBattleaxe", "axe", 7.0F, -3.2F, 7.0f, 2, true);
+	public static final Item cruxiteHelmet = new ItemCruxiteArmor("cruxiteHelmet", EntityEquipmentSlot.HEAD, true);
+	public static final Item cruxiteChestplate = new ItemCruxiteArmor("cruxiteChestplate", EntityEquipmentSlot.CHEST, true);
+	public static final Item cruxiteLeggings = new ItemCruxiteArmor("cruxiteLeggings", EntityEquipmentSlot.LEGS, true);
+	public static final Item cruxiteBoots = new ItemCruxiteArmor("cruxiteBoots", EntityEquipmentSlot.FEET, true);
+
+
 	public static final Item disk = new ItemDisk();
 	public static final Item grimoire = new ItemGrimoire();
 	public static final Item longForgottenWarhorn = new ItemLongForgottenWarhorn();
@@ -200,7 +217,7 @@ public class MinestuckItems
 	public static final Item carvingTool = new MSItemBase("carvingTool").setMaxStackSize(1);
 	public static final MSUArmorBase crumplyHat = new MSUArmorBase(materialCloth, 0, EntityEquipmentSlot.HEAD, "crumplyHat", "minestuck:crumply_hat");
     public static final Item stoneEyeballs = new MSItemBase("stoneEyeballs");
-	public static final Item stoneSlab = new MSItemBase("stoneSlab");
+	public static final Item stoneTablet = new ItemStoneTablet();
 	public static final Item glowystoneDust = new ItemGlowystoneDust().setUnlocalizedName("glowystoneDust");
 	public static final Item fakeArms = new MSItemBase("fakeArms").setCreativeTab(null);
 	//Music disks
@@ -265,23 +282,23 @@ public class MinestuckItems
 	public static final Item dragonGel = new MSItemBase("dragonGel");
 	public static final Item cruxtruderGel = new ItemCruxtruderGel("cruxtruderGel");
 
-	public static final Item operandiPickaxe = new ItemOperandiTool("operandiPickaxe", "pickaxe", 1.0F, -2.8F, 7.0f, 3);
-	public static final Item operandiAxe = new ItemOperandiTool("operandiAxe", "axe", 5.0f, -3.2F, 7.0f, 3);
-	public static final Item operandiShovel = new ItemOperandiTool("operandiShovel", "shovel", 1.5F, -3.0F, 7.0F, 3);
-	public static final Item operandiHoe = new ItemOperandiHoe("operandiHoe");
-	public static final Item operandiSword = new ItemOperandiWeapon("operandiSword", "", 4.0f, -2.4000000953674316f, 0f, 3);
-	public static final Item operandiHammer = new ItemOperandiWeapon("operandiHammer", "pickaxe", 5.0f, -2.45f, 7.0f, 4);
-	public static final Item operandiClub = new ItemOperandiWeapon("operandiClub", "club", 4.0F, -2.2F, 7.0f, 5);
-	public static final Item operandiBattleaxe = new ItemOperandiWeapon("operandiBattleaxe", "axe", 7.0F, -3.2F, 7.0f, 2);
-	public static final Item operandiApple = new ItemOperandiFood("operandiApple", 4, 0.15F);
-	public static final Item operandiPotion = new ItemOperandiFood("operandiPotion", 1, 0.4f, EnumAction.DRINK);
-	public static final Item operandiPopTart = new ItemOperandiFood("operandiPopTart", 3, 0);
+	public static final Item operandiPickaxe = new ItemCruxiteTool("operandiPickaxe", "pickaxe", 1.0F, -2.8F, 7.0f, 3, false);
+	public static final Item operandiAxe = new ItemCruxiteTool("operandiAxe", "axe", 5.0f, -3.2F, 7.0f, 3, false);
+	public static final Item operandiShovel = new ItemCruxiteTool("operandiShovel", "shovel", 1.5F, -3.0F, 7.0F, 3, false);
+	public static final Item operandiHoe = new ItemCruxiteHoe("operandiHoe", false);
+	public static final Item operandiSword = new ItemCruxiteWeapon("operandiSword", "", 4.0f, -2.4000000953674316f, 0f, 3, false);
+	public static final Item operandiHammer = new ItemCruxiteWeapon("operandiHammer", "pickaxe", 5.0f, -2.45f, 7.0f, 4, false);
+	public static final Item operandiClub = new ItemCruxiteWeapon("operandiClub", "club", 4.0F, -2.2F, 7.0f, 5, false);
+	public static final Item operandiBattleaxe = new ItemCruxiteWeapon("operandiBattleaxe", "axe", 7.0F, -3.2F, 7.0f, 2, false);
+	public static final Item operandiApple = new ItemCruxiteFood("operandiApple", 4, 0.15F, false);
+	public static final Item operandiPotion = new ItemCruxiteFood("operandiPotion", 1, 0.4f, EnumAction.DRINK, false);
+	public static final Item operandiPopTart = new ItemCruxiteFood("operandiPopTart", 3, 0, false);
 	public static final Item operandiEightBall = new ItemOperandiThrowable("operandiEightBall", 0, 1.5f, MinestuckSounds.eightBallThrow);
 	public static final Item operandiSplashPotion = new ItemOperandiThrowable("operandiSplashPotion", -20, 0.5f, SoundEvents.ENTITY_SPLASH_POTION_THROW);
-	public static final Item operandiHelmet = new ItemOperandiArmor("operandiHelmet", EntityEquipmentSlot.HEAD);
-	public static final Item operandiChestplate = new ItemOperandiArmor("operandiChestplate", EntityEquipmentSlot.CHEST);
-	public static final Item operandiLeggings = new ItemOperandiArmor("operandiLeggings", EntityEquipmentSlot.LEGS);
-	public static final Item operandiBoots = new ItemOperandiArmor("operandiBoots", EntityEquipmentSlot.FEET);
+	public static final Item operandiHelmet = new ItemCruxiteArmor("operandiHelmet", EntityEquipmentSlot.HEAD, false);
+	public static final Item operandiChestplate = new ItemCruxiteArmor("operandiChestplate", EntityEquipmentSlot.CHEST, false);
+	public static final Item operandiLeggings = new ItemCruxiteArmor("operandiLeggings", EntityEquipmentSlot.LEGS, false);
+	public static final Item operandiBoots = new ItemCruxiteArmor("operandiBoots", EntityEquipmentSlot.FEET, false);
 	public static final Item operandiBlock = new ItemOperandiBlock("operandiBlock", MinestuckBlocks.operandiBlock);
 	public static final Item operandiStone = new ItemOperandiBlock("operandiStone", MinestuckBlocks.operandiStone);
 	public static final Item operandiLog = new ItemOperandiBlock("operandiLog", MinestuckBlocks.operandiLog);
@@ -540,7 +557,7 @@ public class MinestuckItems
 	public static final Item rubyContrabat = new MSUWeaponBase(1200, 14.1, -1.98, 22, "ruby_contrabat", "rubyContrabat").setTool(toolClub, 3, 4.0f).addProperties(new PropertySweep(), new PropertyGristSetter(GristType.Ruby), new PropertyProjectileDeflect(0.5f, 4));
 	public static final Item homeRunBat = new MSUWeaponBase(3240, 16.9, -3.9, 10, "home_run_bat", "homeRunBat").setTool(toolClub, 5, 2.0f).addProperties(new PropertySweep(), new PropertyKnockback(15), new PropertySoundOnHit(MSUSoundHandler.homeRunBat, 1, 1.2f), new PropertyProjectileDeflect(1, 10));
 	public static final Item dynamiteStick = new MSUWeaponBase(1050, 17.6, -2.2, 8, "dynamite_stick", "dynamiteStick").setTool(toolClub, 1, 2.0f).addProperties(new PropertySweep(), new PropertyExplode(2.5f, 1, true), new PropertyProjectileDeflect(0.6f, 4));
-	public static final Item nightmareMace = new MSUWeaponBase(1200, 14.1, -2.09, 8, "nightmare_mace", "nightmareMace").setTool(toolClub, 3, 3.0f).addProperties(new PropertySweep(), new PropertyHungry(3, 4, true), new PropertyProjectileDeflect(0.3f, 8), 
+	public static final Item nightmareMace = new MSUWeaponBase(1200, 14.1, -2.09, 8, "nightmare_mace", "nightmareMace").setTool(toolClub, 3, 3.0f).addProperties(new PropertySweep(), new PropertyHungry(3, 4, true), new PropertyProjectileDeflect(0.3f, 8),
 																																								 new PropertyPotion(new PotionEffect(MobEffects.BLINDNESS, 200, 0), false, 0.2f), new PropertyPotion(new PotionEffect(MobEffects.NAUSEA, 200, 0), false, 0.2f), new PropertyPotion(new PotionEffect(MobEffects.WITHER, 100, 1), true, 0.2f));
 	public static final Item cranialEnder = new MSUWeaponBase(1800, 17.6, -2.2, 8, "cranial_ender", "cranialEnder").setTool(toolClub, 5, 2.0f).addProperties(new PropertySweep(), new PropertyExplode(0.5f, 0.2f, true), new PropertyPotion(new PotionEffect(MobEffects.NAUSEA, 100, 0), true, 0.7f), new PropertyProjectileDeflect(0.6f, 3));
 	public static final Item badaBat = new MSUWeaponBase(8035, 15.9, -3.9, 10, "bada_bat", "badaBat").setTool(toolClub, 5, 14.0f).addProperties(new PropertySweep(), new PropertyKnockback(15), new PropertySoundOnHit(MSUSoundHandler.homeRunBat, 1, 1.2f), new PropertySoundOnClick(MSUSoundHandler.bada, 1, 1.2f), new PropertyProjectileDeflect(1, 10)).setCreativeTab(null);
@@ -582,13 +599,13 @@ public class MinestuckItems
 	public static final Item clawSickle = new MSUWeaponBase(1375, 23.5, -2.64, 8, "clawSickle").setTool(toolSickle, 3, 3).addProperties(new PropertySweep(5), new PropertyFarmine(2, 500));
 	public static final Item clawOfNrubyiglith = new MSUWeaponBase(1650, 23.5, -2.4, 12, "clawOfNrubyiglith").setTool(toolSickle, 4, 3).addProperties(new PropertySweep(3.5f), new PropertyWhisperingTerror(0.15f));
 	public static final Item hereticusAurum = new MSUWeaponBase(110, 15.9, -2.16, 32, "hereticus_aurum", "hereticusAurum").setTool(toolSickle, 5, 4).addProperties(new PropertySweep(3), new PropertyFarmine(5, 500));
-	
+
 	//Spoonkind
 	public static final Item woodenSpoon = new MSUWeaponBase(300, 3.2, -2, 1, "woodenSpoon").setTool(toolSpoon, 0, 2).addProperties(new PropertyHungerSpeed(1.2f));
 	public static final Item silverSpoon = new MSUWeaponBase(600, 6.4, -1.88, 8, "silverSpoon").setTool(toolSpoon, 2, 4).addProperties(new PropertyHungerSpeed(1.1f));
     public static final Item crockerSpoon = new MSUWeaponBase(900, 9.6, -2.2, 6, "crockerSpoon").setTool(toolSpoon, 4, 8).addProperties(new PropertyHungerSpeed(1.2f));
 	public static final Item fancySpoon = new MSUWeaponBase(1200, 4.5, -2, 4, "fancy_spoon", "fancySpoon").setTool(toolSpoon, 3, 3).addProperties(new PropertyHungerSpeed(1.2f));
-	
+
 	//Forkkind
 	public static final Item fork = new MSUWeaponBase(225, 3.9, -2.2, 1, "fork").setTool(toolFork, 0, 2).addProperties(new PropertyHungerSpeed(1.2f));
 	public static final Item skaiaFork = new MSUWeaponBase(1080, 18.3, -2.42, 10, "skaiaFork").setTool(toolFork, 3, 6).addProperties(new PropertyTipperDamage(0.6f, 1.3f, 0.8f)).addProperties(new PropertyHungerSpeed(1.25f));
@@ -655,9 +672,10 @@ public class MinestuckItems
 		{
 			if(entry.key.getResourcePath().equals("crocker_spork"))
 				entry.remap(crockerSpoon);
+			else if(entry.key.getResourcePath().equals("modus_card"))
+				entry.remap(stackModus);
 			else
 			{
-				System.out.println(entry.key + " " + Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())));
 				if(Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())) != null)
 					entry.remap(Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())));
 			}

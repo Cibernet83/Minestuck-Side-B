@@ -2,6 +2,7 @@ package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.item.MSItemBase;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.item.TabsMinestuck;
@@ -20,11 +21,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class ItemOperandiHoe extends ItemHoe implements IRegistryItem<Item>
+public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem<Item>, ICruxiteArtifact
 {
 	private final String regName;
+	private final CruxiteArtifactTeleporter teleporter;
 
-	public ItemOperandiHoe(String name)
+	public ItemCruxiteHoe(String name, boolean isEntryArtifact)
 	{
 		super(ToolMaterial.IRON);
 		setMaxDamage(10);
@@ -33,7 +35,16 @@ public class ItemOperandiHoe extends ItemHoe implements IRegistryItem<Item>
 		setUnlocalizedName(name);
 		setCreativeTab(TabsMinestuck.minestuck);
 
-		OperandiModus.itemPool.add(this);
+		if(isEntryArtifact)
+		{
+			teleporter =  new CruxiteArtifactTeleporter();
+			OperandiModus.itemPool.add(this);
+		}
+		else
+		{
+			teleporter = null;
+			MinestuckItems.cruxiteArtifacts.add(this);
+		}
 		MSItemBase.items.add(this);
 	}
 	
@@ -60,7 +71,6 @@ public class ItemOperandiHoe extends ItemHoe implements IRegistryItem<Item>
 	protected void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state)
 	{
 		worldIn.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-		ItemStack storedStack = ModusStorage.getStoredItem(stack);
 		
 		if (!worldIn.isRemote)
 		{
@@ -69,6 +79,13 @@ public class ItemOperandiHoe extends ItemHoe implements IRegistryItem<Item>
 		}
 		if(stack.isEmpty())
 		{
+			if(isEntryArtifact())
+			{
+				getTeleporter().onArtifactActivated(player);
+				return;
+			}
+
+			ItemStack storedStack = ModusStorage.getStoredItem(stack);
 			worldIn.playSound(null, player.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 			
 			if(!player.addItemStackToInventory(storedStack))
@@ -80,5 +97,15 @@ public class ItemOperandiHoe extends ItemHoe implements IRegistryItem<Item>
 	public void register(IForgeRegistry<Item> registry) {
 		setRegistryName(regName);
 		registry.register(this);
+	}
+
+	@Override
+	public boolean isEntryArtifact() {
+		return teleporter != null;
+	}
+
+	@Override
+	public CruxiteArtifactTeleporter getTeleporter() {
+		return teleporter;
 	}
 }
