@@ -2,6 +2,7 @@
 
 import com.mraof.minestuck.item.TabMinestuck;
 
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
@@ -15,14 +16,27 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockPetrifiedFlora extends BlockBush {
+	public class BlockPetrifiedFlora extends BlockBush implements IRegistryItem<Block>
+{
+	private final String regName;
+
 	public BlockPetrifiedFlora(String name)
 	{
 		super(Material.ROCK);
 		setCreativeTab(TabMinestuck.instance);
-		setUnlocalizedName(name);
 		setSoundType(SoundType.STONE);
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MSBlockBase.blocks.add(this);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 
 	@Override

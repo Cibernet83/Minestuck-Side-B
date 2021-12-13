@@ -20,20 +20,18 @@ import net.minecraft.world.IBlockAccess;
 
 import java.util.Random;
 
-public class BlockUraniumOre extends Block 
+public class BlockUraniumOre extends MSBlockBase
 {
 	public static final PropertyInteger BLOCK_TYPE = PropertyInteger.create("block_type", 0, 6);
 	
 	public BlockUraniumOre()
 	{
-		super(Material.ROCK);
+		super("oreUranium",Material.ROCK);
 		
-		this.setUnlocalizedName("oreUranium");
 		setHardness(3.0F);
 		setResistance(5.0F);	//Values normally used by ores
 		setLightLevel(0.2F);
 		setHarvestLevel("pickaxe", 1);
-		this.setCreativeTab(TabMinestuck.instance);
 	}
 	
 	@Override

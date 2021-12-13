@@ -30,27 +30,30 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
+//not sure if BlockSburbMachines have the thing - arid
+//everything else with setUnlocalizedName() is using a forge / minecraft class - arid
+
 public class MinestuckBlocks
 {
 	//Blocks
 	public static final Block chessTile = new BlockChessTile();
 	public static final Block skaiaPortal = new BlockSkaiaPortal(Material.PORTAL);
 	
-	public static final Block coloredDirt = new BlockColoredDirt().setUnlocalizedName("coloredDirt").setHardness(0.5F);
-	public static final Block cruxiteBlock = new Block(Material.ROCK, MapColor.LIGHT_BLUE).setUnlocalizedName("cruxiteBlock").setHardness(3.0F).setCreativeTab(TabMinestuck.instance);
-	public static final Block uraniumBlock = new Block(Material.ROCK, MapColor.LIME).setLightLevel(0.5F).setUnlocalizedName("uraniumBlock").setHardness(3.0F).setCreativeTab(TabMinestuck.instance);
-	public static final Block genericObject = new BlockCustom(Material.GOURD, MapColor.LIME, SoundType.WOOD).setUnlocalizedName("genericObject").setHardness(1.0F).setCreativeTab(TabMinestuck.instance);
+	public static final Block coloredDirt = new BlockColoredDirt();
+	public static final Block cruxiteBlock = new MSBlockBase("cruxiteBlock",Material.ROCK, MapColor.LIGHT_BLUE).setHardness(3.0F);
+	public static final Block uraniumBlock = new MSBlockBase("uraniumBlock",Material.ROCK, MapColor.LIME).setLightLevel(0.5F).setHardness(3.0F);
+	public static final Block genericObject = new BlockFlamable("genericObject",Material.GOURD, MapColor.LIME, SoundType.WOOD).setHardness(1.0F);
 	
-	public static final Block blender = new BlockDecor("blender",SoundType.METAL).setCreativeTab(TabMinestuck.instance);
-	public static final Block chessboard = new BlockDecor("chessboard").setCreativeTab(TabMinestuck.instance);
-	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica").setCreativeTab(TabMinestuck.instance);
+	public static final Block blender = new BlockDecor("blender",SoundType.METAL);
+	public static final Block chessboard = new BlockDecor("chessboard");
+	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica");
 	
 	public static final Block sburbMachine = new BlockSburbMachine();
 	public static final Block crockerMachine = new BlockCrockerMachine();
-	public static final Block blockComputerOff = new BlockComputerOff();
+	public static final Block blockComputerOff = new BlockComputerOff("sburbComputerOff");
 	public static final Block blockComputerOn = new BlockComputerOn();
-	public static final Block blockLaptopOff = new BlockVanityLaptopOff().setCreativeTab(null);
-	public static final Block blockLaptopOn = new BlockVanityLaptopOn();
+	public static final Block blockLaptopOff = new BlockVanityLaptopOff("vanityLaptop").setCreativeTab(null);
+	public static final Block blockLaptopOn = new BlockVanityLaptopOn("vanityLaptopOn");
 	public static final Block transportalizer = new BlockTransportalizer();
 	
 	public static final Block punchDesignix = new BlockPunchDesignix();
@@ -59,106 +62,106 @@ public class MinestuckBlocks
 	public static final Block cruxtruder = new BlockCruxtruder();
 	public static final Block cruxtruderLid = new BlockCruxtruderLid();
 	public static final Block holopad = new BlockHolopad();
-	public static final BlockJumperBlock[] jumperBlockExtension = BlockJumperBlock.createBlocks();
-	public static final BlockAlchemiterUpgrades[] alchemiterUpgrades = BlockAlchemiterUpgrades.createBlocks();
+	//public static final BlockJumperBlock[] jumperBlockExtension = BlockJumperBlock.createBlocks();
+	//public static final BlockAlchemiterUpgrades[] alchemiterUpgrades = BlockAlchemiterUpgrades.createBlocks();
 	
 	public static final Block blockCruxiteDowel = new BlockCruxtiteDowel();
 	public static final Block blockGoldSeeds = new BlockGoldSeeds();
-	public static final Block returnNode = new BlockReturnNode();
-	public static final Block gate = new BlockGate();
-	public static final Block petrifiedLog = new BlockPetrifiedLog();
+	public static final Block returnNode = new BlockReturnNode("returnNode");
+	public static final Block gate = new BlockGate("gate");
+	public static final Block petrifiedLog = new BlockPetrifiedLog("petrifiedLog");
 	public static final Block petrifiedPoppy = new BlockPetrifiedFlora("petrifiedPoppy");
 	public static final Block petrifiedGrass = new BlockPetrifiedFlora("petrifiedGrass");
 	public static final Block bloomingCactus = new BlockDesertFlora("bloomingCactus"); 
 	public static final Block desertBush = new BlockDesertBush("desertBush");
 	public static final Block glowingMushroom = new BlockGlowingMushroom();
 	public static final Block glowingLog = new BlockGlowingLog();
-	public static final Block glowingPlanks = new BlockCustom(Material.WOOD, MapColor.LIGHT_BLUE, SoundType.WOOD).setFireInfo(5, 20).setUnlocalizedName("glowingPlanks").setLightLevel(0.5F).setHardness(2.0F).setResistance(5.0F).setCreativeTab(TabMinestuck.instance);
+	public static final Block glowingPlanks = new BlockFlamable("glowingPlanks",Material.WOOD, MapColor.LIGHT_BLUE, SoundType.WOOD).setFireInfo(5, 20).setLightLevel(0.5F).setHardness(2.0F).setResistance(5.0F);
 	public static final Block stone = new BlockMinestuckStone();
 	public static final Block glowyGoop = new BlockGlowyGoop("glowyGoop");
 	public static final Block coagulatedBlood = new BlockGoop("coagulatedBlood");
-	public static final Block coarseStoneStairs = new BlockMinestuckStairs(stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.COARSE)).setUnlocalizedName("stairsMinestuck.coarse");
-	public static final Block shadeBrickStairs = new BlockMinestuckStairs(stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.SHADE_BRICK)).setUnlocalizedName("stairsMinestuck.shadeBrick");
-	public static final Block frostBrickStairs = new BlockMinestuckStairs(stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.FROST_BRICK)).setUnlocalizedName("stairsMinestuck.frostBrick");
-	public static final Block castIronStairs = new BlockMinestuckStairs(stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.CAST_IRON)).setUnlocalizedName("stairsMinestuck.castIron");
-	public static final Block myceliumBrickStairs = new BlockMinestuckStairs(stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.MYCELIUM_BRICK)).setUnlocalizedName("stairsMinestuck.myceliumBrick");
-	public static final Block log = new BlockMinestuckLog1();
+	public static final Block coarseStoneStairs = new BlockMinestuckStairs("stairsMinestuck.coarse", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.COARSE));
+	public static final Block shadeBrickStairs = new BlockMinestuckStairs("stairsMinestuck.shadeBrick", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.SHADE_BRICK));
+	public static final Block frostBrickStairs = new BlockMinestuckStairs("stairsMinestuck.frostBrick", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.FROST_BRICK));
+	public static final Block castIronStairs = new BlockMinestuckStairs("stairsMinestuck.castIron", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.CAST_IRON));
+	public static final Block myceliumBrickStairs = new BlockMinestuckStairs("stairsMinestuck.myceliumBrick", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.MYCELIUM_BRICK));
+	public static final Block log = new BlockMinestuckLog1("logMinestuck");
 	public static final Block leaves1 = new BlockMinestuckLeaves1();
 	public static final Block planks = new BlockMinestuckPlanks();
 	public static final Block frostPlanks = new BlockFrostPlanks();
-	public static final Block aspectSapling = new BlockAspectSapling().setCreativeTab(null);
+	public static final Block aspectSapling = new BlockAspectSapling();
 	public static final Block rainbowSapling = new BlockRainbowSapling();
-	public static final Block aspectLog1 = new BlockAspectLog().setCreativeTab(null);
-	public static final Block aspectLog2 = new BlockAspectLog2().setCreativeTab(null);
-	public static final Block aspectLog3 = new BlockAspectLog3().setCreativeTab(null);
-	public static final Block woodenCactus = new BlockCactusSpecial(SoundType.WOOD, "axe").setHardness(1.0F).setResistance(2.5F).setUnlocalizedName("woodenCactus");
-	public static final Block sugarCube = new BlockCustom(Material.SAND, MapColor.SNOW, SoundType.SAND).setUnlocalizedName("sugarCube").setHardness(0.4F).setCreativeTab(TabMinestuck.instance);
-	public static final Block rabbitSpawner = new BlockMobSpawner().setUnlocalizedName("rabbitSpawner");
-	public static final Block appleCake = new BlockSimpleCake(2, 0.5F, null).setUnlocalizedName("appleCake");
-	public static final Block blueCake = new BlockSimpleCake(2, 0.3F, (EntityPlayer player) -> player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 150, 0))).setUnlocalizedName("blueCake");
-	public static final Block coldCake = new BlockSimpleCake(2, 0.3F, (EntityPlayer player) -> {player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 200, 1));player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 200, 1));}).setUnlocalizedName("coldCake");
-	public static final Block redCake = new BlockSimpleCake(2, 0.1F, (EntityPlayer player) -> player.heal(1)).setUnlocalizedName("redCake");
-	public static final Block hotCake = new BlockSimpleCake(2, 0.1F, (EntityPlayer player) -> player.setFire(4)).setUnlocalizedName("hotCake");
-	public static final Block reverseCake = new BlockSimpleCake(2, 0.1F, null).setUnlocalizedName("cake");
-	public static final Block fuchsiaCake = new BlockSimpleCake(3, 0.5F, (EntityPlayer player) -> {player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 350, 1));player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));}).setUnlocalizedName("fuchsiaCake");
+	public static final Block aspectLog1 = new BlockAspectLog();
+	public static final Block aspectLog2 = new BlockAspectLog2();
+	public static final Block aspectLog3 = new BlockAspectLog3();
+	public static final Block woodenCactus = new BlockCactusSpecial("woodenCactus",SoundType.WOOD, "axe").setHardness(1.0F).setResistance(2.5F);
+	public static final Block sugarCube = new BlockFlamable("sugarCube",Material.SAND, MapColor.SNOW, SoundType.SAND).setHardness(0.4F);
+	public static final Block rabbitSpawner = new BlockMobSpawner("rabbitSpawner");
+	public static final Block appleCake = new BlockSimpleCake("appleCake",2, 0.5F, null);
+	public static final Block blueCake = new BlockSimpleCake("blueCake",2, 0.3F, (EntityPlayer player) -> player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 150, 0)));
+	public static final Block coldCake = new BlockSimpleCake("coldCake",2, 0.3F, (EntityPlayer player) -> {player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 200, 1));player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 200, 1));});
+	public static final Block redCake = new BlockSimpleCake("redCake",2, 0.1F, (EntityPlayer player) -> player.heal(1));
+	public static final Block hotCake = new BlockSimpleCake("hotCake",2, 0.1F, (EntityPlayer player) -> player.setFire(4));
+	public static final Block reverseCake = new BlockSimpleCake("reverseCake",2, 0.1F, null);
+	public static final Block fuchsiaCake = new BlockSimpleCake("fuchsiaCake",3, 0.5F, (EntityPlayer player) -> {player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 350, 1));player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));});
 	public static final Block vein = new BlockVein("vein");
 	public static final Block veinCorner = new BlockVeinCorner("veinCorner");
 	public static final Block veinCornerInverted = new BlockVeinCorner("veinCornerInverted");
 	
-	public static final Block treatedPlanks = new BlockCustom(Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(1, 0).setUnlocalizedName("treatedPlanks").setHardness(1.0F).setCreativeTab(TabMinestuck.instance);
+	public static final Block treatedPlanks = new BlockFlamable("treatedPlanks",Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(1, 0).setHardness(1.0F);
 	
 	public static final Block endLog = new BlockEndLog();
 	public static final Block endLeaves = new BlockEndLeaves();
-	public static final Block endPlanks = new BlockCustom(Material.WOOD, MapColor.SAND, SoundType.WOOD).setFireInfo(1, 250).setUnlocalizedName("endPlanks").setHardness(1.0F).setCreativeTab(TabMinestuck.instance);
+	public static final Block endPlanks = new BlockFlamable("endPlanks",Material.WOOD, MapColor.SAND, SoundType.WOOD).setFireInfo(1, 250).setHardness(1.0F);
 	public static final Block endSapling = new BlockEndSapling();
 	public static final Block endGrass = new BlockEndGrass();
-	public static final Block coarseEndStone = new BlockCustomStone(MapColor.SAND).setHardness(3.0F).setUnlocalizedName("coarseEndStone").setCreativeTab(TabMinestuck.instance);
+	public static final Block coarseEndStone = new BlockMinestuckStone("coarseEndStone",MapColor.SAND).setHardness(3.0F);
 	
-	public static final Block floweryMossStone = new BlockCustomStone(MapColor.GRAY).setUnlocalizedName("floweryMossStone").setCreativeTab(TabMinestuck.instance);
-	public static final Block floweryMossBrick = new BlockCustomStone(MapColor.GRAY).setUnlocalizedName("floweryMossBrick").setCreativeTab(TabMinestuck.instance);
+	public static final Block floweryMossStone = new BlockMinestuckStone("floweryMossStone",MapColor.GRAY);
+	public static final Block floweryMossBrick = new BlockMinestuckStone("floweryMossBrick",MapColor.GRAY);
 	public static final Block strawberry = new BlockStrawberry();
-	public static final Block strawberryStem = new BlockMinestuckStem((BlockDirectional) strawberry).setUnlocalizedName("strawberryStem").setCreativeTab(null);
+	public static final Block strawberryStem = new BlockMinestuckStem("strawberryStem", (BlockDirectional) strawberry).setCreativeTab(null);
 	
-	public static final Block deadLog = new BlockMinestuckLog().setUnlocalizedName("logDead").setCreativeTab(TabMinestuck.instance);
-	public static final Block deadPlanks = new BlockCustom(Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 5).setUnlocalizedName("deadPlanks").setHardness(1.0F).setCreativeTab(TabMinestuck.instance);
-	public static final Block chalk = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalk")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block chalkBricks = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalkBricks")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block chalkChisel = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalkChisel")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block chalkPolish = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalkPolish")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneSmooth = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneSmooth")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneBricks = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneBricks")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneChisel = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneChisel")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneCracked= new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneCracked").setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneMossy = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneMossy")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStonePolish = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStonePolish")	.setCreativeTab(TabMinestuck.instance);
+	public static final Block deadLog = new BlockMinestuckLog("logDead");
+	public static final Block deadPlanks = new BlockFlamable("deadPlanks",Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 5).setHardness(1.0F);
+	public static final Block chalk = new BlockMinestuckStone("chalk",MapColor.SNOW);
+	public static final Block chalkBricks = new BlockMinestuckStone("chalkBricks",MapColor.SNOW);
+	public static final Block chalkChisel = new BlockMinestuckStone("chalkChisel",MapColor.SNOW);
+	public static final Block chalkPolish = new BlockMinestuckStone("chalkPolish",MapColor.SNOW);
+	public static final Block pinkStoneSmooth = new BlockMinestuckStone("pinkStoneSmooth",MapColor.PINK);
+	public static final Block pinkStoneBricks = new BlockMinestuckStone("pinkStoneBricks",MapColor.PINK);
+	public static final Block pinkStoneChisel = new BlockMinestuckStone("pinkStoneChisel",MapColor.PINK);
+	public static final Block pinkStoneCracked= new BlockMinestuckStone("pinkStoneCracked",MapColor.PINK);
+	public static final Block pinkStoneMossy = new BlockMinestuckStone("pinkStoneMossy",MapColor.PINK);
+	public static final Block pinkStonePolish = new BlockMinestuckStone("pinkStonePolish",MapColor.PINK);
 	public static final Block denseCloud = new BlockDenseCloud();
 	
 	//Ores
 	public static final Block oreCruxite = new BlockCruxiteOre();
-	public static final BlockUraniumOre oreUranium = (BlockUraniumOre) new BlockUraniumOre().setUnlocalizedName("oreUranium");
-	public static final Block coalOreNetherrack = new BlockVanillaOre(BlockVanillaOre.OreType.COAL).setUnlocalizedName("oreCoal");
-	public static final Block coalOrePinkStone = new BlockVanillaOre(BlockVanillaOre.OreType.COAL).setUnlocalizedName("oreCoal");
-	public static final Block ironOreEndStone = new BlockVanillaOre(BlockVanillaOre.OreType.IRON).setUnlocalizedName("oreIron");
-	public static final Block ironOreSandstone = new BlockVanillaOre(BlockVanillaOre.OreType.IRON).setUnlocalizedName("oreIron");
-	public static final Block ironOreSandstoneRed = new BlockVanillaOre(BlockVanillaOre.OreType.IRON).setUnlocalizedName("oreIron");
-	public static final Block goldOreSandstone = new BlockVanillaOre(BlockVanillaOre.OreType.GOLD).setUnlocalizedName("oreGold");
-	public static final Block goldOreSandstoneRed = new BlockVanillaOre(BlockVanillaOre.OreType.GOLD).setUnlocalizedName("oreGold");
-	public static final Block goldOrePinkStone = new BlockVanillaOre(BlockVanillaOre.OreType.GOLD).setUnlocalizedName("oreGold");
-	public static final Block redstoneOreEndStone = new BlockVanillaOre(BlockVanillaOre.OreType.REDSTONE).setUnlocalizedName("oreRedstone");
-	public static final Block quartzOreStone = new BlockVanillaOre(BlockVanillaOre.OreType.QUARTZ).setUnlocalizedName("oreQuartz");
-	public static final Block lapisOrePinkStone = new BlockVanillaOre(BlockVanillaOre.OreType.LAPIS).setUnlocalizedName("oreLapis");
-	public static final Block diamondOrePinkStone = new BlockVanillaOre(BlockVanillaOre.OreType.DIAMOND).setUnlocalizedName("oreDiamond");
+	public static final BlockUraniumOre oreUranium = (BlockUraniumOre) new BlockUraniumOre();
+	public static final Block coalOreNetherrack = new BlockVanillaOre("oreCoal",BlockVanillaOre.OreType.COAL);
+	public static final Block coalOrePinkStone = new BlockVanillaOre("oreCoal",BlockVanillaOre.OreType.COAL);
+	public static final Block ironOreEndStone = new BlockVanillaOre("oreIron",BlockVanillaOre.OreType.IRON);
+	public static final Block ironOreSandstone = new BlockVanillaOre("oreIron",BlockVanillaOre.OreType.IRON);
+	public static final Block ironOreSandstoneRed = new BlockVanillaOre("oreIron",BlockVanillaOre.OreType.IRON);
+	public static final Block goldOreSandstone = new BlockVanillaOre("oreGold",BlockVanillaOre.OreType.GOLD);
+	public static final Block goldOreSandstoneRed = new BlockVanillaOre("oreGold",BlockVanillaOre.OreType.GOLD);
+	public static final Block goldOrePinkStone = new BlockVanillaOre("oreGold",BlockVanillaOre.OreType.GOLD);
+	public static final Block redstoneOreEndStone = new BlockVanillaOre("oreRedstone",BlockVanillaOre.OreType.REDSTONE);
+	public static final Block quartzOreStone = new BlockVanillaOre("oreQuartz",BlockVanillaOre.OreType.QUARTZ);
+	public static final Block lapisOrePinkStone = new BlockVanillaOre("oreLapis",BlockVanillaOre.OreType.LAPIS);
+	public static final Block diamondOrePinkStone = new BlockVanillaOre("oreDiamond",BlockVanillaOre.OreType.DIAMOND);
 	
-	public static final Block uraniumCooker = new BlockUraniumCooker().setUnlocalizedName("uraniumCooker");
+	public static final Block uraniumCooker = new BlockUraniumCooker();
 	
-	public static final Block primedTnt = new BlockTNTSpecial(true, false, false).setUnlocalizedName("primedTnt");
-	public static final Block unstableTnt = new BlockTNTSpecial(false, true, false).setUnlocalizedName("unstableTnt");
-	public static final Block instantTnt = new BlockTNTSpecial(false, false, true).setUnlocalizedName("instantTnt");
-	public static final Block woodenExplosiveButton = new BlockButtonSpecial(true, true).setUnlocalizedName("buttonTnt");
-	public static final Block stoneExplosiveButton = new BlockButtonSpecial(false, true).setUnlocalizedName("buttonTnt");
+	public static final Block primedTnt = new BlockTNTSpecial("primedTnt", true, false, false);
+	public static final Block unstableTnt = new BlockTNTSpecial("unstableTnt", false, true, false);
+	public static final Block instantTnt = new BlockTNTSpecial("instantTnt", false, false, true);
+	public static final Block woodenExplosiveButton = new BlockButtonSpecial("woodenButtonExplosive",true, true);
+	public static final Block stoneExplosiveButton = new BlockButtonSpecial("stoneButtonExplosive",false, true);
 	
-	public static final BlockLayered layeredSand = (BlockLayered) new BlockLayered(Blocks.SAND.getDefaultState()).setUnlocalizedName("layeredSand");
-	public static final Block glowystoneWire = new BlockGlowystoneWire().setUnlocalizedName("glowystoneWire");
+	public static final BlockLayered layeredSand = (BlockLayered) new BlockLayered("layeredSand",Blocks.SAND.getDefaultState());
+	public static final Block glowystoneWire = new BlockGlowystoneWire("glowystoneWire");
 
 	public static final Fluid fluidOil = createFluid("oil", new ResourceLocation("minestuck", "blocks/oil_still"), new ResourceLocation("minestuck", "blocks/oil_flowing"), "tile.oil");
 	public static final Fluid fluidBlood = createFluid("blood", new ResourceLocation("minestuck", "blocks/blood_still"), new ResourceLocation("minestuck", "blocks/blood_flowing"), "tile.blood");
@@ -210,7 +213,7 @@ public class MinestuckBlocks
 		}
 	}.setUnlocalizedName("watercolors").setLightOpacity(1);
 	
-	public static final Block blockEnder = new BlockFluidEnder(fluidEnder, Material.WATER).setUnlocalizedName("ender").setLightOpacity(1);
+	public static final Block blockEnder = new BlockFluidEnder("ender",fluidEnder, Material.WATER).setLightOpacity(1);
 
 	public static final Block blockLightWater = new BlockFluidClassic(fluidLightWater, Material.WATER){
 		@SideOnly (Side.CLIENT)
@@ -221,7 +224,7 @@ public class MinestuckBlocks
 		}
 	}.setUnlocalizedName("lightWater").setLightOpacity(1);
 
-	public static final Block hardStone = new BlockHardStone().setUnlocalizedName("hardStone").setCreativeTab(TabMinestuck.instance);
+	public static final Block hardStone = new BlockHardStone("hardStone");
 	public static final Block operandiBlock = new BlockOperandi("operandiBlock", 1.0f, 0, Material.GOURD, "");
 	public static final Block operandiGlass = new BlockOperandiGlass("operandiGlass", 0.5f, 0, Material.GLASS, "");
 	public static final Block operandiStone = new BlockOperandi("operandiStone", 3.0f, 6.5f, Material.IRON, "pickaxe");
@@ -245,11 +248,11 @@ public class MinestuckBlocks
 		registry.register(leaves1.setRegistryName("leaves"));
 		registry.register(planks.setRegistryName("planks"));
 		registry.register(frostPlanks.setRegistryName("frost_planks"));
-		registry.register(aspectSapling.setRegistryName("aspect_sapling"));
+		registry.register(aspectSapling);
 		registry.register(rainbowSapling.setRegistryName("rainbow_sapling"));
-		registry.register(aspectLog1.setRegistryName("aspect_log_1"));
-		registry.register(aspectLog2.setRegistryName("aspect_log_2"));
-		registry.register(aspectLog3.setRegistryName("aspect_log_3"));
+		registry.register(aspectLog1);
+		registry.register(aspectLog2);
+		registry.register(aspectLog3);
 		registry.register(glowingLog.setRegistryName("glowing_log"));
 		registry.register(glowingPlanks.setRegistryName("glowing_planks"));
 		registry.register(glowingMushroom.setRegistryName("glowing_mushroom"));
@@ -297,27 +300,27 @@ public class MinestuckBlocks
 		registry.register(transportalizer.setRegistryName("transportalizer"));
 		registry.register(uraniumCooker.setRegistryName("uranium_cooker"));
 		
-		registry.register(punchDesignix.setRegistryName("punch_designix"));
-		registry.register(totemlathe[0].setRegistryName("totem_lathe"));
-		registry.register(totemlathe[1].setRegistryName("totem_lathe2"));
-		registry.register(totemlathe[2].setRegistryName("totem_lathe3"));
+		registry.register(punchDesignix);
+		registry.register(totemlathe[0]);
+		registry.register(totemlathe[1]);
+		registry.register(totemlathe[2]);
 		registry.register(alchemiter[0].setRegistryName("alchemiter"));
 		registry.register(alchemiter[1].setRegistryName("alchemiter2"));
-		registry.register(cruxtruder.setRegistryName("cruxtruder"));
+		registry.register(cruxtruder);
 		registry.register(cruxtruderLid.setRegistryName("cruxtruder_lid"));
 		/*
 		registry.register(holopad.setRegistryName("holopad"));
-		registry.register(jumperBlockExtension[0].setRegistryName("jumper_block_extension"));
-		registry.register(jumperBlockExtension[1].setRegistryName("jumper_block_extension2"));
-		registry.register(jumperBlockExtension[2].setRegistryName("jumper_block_extension3"));
-		registry.register(jumperBlockExtension[3].setRegistryName("jumper_block_extension4"));
+		//registry.register(jumperBlockExtension[0].setRegistryName("jumper_block_extension"));
+		//registry.register(jumperBlockExtension[1].setRegistryName("jumper_block_extension2"));
+		//registry.register(jumperBlockExtension[2].setRegistryName("jumper_block_extension3"));
+		//registry.register(jumperBlockExtension[3].setRegistryName("jumper_block_extension4"));
 		
-		registry.register(alchemiterUpgrades[0].setRegistryName("alchemiter_upgrade"));
-		registry.register(alchemiterUpgrades[1].setRegistryName("alchemiter_upgrade2"));
-		registry.register(alchemiterUpgrades[2].setRegistryName("alchemiter_upgrade3"));
-		registry.register(alchemiterUpgrades[3].setRegistryName("alchemiter_upgrade4"));
+		//registry.register(alchemiterUpgrades[0].setRegistryName("alchemiter_upgrade"));
+		//registry.register(alchemiterUpgrades[1].setRegistryName("alchemiter_upgrade2"));
+		//registry.register(alchemiterUpgrades[2].setRegistryName("alchemiter_upgrade3"));
+		//registry.register(alchemiterUpgrades[3].setRegistryName("alchemiter_upgrade4"));
 		*/
-		registry.register(blender.setRegistryName("blender"));
+		registry.register(blender);
 		registry.register(chessboard.setRegistryName("chessboard"));
 		registry.register(frogStatueReplica.setRegistryName("frog_statue_replica"));
 		
@@ -396,7 +399,7 @@ public class MinestuckBlocks
 		for(GristType grist : GristType.values()) {
 			gristFluids[grist.getId()] = new Fluid(grist.getName(), new ResourceLocation("minestuck", "blocks/Liquid" + grist.getName() + "Still"), new ResourceLocation("minestuck", "blocks/Liquid" + grist.getName() + "Flowing"));
 			FluidRegistry.registerFluid(gristFluids[grist.getId()]);
-			liquidGrists[grist.getId()] = GameRegistry.register(new BlockFluidGrist(gristFluids[grist.getId()], Material.WATER).setRegistryName("liquid_" + grist.getName())).setUnlocalizedName("liquid_" + grist.getName());
+			liquidGrists[grist.getId()] = GameRegistry.register(new BlockFluidGrist(grist.getName(), gristFluids[grist.getId()], Material.WATER));
 		}*/
 		
 		cruxiteBlock.setHarvestLevel("pickaxe", 0);
@@ -465,9 +468,9 @@ public class MinestuckBlocks
 			}
 			this.unlocalizedName = unlocName.toString();
 			
-			stair = new BlockMinestuckStairs(modelState).setUnlocalizedName("stairsMinestuck." + unlocalizedName);
-			slab = new BlockMinestuckSlab(modelState, this, false).setUnlocalizedName("slabMinestuck." + unlocalizedName);
-			slabF = new BlockMinestuckSlab(modelState, this, true).setUnlocalizedName("slabMinestuckFull." + unlocalizedName);
+			stair = new BlockMinestuckStairs("stairsMinestuck." + unlocalizedName, modelState);
+			slab = new BlockMinestuckSlab("slabMinestuck." + unlocalizedName, modelState, this, false);
+			slabF = new BlockMinestuckSlab("slabMinestuckFull." + unlocalizedName, modelState, this, true);
 			
 			if(modelState.getBlock().getHarvestLevel(modelState) >= 0)
 			{

@@ -1,6 +1,8 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -12,15 +14,17 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
 
-public class BlockTNTSpecial extends BlockTNT
+public class BlockTNTSpecial extends BlockTNT implements IRegistryItem<Block>
 {
 	
 	final boolean primed, unstable, instant;
-	
-	public BlockTNTSpecial(boolean primed, boolean unstable, boolean instant)
+	private final String regName;
+
+	public BlockTNTSpecial(String name, boolean primed, boolean unstable, boolean instant)
 	{
 		super();
 		setCreativeTab(TabMinestuck.instance);
@@ -31,6 +35,16 @@ public class BlockTNTSpecial extends BlockTNT
 		this.instant = instant;
 		if(unstable)
 			setTickRandomly(true);
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MSBlockBase.blocks.add(this);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 	
 	@Override

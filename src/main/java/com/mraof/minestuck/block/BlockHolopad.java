@@ -4,10 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.TabMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityHolopad;
-import com.mraof.minestuck.tileentity.TileEntityJumperBlock;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
@@ -21,8 +19,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;

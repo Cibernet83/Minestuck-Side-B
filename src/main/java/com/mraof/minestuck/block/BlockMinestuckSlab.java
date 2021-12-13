@@ -5,6 +5,8 @@ import java.util.Random;
 import com.mraof.minestuck.block.MinestuckBlocks.EnumSlabStairMaterial;
 import com.mraof.minestuck.item.TabMinestuck;
 
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
@@ -18,20 +20,22 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockMinestuckSlab extends BlockSlab
+public class BlockMinestuckSlab extends BlockSlab implements IRegistryItem<Block>
 {
 	private boolean isDouble = false;
 	private final IBlockState modelState;
 	private final EnumSlabStairMaterial ssm;
-	
+	private final String regName;
+
 	/**
 	 * <code>getVariantProperty()</code> must return a non-null property found in this block's blockstates.
 	 * As a result, this dummy property exists to be the return value of that method. It does nothing else.
 	 */
 	public final static PropertyInteger dummy = PropertyInteger.create("dummy", 0, 1);
 	
-	public BlockMinestuckSlab(IBlockState modelState, EnumSlabStairMaterial slabStairMaterial, boolean isDouble)
+	public BlockMinestuckSlab(String name, IBlockState modelState, EnumSlabStairMaterial slabStairMaterial, boolean isDouble)
 	{
 		super(modelState.getMaterial());
 		setCreativeTab(TabMinestuck.instance);
@@ -39,9 +43,19 @@ public class BlockMinestuckSlab extends BlockSlab
 		this.isDouble = isDouble;
 		this.useNeighborBrightness = true;
 		this.ssm = slabStairMaterial;
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MSBlockBase.blocks.add(this);
 		
 		//TODO: Use the modelState's hardness.
 		setHardness(modelState.getMaterial()==Material.WOOD ? 1.0F : 3.0F);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 	
 	protected BlockStateContainer createBlockState()

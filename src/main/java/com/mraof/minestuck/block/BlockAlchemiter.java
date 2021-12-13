@@ -36,19 +36,17 @@ public class BlockAlchemiter extends BlockLargeMachine
 	
 	public BlockAlchemiter()
 	{
-		this(0, PART1);
-		
+		this("alchemiter",0, PART1);
 	}
 	
 	
 	
-	public BlockAlchemiter(int index, PropertyEnum<EnumParts> property)
+	public BlockAlchemiter(String name, int index, PropertyEnum<EnumParts> property)
 	{
-		super();
+		super(name);
+		setUnlocalizedName(name);
 		this.index = index;
 		this.PART = property;
-		
-		setUnlocalizedName("alchemiter");
 	}
 	
 	
@@ -248,7 +246,7 @@ public class BlockAlchemiter extends BlockLargeMachine
 	{
 		public BlockAlchemiter2()
 		{
-			super(1, PART2);
+			super("alchemiter2",1, PART2);
 		}
 		
 		@Override

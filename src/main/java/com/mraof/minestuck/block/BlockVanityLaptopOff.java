@@ -40,9 +40,9 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("type", BlockType.class);
 	public static final PropertyDirection DIRECTION = BlockComputerOff.DIRECTION;
 	
-	public BlockVanityLaptopOff()
+	public BlockVanityLaptopOff(String name)
 	{
-		super();
+		super(name);
 		setUnlocalizedName("vanityLaptop");
 	}
 	

@@ -5,6 +5,8 @@ import com.mraof.minestuck.client.gui.GuiHandler;
 import com.mraof.minestuck.item.TabMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
 import com.mraof.minestuck.tileentity.TileEntityUraniumCooker;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -25,12 +27,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockUraniumCooker extends BlockContainer
+public class BlockUraniumCooker extends BlockContainer implements IRegistryItem<Block>
 {
 	protected static final AxisAlignedBB URANIUM_COOKER_AABB = new AxisAlignedBB(1/4D, 0.0D, 1/4D, 3/4D, 11/32D, 3/4D);
 	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	
+	private final String regName;
+
 	public enum MachineType implements IStringSerializable
 	{
 		URANIUM_COOKER("uraniumCooker");
@@ -65,6 +69,15 @@ public class BlockUraniumCooker extends BlockContainer
 		setHarvestLevel("pickaxe", 1);
 		setDefaultState(getDefaultState());
 		this.setCreativeTab(TabMinestuck.instance);
+		regName = IRegistryItem.unlocToReg("uraniumCooker");
+		MSBlockBase.blocks.add(this);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 
 	@Override

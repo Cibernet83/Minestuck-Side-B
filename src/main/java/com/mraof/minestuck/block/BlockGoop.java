@@ -2,6 +2,8 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.TabMinestuck;
 
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -10,9 +12,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockGoop extends BlockBreakable 
+public class BlockGoop extends BlockBreakable implements IRegistryItem<Block>
 {
+    private final String regName;
 
 	public BlockGoop(String name) 
 	{
@@ -20,10 +24,19 @@ public class BlockGoop extends BlockBreakable
 		setCreativeTab(TabMinestuck.instance);
 		setSoundType(SoundType.SLIME);
 		setUnlocalizedName(name);
+        regName = IRegistryItem.unlocToReg(name);
+        MSBlockBase.blocks.add(this);
 		setHardness(0.1F);
 		setHarvestLevel("Shovel", 0);
 	}
-	
+
+    @Override
+    public void register(IForgeRegistry<Block> registry)
+    {
+        setRegistryName(regName);
+        registry.register(this);
+    }
+
 	@Override
 	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn)
     {

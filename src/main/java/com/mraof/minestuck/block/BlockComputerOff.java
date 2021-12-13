@@ -26,20 +26,18 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockComputerOff extends Block
+public class BlockComputerOff extends MSBlockBase
 {
 	protected static final AxisAlignedBB COMPUTER_AABB = new AxisAlignedBB(1/16D, 0.0D, 1/16D, 15/16D, 1/8D, 15/16D);
 	protected static final AxisAlignedBB COMPUTER_SCREEN_AABB = new AxisAlignedBB(0.5/16D, 0.0D, 6/16D, 15.5/16D, 13/16D, 7.2/16D);
 	
 	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
-	public BlockComputerOff()
+	public BlockComputerOff(String name)
 	{
-		super(Material.ROCK);
-		setUnlocalizedName("sburbComputer");
+		super(name,Material.ROCK);
 		setHardness(4.0F);
 		setHarvestLevel("pickaxe", 0);
-		this.setCreativeTab(TabMinestuck.instance);
 		lightOpacity = 1;
 		this.translucent = true;
 	}

@@ -8,11 +8,11 @@ import net.minecraft.item.Item;
 
 import java.util.Random;
 
-public class BlockHardStone extends Block
+public class BlockHardStone extends MSBlockBase
 {
-    public BlockHardStone()
+    public BlockHardStone(String name)
     {
-        super(Material.ROCK);
+        super(name,Material.ROCK);
         setHardness(10.0F).setResistance(6.0F);
     }
 

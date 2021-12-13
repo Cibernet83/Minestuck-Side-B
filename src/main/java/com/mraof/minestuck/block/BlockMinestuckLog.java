@@ -2,6 +2,8 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.TabMinestuck;
 
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -9,16 +11,29 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockMinestuckLog extends BlockLog
+public class BlockMinestuckLog extends BlockLog implements IRegistryItem<Block>
 {
-	public BlockMinestuckLog()
+	private final String regName;
+
+	public BlockMinestuckLog(String name)
 	{
 		super();
 		setDefaultState(blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 		setCreativeTab(TabMinestuck.instance);
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MSBlockBase.blocks.add(this);
 	}
-	
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
 	@Override
 	protected BlockStateContainer createBlockState()
 	{

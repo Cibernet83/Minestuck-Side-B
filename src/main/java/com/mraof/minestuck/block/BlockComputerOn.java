@@ -29,7 +29,7 @@ public class BlockComputerOn extends BlockComputerOff implements ITileEntityProv
 	
 	public BlockComputerOn()
 	{
-		super();
+		super("sburbComputerOn");
 		setDefaultState(getDefaultState().withProperty(BSOD, false));
 	}
 	

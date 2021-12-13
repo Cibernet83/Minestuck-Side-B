@@ -3,7 +3,7 @@ package com.mraof.minestuck.client.renderer;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.block.ItemAlchemiter;
 import com.mraof.minestuck.item.block.ItemCruxtruder;
-import com.mraof.minestuck.item.block.ItemJumperBlock;
+//import com.mraof.minestuck.item.block.ItemJumperBlock;
 import com.mraof.minestuck.item.block.ItemPunchDesignix;
 import com.mraof.minestuck.item.block.ItemTotemLathe;
 import net.minecraft.block.Block;
@@ -108,7 +108,7 @@ public class RenderMachineOutline
 				
 				boundingBox = new AxisAlignedBB(0,0,0, 3, 3, 3).offset(pos).offset(-d1, -d2, -d3).shrink(0.002);
 				placeable = ItemCruxtruder.canPlaceAt(stack, player, player.world, placementPos, placedFacing);
-			} else if(stack.getItem() == Item.getItemFromBlock(MinestuckBlocks.jumperBlockExtension[0]))
+			} /*else if(stack.getItem() == Item.getItemFromBlock(MinestuckBlocks.jumperBlockExtension[0]))
 			{
 				pos = pos.offset(placedFacing.rotateY());
 				
@@ -128,7 +128,7 @@ public class RenderMachineOutline
 				
 				boundingBox = new AxisAlignedBB(0, 0, 0, (r ? 5 : 4), 1, (r ? 4 : 5)).offset(pos).offset(-d1, -d2, -d3).shrink(0.002);
 				placeable = ItemJumperBlock.checkOutline(stack, player, player.world, placementPos, placedFacing);
-			} else	//Alchemiter
+			}*/ else	//Alchemiter
 			{
 				pos = pos.offset(placedFacing.rotateY());
 				

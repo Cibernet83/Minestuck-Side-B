@@ -45,9 +45,9 @@ public class BlockVanityLaptopOn extends BlockComputerOff implements ITileEntity
 	protected static final AxisAlignedBB COMPUTER_AABB = new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D);
 	protected static final AxisAlignedBB COMPUTER_SCREEN_AABB = new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D);
 	
-	public BlockVanityLaptopOn()
+	public BlockVanityLaptopOn(String name)
 	{
-		super();
+		super(name);
 		setDefaultState(getDefaultState().withProperty(BSOD, false));
 	}
 	

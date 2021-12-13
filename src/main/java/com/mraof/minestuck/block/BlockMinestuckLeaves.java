@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class BlockMinestuckLeaves extends Block implements net.minecraftforge.common.IShearable
+public abstract class BlockMinestuckLeaves extends MSBlockBase implements net.minecraftforge.common.IShearable
 {
 	public static final PropertyBool DECAYABLE = PropertyBool.create("decayable");
 	public static final PropertyBool CHECK_DECAY = PropertyBool.create("check_decay");
@@ -31,14 +31,13 @@ public abstract class BlockMinestuckLeaves extends Block implements net.minecraf
 	
 	int[] surroundings;
 	
-	public BlockMinestuckLeaves()
+	public BlockMinestuckLeaves(String name)
 	{
-		super(Material.LEAVES);
+		super(name,Material.LEAVES);
 		this.setTickRandomly(true);
 		this.setHardness(0.2F);
 		this.setLightOpacity(1);
 		this.setSoundType(SoundType.PLANT);
-		setCreativeTab(TabMinestuck.instance);
 	}
 	
 	@Override

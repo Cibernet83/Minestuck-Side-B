@@ -15,7 +15,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockChessTile extends Block
+public class BlockChessTile extends MSBlockBase
 {
 	public enum BlockType implements IStringSerializable
 	{
@@ -39,12 +39,10 @@ public class BlockChessTile extends Block
 	
 	public BlockChessTile()
 	{
-		super(Material.GROUND);
+		super("chessTile",Material.GROUND);
 		setHardness(0.5F);
-		
-		setUnlocalizedName("chessTile");
+
 		setDefaultState(getDefaultState().withProperty(BLOCK_TYPE, BlockType.BLACK));
-		this.setCreativeTab(TabMinestuck.instance);
 	}
 	
 	@Override

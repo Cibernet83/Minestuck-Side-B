@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 
-public class BlockVanillaOre extends Block
+public class BlockVanillaOre extends MSBlockBase
 {
 	
 	public enum OreType
@@ -37,9 +37,9 @@ public class BlockVanillaOre extends Block
 	
 	public final OreType oreType;
 	
-	public BlockVanillaOre(OreType type)	//For vanilla ores with a different background texture
+	public BlockVanillaOre(String name, OreType type)	//For vanilla ores with a different background texture
 	{
-		super(Material.ROCK);
+		super(name, Material.ROCK);
 		oreType = type;
 		setHardness(3.0F);
 		setResistance(5.0F);	//Values normally used by ores

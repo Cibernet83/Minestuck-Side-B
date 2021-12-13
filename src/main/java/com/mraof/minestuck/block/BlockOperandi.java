@@ -25,17 +25,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class BlockOperandi extends Block
+public class BlockOperandi extends MSBlockBase
 {
 	public static final Material LOG = new OperandiMaterial(true);
 	
 	public BlockOperandi(String name, float hardness, float resistance, Material blockMaterialIn, String toolClass)
 	{
-		super(blockMaterialIn, MapColor.NETHERRACK);
-		
-		setUnlocalizedName(name);
-		setCreativeTab(TabMinestuck.instance);
-		
+		super(name,blockMaterialIn, MapColor.NETHERRACK);
+
 		setHardness(hardness);
 		setResistance(resistance);
 		if(!toolClass.isEmpty())

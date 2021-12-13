@@ -2,8 +2,10 @@ package com.mraof.minestuck.block;
 
 import java.util.Random;
 
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.world.biome.BiomeMinestuck;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -17,15 +19,28 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockFluidEnder extends BlockFluidClassic
+public class BlockFluidEnder extends BlockFluidClassic implements IRegistryItem<Block>
 {
-	public BlockFluidEnder(Fluid fluid, Material material)
+	private final String regName;
+
+	public BlockFluidEnder(String name, Fluid fluid, Material material)
 	{
 		super(fluid, material);
 		setTickRandomly(true);
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MSBlockBase.blocks.add(this);
 	}
-	
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
 	@SideOnly (Side.CLIENT)
 	@Override
 	public Vec3d getFogColor(World world, BlockPos pos, IBlockState state, Entity entity, Vec3d originalColor, float partialTicks)
