@@ -233,7 +233,7 @@ public class MinestuckItems
 	public static final Item carvingTool = new MSItemBase("carvingTool").setMaxStackSize(1);
 	public static final Item crumplyHat = new MSItemBase("crumplyHat").setMaxStackSize(1);
     public static final Item stoneEyeballs = new MSItemBase("stoneEyeballs");
-	public static final Item stoneSlab = new MSItemBase("stoneSlab");
+	public static final Item stoneTablet = new ItemStoneTablet();
 	public static final Item glowystoneDust = new ItemGlowystoneDust().setUnlocalizedName("glowystoneDust");
 	public static final Item fakeArms = new MSItemBase("fakeArms").setCreativeTab(null);
 	//Music disks

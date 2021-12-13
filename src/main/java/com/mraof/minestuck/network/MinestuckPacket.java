@@ -42,6 +42,7 @@ public abstract class MinestuckPacket
 		ALCHEM_WILDCARD(AlchemyWildcardPacket.class),
 		BOOK_PUBLISH(BookPublishPacket.class),
 		WALLET_CAPTCHA(WalletCaptchaloguePacket.class),
+		STONE_TABLET(StoneTabletPacket.class),
 		;
 		
 		Class<? extends MinestuckPacket> packetType;

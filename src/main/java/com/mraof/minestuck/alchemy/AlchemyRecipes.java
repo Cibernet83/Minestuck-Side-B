@@ -745,7 +745,7 @@ public class AlchemyRecipes
 		GristRegistry.addGristConversion(new ItemStack(carvingTool), new GristSet(new GristType[] {GristType.Build, GristType.Rust}, new int[] {10, 2}));
 		GristRegistry.addGristConversion(new ItemStack(crumplyHat), new GristSet(new GristType[] {GristType.Build}, new int[] {20}));
 		GristRegistry.addGristConversion(new ItemStack(frogStatueReplica), new GristSet(new GristType[] {GristType.Build}, new int[] {30}));
-		GristRegistry.addGristConversion(new ItemStack(stoneSlab), new GristSet(new GristType[] {GristType.Build}, new int[] {5}));
+		GristRegistry.addGristConversion(new ItemStack(stoneTablet), new GristSet(new GristType[] {GristType.Build}, new int[] {5}));
 		GristRegistry.addGristConversion(woodenCactus, new GristSet(GristType.Build, 7));
 		GristRegistry.addGristConversion(new ItemStack(blueCake), new GristSet(new GristType[] {GristType.Shale, GristType.Mercury, GristType.Cobalt, GristType.Diamond}, new int[] {24, 6, 5, 1}));
 		GristRegistry.addGristConversion(new ItemStack(coldCake), new GristSet(new GristType[] {GristType.Cobalt, GristType.Marble}, new int[] {15, 12}));
@@ -1045,7 +1045,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination(new ItemStack(Blocks.LOG2), new ItemStack(Blocks.CACTUS), MODE_OR, false, true, new ItemStack(woodenCactus));
 		CombinationRegistry.addCombination(new ItemStack(leaves1, 1, 3), new ItemStack(log, 1, 3), MODE_OR, new ItemStack(rainbowSapling));
 		CombinationRegistry.addCombination(new ItemStack(endLeaves), new ItemStack(endLog), MODE_OR, new ItemStack(endSapling));
-		CombinationRegistry.addCombination(new ItemStack(Blocks.STONE), new ItemStack(carvingTool), MODE_AND, false, true, new ItemStack(stoneSlab));
+		CombinationRegistry.addCombination(new ItemStack(Blocks.STONE), new ItemStack(carvingTool), MODE_AND, false, true, new ItemStack(stoneTablet));
 		CombinationRegistry.addCombination(new ItemStack(Items.REDSTONE), new ItemStack(Items.GLOWSTONE_DUST), MODE_OR, new ItemStack(glowystoneDust));
 		CombinationRegistry.addCombination(new ItemStack(Items.CAKE), new ItemStack(Items.APPLE), MODE_OR, new ItemStack(appleCake));
 		CombinationRegistry.addCombination(new ItemStack(Items.CAKE), new ItemStack(glowingMushroom), MODE_OR, new ItemStack(blueCake));
