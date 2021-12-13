@@ -1,8 +1,7 @@
 {
     "display": {
         "icon": {
-            "item": "minestuck:modus_card",
-            "data": 4
+            "item": "minestuck:hashmap_modus"
         },
         "title": {
             "translate": "advancements.minestuck.new_modus.title"

@@ -1,8 +1,7 @@
 {
     "display": {
         "icon": {
-            "item": "minestuck:modus_card",
-            "data": 3
+            "item": "minestuck:tree_modus"
         },
         "title": {
             "translate": "advancements.minestuck.tree_modus.title"

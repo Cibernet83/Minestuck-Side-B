@@ -510,39 +510,6 @@ public class MinestuckItems
 		
 		registerItemBlock(registry, new ItemBlock(uraniumCooker));
 
-		OreDictionary.registerOre("modus", stackModus);
-		OreDictionary.registerOre("modus", queueModus);
-		OreDictionary.registerOre("modus", queueStackModus);
-		OreDictionary.registerOre("modus", treeModus);
-		OreDictionary.registerOre("modus", hashmapModus);
-		OreDictionary.registerOre("modus", setModus);
-		OreDictionary.registerOre("modus", wildMagicModus);
-		OreDictionary.registerOre("modus", weightModus);
-		OreDictionary.registerOre("modus", bookModus);
-		OreDictionary.registerOre("modus", capitalistModus);
-		OreDictionary.registerOre("modus", modUs);
-		OreDictionary.registerOre("modus", operandiModus);
-		OreDictionary.registerOre("modus", onionModus);
-		OreDictionary.registerOre("modus", slimeModus);
-		OreDictionary.registerOre("modus", popTartModus);
-		OreDictionary.registerOre("modus", deckModus);
-		OreDictionary.registerOre("modus", hueModus);
-		OreDictionary.registerOre("modus", hueStackModus);
-		OreDictionary.registerOre("modus", chatModus);
-		OreDictionary.registerOre("modus", cycloneModus);
-		OreDictionary.registerOre("modus", energyModus);
-		OreDictionary.registerOre("modus", scratchAndSniffModus);
-		OreDictionary.registerOre("modus", eightBallModus);
-		OreDictionary.registerOre("modus", chasityModus);
-		OreDictionary.registerOre("modus", jujuModus);
-		OreDictionary.registerOre("modus", alcheModus);
-		OreDictionary.registerOre("modus", arrayModus);
-		OreDictionary.registerOre("modus", monsterModus);
-		OreDictionary.registerOre("modus", walletModus);
-		OreDictionary.registerOre("modus", crystalBallModus);
-		OreDictionary.registerOre("modus", hashchatModus);
-		OreDictionary.registerOre("modus", sacrificeModus);
-
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(MinestuckItems.eightBall, new BehaviorProjectileDispense()
 		{
 			/**
@@ -575,6 +542,39 @@ public class MinestuckItems
 
 		for (IRegistryItem<Item> item : MSItemBase.items)
 			item.register(registry);
+
+		OreDictionary.registerOre("modus", stackModus);
+		OreDictionary.registerOre("modus", queueModus);
+		OreDictionary.registerOre("modus", queueStackModus);
+		OreDictionary.registerOre("modus", treeModus);
+		OreDictionary.registerOre("modus", hashmapModus);
+		OreDictionary.registerOre("modus", setModus);
+		OreDictionary.registerOre("modus", wildMagicModus);
+		OreDictionary.registerOre("modus", weightModus);
+		OreDictionary.registerOre("modus", bookModus);
+		OreDictionary.registerOre("modus", capitalistModus);
+		OreDictionary.registerOre("modus", modUs);
+		OreDictionary.registerOre("modus", operandiModus);
+		OreDictionary.registerOre("modus", onionModus);
+		OreDictionary.registerOre("modus", slimeModus);
+		OreDictionary.registerOre("modus", popTartModus);
+		OreDictionary.registerOre("modus", deckModus);
+		OreDictionary.registerOre("modus", hueModus);
+		OreDictionary.registerOre("modus", hueStackModus);
+		OreDictionary.registerOre("modus", chatModus);
+		OreDictionary.registerOre("modus", cycloneModus);
+		OreDictionary.registerOre("modus", energyModus);
+		OreDictionary.registerOre("modus", scratchAndSniffModus);
+		OreDictionary.registerOre("modus", eightBallModus);
+		OreDictionary.registerOre("modus", chasityModus);
+		OreDictionary.registerOre("modus", jujuModus);
+		OreDictionary.registerOre("modus", alcheModus);
+		OreDictionary.registerOre("modus", arrayModus);
+		OreDictionary.registerOre("modus", monsterModus);
+		OreDictionary.registerOre("modus", walletModus);
+		OreDictionary.registerOre("modus", crystalBallModus);
+		OreDictionary.registerOre("modus", hashchatModus);
+		OreDictionary.registerOre("modus", sacrificeModus);
 
 		toolUranium.setRepairItem(new ItemStack(rawUranium));
 		ItemWeapon.addToolMaterial("pickaxe", Arrays.asList(Material.IRON, Material.ANVIL, Material.ROCK));
