@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -43,7 +43,7 @@ public class BlockVanillaOre extends Block
 		oreType = type;
 		setHardness(3.0F);
 		setResistance(5.0F);	//Values normally used by ores
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	@Override

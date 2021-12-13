@@ -1,10 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,7 +16,7 @@ public class BlockGoop extends BlockBreakable
 	public BlockGoop(String name) 
 	{
 		super(Material.CLAY, false);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setSoundType(SoundType.SLIME);
 		setUnlocalizedName(name);
 		setHardness(0.1F);

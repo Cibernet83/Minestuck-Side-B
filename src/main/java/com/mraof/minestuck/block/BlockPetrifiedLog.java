@@ -1,11 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.BlockLog.EnumAxis;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -17,7 +15,7 @@ import net.minecraft.world.IBlockAccess;
 public class BlockPetrifiedLog extends BlockLog {
 	public BlockPetrifiedLog()
 	{
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setUnlocalizedName("petrifiedLog");
 		setSoundType(SoundType.STONE);
 	}

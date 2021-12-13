@@ -1,11 +1,9 @@
 package com.mraof.minestuck.item;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -15,7 +13,7 @@ import net.minecraft.world.World;
 public class ItemRazorBlade extends MSItemBase {
 	public ItemRazorBlade() {
 		super("razorBlade");
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	@Override

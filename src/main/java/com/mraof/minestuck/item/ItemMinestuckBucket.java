@@ -29,7 +29,7 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem<Ite
 	{
 		super(Blocks.AIR);
 		setUnlocalizedName("minestuckBucket");
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setContainerItem(Items.BUCKET);
 		setHasSubtypes(true);
 		MSItemBase.items.add(this);

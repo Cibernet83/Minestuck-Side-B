@@ -1,6 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -39,7 +39,7 @@ public class BlockDenseCloud extends Block
 		setHardness(0.5F);
 		setSoundType(SoundType.SNOW);
 		setUnlocalizedName("dense_cloud");
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	@Override

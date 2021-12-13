@@ -1,32 +1,17 @@
 package com.mraof.minestuck.client;
 
+import com.mraof.minestuck.tileentity.TileEntityHolopad;
+import com.mraof.minestuck.util.MSUModelManager;
 import com.mraof.minestuck.CommonProxy;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.client.model.ModelBasilisk;
-import com.mraof.minestuck.client.model.ModelBishop;
-import com.mraof.minestuck.client.model.ModelGiclops;
-import com.mraof.minestuck.client.model.ModelIguana;
-import com.mraof.minestuck.client.model.ModelImp;
-import com.mraof.minestuck.client.model.ModelLich;
-import com.mraof.minestuck.client.model.ModelNakagator;
-import com.mraof.minestuck.client.model.ModelOgre;
-import com.mraof.minestuck.client.model.ModelRook;
-import com.mraof.minestuck.client.model.ModelSalamander;
-import com.mraof.minestuck.client.model.ModelTurtle;
+import com.mraof.minestuck.client.gui.GuiStrifeSwitcher;
+import com.mraof.minestuck.client.model.*;
 import com.mraof.minestuck.client.renderer.BlockColorCruxite;
 import com.mraof.minestuck.client.renderer.CruxiteSlimeRenderer;
 import com.mraof.minestuck.client.renderer.RenderMachineOutline;
 import com.mraof.minestuck.client.renderer.ThrowableRenderFactory;
-import com.mraof.minestuck.client.renderer.entity.RenderDecoy;
-import com.mraof.minestuck.client.renderer.entity.RenderEntityMinestuck;
-import com.mraof.minestuck.client.renderer.entity.RenderGrist;
-import com.mraof.minestuck.client.renderer.entity.RenderHangingArt;
-import com.mraof.minestuck.client.renderer.entity.RenderHologram;
-import com.mraof.minestuck.client.renderer.entity.RenderMetalBoat;
-import com.mraof.minestuck.client.renderer.entity.RenderPawn;
-import com.mraof.minestuck.client.renderer.entity.RenderShadow;
-import com.mraof.minestuck.client.renderer.entity.RenderVitalityGel;
+import com.mraof.minestuck.client.renderer.entity.*;
 import com.mraof.minestuck.client.renderer.entity.frog.RenderFrog;
 import com.mraof.minestuck.client.renderer.tileentity.RenderGate;
 import com.mraof.minestuck.client.renderer.tileentity.RenderSkaiaPortal;
@@ -54,19 +39,19 @@ import com.mraof.minestuck.entity.underling.EntityImp;
 import com.mraof.minestuck.entity.underling.EntityLich;
 import com.mraof.minestuck.entity.underling.EntityOgre;
 import com.mraof.minestuck.entity.underling.EntityUnderlingPart;
-import com.mraof.minestuck.event.ClientEventHandler;
+import com.mraof.minestuck.event.handlers.ClientEventHandler;
 import com.mraof.minestuck.item.ItemFrog;
+import com.mraof.minestuck.item.ItemWarpMedallion;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.weapon.ItemBeamBlade;
+import com.mraof.minestuck.network.MSUChannelHandler;
 import com.mraof.minestuck.tileentity.TileEntityGate;
 import com.mraof.minestuck.tileentity.TileEntitySkaiaPortal;
 import com.mraof.minestuck.util.ColorCollector;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -114,14 +99,18 @@ public class ClientProxy extends CommonProxy
 			}
 		    return color;
 		}, MinestuckItems.itemFrog);
+
+		mc.getItemColors().registerItemColorHandler(new ItemBeamBlade.BladeColorHandler(), MinestuckItems.dyedBeamBlade);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> BlockColorCruxite.handleColorTint(ItemWarpMedallion.getColor(stack), tintIndex), MinestuckItems.returnMedallion);
 	}
 	
 	@Override
 	public void preInit()
 	{
-		
-		
 		super.preInit();
+
+		MinestuckItems.setClientsideVariables();
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityFrog.class, manager -> new RenderFrog(manager, new ModelBiped(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityHologram.class, manager -> new RenderHologram(manager));
 		RenderingRegistry.registerEntityRenderingHandler(EntityNakagator.class, RenderEntityMinestuck.getFactory(new ModelNakagator(), 0.5F));
@@ -150,11 +139,21 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityCrystalEightBall.class, new ThrowableRenderFactory<>(MinestuckItems.crystalEightBall));
 		RenderingRegistry.registerEntityRenderingHandler(EntityOperandiEightBall.class, new ThrowableRenderFactory<>(MinestuckItems.operandiEightBall));
 		RenderingRegistry.registerEntityRenderingHandler(EntityOperandiSplashPotion.class, new ThrowableRenderFactory<>(MinestuckItems.operandiSplashPotion));
+		RenderingRegistry.registerEntityRenderingHandler(EntityAcheron.class, RenderEntityMinestuck.getFactory(new ModelAcheron(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMSUThrowable.class, RenderThrowable::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityMSUArrow.class, RenderArrow::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityUnrealAir.class, RenderUnrealAir::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityRock.class, RenderRock::new);
 
 		MinestuckKeyHandler.instance.registerKeys();
 		MinecraftForge.EVENT_BUS.register(MinestuckKeyHandler.instance);
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 		MinecraftForge.EVENT_BUS.register(MinestuckModelManager.class);
+		MinecraftForge.EVENT_BUS.register(MSUModelManager.class);
+		MinecraftForge.EVENT_BUS.register(MSURenderMachineOutline.class);
+		MinecraftForge.EVENT_BUS.register(RenderBeams.class);
+		MinecraftForge.EVENT_BUS.register(GuiStrifeSwitcher.class);
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHolopad.class, new RenderHologram());
 	}
 	
 	@Override
@@ -164,12 +163,16 @@ public class ClientProxy extends CommonProxy
 
 		super.init();
 		MinecraftForge.EVENT_BUS.register(ClientEditHandler.instance);
+		MinecraftForge.EVENT_BUS.register(MSUChannelHandler.instance); // TODO: remove
 		MinecraftForge.EVENT_BUS.register(new MinestuckConfig());
 		MinecraftForge.EVENT_BUS.register(RenderMachineOutline.class);
 
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) ->
 			BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? 0x99D9EA : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex),
-			new Item[]{MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey});
+			MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey);
+
+		MSUKeys.register();
+		MSUFontRenderer.registerFonts();
 	}
 	
 }

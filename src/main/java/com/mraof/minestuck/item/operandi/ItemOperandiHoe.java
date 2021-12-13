@@ -4,7 +4,7 @@ import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MinestuckSounds;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -31,7 +31,7 @@ public class ItemOperandiHoe extends ItemHoe implements IRegistryItem<Item>
 
 		regName = IRegistryItem.unlocToReg(name);
 		setUnlocalizedName(name);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 
 		OperandiModus.itemPool.add(this);
 		MSItemBase.items.add(this);

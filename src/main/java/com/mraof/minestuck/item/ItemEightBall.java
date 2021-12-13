@@ -7,7 +7,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
@@ -25,7 +24,7 @@ public class ItemEightBall extends MSItemBase
 	public ItemEightBall(String name, boolean isCrystal)
 	{
 		super(name);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setMaxStackSize(8);
 		this.isCrystal = isCrystal;
 	}

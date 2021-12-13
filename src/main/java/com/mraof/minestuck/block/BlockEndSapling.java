@@ -2,9 +2,8 @@ package com.mraof.minestuck.block;
 
 import java.util.Random;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.world.gen.feature.WorldGenEndTree;
-import com.mraof.minestuck.world.gen.feature.WorldGenRainbowTree;
 
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -32,7 +31,7 @@ public class BlockEndSapling extends BlockBush implements IGrowable
 	protected BlockEndSapling()
 	{
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ALPHA, false).withProperty(OMEGA, false));
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 		this.setUnlocalizedName("endSapling");
 		this.setSoundType(SoundType.PLANT);
 	}

@@ -1,6 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.properties.IProperty;
@@ -16,7 +16,7 @@ public class BlockMinestuckLog extends BlockLog
 	{
 		super();
 		setDefaultState(blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	@Override

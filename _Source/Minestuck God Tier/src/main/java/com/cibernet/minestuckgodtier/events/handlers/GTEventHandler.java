@@ -13,7 +13,7 @@ import com.cibernet.minestuckgodtier.network.MSGTChannelHandler;
 import com.cibernet.minestuckgodtier.network.MSGTPacket;
 import com.cibernet.minestuckgodtier.potions.MSGTPotions;
 import com.cibernet.minestuckgodtier.world.gen.structure.StructureQuestBed;
-import com.cibernet.minestuckuniverse.potions.MSUPotions;
+import com.mraof.minestuck.potions.MSUPotions;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
 import com.mraof.minestuck.network.skaianet.SburbConnection;

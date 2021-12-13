@@ -57,7 +57,13 @@ public class Minestuck
 	public static boolean isVampirismLoaded;
 	public static boolean isMysticalWorldLoaded;
 	public static boolean isIndustrialForegoingLoaded;
-
+	public static boolean isThaumLoaded;
+	public static boolean isBotaniaLoaded;
+	public static boolean isSplatcraftLodaded;
+	public static boolean isCarryOnLoaded;
+	public static boolean isVcLoaded;
+	public static boolean isMSGTLoaded;
+	public static boolean isFutureMcLoaded;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) 
@@ -73,6 +79,13 @@ public class Minestuck
 		Minestuck.isVampirismLoaded = Loader.isModLoaded("vampirism");
 		Minestuck.isMysticalWorldLoaded = Loader.isModLoaded("mysticalworld");
 		Minestuck.isIndustrialForegoingLoaded = Loader.isModLoaded("industrialforegoing");
+		Minestuck.isThaumLoaded = Loader.isModLoaded("thaumcraft");
+		Minestuck.isBotaniaLoaded = Loader.isModLoaded("botania");
+		Minestuck.isSplatcraftLodaded = Loader.isModLoaded("splatcraft");
+		Minestuck.isMSGTLoaded = Loader.isModLoaded("minestuckgodtier");
+		Minestuck.isCarryOnLoaded = Loader.isModLoaded("carryon");
+		Minestuck.isVcLoaded = Loader.isModLoaded("variedcommodities");
+		Minestuck.isFutureMcLoaded = Loader.isModLoaded("futuremc");
 		
 		Debug.logger = event.getModLog();
 		
@@ -108,15 +121,6 @@ public class Minestuck
 	}
 	
 	@EventHandler
-	public void serverClosed(FMLServerStoppedEvent event)
-	{
-		MinestuckDimensionHandler.unregisterDimensions();
-		isServerRunning = !isClientRunning;
-		MinestuckPlayerTracker.dataCheckerPermission.clear();
-		IdentifierHandler.clear();
-	}
-	
-	@EventHandler
 	public void serverStarting(FMLServerStartingEvent event)
 	{
 		if(!event.getServer().isDedicatedServer() && Minestuck.class.getAnnotation(Mod.class).version().startsWith("@"))
@@ -143,10 +147,25 @@ public class Minestuck
 		CommonEventHandler.lastDay = event.getServer().worlds[0].getWorldTime() / 24000L;
 		CaptchaDeckHandler.rand = new Random();
 	}
+
+	@EventHandler
+	public void serverStarted(FMLServerStartedEvent event)
+	{
+		proxy.serverStarted();
+	}
 	
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
 		ServerEditHandler.onServerStopping();
+	}
+
+	@EventHandler
+	public void serverClosed(FMLServerStoppedEvent event)
+	{
+		MinestuckDimensionHandler.unregisterDimensions();
+		isServerRunning = !isClientRunning;
+		MinestuckPlayerTracker.dataCheckerPermission.clear();
+		IdentifierHandler.clear();
 	}
 }

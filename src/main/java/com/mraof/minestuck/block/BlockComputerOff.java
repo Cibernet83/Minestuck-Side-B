@@ -1,6 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
 import com.mraof.minestuck.util.IdentifierHandler;
@@ -39,7 +39,7 @@ public class BlockComputerOff extends Block
 		setUnlocalizedName("sburbComputer");
 		setHardness(4.0F);
 		setHarvestLevel("pickaxe", 0);
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 		lightOpacity = 1;
 		this.translucent = true;
 	}

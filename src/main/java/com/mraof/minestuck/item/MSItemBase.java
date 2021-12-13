@@ -27,12 +27,12 @@ public class MSItemBase extends Item implements IRegistryItem<Item>
 
 	public MSItemBase(String name)
 	{
-		this(name, TabMinestuck.instance, 64, false);
+		this(name, TabsMinestuck.minestuck, 64, false);
 	}
 
 	public MSItemBase(String name, boolean hasCustomModel)
 	{
-		this(name, TabMinestuck.instance, 64, hasCustomModel);
+		this(name, TabsMinestuck.minestuck, 64, hasCustomModel);
 	}
 
 

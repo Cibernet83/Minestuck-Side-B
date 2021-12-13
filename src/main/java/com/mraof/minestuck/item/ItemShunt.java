@@ -14,7 +14,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -22,7 +21,7 @@ import net.minecraft.world.World;
 public class ItemShunt extends Item {
 	public ItemShunt()
 	{
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 		//this.setHasSubtypes(true);
 		this.setUnlocalizedName("shunt");
 	}

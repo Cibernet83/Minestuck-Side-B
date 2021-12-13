@@ -18,7 +18,7 @@ public class ItemMinestuckBeverage extends ItemFood
 	{
 		super("beverage", 0, 0, false);
 		this.setHasSubtypes(true);
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 		this.setUnlocalizedName("beverage");
 		setMaxStackSize(16);
 		

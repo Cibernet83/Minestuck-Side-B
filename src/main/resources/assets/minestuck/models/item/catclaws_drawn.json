@@ -1,6 +1,6 @@
 {
-    "parent": "item/handheld",
+    "parent": "minestuckuniverse:item/claw",
     "textures": {
-        "layer0": "minestuck:items/catclaws_drawn"
+        "layer0": "minestuckuniverse:items/catclaws_drawn"
     }
 }

@@ -1,6 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.util.Debug;
 import net.minecraft.block.BlockButton;
 import net.minecraft.block.SoundType;
@@ -24,7 +24,7 @@ public class BlockButtonSpecial extends BlockButton
 		super(wooden);
 		this.explosive = explosive;
 		this.wooden = wooden;
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setHardness(0.5F);
 		if(wooden)
 			setSoundType(SoundType.WOOD);

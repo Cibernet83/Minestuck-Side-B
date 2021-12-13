@@ -7,7 +7,6 @@ import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -25,7 +24,7 @@ public abstract class ItemCustomBoat extends MSItemBase
 	{
 		super(name);
 		this.maxStackSize = 1;
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, new BehaivorDispenseCustomBoat());
 	}
 	

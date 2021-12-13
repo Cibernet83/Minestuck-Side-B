@@ -2,7 +2,7 @@ package com.mraof.minestuck.client.renderer;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.layers.CruxiteSlimeGelLayer;
-import com.mraof.minestuck.client.models.CruxiteSlimeModel;
+import com.mraof.minestuck.client.model.CruxiteSlimeModel;
 import com.mraof.minestuck.entity.EntityCruxiteSlime;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;

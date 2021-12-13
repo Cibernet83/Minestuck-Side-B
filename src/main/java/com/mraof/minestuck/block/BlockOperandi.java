@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.util.MinestuckSounds;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import net.minecraft.block.Block;
 
@@ -34,7 +34,7 @@ public class BlockOperandi extends Block
 		super(blockMaterialIn, MapColor.NETHERRACK);
 		
 		setUnlocalizedName(name);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		
 		setHardness(hardness);
 		setResistance(resistance);

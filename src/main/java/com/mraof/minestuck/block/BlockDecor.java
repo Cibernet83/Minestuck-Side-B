@@ -1,9 +1,8 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -34,7 +33,7 @@ public class BlockDecor extends Block
 		super(Material.ROCK);
 		setSoundType(sound);
 		setUnlocalizedName(unlocalizedName);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setHardness(0.5f);
 	}
 

@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiHandler;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
 import com.mraof.minestuck.tileentity.TileEntityUraniumCooker;
 import net.minecraft.block.BlockContainer;
@@ -66,7 +66,7 @@ public class BlockBlender extends BlockContainer
 		setHardness(3.0F);
 		setHarvestLevel("pickaxe", 1);
 		setDefaultState(getDefaultState());
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 	}
 
 	@Override

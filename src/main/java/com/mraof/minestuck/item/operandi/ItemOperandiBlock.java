@@ -2,13 +2,12 @@ package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.item.MSBlockItem;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -22,7 +21,7 @@ public class ItemOperandiBlock extends MSBlockItem
 		
 		setUnlocalizedName(name);
 		
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setMaxStackSize(1);
 
 		OperandiModus.itemPool.add(this);

@@ -3,19 +3,14 @@ package com.mraof.minestuck.block;
 import java.util.Random;
 
 import com.mraof.minestuck.block.MinestuckBlocks.EnumSlabStairMaterial;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -34,7 +29,7 @@ public class BlockMinestuckSlab extends BlockSlab
 	public BlockMinestuckSlab(IBlockState modelState, EnumSlabStairMaterial slabStairMaterial, boolean isDouble)
 	{
 		super(modelState.getMaterial());
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		this.modelState = modelState;
 		this.isDouble = isDouble;
 		this.useNeighborBrightness = true;

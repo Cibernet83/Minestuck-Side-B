@@ -3,7 +3,6 @@ package com.mraof.minestuck.item;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -14,8 +13,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import javax.annotation.Nullable;
-
 public class ItemFood extends net.minecraft.item.ItemFood implements IRegistryItem<Item>
 {
 	protected final FoodItemConsumer consumer;
@@ -25,7 +22,7 @@ public class ItemFood extends net.minecraft.item.ItemFood implements IRegistryIt
 		super(amount, saturation, isWolfFood);
 		this.consumer = consumer;
 		
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		
 		setUnlocalizedName(name);
 		regName = IRegistryItem.unlocToReg(name);

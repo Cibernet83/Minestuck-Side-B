@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import javax.annotation.Nullable;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -34,7 +34,7 @@ public class BlockVeinCorner extends Block
 	
 	protected BlockVeinCorner(String unlocalizedName) {
 		super(Material.WOOD);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setUnlocalizedName(unlocalizedName);
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(VERTICAL, false));
 		setHardness(0.45F);

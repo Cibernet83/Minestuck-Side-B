@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import net.minecraft.block.Block;
@@ -38,7 +38,7 @@ public class BlockCruxtiteDowel extends Block
 	public BlockCruxtiteDowel()
 	{
 		super(Material.GLASS);
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 		this.setUnlocalizedName("dowelCruxite");
 		setDefaultState(getDefaultState().withProperty(TYPE, Type.DOWEL));
 	}

@@ -1,12 +1,11 @@
 package com.mraof.minestuck.item.weapon;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
@@ -26,7 +25,7 @@ public class ItemConsumableWeapon extends ItemWeapon
 	public ItemConsumableWeapon(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name, int amount, float saturation, int damageTaken) 
 	{
 		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 		this.healAmount = amount;
         this.saturationModifier = saturation;
         this.damageTaken = damageTaken;

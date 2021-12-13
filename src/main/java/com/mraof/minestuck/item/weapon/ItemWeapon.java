@@ -9,7 +9,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -21,7 +21,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,7 +34,7 @@ public class ItemWeapon extends MSItemBase
 	private float efficiency;
 	private boolean unbreakable = false;
 	private static final HashMap<String, Set<Material>> toolMaterials = new HashMap<String, Set<Material>>();
-	private CreativeTabs overshadowTab = TabMinestuck.instance;
+	private CreativeTabs overshadowTab = TabsMinestuck.minestuck;
 	
 	public ItemWeapon(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
 	{

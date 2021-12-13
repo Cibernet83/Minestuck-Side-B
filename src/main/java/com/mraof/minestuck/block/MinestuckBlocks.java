@@ -1,6 +1,11 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.IRegistryItem;
+import com.mraof.minestuck.potions.MSUPotions;
+import com.mraof.minestuck.util.MSUModelManager;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.item.TabsMinestuck;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
@@ -13,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.potion.PotionEffect;
@@ -30,20 +36,24 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import java.util.TreeMap;
+
 public class MinestuckBlocks
 {
+	public static final TreeMap<EnumDyeColor, BlockWoolTransportalizer> sleevedTransportalizers = new TreeMap<>();
+
 	//Blocks
 	public static final Block chessTile = new BlockChessTile();
 	public static final Block skaiaPortal = new BlockSkaiaPortal(Material.PORTAL);
 	
 	public static final Block coloredDirt = new BlockColoredDirt().setUnlocalizedName("coloredDirt").setHardness(0.5F);
-	public static final Block cruxiteBlock = new Block(Material.ROCK, MapColor.LIGHT_BLUE).setUnlocalizedName("cruxiteBlock").setHardness(3.0F).setCreativeTab(TabMinestuck.instance);
-	public static final Block uraniumBlock = new Block(Material.ROCK, MapColor.LIME).setLightLevel(0.5F).setUnlocalizedName("uraniumBlock").setHardness(3.0F).setCreativeTab(TabMinestuck.instance);
-	public static final Block genericObject = new BlockCustom(Material.GOURD, MapColor.LIME, SoundType.WOOD).setUnlocalizedName("genericObject").setHardness(1.0F).setCreativeTab(TabMinestuck.instance);
+	public static final Block cruxiteBlock = new Block(Material.ROCK, MapColor.LIGHT_BLUE).setUnlocalizedName("cruxiteBlock").setHardness(3.0F).setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block uraniumBlock = new Block(Material.ROCK, MapColor.LIME).setLightLevel(0.5F).setUnlocalizedName("uraniumBlock").setHardness(3.0F).setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block genericObject = new BlockCustom(Material.GOURD, MapColor.LIME, SoundType.WOOD).setUnlocalizedName("genericObject").setHardness(1.0F).setCreativeTab(TabsMinestuck.minestuck);
 	
-	public static final Block blender = new BlockDecor("blender",SoundType.METAL).setCreativeTab(TabMinestuck.instance);
-	public static final Block chessboard = new BlockDecor("chessboard").setCreativeTab(TabMinestuck.instance);
-	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica").setCreativeTab(TabMinestuck.instance);
+	public static final Block blender = new BlockDecor("blender",SoundType.METAL).setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block chessboard = new BlockDecor("chessboard").setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica").setCreativeTab(TabsMinestuck.minestuck);
 	
 	public static final Block sburbMachine = new BlockSburbMachine();
 	public static final Block crockerMachine = new BlockCrockerMachine();
@@ -58,7 +68,6 @@ public class MinestuckBlocks
 	public static final BlockAlchemiter[] alchemiter = BlockAlchemiter.createBlocks();
 	public static final Block cruxtruder = new BlockCruxtruder();
 	public static final Block cruxtruderLid = new BlockCruxtruderLid();
-	public static final Block holopad = new BlockHolopad();
 	public static final BlockJumperBlock[] jumperBlockExtension = BlockJumperBlock.createBlocks();
 	public static final BlockAlchemiterUpgrades[] alchemiterUpgrades = BlockAlchemiterUpgrades.createBlocks();
 	
@@ -73,7 +82,7 @@ public class MinestuckBlocks
 	public static final Block desertBush = new BlockDesertBush("desertBush");
 	public static final Block glowingMushroom = new BlockGlowingMushroom();
 	public static final Block glowingLog = new BlockGlowingLog();
-	public static final Block glowingPlanks = new BlockCustom(Material.WOOD, MapColor.LIGHT_BLUE, SoundType.WOOD).setFireInfo(5, 20).setUnlocalizedName("glowingPlanks").setLightLevel(0.5F).setHardness(2.0F).setResistance(5.0F).setCreativeTab(TabMinestuck.instance);
+	public static final Block glowingPlanks = new BlockCustom(Material.WOOD, MapColor.LIGHT_BLUE, SoundType.WOOD).setFireInfo(5, 20).setUnlocalizedName("glowingPlanks").setLightLevel(0.5F).setHardness(2.0F).setResistance(5.0F).setCreativeTab(TabsMinestuck.minestuck);
 	public static final Block stone = new BlockMinestuckStone();
 	public static final Block glowyGoop = new BlockGlowyGoop("glowyGoop");
 	public static final Block coagulatedBlood = new BlockGoop("coagulatedBlood");
@@ -92,7 +101,7 @@ public class MinestuckBlocks
 	public static final Block aspectLog2 = new BlockAspectLog2().setCreativeTab(null);
 	public static final Block aspectLog3 = new BlockAspectLog3().setCreativeTab(null);
 	public static final Block woodenCactus = new BlockCactusSpecial(SoundType.WOOD, "axe").setHardness(1.0F).setResistance(2.5F).setUnlocalizedName("woodenCactus");
-	public static final Block sugarCube = new BlockCustom(Material.SAND, MapColor.SNOW, SoundType.SAND).setUnlocalizedName("sugarCube").setHardness(0.4F).setCreativeTab(TabMinestuck.instance);
+	public static final Block sugarCube = new BlockCustom(Material.SAND, MapColor.SNOW, SoundType.SAND).setUnlocalizedName("sugarCube").setHardness(0.4F).setCreativeTab(TabsMinestuck.minestuck);
 	public static final Block rabbitSpawner = new BlockMobSpawner().setUnlocalizedName("rabbitSpawner");
 	public static final Block appleCake = new BlockSimpleCake(2, 0.5F, null).setUnlocalizedName("appleCake");
 	public static final Block blueCake = new BlockSimpleCake(2, 0.3F, (EntityPlayer player) -> player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 150, 0))).setUnlocalizedName("blueCake");
@@ -105,32 +114,32 @@ public class MinestuckBlocks
 	public static final Block veinCorner = new BlockVeinCorner("veinCorner");
 	public static final Block veinCornerInverted = new BlockVeinCorner("veinCornerInverted");
 	
-	public static final Block treatedPlanks = new BlockCustom(Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(1, 0).setUnlocalizedName("treatedPlanks").setHardness(1.0F).setCreativeTab(TabMinestuck.instance);
+	public static final Block treatedPlanks = new BlockCustom(Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(1, 0).setUnlocalizedName("treatedPlanks").setHardness(1.0F).setCreativeTab(TabsMinestuck.minestuck);
 	
 	public static final Block endLog = new BlockEndLog();
 	public static final Block endLeaves = new BlockEndLeaves();
-	public static final Block endPlanks = new BlockCustom(Material.WOOD, MapColor.SAND, SoundType.WOOD).setFireInfo(1, 250).setUnlocalizedName("endPlanks").setHardness(1.0F).setCreativeTab(TabMinestuck.instance);
+	public static final Block endPlanks = new BlockCustom(Material.WOOD, MapColor.SAND, SoundType.WOOD).setFireInfo(1, 250).setUnlocalizedName("endPlanks").setHardness(1.0F).setCreativeTab(TabsMinestuck.minestuck);
 	public static final Block endSapling = new BlockEndSapling();
 	public static final Block endGrass = new BlockEndGrass();
-	public static final Block coarseEndStone = new BlockCustomStone(MapColor.SAND).setHardness(3.0F).setUnlocalizedName("coarseEndStone").setCreativeTab(TabMinestuck.instance);
+	public static final Block coarseEndStone = new BlockCustomStone(MapColor.SAND).setHardness(3.0F).setUnlocalizedName("coarseEndStone").setCreativeTab(TabsMinestuck.minestuck);
 	
-	public static final Block floweryMossStone = new BlockCustomStone(MapColor.GRAY).setUnlocalizedName("floweryMossStone").setCreativeTab(TabMinestuck.instance);
-	public static final Block floweryMossBrick = new BlockCustomStone(MapColor.GRAY).setUnlocalizedName("floweryMossBrick").setCreativeTab(TabMinestuck.instance);
+	public static final Block floweryMossStone = new BlockCustomStone(MapColor.GRAY).setUnlocalizedName("floweryMossStone").setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block floweryMossBrick = new BlockCustomStone(MapColor.GRAY).setUnlocalizedName("floweryMossBrick").setCreativeTab(TabsMinestuck.minestuck);
 	public static final Block strawberry = new BlockStrawberry();
 	public static final Block strawberryStem = new BlockMinestuckStem((BlockDirectional) strawberry).setUnlocalizedName("strawberryStem").setCreativeTab(null);
 	
-	public static final Block deadLog = new BlockMinestuckLog().setUnlocalizedName("logDead").setCreativeTab(TabMinestuck.instance);
-	public static final Block deadPlanks = new BlockCustom(Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 5).setUnlocalizedName("deadPlanks").setHardness(1.0F).setCreativeTab(TabMinestuck.instance);
-	public static final Block chalk = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalk")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block chalkBricks = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalkBricks")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block chalkChisel = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalkChisel")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block chalkPolish = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalkPolish")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneSmooth = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneSmooth")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneBricks = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneBricks")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneChisel = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneChisel")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneCracked= new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneCracked").setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStoneMossy = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneMossy")	.setCreativeTab(TabMinestuck.instance);
-	public static final Block pinkStonePolish = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStonePolish")	.setCreativeTab(TabMinestuck.instance);
+	public static final Block deadLog = new BlockMinestuckLog().setUnlocalizedName("logDead").setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block deadPlanks = new BlockCustom(Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 5).setUnlocalizedName("deadPlanks").setHardness(1.0F).setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block chalk = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalk")	.setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block chalkBricks = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalkBricks")	.setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block chalkChisel = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalkChisel")	.setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block chalkPolish = new BlockCustomStone(MapColor.SNOW).setUnlocalizedName("chalkPolish")	.setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block pinkStoneSmooth = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneSmooth")	.setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block pinkStoneBricks = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneBricks")	.setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block pinkStoneChisel = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneChisel")	.setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block pinkStoneCracked= new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneCracked").setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block pinkStoneMossy = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStoneMossy")	.setCreativeTab(TabsMinestuck.minestuck);
+	public static final Block pinkStonePolish = new BlockCustomStone(MapColor.PINK).setUnlocalizedName("pinkStonePolish")	.setCreativeTab(TabsMinestuck.minestuck);
 	public static final Block denseCloud = new BlockDenseCloud();
 	
 	//Ores
@@ -159,6 +168,85 @@ public class MinestuckBlocks
 	
 	public static final BlockLayered layeredSand = (BlockLayered) new BlockLayered(Blocks.SAND.getDefaultState()).setUnlocalizedName("layeredSand");
 	public static final Block glowystoneWire = new BlockGlowystoneWire().setUnlocalizedName("glowystoneWire");
+
+	public static Block dungeonDoor = new BlockDungeonDoor("dungeon_door", "dungeonDoor");
+	public static Block dungeonDoorKeyhole = new BlockDungeonDoor("dungeon_door_keyhole", "dungeonDoorKeyhole");
+
+	public static Block magicBlock = new MSUBlockBase(Material.CLAY, "magic_block", "magicBlock");
+	public static Block wizardStatue = new BlockMSUDecor("wizardStatue", "wizard_statue");
+	public static Block netherReactorCore = new MSUBlockBase(Material.ROCK, "nether_reactor_core", "netherReactorCore").setHardness(30.0F).setResistance(6);
+	public static Block sbahjTree = new BlockSbahjTree("kringlefucker", "kringlefucker");
+	public static Block fluoriteBlock = new MSUBlockBase(Material.ROCK, MapColor.LAPIS, "fluorite_block", "fluoriteBlock").setHardness(3.0F).setResistance(5.0F);
+	public static Block fluoriteOre = new MSUBlockBase(Material.ROCK, "fluorite_ore", "fluoriteOre").setHardness(3.0F).setResistance(5.0F);
+	public static Block moonstoneOre = new MSUBlockBase(Material.IRON, "moonstone_ore", "moonstoneOre").setHardness(3.0F).setResistance(5.0F);
+
+	public static Block sbahjBedrock = new MSUBlockBase(Material.CAKE, "sbahj_bedrock", "sbahjBedrock").setResistance(0F).setHardness(-1F);
+	public static Block zillyStone = new MSUBlockBase(Material.ROCK, "zillystone", "zillystone").setResistance(999F).setHardness(5.5F);
+	public static Block smoothIron = new MSUBlockBase(Material.IRON, "smooth_iron", "smoothIron").setHardness(3.0F);
+	public static Block bedrockStairs = new BlockMSUStairs(Blocks.BEDROCK.getDefaultState(), "bedrockStairs", "bedrock_stairs");
+
+	public static Block holopad = new BlockHolopad();
+
+	public static Block machineChasis = new BlockMachineChasis();
+	public static Block gristHopper = new BlockGristHopper();
+	public static Block autoWidget = new BlockAutoWidget();
+	public static Block autoCaptcha = new BlockAutoCaptcha();
+	public static Block porkhollowAtm = new BlockPorkhollowAtm();
+	public static Block boondollarRegister = new BlockBoondollarRegister();
+
+	public static BlockWoolTransportalizer whiteWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.WHITE);
+	public static BlockWoolTransportalizer orangeWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.ORANGE);
+	public static BlockWoolTransportalizer magentaWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.MAGENTA);
+	public static BlockWoolTransportalizer lightBlueWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.LIGHT_BLUE);
+	public static BlockWoolTransportalizer yellowWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.YELLOW);
+	public static BlockWoolTransportalizer limeWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.LIME);
+	public static BlockWoolTransportalizer pinkWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.PINK);
+	public static BlockWoolTransportalizer grayWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.GRAY);
+	public static BlockWoolTransportalizer silverWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.SILVER);
+	public static BlockWoolTransportalizer cyanWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.CYAN);
+	public static BlockWoolTransportalizer purpleWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.PURPLE);
+	public static BlockWoolTransportalizer blueWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.BLUE);
+	public static BlockWoolTransportalizer brownWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.BROWN);
+	public static BlockWoolTransportalizer greenWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.GREEN);
+	public static BlockWoolTransportalizer redWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.RED);
+	public static BlockWoolTransportalizer blackWoolTransportalizer = new BlockWoolTransportalizer(EnumDyeColor.BLACK);
+	public static Block rubyRedTransportalizer = new BlockRedTransportalizer();
+	public static Block goldenTransportalizer = new BlockGoldTransportalizer();
+	public static Block paradoxTransportalizer = new BlockParadoxTransportalizer();
+	public static Block platinumTransportalizer = new BlockPlatinumTransportalizer();
+
+	public static Block gristBlockAmber = new BlockGrist(GristType.Amber);
+	public static Block gristBlockAmethyst = new BlockGrist(GristType.Amethyst);
+	public static Block gristBlockArtifact = new BlockGrist(GristType.Artifact);
+	public static Block gristBlockBuild = new BlockGrist(GristType.Build);
+	public static Block gristBlockCaulk = new BlockGrist(GristType.Caulk);
+	public static Block gristBlockChalk = new BlockGrist(GristType.Chalk);
+	public static Block gristBlockCobalt = new BlockGrist(GristType.Cobalt);
+	public static Block gristBlockDiamond = new BlockGrist(GristType.Diamond);
+	public static Block gristBlockGarnet = new BlockGrist(GristType.Garnet);
+	public static Block gristBlockGold = new BlockGrist(GristType.Gold);
+	public static Block gristBlockIodine = new BlockGrist(GristType.Iodine);
+	public static Block gristBlockMarble = new BlockGrist(GristType.Marble);
+	public static Block gristBlockMercury = new BlockGrist(GristType.Mercury);
+	public static Block gristBlockQuartz = new BlockGrist(GristType.Quartz);
+	public static Block gristBlockRuby = new BlockGrist(GristType.Ruby);
+	public static Block gristBlockRust = new BlockGrist(GristType.Rust);
+	public static Block gristBlockShale = new BlockGrist(GristType.Shale);
+	public static Block gristBlockSulfur = new BlockGrist(GristType.Sulfur);
+	public static Block gristBlockTar = new BlockGrist(GristType.Tar);
+	public static Block gristBlockUranium = new BlockGrist(GristType.Uranium);
+	public static Block gristBlockZillium = new BlockGrist(GristType.Zillium);
+	public static Block gristBlockVis = new BlockGrist(GristType.Vis);
+	public static Block gristBlockMana = new BlockGrist(GristType.Mana);
+
+	public static Block dungeonShield = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.CREATIVE_SHOCK, 40, 0), "dungeon_shield", "dungeonShield");
+	public static Block flightBeacon = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.SKYHBOUND, 40, 0), "flight_beacon", "flightBeacon");
+	public static Block flightInhibitor = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.EARTHBOUND, 40, 0), "flight_inhibitor", "flightInhibitor");
+
+	public static Block uniqueObject = new MSUBlockBase(Material.CORAL, MapColor.DIAMOND, "unique_object", "uniqueObject");
+	public static Block artifact = new BlockArtifact(Material.FIRE, MapColor.PURPLE, "artifact", "artifact");
+
+	public static Block thaumChasis = new MSUBlockBase(Material.IRON, "thaumic_machine_frame", "thaumChasis");
 
 	public static final Fluid fluidOil = createFluid("oil", new ResourceLocation("minestuck", "blocks/oil_still"), new ResourceLocation("minestuck", "blocks/oil_flowing"), "tile.oil");
 	public static final Fluid fluidBlood = createFluid("blood", new ResourceLocation("minestuck", "blocks/blood_still"), new ResourceLocation("minestuck", "blocks/blood_flowing"), "tile.blood");
@@ -221,7 +309,7 @@ public class MinestuckBlocks
 		}
 	}.setUnlocalizedName("lightWater").setLightOpacity(1);
 
-	public static final Block hardStone = new BlockHardStone().setUnlocalizedName("hardStone").setCreativeTab(TabMinestuck.instance);
+	public static final Block hardStone = new BlockHardStone().setUnlocalizedName("hardStone").setCreativeTab(TabsMinestuck.minestuck);
 	public static final Block operandiBlock = new BlockOperandi("operandiBlock", 1.0f, 0, Material.GOURD, "");
 	public static final Block operandiGlass = new BlockOperandiGlass("operandiGlass", 0.5f, 0, Material.GLASS, "");
 	public static final Block operandiStone = new BlockOperandi("operandiStone", 3.0f, 6.5f, Material.IRON, "pickaxe");
@@ -420,6 +508,101 @@ public class MinestuckBlocks
 		registry.register(operandiStone.setRegistryName("operandi_stone"));
 		registry.register(operandiGlass.setRegistryName("operandi_glass"));
 		registry.register(operandiLog.setRegistryName("operandi_log"));
+
+		registerBlock(registry, dungeonDoor, true);
+		registerBlock(registry, dungeonDoorKeyhole, true);
+		registerBlock(registry, dungeonShield, true);
+		registerBlock(registry, flightBeacon, true);
+		registerBlock(registry, flightInhibitor, true);
+
+		registerBlock(registry, sbahjBedrock, true);
+		registerBlock(registry, zillyStone, true);
+		registerBlock(registry, bedrockStairs, true);
+
+		registerBlock(registry, magicBlock, true);
+		registerBlock(registry, smoothIron, true);
+		registerBlock(registry, netherReactorCore, true);
+		registerBlock(registry, wizardStatue, true);
+		registerBlock(registry, sbahjTree, true);
+		registerBlock(registry, fluoriteBlock, true);
+		registerBlock(registry, fluoriteOre, true);
+		registerBlock(registry, moonstoneOre, true);
+
+		registerBlock(registry, holopad, true);
+
+		registerBlock(registry, machineChasis, true);
+		registerBlock(registry, gristHopper, true);
+		registerBlock(registry, autoWidget, true);
+		registerBlock(registry, autoCaptcha, true);
+		registerBlock(registry, porkhollowAtm, true);
+		registerBlock(registry, boondollarRegister, true);
+
+		registerBlock(registry, whiteWoolTransportalizer, true);
+		registerBlock(registry, orangeWoolTransportalizer, true);
+		registerBlock(registry, magentaWoolTransportalizer, true);
+		registerBlock(registry, lightBlueWoolTransportalizer, true);
+		registerBlock(registry, yellowWoolTransportalizer, true);
+		registerBlock(registry, limeWoolTransportalizer, true);
+		registerBlock(registry, pinkWoolTransportalizer, true);
+		registerBlock(registry, grayWoolTransportalizer, true);
+		registerBlock(registry, silverWoolTransportalizer, true);
+		registerBlock(registry, cyanWoolTransportalizer, true);
+		registerBlock(registry, purpleWoolTransportalizer, true);
+		registerBlock(registry, blueWoolTransportalizer, true);
+		registerBlock(registry, brownWoolTransportalizer, true);
+		registerBlock(registry, greenWoolTransportalizer, true);
+		registerBlock(registry, redWoolTransportalizer, true);
+		registerBlock(registry, blackWoolTransportalizer, true);
+		registerBlock(registry, rubyRedTransportalizer, true);
+		registerBlock(registry, goldenTransportalizer, true);
+		registerBlock(registry, paradoxTransportalizer, true);
+		registerBlock(registry, platinumTransportalizer, true);
+
+		registerBlock(registry, gristBlockBuild, true);
+		registerBlock(registry, gristBlockAmber, true);
+		registerBlock(registry, gristBlockAmethyst, true);
+		registerBlock(registry, gristBlockArtifact, true);
+		registerBlock(registry, gristBlockCaulk, true);
+		registerBlock(registry, gristBlockChalk, true);
+		registerBlock(registry, gristBlockCobalt, true);
+		registerBlock(registry, gristBlockDiamond, true);
+		registerBlock(registry, gristBlockGarnet, true);
+		registerBlock(registry, gristBlockGold, true);
+		registerBlock(registry, gristBlockIodine, true);
+		registerBlock(registry, gristBlockMarble, true);
+		registerBlock(registry, gristBlockMercury, true);
+		registerBlock(registry, gristBlockQuartz, true);
+		registerBlock(registry, gristBlockRuby, true);
+		registerBlock(registry, gristBlockRust, true);
+		registerBlock(registry, gristBlockShale, true);
+		registerBlock(registry, gristBlockSulfur, true);
+		registerBlock(registry, gristBlockTar, true);
+		registerBlock(registry, gristBlockUranium, true);
+		registerBlock(registry, gristBlockZillium, true);
+
+		if(Minestuck.isThaumLoaded)
+		{
+			registerBlock(registry, gristBlockVis, true);
+		}
+
+		if(Minestuck.isBotaniaLoaded)
+			registerBlock(registry, gristBlockMana, true);
+
+		registerBlock(registry, artifact, true);
+		registerBlock(registry, uniqueObject, true);
+	}
+
+	// TODO: Yeet this
+	private static Block registerBlock(IForgeRegistry<Block> registry, Block block, boolean hasItem)
+	{
+		((IRegistryItem)block).setRegistryName();
+		registry.register(block);
+		MSUModelManager.blocks.add(block);
+
+		if(hasItem)
+			MinestuckUniverseItems.itemBlocks.add(block);
+
+		return block;
 	}
 	
 	private static Fluid createFluid(String name, ResourceLocation still, ResourceLocation flowing, String unlocalizedName)

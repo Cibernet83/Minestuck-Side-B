@@ -19,7 +19,7 @@ import com.cibernet.minestuckgodtier.network.MSGTPacket;
 import com.cibernet.minestuckgodtier.potions.MSGTPotions;
 import com.cibernet.minestuckuniverse.blocks.BlockDungeonDoor;
 import com.cibernet.minestuckuniverse.events.WeaponAssignedEvent;
-import com.cibernet.minestuckuniverse.potions.MSUPotions;
+import com.mraof.minestuck.potions.MSUPotions;
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;

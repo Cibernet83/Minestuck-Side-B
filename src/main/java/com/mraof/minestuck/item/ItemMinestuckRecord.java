@@ -1,7 +1,6 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.util.IRegistryItem;
-import com.sun.org.apache.bcel.internal.generic.IREM;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.util.SoundEvent;
@@ -14,7 +13,7 @@ public class ItemMinestuckRecord extends ItemRecord implements IRegistryItem<Ite
 	public ItemMinestuckRecord(String recordName, SoundEvent soundIn)
 	{
 		super(recordName, soundIn);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		regName = "record_" + IRegistryItem.unlocToReg(recordName);
 		MSItemBase.items.add(this);
 	}

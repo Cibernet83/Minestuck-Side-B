@@ -2,7 +2,7 @@ package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.item.MSItemBase;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.google.common.collect.Multimap;
 import com.mraof.minestuck.util.ModusStorage;
@@ -46,7 +46,7 @@ public class ItemOperandiTool extends MSItemBase
 		this.attackSpeed = attackSpeedIn;
 		this.toolClass = toolClass;
 
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	public ItemOperandiTool(String name, String toolClass)

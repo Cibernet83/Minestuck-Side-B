@@ -10,6 +10,7 @@ import com.mraof.minestuck.util.Debug;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class GristRegistry {
@@ -42,6 +43,13 @@ public class GristRegistry {
 	{
 		gristRecipes.put(Arrays.asList(name, OreDictionary.WILDCARD_VALUE), grist);
 	}
+
+	public static void addGristConversion(String modid, String itemid, GristSet grist)
+	{
+		Item i = Item.REGISTRY.getObject(new ResourceLocation(modid, itemid));
+		if(i != null)
+			addGristConversion(new ItemStack(i), grist);
+	}
 	
 	public static void removeGristConversion(@Nonnull ItemStack stack)
 	{
@@ -59,6 +67,7 @@ public class GristRegistry {
 		if(gristRecipes.remove(Arrays.asList(name, OreDictionary.WILDCARD_VALUE)) == null)
 			Debug.warnf("Tried removing grist conversion for oredict %s, but couldn't find grist conversion", name);
 	}
+
 	/**
 	 * Returns a item-grist conversion ratio, given an ItemStack. Used in the Alchemiter and GristWidget.
 	 */

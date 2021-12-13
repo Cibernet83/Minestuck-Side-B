@@ -1,7 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -27,7 +26,7 @@ public class BlockMinestuckPlanks extends Block
 	public BlockMinestuckPlanks()
 	{
 		super(Material.WOOD);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.RAINBOW));
 		setUnlocalizedName("planksMinestuck");
 		this.setHardness(2.0F);

@@ -1,6 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
@@ -16,7 +16,7 @@ public class BlockCruxtruderLid extends Block
 	public BlockCruxtruderLid()
 	{
 		super(Material.IRON);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setUnlocalizedName("cruxtruderLid");
 		setHardness(1.0F);
 	}

@@ -1,6 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
@@ -38,7 +38,7 @@ public abstract class BlockLargeMachine extends BlockContainer
 	{
 		super(Material.ROCK);
 		this.setHardness(2);
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 	}	
 	//keeps the blocks from dropping something
 	@Override

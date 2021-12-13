@@ -2,6 +2,7 @@ package com.mraof.minestuck.entity.consort;
 
 import com.google.common.collect.Maps;
 import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.Pair;
 import net.minecraft.init.Items;
@@ -51,6 +52,7 @@ public class ConsortRewardHandler
 		ConsortRewardHandler.registerPrice(new ItemStack(appleCake), 100, 140);
 		ConsortRewardHandler.registerPrice(new ItemStack(irradiatedSteak), 70, 80);
 		ConsortRewardHandler.registerPrice(new ItemStack(candy,1 ,0), 100, 150);
+		ConsortRewardHandler.registerPrice(new ItemStack(MinestuckItems.candy, 1, 21), 500, 600);
 		for(GristType type : GristType.values())
 			if(type.equals(GristType.Build))
 				ConsortRewardHandler.registerPrice(new ItemStack(candy, 1, type.getId()), 90, 120);

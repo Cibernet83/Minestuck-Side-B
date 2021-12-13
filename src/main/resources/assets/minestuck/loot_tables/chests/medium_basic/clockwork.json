@@ -30,6 +30,11 @@
                     "name": "minecraft:repeater",
                     "weight": 4,
                     "quality": 0
+                },
+                {
+                    "type": "item",
+                    "name": "minestuckuniverse:ticking_stopwatch",
+                    "weight": 2
                 }
             ]
         }

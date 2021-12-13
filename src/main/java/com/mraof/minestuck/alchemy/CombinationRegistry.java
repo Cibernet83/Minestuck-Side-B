@@ -115,6 +115,25 @@ public class CombinationRegistry {
 			if(AlchemyRecipes.getItems(input, 0).isEmpty())
 				throw new IllegalArgumentException("No oredict item found for \""+input+"\"");
 	}
+
+	public static void removeCombination(@Nonnull ItemStack input1, @Nonnull ItemStack input2, CombinationRegistry.Mode mode, boolean useDamage1, boolean useDamage2)
+	{
+		removeCombination(input1.getItem(), useDamage1 ? input1.getItemDamage() : 32767, input2.getItem(), useDamage2 ? input2.getItemDamage() : 32767, mode);
+	}
+
+	private static void removeCombination(Object input1, int damage1, Object input2, int damage2, CombinationRegistry.Mode mode) {
+
+		int index = input1.hashCode() - input2.hashCode();
+		if (index == 0) {
+			index = damage1 - damage2;
+		}
+
+		if(index > 0)
+			combRecipes.remove(Arrays.asList(input1, damage1, input2, damage2, mode));
+		else
+			combRecipes.remove(Arrays.asList(input2, damage2, input1, damage1, mode));
+
+	}
 	
 	/**
 	 * Returns an entry for a result of combining the cards of two items. Used in the Punch Designix.

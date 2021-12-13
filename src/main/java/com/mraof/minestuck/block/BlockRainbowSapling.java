@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import java.util.Random;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.util.MinestuckRandom;
 import com.mraof.minestuck.world.gen.feature.WorldGenRainbowTree;
 
@@ -39,7 +39,7 @@ public class BlockRainbowSapling extends BlockBush implements IGrowable
 	protected BlockRainbowSapling()
 	{
 		this.setDefaultState(this.blockState.getBaseState().withProperty(GROWN_SOME, false).withProperty(RED, false).withProperty(GREEN, false).withProperty(BLUE, false));
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 		this.setUnlocalizedName("rainbowSapling");
 		this.setSoundType(SoundType.PLANT);
 	}

@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import java.util.Random;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
@@ -29,7 +29,7 @@ public class BlockAspectSapling extends BlockBush implements IGrowable
 	protected BlockAspectSapling()
 	{
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockType.ASPECT_BLOOD));
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 		this.setUnlocalizedName("aspectSapling");
 		this.setSoundType(SoundType.PLANT);
 	}

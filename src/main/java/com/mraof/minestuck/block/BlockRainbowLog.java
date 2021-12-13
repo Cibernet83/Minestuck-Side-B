@@ -1,6 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.TabsMinestuck;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
@@ -24,7 +24,7 @@ public class BlockRainbowLog extends BlockLog
 	public BlockRainbowLog()
 	{
 		super();
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(TabsMinestuck.minestuck);
 		setDefaultState(blockState.getBaseState().withProperty(SECOND_AXIS, BlockLog.EnumAxis.NONE).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 		setUnlocalizedName("logEnd");
 	}
