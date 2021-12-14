@@ -16,10 +16,10 @@ import net.minecraft.world.World;
 
 public class ItemSburbMachine extends ItemMultiTexture
 {
-	public ItemSburbMachine(Block block) 
+	public ItemSburbMachine(Block block)
 	{
 		super(block, block,
-				(ItemStack input) -> BlockSburbMachine.MachineType.values()[input.getMetadata() % BlockSburbMachine.MachineType.values().length].getUnlocalizedName());
+				(ItemStack input) -> ((BlockSburbMachine)Block.getBlockFromItem(input.getItem())).getType().getUnlocalizedName());
 	}
 	
 	@Override
@@ -27,7 +27,7 @@ public class ItemSburbMachine extends ItemMultiTexture
 	{
 		if(super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState))
 		{
-			if(newState.getValue(BlockSburbMachine.MACHINE_TYPE) == BlockSburbMachine.MachineType.CRUXTRUDER && stack.hasTagCompound() && stack.getTagCompound().hasKey("color"))
+			if(((BlockSburbMachine)Block.getBlockFromItem(stack.getItem())).getType() == BlockSburbMachine.MachineType.CRUXTRUDER && stack.hasTagCompound() && stack.getTagCompound().hasKey("color"))
 			{
 				TileEntity te = world.getTileEntity(pos);
 				if(te instanceof TileEntitySburbMachine)
@@ -40,7 +40,7 @@ public class ItemSburbMachine extends ItemMultiTexture
 	
 	public static ItemStack getCruxtruderWithColor(int color)
 	{
-		ItemStack stack = new ItemStack(MinestuckBlocks.sburbMachine, 1, 0);
+		ItemStack stack = new ItemStack(MinestuckBlocks.miniCruxtruder, 1);
 		stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setInteger("color", color);
 		return stack;

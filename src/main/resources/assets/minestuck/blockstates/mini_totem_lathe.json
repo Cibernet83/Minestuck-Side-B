@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=south":     { "model": "minestuck:machine_lathe" },
+    "facing=west":      { "model": "minestuck:machine_lathe", "y": 90 },
+    "facing=north":     { "model": "minestuck:machine_lathe", "y": 180 },
+    "facing=east":      { "model": "minestuck:machine_lathe", "y": 270 }
+  }
+}

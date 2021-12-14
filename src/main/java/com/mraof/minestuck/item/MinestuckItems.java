@@ -398,7 +398,11 @@ public class MinestuckItems
 		registerItemBlock(registry, new ItemBlockCraftingTab(cruxiteBlock, CreativeTabs.BUILDING_BLOCKS));
 		registerItemBlock(registry, new ItemBlockCraftingTab(uraniumBlock, CreativeTabs.BUILDING_BLOCKS));
 		registerItemBlock(registry, new ItemBlock(genericObject));
-		registerItemBlock(registry, new ItemSburbMachine(sburbMachine));
+		registerItemBlock(registry, new ItemSburbMachine(miniCruxtruder));
+		registerItemBlock(registry, new ItemSburbMachine(miniPunchDesignix));
+		registerItemBlock(registry, new ItemSburbMachine(miniTotemLathe));
+		registerItemBlock(registry, new ItemSburbMachine(miniAlchemiter));
+		//registerItemBlock(registry, new ItemSburbMachine(sburbMachine));
 		registerItemBlock(registry, new ItemMultiTexture(crockerMachine, crockerMachine,
 				(ItemStack input) -> BlockCrockerMachine.MachineType.values()[input.getItemDamage() % BlockCrockerMachine.MachineType.values().length].getUnlocalizedName()));
 		registerItemBlock(registry, new ItemBlock(blockComputerOff));

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.util;
 
+import akka.util.Switch;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristType;
@@ -170,8 +171,14 @@ public class MinestuckModelManager
 		for(BlockColoredDirt.BlockType type : BlockColoredDirt.BlockType.values())
 			register(coloredDirt, type.ordinal(), "colored_dirt_"+type.name);
 		register(layeredSand);
-		for(BlockSburbMachine.MachineType type : BlockSburbMachine.MachineType.values())
-			register(sburbMachine, type.ordinal(), "machine_"+type.getName());
+
+		register(miniAlchemiter,0, "machine_alchemiter");
+		register(miniTotemLathe,0, "machine_lathe");
+		register(miniCruxtruder,0, "machine_cruxtruder");
+		register(miniPunchDesignix,0, "machine_designix");
+
+			//register(sburbMachine, type.ordinal(), "machine_"+type.getName());
+
 		for(BlockCrockerMachine.MachineType type : BlockCrockerMachine.MachineType.values())
 			register(crockerMachine, type.ordinal(), "machine_"+type.getName());
 		register(punchDesignix);

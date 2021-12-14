@@ -146,12 +146,21 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 				return;
 			if(fromSpawner)
 				grist.scaleGrist(0.5F);
-			
+
+			for(GristAmount gristType : grist.getArray())
+				this.world.spawnEntity(new EntityGrist(world, randX(), this.posY, randZ(), gristType));
+
+			for(ItemStack item: event.getDrops())
+			{
+				this.world.spawnEntity(new EntityItem(world, randX(), this.posY, randZ(), item));
+			}
+
+			/*
 			if(!dropCandy)
 			{
-				for(GristAmount gristType : grist.getArray())
-					this.world.spawnEntity(new EntityGrist(world, randX(), this.posY, randZ(), gristType));
-			} else
+
+			}
+			else
 			{
 				for(GristAmount gristType : grist.getArray())
 				{
@@ -165,7 +174,7 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 						this.world.spawnEntity(new EntityGrist(world, randX(), this.posY, randZ(),new GristAmount(gristType.getType(), gristAmount)));
 				}
 			}
-			
+			*/
 			if(this.rand.nextInt(4) == 0)
 				this.world.spawnEntity(new EntityVitalityGel(world, randX(), this.posY, randZ(), this.getVitalityGel()));
 		}
