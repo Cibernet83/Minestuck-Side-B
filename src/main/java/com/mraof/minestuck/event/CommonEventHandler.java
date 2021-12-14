@@ -1,13 +1,14 @@
 package com.mraof.minestuck.event;
 
-import com.mraof.minestuck.util.ModusStorage;
-import com.mraof.minestuck.item.operandi.ItemCruxiteArmor;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
-import com.mraof.minestuck.inventory.captchalouge.*;
+import com.mraof.minestuck.inventory.captchalouge.CommunistModus;
+import com.mraof.minestuck.inventory.captchalouge.CycloneModus;
+import com.mraof.minestuck.inventory.captchalouge.JujuModus;
+import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.weapon.ItemPotionWeapon;
+import com.mraof.minestuck.item.operandi.ItemCruxiteArmor;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.util.*;
@@ -16,7 +17,6 @@ import net.minecraft.entity.monster.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -118,18 +118,7 @@ public class CommonEventHandler
 				{    //Increase damage to underling
 					double modifier = MinestuckPlayerData.getData(player).echeladder.getUnderlingDamageModifier();
 					event.setAmount((float) (event.getAmount() * modifier));
-				}
-				boolean critical = cachedCooledAttackStrength > 0.9 && player.fallDistance > 0.0F && !player.onGround && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(MobEffects.BLINDNESS) && !player.isRiding();
-				if(!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() instanceof ItemPotionWeapon)
-				{
-					if(((ItemPotionWeapon) player.getHeldItemMainhand().getItem()).potionOnCrit())
-					{
-						if(critical)
-						event.getEntityLiving().addPotionEffect(((ItemPotionWeapon) player.getHeldItemMainhand().getItem()).getEffect(player));
-					}
-					else event.getEntityLiving().addPotionEffect(((ItemPotionWeapon) player.getHeldItemMainhand().getItem()).getEffect(player));
-				}
-			}
+				}			}
 			else if (event.getEntityLiving() instanceof EntityPlayerMP && !(event.getEntityLiving() instanceof FakePlayer) && trueSource instanceof EntityUnderling)
 			{    //Decrease damage to player
 					EntityPlayerMP player = (EntityPlayerMP) event.getEntityLiving();

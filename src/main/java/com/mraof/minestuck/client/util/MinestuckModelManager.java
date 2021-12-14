@@ -1,6 +1,5 @@
 package com.mraof.minestuck.client.util;
 
-import akka.util.Switch;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristType;
@@ -9,8 +8,6 @@ import com.mraof.minestuck.entity.EntityFrog;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.ItemMetalBoat;
 import com.mraof.minestuck.item.ItemMinestuckBeverage;
-import com.mraof.minestuck.item.MSItemBase;
-import com.mraof.minestuck.item.weapon.ItemDualWeapon;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCactus;
@@ -49,10 +46,8 @@ public class MinestuckModelManager
 	
 	private static void itemModels()
 	{
-		//sheathed weapons
-		ModelLoader.registerItemVariants(catClaws, new ResourceLocation(Minestuck.MODID, "catclaws_sheathed"), new ResourceLocation(Minestuck.MODID, "catclaws_drawn"));
-		ModelLoader.setCustomMeshDefinition(catClaws, new DualWeaponDefinition(catClaws));
-
+		//sheathed weapons TODO
+		
 		//meta variants
 		register(disk, 0, "disk_client");
 		register(disk, 1, "disk_server");
@@ -355,22 +350,6 @@ public class MinestuckModelManager
 		}
 	}
 
-	
-	private static class DualWeaponDefinition implements ItemMeshDefinition
-	{
-		private Item item;
-		public DualWeaponDefinition(Item item){
-			this.item=item;
-		}
-		@Override
-		public ModelResourceLocation getModelLocation(ItemStack stack)
-		{
-			if(((ItemDualWeapon)this.item).IsDrawn(stack)){
-				return new ModelResourceLocation(Minestuck.MODID+":" + ((ItemDualWeapon)this.item).Prefex + "_drawn","inventory");
-			}else
-				return new ModelResourceLocation(Minestuck.MODID+":" + ((ItemDualWeapon)this.item).Prefex + "_sheathed","inventory");
-		}
-	}
 	
 	private static class CruxiteDowelDefinition implements ItemMeshDefinition
 	{
