@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/suitarang",
+    "textures": {
+        "layer0": "Minestuck:items/suitarang_clubs"
+    }
+}

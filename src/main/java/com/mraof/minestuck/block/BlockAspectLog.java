@@ -1,8 +1,8 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
-
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.MapColor;
@@ -20,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockAspectLog extends BlockLog implements IRegistryItem<Block>
+public class BlockAspectLog extends BlockLog implements IRegistryBlock
 {
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
 	private final String regName;
@@ -29,17 +29,10 @@ public class BlockAspectLog extends BlockLog implements IRegistryItem<Block>
 	{
 		super();
 		regName = "aspect_log_1";
-		MSBlockBase.blocks.add(this);
-		setCreativeTab(TabMinestuck.instance);
+		MinestuckBlocks.blocks.add(this);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.ASPECT_BLOOD).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 		setUnlocalizedName("aspectLog1");
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
 	}
 
 	@Override
@@ -136,5 +129,18 @@ public class BlockAspectLog extends BlockLog implements IRegistryItem<Block>
 		{
 			return unlocalizedName;
 		}
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[input.getItemDamage() % BlockType.values().length].getUnlocalizedName());
 	}
 }

@@ -1,12 +1,9 @@
 package com.mraof.minestuck.block;
 
-import java.util.Random;
-
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.world.gen.feature.WorldGenEndTree;
-import com.mraof.minestuck.world.gen.feature.WorldGenRainbowTree;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -26,7 +23,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockEndSapling extends BlockBush implements IGrowable, IRegistryItem<Block>
+import java.util.Random;
+
+public class BlockEndSapling extends BlockBush implements IGrowable, IRegistryBlock
 {
 	public static final PropertyBool ALPHA = PropertyBool.create("alpha");
 	public static final PropertyBool OMEGA = PropertyBool.create("omega");
@@ -36,18 +35,11 @@ public class BlockEndSapling extends BlockBush implements IGrowable, IRegistryIt
 	protected BlockEndSapling()
 	{
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ALPHA, false).withProperty(OMEGA, false));
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.setUnlocalizedName("endSapling");
 		this.setSoundType(SoundType.PLANT);
 		regName = IRegistryItem.unlocToReg("endSapling");
-		MSBlockBase.blocks.add(this);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 	
 	@Override
@@ -173,5 +165,17 @@ public class BlockEndSapling extends BlockBush implements IGrowable, IRegistryIt
 			}
 		}
 	}
-	
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
+	}
 }

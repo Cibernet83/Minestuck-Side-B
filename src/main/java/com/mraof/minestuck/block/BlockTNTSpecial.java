@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
@@ -18,16 +19,15 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
 
-public class BlockTNTSpecial extends BlockTNT implements IRegistryItem<Block>
+public class BlockTNTSpecial extends BlockTNT implements IRegistryBlock
 {
-	
-	final boolean primed, unstable, instant;
+	private final boolean primed, unstable, instant;
 	private final String regName;
 
 	public BlockTNTSpecial(String name, boolean primed, boolean unstable, boolean instant)
 	{
 		super();
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setHardness(0.0F);
 		setSoundType(SoundType.PLANT);
 		this.primed = primed;
@@ -37,14 +37,7 @@ public class BlockTNTSpecial extends BlockTNT implements IRegistryItem<Block>
 			setTickRandomly(true);
 		setUnlocalizedName(name);
 		regName = IRegistryItem.unlocToReg(name);
-		MSBlockBase.blocks.add(this);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 	
 	@Override
@@ -95,5 +88,17 @@ public class BlockTNTSpecial extends BlockTNT implements IRegistryItem<Block>
 			worldIn.setBlockToAir(pos);
 		}
 	}
-	
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
+	}
 }

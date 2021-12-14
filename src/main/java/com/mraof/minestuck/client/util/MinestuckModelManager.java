@@ -33,13 +33,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Collections;
 
+import static com.mraof.minestuck.block.MinestuckBlocks.returnNode;
 import static com.mraof.minestuck.block.MinestuckBlocks.*;
 import static com.mraof.minestuck.item.MinestuckItems.*;
 
 @SideOnly(Side.CLIENT)
 public class MinestuckModelManager
 {
-	
 	@SubscribeEvent
 	public static void handleModelRegistry(ModelRegistryEvent event)
 	{
@@ -50,7 +50,7 @@ public class MinestuckModelManager
 	private static void itemModels()
 	{
 		//sheathed weapons
-		ModelLoader.registerItemVariants(catClaws, new ResourceLocation("minestuck:catclaws_sheathed"), new ResourceLocation("minestuck:catclaws_drawn"));
+		ModelLoader.registerItemVariants(catClaws, new ResourceLocation(Minestuck.MODID, "catclaws_sheathed"), new ResourceLocation(Minestuck.MODID, "catclaws_drawn"));
 		ModelLoader.setCustomMeshDefinition(catClaws, new DualWeaponDefinition(catClaws));
 
 		//meta variants
@@ -100,20 +100,20 @@ public class MinestuckModelManager
 
 		//Misc Renderers
 
-		ModelLoader.registerItemVariants(stoneTablet, new ResourceLocation("minestuck:stone_tablet"), new ResourceLocation("minestuck:stone_tablet_written"));
+		ModelLoader.registerItemVariants(stoneTablet, new ResourceLocation(Minestuck.MODID, "stone_tablet"), new ResourceLocation(Minestuck.MODID, "stone_tablet_written"));
 		ModelLoader.setCustomMeshDefinition(stoneTablet, new StoneSlabDefinition());
 
-		ModelLoader.registerItemVariants(boondollars, new ResourceLocation("minestuck:boondollars0"), new ResourceLocation("minestuck:boondollars1"), new ResourceLocation("minestuck:boondollars2"),
-				new ResourceLocation("minestuck:boondollars3"), new ResourceLocation("minestuck:boondollars4"), new ResourceLocation("minestuck:boondollars5"), new ResourceLocation("minestuck:boondollars6"));
+		ModelLoader.registerItemVariants(boondollars, new ResourceLocation(Minestuck.MODID, "boondollars0"), new ResourceLocation(Minestuck.MODID, "boondollars1"), new ResourceLocation(Minestuck.MODID, "boondollars2"),
+				new ResourceLocation(Minestuck.MODID, "boondollars3"), new ResourceLocation(Minestuck.MODID, "boondollars4"), new ResourceLocation(Minestuck.MODID, "boondollars5"), new ResourceLocation(Minestuck.MODID, "boondollars6"));
 		ModelLoader.setCustomMeshDefinition(boondollars, new BoondollarsDefinition());
 
-		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation("minestuck:dowel_uncarved"), new ResourceLocation("minestuck:dowel_carved"));
+		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation(Minestuck.MODID, "dowel_uncarved"), new ResourceLocation(Minestuck.MODID, "dowel_carved"));
 		ModelLoader.setCustomMeshDefinition(cruxiteDowel, new CruxiteDowelDefinition());
 
-		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation("minestuck:card_empty"), new ResourceLocation("minestuck:card_full"), new ResourceLocation("minestuck:card_punched"), new ResourceLocation("minestuck:card_ghost"));
+		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation(Minestuck.MODID, "card_empty"), new ResourceLocation(Minestuck.MODID, "card_full"), new ResourceLocation(Minestuck.MODID, "card_punched"), new ResourceLocation(Minestuck.MODID, "card_ghost"));
 		ModelLoader.setCustomMeshDefinition(captchaCard, new CaptchaCardDefinition());
 
-		ModelLoader.registerItemVariants(shunt, new ResourceLocation("minestuck:shunt_empty"), new ResourceLocation("minestuck:shunt_full"));
+		ModelLoader.registerItemVariants(shunt, new ResourceLocation(Minestuck.MODID, "shunt_empty"), new ResourceLocation(Minestuck.MODID, "shunt_full"));
 		ModelLoader.setCustomMeshDefinition(shunt, new ShuntDefinition());
 
 		//3D Models
@@ -128,7 +128,7 @@ public class MinestuckModelManager
 		}
 
 		//everything else
-		for (IRegistryItem<Item> item : MSItemBase.items)
+		for (IRegistryItem<Item> item : items)
 			item.registerModel();
 	}
 	
@@ -136,7 +136,7 @@ public class MinestuckModelManager
 	{
 		for(BlockChessTile.BlockType type : BlockChessTile.BlockType.values())
 			register(chessTile, type.ordinal(), "chesstile_"+type.name);
-		register(skaiaPortal);
+		//register(skaiaPortal); // FIXME: ????????
 		register(transportalizer);
 		register(blockComputerOff);
 		register(oreCruxite, 0, "cruxite_stone");
@@ -210,13 +210,13 @@ public class MinestuckModelManager
 		register(frogStatueReplica);
 		register(chessboard);
 
-		for(BlockMinestuckLog1.BlockType type : BlockMinestuckLog1.BlockType.values())
+		for(BlockMinestuckLogVariant.BlockType type : BlockMinestuckLogVariant.BlockType.values())
 			register(log, type.ordinal(), type.getName()+"_log");
 		
 		for(BlockMinestuckPlanks.BlockType type : BlockMinestuckPlanks.BlockType.values())
 			register(planks, type.ordinal(), type.getName()+"_planks");
 		
-		for(BlockMinestuckLeaves1.BlockType type : BlockMinestuckLeaves1.BlockType.values())
+		for(BlockMinestuckLeavesVariant.BlockType type : BlockMinestuckLeavesVariant.BlockType.values())
 			register(leaves1, type.ordinal(), type.getName()+"_leaves");
 		
 		for(BlockAspectSapling.BlockType type : BlockAspectSapling.BlockType.values())
@@ -281,16 +281,14 @@ public class MinestuckModelManager
 		register(stoneExplosiveButton);
 		
 		register(uraniumCooker);
-		
-		for(EnumSlabStairMaterial mat : EnumSlabStairMaterial.values())
+
+		for (MSBlockSlab slab : slabs.values())
 		{
-			mat.getName();
-			register(mat.getStair());
-			register(mat.getSlab());
-			ModelLoader.setCustomStateMapper(mat.getSlab(), (new StateMap.Builder()).ignore(BlockMinestuckSlab.dummy).build());
-			ModelLoader.setCustomStateMapper(mat.getSlabFull(), (new StateMap.Builder()).ignore(BlockSlab.HALF, BlockMinestuckSlab.dummy).build());
+			ModelLoader.setCustomStateMapper(slab, (new StateMap.Builder()).ignore(MSBlockSlab.dummy).build());
+			ModelLoader.setCustomStateMapper(slab.fullSlab, (new StateMap.Builder()).ignore(BlockSlab.HALF, MSBlockSlab.dummy).build());
 		}
-		
+
+
 		ModelLoader.setCustomStateMapper(blockOil, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
 		ModelLoader.setCustomStateMapper(blockBlood, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
 		ModelLoader.setCustomStateMapper(blockBrainJuice, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
@@ -301,8 +299,8 @@ public class MinestuckModelManager
 		ModelLoader.setCustomStateMapper(primedTnt, (new StateMap.Builder()).ignore(BlockTNT.EXPLODE).build());
 		ModelLoader.setCustomStateMapper(unstableTnt, (new StateMap.Builder()).ignore(BlockTNT.EXPLODE).build());
 		ModelLoader.setCustomStateMapper(instantTnt, (new StateMap.Builder()).ignore(BlockTNT.EXPLODE).build());
-		ModelLoader.setCustomStateMapper(log, (new StateMap.Builder()).withName(BlockMinestuckLog1.VARIANT).withSuffix("_log").build());
-		ModelLoader.setCustomStateMapper(leaves1, (new StateMap.Builder()).withName(BlockMinestuckLeaves1.VARIANT).withSuffix("_leaves").build());
+		ModelLoader.setCustomStateMapper(log, (new StateMap.Builder()).withName(BlockMinestuckLogVariant.VARIANT).withSuffix("_log").build());
+		ModelLoader.setCustomStateMapper(leaves1, (new StateMap.Builder()).withName(BlockMinestuckLeavesVariant.VARIANT).withSuffix("_leaves").build());
 		ModelLoader.setCustomStateMapper(aspectSapling, (new StateMap.Builder()).withName(BlockAspectSapling.VARIANT).withSuffix("_sapling").build());
 		ModelLoader.setCustomStateMapper(aspectLog1, (new StateMap.Builder()).withName(BlockAspectLog.VARIANT).withSuffix("_log").build());
 		ModelLoader.setCustomStateMapper(aspectLog2, (new StateMap.Builder()).withName(BlockAspectLog2.VARIANT).withSuffix("_log").build());
@@ -368,9 +366,9 @@ public class MinestuckModelManager
 		public ModelResourceLocation getModelLocation(ItemStack stack)
 		{
 			if(((ItemDualWeapon)this.item).IsDrawn(stack)){
-				return new ModelResourceLocation("minestuck:" + ((ItemDualWeapon)this.item).Prefex + "_drawn","inventory");
+				return new ModelResourceLocation(Minestuck.MODID+":" + ((ItemDualWeapon)this.item).Prefex + "_drawn","inventory");
 			}else
-				return new ModelResourceLocation("minestuck:" + ((ItemDualWeapon)this.item).Prefex + "_sheathed","inventory");
+				return new ModelResourceLocation(Minestuck.MODID+":" + ((ItemDualWeapon)this.item).Prefex + "_sheathed","inventory");
 		}
 	}
 	
@@ -379,7 +377,7 @@ public class MinestuckModelManager
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack)
 		{
-			return new ModelResourceLocation("minestuck:"+(stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") ? "dowel_carved" : "dowel_uncarved"), "inventory");
+			return new ModelResourceLocation(Minestuck.MODID + ":" + (stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") ? "dowel_carved" : "dowel_uncarved"), "inventory");
 		}
 	}
 	
@@ -414,7 +412,7 @@ public class MinestuckModelManager
 				else str = "card_full";
 			}
 			else str = "card_empty";
-			return new ModelResourceLocation("minestuck:" + str, "inventory");
+			return new ModelResourceLocation(Minestuck.MODID+":" + str, "inventory");
 		}
 	}
 
@@ -429,7 +427,7 @@ public class MinestuckModelManager
 				str = "shunt_full";
 
 			else str = "shunt_empty";
-			return new ModelResourceLocation("minestuck:" + str, "inventory");
+			return new ModelResourceLocation(Minestuck.MODID+":" + str, "inventory");
 		}
 	}
 
@@ -443,7 +441,7 @@ public class MinestuckModelManager
 			if(nbt != null && nbt.hasKey("text") && nbt.getString("text") != "")
 				str += "_written";
 
-			return new ModelResourceLocation("minestuck:" + str, "inventory");
+			return new ModelResourceLocation(Minestuck.MODID+":" + str, "inventory");
 		}
 	}
 
@@ -468,7 +466,7 @@ public class MinestuckModelManager
 				str = "boondollars5";
 			else str = "boondollars6";
 			
-			return new ModelResourceLocation("minestuck:" + str, "inventory");
+			return new ModelResourceLocation(Minestuck.MODID+":" + str, "inventory");
 		}
 	}
 }

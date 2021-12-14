@@ -4,15 +4,11 @@ import com.mraof.minestuck.item.enums.EnumShopPoster;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityHanging;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ItemShopPoster  extends ItemHanging
 {
@@ -21,7 +17,7 @@ public abstract class ItemShopPoster  extends ItemHanging
     	super("shopPoster");
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
-        this.setCreativeTab(TabMinestuck.instance);
+        this.setCreativeTab(MinestuckTabs.minestuck);
     }
 	
 	 public String getUnlocalizedName(ItemStack stack)

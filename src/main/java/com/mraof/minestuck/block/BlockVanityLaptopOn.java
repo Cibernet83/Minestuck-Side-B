@@ -1,23 +1,11 @@
 package com.mraof.minestuck.block;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
-
-import java.util.Random;
-
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.BlockVanityLaptopOff.BlockType;
 import com.mraof.minestuck.client.gui.GuiHandler;
 import com.mraof.minestuck.network.skaianet.SkaiaClient;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
-
-import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -37,6 +25,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.Map.Entry;
+
 public class BlockVanityLaptopOn extends BlockComputerOff implements ITileEntityProvider
 {
 	public static final PropertyEnum<BlockType> VARIANT = BlockVanityLaptopOff.VARIANT;
@@ -48,7 +40,7 @@ public class BlockVanityLaptopOn extends BlockComputerOff implements ITileEntity
 	
 	public BlockVanityLaptopOn(String name)
 	{
-		super(name, IRegistryItem.unlocToReg(name));
+		super(name);
 		setDefaultState(getDefaultState().withProperty(BSOD, false));
 	}
 	

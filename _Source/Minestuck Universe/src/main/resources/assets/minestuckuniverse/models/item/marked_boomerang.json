@@ -1,6 +1,0 @@
-{
-    "parent": "minestuckuniverse:item/boomerang",
-    "textures": {
-        "layer0": "minestuckuniverse:items/marked_boomerang"
-    }
-}

@@ -20,7 +20,7 @@ public class ItemSurpriseEmbryo extends ItemFood {
 
 	public ItemSurpriseEmbryo(int amount, float saturation, boolean isWolfFood) {
 		super("surpriseEmbryo", amount, saturation, isWolfFood);
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 	}
 	
 	@Override

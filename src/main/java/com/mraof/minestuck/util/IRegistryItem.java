@@ -1,7 +1,6 @@
 package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.client.util.MinestuckModelManager;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -20,7 +19,10 @@ public interface IRegistryItem<T extends IForgeRegistryEntry<T>>
 		else return;
 
 		if(item.getHasSubtypes())
-			ModelLoader.setCustomMeshDefinition(item, new MinestuckModelManager.SubtypesItemDefinition(Item.REGISTRY.getNameForObject(item).toString()));
+			if (Item.REGISTRY.getNameForObject(item) == null)
+				throw new NullPointerException(item.getUnlocalizedName() + " was not registered!");
+			else
+				ModelLoader.setCustomMeshDefinition(item, new MinestuckModelManager.SubtypesItemDefinition(Item.REGISTRY.getNameForObject(item).toString()));
 		else
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}

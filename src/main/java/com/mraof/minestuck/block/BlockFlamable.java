@@ -17,7 +17,7 @@ public class BlockFlamable extends MSBlockBase
 	
 	public BlockFlamable(String name, Material material, MapColor mapColor, SoundType sound)
 	{
-		super(name,material, mapColor);
+		super(name, material, mapColor);
 		setSoundType(sound);
 	}
 	

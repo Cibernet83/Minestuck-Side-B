@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/wisdom_pierce",
+    "textures": {
+        "layer0": "Minestuck:items/wisdom_pierce_awakened_pulling_0"
+    }
+}

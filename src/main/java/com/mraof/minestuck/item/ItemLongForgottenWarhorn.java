@@ -3,7 +3,6 @@ package com.mraof.minestuck.item;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
@@ -46,7 +45,7 @@ public class ItemLongForgottenWarhorn extends MSItemBase {
         super("longForgottenWarhorn");
         setMaxDamage(100);
         setMaxStackSize(1);
-        setCreativeTab(TabMinestuck.instance);
+        setCreativeTab(MinestuckTabs.minestuck);
     }
     
     @Override

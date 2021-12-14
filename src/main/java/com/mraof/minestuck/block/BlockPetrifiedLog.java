@@ -1,12 +1,12 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.BlockLog.EnumAxis;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -16,24 +16,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockPetrifiedLog extends BlockLog implements IRegistryItem<Block>
+public class BlockPetrifiedLog extends BlockLog implements IRegistryBlock
 {
 	private final String regName;
 
 	public BlockPetrifiedLog(String name)
 	{
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setSoundType(SoundType.STONE);
+		setHarvestLevel("pickaxe", 0);
 		setUnlocalizedName(name);
 		regName = IRegistryItem.unlocToReg(name);
-		MSBlockBase.blocks.add(this);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 	
 	@Override
@@ -75,5 +69,18 @@ public class BlockPetrifiedLog extends BlockLog implements IRegistryItem<Block>
 	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{
 		return 0;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

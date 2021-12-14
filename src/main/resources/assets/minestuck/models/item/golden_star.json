@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/throwing_star",
+    "textures": {
+        "layer0": "Minestuck:items/golden_star"
+    }
+}

@@ -26,14 +26,14 @@ public class TotemLatheRecipeCategory implements IRecipeCategory<TotemLatheRecip
 
 	TotemLatheRecipeCategory(IGuiHelper guiHelper)
 	{
-		ResourceLocation totemLatheBackground = new ResourceLocation("minestuck:textures/gui/lathe.png");
+		ResourceLocation totemLatheBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/lathe.png");
 		background = guiHelper.createDrawable(totemLatheBackground, 25, 24, 130, 36);
 	}
 	
 	@Override
 	public String getModName()
 	{
-		return Minestuck.MOD_NAME;
+		return Minestuck.NAME;
 	}
 	
 	@Override

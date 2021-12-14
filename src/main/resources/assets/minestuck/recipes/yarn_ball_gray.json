@@ -1,0 +1,21 @@
+{
+    "type": "Minestuck:knitting",
+    "pattern": [
+        "k ",
+        " #"
+    ],
+    "key": {
+        "k": {
+            "item": "Minestuck:knitting_needle"
+        },
+        "#": {
+            "item": "minecraft:wool",
+            "data": 7
+        }
+    },
+    "result": {
+        "item": "Minestuck:yarn_ball",
+        "data": 8,
+        "count": 1
+    }
+}

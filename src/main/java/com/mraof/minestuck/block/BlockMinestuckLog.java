@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
-
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
@@ -13,30 +13,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockMinestuckLog extends BlockLog implements IRegistryItem<Block>
+public class BlockMinestuckLog extends BlockLog implements IRegistryBlock
 {
 	private final String regName;
 
-	public BlockMinestuckLog(String unloc, String reg)
+	public BlockMinestuckLog(String name)
 	{
 		super();
 		setDefaultState(blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
-		setCreativeTab(TabMinestuck.instance);
-		setUnlocalizedName(unloc);
-		regName = reg;
-		MSBlockBase.blocks.add(this);
-	}
-
-	public BlockMinestuckLog(String name)
-	{
-		this(name, IRegistryItem.unlocToReg(name));
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		setCreativeTab(MinestuckTabs.minestuck);
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MinestuckBlocks.blocks.add(this);
 	}
 
 	@Override
@@ -67,5 +55,18 @@ public class BlockMinestuckLog extends BlockLog implements IRegistryItem<Block>
 	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{
 		return 5;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

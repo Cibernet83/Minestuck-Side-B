@@ -1,7 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -69,5 +68,18 @@ public class BlockDenseCloud extends MSBlockBase
 	{
 		for(int i = 0; i < BlockType.values().length; i++)
 			items.add(new ItemStack(this, 1, i));
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this)
+		{
+			@Override
+			public int getMetadata(int damage)
+			{
+				return damage;
+			}
+		};
 	}
 }

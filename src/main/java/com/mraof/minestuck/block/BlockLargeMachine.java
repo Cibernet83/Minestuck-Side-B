@@ -1,9 +1,5 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
-import com.mraof.minestuck.util.IRegistryItem;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -18,47 +14,28 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.List;
 
-public abstract class BlockLargeMachine extends BlockContainer implements IRegistryItem<Block>
+public abstract class BlockLargeMachine extends MSBlockContainer
 {
 	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	private final String regName;
+
+	public BlockLargeMachine(String name)
+	{
+		super(name, Material.ROCK);
+		setHardness(2);
+	}
 
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
 		return new BlockStateContainer(this, DIRECTION);
-		
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
 	}
 
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
-	}
-
-	public BlockLargeMachine(String unloc, String reg)
-	{
-		super(Material.ROCK);
-		regName = reg;
-		setUnlocalizedName(unloc);
-		MSBlockBase.blocks.add(this);
-		this.setHardness(2);
-		this.setCreativeTab(TabMinestuck.instance);
-	}
-
-	public BlockLargeMachine(String name)
-	{
-		this(name, IRegistryItem.unlocToReg(name));
 	}
 
 	//keeps the blocks from dropping something

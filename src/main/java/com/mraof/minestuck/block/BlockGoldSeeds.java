@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -32,7 +33,7 @@ public class BlockGoldSeeds extends MSBlockBase
 	
 	public BlockGoldSeeds()
 	{
-		super("goldSeeds",Material.PLANTS);
+		super("goldSeeds", Material.PLANTS);
 		setSoundType(SoundType.METAL);
 		setHardness(0.1F);
 	}
@@ -93,5 +94,11 @@ public class BlockGoldSeeds extends MSBlockBase
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return null;
 	}
 }

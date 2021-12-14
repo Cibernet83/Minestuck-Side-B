@@ -1,7 +1,8 @@
 	package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -10,33 +11,23 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.registries.IForgeRegistry;
 
-	public class BlockPetrifiedFlora extends BlockBush implements IRegistryItem<Block>
+public class BlockPetrifiedFlora extends BlockBush implements IRegistryBlock
 {
 	private final String regName;
 
 	public BlockPetrifiedFlora(String name)
 	{
 		super(Material.ROCK);
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setSoundType(SoundType.STONE);
 		setUnlocalizedName(name);
 		regName = IRegistryItem.unlocToReg(name);
-		MSBlockBase.blocks.add(this);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 
 	@Override
@@ -55,5 +46,18 @@ import net.minecraftforge.registries.IForgeRegistry;
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		return MapColor.GRAY;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

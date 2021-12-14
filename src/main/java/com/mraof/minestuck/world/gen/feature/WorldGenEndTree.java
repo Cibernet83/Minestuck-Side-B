@@ -1,19 +1,11 @@
 package com.mraof.minestuck.world.gen.feature;
 
-import java.util.HashMap;
 import java.util.Random;
 
 import com.mraof.minestuck.block.BlockEndLog;
-import com.mraof.minestuck.block.BlockMinestuckLeaves1;
-import com.mraof.minestuck.block.BlockMinestuckLog;
-import com.mraof.minestuck.block.BlockRainbowSapling;
 import com.mraof.minestuck.block.MinestuckBlocks;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockOldLog;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;

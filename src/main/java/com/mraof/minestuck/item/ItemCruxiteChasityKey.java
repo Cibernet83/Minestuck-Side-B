@@ -44,7 +44,6 @@ public class ItemCruxiteChasityKey extends ItemCruxite
 		
 		if(entityItem.posY < 1)
 		{
-			
 			BlockPos safePos = entityItem.world.getTopSolidOrLiquidBlock(entityItem.getPosition()).up();
 			entityItem.setPosition(safePos.getX(), safePos.getY(), safePos.getZ());
 			entityItem.motionY = entityItem.world.rand.nextDouble()*1.2;

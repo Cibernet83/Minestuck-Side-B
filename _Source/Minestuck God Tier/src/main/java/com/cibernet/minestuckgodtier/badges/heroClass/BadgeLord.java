@@ -6,7 +6,7 @@ import com.cibernet.minestuckgodtier.capabilities.MSGTCapabilities;
 import com.cibernet.minestuckgodtier.capabilities.api.IBadgeEffects;
 import com.cibernet.minestuckgodtier.client.particles.MSGTParticles;
 import com.cibernet.minestuckgodtier.events.handlers.BadgeEventHandler;
-import com.cibernet.minestuckuniverse.potions.MSUPotions;
+import com.mraof.minestuck.potions.MSUPotions;
 import com.mraof.minestuck.util.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;

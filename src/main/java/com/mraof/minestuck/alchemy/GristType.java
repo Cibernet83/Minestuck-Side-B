@@ -39,10 +39,16 @@ public class GristType extends IForgeRegistryEntry.Impl<GristType> implements Co
 	public static final GristType Tar = new GristType("tar", 0.5F, 1.5F, new ResourceLocation("minestuck", "tar"));
 	public static final GristType Uranium = new GristType("uranium", 0.2F, 5, new ResourceLocation("minestuck", "uranium"));
 	public static final GristType Zillium = new GristType("zillium", 0.0F, 10, new ResourceLocation("minestuck", "zillium"));
+
+	//Magic Grist (Thaum, Botania, etc.)
+	public static final GristType Vis = new GristType("vis", 0F, 5.0F, new ResourceLocation("Minestuck", "vis"));
+	public static final GristType Mana = new GristType("mana", 0F, 5.0F, new ResourceLocation("Minestuck", "mana"));
+
 	public static ForgeRegistry<GristType> REGISTRY;
-	final String name;
-	final float rarity;
-	final float value;
+
+	private final String name;
+	private final float rarity;
+	private final float value;
 	private final ResourceLocation icon;
 	private ItemStack candyItem = ItemStack.EMPTY;
 
@@ -50,7 +56,7 @@ public class GristType extends IForgeRegistryEntry.Impl<GristType> implements Co
 	{
 		this(name, rarity, 2, icon);
 	}
-	
+
 	public GristType(String name, float rarity, float value, ResourceLocation icon)
 	{
 		this.name = name;
@@ -58,12 +64,12 @@ public class GristType extends IForgeRegistryEntry.Impl<GristType> implements Co
 		this.value = value;
 		this.icon = icon;
 	}
-	
+
 	public static GristType getTypeFromString(String string)
 	{
 		if (!string.contains(":"))
 		{
-			string = "minestuck:" + string;
+			string = Minestuck.MODID+":" + string;
 		}
 		return REGISTRY.getValue(new ResourceLocation(string));
 	}
@@ -105,8 +111,8 @@ public class GristType extends IForgeRegistryEntry.Impl<GristType> implements Co
 	{
 		return 1 / rarity;
 	}
-	
-	
+
+
 	/**
 	 * @return a value estimate for this grist type
 	 */
@@ -114,28 +120,28 @@ public class GristType extends IForgeRegistryEntry.Impl<GristType> implements Co
 	{
 		return value;
 	}
-	
+
 	public ResourceLocation getIcon()
 	{
 		return icon;
 	}
-	
+
 	public ItemStack getCandyItem()
 	{
 		return candyItem.copy();
 	}
-	
+
 	public GristType setCandyItem(ItemStack stack)
 	{
 		candyItem = stack;
 		return this;
 	}
-	
+
 	public int getId()
 	{
 		return REGISTRY.getID(this);
 	}
-	
+
 	@SubscribeEvent
 	public static void onRegistryNewRegistry(RegistryEvent.NewRegistry event)
 	{
@@ -149,29 +155,36 @@ public class GristType extends IForgeRegistryEntry.Impl<GristType> implements Co
 	@SubscribeEvent
 	public static void registerSkills(RegistryEvent.Register<GristType> event)
 	{
-		event.getRegistry().registerAll(
-				Amber.setRegistryName("minestuck", "amber"),
-				Amethyst.setRegistryName("minestuck", "amethyst"),
-				Artifact.setRegistryName("minestuck", "artifact"),
-				Build.setRegistryName("minestuck", "build"),
-				Caulk.setRegistryName("minestuck", "caulk"),
-				Chalk.setRegistryName("minestuck", "chalk"),
-				Cobalt.setRegistryName("minestuck", "cobalt"),
-				Diamond.setRegistryName("minestuck", "diamond"),
-				Garnet.setRegistryName("minestuck", "garnet"),
-				Gold.setRegistryName("minestuck", "gold"),
-				Iodine.setRegistryName("minestuck", "iodine"),
-				Marble.setRegistryName("minestuck", "marble"),
-				Mercury.setRegistryName("minestuck", "mercury"),
-				Quartz.setRegistryName("minestuck", "quartz"),
-				Ruby.setRegistryName("minestuck", "ruby"),
-				Rust.setRegistryName("minestuck", "rust"),
-				Shale.setRegistryName("minestuck", "shale"),
-				Sulfur.setRegistryName("minestuck", "sulfur"),
-				Tar.setRegistryName("minestuck", "tar"),
-				Uranium.setRegistryName("minestuck", "uranium"),
-				Zillium.setRegistryName("minestuck", "zillium")
+		IForgeRegistry<GristType> registry = event.getRegistry();
+
+		registry.registerAll(
+				Amber.setRegistryName("amber"),
+				Amethyst.setRegistryName("amethyst"),
+				Artifact.setRegistryName("artifact"),
+				Build.setRegistryName("build"),
+				Caulk.setRegistryName("caulk"),
+				Chalk.setRegistryName("chalk"),
+				Cobalt.setRegistryName("cobalt"),
+				Diamond.setRegistryName("diamond"),
+				Garnet.setRegistryName("garnet"),
+				Gold.setRegistryName("gold"),
+				Iodine.setRegistryName("iodine"),
+				Marble.setRegistryName("marble"),
+				Mercury.setRegistryName("mercury"),
+				Quartz.setRegistryName("quartz"),
+				Ruby.setRegistryName("ruby"),
+				Rust.setRegistryName("rust"),
+				Shale.setRegistryName("shale"),
+				Sulfur.setRegistryName("sulfur"),
+				Tar.setRegistryName("tar"),
+				Uranium.setRegistryName("uranium"),
+				Zillium.setRegistryName("zillium")
 		);
+
+		if (Minestuck.isThaumLoaded)
+			registry.register(Vis.setRegistryName("vis"));
+		if (Minestuck.isBotaniaLoaded)
+			registry.register(Mana.setRegistryName("mana"));
 	}
 
 	@Override

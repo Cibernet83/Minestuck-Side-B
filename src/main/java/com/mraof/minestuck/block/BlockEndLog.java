@@ -1,7 +1,8 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
@@ -21,7 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockEndLog extends BlockLog implements IRegistryItem<Block>
+public class BlockEndLog extends BlockLog implements IRegistryBlock
 {
 	public static final PropertyEnum<EnumAxis> SECOND_AXIS = PropertyEnum.<EnumAxis>create("axis2", EnumAxis.class);
 	public static final int LEAF_SUSTAIN_DISTANCE = 5;
@@ -30,18 +31,11 @@ public class BlockEndLog extends BlockLog implements IRegistryItem<Block>
 	public BlockEndLog()
 	{
 		super();
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setDefaultState(blockState.getBaseState().withProperty(SECOND_AXIS, EnumAxis.NONE).withProperty(LOG_AXIS, EnumAxis.Y));
 		setUnlocalizedName("endLog");
 		regName = IRegistryItem.unlocToReg("end_log");
-		MSBlockBase.blocks.add(this);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 	
 	@Override
@@ -182,5 +176,18 @@ public class BlockEndLog extends BlockLog implements IRegistryItem<Block>
 				leaves(world, curr.west(),	distance + 2);
 			}
 		}
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

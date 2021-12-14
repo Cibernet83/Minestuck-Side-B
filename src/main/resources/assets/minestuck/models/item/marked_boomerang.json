@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/boomerang",
+    "textures": {
+        "layer0": "Minestuck:items/marked_boomerang"
+    }
+}

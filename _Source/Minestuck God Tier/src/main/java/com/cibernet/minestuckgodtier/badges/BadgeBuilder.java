@@ -4,7 +4,7 @@ import com.cibernet.minestuckgodtier.capabilities.MSGTCapabilities;
 import com.cibernet.minestuckgodtier.capabilities.api.IBadgeEffects;
 import com.cibernet.minestuckgodtier.network.MSGTChannelHandler;
 import com.cibernet.minestuckgodtier.network.MSGTPacket;
-import com.cibernet.minestuckuniverse.items.MinestuckUniverseItems;
+import com.cibernet.Minestuck.items.MinestuckItems;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.GristType;
@@ -41,9 +41,9 @@ public class BadgeBuilder extends BadgeLevel
 	public boolean canUnlock(World world, EntityPlayer player)
 	{
 		GristSet cost = new GristSet(GristType.Build, 20000);
-		if(Badge.findItem(player, new ItemStack(MinestuckUniverseItems.battlepickOfZillydew, 1), false) && GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost))
+		if(Badge.findItem(player, new ItemStack(MinestuckItems.battlepickOfZillydew, 1), false) && GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost))
 		{
-			Badge.findItem(player, new ItemStack(MinestuckUniverseItems.battlepickOfZillydew, 1), true);
+			Badge.findItem(player, new ItemStack(MinestuckItems.battlepickOfZillydew, 1), true);
 
 			IdentifierHandler.PlayerIdentifier pid = IdentifierHandler.encode(player);
 			GristHelper.decrease(pid, cost);

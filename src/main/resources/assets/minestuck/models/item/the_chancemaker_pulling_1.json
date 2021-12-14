@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/the_chancemaker",
+    "textures": {
+        "layer0": "Minestuck:items/chancemaker_pulling_1"
+    }
+}

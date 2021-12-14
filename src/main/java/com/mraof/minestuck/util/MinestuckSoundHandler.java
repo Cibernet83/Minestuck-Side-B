@@ -1,9 +1,11 @@
 package com.mraof.minestuck.util;
 
+import com.mraof.minestuck.Minestuck;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 
 public class MinestuckSoundHandler
 {
@@ -46,6 +48,15 @@ public class MinestuckSoundHandler
 	public static SoundEvent soundGiclopsAmbient;
 	public static SoundEvent soundGiclopsHurt;
 	public static SoundEvent soundGiclopsDeath;
+
+	public static SoundEvent homeRunBat = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.home_run_bat"));
+	public static SoundEvent bada = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.bada"));
+	public static SoundEvent shieldParry = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.shield_parry"));
+	public static SoundEvent shock = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.shock"));
+	public static SoundEvent whipCrack = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.whip_crack"));
+	public static SoundEvent whipCrock = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.whip_crock"));
+	public static SoundEvent gasterBlasterCharge = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.gaster_blaster.charge"));
+	public static SoundEvent gasterBlasterRelease = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.gaster_blaster.release"));
 	
 	public static void initSound()
 	{
@@ -144,45 +155,56 @@ public class MinestuckSoundHandler
 	@SubscribeEvent
 	public void registerSound(RegistryEvent.Register<SoundEvent> event)
 	{
-		event.getRegistry().register(soundEmissaryOfDance);
-		event.getRegistry().register(soundDanceStabDance);
-		event.getRegistry().register(soundRetroBattleTheme);
-		event.getRegistry().register(soundWarhorn);
-		event.getRegistry().register(soundWhispers);
-		event.getRegistry().register(soundScreech);
-		event.getRegistry().register(soundUpcheladder);
-		
-		event.getRegistry().register(soundNakagatorAmbient);
-		event.getRegistry().register(soundNakagatorHurt);
-		event.getRegistry().register(soundNakagatorDeath);
-		event.getRegistry().register(soundIguanaAmbient);
-		event.getRegistry().register(soundIguanaHurt);
-		event.getRegistry().register(soundIguanaDeath);
-		event.getRegistry().register(soundSalamanderAmbient);
-		event.getRegistry().register(soundSalamanderHurt);
-		event.getRegistry().register(soundSalamanderDeath);
-		event.getRegistry().register(soundTurtleHurt);
-		event.getRegistry().register(soundTurtleDeath);
-		
-		event.getRegistry().register(soundFrogAmbient);
-		event.getRegistry().register(soundFrogHurt);
-		event.getRegistry().register(soundFrogDeath);
-		event.getRegistry().register(soundFrogGold);
+		IForgeRegistry<SoundEvent> registry = event.getRegistry();
 
-		event.getRegistry().register(soundImpAmbient);
-		event.getRegistry().register(soundImpHurt);
-		event.getRegistry().register(soundImpDeath);
-		event.getRegistry().register(soundOgreAmbient);
-		event.getRegistry().register(soundOgreHurt);
-		event.getRegistry().register(soundOgreDeath);
-		event.getRegistry().register(soundBasiliskAmbient);
-		event.getRegistry().register(soundBasiliskHurt);
-		event.getRegistry().register(soundBasiliskDeath);
-		event.getRegistry().register(soundLichAmbient);
-		event.getRegistry().register(soundLichHurt);
-		event.getRegistry().register(soundLichDeath);
-		event.getRegistry().register(soundGiclopsAmbient);
-		event.getRegistry().register(soundGiclopsHurt);
-		event.getRegistry().register(soundGiclopsDeath);
+		registry.register(soundEmissaryOfDance);
+		registry.register(soundDanceStabDance);
+		registry.register(soundRetroBattleTheme);
+		registry.register(soundWarhorn);
+		registry.register(soundWhispers);
+		registry.register(soundScreech);
+		registry.register(soundUpcheladder);
+		
+		registry.register(soundNakagatorAmbient);
+		registry.register(soundNakagatorHurt);
+		registry.register(soundNakagatorDeath);
+		registry.register(soundIguanaAmbient);
+		registry.register(soundIguanaHurt);
+		registry.register(soundIguanaDeath);
+		registry.register(soundSalamanderAmbient);
+		registry.register(soundSalamanderHurt);
+		registry.register(soundSalamanderDeath);
+		registry.register(soundTurtleHurt);
+		registry.register(soundTurtleDeath);
+		
+		registry.register(soundFrogAmbient);
+		registry.register(soundFrogHurt);
+		registry.register(soundFrogDeath);
+		registry.register(soundFrogGold);
+
+		registry.register(soundImpAmbient);
+		registry.register(soundImpHurt);
+		registry.register(soundImpDeath);
+		registry.register(soundOgreAmbient);
+		registry.register(soundOgreHurt);
+		registry.register(soundOgreDeath);
+		registry.register(soundBasiliskAmbient);
+		registry.register(soundBasiliskHurt);
+		registry.register(soundBasiliskDeath);
+		registry.register(soundLichAmbient);
+		registry.register(soundLichHurt);
+		registry.register(soundLichDeath);
+		registry.register(soundGiclopsAmbient);
+		registry.register(soundGiclopsHurt);
+		registry.register(soundGiclopsDeath);
+
+		registry.register(homeRunBat.setRegistryName("item.home_run_bat"));
+		registry.register(bada.setRegistryName("item.bada1"));
+		registry.register(shieldParry.setRegistryName("item.shield_parry"));
+		registry.register(shock.setRegistryName("item.shock"));
+		registry.register(whipCrack.setRegistryName("item.whip_crack"));
+		registry.register(whipCrock.setRegistryName("item.whip_crock"));
+		registry.register(gasterBlasterCharge.setRegistryName("item.gaster_blaster.charge"));
+		registry.register(gasterBlasterRelease.setRegistryName("item.gaster_blaster.release"));
 	}
 }

@@ -1,71 +1,66 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.ArrayList;
+import javax.annotation.Nullable;
+import java.util.List;
 
 
-public class MSBlockBase extends Block implements IRegistryItem<Block>
+public class MSBlockBase extends Block implements IRegistryBlock
 {
 	private final String regName;
-	public static final ArrayList<IRegistryItem<Block>> blocks = new ArrayList<>();
 
-	public MSBlockBase(String unloc, String reg, CreativeTabs tab, int stackSize, Material blockMaterialIn, MapColor blockMapColorIn)
+	public MSBlockBase(String name, CreativeTabs tab, Material material, MapColor mapColor)
 	{
-
-		super(blockMaterialIn, blockMapColorIn);
-		regName = reg;
-		setUnlocalizedName(unloc);
+		super(material, mapColor);
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
 		setCreativeTab(tab);
-		blocks.add(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 
-	public MSBlockBase(String unloc, String reg, Material material)
+	public MSBlockBase(String name, Material material, MapColor mapColor)
 	{
-		this(unloc, reg, TabMinestuck.instance,64,material,material.getMaterialMapColor());
-	}
-
-	public MSBlockBase(String unloc, String reg, MapColor mapColor)
-	{
-		this(unloc, reg, Material.ROCK, mapColor);
-		setSoundType(SoundType.STONE);
-		setHardness(1.0F);
-		setHarvestLevel("pickaxe", 0);
-	}
-
-	public MSBlockBase(String unloc, String reg, Material material, MapColor mapcolor)
-	{
-		this(unloc, reg, TabMinestuck.instance, 64,material, mapcolor);
-	}
-
-	public MSBlockBase(String name, CreativeTabs tab, int stackSize, Material blockMaterialIn, MapColor blockMapColorIn)
-	{
-		this(name, IRegistryItem.unlocToReg(name), tab, stackSize, blockMaterialIn,blockMapColorIn);
+		this(name, MinestuckTabs.minestuck, material, mapColor);
 	}
 
 	public MSBlockBase(String name, Material material)
 	{
-		this(name, TabMinestuck.instance,64,material,material.getMaterialMapColor());
+		this(name, material, material.getMaterialMapColor());
 	}
 
 	public MSBlockBase(String name, MapColor mapColor)
 	{
-		this(name,Material.ROCK, mapColor);
-		setSoundType(SoundType.STONE);
-		setHardness(1.0F);
-		setHarvestLevel("pickaxe", 0);
+		this(name, Material.ROCK, mapColor);
 	}
 
-	public MSBlockBase(String name, Material material, MapColor mapcolor)
+	public Block setHarvestLevelChain(String toolClass, int harvestLevel)
 	{
-		this(name, TabMinestuck.instance, 64,material, mapcolor);
+		setHarvestLevel(toolClass, harvestLevel);
+		return this;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
+	{
+		String key = getUnlocalizedName()+".tooltip";
+		if(!I18n.translateToLocal(key).equals(key))
+			tooltip.add(I18n.translateToLocal(key));
+		super.addInformation(stack, player, tooltip, advanced);
 	}
 
 	@Override
@@ -75,4 +70,9 @@ public class MSBlockBase extends Block implements IRegistryItem<Block>
 		registry.register(this);
 	}
 
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
+	}
 }

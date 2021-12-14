@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/inferno_shot",
+    "textures": {
+        "layer0": "Minestuck:items/inferno_shot_pulling_2"
+    }
+}

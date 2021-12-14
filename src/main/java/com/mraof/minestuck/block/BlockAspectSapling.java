@@ -1,9 +1,8 @@
 package com.mraof.minestuck.block;
 
-import java.util.Random;
-
-import com.mraof.minestuck.item.TabMinestuck;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -24,7 +23,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistryItem<Block>
+import java.util.Random;
+
+public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistryBlock
 {
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
 	protected static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
@@ -33,9 +34,9 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
     protected BlockAspectSapling()
 	{
         regName = "aspect_sapling";
-        MSBlockBase.blocks.add(this);
+        MinestuckBlocks.blocks.add(this);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockType.ASPECT_BLOOD));
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.setUnlocalizedName("aspectSapling");
 		this.setSoundType(SoundType.PLANT);
 	}
@@ -45,13 +46,6 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
 		return SAPLING_AABB;
 	}
 
-    @Override
-    public void register(IForgeRegistry<Block> registry)
-    {
-        setRegistryName(regName);
-        registry.register(this);
-    }
-	
 	/**
 	 * Gets the localized name of this block. Used for the statistics page.
 	 */
@@ -161,5 +155,18 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
 		{
 			return unlocalizedName;
 		}
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[input.getItemDamage() % BlockType.values().length].getUnlocalizedName());
 	}
 }

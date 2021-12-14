@@ -1,7 +1,7 @@
 package com.cibernet.minestuckgodtier.events.handlers;
 
 import com.cibernet.minestuckgodtier.MinestuckGodTier;
-import com.cibernet.minestuckuniverse.items.MinestuckUniverseItems;
+import com.cibernet.Minestuck.items.MinestuckItems;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.world.storage.loot.MinestuckLoot;
 import net.minecraft.entity.EntityLivingBase;
@@ -32,10 +32,10 @@ public class CommonEventHandler
 
 	private static final ArrayList<Item> MAGIC_ITEMS = new ArrayList<Item>()
 	{{
-		add(MinestuckUniverseItems.moonstoneChisel);
-		add(MinestuckUniverseItems.needlewands);
-		add(MinestuckUniverseItems.oglogothThorn);
-		add(MinestuckUniverseItems.echidnaQuills);
+		add(MinestuckItems.moonstoneChisel);
+		add(MinestuckItems.needlewands);
+		add(MinestuckItems.oglogothThorn);
+		add(MinestuckItems.echidnaQuills);
 	}};
 
 	//Custom Weapon Damage types
@@ -178,7 +178,7 @@ public class CommonEventHandler
 		{
 			LootPool inject = event.getLootTableManager().getLootTableFromLocation(new ResourceLocation(MinestuckGodTier.MODID, "inject/consort_general")).getPool("items");
 			event.getTable().getPool("items").addEntry(inject.getEntry(MinestuckGodTier.MODID+":tome_of_the_ancients"));
-			event.getTable().getPool("items").addEntry(inject.getEntry("minestuck:record_retro_battle"));
+			event.getTable().getPool("items").addEntry(inject.getEntry(Minestuck.MODID+":record_retro_battle"));
 		}
 	}
 }

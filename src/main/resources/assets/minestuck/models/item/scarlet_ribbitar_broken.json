@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "Minestuck:items/broken_scarlet_ribbitar"
+    }
+}

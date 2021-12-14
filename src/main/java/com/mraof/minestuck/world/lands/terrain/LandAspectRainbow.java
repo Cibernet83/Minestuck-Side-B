@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.mraof.minestuck.block.BlockMinestuckLeaves1;
-import com.mraof.minestuck.block.BlockMinestuckLog1;
+import com.mraof.minestuck.block.BlockMinestuckLeavesVariant;
+import com.mraof.minestuck.block.BlockMinestuckLogVariant;
 import com.mraof.minestuck.block.BlockMinestuckPlanks;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
@@ -45,7 +45,7 @@ public class LandAspectRainbow extends TerrainLandAspect
 		registry.setBlockState("surface", Blocks.WOOL.getDefaultState());
 		registry.setBlockState("ocean", MinestuckBlocks.blockWatercolors.getDefaultState());
 		registry.setBlockState("river", MinestuckBlocks.blockWatercolors.getDefaultState());
-		registry.setBlockState("structure_primary", MinestuckBlocks.log.getDefaultState().withProperty(BlockMinestuckLog1.VARIANT, BlockMinestuckLog1.BlockType.RAINBOW).withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE));
+		registry.setBlockState("structure_primary", MinestuckBlocks.log.getDefaultState().withProperty(BlockMinestuckLogVariant.VARIANT, BlockMinestuckLogVariant.BlockType.RAINBOW).withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE));
 		registry.setBlockState("structure_primary_decorative", Blocks.LOG2.getDefaultState().withProperty(BlockNewLog.VARIANT, BlockPlanks.EnumType.ACACIA));
 		registry.setBlockState("structure_primary_stairs", Blocks.DARK_OAK_STAIRS.getDefaultState());
 		registry.setBlockState("structure_secondary", MinestuckBlocks.planks.getDefaultState().withProperty(BlockMinestuckPlanks.VARIANT, BlockMinestuckPlanks.BlockType.RAINBOW));
@@ -54,8 +54,8 @@ public class LandAspectRainbow extends TerrainLandAspect
 		registry.setBlockState("salamander_floor", Blocks.STONEBRICK.getDefaultState());
 		registry.setBlockState("fall_fluid", MinestuckBlocks.blockWatercolors.getDefaultState());
 		registry.setBlockState("light_block", MinestuckBlocks.glowingLog.getDefaultState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE));
-		IBlockState rainbow_leaves = MinestuckBlocks.leaves1.getDefaultState().withProperty(BlockMinestuckLeaves1.VARIANT, BlockMinestuckLeaves1.BlockType.RAINBOW);
-			rainbow_leaves = rainbow_leaves.withProperty(BlockMinestuckLeaves1.CHECK_DECAY, false).withProperty(BlockMinestuckLeaves1.DECAYABLE, false);
+		IBlockState rainbow_leaves = MinestuckBlocks.leaves1.getDefaultState().withProperty(BlockMinestuckLeavesVariant.VARIANT, BlockMinestuckLeavesVariant.BlockType.RAINBOW);
+			rainbow_leaves = rainbow_leaves.withProperty(BlockMinestuckLeavesVariant.CHECK_DECAY, false).withProperty(BlockMinestuckLeavesVariant.DECAYABLE, false);
 		registry.setBlockState("bush", rainbow_leaves);
 		registry.setBlockState("mushroom_1", rainbow_leaves);
 		registry.setBlockState("mushroom_2", rainbow_leaves);

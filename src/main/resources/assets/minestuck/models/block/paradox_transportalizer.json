@@ -1,0 +1,7 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "Minestuck:block/msu_transportalizer",
+	"textures": {
+		"texture": "Minestuck:machines/paradox_transportalizer"
+	}
+}

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -32,7 +32,7 @@ public class BlockMinestuckStone extends MSBlockBase
 	
 	public BlockMinestuckStone()
 	{
-		super("stone",Material.ROCK);
+		super("stone", Material.ROCK);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.COARSE));
 		setHardness(1.5F);
 		setResistance(10.0F);
@@ -134,5 +134,11 @@ public class BlockMinestuckStone extends MSBlockBase
 					return type;
 			return BlockType.COARSE;
 		}
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockMinestuckStone.BlockType.getFromMeta(input.getMetadata()).getUnlocalizedName());
 	}
 }

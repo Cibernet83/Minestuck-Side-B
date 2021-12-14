@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/wormhole_piercer",
+    "textures": {
+        "layer0": "Minestuck:items/wormhole_piercer_pulling_2"
+    }
+}

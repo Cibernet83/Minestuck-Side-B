@@ -7,7 +7,7 @@ import com.cibernet.minestuckgodtier.client.particles.MSGTParticles;
 import com.cibernet.minestuckgodtier.network.MSGTChannelHandler;
 import com.cibernet.minestuckgodtier.network.MSGTPacket;
 import com.cibernet.minestuckgodtier.potions.MSGTPotions;
-import com.cibernet.minestuckuniverse.potions.MSUPotions;
+import com.mraof.minestuck.potions.MSUPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;

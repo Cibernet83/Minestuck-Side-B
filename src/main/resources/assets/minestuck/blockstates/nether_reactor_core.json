@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "Minestuck:nether_reactor_core" }
+    }
+}

@@ -1,19 +1,12 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.alchemy.*;
-import com.mraof.minestuck.block.BlockSburbMachine;
+import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.event.AlchemizeItemEvent;
-import com.mraof.minestuck.event.AlchemizeItemMinichemiterEvent;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
-import com.mraof.minestuck.util.MinestuckPlayerData;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityMiniTotemLathe extends TileEntitySburbMachine
 {
@@ -37,8 +30,8 @@ public class TileEntityMiniTotemLathe extends TileEntitySburbMachine
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
 	{
-		if(getMachineType() == BlockSburbMachine.MachineType.PUNCH_DESIGNIX && index == 0)
-			return !inv.get(2).isEmpty();	//Same but for the punch designix
+		if(index == 0 || index == 1)
+			return !inv.get(3).isEmpty();	//Only remove input cards when an output has been produced
 		return true;
 	}
 
@@ -114,8 +107,9 @@ public class TileEntityMiniTotemLathe extends TileEntitySburbMachine
 		super.markDirty();
 	}
 
-	public BlockSburbMachine.MachineType getMachineType()
+	@Override
+	public String getName()
 	{
-		return BlockSburbMachine.MachineType.TOTEM_LATHE;
+		return "tile.miniTotemLathe.name";
 	}
 }

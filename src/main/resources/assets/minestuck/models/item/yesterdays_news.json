@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/rolled_up_paper",
+    "textures": {
+        "layer0": "Minestuck:items/yesterdays_news"
+    }
+}

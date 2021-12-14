@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.renderer.entity.frog;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.model.ModelFrog;
 import com.mraof.minestuck.entity.EntityFrog;
 
@@ -115,11 +116,11 @@ public class LayerFrogEyes implements LayerRenderer<EntityFrog>
 	{
 		int id = frog.getEyeType();
 		
-		if(frog.getType() == 6) return new ResourceLocation("minestuck:textures/mobs/frog/susan_eyes.png");
+		if(frog.getType() == 6) return new ResourceLocation(Minestuck.MODID, "textures/mobs/frog/susan_eyes.png");
 		else if(id < 0) id = 0;
 		else if(id > 3) id = 3;
 		
-		return new ResourceLocation("minestuck:textures/mobs/frog/eyes_" + id + ".png");
+		return new ResourceLocation(Minestuck.MODID, "textures/mobs/frog/eyes_" + id + ".png");
 	}
 	
 	@Override

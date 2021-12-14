@@ -1,6 +1,5 @@
 package com.mraof.minestuck.inventory;
 
-import com.mraof.minestuck.block.BlockSburbMachine.MachineType;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
 import com.mraof.minestuck.util.IdentifierHandler;

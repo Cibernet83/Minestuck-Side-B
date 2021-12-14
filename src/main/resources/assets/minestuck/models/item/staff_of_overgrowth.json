@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "Minestuck:items/staff_of_overgrowth"
+    }
+}

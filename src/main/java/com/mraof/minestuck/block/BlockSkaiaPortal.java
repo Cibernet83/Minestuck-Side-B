@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntitySkaiaPortal;
 import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
@@ -28,7 +29,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockSkaiaPortal extends BlockContainer implements IRegistryItem<Block>
+public class BlockSkaiaPortal extends BlockContainer implements IRegistryBlock
 {
 	private final String regName;
 	protected static final AxisAlignedBB SKAIA_PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/16D, 1.0D);
@@ -38,16 +39,9 @@ public class BlockSkaiaPortal extends BlockContainer implements IRegistryItem<Bl
 		super(material);
 		
 		setUnlocalizedName("skaiaPortal");
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 		regName = IRegistryItem.unlocToReg("skaiaPortal");
-		MSBlockBase.blocks.add(this);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 	
 	@Override
@@ -155,5 +149,18 @@ public class BlockSkaiaPortal extends BlockContainer implements IRegistryItem<Bl
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

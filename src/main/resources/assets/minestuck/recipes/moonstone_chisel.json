@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " #",
+        "/ "
+    ],
+    "key": {
+        "#": {
+            "item": "Minestuck:moonstone"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "Minestuck:moonstone_chisel",
+        "count": 1
+    }
+}

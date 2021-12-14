@@ -1,25 +1,14 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.alchemy.*;
-import com.mraof.minestuck.block.BlockSburbMachine;
-import com.mraof.minestuck.block.BlockSburbMachine.MachineType;
-import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.event.AlchemizeItemEvent;
-import com.mraof.minestuck.event.AlchemizeItemMinichemiterEvent;
-import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
-import com.mraof.minestuck.util.*;
+import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 
 public abstract class TileEntitySburbMachine extends TileEntityMachine
 {
@@ -86,19 +75,10 @@ public abstract class TileEntitySburbMachine extends TileEntityMachine
 	{
 		return true;
 	}
-
-	@Override
-	public String getName()
-	{
-		return "tile.sburbMachine." + getMachineType().getUnlocalizedName() + ".name";
-	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
 	{
-		return oldState.getBlock() != newSate.getBlock() || ((BlockSburbMachine)oldState.getBlock()).getType() != ((BlockSburbMachine)newSate).getType();
+		return oldState.getBlock() != newState.getBlock();
 	}
-	
-	public abstract MachineType getMachineType();
-
 }

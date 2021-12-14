@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -14,19 +15,19 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
 
-public class BlockGlowingMushroom extends BlockBush implements IRegistryItem<Block>
+public class BlockGlowingMushroom extends BlockBush implements IRegistryBlock
 {
 	private final String regName;
 
 	public BlockGlowingMushroom()
 	{
 		super();
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setLightLevel(0.75F);
 		setSoundType(SoundType.PLANT);
 		setUnlocalizedName("glowingMushroom");
 		regName = IRegistryItem.unlocToReg("glowingMushroom");
-		MSBlockBase.blocks.add(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 
 	@Override
@@ -82,5 +83,10 @@ public class BlockGlowingMushroom extends BlockBush implements IRegistryItem<Blo
 	{
 		return MapColor.DIAMOND;
 	}
-	
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
+	}
 }

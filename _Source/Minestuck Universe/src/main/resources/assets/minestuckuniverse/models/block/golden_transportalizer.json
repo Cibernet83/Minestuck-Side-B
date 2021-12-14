@@ -1,7 +1,0 @@
-{
-	"credit": "Made with Blockbench",
-	"parent": "minestuckuniverse:block/msu_transportalizer",
-	"textures": {
-		"texture": "minestuckuniverse:machines/golden_transportalizer"
-	}
-}

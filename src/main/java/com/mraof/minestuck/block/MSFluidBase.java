@@ -1,14 +1,14 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class MSFluidBase extends BlockFluidClassic implements IRegistryItem<Block>
+public class MSFluidBase extends BlockFluidClassic implements IRegistryBlock
 {
     private final String regName;
 
@@ -17,7 +17,8 @@ public class MSFluidBase extends BlockFluidClassic implements IRegistryItem<Bloc
         super(fluid, material);
         setUnlocalizedName(name);
         regName = IRegistryItem.unlocToReg(name);
-        MSBlockBase.blocks.add(this);
+        MinestuckBlocks.blocks.add(this);
+        MinestuckBlocks.fluids.add(getDefaultState());
     }
 
     @Override
@@ -25,5 +26,11 @@ public class MSFluidBase extends BlockFluidClassic implements IRegistryItem<Bloc
     {
         setRegistryName(regName);
         registry.register(this);
+    }
+
+    @Override
+    public MSItemBlock getItemBlock()
+    {
+        return new MSItemBlock(this);
     }
 }

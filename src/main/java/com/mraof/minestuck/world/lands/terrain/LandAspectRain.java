@@ -1,33 +1,23 @@
 package com.mraof.minestuck.world.lands.terrain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import com.mraof.minestuck.block.BlockMinestuckStone;
 import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.block.MinestuckBlocks.EnumSlabStairMaterial;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.biome.BiomeMinestuck;
 import com.mraof.minestuck.world.lands.decorator.ILandDecorator;
 import com.mraof.minestuck.world.lands.decorator.LeaflessTreeDecorator;
-import com.mraof.minestuck.world.lands.decorator.SurfaceDecoratorVein;
 import com.mraof.minestuck.world.lands.decorator.UndergroundDecoratorVein;
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import com.mraof.minestuck.world.lands.gen.DefaultTerrainGen;
 import com.mraof.minestuck.world.lands.gen.ILandTerrainGen;
-import com.mraof.minestuck.world.lands.gen.LandTerrainGenBase;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
-
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockDirt;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockPrismarine;
-import net.minecraft.block.BlockTallGrass;
-import net.minecraft.block.BlockWoodSlab;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class LandAspectRain extends TerrainLandAspect 
 {
@@ -49,13 +39,13 @@ public class LandAspectRain extends TerrainLandAspect
 		registry.setBlockState("ground", MinestuckBlocks.pinkStoneSmooth.getDefaultState());
 		registry.setBlockState("ocean", Blocks.WATER.getDefaultState());
 		registry.setBlockState("structure_primary", MinestuckBlocks.pinkStoneBricks.getDefaultState());
-		registry.setBlockState("structure_primary_stairs", EnumSlabStairMaterial.PINK_BRICK.getStair().getDefaultState());
+		registry.setBlockState("structure_primary_stairs", MinestuckBlocks.stairs.get(MinestuckBlocks.pinkStoneBricks).getDefaultState());
 		registry.setBlockState("structure_primary_decorative", MinestuckBlocks.pinkStoneChisel.getDefaultState());
 		registry.setBlockState("structure_secondary", MinestuckBlocks.pinkStonePolish.getDefaultState());
-		registry.setBlockState("structure_secondary_stairs", EnumSlabStairMaterial.CHALK_BRICK.getStair().getDefaultState());
+		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.stairs.get(MinestuckBlocks.chalkBricks).getDefaultState());
 		registry.setBlockState("structure_secondary_decorative", MinestuckBlocks.pinkStoneChisel.getDefaultState());
 		registry.setBlockState("structure_planks", MinestuckBlocks.deadPlanks.getDefaultState());
-		registry.setBlockState("structure_planks_slab", EnumSlabStairMaterial.DEAD.getSlab().getDefaultState());
+		registry.setBlockState("structure_planks_slab", MinestuckBlocks.slabs.get(MinestuckBlocks.slabs).getDefaultState());
 		registry.setBlockState("bush", Blocks.DEADBUSH.getDefaultState());
 		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW));
 		registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA));

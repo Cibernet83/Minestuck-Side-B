@@ -1,7 +1,7 @@
 package com.cibernet.minestuckgodtier;
 
-import com.cibernet.minestuckuniverse.MSUConfig;
-import com.cibernet.minestuckuniverse.MinestuckUniverse;
+import com.cibernet.Minestuck.MSUConfig;
+import com.cibernet.Minestuck.Minestuck;
 import com.mraof.minestuck.util.Echeladder;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,7 +50,7 @@ public class MSGTConfig
 	@SubscribeEvent
 	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
 	{
-		if (event.getModID().equals(MinestuckUniverse.MODID))
+		if (event.getModID().equals(Minestuck.MODID))
 		{
 			//loadConfigOptions(event.isWorldRunning());
 			//config.save();

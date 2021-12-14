@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/tempest_bow",
+    "textures": {
+        "layer0": "Minestuck:items/tempest_bow_pulling_2"
+    }
+}

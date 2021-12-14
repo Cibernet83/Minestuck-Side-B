@@ -2,7 +2,6 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
-import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.IdentifierHandler;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
@@ -32,20 +31,15 @@ public class BlockComputerOff extends MSBlockBase
 	
 	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
-	public BlockComputerOff(String unloc, String reg)
+	public BlockComputerOff(String name)
 	{
-		super(unloc, reg, Material.ROCK);
+		super(name, Material.ROCK);
 		setHardness(4.0F);
 		setHarvestLevel("pickaxe", 0);
 		lightOpacity = 1;
 		this.translucent = true;
 	}
 
-	public BlockComputerOff(String name)
-	{
-		this(name, IRegistryItem.unlocToReg(name));
-	}
-	
 	public AxisAlignedBB modifyAABBForDirection(EnumFacing facing, AxisAlignedBB bb)
 	{
 		AxisAlignedBB out = null;

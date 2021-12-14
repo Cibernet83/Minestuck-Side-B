@@ -1,9 +1,5 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -12,12 +8,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -27,9 +18,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockDecor extends MSBlockBase
 {
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	private EnumBB bb = EnumBB.CHESSBOARD;
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+
 	protected BlockDecor(String name, SoundType sound) {
 		super(name, Material.ROCK);
 		setSoundType(sound);
@@ -37,9 +29,9 @@ public class BlockDecor extends MSBlockBase
 	}
 
 	
-	protected BlockDecor(String unlocalizedName)
+	protected BlockDecor(String name)
 	{
-		this(unlocalizedName, SoundType.STONE);
+		this(name, SoundType.STONE);
 	}
 	
 	@Override
@@ -55,7 +47,9 @@ public class BlockDecor extends MSBlockBase
 		{
 			case CHESSBOARD:
 				return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
-			case BLENDER: case FROG_STATUE: default:
+			case BLENDER:
+			case FROG_STATUE:
+			default:
 				return BlockFaceShape.UNDEFINED;
 		}
 	}
@@ -175,9 +169,9 @@ public class BlockDecor extends MSBlockBase
 
     	switch(unlocalizedName)
     	{
-    	case "tile.chessboard": boundingBox = EnumBB.CHESSBOARD; break;
-    	case "tile.frogStatueReplica": boundingBox = EnumBB.FROG_STATUE; break;
-    	case "tile.blender": boundingBox = EnumBB.BLENDER; break;
+    		case "tile.chessboard": boundingBox = EnumBB.CHESSBOARD; break;
+    		case "tile.frogStatueReplica": boundingBox = EnumBB.FROG_STATUE; break;
+    		case "tile.blender": boundingBox = EnumBB.BLENDER; break;
     	}
 		return boundingBox;
 

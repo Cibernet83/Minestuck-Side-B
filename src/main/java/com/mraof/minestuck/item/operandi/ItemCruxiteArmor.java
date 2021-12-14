@@ -2,14 +2,15 @@ package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
-import com.mraof.minestuck.item.MSArmorBase;
+import com.mraof.minestuck.item.armor.MSArmorBase;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
@@ -19,11 +20,11 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 
 	private final CruxiteArtifactTeleporter teleporter;
 
-	public ItemCruxiteArmor(String name, EntityEquipmentSlot equipmentSlotIn, boolean isEntryArtifact)
+	public ItemCruxiteArmor(String name, EntityEquipmentSlot equipmentSlot, boolean isEntryArtifact)
 	{
-		super(isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL, 5, equipmentSlotIn, name, (isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL).getName() + "_layer_" + (equipmentSlotIn == EntityEquipmentSlot.LEGS ? "2" : "1"));
+		super(name, isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL, equipmentSlot, (isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL).getDurability(equipmentSlot), new ResourceLocation((isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL).getName() + "_layer_" + (equipmentSlot == EntityEquipmentSlot.LEGS ? "2" : "1")));
 		
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(MinestuckTabs.minestuck);
 
 		if(isEntryArtifact)
 		{

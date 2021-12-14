@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "D D",
+        " S "
+    ],
+    "key": {
+        "D": {
+            "item": "minecraft:quartz"
+        },
+        "S": {
+            "item": "minestuck:fork"
+        }
+    },
+    "result": {
+        "item": "Minestuck:quartz_fork",
+        "count": 1
+    }
+}

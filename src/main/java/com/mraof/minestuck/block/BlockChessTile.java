@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -14,6 +14,8 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+
+import static com.mraof.minestuck.block.MinestuckBlocks.chessTile;
 
 public class BlockChessTile extends MSBlockBase
 {
@@ -93,5 +95,11 @@ public class BlockChessTile extends MSBlockBase
 		case BLACK: return MapColor.BLACK;
 		default: return super.getMapColor(state, worldIn, pos);
 		}
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(chessTile, new String[]{"black", "white", "darkgrey", "lightgrey"});
 	}
 }

@@ -3,7 +3,7 @@ package com.mraof.minestuck.item.operandi;
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.google.common.collect.Multimap;
 import com.mraof.minestuck.util.ModusStorage;
@@ -34,7 +34,7 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 	//protected Item.ToolMaterial toolMaterial;
 	protected String toolClass = "";
 	private final CruxiteArtifactTeleporter teleporter;
-	
+
 	public ItemCruxiteTool(String name, String toolClass, float attackDamageIn, float attackSpeedIn, float efficiency, int maxUses, boolean isEntryArtifact)
 	{
 		super(name);
@@ -57,7 +57,7 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 		this.attackSpeed = attackSpeedIn;
 		this.toolClass = toolClass;
 
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(MinestuckTabs.minestuck);
 	}
 	
 	public ItemCruxiteTool(String name, String toolClass, boolean isEntryArtifact)

@@ -1,0 +1,20 @@
+{
+    "parent": "Minestuck:item/throwing_star",
+    "textures": {
+        "layer0": "Minestuck:items/suitarang_hearts"
+    },
+    "overrides": [
+        {
+            "predicate": {"Minestuck:variant":  1},
+            "model": "Minestuck:item/suitarang_spades"
+        },
+        {
+            "predicate": {"Minestuck:variant":  2},
+            "model": "Minestuck:item/suitarang_diamonds"
+        },
+        {
+            "predicate": {"Minestuck:variant":  3},
+            "model": "Minestuck:item/suitarang_clubs"
+        }
+    ]
+}

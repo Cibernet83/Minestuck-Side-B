@@ -1,7 +1,6 @@
 package com.mraof.minestuck.item;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
@@ -16,7 +15,7 @@ public class ItemDisk extends MSItemBase
 		super("computerDisk");
 		this.maxStackSize = 1;
 		this.setHasSubtypes(true);
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 	}
 	
 	@Override

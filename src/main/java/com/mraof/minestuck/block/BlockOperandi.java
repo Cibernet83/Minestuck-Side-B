@@ -1,9 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.util.MinestuckSounds;
-import com.mraof.minestuck.item.TabMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
-import net.minecraft.block.Block;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;

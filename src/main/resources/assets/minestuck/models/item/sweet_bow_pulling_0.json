@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/sweet_bow",
+    "textures": {
+        "layer0": "Minestuck:items/sweet_bow_pulling_0"
+    }
+}

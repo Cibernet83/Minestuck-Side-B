@@ -1,27 +1,19 @@
 package com.mraof.minestuck.block;
 
-import java.util.Random;
-
-import com.mraof.minestuck.util.IRegistryItem;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
-
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockFluidEnder extends MSFluidBase implements IRegistryItem<Block>
+import java.util.Random;
+
+public class BlockFluidEnder extends MSFluidBase
 {
 
 	public BlockFluidEnder(String name, Fluid fluid, Material material)

@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/claw",
+    "textures": {
+        "layer0": "Minestuck:items/katars_of_zillywhomst_sheathed"
+    }
+}

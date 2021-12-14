@@ -1,10 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabMinestuck;
-import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -218,5 +217,11 @@ public class BlockCruxtiteDowel extends MSBlockBase
 		{
 			return this.name().toLowerCase();
 		}
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return null; // Custom in MinestuckItems
 	}
 }

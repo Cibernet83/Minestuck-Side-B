@@ -1,0 +1,15 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "o"
+    ],
+    "key": {
+        "o": {
+            "item": "minecraft:cobblestone"
+        }
+    },
+    "result": {
+        "item": "Minestuck:pebble",
+        "count": 8
+    }
+}

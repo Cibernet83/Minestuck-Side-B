@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCactus;
@@ -14,7 +15,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
 
-public class BlockCactusSpecial extends BlockCactus implements IRegistryItem<Block>
+public class BlockCactusSpecial extends BlockCactus implements IRegistryBlock
 {
 	private final String regName;
 	private String toolType;
@@ -24,19 +25,12 @@ public class BlockCactusSpecial extends BlockCactus implements IRegistryItem<Blo
 		super();
 		setUnlocalizedName(name);
 		regName = IRegistryItem.unlocToReg(name);
-		MSBlockBase.blocks.add(this);
-		this.setCreativeTab(TabMinestuck.instance);
+		MinestuckBlocks.blocks.add(this);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 		setSoundType(soundType);
 		this.toolType = effectiveTool;
 	}
 
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
-	}
-	
 	@Override
 	public boolean isToolEffective(String type, IBlockState state)
 	{
@@ -68,5 +62,18 @@ public class BlockCactusSpecial extends BlockCactus implements IRegistryItem<Blo
 		IBlockState state = worldIn.getBlockState(pos.down());
 		return state.getBlock() == this || state.getBlock().canSustainPlant(state, worldIn, pos.down(), EnumFacing.UP, this)
 				&& !worldIn.getBlockState(pos.up()).getMaterial().isLiquid();
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

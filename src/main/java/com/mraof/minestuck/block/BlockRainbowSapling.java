@@ -1,12 +1,10 @@
 package com.mraof.minestuck.block;
 
-import java.util.Random;
-
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MinestuckRandom;
 import com.mraof.minestuck.world.gen.feature.WorldGenRainbowTree;
-
 import net.minecraft.block.*;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -27,7 +25,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockRainbowSapling extends BlockBush implements IGrowable, IRegistryItem<Block>
+import java.util.Random;
+
+public class BlockRainbowSapling extends BlockBush implements IGrowable, IRegistryBlock
 {
 	public static final PropertyBool GROWN_SOME = PropertyBool.create("growth");
 	public static final PropertyBool RED = PropertyBool.create("red");
@@ -39,19 +39,13 @@ public class BlockRainbowSapling extends BlockBush implements IGrowable, IRegist
 	protected BlockRainbowSapling()
 	{
 		this.setDefaultState(this.blockState.getBaseState().withProperty(GROWN_SOME, false).withProperty(RED, false).withProperty(GREEN, false).withProperty(BLUE, false));
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.setUnlocalizedName("rainbowSapling");
 		this.setSoundType(SoundType.PLANT);
 		regName = IRegistryItem.unlocToReg("rainbowSapling");
-		MSBlockBase.blocks.add(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
-	}
 	/*
 	 * Overridden from Block
 	 */
@@ -421,5 +415,18 @@ public class BlockRainbowSapling extends BlockBush implements IGrowable, IRegist
 		{
 			worldIn.setBlockState(pos, state, 4);
 		}
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

@@ -4,7 +4,7 @@ import com.cibernet.minestuckgodtier.capabilities.GodKeyStates;
 import com.cibernet.minestuckgodtier.capabilities.MSGTCapabilities;
 import com.cibernet.minestuckgodtier.capabilities.api.IBadgeEffects;
 import com.cibernet.minestuckgodtier.client.particles.MSGTParticles;
-import com.cibernet.minestuckuniverse.potions.MSUPotions;
+import com.mraof.minestuck.potions.MSUPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

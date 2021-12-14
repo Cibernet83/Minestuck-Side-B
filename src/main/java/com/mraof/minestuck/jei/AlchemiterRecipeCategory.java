@@ -20,14 +20,14 @@ public class AlchemiterRecipeCategory implements IRecipeCategory<AlchemiterRecip
 
     AlchemiterRecipeCategory(IGuiHelper guiHelper)
     {
-        ResourceLocation alchemiterBackground = new ResourceLocation("minestuck:textures/gui/alchemiter.png");
+        ResourceLocation alchemiterBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/alchemiter.png");
         background = guiHelper.createDrawable(alchemiterBackground, 8, 15, 160, 56);
     }
 	
 	@Override
 	public String getModName()
 	{
-		return Minestuck.MOD_NAME;
+		return Minestuck.NAME;
 	}
 	
 	@Override

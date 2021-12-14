@@ -1,15 +1,11 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.block.BlockAspectSapling.BlockType;
-import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
-import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.IdentifierHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -43,7 +39,7 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 	
 	public BlockVanityLaptopOff(String name)
 	{
-		super(name, IRegistryItem.unlocToReg(name));
+		super(name);
 	}
 	
 	@Override
@@ -167,5 +163,11 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 		{
 			return unlocalizedName;
 		}
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[input.getItemDamage() % BlockType.values().length].getUnlocalizedName());
 	}
 }

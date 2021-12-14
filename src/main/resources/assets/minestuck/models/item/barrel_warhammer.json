@@ -1,0 +1,27 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "Minestuck:items/barrels_warhammer"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "Minestuck:awakened": 0.2
+            },
+            "model": "Minestuck:item/barrel_warhammer_awakened"
+        },
+        {
+            "predicate": {
+                "Minestuck:active": 1
+            },
+            "model": "Minestuck:item/barrel_warhammer_powered"
+        },
+        {
+            "predicate": {
+                "Minestuck:awakened": 0.2,
+                "Minestuck:active": 1
+            },
+            "model": "Minestuck:item/barrel_warhammer_powered_awakened"
+        }
+    ]
+}

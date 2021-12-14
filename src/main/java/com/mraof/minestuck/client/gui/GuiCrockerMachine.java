@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.BlockCrockerMachine.MachineType;
 import com.mraof.minestuck.client.util.GuiUtil;
@@ -36,8 +37,8 @@ public class GuiCrockerMachine extends GuiMachine
 		super(new ContainerCrockerMachine(inventoryPlayer, tileEntity), tileEntity);
 		this.te = tileEntity;
 		this.type = tileEntity.getMachineType();
-		guiBackground = new ResourceLocation("minestuck:textures/gui/" + guis[type.ordinal()] + ".png");
-		guiProgress = new ResourceLocation("minestuck:textures/gui/progress/" + guis[type.ordinal()] + ".png");
+		guiBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/" + guis[type.ordinal()] + ".png");
+		guiProgress = new ResourceLocation(Minestuck.MODID, "textures/gui/progress/" + guis[type.ordinal()] + ".png");
 
 		//sets prgress bar information based on machine type
 		switch (type)

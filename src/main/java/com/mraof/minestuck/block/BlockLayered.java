@@ -1,7 +1,8 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.ItemBlockLayered;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -27,7 +28,7 @@ public class BlockLayered extends MSBlockBase
 	{
 		super(name, iconBlock.getMaterial());
 		
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.sourceBlock = iconBlock;
 		setSoundType(sourceBlock.getBlock().getSoundType());
 	}
@@ -116,4 +117,9 @@ public class BlockLayered extends MSBlockBase
 		return  world.setBlockState(pos, block, 3);
 	}
 
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemBlockLayered(this);
+	}
 }

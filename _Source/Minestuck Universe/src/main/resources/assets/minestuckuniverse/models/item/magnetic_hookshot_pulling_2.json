@@ -1,6 +1,0 @@
-{
-    "parent": "minestuckuniverse:item/magnetic_hookshot",
-    "textures": {
-        "layer0": "minestuckuniverse:items/magnetic_hookshot_pulling_2"
-    }
-}

@@ -311,5 +311,63 @@
   "chasity_unlock": {
     "subtitle": "subtitle.chasity_unlock",
     "sounds": [{"name": "locks:lock.open"}]
+  },
+  "item.home_run_bat": {
+    "category": "players",
+    "subtitle": "subtitle.Minestuck.home_run_bat",
+    "sounds": [
+      "Minestuck:item/home_run_bat"
+    ]
+  },
+  "item.bada": {
+    "category": "players",
+    "sounds": [
+      "Minestuck:item/bada1",
+      "Minestuck:item/bada2"
+    ]
+  },
+  "item.shield_parry": {
+    "category": "players",
+    "subtitle": "subtitle.Minestuck.shield_parry",
+    "sounds": [
+      "Minestuck:item/shield_parry1",
+      "Minestuck:item/shield_parry2",
+      "Minestuck:item/shield_parry3"
+    ]
+  },
+  "item.shock": {
+    "category": "players",
+    "subtitle": "subtitle.Minestuck.shock",
+    "sounds": [
+      "Minestuck:item/shock"
+    ]
+  },
+  "item.whip_crack": {
+    "category": "players",
+    "subtitle": "subtitle.Minestuck.whip_crack",
+    "sounds": [
+      "Minestuck:item/whip_crack"
+    ]
+  },
+  "item.whip_crock": {
+    "category": "players",
+    "subtitle": "subtitle.Minestuck.whip_crock",
+    "sounds": [
+      "Minestuck:item/whip_crock"
+    ]
+  },
+  "item.gaster_blaster.charge": {
+    "category": "players",
+    "subtitle": "subtitle.Minestuck.gaster_blaster.charge",
+    "sounds": [
+      "Minestuck:item/gaster_blaster_charge"
+    ]
+  },
+  "item.gaster_blaster.release": {
+    "category": "players",
+    "subtitle": "subtitle.Minestuck.gaster_blaster.release",
+    "sounds": [
+      "Minestuck:item/gaster_blaster_release"
+    ]
   }
 }

@@ -290,6 +290,25 @@
                     "weight": 1 //Increase when more loot is added
                 }
             ]
+        },
+        {
+            "rolls": 1,
+            "name": "cue_ball",
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minestuck:cue_ball",
+                    "weight": 1,
+                    "conditions":
+                    [
+                        {
+                            "condition": "minestuck:juju",
+                            "chance": 0.05,
+                            "juju": "minestuck:cue_ball"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

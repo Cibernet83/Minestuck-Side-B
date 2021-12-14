@@ -68,7 +68,11 @@ public final class MinestuckEntities
 		registerEntity(EntityCrystalEightBall.class, "crystal_eight_ball");
 		registerEntity(EntityOperandiEightBall.class, "operandi_eight_ball");
 		registerEntity(EntityOperandiSplashPotion.class, "operandi_splash_potion");
-		
+		registerEntity(EntityAcheron.class, "acheron");
+		registerEntity(EntityMSUThrowable.class, "throwable");
+		registerEntity(EntityMSUArrow.class, "arrow");
+		registerEntity(EntityUnrealAir.class, "unreal_air");
+		registerEntity(EntityRock.class, "rock");
 	}
 	
 	

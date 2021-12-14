@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/magnetic_hookshot",
+    "textures": {
+        "layer0": "Minestuck:items/magnetic_hookshot_pulling_1"
+    }
+}

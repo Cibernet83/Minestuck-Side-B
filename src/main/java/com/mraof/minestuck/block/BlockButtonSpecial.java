@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
@@ -17,7 +18,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
 
-public class BlockButtonSpecial extends BlockButton implements IRegistryItem<Block>
+public class BlockButtonSpecial extends BlockButton implements IRegistryBlock
 {
 	
 	public final boolean explosive, wooden;
@@ -28,21 +29,14 @@ public class BlockButtonSpecial extends BlockButton implements IRegistryItem<Blo
 		super(wooden);
 		setUnlocalizedName(name);
 		regName = IRegistryItem.unlocToReg(name);
-		MSBlockBase.blocks.add(this);
+		MinestuckBlocks.blocks.add(this);
 		this.explosive = explosive;
 		this.wooden = wooden;
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setHardness(0.5F);
 		if(wooden)
 			setSoundType(SoundType.WOOD);
 		else setSoundType(SoundType.STONE);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
 	}
 	
 	@Override
@@ -79,4 +73,16 @@ public class BlockButtonSpecial extends BlockButton implements IRegistryItem<Blo
 		else worldIn.playSound((EntityPlayer)null, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.5F);
 	}
 
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
+	}
 }

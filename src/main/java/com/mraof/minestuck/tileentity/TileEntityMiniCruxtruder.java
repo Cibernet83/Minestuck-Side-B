@@ -1,20 +1,9 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.alchemy.*;
-import com.mraof.minestuck.block.BlockSburbMachine;
-import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.event.AlchemizeItemEvent;
-import com.mraof.minestuck.event.AlchemizeItemMinichemiterEvent;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
-import com.mraof.minestuck.util.MinestuckPlayerData;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityMiniCruxtruder extends TileEntitySburbMachine
 {
@@ -69,7 +58,7 @@ public class TileEntityMiniCruxtruder extends TileEntitySburbMachine
 	@Override
 	public boolean isAutomatic()
 	{
-		return getMachineType() == BlockSburbMachine.MachineType.CRUXTRUDER;
+		return true;
 	}
 
 	@Override
@@ -78,8 +67,9 @@ public class TileEntityMiniCruxtruder extends TileEntitySburbMachine
 		super.markDirty();
 	}
 
-	public BlockSburbMachine.MachineType getMachineType()
+	@Override
+	public String getName()
 	{
-		return BlockSburbMachine.MachineType.CRUXTRUDER;
+		return "tile.miniCruxtruder.name";
 	}
 }

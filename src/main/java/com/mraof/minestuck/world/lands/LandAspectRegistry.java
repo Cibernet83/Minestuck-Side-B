@@ -1,8 +1,7 @@
 package com.mraof.minestuck.world.lands;
 
-import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.world.LandAspectBedrock;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
-import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.Teleport;
@@ -12,9 +11,7 @@ import com.mraof.minestuck.world.lands.title.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.fml.common.FMLLog;
 
 import java.util.*;
 
@@ -46,6 +43,9 @@ public class LandAspectRegistry
 		registerLandAspect(new LandAspectRainbow());
 		registerLandAspect(new LandAspectFlora());
 		registerLandAspect(new LandAspectEnd());
+		LandAspectRegistry.registerLandAspectHidden(new LandAspectBedrock());
+		//LandAspectRegistry.registerLandAspect(new LandAspectThaum());
+		//LandAspectRegistry.registerLandAspect(new LandAspectBlobs());
 		
 		registerLandAspect(new LandAspectWind(), EnumAspect.BREATH);
 		registerLandAspect(new LandAspectLight(), EnumAspect.LIGHT);

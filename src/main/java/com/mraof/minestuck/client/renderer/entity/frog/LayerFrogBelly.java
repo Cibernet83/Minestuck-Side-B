@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.renderer.entity.frog;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.model.ModelFrog;
 import com.mraof.minestuck.entity.EntityFrog;
 
@@ -63,7 +64,7 @@ public class LayerFrogBelly implements LayerRenderer<EntityFrog>
 		if(id <= 0) id = 1;
 		else if(id > 3) id = 3;
 		
-		return new ResourceLocation("minestuck:textures/mobs/frog/belly_" + id + ".png");
+		return new ResourceLocation(Minestuck.MODID, "textures/mobs/frog/belly_" + id + ".png");
 	}
 	
 	@Override

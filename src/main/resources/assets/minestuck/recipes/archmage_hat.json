@@ -1,0 +1,20 @@
+{
+    "type": "Minestuck:knitting",
+    "pattern": [
+        "k# ",
+        " ##",
+        "###"
+    ],
+    "key": {
+        "k": {
+            "item": "Minestuck:knitting_needle"
+        },
+        "#": {
+            "item": "Minestuck:wizardbeard_yarn"
+        }
+    },
+    "result": {
+        "item": "Minestuck:archmage_hat",
+        "count": 1
+    }
+}

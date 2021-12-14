@@ -1,0 +1,6 @@
+{
+    "parent": "Minestuck:item/telegravitational_warper",
+    "textures": {
+        "layer0": "Minestuck:items/telegravitational_warper_pulling_0"
+    }
+}

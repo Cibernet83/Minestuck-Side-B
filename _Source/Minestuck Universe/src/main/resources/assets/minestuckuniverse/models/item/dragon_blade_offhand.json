@@ -1,6 +1,0 @@
-{
-    "parent": "item/handheld",
-    "textures": {
-        "layer0": "minestuckuniverse:items/dragon_blade_offhand"
-    }
-}

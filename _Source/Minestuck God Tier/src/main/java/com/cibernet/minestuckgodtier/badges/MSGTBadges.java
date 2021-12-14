@@ -7,7 +7,7 @@ import com.cibernet.minestuckgodtier.badges.heroClass.*;
 import com.cibernet.minestuckgodtier.capabilities.MSGTCapabilities;
 import com.cibernet.minestuckgodtier.network.MSGTChannelHandler;
 import com.cibernet.minestuckgodtier.network.MSGTPacket;
-import com.cibernet.minestuckuniverse.items.MinestuckUniverseItems;
+import com.cibernet.Minestuck.items.MinestuckItems;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
@@ -174,18 +174,18 @@ public class MSGTBadges
 		{{
 			add(MinestuckItems.zillyhooHammer);
 			add(MinestuckItems.zillywairCutlass);
-			add(MinestuckUniverseItems.battleaxeOfZillywahoo);
-			add(MinestuckUniverseItems.battlepickOfZillydew);
-			add(MinestuckUniverseItems.battlesporkOfZillywut);
-			add(MinestuckUniverseItems.gauntletOfZillywenn);
-			add(MinestuckUniverseItems.katarsOfZillywhomst);
-			add(MinestuckUniverseItems.scepterOfZillywuud);
-			add(MinestuckUniverseItems.thistlesOfZillywitch);
+			add(MinestuckItems.battleaxeOfZillywahoo);
+			add(MinestuckItems.battlepickOfZillydew);
+			add(MinestuckItems.battlesporkOfZillywut);
+			add(MinestuckItems.gauntletOfZillywenn);
+			add(MinestuckItems.katarsOfZillywhomst);
+			add(MinestuckItems.scepterOfZillywuud);
+			add(MinestuckItems.thistlesOfZillywitch);
 		}};
 		@Override
 		public boolean canUnlock(World world, EntityPlayer player)
 		{
-			if(!Badge.findItem(player, new ItemStack(MinestuckUniverseItems.strifeCard, 2), false))
+			if(!Badge.findItem(player, new ItemStack(MinestuckItems.strifeCard, 2), false))
 				return false;
 
 			ArrayList<Item> weaponsUsed = new ArrayList<>();
@@ -200,7 +200,7 @@ public class MSGTBadges
 			if(weaponsUsed.size() < 5)
 				return false;
 
-			Badge.findItem(player, new ItemStack(MinestuckUniverseItems.strifeCard, 2), true);
+			Badge.findItem(player, new ItemStack(MinestuckItems.strifeCard, 2), true);
 			for(Item i : weaponsUsed)
 				Badge.findItem(player, new ItemStack(i), true);
 
@@ -263,9 +263,9 @@ public class MSGTBadges
 		public boolean canUnlock(World world, EntityPlayer player)
 		{
 			GristSet cost = new GristSet(GristType.Gold, 8000);
-			if(Badge.findItem(player, new ItemStack(MinestuckUniverseItems.moonstone, 128), false) && GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost))
+			if(Badge.findItem(player, new ItemStack(MinestuckItems.moonstone, 128), false) && GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost))
 			{
-				Badge.findItem(player, new ItemStack(MinestuckUniverseItems.moonstone, 128), true);
+				Badge.findItem(player, new ItemStack(MinestuckItems.moonstone, 128), true);
 
 				IdentifierHandler.PlayerIdentifier pid = IdentifierHandler.encode(player);
 				GristHelper.decrease(pid, cost);

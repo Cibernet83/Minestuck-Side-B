@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCake;
@@ -17,7 +18,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public abstract class BlockCustomCake extends BlockCake implements IRegistryItem<Block>
+public abstract class BlockCustomCake extends BlockCake implements IRegistryBlock
 {
 	private final String regName;
 
@@ -25,18 +26,11 @@ public abstract class BlockCustomCake extends BlockCake implements IRegistryItem
 	{
 		setUnlocalizedName(name);
 		regName = IRegistryItem.unlocToReg(name);
-		MSBlockBase.blocks.add(this);
+		MinestuckBlocks.blocks.add(this);
 		setHardness(0.5F);
 		setSoundType(SoundType.CLOTH);
 		disableStats();
-		setCreativeTab(TabMinestuck.instance);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		setCreativeTab(MinestuckTabs.minestuck);
 	}
 
 	@Override
@@ -85,4 +79,17 @@ public abstract class BlockCustomCake extends BlockCake implements IRegistryItem
 	}
 	
 	protected abstract void applyEffects(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player);
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this, 1);
+	}
 }

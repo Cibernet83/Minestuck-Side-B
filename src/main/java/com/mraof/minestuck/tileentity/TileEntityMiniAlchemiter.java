@@ -2,17 +2,13 @@ package com.mraof.minestuck.tileentity;
 
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.*;
-import com.mraof.minestuck.block.BlockSburbMachine;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.event.AlchemizeItemEvent;
 import com.mraof.minestuck.event.AlchemizeItemMinichemiterEvent;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.MinestuckPlayerData;
-import jdk.nashorn.internal.ir.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -52,11 +48,6 @@ public class TileEntityMiniAlchemiter extends TileEntitySburbMachine
 	public void markDirty()
 	{
 		super.markDirty();
-	}
-
-	public BlockSburbMachine.MachineType getMachineType()
-	{
-		return BlockSburbMachine.MachineType.ALCHEMITER;
 	}
 
 	@Override
@@ -205,5 +196,11 @@ public class TileEntityMiniAlchemiter extends TileEntitySburbMachine
 			{
 				return false;
 			}
+	}
+
+	@Override
+	public String getName()
+	{
+		return "tile.miniAlchemiter.name";
 	}
 }

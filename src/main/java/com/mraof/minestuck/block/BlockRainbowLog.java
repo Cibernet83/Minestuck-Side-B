@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
@@ -20,7 +21,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockRainbowLog extends BlockLog implements IRegistryItem<Block>
+public class BlockRainbowLog extends BlockLog implements IRegistryBlock
 {
 	public static final PropertyEnum<BlockLog.EnumAxis> SECOND_AXIS = PropertyEnum.<BlockLog.EnumAxis>create("axis2", BlockLog.EnumAxis.class);
 	private final String regName;
@@ -28,18 +29,11 @@ public class BlockRainbowLog extends BlockLog implements IRegistryItem<Block>
 	public BlockRainbowLog(String name)
 	{
 		super();
-		setCreativeTab(TabMinestuck.instance);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setDefaultState(blockState.getBaseState().withProperty(SECOND_AXIS, BlockLog.EnumAxis.NONE).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 		setUnlocalizedName(name);
 		regName = IRegistryItem.unlocToReg(name);
-		MSBlockBase.blocks.add(this);
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
+		MinestuckBlocks.blocks.add(this);
 	}
 	
 	@Override
@@ -128,5 +122,18 @@ public class BlockRainbowLog extends BlockLog implements IRegistryItem<Block>
 	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{
 		return 1;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }
