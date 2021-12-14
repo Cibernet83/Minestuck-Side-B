@@ -6,10 +6,11 @@ import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
+import net.minecraft.world.World;
 
 public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 {
@@ -29,12 +30,12 @@ public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 		if(isEntryArtifact)
 		{
 			teleporter =  new CruxiteArtifactTeleporter();
-			OperandiModus.itemPool.add(this);
+			MinestuckItems.cruxiteArtifacts.add(this);
 		}
 		else
 		{
 			teleporter = null;
-			MinestuckItems.cruxiteArtifacts.add(this);
+			OperandiModus.itemPool.add(this);
 		}
 	}
 	
@@ -85,6 +86,20 @@ public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 	@Override
 	public CruxiteArtifactTeleporter getTeleporter() {
 		return teleporter;
+	}
+
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
+		ItemStack itemstack = playerIn.getHeldItem(handIn);
+
+		if (playerIn.isCreative())
+		{
+			playerIn.setActiveHand(handIn);
+			return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+		}
+		else return super.onItemRightClick(worldIn, playerIn, handIn);
 	}
 
 }

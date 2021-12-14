@@ -7,15 +7,15 @@ public class ItemPogoBoots extends MSArmorBase
 	boolean isSolar = false;
 	public final float power;
 
-	public ItemPogoBoots(float power, ArmorMaterial materialIn, int renderIndexIn, String name)
+	public ItemPogoBoots(String name, float power, ArmorMaterial material)
 	{
-		super(materialIn, renderIndexIn, EntityEquipmentSlot.FEET, name);
+		super(name, material, EntityEquipmentSlot.FEET);
 		this.power = power;
 	}
 
-	public ItemPogoBoots(float power, int maxUses, ArmorMaterial materialIn, int renderIndexIn, String name)
+	public ItemPogoBoots(String name, float power, ArmorMaterial material, int maxUses)
 	{
-		super(maxUses, materialIn, renderIndexIn, EntityEquipmentSlot.FEET, name);
+		super(name, material, EntityEquipmentSlot.FEET, maxUses);
 		this.power = power;
 	}
 

@@ -41,14 +41,14 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 		if(isEntryArtifact)
 		{
 			teleporter =  new CruxiteArtifactTeleporter();
-			OperandiModus.itemPool.add(this);
+			MinestuckItems.cruxiteArtifacts.add(this);
 		}
 		else
 		{
 			teleporter = null;
-			MinestuckItems.cruxiteArtifacts.add(this);
+			OperandiModus.itemPool.add(this);
 		}
-		
+
 		this.efficiency = 4.0F;
 		this.maxStackSize = 1;
 		this.setMaxDamage(maxUses);

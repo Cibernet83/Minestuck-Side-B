@@ -1,6 +1,5 @@
 package com.mraof.minestuck.item.armor;
 
-import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.client.model.ModelBiped;
@@ -11,6 +10,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
@@ -27,18 +27,26 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem<Item>
     private ModelBiped model;
     ArrayList<ItemStack> repairMaterials = new ArrayList<>();
 
-    public MSArmorBase(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name)
+    private final ResourceLocation texture;
+
+    public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses, ResourceLocation texture)
     {
-        super(materialIn, renderIndexIn, equipmentSlotIn);
+        super(material, 0, equipmentSlot);
+        setMaxDamage(maxUses);
+        this.texture = texture;
         setUnlocalizedName(name);
         registryName = IRegistryItem.unlocToReg(name);
         MinestuckItems.items.add(this);
     }
 
-    public MSArmorBase(int maxUses, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name)
+    public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses)
     {
-        this(materialIn, renderIndexIn, equipmentSlotIn, name);
-        setMaxDamage(maxUses);
+        this(name, material, equipmentSlot, maxUses, new ResourceLocation(IRegistryItem.unlocToReg(name)));
+    }
+
+    public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot)
+    {
+        this(name, material, equipmentSlot, material.getDurability(equipmentSlot));
     }
 
     @Override
@@ -56,7 +64,7 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem<Item>
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
     {
-        return Minestuck.MODID + ":textures/models/armor/" + getRegistryName().getResourcePath() + ".png";
+        return texture.getResourceDomain() + ":textures/models/armor/" + texture.getResourcePath() + (type == null || type.isEmpty() ? "" : "_" + type) + ".png";
     }
 
     @Override

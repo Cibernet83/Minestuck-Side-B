@@ -86,7 +86,10 @@ public class CommonProxy
 		MinestuckEntities.registerEntities();
 		//register Tile Entities
 		GameRegistry.registerTileEntity(TileEntitySkaiaPortal.class, Minestuck.MODID+":gate_portal");
-		GameRegistry.registerTileEntity(TileEntitySburbMachine.class, Minestuck.MODID+":sburb_machine");
+		GameRegistry.registerTileEntity(TileEntityMiniAlchemiter.class, Minestuck.MODID+":mini_alchemiter");
+		GameRegistry.registerTileEntity(TileEntityMiniCruxtruder.class, Minestuck.MODID+":mini_cruxtruder");
+		GameRegistry.registerTileEntity(TileEntityMiniPunchDesignix.class, Minestuck.MODID+":mini_punch_designix");
+		GameRegistry.registerTileEntity(TileEntityMiniTotemLathe.class, Minestuck.MODID+":mini_totem_lathe");
 		GameRegistry.registerTileEntity(TileEntityPunchDesignix.class, Minestuck.MODID+":punch_designix");
 		GameRegistry.registerTileEntity(TileEntityTotemLathe.class, Minestuck.MODID+":totem_lathe");
 		GameRegistry.registerTileEntity(TileEntityAlchemiter.class,Minestuck.MODID+":alchemiter");
@@ -113,7 +116,7 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(new MinestuckFluidHandler());
 		MinecraftForge.EVENT_BUS.register(ServerEditHandler.instance);
 		MinecraftForge.EVENT_BUS.register(MinestuckPlayerTracker.instance);
-		MinecraftForge.EVENT_BUS.register(CommonEventHandler.instance);
+		MinecraftForge.EVENT_BUS.register(CommonEventHandler.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckChannelHandler.instance);
 		MinecraftForge.EVENT_BUS.register(new ConnectionListener());
 		MinecraftForge.EVENT_BUS.register(com.mraof.minestuck.event.handlers.CommonEventHandler.class);

@@ -1,8 +1,11 @@
 package com.mraof.minestuck.client;
 
+import com.mraof.minestuck.block.BlockMiniCruxtruder;
+import com.mraof.minestuck.block.BlockMiniPunchDesignix;
+import com.mraof.minestuck.block.BlockMiniTotemLathe;
+import com.mraof.minestuck.block.BlockSburbMachine;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.SpaceSaltUtils;
-import com.mraof.minestuck.block.BlockSburbMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -38,17 +41,16 @@ public class MSURenderMachineOutline
 			IBlockState state = mc.player.getEntityWorld().getBlockState(mc.objectMouseOver.getBlockPos());
 			if (mc.player.getHeldItemMainhand().getItem().equals(MinestuckItems.spaceSalt) && state.getBlock() instanceof BlockSburbMachine)
 			{
-				BlockSburbMachine.MachineType type = state.getValue(BlockSburbMachine.MACHINE_TYPE);
 				EnumFacing facing = state.getValue(BlockSburbMachine.FACING);
 				//facing = mc.player.getHorizontalFacing().getOpposite();
 				ItemStack stack = mc.player.getHeldItemMainhand();
 				
-				renderCheckItem(mc.player, stack, type, event.getContext(), rayTraceResult, event.getPartialTicks(), facing);
+				renderCheckItem(mc.player, stack, (BlockSburbMachine)state.getBlock(), event.getContext(), rayTraceResult, event.getPartialTicks(), facing);
 			}
 		}
 	}
 	
-	private static boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, BlockSburbMachine.MachineType machineType, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing)
+	private static boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, BlockSburbMachine machine, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing)
 	{
 			BlockPos pos = rayTraceResult.getBlockPos();
 			
@@ -75,7 +77,7 @@ public class MSURenderMachineOutline
 			GlStateManager.depthMask(false);	//GL stuff was copied from the standard mouseover bounding box drawing, which is likely why the alpha isn't working
 			BlockPos mchnPos = pos;
 			
-			if(machineType == BlockSburbMachine.MachineType.PUNCH_DESIGNIX)
+			if(machine instanceof BlockMiniPunchDesignix)
 			{
 				if (placedFacing.getFrontOffsetX() > 0 && hitZ >= 0.5F || placedFacing.getFrontOffsetX() < 0 && hitZ < 0.5F
 						|| placedFacing.getFrontOffsetZ() > 0 && hitX < 0.5F || placedFacing.getFrontOffsetZ() < 0 && hitX >= 0.5F)
@@ -87,7 +89,8 @@ public class MSURenderMachineOutline
 				
 				boundingBox = new AxisAlignedBB(0, 0, 0, (r ? 2 : 1), 2, (r ? 1 : 2)).offset(pos).offset(-d1, -d2, -d3).shrink(0.002);
 				placeable = SpaceSaltUtils.canPlacePunchDesignix(stack, player, player.world, placementPos, placedFacing, mchnPos);
-			} else if(machineType == BlockSburbMachine.MachineType.TOTEM_LATHE)
+			}
+			else if(machine instanceof BlockMiniTotemLathe)
 			{
 				pos = pos.offset(placedFacing.rotateY());
 				
@@ -101,13 +104,15 @@ public class MSURenderMachineOutline
 				
 				boundingBox = new AxisAlignedBB(0, 0, 0, (r ? 4 : 1), 3, (r ? 1 : 4)).offset(pos).offset(-d1, -d2, -d3).shrink(0.002);
 				placeable = SpaceSaltUtils.canPlaceTotemLathe(stack, player, player.world, placementPos, placedFacing, mchnPos);
-			} else if(machineType == BlockSburbMachine.MachineType.CRUXTRUDER)
+			}
+			else if(machine instanceof BlockMiniCruxtruder)
 			{
 				BlockPos placementPos = pos.offset(placedFacing.rotateYCCW(), (placedFacing.equals(EnumFacing.SOUTH) || placedFacing.equals(EnumFacing.WEST) ? -1 : 1)).offset(placedFacing, (placedFacing.equals(EnumFacing.NORTH) || placedFacing.equals(EnumFacing.WEST) ? 2 : 0));
 				
 				boundingBox = new AxisAlignedBB(0,0,0, 3, 3, 3).offset(placementPos).offset(-d1, -d2, -d3).shrink(0.002);
 				placeable = SpaceSaltUtils.canPlaceCruxtruder(stack, player, player.world, pos.offset(placedFacing.rotateY()).offset(placedFacing, 2), placedFacing, mchnPos);
-			} else	//Alchemiter
+			}
+			else	//Alchemiter
 			{
 				pos = pos.offset(placedFacing.rotateY());
 				

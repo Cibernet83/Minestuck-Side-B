@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.util;
 
+import akka.util.Switch;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristType;
@@ -8,6 +9,7 @@ import com.mraof.minestuck.entity.EntityFrog;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.ItemMetalBoat;
 import com.mraof.minestuck.item.ItemMinestuckBeverage;
+import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.weapon.ItemDualWeapon;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
@@ -105,7 +107,7 @@ public class MinestuckModelManager
 				new ResourceLocation(Minestuck.MODID, "boondollars3"), new ResourceLocation(Minestuck.MODID, "boondollars4"), new ResourceLocation(Minestuck.MODID, "boondollars5"), new ResourceLocation(Minestuck.MODID, "boondollars6"));
 		ModelLoader.setCustomMeshDefinition(boondollars, new BoondollarsDefinition());
 
-		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation(Minestuck.MODID, "dowel_uncarved"), new ResourceLocation(Minestuck.MODID, "dowel_carved"), new ResourceLocation(Minestuck.MODID, "dowel_uncarved_blank"), new ResourceLocation(Minestuck.MODID, "dowel_carved_blank"));
+		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation(Minestuck.MODID, "dowel_uncarved"), new ResourceLocation(Minestuck.MODID, "dowel_carved"));
 		ModelLoader.setCustomMeshDefinition(cruxiteDowel, new CruxiteDowelDefinition());
 
 		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation(Minestuck.MODID, "card_empty"), new ResourceLocation(Minestuck.MODID, "card_full"), new ResourceLocation(Minestuck.MODID, "card_punched"), new ResourceLocation(Minestuck.MODID, "card_ghost"));
@@ -169,8 +171,14 @@ public class MinestuckModelManager
 		for(BlockColoredDirt.BlockType type : BlockColoredDirt.BlockType.values())
 			register(coloredDirt, type.ordinal(), "colored_dirt_"+type.name);
 		register(layeredSand);
-		for(BlockSburbMachine.MachineType type : BlockSburbMachine.MachineType.values())
-			register(sburbMachine, type.ordinal(), "machine_"+type.getName());
+
+		register(miniAlchemiter,0, "machine_alchemiter");
+		register(miniTotemLathe,0, "machine_lathe");
+		register(miniCruxtruder,0, "machine_cruxtruder");
+		register(miniPunchDesignix,0, "machine_designix");
+
+			//register(sburbMachine, type.ordinal(), "machine_"+type.getName());
+
 		for(BlockCrockerMachine.MachineType type : BlockCrockerMachine.MachineType.values())
 			register(crockerMachine, type.ordinal(), "machine_"+type.getName());
 		register(punchDesignix);
@@ -280,7 +288,7 @@ public class MinestuckModelManager
 			ModelLoader.setCustomStateMapper(slab.fullSlab, (new StateMap.Builder()).ignore(BlockSlab.HALF, MSBlockSlab.dummy).build());
 		}
 
-		
+
 		ModelLoader.setCustomStateMapper(blockOil, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
 		ModelLoader.setCustomStateMapper(blockBlood, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
 		ModelLoader.setCustomStateMapper(blockBrainJuice, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
@@ -369,8 +377,7 @@ public class MinestuckModelManager
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack)
 		{
-			String suffix = stack.getMetadata() == 0 ? "" : "_blank";
-			return new ModelResourceLocation(Minestuck.MODID+":"+(stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") ? "dowel_carved" : "dowel_uncarved")+suffix, "inventory");
+			return new ModelResourceLocation(Minestuck.MODID + ":" + (stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") ? "dowel_carved" : "dowel_uncarved"), "inventory");
 		}
 	}
 	

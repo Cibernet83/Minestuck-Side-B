@@ -5,7 +5,6 @@ import com.mraof.minestuck.block.BlockTotemLathe;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
-import com.mraof.minestuck.tileentity.TileEntityTotemLathe;
 import com.mraof.minestuck.util.ColorCollector;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.IBlockColor;

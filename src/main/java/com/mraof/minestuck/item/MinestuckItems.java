@@ -114,10 +114,10 @@ public class MinestuckItems
 	public static final Item emeraldShovel = new ItemWeapon(1220, 8, -2.4, 12, "emeraldShovel");
 	public static final Item emeraldHoe = new ItemWeapon(1220, 8, -2.4, 12, "emeraldHoe");
 	//Armor
-	public static final Item prismarineHelmet = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.HEAD, "prismarineHelmet");
-	public static final Item prismarineChestplate = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.CHEST, "prismarineChestplate");
-	public static final Item prismarineLeggings = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.LEGS, "prismarineLeggings");
-	public static final Item prismarineBoots = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.FEET, "prismarineBoots");
+	public static final Item prismarineHelmet = new MSArmorBase("prismarineHelmet", armorPrismarine, EntityEquipmentSlot.HEAD, armorPrismarine.getDurability(EntityEquipmentSlot.HEAD), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
+	public static final Item prismarineChestplate = new MSArmorBase("prismarineChestplate", armorPrismarine, EntityEquipmentSlot.CHEST, armorPrismarine.getDurability(EntityEquipmentSlot.CHEST), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
+	public static final Item prismarineLeggings = new MSArmorBase("prismarineLeggings", armorPrismarine, EntityEquipmentSlot.LEGS, armorPrismarine.getDurability(EntityEquipmentSlot.LEGS), new ResourceLocation(Minestuck.MODID, "prismarine_layer_2"));
+	public static final Item prismarineBoots = new MSArmorBase("prismarineBoots", armorPrismarine, EntityEquipmentSlot.FEET, armorPrismarine.getDurability(EntityEquipmentSlot.FEET), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
 	//Food
 	public static final Item candy = new ItemMinestuckCandy();
 	public static final Item beverage = new ItemMinestuckBeverage();
@@ -629,22 +629,22 @@ public class MinestuckItems
 
 	//Armor
 	public static final MSArmorBase diverHelmet = new ItemDiverHelmet(materialDiverHelmet, 0, EntityEquipmentSlot.HEAD, "diverHelmet");
-	public static final MSArmorBase spikedHelmet = new MSArmorBase(materialSpikedHelmet, 0, EntityEquipmentSlot.HEAD, "spikedDiverHelmet");
-	public static final MSArmorBase cruxtruderHat = new MSArmorBase(materialMetal, 0, EntityEquipmentSlot.HEAD, "cruxtruderHelmet");
-	public static final MSArmorBase frogHat = new MSArmorBase(materialCloth, 0, EntityEquipmentSlot.HEAD, "frogHat");
-	public static final MSArmorBase wizardHat = new MSArmorBase(40, materialCloth, 0, EntityEquipmentSlot.HEAD, "wizardHat");
-	public static final MSArmorBase archmageHat = new MSArmorBase(500, materialCloth, 0, EntityEquipmentSlot.HEAD, "archmageHat");
-	public static final MSArmorBase cozySweater = new ItemWitherproofArmor(60, materialCloth, 0, EntityEquipmentSlot.CHEST, "cozySweater");
-	public static final MSArmorBase scarf = new ItemScarf(materialCloth, 0, EntityEquipmentSlot.HEAD, "scarf");
-	public static final MSArmorBase rubberBoots = new MSArmorBase(materialRubber, 0, EntityEquipmentSlot.FEET, "rubberBoots");
-	public static final MSArmorBase bunnySlippers = new MSArmorBase(materialCloth, 0, EntityEquipmentSlot.FEET, "bunnySlippers");
-	public static final MSArmorBase moonShoes = new ItemPogoBoots(1.1f, materialRubber, 0, "moonShoes");
-	public static final MSArmorBase sunShoes = new ItemPogoBoots(1.6f, materialSunShoes, 0, "solarShoes").setSolar();
-	public static final MSArmorBase rocketBoots = new MSArmorBase(850, materialSunShoes, 0, EntityEquipmentSlot.FEET, "rocketBoots").setRepairMaterial("gunpowder");
-	public static final MSArmorBase windWalkers = new MSArmorBase(283, materialWindWalkers, 0, EntityEquipmentSlot.FEET, "windWalkers");
-	public static final MSArmorBase airJordans = new MSArmorBase(230, materialRubber, 0, EntityEquipmentSlot.FEET, "airJordans");
-	public static final MSArmorBase cobaltJordans = new MSArmorBase(480, materialCobalt, 0, EntityEquipmentSlot.FEET, "airJordansCobalt");
-	public static final MSArmorBase crumplyHat = new MSArmorBase(materialCloth, 0, EntityEquipmentSlot.HEAD, "crumplyHat");
+	public static final MSArmorBase spikedHelmet = new MSArmorBase("spikedDiverHelmet", materialSpikedHelmet, EntityEquipmentSlot.HEAD);
+	public static final MSArmorBase cruxtruderHat = new MSArmorBase("cruxtruderHelmet", materialMetal, EntityEquipmentSlot.HEAD);
+	public static final MSArmorBase frogHat = new MSArmorBase("frogHat", materialCloth, EntityEquipmentSlot.HEAD);
+	public static final MSArmorBase wizardHat = new MSArmorBase("wizardHat", materialCloth, EntityEquipmentSlot.HEAD, 40);
+	public static final MSArmorBase archmageHat = new MSArmorBase("archmageHat", materialCloth, EntityEquipmentSlot.HEAD, 500);
+	public static final MSArmorBase cozySweater = new ItemWitherproofArmor("cozySweater", materialCloth, EntityEquipmentSlot.CHEST, 100);
+	public static final MSArmorBase scarf = new ItemScarf("scarf", materialCloth, EntityEquipmentSlot.HEAD);
+	public static final MSArmorBase rubberBoots = new MSArmorBase("rubberBoots", materialRubber, EntityEquipmentSlot.FEET);
+	public static final MSArmorBase bunnySlippers = new MSArmorBase("bunnySlippers", materialCloth,  EntityEquipmentSlot.FEET);
+	public static final MSArmorBase moonShoes = new ItemPogoBoots("moonShoes", 1.1f, materialRubber, 0);
+	public static final MSArmorBase sunShoes = new ItemPogoBoots("solarShoes", 1.6f, materialSunShoes, 0).setSolar();
+	public static final MSArmorBase rocketBoots = new MSArmorBase("rocketBoots", materialSunShoes, EntityEquipmentSlot.FEET, 850).setRepairMaterial("gunpowder");
+	public static final MSArmorBase windWalkers = new MSArmorBase("windWalkers", materialWindWalkers, EntityEquipmentSlot.FEET, 283);
+	public static final MSArmorBase airJordans = new MSArmorBase("airJordans", materialRubber, EntityEquipmentSlot.FEET, 230);
+	public static final MSArmorBase cobaltJordans = new MSArmorBase("airJordansCobalt", materialCobalt, EntityEquipmentSlot.FEET, 480);
+	public static final MSArmorBase crumplyHat = new MSArmorBase("crumplyHat", materialCloth, EntityEquipmentSlot.HEAD);
 
 	//Support
 	public static Item splatcraftCruxiteFilter = null;

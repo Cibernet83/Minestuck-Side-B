@@ -46,7 +46,6 @@ import com.mraof.minestuck.item.weapon.ItemBeamBlade;
 import com.mraof.minestuck.tileentity.TileEntityGate;
 import com.mraof.minestuck.tileentity.TileEntitySkaiaPortal;
 import com.mraof.minestuck.util.ColorCollector;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
@@ -79,14 +78,17 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGate.class, new RenderGate());
 //		MinecraftForgeClient.registerItemRenderer(Minestuck.captchaCard, new RenderCard());
 
-		Item[] cruxiteItems = new Item[MinestuckItems.cruxiteArtifacts.size() + 1];
+		Item[] cruxiteItems = new Item[MinestuckItems.cruxiteArtifacts.size()];
+		MinestuckItems.cruxiteArtifacts.toArray(cruxiteItems);
 
-		cruxiteItems[0] = MinestuckItems.cruxiteDowel;
-		for(int i = 1; i <= MinestuckItems.cruxiteArtifacts.size(); i++)
-			cruxiteItems[i] = MinestuckItems.cruxiteArtifacts.get(i - 1);
+		mc.getItemColors().registerItemColorHandler((stack, tintIndex) ->
+				BlockColorCruxite.handleColorTint(ColorCollector.getColorFromNBT(stack), tintIndex), cruxiteItems);
 
-		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? -1 : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex), cruxiteItems);
 		mc.getBlockColors().registerBlockColorHandler(new BlockColorCruxite(), MinestuckBlocks.alchemiter[0], MinestuckBlocks.totemlathe[1], MinestuckBlocks.blockCruxiteDowel);
+
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) ->
+						BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? 0x99D9EA : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex),
+				new Item[]{MinestuckItems.cruxiteDowel, MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey});
 
 		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
 			ItemFrog item = ((ItemFrog)stack.getItem());
@@ -169,10 +171,6 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(ClientEditHandler.instance);
 		MinecraftForge.EVENT_BUS.register(new MinestuckConfig());
 		MinecraftForge.EVENT_BUS.register(RenderMachineOutline.class);
-
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) ->
-			BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? 0x99D9EA : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex),
-			MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey);
 
 		MSUKeys.register();
 		MSUFontRenderer.registerFonts();

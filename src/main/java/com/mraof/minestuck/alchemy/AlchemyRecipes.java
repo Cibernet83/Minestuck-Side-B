@@ -640,6 +640,8 @@ public class AlchemyRecipes
 		for(Item i : cruxiteArtifacts)
 			GristRegistry.addGristConversion(new ItemStack(i), new GristSet());
 
+		GristRegistry.addGristConversion(new ItemStack(cruxiteApple), new GristSet());
+
 		GristRegistry.addGristConversion(new ItemStack(catClaws),false,new GristSet(new GristType[] {GristType.Build,GristType.Rust},new int[] {15,5}));
 		
 		GristRegistry.addGristConversion(new ItemStack(clawHammer), false, new GristSet(GristType.Build, 8));
@@ -1392,7 +1394,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination("modus", new ItemStack(Blocks.IRON_BLOCK), MODE_OR, new ItemStack(weightModus));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.CHEST), new ItemStack(jujuModus), MODE_AND, new ItemStack(modUs));
 		CombinationRegistry.addCombination("modus", new ItemStack(MinestuckBlocks.alchemiter[0]), MODE_OR, new ItemStack(alcheModus));
-		CombinationRegistry.addCombination("modus", new ItemStack(MinestuckBlocks.sburbMachine, 1, 3), MODE_OR, new ItemStack(alcheModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(miniAlchemiter, 1), MODE_OR, new ItemStack(alcheModus));
 
 
 

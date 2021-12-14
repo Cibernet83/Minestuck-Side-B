@@ -82,8 +82,7 @@ public class SpaceSaltUtils
 						world.destroyBlock(mainPos.up(y), true);
 
 					targetPos = new BlockPos(targetPos.getX(), mainPos.getY(), targetPos.getZ());
-					world.setBlockState(targetPos, MinestuckBlocks.sburbMachine.getDefaultState().withProperty(BlockSburbMachine.MACHINE_TYPE,
-							BlockSburbMachine.MachineType.ALCHEMITER).withProperty(BlockSburbMachine.FACING, mchnFacing.rotateY()));
+					world.setBlockState(targetPos, MinestuckBlocks.miniAlchemiter.getDefaultState().withProperty(BlockSburbMachine.FACING, mchnFacing.rotateY()));
 				}
 
 				return true;
@@ -121,8 +120,7 @@ public class SpaceSaltUtils
 
 					targetPos = new BlockPos(targetPos.getX(), mainPos.getY(), targetPos.getZ());
 
-					world.setBlockState(targetPos, MinestuckBlocks.sburbMachine.getDefaultState().withProperty(BlockSburbMachine.MACHINE_TYPE,
-							BlockSburbMachine.MachineType.TOTEM_LATHE).withProperty(BlockSburbMachine.FACING, mchnFacing));
+					world.setBlockState(targetPos, MinestuckBlocks.miniTotemLathe.getDefaultState().withProperty(BlockSburbMachine.FACING, mchnFacing));
 				}
 				return true;
 			}else if(block instanceof BlockPunchDesignix)
@@ -143,8 +141,7 @@ public class SpaceSaltUtils
 
 					targetPos = new BlockPos(targetPos.getX(), mainPos.getY()-1, targetPos.getZ());
 
-					world.setBlockState(targetPos, MinestuckBlocks.sburbMachine.getDefaultState().withProperty(BlockSburbMachine.MACHINE_TYPE,
-							BlockSburbMachine.MachineType.PUNCH_DESIGNIX).withProperty(BlockSburbMachine.FACING, mchnFacing));
+					world.setBlockState(targetPos, MinestuckBlocks.miniPunchDesignix.getDefaultState().withProperty(BlockSburbMachine.FACING, mchnFacing));
 				}
 				return true;
 			}else if(block instanceof BlockCruxtruder)
@@ -169,82 +166,75 @@ public class SpaceSaltUtils
 						world.destroyBlock(mainPos.up(), true);
 
 					targetPos = new BlockPos(targetPos.getX(), mainPos.getY()-1,targetPos.getZ());
-					world.setBlockState(targetPos, MinestuckBlocks.sburbMachine.getDefaultState().withProperty(BlockSburbMachine.MACHINE_TYPE,
-							BlockSburbMachine.MachineType.CRUXTRUDER).withProperty(BlockSburbMachine.FACING, mchnFacing.getOpposite()));
+					world.setBlockState(targetPos, MinestuckBlocks.miniCruxtruder.getDefaultState().withProperty(BlockSburbMachine.FACING, mchnFacing.getOpposite()));
 				}
 				return true;
 			}
 		}
 		else if(block instanceof BlockSburbMachine)
 		{
-			BlockSburbMachine.MachineType type = state.getValue(BlockSburbMachine.MACHINE_TYPE);
 			mchnFacing = state.getValue(BlockSburbMachine.FACING);
 			boolean canPlace;
 			BlockPos placePos = targetPos;
 
-			switch(type)
+			if (state.getBlock() instanceof BlockMiniAlchemiter)
 			{
-				case ALCHEMITER:
-					placePos = placePos.offset(mchnFacing.rotateY(), 1).offset(mchnFacing.getOpposite(), 3);
-					if (mchnFacing.getFrontOffsetX() > 0 && hitZ >= 0.5F || mchnFacing.getFrontOffsetX() < 0 && hitZ < 0.5F || mchnFacing.getFrontOffsetZ() > 0 && hitX < 0.5F || mchnFacing.getFrontOffsetZ() < 0 && hitX >= 0.5F) {
-						placePos = placePos.offset(mchnFacing.rotateY());
-					}
-					world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
-					canPlace = player == null || SpaceSaltUtils.canPlaceAlchemiter(heldStack, player, world, placePos, mchnFacing.rotateY(), targetPos);
-					world.setBlockState(targetPos, state);
+				placePos = placePos.offset(mchnFacing.rotateY(), 1).offset(mchnFacing.getOpposite(), 3);
+				if (mchnFacing.getFrontOffsetX() > 0 && hitZ >= 0.5F || mchnFacing.getFrontOffsetX() < 0 && hitZ < 0.5F || mchnFacing.getFrontOffsetZ() > 0 && hitX < 0.5F || mchnFacing.getFrontOffsetZ() < 0 && hitX >= 0.5F)
+				{
+					placePos = placePos.offset(mchnFacing.rotateY());
+				}
+				world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
+				canPlace = player == null || SpaceSaltUtils.canPlaceAlchemiter(heldStack, player, world, placePos, mchnFacing.rotateY(), targetPos);
+				world.setBlockState(targetPos, state);
 
-					if(canPlace)
-					{
-						world.destroyBlock(targetPos, true);
-						SpaceSaltUtils.placeAlchemiter(world, placePos, mchnFacing.rotateYCCW());
-					}
-					else return false;
+				if (canPlace)
+				{
+					world.destroyBlock(targetPos, true);
+					SpaceSaltUtils.placeAlchemiter(world, placePos, mchnFacing.rotateYCCW());
+				} else return false;
 
-					break;
-				case CRUXTRUDER:
-					placePos = targetPos.offset(mchnFacing.rotateYCCW());
-					canPlace = player == null || SpaceSaltUtils.canPlaceCruxtruder(heldStack, player, world, targetPos.offset(mchnFacing.rotateY()).offset(mchnFacing, 2), mchnFacing, targetPos);
+			}
+			else if (state.getBlock() instanceof BlockMiniCruxtruder)
+			{
+				placePos = targetPos.offset(mchnFacing.rotateYCCW());
+				canPlace = player == null || SpaceSaltUtils.canPlaceCruxtruder(heldStack, player, world, targetPos.offset(mchnFacing.rotateY()).offset(mchnFacing, 2), mchnFacing, targetPos);
 
-					if(canPlace)
-					{
-						world.destroyBlock(targetPos, true);
-						SpaceSaltUtils.placeCruxtruder(player, world, placePos, mchnFacing.getOpposite(), false);
-					}
-					else return false;
+				if (canPlace)
+				{
+					world.destroyBlock(targetPos, true);
+					SpaceSaltUtils.placeCruxtruder(player, world, placePos, mchnFacing.getOpposite(), false);
+				} else return false;
+			}
+			else if (state.getBlock() instanceof BlockMiniTotemLathe)
+			{
+				placePos = targetPos.offset(mchnFacing.rotateY());
 
-					break;
-				case TOTEM_LATHE:
+				if (mchnFacing.getFrontOffsetX() > 0 && hitZ >= 0.5F || mchnFacing.getFrontOffsetX() < 0 && hitZ < 0.5F
+					|| mchnFacing.getFrontOffsetZ() > 0 && hitX < 0.5F || mchnFacing.getFrontOffsetZ() < 0 && hitX >= 0.5F)
+					placePos = placePos.offset(mchnFacing.rotateY());
+				canPlace = player == null || SpaceSaltUtils.canPlaceTotemLathe(heldStack, player, world, placePos, mchnFacing, targetPos);
+
+				if (canPlace)
+				{
+					world.destroyBlock(targetPos, true);
+					SpaceSaltUtils.placeTotemLathe(world, placePos, mchnFacing);
+				} else return false;
+			}
+			else // Puch Designix
+			{
+				if (mchnFacing.getFrontOffsetX() > 0 && hitZ >= 0.5F || mchnFacing.getFrontOffsetX() < 0 && hitZ < 0.5F || mchnFacing.getFrontOffsetZ() > 0 && hitX < 0.5F || mchnFacing.getFrontOffsetZ() < 0 && hitX >= 0.5F)
+				{
 					placePos = targetPos.offset(mchnFacing.rotateY());
-
-					if(mchnFacing.getFrontOffsetX() > 0 && hitZ >= 0.5F || mchnFacing.getFrontOffsetX() < 0 && hitZ < 0.5F
-							|| mchnFacing.getFrontOffsetZ() > 0 && hitX < 0.5F || mchnFacing.getFrontOffsetZ() < 0 && hitX >= 0.5F)
-						placePos = placePos.offset(mchnFacing.rotateY());
-					canPlace = player == null || SpaceSaltUtils.canPlaceTotemLathe(heldStack, player, world, placePos, mchnFacing, targetPos);
-
-					if(canPlace)
-					{
-						world.destroyBlock(targetPos, true);
-						SpaceSaltUtils.placeTotemLathe(world, placePos, mchnFacing);
-					}
-					else return false;
-
-					break;
-				case PUNCH_DESIGNIX:
-
-					if (mchnFacing.getFrontOffsetX() > 0 && hitZ >= 0.5F || mchnFacing.getFrontOffsetX() < 0 && hitZ < 0.5F || mchnFacing.getFrontOffsetZ() > 0 && hitX < 0.5F || mchnFacing.getFrontOffsetZ() < 0 && hitX >= 0.5F) {
-						placePos = targetPos.offset(mchnFacing.rotateY());
-					}
-					canPlace = player == null || SpaceSaltUtils.canPlacePunchDesignix(heldStack, player, world, placePos, mchnFacing, targetPos);
+				}
+				canPlace = player == null || SpaceSaltUtils.canPlacePunchDesignix(heldStack, player, world, placePos, mchnFacing, targetPos);
 
 
-					if(canPlace)
-					{
-						world.destroyBlock(targetPos, true);
-						SpaceSaltUtils.placePunchDesignix(world, placePos, mchnFacing);
-					}
-					else return false;
-
-					break;
+				if (canPlace)
+				{
+					world.destroyBlock(targetPos, true);
+					SpaceSaltUtils.placePunchDesignix(world, placePos, mchnFacing);
+				} else return false;
 			}
 
 			return true;

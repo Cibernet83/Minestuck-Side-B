@@ -67,7 +67,9 @@ public class MinestuckJeiPlugin implements IModPlugin
             }
         }
         registry.addRecipes(alchemiterRecipes, alchemiterCategory.getUid());
-        registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.sburbMachine, 1, BlockSburbMachine.MachineType.ALCHEMITER.ordinal()), alchemiterCategory.getUid());
+		registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.miniAlchemiter, 1), alchemiterCategory.getUid());
+
+		//registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.sburbMachine, 1, BlockSburbMachine.MachineType.ALCHEMITER.ordinal()), alchemiterCategory.getUid());
 
         ArrayList<PunchCardRecipeWrapper> latheRecipes = new ArrayList<>();
 		ArrayList<PunchCardRecipeWrapper> designixRecipes = new ArrayList<>();
@@ -91,8 +93,8 @@ public class MinestuckJeiPlugin implements IModPlugin
         Debug.info("Adding " +  (latheRecipes.size() + designixRecipes.size()) + " punch card recipes to the jei plugin");
         registry.addRecipes(latheRecipes, totemLatheCategory.getUid());
         registry.addRecipes(designixRecipes, designixCategory.getUid());
-        registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.sburbMachine, 1, BlockSburbMachine.MachineType.TOTEM_LATHE.ordinal()), totemLatheCategory.getUid());
-        registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.sburbMachine, 1, BlockSburbMachine.MachineType.PUNCH_DESIGNIX.ordinal()), designixCategory.getUid());
+		registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.miniTotemLathe, 1), totemLatheCategory.getUid());
+		registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.miniPunchDesignix, 1), designixCategory.getUid());
 
 		ArrayList<AssemblyRecipeWrapper> assemblyRecipes = new ArrayList<>();
 		for(Map.Entry<String, Block> entry : MachineChasisRecipes.getRecipes().entrySet())

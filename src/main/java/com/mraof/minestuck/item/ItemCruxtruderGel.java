@@ -1,6 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.particle.MinestuckParticles;
+import com.mraof.minestuck.tileentity.TileEntityMiniCruxtruder;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.block.BlockCruxtiteDowel;
 import com.mraof.minestuck.block.BlockCruxtruder;
@@ -46,7 +47,7 @@ public class ItemCruxtruderGel extends ItemCruxite
 		if(worldIn.getTileEntity(pos) instanceof TileEntitySburbMachine)
 		{
 			TileEntitySburbMachine te = (TileEntitySburbMachine) worldIn.getTileEntity(pos);
-			if(te.getMachineType() == BlockSburbMachine.MachineType.CRUXTRUDER)
+			if(te instanceof TileEntityMiniCruxtruder)
 			{
 				te.color = color;
 				

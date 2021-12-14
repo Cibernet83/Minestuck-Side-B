@@ -13,8 +13,8 @@ import javax.annotation.Nullable;
 
 public class ItemScarf extends MSArmorBase
 {
-	public ItemScarf(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
-		super(materialIn, renderIndexIn, equipmentSlotIn, name);
+	public ItemScarf(String name, ArmorMaterial materialIn, EntityEquipmentSlot equipmentSlot) {
+		super(name, materialIn, equipmentSlot);
 		setHasSubtypes(true);
 	}
 

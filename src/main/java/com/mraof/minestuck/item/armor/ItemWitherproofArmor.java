@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 
 public class ItemWitherproofArmor extends MSArmorBase
 {
-    public ItemWitherproofArmor(int maxUses, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
-        super(maxUses, materialIn, renderIndexIn, equipmentSlotIn, name);
+    public ItemWitherproofArmor(String name,  ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses) {
+        super(name, material, equipmentSlot, maxUses);
     }
 
     @Override

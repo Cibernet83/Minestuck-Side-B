@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 
 public class ItemDiverHelmet extends MSArmorBase
 {
-    public ItemDiverHelmet(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
-        super(materialIn, renderIndexIn, equipmentSlotIn, name);
+    public ItemDiverHelmet(ArmorMaterial material, EntityEquipmentSlot equipmentSlot, String name) {
+        super(name, material, equipmentSlot);
     }
 
     @Override

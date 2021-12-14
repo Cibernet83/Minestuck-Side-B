@@ -10,6 +10,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
@@ -19,21 +20,21 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 
 	private final CruxiteArtifactTeleporter teleporter;
 
-	public ItemCruxiteArmor(String name, EntityEquipmentSlot equipmentSlotIn, boolean isEntryArtifact)
+	public ItemCruxiteArmor(String name, EntityEquipmentSlot equipmentSlot, boolean isEntryArtifact)
 	{
-		super(isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL, 5, equipmentSlotIn, name);
+		super(name, isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL, equipmentSlot, (isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL).getDurability(equipmentSlot), new ResourceLocation((isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL).getName() + "_layer_" + (equipmentSlot == EntityEquipmentSlot.LEGS ? "2" : "1")));
 		
 		setCreativeTab(MinestuckTabs.minestuck);
 
 		if(isEntryArtifact)
 		{
 			teleporter =  new CruxiteArtifactTeleporter();
-			OperandiModus.itemPool.add(this);
+			MinestuckItems.cruxiteArtifacts.add(this);
 		}
 		else
 		{
 			teleporter = null;
-			MinestuckItems.cruxiteArtifacts.add(this);
+			OperandiModus.itemPool.add(this);
 		}
 	}
 	
@@ -75,9 +76,13 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 	public boolean hasColor(ItemStack stack) {
 		return isEntryArtifact();
 	}
+	@Override
+	public boolean hasOverlay(ItemStack stack) {
+		return isEntryArtifact();
+	}
 
 	@Override
 	public int getColor(ItemStack stack) {
-		return getColor(stack);
+		return getCruxiteColor(stack);
 	}
 }
