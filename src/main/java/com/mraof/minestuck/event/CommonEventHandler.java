@@ -1,7 +1,7 @@
 package com.mraof.minestuck.event;
 
 import com.mraof.minestuck.util.ModusStorage;
-import com.mraof.minestuck.item.operandi.ItemOperandiArmor;
+import com.mraof.minestuck.item.operandi.ItemCruxiteArmor;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
@@ -25,7 +25,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -47,15 +46,12 @@ import java.util.stream.StreamSupport;
 
 public class CommonEventHandler
 {
-	
-	public static final CommonEventHandler instance = new CommonEventHandler();
-	
 	public static long lastDay;
 	
 	public static List<PostEntryTask> tickTasks = new ArrayList<PostEntryTask>();
 
 	@SubscribeEvent
-	public void onWorldTick(TickEvent.WorldTickEvent event)
+	public static void onWorldTick(TickEvent.WorldTickEvent event)
 	{
 		if(event.phase == TickEvent.Phase.END)
 		{
@@ -78,7 +74,7 @@ public class CommonEventHandler
 	}
 	
 	@SubscribeEvent(priority=EventPriority.LOWEST, receiveCanceled=false)
-	public void onEntityDeath(LivingDeathEvent event)
+	public static void onEntityDeath(LivingDeathEvent event)
 	{
 		if(event.getEntity() instanceof IMob && event.getSource().getTrueSource() instanceof EntityPlayerMP && !(event.getSource().getTrueSource() instanceof FakePlayer))
 		{
@@ -101,16 +97,16 @@ public class CommonEventHandler
 	}
 
 	//Gets reset after AttackEntityEvent but before LivingHurtEvent, but is used in determining if it's a critical hit
-	private float cachedCooledAttackStrength = 0;
+	private static float cachedCooledAttackStrength = 0;
 
 	@SubscribeEvent
-	public void onPlayerAttack(AttackEntityEvent event)
+	public static void onPlayerAttack(AttackEntityEvent event) //TODO merge into MSU's cooldown thing
 	{
 		cachedCooledAttackStrength = event.getEntityPlayer().getCooledAttackStrength(0.5F);
 	}
 
 	@SubscribeEvent(priority=EventPriority.NORMAL)
-	public void onEntityAttack(LivingHurtEvent event)
+	public static void onEntityAttack(LivingHurtEvent event)
 	{
 		if(event.getSource().getTrueSource() != null)
 		{
@@ -144,7 +140,7 @@ public class CommonEventHandler
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-	public void onEntityDamage(LivingHurtEvent event)
+	public static void onEntityDamage(LivingHurtEvent event)
 	{
 		if(event.getEntityLiving() instanceof EntityUnderling)
 		{
@@ -153,24 +149,26 @@ public class CommonEventHandler
 	}
 	
 	@SubscribeEvent
-	public void playerChangedDimension(PlayerChangedDimensionEvent event)
+	public static void playerChangedDimension(PlayerChangedDimensionEvent event)
 	{
 		SburbHandler.stopEntry(event.player);
 		
 		MinestuckPlayerData.getData(event.player).echeladder.resendAttributes(event.player);
 	}
-	
+
+	/*
 	@SubscribeEvent(priority=EventPriority.LOW, receiveCanceled=false)
-	public void onServerChat(ServerChatEvent event)
+	public static void onServerChat(ServerChatEvent event)
 	{
 		Modus modus = MinestuckPlayerData.getData(event.getPlayer()).modus;
 		if(modus instanceof HashmapModus)
 			((HashmapModus) modus).onChatMessage(event.getMessage());
 	}
+	*/
 	
 	//This functionality uses an event to maintain compatibility with mod items having hoe functionality but not extending ItemHoe, like TiCon mattocks.
 	@SubscribeEvent
-	public void onPlayerUseHoe(UseHoeEvent event)
+	public static void onPlayerUseHoe(UseHoeEvent event)
 	{
 		if(event.getWorld().getBlockState(event.getPos()).getBlock()==MinestuckBlocks.coarseEndStone)
 		{
@@ -181,7 +179,7 @@ public class CommonEventHandler
 	}
 	
 	@SubscribeEvent
-	public void onGetItemBurnTime(FurnaceFuelBurnTimeEvent event)
+	public static void onGetItemBurnTime(FurnaceFuelBurnTimeEvent event)
 	{
 		if(event.getItemStack().getItem() == Item.getItemFromBlock(MinestuckBlocks.treatedPlanks))
 			event.setBurnTime(50);	//Do not set this number to 0.
@@ -258,7 +256,7 @@ public class CommonEventHandler
 
 		for(EntityEquipmentSlot slot : EntityEquipmentSlot.values())
 		{
-			if(slot.getSlotType().equals(EntityEquipmentSlot.Type.ARMOR) && event.getEntityLiving().getItemStackFromSlot(slot).getItem() instanceof ItemOperandiArmor)
+			if(slot.getSlotType().equals(EntityEquipmentSlot.Type.ARMOR) && event.getEntityLiving().getItemStackFromSlot(slot).getItem() instanceof ItemCruxiteArmor)
 			{
 				operandiArmor = event.getEntityLiving().getItemStackFromSlot(slot);
 				break;
@@ -267,15 +265,21 @@ public class CommonEventHandler
 
 		if(!operandiArmor.isEmpty())
 		{
+			ItemCruxiteArmor item = ((ItemCruxiteArmor) operandiArmor.getItem());
 			ItemStack storedStack = ModusStorage.getStoredItem(operandiArmor);
 			operandiArmor.damageItem(operandiArmor.getMaxDamage()+1, event.getEntityLiving());
 
 			if(event.getAmount() < event.getEntityLiving().getHealth())
 			{
-				event.getEntityLiving().world.playSound(null, event.getEntityLiving().getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
+				if(item.isEntryArtifact() && (event.getEntityLiving() instanceof EntityPlayer))
+					item.getTeleporter().onArtifactActivated((EntityPlayer) event.getEntityLiving());
+				else
+				{
+					event.getEntityLiving().world.playSound(null, event.getEntityLiving().getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-				if((event.getEntityLiving() instanceof EntityPlayer) && !((EntityPlayer) event.getEntityLiving()).addItemStackToInventory(storedStack))
-					((EntityPlayer) event.getEntityLiving()).dropItem(storedStack, true);
+					if((event.getEntityLiving() instanceof EntityPlayer) && !((EntityPlayer) event.getEntityLiving()).addItemStackToInventory(storedStack))
+						((EntityPlayer) event.getEntityLiving()).dropItem(storedStack, true);
+				}
 			}
 		}
 	}

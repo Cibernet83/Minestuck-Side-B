@@ -1,6 +1,5 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
@@ -10,6 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
@@ -26,20 +26,22 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem<Item>
     private ModelBiped model;
     ArrayList<ItemStack> repairMaterials = new ArrayList<>();
 
+    private final ResourceLocation texture;
+
     public MSArmorBase(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name)
+    {
+        this(materialIn, renderIndexIn, equipmentSlotIn, name, IRegistryItem.unlocToReg(name));
+    }
+
+    public MSArmorBase(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name, String texture)
     {
         super(materialIn, renderIndexIn, equipmentSlotIn);
         setUnlocalizedName(name);
         registryName = IRegistryItem.unlocToReg(name);
         MSItemBase.items.add(this);
-    }
 
-    public MSArmorBase(int maxUses, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name)
-    {
-        this(materialIn, renderIndexIn, equipmentSlotIn, name);
-        setMaxDamage(maxUses);
+        this.texture = new ResourceLocation(texture);
     }
-
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
@@ -55,7 +57,7 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem<Item>
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
     {
-        return Minestuck.MODID + ":textures/models/armor/" + getRegistryName().getResourcePath() + ".png";
+        return texture.getResourceDomain() + ":textures/models/armor/" + texture.getResourcePath() + (type == null || type.isEmpty() ? "" : "_" + type) + ".png";
     }
 
     @Override

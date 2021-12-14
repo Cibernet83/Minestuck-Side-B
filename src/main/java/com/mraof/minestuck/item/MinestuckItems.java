@@ -2,19 +2,17 @@ package com.mraof.minestuck.item;
 
 import com.google.common.collect.ImmutableList;
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.entity.EntityEightBall;
-import com.mraof.minestuck.item.operandi.*;
-import com.mraof.minestuck.util.IRegistryItem;
-import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.block.*;
+import com.mraof.minestuck.entity.EntityEightBall;
 import com.mraof.minestuck.entity.item.EntityCrewPoster;
 import com.mraof.minestuck.entity.item.EntitySbahjPoster;
-import com.mraof.minestuck.entity.item.EntityShopPoster;
 import com.mraof.minestuck.inventory.captchalouge.PopTartModus;
 import com.mraof.minestuck.item.block.*;
+import com.mraof.minestuck.item.operandi.*;
 import com.mraof.minestuck.item.weapon.*;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
-
+import com.mraof.minestuck.util.MinestuckSounds;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -38,17 +36,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import static com.mraof.minestuck.block.MinestuckBlocks.*;
-import static com.mraof.minestuck.util.ModusStorage.getStoredItem;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import com.mraof.minestuck.block.BlockAspectLog;
-import com.mraof.minestuck.block.BlockAspectLog2;
-import com.mraof.minestuck.block.BlockAspectLog3;
-import com.mraof.minestuck.block.BlockAspectSapling;
+import static com.mraof.minestuck.block.MinestuckBlocks.*;
+import static com.mraof.minestuck.util.ModusStorage.getStoredItem;
 
 public class MinestuckItems
 {
@@ -63,17 +56,17 @@ public class MinestuckItems
 	;
 	public static final Item.ToolMaterial toolUranium = EnumHelper.addToolMaterial("URANIUM", 3, 1220, 12.0F, 6.0F, 15);
 	//hammers
-	public static final Item clawHammer = new ItemWeapon(131, 4.0D, -2.4D, 10, "clawHammer").setTool("pickaxe", 0, 1.0F);
+	public static final Item clawHammer = new ItemWeapon(131, 4.0D, -2.4D, 10, "clawHammer" ).setTool("pickaxe", 0, 1.0F);
 	public static final Item sledgeHammer = new ItemWeapon(250, 6.0D, -2.8D, 8, "sledgeHammer").setTool("pickaxe", 2, 4.0F);
 	public static final Item blacksmithHammer = new ItemWeapon(450, 7.0D, -2.8D, 10, "blacksmithHammer").setTool("pickaxe", 2, 3.5F);
 	public static final Item pogoHammer = new ItemPogoWeapon(400, 7.0D, -2.8D, 8, "pogoHammer", 0.7).setTool("pickaxe", 1, 2.0F);
 	public static final Item telescopicSassacrusher = new ItemWeapon(1024, 9.0D, -2.9D, 15, "telescopicSassacrusher").setTool("pickaxe", 2, 5.0F);
 	public static final Item regiHammer = new ItemWeapon(812, 6.0D, -2.4D, 5, "regiHammer");
-	public static final Item fearNoAnvil = new ItemPotionWeapon(2048, 10.0D, -2.8D, 12, "fearNoAnvil", new PotionEffect(MobEffects.SLOWNESS, 100, 3)).setTool("pickaxe", 3, 7.0F);
+	public static final Item fearNoAnvil = new ItemPotionWeapon(2048, 10.0D, -2.8D, 12, "fearNoAnvil", new PotionEffect(MobEffects.SLOWNESS, 100, 3), true).setTool("pickaxe", 3, 7.0F);
 	public static final Item meltMasher = new ItemFireWeapon(1413, 10.5, -2.8, 20, "meltMasher", 25).setTool("pickaxe", 4, 12.0F);
 	public static final Item qEHammerAxe = new ItemPogoFarmine(6114, 11.0D, -2.8D, 40, "estrogenEmpoweredEverythingEradicator", Integer.MAX_VALUE, 200, 0.7).setTool("pickaxe", 3, 9.0F).setTool("shovel", 3, 9.0F).setTool("sickle", 3, 7.0F).setTool("axe", 3, 12.0F);
 	public static final Item dDEHammerAxe = new ItemSbahjEEEE(6114, 11.01D, -2.8D, 40, "eeeeeeeeeeee", 0.2);
-	public static final Item zillyhooHammer = new ItemWeapon(3000, 11.0D, -2.8D, 30, "zillyhooHammer").setTool("pickaxe", 4, 15.0F);
+	public static final Item zillyhooHammer = new ItemWeapon(3000, 11.0D, -2.8D, 30, "zillyhooHammer", true).setTool("pickaxe", 4, 15.0F);
 
 	public static final Item popamaticVrillyhoo = new ItemRandomWeapon(3000, 8.0D, -2.8D, 30, "popamaticVrillyhoo").setTool("pickaxe", 4, 15.0F);
 	public static final Item scarletZillyhoo = new ItemFireWeapon(2000, 11.0D, -2.8D, 16, "scarletZillyhoo", 50).setTool("pickaxe", 3, 4.0F);
@@ -153,10 +146,10 @@ public class MinestuckItems
 	public static final Item emeraldShovel = new ItemWeapon(1220, 8, -2.4, 12, "emeraldShovel");
 	public static final Item emeraldHoe = new ItemWeapon(1220, 8, -2.4, 12, "emeraldHoe");
 	//Armor
-	public static final Item prismarineHelmet = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.HEAD, "prismarineHelmet");
-	public static final Item prismarineChestplate = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.CHEST, "prismarineChestplate");
-	public static final Item prismarineLeggings = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.LEGS, "prismarineLeggings");
-	public static final Item prismarineBoots = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.FEET, "prismarineBoots");
+	public static final Item prismarineHelmet = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.HEAD, "prismarineHelmet", Minestuck.MOD_NAME + ":prismarine_layer_1");
+	public static final Item prismarineChestplate = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.CHEST, "prismarineChestplate", Minestuck.MOD_NAME + ":prismarine_layer_1");
+	public static final Item prismarineLeggings = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.LEGS, "prismarineLeggings", Minestuck.MOD_NAME + ":prismarine_layer_2");
+	public static final Item prismarineBoots = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.FEET, "prismarineBoots", Minestuck.MOD_NAME + ":prismarine_layer_1");
 	//Food
 	public static final Item candy = new ItemMinestuckCandy();
 	public static final Item beverage = new ItemMinestuckBeverage();
@@ -187,8 +180,25 @@ public class MinestuckItems
 	public static final Item energyCore = new MSItemBase("energyCore");
 	public static final ItemDowel cruxiteDowel = new ItemDowel(MinestuckBlocks.blockCruxiteDowel);
 	public static final Item captchaCard = new ItemCaptchaCard();
-	public static final Item cruxiteApple = new ItemCruxiteApple();
-	public static final Item cruxitePotion = new ItemCruxitePotion();
+
+	public static final ArrayList<Item> cruxiteArtifacts = new ArrayList<>();
+	public static final Item cruxiteApple = new ItemCruxiteFood("cruxiteApple", 0, 0, true);
+	public static final Item cruxitePotion = new ItemCruxiteFood("cruxitePotion", 0, 0, EnumAction.DRINK, true);
+	public static final Item cruxitePopTart = new ItemCruxiteFood("cruxitePopTart", 0, 0, true);
+	public static final Item cruxitePickaxe = new ItemCruxiteTool("cruxitePickaxe", "pickaxe", 1.0F, -2.8F, 7.0f, 3, true);
+	public static final Item cruxiteAxe = new ItemCruxiteTool("cruxiteAxe", "axe", 5.0f, -3.2F, 7.0f, 3, true);
+	public static final Item cruxiteShovel = new ItemCruxiteTool("cruxiteShovel", "shovel", 1.5F, -3.0F, 7.0F, 3, true);
+	public static final Item cruxiteHoe = new ItemCruxiteHoe("cruxiteHoe", true);
+	public static final Item cruxiteSword = new ItemCruxiteWeapon("cruxiteSword", "", 4.0f, -2.4000000953674316f, 0f, 3, true);
+	public static final Item cruxiteHammer = new ItemCruxiteWeapon("cruxiteHammer", "pickaxe", 5.0f, -2.45f, 7.0f, 4, true);
+	public static final Item cruxiteClub = new ItemCruxiteWeapon("cruxiteClub", "club", 4.0F, -2.2F, 7.0f, 5, true);
+	public static final Item cruxiteBattleaxe = new ItemCruxiteWeapon("cruxiteBattleaxe", "axe", 7.0F, -3.2F, 7.0f, 2, true);
+	public static final Item cruxiteHelmet = new ItemCruxiteArmor("cruxiteHelmet", EntityEquipmentSlot.HEAD, true);
+	public static final Item cruxiteChestplate = new ItemCruxiteArmor("cruxiteChestplate", EntityEquipmentSlot.CHEST, true);
+	public static final Item cruxiteLeggings = new ItemCruxiteArmor("cruxiteLeggings", EntityEquipmentSlot.LEGS, true);
+	public static final Item cruxiteBoots = new ItemCruxiteArmor("cruxiteBoots", EntityEquipmentSlot.FEET, true);
+
+
 	public static final Item disk = new ItemDisk();
 	public static final Item grimoire = new ItemGrimoire();
 	public static final Item longForgottenWarhorn = new ItemLongForgottenWarhorn();
@@ -233,7 +243,7 @@ public class MinestuckItems
 	public static final Item carvingTool = new MSItemBase("carvingTool").setMaxStackSize(1);
 	public static final Item crumplyHat = new MSItemBase("crumplyHat").setMaxStackSize(1);
     public static final Item stoneEyeballs = new MSItemBase("stoneEyeballs");
-	public static final Item stoneSlab = new MSItemBase("stoneSlab");
+	public static final Item stoneTablet = new ItemStoneTablet();
 	public static final Item glowystoneDust = new ItemGlowystoneDust().setUnlocalizedName("glowystoneDust");
 	public static final Item fakeArms = new MSItemBase("fakeArms").setCreativeTab(null);
 	//Music disks
@@ -298,23 +308,23 @@ public class MinestuckItems
 	public static final Item dragonGel = new MSItemBase("dragonGel");
 	public static final Item cruxtruderGel = new ItemCruxtruderGel("cruxtruderGel");
 
-	public static final Item operandiPickaxe = new ItemOperandiTool("operandiPickaxe", "pickaxe", 1.0F, -2.8F, 7.0f, 3);
-	public static final Item operandiAxe = new ItemOperandiTool("operandiAxe", "axe", 5.0f, -3.2F, 7.0f, 3);
-	public static final Item operandiShovel = new ItemOperandiTool("operandiShovel", "shovel", 1.5F, -3.0F, 7.0F, 3);
-	public static final Item operandiHoe = new ItemOperandiHoe("operandiHoe");
-	public static final Item operandiSword = new ItemOperandiWeapon("operandiSword", "", 4.0f, -2.4000000953674316f, 0f, 3);
-	public static final Item operandiHammer = new ItemOperandiWeapon("operandiHammer", "pickaxe", 5.0f, -2.45f, 7.0f, 4);
-	public static final Item operandiClub = new ItemOperandiWeapon("operandiClub", "club", 4.0F, -2.2F, 7.0f, 5);
-	public static final Item operandiBattleaxe = new ItemOperandiWeapon("operandiBattleaxe", "axe", 7.0F, -3.2F, 7.0f, 2);
-	public static final Item operandiApple = new ItemOperandiFood("operandiApple", 4, 0.15F);
-	public static final Item operandiPotion = new ItemOperandiFood("operandiPotion", 1, 0.4f, EnumAction.DRINK);
-	public static final Item operandiPopTart = new ItemOperandiFood("operandiPopTart", 3, 0);
+	public static final Item operandiPickaxe = new ItemCruxiteTool("operandiPickaxe", "pickaxe", 1.0F, -2.8F, 7.0f, 3, false);
+	public static final Item operandiAxe = new ItemCruxiteTool("operandiAxe", "axe", 5.0f, -3.2F, 7.0f, 3, false);
+	public static final Item operandiShovel = new ItemCruxiteTool("operandiShovel", "shovel", 1.5F, -3.0F, 7.0F, 3, false);
+	public static final Item operandiHoe = new ItemCruxiteHoe("operandiHoe", false);
+	public static final Item operandiSword = new ItemCruxiteWeapon("operandiSword", "", 4.0f, -2.4000000953674316f, 0f, 3, false);
+	public static final Item operandiHammer = new ItemCruxiteWeapon("operandiHammer", "pickaxe", 5.0f, -2.45f, 7.0f, 4, false);
+	public static final Item operandiClub = new ItemCruxiteWeapon("operandiClub", "club", 4.0F, -2.2F, 7.0f, 5, false);
+	public static final Item operandiBattleaxe = new ItemCruxiteWeapon("operandiBattleaxe", "axe", 7.0F, -3.2F, 7.0f, 2, false);
+	public static final Item operandiApple = new ItemCruxiteFood("operandiApple", 4, 0.15F, false);
+	public static final Item operandiPotion = new ItemCruxiteFood("operandiPotion", 1, 0.4f, EnumAction.DRINK, false);
+	public static final Item operandiPopTart = new ItemCruxiteFood("operandiPopTart", 3, 0, false);
 	public static final Item operandiEightBall = new ItemOperandiThrowable("operandiEightBall", 0, 1.5f, MinestuckSounds.eightBallThrow);
 	public static final Item operandiSplashPotion = new ItemOperandiThrowable("operandiSplashPotion", -20, 0.5f, SoundEvents.ENTITY_SPLASH_POTION_THROW);
-	public static final Item operandiHelmet = new ItemOperandiArmor("operandiHelmet", EntityEquipmentSlot.HEAD);
-	public static final Item operandiChestplate = new ItemOperandiArmor("operandiChestplate", EntityEquipmentSlot.CHEST);
-	public static final Item operandiLeggings = new ItemOperandiArmor("operandiLeggings", EntityEquipmentSlot.LEGS);
-	public static final Item operandiBoots = new ItemOperandiArmor("operandiBoots", EntityEquipmentSlot.FEET);
+	public static final Item operandiHelmet = new ItemCruxiteArmor("operandiHelmet", EntityEquipmentSlot.HEAD, false);
+	public static final Item operandiChestplate = new ItemCruxiteArmor("operandiChestplate", EntityEquipmentSlot.CHEST, false);
+	public static final Item operandiLeggings = new ItemCruxiteArmor("operandiLeggings", EntityEquipmentSlot.LEGS, false);
+	public static final Item operandiBoots = new ItemCruxiteArmor("operandiBoots", EntityEquipmentSlot.FEET, false);
 	public static final Item operandiBlock = new ItemOperandiBlock("operandiBlock", MinestuckBlocks.operandiBlock);
 	public static final Item operandiStone = new ItemOperandiBlock("operandiStone", MinestuckBlocks.operandiStone);
 	public static final Item operandiLog = new ItemOperandiBlock("operandiLog", MinestuckBlocks.operandiLog);
@@ -336,9 +346,10 @@ public class MinestuckItems
 		{
 			if(entry.key.getResourcePath().equals("crocker_spork"))
 				entry.remap(crockerSpoon);
+			else if(entry.key.getResourcePath().equals("modus_card"))
+				entry.remap(stackModus);
 			else
 			{
-				System.out.println(entry.key + " " + Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())));
 				if(Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())) != null)
 					entry.remap(Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())));
 			}
@@ -513,39 +524,6 @@ public class MinestuckItems
 		
 		registerItemBlock(registry, new ItemBlock(uraniumCooker));
 
-		OreDictionary.registerOre("modus", stackModus);
-		OreDictionary.registerOre("modus", queueModus);
-		OreDictionary.registerOre("modus", queueStackModus);
-		OreDictionary.registerOre("modus", treeModus);
-		OreDictionary.registerOre("modus", hashmapModus);
-		OreDictionary.registerOre("modus", setModus);
-		OreDictionary.registerOre("modus", wildMagicModus);
-		OreDictionary.registerOre("modus", weightModus);
-		OreDictionary.registerOre("modus", bookModus);
-		OreDictionary.registerOre("modus", capitalistModus);
-		OreDictionary.registerOre("modus", modUs);
-		OreDictionary.registerOre("modus", operandiModus);
-		OreDictionary.registerOre("modus", onionModus);
-		OreDictionary.registerOre("modus", slimeModus);
-		OreDictionary.registerOre("modus", popTartModus);
-		OreDictionary.registerOre("modus", deckModus);
-		OreDictionary.registerOre("modus", hueModus);
-		OreDictionary.registerOre("modus", hueStackModus);
-		OreDictionary.registerOre("modus", chatModus);
-		OreDictionary.registerOre("modus", cycloneModus);
-		OreDictionary.registerOre("modus", energyModus);
-		OreDictionary.registerOre("modus", scratchAndSniffModus);
-		OreDictionary.registerOre("modus", eightBallModus);
-		OreDictionary.registerOre("modus", chasityModus);
-		OreDictionary.registerOre("modus", jujuModus);
-		OreDictionary.registerOre("modus", alcheModus);
-		OreDictionary.registerOre("modus", arrayModus);
-		OreDictionary.registerOre("modus", monsterModus);
-		OreDictionary.registerOre("modus", walletModus);
-		OreDictionary.registerOre("modus", crystalBallModus);
-		OreDictionary.registerOre("modus", hashchatModus);
-		OreDictionary.registerOre("modus", sacrificeModus);
-
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(MinestuckItems.eightBall, new BehaviorProjectileDispense()
 		{
 			/**
@@ -579,6 +557,39 @@ public class MinestuckItems
 
 		for (IRegistryItem<Item> item : MSItemBase.items)
 			item.register(registry);
+
+		OreDictionary.registerOre("modus", stackModus);
+		OreDictionary.registerOre("modus", queueModus);
+		OreDictionary.registerOre("modus", queueStackModus);
+		OreDictionary.registerOre("modus", treeModus);
+		OreDictionary.registerOre("modus", hashmapModus);
+		OreDictionary.registerOre("modus", setModus);
+		OreDictionary.registerOre("modus", wildMagicModus);
+		OreDictionary.registerOre("modus", weightModus);
+		OreDictionary.registerOre("modus", bookModus);
+		OreDictionary.registerOre("modus", capitalistModus);
+		OreDictionary.registerOre("modus", modUs);
+		OreDictionary.registerOre("modus", operandiModus);
+		OreDictionary.registerOre("modus", onionModus);
+		OreDictionary.registerOre("modus", slimeModus);
+		OreDictionary.registerOre("modus", popTartModus);
+		OreDictionary.registerOre("modus", deckModus);
+		OreDictionary.registerOre("modus", hueModus);
+		OreDictionary.registerOre("modus", hueStackModus);
+		OreDictionary.registerOre("modus", chatModus);
+		OreDictionary.registerOre("modus", cycloneModus);
+		OreDictionary.registerOre("modus", energyModus);
+		OreDictionary.registerOre("modus", scratchAndSniffModus);
+		OreDictionary.registerOre("modus", eightBallModus);
+		OreDictionary.registerOre("modus", chasityModus);
+		OreDictionary.registerOre("modus", jujuModus);
+		OreDictionary.registerOre("modus", alcheModus);
+		OreDictionary.registerOre("modus", arrayModus);
+		OreDictionary.registerOre("modus", monsterModus);
+		OreDictionary.registerOre("modus", walletModus);
+		OreDictionary.registerOre("modus", crystalBallModus);
+		OreDictionary.registerOre("modus", hashchatModus);
+		OreDictionary.registerOre("modus", sacrificeModus);
 
 		toolUranium.setRepairItem(new ItemStack(rawUranium));
 		ItemWeapon.addToolMaterial("pickaxe", Arrays.asList(Material.IRON, Material.ANVIL, Material.ROCK));

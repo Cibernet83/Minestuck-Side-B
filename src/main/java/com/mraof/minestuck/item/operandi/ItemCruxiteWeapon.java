@@ -11,11 +11,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 
-public class ItemOperandiWeapon extends ItemOperandiTool
+public class ItemCruxiteWeapon extends ItemCruxiteTool
 {
-	public ItemOperandiWeapon(String name, String toolClass, float attackDamageIn, float attackSpeedIn, float efficiency, int maxUses)
+	public ItemCruxiteWeapon(String name, String toolClass, float attackDamageIn, float attackSpeedIn, float efficiency, int maxUses, boolean isEntryArtifact)
 	{
-		super(name, toolClass, attackDamageIn, attackSpeedIn, efficiency, maxUses);
+		super(name, toolClass, attackDamageIn, attackSpeedIn, efficiency, maxUses, isEntryArtifact);
 	}
 	
 	public float getDestroySpeed(ItemStack stack, IBlockState state)
@@ -44,6 +44,12 @@ public class ItemOperandiWeapon extends ItemOperandiTool
 		
 		if(stack.isEmpty())
 		{
+			if(isEntryArtifact() && attacker instanceof EntityPlayer)
+			{
+				getTeleporter().onArtifactActivated((EntityPlayer) attacker);
+				return true;
+			}
+
 			attacker.world.playSound(null, attacker.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 			
 			if((attacker instanceof EntityPlayer) && !((EntityPlayer)attacker).addItemStackToInventory(storedStack))

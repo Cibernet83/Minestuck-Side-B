@@ -15,11 +15,16 @@ public class ItemPotionWeapon extends ItemWeapon
     private final PotionEffect effect;
     private final boolean onCritical;
     private boolean isRandom = false;
+
+    public ItemPotionWeapon(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name, PotionEffect effect, boolean potionEffectOnCriticalHit, boolean hasCustomModel)
+    {
+	    super(maxUses, damageVsEntity, weaponSpeed, enchantability, name, hasCustomModel);
+	    this.effect = effect;
+	    this.onCritical = potionEffectOnCriticalHit;
+    }
     public ItemPotionWeapon(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name, PotionEffect effect, boolean potionEffectOnCriticalHit)
     {
-        super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
-        this.effect = effect;
-        this.onCritical = potionEffectOnCriticalHit;
+    	this(maxUses, damageVsEntity, weaponSpeed, enchantability, name, effect, potionEffectOnCriticalHit, false);
     }
     
     public ItemPotionWeapon(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name, PotionEffect effect)

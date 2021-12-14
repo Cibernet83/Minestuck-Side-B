@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 import static com.mraof.minestuck.util.ModusStorage.getStoredItem;
 
-public class ItemOperandiThrowable extends MSItemBase
+public class ItemOperandiThrowable extends MSItemBase //TODO cruxite artifact throwables
 {
 	protected float projectileSpeed;
 	protected float pitchOffset;

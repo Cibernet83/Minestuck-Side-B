@@ -17,7 +17,7 @@ public class ItemWalletEntity extends MSItemBase
 {
     public ItemWalletEntity(String name)
     {
-        super(name);
+        super(name, null, 1, false);
     }
 
     @Override
