@@ -3,7 +3,7 @@ package com.mraof.minestuck.block;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiHandler;
 import com.mraof.minestuck.tileentity.TileEntityMiniAlchemiter;
-import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
+import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import com.mraof.minestuck.util.IdentifierHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -40,12 +40,12 @@ public class BlockMiniAlchemiter extends BlockSburbMachine
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (!(tileEntity instanceof TileEntitySburbMachine) || playerIn.isSneaking())
+		if (!(tileEntity instanceof TileEntityMiniSburbMachine) || playerIn.isSneaking())
 			return false;
 
 		if(!worldIn.isRemote)
 		{
-			((TileEntitySburbMachine) tileEntity).owner = IdentifierHandler.encode(playerIn);
+			((TileEntityMiniSburbMachine) tileEntity).owner = IdentifierHandler.encode(playerIn);
 			playerIn.openGui(Minestuck.instance, GuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;

@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityMiniAlchemiter extends TileEntitySburbMachine
+public class TileEntityMiniAlchemiter extends TileEntityMiniSburbMachine
 {
 	@Override
 	public int getSizeInventory()

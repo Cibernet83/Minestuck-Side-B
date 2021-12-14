@@ -6,11 +6,10 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.GristType;
-import com.mraof.minestuck.item.block.ItemSburbMachine;
+import com.mraof.minestuck.item.block.ItemMiniSburbMachine;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
 import com.mraof.minestuck.util.*;
@@ -174,7 +173,7 @@ public class DeployList
 			if(booleans[1])
 			{
 				registerItem("portable_cruxtruder", new GristSet(GristType.Build, 200), 1, null,
-						connection -> ItemSburbMachine.getCruxtruderWithColor(MinestuckPlayerData.getData(connection.getClientIdentifier()).color));
+						connection -> ItemMiniSburbMachine.getCruxtruderWithColor(MinestuckPlayerData.getData(connection.getClientIdentifier()).color));
 				registerItem("portable_punch_designix", new ItemStack(MinestuckBlocks.miniPunchDesignix, 1, 1), new GristSet(GristType.Build, 200), 1);
 				registerItem("portable_totem_lathe", new ItemStack(MinestuckBlocks.miniTotemLathe, 1, 2), new GristSet(GristType.Build, 200), 1);
 				registerItem("portable_alchemiter", new ItemStack(MinestuckBlocks.miniAlchemiter, 1, 3), new GristSet(GristType.Build, 300), 1);

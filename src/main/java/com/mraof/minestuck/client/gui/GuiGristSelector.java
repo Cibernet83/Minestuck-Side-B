@@ -1,9 +1,9 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.alchemy.GristType;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
-import com.mraof.minestuck.alchemy.GristType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -30,7 +30,7 @@ public class GuiGristSelector extends GuiScreenMinestuck
 	private GuiButtonExt previousButton;
 	private GuiButtonExt nextButton;
 
-	protected GuiGristSelector(GuiSburbMachine guiMachine)
+	protected GuiGristSelector(GuiMiniAlchemiter guiMachine)
 	{
 		this.otherGui = guiMachine;
 	}
@@ -111,8 +111,8 @@ public class GuiGristSelector extends GuiScreenMinestuck
 				int gristYOffset = yOffset + gristIconY + (gristDisplayYOffset * row - row);
 				if (isPointInRegion(gristXOffset, gristYOffset, 16, 16, xcor, ycor))
 				{
-					if(otherGui instanceof GuiSburbMachine) {
-						((GuiSburbMachine)otherGui).te.selectedGrist = type;
+					if(otherGui instanceof GuiMiniSburbMachine) {
+						((GuiMiniAlchemiter)otherGui).te.selectedGrist = type;
 					}else if(otherGui instanceof GuiAlchemiter) {
 						((GuiAlchemiter)otherGui).getAlchemiter().setSelectedGrist(type);
 					}

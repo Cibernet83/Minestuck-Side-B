@@ -1,21 +1,20 @@
 package com.mraof.minestuck.event;
 
-import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
-import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
+import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class AlchemizeItemMinichemiterEvent extends AlchemizeItemEvent
 {
-	private TileEntitySburbMachine alchemiter;
+	private TileEntityMiniSburbMachine alchemiter;
 
-	public AlchemizeItemMinichemiterEvent(World world, ItemStack dowel, ItemStack originalResultItem, TileEntitySburbMachine alchemiter)
+	public AlchemizeItemMinichemiterEvent(World world, ItemStack dowel, ItemStack originalResultItem, TileEntityMiniSburbMachine alchemiter)
 	{
 		super(world, dowel, originalResultItem);
 		this.alchemiter = alchemiter;
 	}
 
-	public TileEntitySburbMachine getAlchemiter()
+	public TileEntityMiniSburbMachine getAlchemiter()
 	{
 		return alchemiter;
 	}

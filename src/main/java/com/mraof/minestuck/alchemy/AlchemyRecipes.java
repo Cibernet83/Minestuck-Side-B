@@ -1108,7 +1108,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination(new ItemStack(Items.IRON_SWORD), new ItemStack(chessboard), MODE_AND, false, true, new ItemStack(regisword));
 		CombinationRegistry.addCombination(new ItemStack(katana), new ItemStack(chessboard), MODE_AND, false, true, new ItemStack(regisword));
 		CombinationRegistry.addCombination(new ItemStack(Items.IRON_SWORD), new ItemStack(Blocks.IRON_BLOCK), MODE_AND, false, true, new ItemStack(claymore));
-		CombinationRegistry.addCombination(new ItemStack(katana), new ItemStack(Blocks.OBSIDIAN), MODE_AND, false, true, new ItemStack(unbreakableKatana));
+		CombinationRegistry.addCombination(new ItemStack(obsidianKatana), new ItemStack(Blocks.OBSIDIAN), MODE_AND, false, true, new ItemStack(unbreakableKatana));
 		CombinationRegistry.addCombination(new ItemStack(hotHandle), new ItemStack(Blocks.LAPIS_BLOCK), MODE_OR, false, true, new ItemStack(cobaltSabre));
 		CombinationRegistry.addCombination(new ItemStack(caledscratch), new ItemStack(itemFrog, 1, 2), MODE_AND, false, true, new ItemStack(scarletRibbitar));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.BEACON), new ItemStack(Items.DIAMOND_SWORD), MODE_AND, false, false, new ItemStack(shatterBeacon));

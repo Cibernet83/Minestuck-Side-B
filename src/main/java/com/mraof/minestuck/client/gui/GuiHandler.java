@@ -2,15 +2,10 @@ package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.inventory.ContainerConsortMerchant;
 import com.mraof.minestuck.inventory.ContainerCrockerMachine;
-import com.mraof.minestuck.inventory.ContainerSburbMachine;
+import com.mraof.minestuck.inventory.miniMachines.*;
 import com.mraof.minestuck.inventory.ContainerUraniumCooker;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
-import com.mraof.minestuck.tileentity.TileEntityComputer;
-import com.mraof.minestuck.tileentity.TileEntityCrockerMachine;
-import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
-import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
-import com.mraof.minestuck.tileentity.TileEntityUraniumCooker;
+import com.mraof.minestuck.tileentity.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,8 +35,14 @@ public class GuiHandler implements IGuiHandler
 		TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 		if(id == GuiId.MACHINE.ordinal())
 		{
-			if (tileEntity instanceof TileEntitySburbMachine)
-				return new ContainerSburbMachine(player.inventory, (TileEntitySburbMachine) tileEntity);
+			if(tileEntity instanceof TileEntityMiniAlchemiter)
+				return new ContainerMiniAlchemiter(player.inventory, (TileEntityMiniAlchemiter) tileEntity);
+			if(tileEntity instanceof TileEntityMiniCruxtruder)
+				return new ContainerMiniCruxtruder(player.inventory, (TileEntityMiniCruxtruder) tileEntity);
+			if(tileEntity instanceof TileEntityMiniTotemLathe)
+				return new ContainerMiniTotemLathe(player.inventory, (TileEntityMiniTotemLathe) tileEntity);
+			if(tileEntity instanceof TileEntityMiniPunchDesignix)
+				return new ContainerMiniPunchDesignix(player.inventory, (TileEntityMiniPunchDesignix) tileEntity);
 			else if(tileEntity instanceof TileEntityCrockerMachine)
 				return new ContainerCrockerMachine(player.inventory, (TileEntityCrockerMachine) tileEntity);
 			else if(tileEntity instanceof TileEntityUraniumCooker)
@@ -58,8 +59,14 @@ public class GuiHandler implements IGuiHandler
 	{
 		TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 		if(id == GuiId.MACHINE.ordinal())
-			if(tileEntity instanceof TileEntitySburbMachine)
-				return new GuiSburbMachine(player.inventory, (TileEntitySburbMachine) tileEntity);
+			if(tileEntity instanceof TileEntityMiniAlchemiter)
+				return new GuiMiniAlchemiter(player.inventory, (TileEntityMiniAlchemiter) tileEntity);
+			if(tileEntity instanceof TileEntityMiniCruxtruder)
+				return new GuiMiniCruxtruder(player.inventory, (TileEntityMiniCruxtruder) tileEntity);
+		if(tileEntity instanceof TileEntityMiniTotemLathe)
+			return new GuiMiniTotemLathe(player.inventory, (TileEntityMiniTotemLathe) tileEntity);
+		if(tileEntity instanceof TileEntityMiniPunchDesignix)
+			return new GuiMiniPunchDesignix(player.inventory, (TileEntityMiniPunchDesignix) tileEntity);
 			else if(tileEntity instanceof TileEntityCrockerMachine)
 				return new GuiCrockerMachine(player.inventory, (TileEntityCrockerMachine) tileEntity);
 			else if(tileEntity instanceof TileEntityUraniumCooker)

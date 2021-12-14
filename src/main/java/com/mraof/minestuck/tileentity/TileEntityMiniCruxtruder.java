@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public class TileEntityMiniCruxtruder extends TileEntitySburbMachine
+public class TileEntityMiniCruxtruder extends TileEntityMiniSburbMachine
 {
 	@Override
 	public int getSizeInventory()

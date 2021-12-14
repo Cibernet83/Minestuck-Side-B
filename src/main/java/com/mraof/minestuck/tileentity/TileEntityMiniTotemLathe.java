@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
-public class TileEntityMiniTotemLathe extends TileEntitySburbMachine
+public class TileEntityMiniTotemLathe extends TileEntityMiniSburbMachine
 {
 
 	@Override

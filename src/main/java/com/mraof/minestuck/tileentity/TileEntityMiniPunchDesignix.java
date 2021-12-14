@@ -6,7 +6,7 @@ import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
-public class TileEntityMiniPunchDesignix extends TileEntitySburbMachine
+public class TileEntityMiniPunchDesignix extends TileEntityMiniSburbMachine
 {
 	@Override
 	public int getSizeInventory()
