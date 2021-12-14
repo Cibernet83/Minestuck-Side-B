@@ -17,11 +17,11 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 
-public class BlockMobSpawner extends Block
+public class BlockMobSpawner extends MSBlockBase
 {
-    public BlockMobSpawner()
+    public BlockMobSpawner(String name)
     {
-        super(Material.AIR);
+        super(name, Material.AIR);
         this.setTickRandomly(true);
         
     }

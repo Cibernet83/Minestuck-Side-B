@@ -25,16 +25,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockDecor extends Block
+public class BlockDecor extends MSBlockBase
 {
 
 	private EnumBB bb = EnumBB.CHESSBOARD;
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	protected BlockDecor(String unlocalizedName, SoundType sound) {
-		super(Material.ROCK);
+	protected BlockDecor(String name, SoundType sound) {
+		super(name, Material.ROCK);
 		setSoundType(sound);
-		setUnlocalizedName(unlocalizedName);
-		setCreativeTab(TabMinestuck.instance);
 		setHardness(0.5f);
 	}
 

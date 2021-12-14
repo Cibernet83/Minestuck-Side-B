@@ -3,13 +3,11 @@ package com.mraof.minestuck.block;
 import java.util.Random;
 
 import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MinestuckRandom;
 import com.mraof.minestuck.world.gen.feature.WorldGenRainbowTree;
 
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -27,13 +25,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockRainbowSapling extends BlockBush implements IGrowable
+public class BlockRainbowSapling extends BlockBush implements IGrowable, IRegistryItem<Block>
 {
 	public static final PropertyBool GROWN_SOME = PropertyBool.create("growth");
 	public static final PropertyBool RED = PropertyBool.create("red");
 	public static final PropertyBool GREEN = PropertyBool.create("green");
 	public static final PropertyBool BLUE = PropertyBool.create("blue");
+	private final String regName;
 	protected static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
 	
 	protected BlockRainbowSapling()
@@ -42,8 +42,16 @@ public class BlockRainbowSapling extends BlockBush implements IGrowable
 		this.setCreativeTab(TabMinestuck.instance);
 		this.setUnlocalizedName("rainbowSapling");
 		this.setSoundType(SoundType.PLANT);
+		regName = IRegistryItem.unlocToReg("rainbowSapling");
+		MSBlockBase.blocks.add(this);
 	}
-	
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
 	/*
 	 * Overridden from Block
 	 */

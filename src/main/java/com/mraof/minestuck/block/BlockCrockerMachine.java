@@ -5,7 +5,9 @@ import com.mraof.minestuck.client.gui.GuiHandler;
 import com.mraof.minestuck.item.TabMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityCrockerMachine;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.IdentifierHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
@@ -28,8 +30,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockCrockerMachine extends BlockContainer
+public class BlockCrockerMachine extends BlockContainer implements IRegistryItem<Block>
 {
 	protected static final AxisAlignedBB[] GRIST_WIDGET_AABB = {new AxisAlignedBB(2/16D, 0.0D, 5/16D, 14/16D, 2.1/16D, 12/16D), new AxisAlignedBB(4/16D, 0.0D, 2/16D, 11/16D, 2.1/16D, 14/16D),new AxisAlignedBB(2/16D, 0.0D, 4/16D, 14/16D, 2.1/16D, 11/16D), new AxisAlignedBB(5/16D, 0.0D, 2/16D, 12/16D, 2.1/16D, 14/16D)};
 	
@@ -58,16 +61,25 @@ public class BlockCrockerMachine extends BlockContainer
 	public static final PropertyEnum<MachineType> MACHINE_TYPE = PropertyEnum.create("machine_type", MachineType.class);
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	public static final PropertyBool HAS_ITEM = PropertyBool.create("has_item");
-	
+	private final String regName;
+
 	protected BlockCrockerMachine()
 	{
 		super(Material.ROCK);
-		
+		regName = IRegistryItem.unlocToReg("crockerMachine");
+		MSBlockBase.blocks.add(this);
 		setUnlocalizedName("crockerMachine");
 		setHardness(3.0F);
 		setHarvestLevel("pickaxe", 0);
 		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.SOUTH));
 		this.setCreativeTab(TabMinestuck.instance);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 	
 	@Override

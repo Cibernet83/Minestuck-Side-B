@@ -20,16 +20,14 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockMinestuckPlanks extends Block
+public class BlockMinestuckPlanks extends MSBlockBase
 {
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
 	
 	public BlockMinestuckPlanks()
 	{
-		super(Material.WOOD);
-		setCreativeTab(TabMinestuck.instance);
+		super("planks",Material.WOOD);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.RAINBOW));
-		setUnlocalizedName("planksMinestuck");
 		this.setHardness(2.0F);
 		this.setSoundType(SoundType.WOOD);
 	}

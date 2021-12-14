@@ -25,17 +25,16 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockGoldSeeds extends Block
+public class BlockGoldSeeds extends MSBlockBase
 {
 	
 	protected static AxisAlignedBB SEEDS_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D);
 	
 	public BlockGoldSeeds()
 	{
-		super(Material.PLANTS);
+		super("goldSeeds",Material.PLANTS);
 		setSoundType(SoundType.METAL);
 		setHardness(0.1F);
-		setUnlocalizedName("goldSeeds");
 	}
 	
 	@Override

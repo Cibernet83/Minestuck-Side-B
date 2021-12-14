@@ -46,9 +46,9 @@ public class BlockTotemLathe extends BlockLargeMachine
 	
 	public BlockTotemLathe(int index, PropertyEnum<EnumParts> part)
 	{
+		super("totemLathe" + (index==0?"":index+1));
 		this.index = index;
 		PART = part;
-		setUnlocalizedName("totem_lathe");
 		
 	}
 	

@@ -4,6 +4,7 @@ import com.mraof.minestuck.block.BlockAspectSapling.BlockType;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.IdentifierHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
@@ -40,10 +41,9 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("type", BlockType.class);
 	public static final PropertyDirection DIRECTION = BlockComputerOff.DIRECTION;
 	
-	public BlockVanityLaptopOff()
+	public BlockVanityLaptopOff(String name)
 	{
-		super();
-		setUnlocalizedName("vanityLaptop");
+		super(name, IRegistryItem.unlocToReg(name));
 	}
 	
 	@Override

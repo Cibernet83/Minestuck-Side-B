@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 
-public class BlockDenseCloud extends Block
+public class BlockDenseCloud extends MSBlockBase
 {
 	public enum BlockType implements IStringSerializable
 	{
@@ -35,11 +35,9 @@ public class BlockDenseCloud extends Block
 	
 	public BlockDenseCloud()
 	{
-		super(Material.GLASS, MapColor.YELLOW);
+		super("denseCloud",Material.GLASS, MapColor.YELLOW);
 		setHardness(0.5F);
 		setSoundType(SoundType.SNOW);
-		setUnlocalizedName("dense_cloud");
-		setCreativeTab(TabMinestuck.instance);
 	}
 	
 	@Override

@@ -20,19 +20,17 @@ import net.minecraft.world.IBlockAccess;
 
 import java.util.Random;
 
-public class BlockCruxiteOre extends Block 
+public class BlockCruxiteOre extends MSBlockBase
 {
 	public static final PropertyInteger BLOCK_TYPE = PropertyInteger.create("block_type", 0, 6);
 	
 	public BlockCruxiteOre()
 	{
-		super(Material.ROCK);
-		
-		this.setUnlocalizedName("oreCruxite");
+		super("oreCruxite",Material.ROCK);
+
 		setHardness(3.0F);
 		setResistance(5.0F);	//Values normally used by ores
 		setHarvestLevel("pickaxe", 0);
-		this.setCreativeTab(TabMinestuck.instance);
 	}
 	
 	@Override

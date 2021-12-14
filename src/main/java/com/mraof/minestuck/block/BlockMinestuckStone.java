@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockMinestuckStone extends Block
+public class BlockMinestuckStone extends MSBlockBase
 {
 	public static final int COARSE_META = BlockType.COARSE.getMetadata();
 	public static final int COARSE_CHISELED_META = BlockType.COARSE_CHISELED.getMetadata();
@@ -32,15 +32,13 @@ public class BlockMinestuckStone extends Block
 	
 	public BlockMinestuckStone()
 	{
-		super(Material.ROCK);
+		super("stone",Material.ROCK);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.COARSE));
-		setCreativeTab(TabMinestuck.instance);
 		setHardness(1.5F);
 		setResistance(10.0F);
 		setSoundType(SoundType.STONE);
-		setUnlocalizedName("stoneMinestuck");
 	}
-	
+
 	@Override
 	protected BlockStateContainer createBlockState()
 	{

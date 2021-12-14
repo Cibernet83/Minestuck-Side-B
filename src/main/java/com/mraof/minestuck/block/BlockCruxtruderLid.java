@@ -9,15 +9,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockCruxtruderLid extends Block
+public class BlockCruxtruderLid extends MSBlockBase
 {
 	public AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(2/16f, 0, 2/16f, 14/16f, 5/16f, 14/16f);
 	
 	public BlockCruxtruderLid()
 	{
-		super(Material.IRON);
-		setCreativeTab(TabMinestuck.instance);
-		setUnlocalizedName("cruxtruderLid");
+		super("cruxtruderLid",Material.IRON);
 		setHardness(1.0F);
 	}
 	

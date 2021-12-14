@@ -42,8 +42,7 @@ public class BlockEndLeaves extends BlockMinestuckLeaves
 	
 	public BlockEndLeaves()
 	{
-		super();
-		setUnlocalizedName("leavesEnd");
+		super("endLeaves");
 		setDefaultState(blockState.getBaseState());
 		setTickRandomly(false);
 	}

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
@@ -14,17 +15,22 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockMinestuckLog1 extends BlockMinestuckLog 
+public class BlockMinestuckLog1 extends BlockMinestuckLog
 {
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
-	
-	public BlockMinestuckLog1()
+
+	public BlockMinestuckLog1(String name)
 	{
-		super();
+		this(name, IRegistryItem.unlocToReg(name));
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.VINE_OAK).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
-		setUnlocalizedName("logMinestuck");
 	}
-	
+
+	public BlockMinestuckLog1(String unloc, String reg)
+	{
+		super(unloc, reg);
+		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.VINE_OAK).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
+	}
+
 	@Override
 	protected BlockStateContainer createBlockState()
 	{

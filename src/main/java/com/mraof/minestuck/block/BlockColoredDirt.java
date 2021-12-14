@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.IPlantable;
 
-public class BlockColoredDirt extends Block
+public class BlockColoredDirt extends MSBlockBase
 {
 	
 	public enum BlockType implements IStringSerializable
@@ -44,8 +44,8 @@ public class BlockColoredDirt extends Block
 	
 	public BlockColoredDirt()
 	{
-		super(Material.GROUND);
-		this.setCreativeTab(TabMinestuck.instance);
+		super("coloredDirt",Material.GROUND);
+		setHardness(0.5F);
 		setSoundType(SoundType.GROUND);
 		setDefaultState(getBlockState().getBaseState().withProperty(BLOCK_TYPE, BlockType.BLUE));
 	}

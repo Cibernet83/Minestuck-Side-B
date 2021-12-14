@@ -2,6 +2,8 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.TabMinestuck;
 
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -10,14 +12,26 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockDesertFlora extends BlockBush {
+public class BlockDesertFlora extends BlockBush implements IRegistryItem<Block>{
+	private final String regName;
+
 	public BlockDesertFlora(String name) 
 	{
-	super(Material.PLANTS);
-	setCreativeTab(TabMinestuck.instance);
-	setUnlocalizedName(name);
-	setSoundType(SoundType.PLANT);
+		super(Material.PLANTS);
+		regName = IRegistryItem.unlocToReg(name);
+		MSBlockBase.blocks.add(this);
+		setCreativeTab(TabMinestuck.instance);
+		setUnlocalizedName(name);
+		setSoundType(SoundType.PLANT);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 	
 	@Override

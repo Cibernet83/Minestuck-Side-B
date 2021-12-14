@@ -26,16 +26,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockVeinCorner extends Block
+public class BlockVeinCorner extends MSBlockBase
 {
 
 	public static final PropertyBool VERTICAL = PropertyBool.create("top");
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
-	protected BlockVeinCorner(String unlocalizedName) {
-		super(Material.WOOD);
-		setCreativeTab(TabMinestuck.instance);
-		setUnlocalizedName(unlocalizedName);
+	protected BlockVeinCorner(String name) {
+		super(name, Material.WOOD);
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(VERTICAL, false));
 		setHardness(0.45F);
 		setSoundType(SoundType.SLIME);

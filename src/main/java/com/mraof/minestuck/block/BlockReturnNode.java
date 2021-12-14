@@ -7,8 +7,9 @@ import net.minecraft.world.World;
 public class BlockReturnNode extends BlockGate
 {
 	
-	public BlockReturnNode()
+	public BlockReturnNode(String name)
 	{
+		super(name);
 		setResistance(10.0F);
 	}
 	

@@ -1,6 +1,5 @@
 package com.mraof.minestuck.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -11,20 +10,20 @@ import net.minecraft.world.IBlockAccess;
 /**
  * A class for creating blocks with a sound type in the constructor, because the sound setter is protected.
  */
-public class BlockCustom extends Block
-{
+public class BlockFlamable extends MSBlockBase
+	{
 	
 	public int flammability, fireSpread;
 	
-	public BlockCustom(Material material, MapColor mapColor, SoundType sound)
+	public BlockFlamable(String name, Material material, MapColor mapColor, SoundType sound)
 	{
-		super(material, mapColor);
+		super(name,material, mapColor);
 		setSoundType(sound);
 	}
 	
-	public BlockCustom(Material material, SoundType sound)
+	public BlockFlamable(String name, Material material, SoundType sound)
 	{
-		super(material);
+		super(name, material);
 		setSoundType(sound);
 	}
 	
@@ -40,7 +39,7 @@ public class BlockCustom extends Block
 		return fireSpread;
 	}
 	
-	public BlockCustom setFireInfo(int flammability, int fireSpread)
+	public BlockFlamable setFireInfo(int flammability, int fireSpread)
 	{
 		this.flammability = flammability;
 		this.fireSpread = fireSpread;

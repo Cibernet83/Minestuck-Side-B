@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockCruxtiteDowel extends Block
+public class BlockCruxtiteDowel extends MSBlockBase
 {
 	protected static final AxisAlignedBB CRUXTRUDER_AABB = new AxisAlignedBB(5/16D, 0.0D, 5/16D, 11/16D, 5/16D, 11/16D);
 	protected static final AxisAlignedBB DOWEL_AABB = new AxisAlignedBB(5/16D, 0.0D, 5/16D, 11/16D, 8/16D, 11/16D);
@@ -37,9 +37,7 @@ public class BlockCruxtiteDowel extends Block
 	
 	public BlockCruxtiteDowel()
 	{
-		super(Material.GLASS);
-		this.setCreativeTab(TabMinestuck.instance);
-		this.setUnlocalizedName("dowelCruxite");
+		super("cruxiteDowel",Material.GLASS);
 		setDefaultState(getDefaultState().withProperty(TYPE, Type.DOWEL));
 	}
 	

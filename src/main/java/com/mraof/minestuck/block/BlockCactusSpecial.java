@@ -1,6 +1,8 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.TabMinestuck;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockCactus;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -8,19 +10,31 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
 
-public class BlockCactusSpecial extends BlockCactus
+public class BlockCactusSpecial extends BlockCactus implements IRegistryItem<Block>
 {
+	private final String regName;
 	private String toolType;
 	
-	public BlockCactusSpecial(SoundType soundType, String effectiveTool)
+	public BlockCactusSpecial(String name, SoundType soundType, String effectiveTool)
 	{
 		super();
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MSBlockBase.blocks.add(this);
 		this.setCreativeTab(TabMinestuck.instance);
 		setSoundType(soundType);
 		this.toolType = effectiveTool;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 	
 	@Override

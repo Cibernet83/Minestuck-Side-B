@@ -18,18 +18,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockEndGrass extends Block
+public class BlockEndGrass extends MSBlockBase
 {
 	protected BlockEndGrass()
 	{
-		super(Material.ROCK, MapColor.PURPLE);
-		this.setUnlocalizedName("endGrass");
+		super("endGrass",Material.ROCK, MapColor.PURPLE);
 		this.setDefaultState(this.blockState.getBaseState());
 		this.setTickRandomly(true);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(3.0F);
 		setResistance(15.0F);	//Values used for end stone
-		this.setCreativeTab(TabMinestuck.instance);
 	}
 
 	/**

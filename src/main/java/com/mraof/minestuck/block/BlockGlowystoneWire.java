@@ -34,7 +34,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockGlowystoneWire extends Block
+public class BlockGlowystoneWire extends MSBlockBase
 {
 	public static final PropertyEnum<BlockGlowystoneWire.EnumAttachPosition> NORTH = PropertyEnum.<BlockGlowystoneWire.EnumAttachPosition>create("north", BlockGlowystoneWire.EnumAttachPosition.class);
 	public static final PropertyEnum<BlockGlowystoneWire.EnumAttachPosition> EAST = PropertyEnum.<BlockGlowystoneWire.EnumAttachPosition>create("east", BlockGlowystoneWire.EnumAttachPosition.class);
@@ -47,9 +47,9 @@ public class BlockGlowystoneWire extends Block
 	/** List of blocks to update with glowystone. */
 	private final Set<BlockPos> blocksNeedingUpdate = Sets.<BlockPos>newHashSet();
 
-	public BlockGlowystoneWire()
+	public BlockGlowystoneWire(String name)
 	{
-		super(Material.CIRCUITS);
+		super(name,Material.CIRCUITS);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, BlockGlowystoneWire.EnumAttachPosition.NONE).withProperty(EAST, BlockGlowystoneWire.EnumAttachPosition.NONE).withProperty(SOUTH, BlockGlowystoneWire.EnumAttachPosition.NONE).withProperty(WEST, BlockGlowystoneWire.EnumAttachPosition.NONE));
 		setLightLevel(1.0F);
 	}

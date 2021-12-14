@@ -5,11 +5,9 @@ import com.mraof.minestuck.client.gui.GuiHandler;
 import com.mraof.minestuck.item.TabMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityCrockerMachine;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.IdentifierHandler;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.BlockLog.EnumAxis;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -31,18 +29,30 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockStrawberry extends BlockDirectional
+public class BlockStrawberry extends BlockDirectional implements IRegistryItem<Block>
 {
+	private final String regName;
+
 	protected BlockStrawberry()
 	{
 		super(Material.GOURD);
-		
+
 		setUnlocalizedName("strawberry");
 		setHardness(1.0F);
 		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.UP));
 		this.setCreativeTab(TabMinestuck.instance);
 		this.setSoundType(SoundType.WOOD);
+		regName = IRegistryItem.unlocToReg("strawberry");
+		MSBlockBase.blocks.add(this);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 	
 	@Override

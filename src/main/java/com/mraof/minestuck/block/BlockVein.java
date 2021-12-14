@@ -6,6 +6,8 @@ import javax.annotation.Nullable;
 
 import com.mraof.minestuck.item.TabMinestuck;
 
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.SoundType;
@@ -30,18 +32,29 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockVein extends BlockDirectional
+public class BlockVein extends BlockDirectional implements IRegistryItem<Block>
 {
+    private final String regName;
 
-	protected BlockVein(String unlocalizedName) {
+	protected BlockVein(String name) {
 		super(Material.WOOD);
 		setCreativeTab(TabMinestuck.instance);
-		setUnlocalizedName(unlocalizedName);
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		setHardness(0.45F);
 		setSoundType(SoundType.SLIME);
+        setUnlocalizedName(name);
+        regName = IRegistryItem.unlocToReg(name);
+        MSBlockBase.blocks.add(this);
 	}
+
+    @Override
+    public void register(IForgeRegistry<Block> registry)
+    {
+        setRegistryName(regName);
+        registry.register(this);
+    }
 
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
     {

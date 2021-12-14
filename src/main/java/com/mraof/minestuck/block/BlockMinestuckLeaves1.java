@@ -39,8 +39,7 @@ public class BlockMinestuckLeaves1 extends BlockMinestuckLeaves
 	
 	public BlockMinestuckLeaves1()
 	{
-		super();
-		setUnlocalizedName("leavesMinestuck");
+		super("leaves");
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.VINE_OAK).withProperty(CHECK_DECAY, Boolean.valueOf(true)).withProperty(DECAYABLE, Boolean.valueOf(true)));
 	}
 	
