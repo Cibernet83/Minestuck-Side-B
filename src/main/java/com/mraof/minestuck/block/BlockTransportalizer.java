@@ -2,11 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiHandler;
-import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
-import com.mraof.minestuck.util.IRegistryItem;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -24,23 +20,20 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 
-public class BlockTransportalizer extends BlockContainer implements IRegistryItem<Block>
+public class BlockTransportalizer extends MSBlockContainer
 {
 	protected static final AxisAlignedBB TRANSPORTALIZER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/2D, 1.0D);
-	
+
 	public BlockTransportalizer()
 	{
-		super(Material.IRON);
-		this.setCreativeTab(TabsMinestuck.minestuck);
-		this.setUnlocalizedName("transportalizer");
-		this.setHardness(3.0F);
+		super("transportalizer", Material.IRON);
+		setHardness(3.0F);
 		setHarvestLevel("pickaxe", 0);
 	}
-	
+
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
@@ -132,12 +125,5 @@ public class BlockTransportalizer extends BlockContainer implements IRegistryIte
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName("transportalizer");
-		registry.register(this);
 	}
 }

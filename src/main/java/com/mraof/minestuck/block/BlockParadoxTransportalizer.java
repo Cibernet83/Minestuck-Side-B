@@ -1,6 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.tileentity.TileEntityParadoxTransportalizer;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
@@ -34,7 +34,7 @@ public class BlockParadoxTransportalizer extends BlockContainer implements IRegi
 		setUnlocalizedName("paradoxTransportalizer");
 		this.setHardness(3.5F);
 		this.setHarvestLevel("pickaxe", 0);
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 	}
 
 	@Override

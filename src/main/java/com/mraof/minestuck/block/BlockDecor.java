@@ -1,9 +1,5 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
-
-import com.mraof.minestuck.util.IRegistryItem;
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -12,38 +8,28 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.registries.IForgeRegistry;
 
-public class MSBlockDecor extends Block implements IRegistryItem<Block>
+public class BlockDecor extends MSBlockBase
 {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-	private String regName;
 	private EnumBB bb = EnumBB.CHESSBOARD;
 
-	protected MSBlockDecor(String name, SoundType sound) {
-		super(Material.ROCK);
+	protected BlockDecor(String name, SoundType sound) {
+		super(name, Material.ROCK);
 		setSoundType(sound);
-		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
-		setCreativeTab(TabsMinestuck.minestuck);
 		setHardness(0.5f);
 	}
 
 	
-	protected MSBlockDecor(String name)
+	protected BlockDecor(String name)
 	{
 		this(name, SoundType.STONE);
 	}
@@ -190,13 +176,6 @@ public class MSBlockDecor extends Block implements IRegistryItem<Block>
 		return boundingBox;
 
     }
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName(regName);
-		registry.register(this);
-	}
 
 	public enum EnumBB implements IStringSerializable
 	{

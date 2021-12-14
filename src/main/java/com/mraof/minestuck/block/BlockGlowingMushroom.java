@@ -1,6 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -8,18 +11,30 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
 
-public class BlockGlowingMushroom extends BlockBush
+public class BlockGlowingMushroom extends BlockBush implements IRegistryBlock
 {
+	private final String regName;
+
 	public BlockGlowingMushroom()
 	{
 		super();
-		setCreativeTab(TabsMinestuck.minestuck);
-		setUnlocalizedName("glowingMushroom");
+		setCreativeTab(MinestuckTabs.minestuck);
 		setLightLevel(0.75F);
 		setSoundType(SoundType.PLANT);
+		setUnlocalizedName("glowingMushroom");
+		regName = IRegistryItem.unlocToReg("glowingMushroom");
+		MinestuckBlocks.blocks.add(this);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 	
 	@Override
@@ -68,5 +83,10 @@ public class BlockGlowingMushroom extends BlockBush
 	{
 		return MapColor.DIAMOND;
 	}
-	
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
+	}
 }

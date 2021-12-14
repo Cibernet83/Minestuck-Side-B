@@ -18,7 +18,7 @@ public class ItemObsidianBucket extends MSItemBase
 	public ItemObsidianBucket()
 	{
 		super("bucketObsidian");
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setMaxStackSize(1);
 		setContainerItem(Items.BUCKET);
 	}

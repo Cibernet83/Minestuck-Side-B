@@ -21,7 +21,7 @@ public class ItemDragonCharge extends MSItemBase
 	{
 		super(name);
 		setMaxStackSize(16);
-		setCreativeTab(TabsMinestuck.weapons);
+		setCreativeTab(MinestuckTabs.weapons);
 
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, new BehaviorDefaultDispenseItem()
 		{

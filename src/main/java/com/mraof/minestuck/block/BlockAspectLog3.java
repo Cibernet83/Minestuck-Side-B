@@ -1,6 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
@@ -15,19 +18,23 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockAspectLog3 extends BlockLog
+public class BlockAspectLog3 extends BlockLog implements IRegistryBlock
 {
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
-	
+	private final String regName;
+
 	public BlockAspectLog3()
 	{
 		super();
-		setCreativeTab(TabsMinestuck.minestuck);
+		regName = "aspect_log_3";
+		MinestuckBlocks.blocks.add(this);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.ASPECT_TIME).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
-		setUnlocalizedName("logAspect");
+		setUnlocalizedName("aspectLog3");
 	}
-	
+
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
@@ -122,5 +129,18 @@ public class BlockAspectLog3 extends BlockLog
 		{
 			return unlocalizedName;
 		}
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[input.getItemDamage() % BlockType.values().length].getUnlocalizedName());
 	}
 }

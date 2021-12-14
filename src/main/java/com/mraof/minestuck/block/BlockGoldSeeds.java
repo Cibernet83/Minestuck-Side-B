@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -25,17 +26,16 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockGoldSeeds extends Block
+public class BlockGoldSeeds extends MSBlockBase
 {
 	
 	protected static AxisAlignedBB SEEDS_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D);
 	
 	public BlockGoldSeeds()
 	{
-		super(Material.PLANTS);
+		super("goldSeeds", Material.PLANTS);
 		setSoundType(SoundType.METAL);
 		setHardness(0.1F);
-		setUnlocalizedName("goldSeeds");
 	}
 	
 	@Override
@@ -94,5 +94,11 @@ public class BlockGoldSeeds extends Block
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return null;
 	}
 }

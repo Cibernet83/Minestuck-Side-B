@@ -1,12 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.GuiHandler;
-import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
-import com.mraof.minestuck.block.BlockAlchemiter.EnumParts;
-
+import com.mraof.minestuck.item.block.ItemAlchemiter;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockFaceShape;
@@ -36,19 +33,16 @@ public class BlockAlchemiter extends BlockLargeMachine
 	
 	public BlockAlchemiter()
 	{
-		this(0, PART1);
-		
+		this("alchemiter",0, PART1);
 	}
 	
 	
 	
-	public BlockAlchemiter(int index, PropertyEnum<EnumParts> property)
+	public BlockAlchemiter(String name, int index, PropertyEnum<EnumParts> property)
 	{
-		super();
+		super(name);
 		this.index = index;
 		this.PART = property;
-		
-		setUnlocalizedName("alchemiter");
 	}
 	
 	
@@ -248,7 +242,7 @@ public class BlockAlchemiter extends BlockLargeMachine
 	{
 		public BlockAlchemiter2()
 		{
-			super(1, PART2);
+			super("alchemiter2",1, PART2);
 		}
 		
 		@Override
@@ -316,7 +310,12 @@ public class BlockAlchemiter extends BlockLargeMachine
 	@Override
 	public Item getItemFromMachine() 
 	{
-		
 		return new ItemStack(MinestuckBlocks.alchemiter[0]).getItem();
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemAlchemiter(this);
 	}
 }

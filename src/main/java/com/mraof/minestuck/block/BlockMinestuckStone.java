@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockMinestuckStone extends Block
+public class BlockMinestuckStone extends MSBlockBase
 {
 	public static final int COARSE_META = BlockType.COARSE.getMetadata();
 	public static final int COARSE_CHISELED_META = BlockType.COARSE_CHISELED.getMetadata();
@@ -32,15 +32,13 @@ public class BlockMinestuckStone extends Block
 	
 	public BlockMinestuckStone()
 	{
-		super(Material.ROCK);
+		super("stone", Material.ROCK);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.COARSE));
-		setCreativeTab(TabsMinestuck.minestuck);
 		setHardness(1.5F);
 		setResistance(10.0F);
 		setSoundType(SoundType.STONE);
-		setUnlocalizedName("stoneMinestuck");
 	}
-	
+
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
@@ -136,5 +134,11 @@ public class BlockMinestuckStone extends Block
 					return type;
 			return BlockType.COARSE;
 		}
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockMinestuckStone.BlockType.getFromMeta(input.getMetadata()).getUnlocalizedName());
 	}
 }

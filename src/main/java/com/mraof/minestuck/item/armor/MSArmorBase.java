@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item.armor;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.item.MSItemBase;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
@@ -32,7 +32,7 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem<Item>
         super(materialIn, renderIndexIn, equipmentSlotIn);
         setUnlocalizedName(name);
         registryName = IRegistryItem.unlocToReg(name);
-        MSItemBase.items.add(this);
+        MinestuckItems.items.add(this);
     }
 
     public MSArmorBase(int maxUses, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name)

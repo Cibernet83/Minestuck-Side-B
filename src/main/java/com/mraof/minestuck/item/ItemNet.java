@@ -17,7 +17,7 @@ public class ItemNet extends MSItemBase
 	public ItemNet()
 	{
 		super("net");
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setMaxStackSize(1);
 		setMaxDamage(64);
 	}

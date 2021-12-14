@@ -1,22 +1,11 @@
 package com.mraof.minestuck.block;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
-
-import java.util.Random;
-
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.BlockVanityLaptopOff.BlockType;
 import com.mraof.minestuck.client.gui.GuiHandler;
 import com.mraof.minestuck.network.skaianet.SkaiaClient;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
-
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -36,6 +25,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.Map.Entry;
+
 public class BlockVanityLaptopOn extends BlockComputerOff implements ITileEntityProvider
 {
 	public static final PropertyEnum<BlockType> VARIANT = BlockVanityLaptopOff.VARIANT;
@@ -45,9 +38,9 @@ public class BlockVanityLaptopOn extends BlockComputerOff implements ITileEntity
 	protected static final AxisAlignedBB COMPUTER_AABB = new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D);
 	protected static final AxisAlignedBB COMPUTER_SCREEN_AABB = new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D);
 	
-	public BlockVanityLaptopOn()
+	public BlockVanityLaptopOn(String name)
 	{
-		super();
+		super(name);
 		setDefaultState(getDefaultState().withProperty(BSOD, false));
 	}
 	

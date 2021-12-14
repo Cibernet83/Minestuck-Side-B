@@ -23,8 +23,8 @@ import java.util.Random;
 
 public class BlockArtifact extends MSBlockBase
 {
-	public BlockArtifact(Material fire, MapColor purple, String name) {
-		super(fire, purple, name);
+	public BlockArtifact(String name, Material fire, MapColor purple) {
+		super(name, fire, purple);
 
 		setHardness(0);
 		setResistance(0);

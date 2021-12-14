@@ -1,7 +1,10 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -9,20 +12,24 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockGoop extends BlockBreakable 
+public class BlockGoop extends BlockBreakable implements IRegistryBlock
 {
+    private final String regName;
 
 	public BlockGoop(String name) 
 	{
 		super(Material.CLAY, false);
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setSoundType(SoundType.SLIME);
 		setUnlocalizedName(name);
+        regName = IRegistryItem.unlocToReg(name);
+        MinestuckBlocks.blocks.add(this);
 		setHardness(0.1F);
 		setHarvestLevel("Shovel", 0);
 	}
-	
+
 	@Override
 	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn)
     {
@@ -66,4 +73,17 @@ public class BlockGoop extends BlockBreakable
             }
         }
     }
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
+	}
 }

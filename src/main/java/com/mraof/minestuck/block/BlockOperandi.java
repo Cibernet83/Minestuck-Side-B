@@ -1,9 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.util.MinestuckSounds;
-import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
-import net.minecraft.block.Block;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -25,17 +23,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class BlockOperandi extends Block
+public class BlockOperandi extends MSBlockBase
 {
 	public static final Material LOG = new OperandiMaterial(true);
 	
 	public BlockOperandi(String name, float hardness, float resistance, Material blockMaterialIn, String toolClass)
 	{
-		super(blockMaterialIn, MapColor.NETHERRACK);
-		
-		setUnlocalizedName(name);
-		setCreativeTab(TabsMinestuck.minestuck);
-		
+		super(name,blockMaterialIn, MapColor.NETHERRACK);
+
 		setHardness(hardness);
 		setResistance(resistance);
 		if(!toolClass.isEmpty())

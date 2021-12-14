@@ -1,9 +1,10 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.item.block.ItemTotemLathe;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import com.mraof.minestuck.tileentity.TileEntityTotemLathe;
-
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
@@ -30,7 +31,6 @@ import java.util.List;
 
 public class BlockTotemLathe extends BlockLargeMachine
 {
-	
 	public static final PropertyEnum<EnumParts> PART1 = PropertyEnum.create("part", EnumParts.class, EnumParts.BOTTOM_LEFT, EnumParts.BOTTOM_MIDLEFT, EnumParts.BOTTOM_MIDRIGHT, EnumParts.BOTTOM_RIGHT, EnumParts.BOTTOM_LEFT_CARD_1, EnumParts.BOTTOM_LEFT_CARD_2);
 	public static final PropertyEnum<EnumParts> PART2 = PropertyEnum.create("part", EnumParts.class, EnumParts.MID_LEFT, EnumParts.ROD_LEFT, EnumParts.ROD_RIGHT, EnumParts.MID_RIGHT, EnumParts.ROD_LEFT_ACTIVE, EnumParts.ROD_RIGHT_CARVED, EnumParts.MID_RIGHT_ACTIVE);
 	public static final PropertyEnum<EnumParts> PART3 = PropertyEnum.create("part", EnumParts.class, EnumParts.TOP_LEFT, EnumParts.TOP_MIDLEFT, EnumParts.TOP_MIDRIGHT);
@@ -46,9 +46,9 @@ public class BlockTotemLathe extends BlockLargeMachine
 	
 	public BlockTotemLathe(int index, PropertyEnum<EnumParts> part)
 	{
+		super("totemLathe" + (index==0?"":index+1));
 		this.index = index;
 		PART = part;
-		setUnlocalizedName("totem_lathe");
 		
 	}
 	
@@ -366,5 +366,11 @@ public class BlockTotemLathe extends BlockLargeMachine
 	@Override
 	public Item getItemFromMachine() {
 		return new ItemStack(MinestuckBlocks.totemlathe[0]).getItem();
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemTotemLathe(this);
 	}
 }

@@ -1,44 +1,64 @@
 package com.mraof.minestuck.block;
 
-import java.util.Random;
-
-import com.mraof.minestuck.block.MinestuckBlocks.EnumSlabStairMaterial;
-import com.mraof.minestuck.item.TabsMinestuck;
-
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockSlab;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockMinestuckSlab extends BlockSlab
+public class MSBlockSlab extends BlockSlab implements IRegistryItem<Block>, IRegistryBlock
 {
-	private boolean isDouble = false;
 	private final IBlockState modelState;
-	private final EnumSlabStairMaterial ssm;
-	
+	private final String regName;
+	public final MSBlockSlab fullSlab;
+
 	/**
 	 * <code>getVariantProperty()</code> must return a non-null property found in this block's blockstates.
 	 * As a result, this dummy property exists to be the return value of that method. It does nothing else.
 	 */
 	public final static PropertyInteger dummy = PropertyInteger.create("dummy", 0, 1);
-	
-	public BlockMinestuckSlab(IBlockState modelState, EnumSlabStairMaterial slabStairMaterial, boolean isDouble)
+
+	public MSBlockSlab(String name, IBlockState modelState)
 	{
 		super(modelState.getMaterial());
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		this.modelState = modelState;
-		this.isDouble = isDouble;
 		this.useNeighborBrightness = true;
-		this.ssm = slabStairMaterial;
-		
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MinestuckBlocks.blocks.add(this);
+
 		//TODO: Use the modelState's hardness.
 		setHardness(modelState.getMaterial()==Material.WOOD ? 1.0F : 3.0F);
+		setHarvestLevel("pickaxe", modelState.getBlock().getHarvestLevel(modelState));
+
+		if (!isDouble())
+			fullSlab = new MSBlockSlab(name + "Full", modelState)
+			{
+				@Override
+				public boolean isDouble()
+				{
+					return true;
+				}
+
+				@Override
+				public MSItemBlock getItemBlock()
+				{
+					return null;
+				}
+			};
+		else
+			fullSlab = null;
 	}
-	
+
 	protected BlockStateContainer createBlockState()
 	{
 		return this.isDouble() ? new BlockStateContainer(this, new IProperty[] {dummy}) : new BlockStateContainer(this, new IProperty[] {HALF, dummy});
@@ -58,29 +78,36 @@ public class BlockMinestuckSlab extends BlockSlab
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		if(isDouble)	return 0;
+		if(isDouble())	return 0;
 		return state.getValue(HALF).ordinal();
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		if(isDouble)	return getDefaultState();
+		if(isDouble())	return getDefaultState();
 		return this.getDefaultState().withProperty(HALF, EnumBlockHalf.values()[meta % 2]); 
-	}
-	
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune)
-	{
-		return Item.getItemFromBlock(ssm.getSlab());
 	}
 	
 	@Override
 	public boolean isDouble()
 	{
-		return isDouble;
+		return false;
 	}
 	
 	@Override public IProperty<?> getVariantProperty() { return dummy; }
 	@Override public Comparable<?> getTypeForItem(ItemStack stack) { return 0; }
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockSlab(this, fullSlab);
+	}
 }

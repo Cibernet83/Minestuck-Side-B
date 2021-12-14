@@ -1,15 +1,11 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.item.TabsMinestuck;
-import com.mraof.minestuck.tileentity.TileEntityBoondollarRegister;
-import com.mraof.minestuck.util.IRegistryItem;
-import com.mraof.minestuck.util.MSUUtils;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.tileentity.TileEntityBoondollarRegister;
 import com.mraof.minestuck.util.IdentifierHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import com.mraof.minestuck.util.MSUUtils;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -36,23 +32,20 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockBoondollarRegister extends BlockContainer implements IRegistryItem<Block>
+public class BlockBoondollarRegister extends MSBlockContainer
 {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool POWERED = PropertyBool.create("powered");
     protected BlockBoondollarRegister()
     {
-        super(Material.IRON);
-        setUnlocalizedName("boondollarRegister");
+        super("boondollarRegister", Material.IRON);
         setHarvestLevel("pickaxe", 0);
         setHardness(3.0F);
-        setCreativeTab(TabsMinestuck.minestuck);
 
         setDefaultState(getDefaultState().withProperty(POWERED, false));
     }
@@ -303,12 +296,5 @@ public class BlockBoondollarRegister extends BlockContainer implements IRegistry
     }
     public boolean isOpaqueCube(IBlockState state) {
         return true;
-    }
-
-    @Override
-    public void register(IForgeRegistry<Block> registry)
-    {
-        setRegistryName("boondollar_register");
-        registry.register(this);
     }
 }

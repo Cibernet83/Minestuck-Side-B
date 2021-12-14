@@ -26,8 +26,7 @@ public class BlockMachineChasis extends MSBlockBase implements ITileEntityProvid
 
     public BlockMachineChasis()
     {
-        super(Material.IRON, MapColor.IRON, "machine_chassis");
-        setUnlocalizedName("machineChassis");
+        super("machineChassis", Material.IRON, MapColor.IRON);
         setHarvestLevel("pickaxe", 0);
         setHardness(3.0F);
     }

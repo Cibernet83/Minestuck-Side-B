@@ -34,7 +34,7 @@ public class ItemFrog extends MSItemBase
 	{
 		super("frog");
 		this.setHasSubtypes(true);
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		
 	}
 	

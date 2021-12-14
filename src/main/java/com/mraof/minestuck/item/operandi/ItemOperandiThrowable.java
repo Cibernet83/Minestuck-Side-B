@@ -6,7 +6,7 @@ import com.mraof.minestuck.entity.EntityOperandiEightBall;
 import com.mraof.minestuck.entity.EntityOperandiSplashPotion;
 import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,7 +25,7 @@ public class ItemOperandiThrowable extends MSItemBase //TODO cruxite artifact th
 	public ItemOperandiThrowable(String name, float pitchOffset, float projSpeed, SoundEvent thrownSound)
 	{
 		super(name);
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setMaxStackSize(1);
 		OperandiModus.itemPool.add(this);
 		

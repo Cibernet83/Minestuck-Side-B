@@ -60,7 +60,7 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 		this.throwSpeed = throwSpeed;
 
 		setMaxStackSize(stackSize);
-		setCreativeTab(TabsMinestuck.weapons);
+		setCreativeTab(MinestuckTabs.weapons);
 
 
 		this.addPropertyOverride(new ResourceLocation(Minestuck.MODID, "thrown"), new IItemPropertyGetter()
@@ -98,7 +98,7 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 	public MSThrowableBase(String name)
 	{
 		this(1, 0, 64, 1.5f, 0, 1.5f, name);
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 	}
 
 	public MSThrowableBase setSize(float size)

@@ -34,7 +34,7 @@ public class ItemDenizenTome extends Item
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
 		this.setMaxStackSize(1);
-		this.setCreativeTab(TabMinestuck.instance);
+		this.setCreativeTab(TabsMinestuck.minestuck);
 	}
 
 	@Override

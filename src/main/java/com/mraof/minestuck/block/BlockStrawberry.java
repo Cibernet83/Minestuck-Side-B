@@ -1,6 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -12,23 +15,30 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockStrawberry extends BlockDirectional
+public class BlockStrawberry extends BlockDirectional implements IRegistryBlock
 {
+	private final String regName;
+
 	protected BlockStrawberry()
 	{
 		super(Material.GOURD);
-		
+
 		setUnlocalizedName("strawberry");
 		setHardness(1.0F);
 		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.UP));
-		this.setCreativeTab(TabsMinestuck.minestuck);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.setSoundType(SoundType.WOOD);
+		regName = IRegistryItem.unlocToReg("strawberry");
+		MinestuckBlocks.blocks.add(this);
 	}
 	
 	@Override
@@ -91,5 +101,18 @@ public class BlockStrawberry extends BlockDirectional
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.SOLID;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

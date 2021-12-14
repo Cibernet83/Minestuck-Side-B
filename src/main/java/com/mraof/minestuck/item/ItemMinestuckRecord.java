@@ -13,9 +13,10 @@ public class ItemMinestuckRecord extends ItemRecord implements IRegistryItem<Ite
 	public ItemMinestuckRecord(String recordName, SoundEvent soundIn)
 	{
 		super(recordName, soundIn);
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		regName = "record_" + IRegistryItem.unlocToReg(recordName);
-		MSItemBase.items.add(this);
+		MinestuckItems.items.add(this);
+		MinestuckItems.records.add(this);
 	}
 
 	@Override

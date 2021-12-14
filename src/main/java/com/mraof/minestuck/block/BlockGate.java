@@ -23,15 +23,15 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockGate extends Block
+public class BlockGate extends MSBlockBase
 {
 	
 	protected static final AxisAlignedBB GATE_AABB = new AxisAlignedBB(0.0D, 0.45D, 0.0D, 1.0D, 0.55D, 1.0D);
 	public static PropertyBool isMainComponent = PropertyBool.create("main_component");
 	
-	public BlockGate()
+	public BlockGate(String name)
 	{
-		super(Material.PORTAL);
+		super(name,Material.PORTAL);
 		setDefaultState(getDefaultState().withProperty(isMainComponent, false));
 		setLightLevel(0.75F);
 		setBlockUnbreakable();

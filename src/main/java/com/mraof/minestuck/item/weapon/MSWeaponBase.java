@@ -7,7 +7,7 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.item.IClassedTool;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import com.mraof.minestuck.item.MSItemBase;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.properties.IEnchantableProperty;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import net.minecraft.block.state.IBlockState;
@@ -55,7 +55,7 @@ public class MSWeaponBase extends MSItemBase implements IClassedTool, ISortedTab
     public MSWeaponBase(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
     {
         super(name);
-        this.setCreativeTab(TabsMinestuck.weapons);
+        this.setCreativeTab(MinestuckTabs.weapons);
 
         this.unbreakable = maxUses <= 0;
         this.maxStackSize = 1;

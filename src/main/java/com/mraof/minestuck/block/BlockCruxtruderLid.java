@@ -1,7 +1,5 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -9,15 +7,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockCruxtruderLid extends Block
+public class BlockCruxtruderLid extends MSBlockBase
 {
 	public AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(2/16f, 0, 2/16f, 14/16f, 5/16f, 14/16f);
 	
 	public BlockCruxtruderLid()
 	{
-		super(Material.IRON);
-		setCreativeTab(TabsMinestuck.minestuck);
-		setUnlocalizedName("cruxtruderLid");
+		super("cruxtruderLid",Material.IRON);
 		setHardness(1.0F);
 	}
 	

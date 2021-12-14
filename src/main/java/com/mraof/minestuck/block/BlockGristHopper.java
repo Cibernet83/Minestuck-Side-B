@@ -21,8 +21,7 @@ public class BlockGristHopper extends MSBlockBase implements ITileEntityProvider
 
     public BlockGristHopper()
     {
-        super(Material.IRON, MapColor.EMERALD, "grist_hopper");
-        setUnlocalizedName("gristHopper");
+        super("gristHopper", Material.IRON, MapColor.EMERALD);
         setHarvestLevel("pickaxe", 0);
         setHardness(3.0F);
     }

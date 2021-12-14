@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.IPlantable;
 
-public class BlockColoredDirt extends Block
+public class BlockColoredDirt extends MSBlockBase
 {
 	
 	public enum BlockType implements IStringSerializable
@@ -44,8 +44,8 @@ public class BlockColoredDirt extends Block
 	
 	public BlockColoredDirt()
 	{
-		super(Material.GROUND);
-		this.setCreativeTab(TabsMinestuck.minestuck);
+		super("coloredDirt",Material.GROUND);
+		setHardness(0.5F);
 		setSoundType(SoundType.GROUND);
 		setDefaultState(getBlockState().getBaseState().withProperty(BLOCK_TYPE, BlockType.BLUE));
 	}
@@ -104,5 +104,10 @@ public class BlockColoredDirt extends Block
 	{
 		return plantable == Blocks.SAPLING || super.canSustainPlant(state, world, pos, direction, plantable);
 	}
-	
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[input.getItemDamage() % BlockType.values().length].getName());
+	}
 }

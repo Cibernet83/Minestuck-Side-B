@@ -1,6 +1,5 @@
 package com.mraof.minestuck.item.block;
 
-import com.mraof.minestuck.item.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

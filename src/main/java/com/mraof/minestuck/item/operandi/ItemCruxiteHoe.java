@@ -1,11 +1,10 @@
 package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
-import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MinestuckSounds;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,7 +32,7 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem<Item>, ICru
 
 		regName = IRegistryItem.unlocToReg(name);
 		setUnlocalizedName(name);
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 
 		if(isEntryArtifact)
 		{
@@ -45,7 +44,7 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem<Item>, ICru
 			teleporter = null;
 			MinestuckItems.cruxiteArtifacts.add(this);
 		}
-		MSItemBase.items.add(this);
+		MinestuckItems.items.add(this);
 	}
 	
 	@Override

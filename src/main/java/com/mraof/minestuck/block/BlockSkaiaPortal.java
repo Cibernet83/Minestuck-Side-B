@@ -1,8 +1,11 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntitySkaiaPortal;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
@@ -20,22 +23,25 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockSkaiaPortal extends BlockContainer
+public class BlockSkaiaPortal extends BlockContainer implements IRegistryBlock
 {
-	
+	private final String regName;
 	protected static final AxisAlignedBB SKAIA_PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/16D, 1.0D);
 	
-	public BlockSkaiaPortal(Material material) 
+	public BlockSkaiaPortal(Material material)
 	{
 		super(material);
 		
 		setUnlocalizedName("skaiaPortal");
-		this.setCreativeTab(TabsMinestuck.minestuck);
+		this.setCreativeTab(MinestuckTabs.minestuck);
+		regName = IRegistryItem.unlocToReg("skaiaPortal");
+		MinestuckBlocks.blocks.add(this);
 	}
 	
 	@Override
@@ -143,5 +149,18 @@ public class BlockSkaiaPortal extends BlockContainer
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

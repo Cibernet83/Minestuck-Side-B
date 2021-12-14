@@ -24,7 +24,7 @@ public abstract class ItemCustomBoat extends MSItemBase
 	{
 		super(name);
 		this.maxStackSize = 1;
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, new BehaivorDispenseCustomBoat());
 	}
 	

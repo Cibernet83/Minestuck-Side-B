@@ -1,8 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
-
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -19,16 +18,14 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockMinestuckPlanks extends Block
+public class BlockMinestuckPlanks extends MSBlockBase
 {
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
 	
 	public BlockMinestuckPlanks()
 	{
-		super(Material.WOOD);
-		setCreativeTab(TabsMinestuck.minestuck);
+		super("planks",Material.WOOD);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.RAINBOW));
-		setUnlocalizedName("planksMinestuck");
 		this.setHardness(2.0F);
 		this.setSoundType(SoundType.WOOD);
 	}
@@ -131,5 +128,11 @@ public class BlockMinestuckPlanks extends Block
 		{
 			return unlocalizedName;
 		}
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[Math.min(input.getItemDamage(), BlockType.values().length - 1)].getUnlocalizedName());
 	}
 }

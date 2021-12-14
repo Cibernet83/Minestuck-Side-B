@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -18,21 +19,16 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem<Item> //Unsure if anything more should update for 1.9
 {
-	public List<IBlockState> fillFluids = new ArrayList<IBlockState>();
-	
 	public ItemMinestuckBucket() 
 	{
 		super(Blocks.AIR);
 		setUnlocalizedName("minestuckBucket");
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setContainerItem(Items.BUCKET);
 		setHasSubtypes(true);
-		MSItemBase.items.add(this);
+		MinestuckItems.items.add(this);
 	}
 	
 	@Override
@@ -69,7 +65,7 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem<Ite
 				{
 					return new ActionResult(EnumActionResult.FAIL, stack);
 				}
-				else if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos1, fillFluids.get(stack.getItemDamage())))
+				else if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos1, MinestuckBlocks.fluids.get(stack.getItemDamage())))
 				{
 					playerIn.addStat(StatList.getObjectUseStats(this));
 					return new ActionResult(EnumActionResult.SUCCESS, !playerIn.capabilities.isCreativeMode ? new ItemStack(Items.BUCKET) : stack);
@@ -112,19 +108,14 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem<Ite
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
 		if(this.isInCreativeTab(tab))
-			for(int id = 0; id < fillFluids.size(); id++)
+			for(int id = 0; id < MinestuckBlocks.fluids.size(); id++)
 				items.add(new ItemStack(this, 1, id));
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack par1ItemStack) 
 	{
-		return getUnlocalizedName() + "." + fillFluids.get(par1ItemStack.getItemDamage()).getBlock().getUnlocalizedName().replace("tile.", "");
-	}
-	
-	public void addBlock(IBlockState block)
-	{
-		fillFluids.add(block);
+		return getUnlocalizedName() + "." + MinestuckBlocks.fluids.get(par1ItemStack.getItemDamage()).getBlock().getUnlocalizedName().replace("tile.", "");
 	}
 
 	@Override

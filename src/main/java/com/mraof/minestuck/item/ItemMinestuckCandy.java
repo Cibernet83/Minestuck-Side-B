@@ -20,7 +20,7 @@ public class ItemMinestuckCandy extends ItemFood
 	{
 		super("candy", 0, 0, false);
 		this.setHasSubtypes(true);
-		this.setCreativeTab(TabsMinestuck.minestuck);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 
 		candyMap = new TreeMap<>();
 

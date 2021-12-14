@@ -1,8 +1,5 @@
 package com.mraof.minestuck.block;
 
-import java.util.Random;
-
-import com.mraof.minestuck.item.TabsMinestuck;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -21,7 +18,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class BlockMinestuckLeaves extends Block implements net.minecraftforge.common.IShearable
+import java.util.Random;
+
+public abstract class BlockMinestuckLeaves extends MSBlockBase implements net.minecraftforge.common.IShearable
 {
 	public static final PropertyBool DECAYABLE = PropertyBool.create("decayable");
 	public static final PropertyBool CHECK_DECAY = PropertyBool.create("check_decay");
@@ -30,15 +29,14 @@ public abstract class BlockMinestuckLeaves extends Block implements net.minecraf
 	protected boolean leavesFancy = true;	//TODO Update this setting
 	
 	int[] surroundings;
-	
-	public BlockMinestuckLeaves()
+
+	public BlockMinestuckLeaves(String name)
 	{
-		super(Material.LEAVES);
+		super(name, Material.LEAVES);
 		this.setTickRandomly(true);
 		this.setHardness(0.2F);
 		this.setLightOpacity(1);
 		this.setSoundType(SoundType.PLANT);
-		setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	@Override

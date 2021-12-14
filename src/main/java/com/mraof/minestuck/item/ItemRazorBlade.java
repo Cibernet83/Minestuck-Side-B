@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public class ItemRazorBlade extends MSItemBase {
 	public ItemRazorBlade() {
 		super("razorBlade");
-		this.setCreativeTab(TabsMinestuck.minestuck);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 	}
 	
 	@Override

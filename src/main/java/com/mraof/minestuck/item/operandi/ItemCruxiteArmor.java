@@ -4,7 +4,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.item.armor.MSArmorBase;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -23,7 +23,7 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 	{
 		super(isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL, 5, equipmentSlotIn, name);
 		
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 
 		if(isEntryArtifact)
 		{

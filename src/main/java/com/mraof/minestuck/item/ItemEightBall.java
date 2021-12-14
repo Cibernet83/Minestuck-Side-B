@@ -24,7 +24,7 @@ public class ItemEightBall extends MSItemBase
 	public ItemEightBall(String name, boolean isCrystal)
 	{
 		super(name);
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setMaxStackSize(8);
 		this.isCrystal = isCrystal;
 	}

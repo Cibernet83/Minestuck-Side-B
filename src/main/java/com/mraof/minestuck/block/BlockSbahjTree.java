@@ -29,7 +29,7 @@ public class BlockSbahjTree extends MSBlockBase
 
     public BlockSbahjTree(String name)
     {
-        super(Material.PLANTS, MapColor.MAGENTA, name);
+        super(name, Material.PLANTS, MapColor.MAGENTA);
         this.setTickRandomly(true);
     }
 

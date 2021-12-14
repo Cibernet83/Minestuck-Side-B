@@ -1,6 +1,7 @@
 package com.mraof.minestuck.event.handlers;
 
 import com.mraof.minestuck.block.BlockFluidGrist;
+import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.ItemMinestuckBucket;
 import com.mraof.minestuck.item.MinestuckItems;
 
@@ -39,10 +40,10 @@ public class MinestuckFluidHandler
 		IBlockState block = world.getBlockState(pos.getBlockPos());
 		
 		//TODO add same checks as used in buckets class
-		if (bucket.fillFluids.contains(block)) 
+		if (MinestuckBlocks.fluids.contains(block))
 		{
 			world.setBlockToAir(pos.getBlockPos());
-			return new ItemStack(MinestuckItems.minestuckBucket, 1, bucket.fillFluids.indexOf(block));
+			return new ItemStack(MinestuckItems.minestuckBucket, 1, MinestuckBlocks.fluids.indexOf(block));
 		} else
 			return null;
 		

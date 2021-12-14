@@ -5,7 +5,7 @@ import com.mraof.minestuck.block.MinestuckBlocks;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class TabsMinestuck
+public class MinestuckTabs
 {
 	public static final CreativeTabs minestuck = new CreativeTabs("minestuck")
 	{

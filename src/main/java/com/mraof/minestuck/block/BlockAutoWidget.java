@@ -1,10 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityAutoWidget;
-import com.mraof.minestuck.util.IRegistryItem;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -21,11 +17,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 
-public class BlockAutoWidget extends BlockContainer implements IRegistryItem<Block>
+public class BlockAutoWidget extends MSBlockContainer
 {
 	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0,0,0,1,10/16F,1);
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
@@ -33,11 +28,9 @@ public class BlockAutoWidget extends BlockContainer implements IRegistryItem<Blo
 	
 	protected BlockAutoWidget()
 	{
-		super(Material.IRON);
-		setUnlocalizedName("autoWidget");
+		super("autoWidget", Material.IRON);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(3.0F);
-		setCreativeTab(TabsMinestuck.minestuck);
 		
 		this.setDefaultState(this.getDefaultState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false));
 	}
@@ -108,12 +101,5 @@ public class BlockAutoWidget extends BlockContainer implements IRegistryItem<Blo
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return AABB;
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName("auto_widget");
-		registry.register(this);
 	}
 }

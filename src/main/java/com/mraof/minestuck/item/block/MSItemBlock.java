@@ -1,4 +1,4 @@
-package com.mraof.minestuck.item;
+package com.mraof.minestuck.item.block;
 
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
@@ -8,10 +8,15 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class MSItemBlock extends ItemBlock implements IRegistryItem<Item>
 {
-	public MSItemBlock(Block block)
+	public MSItemBlock(Block block, int stackSize)
 	{
 		super(block);
-		MSItemBase.items.add(this);
+		setMaxStackSize(stackSize);
+	}
+
+	public MSItemBlock(Block block)
+	{
+		this(block, 64);
 	}
 
 	@Override

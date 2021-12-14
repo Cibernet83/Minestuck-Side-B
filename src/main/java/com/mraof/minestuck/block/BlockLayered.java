@@ -1,7 +1,8 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.ItemBlockLayered;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -16,18 +17,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
-public class BlockLayered extends Block
+public class BlockLayered extends MSBlockBase
 {
 	protected static final AxisAlignedBB[] LAYERED_AABB = {new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 2/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 3/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 5/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 6/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 7/8D, 1.0D)};
 	
 	public IBlockState sourceBlock;
 	public static final PropertyInteger SIZE = PropertyInteger.create("size", 1, 7);
 	
-	public BlockLayered(IBlockState iconBlock)
+	public BlockLayered(String name, IBlockState iconBlock)
 	{
-		super(iconBlock.getMaterial());
+		super(name, iconBlock.getMaterial());
 		
-		this.setCreativeTab(TabsMinestuck.minestuck);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.sourceBlock = iconBlock;
 		setSoundType(sourceBlock.getBlock().getSoundType());
 	}
@@ -116,4 +117,9 @@ public class BlockLayered extends Block
 		return  world.setBlockState(pos, block, 3);
 	}
 
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemBlockLayered(this);
+	}
 }

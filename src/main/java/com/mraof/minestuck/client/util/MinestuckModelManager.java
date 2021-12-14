@@ -8,7 +8,6 @@ import com.mraof.minestuck.entity.EntityFrog;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.ItemMetalBoat;
 import com.mraof.minestuck.item.ItemMinestuckBeverage;
-import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.weapon.ItemDualWeapon;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
@@ -39,7 +38,6 @@ import static com.mraof.minestuck.item.MinestuckItems.*;
 @SideOnly(Side.CLIENT)
 public class MinestuckModelManager
 {
-	
 	@SubscribeEvent
 	public static void handleModelRegistry(ModelRegistryEvent event)
 	{
@@ -128,7 +126,7 @@ public class MinestuckModelManager
 		}
 
 		//everything else
-		for (IRegistryItem<Item> item : MSItemBase.items)
+		for (IRegistryItem<Item> item : items)
 			item.registerModel();
 	}
 	
@@ -204,13 +202,13 @@ public class MinestuckModelManager
 		register(frogStatueReplica);
 		register(chessboard);
 
-		for(BlockMinestuckLog1.BlockType type : BlockMinestuckLog1.BlockType.values())
+		for(BlockMinestuckLogVariant.BlockType type : BlockMinestuckLogVariant.BlockType.values())
 			register(log, type.ordinal(), type.getName()+"_log");
 		
 		for(BlockMinestuckPlanks.BlockType type : BlockMinestuckPlanks.BlockType.values())
 			register(planks, type.ordinal(), type.getName()+"_planks");
 		
-		for(BlockMinestuckLeaves1.BlockType type : BlockMinestuckLeaves1.BlockType.values())
+		for(BlockMinestuckLeavesVariant.BlockType type : BlockMinestuckLeavesVariant.BlockType.values())
 			register(leaves1, type.ordinal(), type.getName()+"_leaves");
 		
 		for(BlockAspectSapling.BlockType type : BlockAspectSapling.BlockType.values())
@@ -275,14 +273,13 @@ public class MinestuckModelManager
 		register(stoneExplosiveButton);
 		
 		register(uraniumCooker);
-		
-		for(EnumSlabStairMaterial mat : EnumSlabStairMaterial.values())
+
+		for (MSBlockSlab slab : slabs.values())
 		{
-			register(mat.getStair());
-			register(mat.getSlab());
-			ModelLoader.setCustomStateMapper(mat.getSlab(), (new StateMap.Builder()).ignore(BlockMinestuckSlab.dummy).build());
-			ModelLoader.setCustomStateMapper(mat.getSlabFull(), (new StateMap.Builder()).ignore(BlockSlab.HALF, BlockMinestuckSlab.dummy).build());
+			ModelLoader.setCustomStateMapper(slab, (new StateMap.Builder()).ignore(MSBlockSlab.dummy).build());
+			ModelLoader.setCustomStateMapper(slab.fullSlab, (new StateMap.Builder()).ignore(BlockSlab.HALF, MSBlockSlab.dummy).build());
 		}
+
 		
 		ModelLoader.setCustomStateMapper(blockOil, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
 		ModelLoader.setCustomStateMapper(blockBlood, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
@@ -294,8 +291,8 @@ public class MinestuckModelManager
 		ModelLoader.setCustomStateMapper(primedTnt, (new StateMap.Builder()).ignore(BlockTNT.EXPLODE).build());
 		ModelLoader.setCustomStateMapper(unstableTnt, (new StateMap.Builder()).ignore(BlockTNT.EXPLODE).build());
 		ModelLoader.setCustomStateMapper(instantTnt, (new StateMap.Builder()).ignore(BlockTNT.EXPLODE).build());
-		ModelLoader.setCustomStateMapper(log, (new StateMap.Builder()).withName(BlockMinestuckLog1.VARIANT).withSuffix("_log").build());
-		ModelLoader.setCustomStateMapper(leaves1, (new StateMap.Builder()).withName(BlockMinestuckLeaves1.VARIANT).withSuffix("_leaves").build());
+		ModelLoader.setCustomStateMapper(log, (new StateMap.Builder()).withName(BlockMinestuckLogVariant.VARIANT).withSuffix("_log").build());
+		ModelLoader.setCustomStateMapper(leaves1, (new StateMap.Builder()).withName(BlockMinestuckLeavesVariant.VARIANT).withSuffix("_leaves").build());
 		ModelLoader.setCustomStateMapper(aspectSapling, (new StateMap.Builder()).withName(BlockAspectSapling.VARIANT).withSuffix("_sapling").build());
 		ModelLoader.setCustomStateMapper(aspectLog1, (new StateMap.Builder()).withName(BlockAspectLog.VARIANT).withSuffix("_log").build());
 		ModelLoader.setCustomStateMapper(aspectLog2, (new StateMap.Builder()).withName(BlockAspectLog2.VARIANT).withSuffix("_log").build());

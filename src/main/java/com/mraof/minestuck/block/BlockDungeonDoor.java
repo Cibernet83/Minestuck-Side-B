@@ -20,7 +20,7 @@ public class BlockDungeonDoor extends MSBlockBase
 
     public BlockDungeonDoor(String name)
     {
-        super(Material.ROCK, name);
+        super(name, Material.ROCK);
         setBlockUnbreakable();
         setResistance(6000000.0F);
         disableStats();

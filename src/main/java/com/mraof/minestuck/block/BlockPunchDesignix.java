@@ -1,5 +1,7 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.item.block.ItemPunchDesignix;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityPunchDesignix;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyDirection;
@@ -26,7 +28,7 @@ public class BlockPunchDesignix extends BlockLargeMachine
 	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public BlockPunchDesignix()
 	{
-		setUnlocalizedName("punch_designix");
+		super("punchDesignix");
 		setDefaultState(blockState.getBaseState());
 	} 
 	
@@ -186,5 +188,11 @@ public class BlockPunchDesignix extends BlockLargeMachine
 	public Item getItemFromMachine() 
 	{
 		return new ItemStack(MinestuckBlocks.punchDesignix).getItem();
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemPunchDesignix(this);
 	}
 }

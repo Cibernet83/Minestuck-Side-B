@@ -45,7 +45,7 @@ public class ItemLongForgottenWarhorn extends MSItemBase {
         super("longForgottenWarhorn");
         setMaxDamage(100);
         setMaxStackSize(1);
-        setCreativeTab(TabsMinestuck.minestuck);
+        setCreativeTab(MinestuckTabs.minestuck);
     }
     
     @Override

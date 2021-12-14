@@ -1,7 +1,10 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.Debug;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockButton;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -11,20 +14,25 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
 
-public class BlockButtonSpecial extends BlockButton
+public class BlockButtonSpecial extends BlockButton implements IRegistryBlock
 {
 	
 	public final boolean explosive, wooden;
-	
-	public BlockButtonSpecial(boolean wooden, boolean explosive)
+	private final String regName;
+
+	public BlockButtonSpecial(String name, boolean wooden, boolean explosive)
 	{
 		super(wooden);
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MinestuckBlocks.blocks.add(this);
 		this.explosive = explosive;
 		this.wooden = wooden;
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setHardness(0.5F);
 		if(wooden)
 			setSoundType(SoundType.WOOD);
@@ -63,5 +71,18 @@ public class BlockButtonSpecial extends BlockButton
 		if(wooden)
 			worldIn.playSound((EntityPlayer)null, pos, SoundEvents.BLOCK_WOOD_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.5F);
 		else worldIn.playSound((EntityPlayer)null, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.5F);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

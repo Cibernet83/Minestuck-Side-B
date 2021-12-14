@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item.weapon;
 
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -10,7 +10,7 @@ public class ItemSbahjEEEE extends ItemPogoWeapon {
     public ItemSbahjEEEE(int durability, double damage, double speed, int enchantability, String name, double pogoness)
     {
         super(durability, damage, speed, enchantability, name, pogoness);
-        this.setCreativeTab(TabsMinestuck.minestuck);
+        this.setCreativeTab(MinestuckTabs.minestuck);
     }
     
     @Override

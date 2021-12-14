@@ -1,7 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -13,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 
-public class BlockDenseCloud extends Block
+public class BlockDenseCloud extends MSBlockBase
 {
 	public enum BlockType implements IStringSerializable
 	{
@@ -35,11 +34,9 @@ public class BlockDenseCloud extends Block
 	
 	public BlockDenseCloud()
 	{
-		super(Material.GLASS, MapColor.YELLOW);
+		super("denseCloud",Material.GLASS, MapColor.YELLOW);
 		setHardness(0.5F);
 		setSoundType(SoundType.SNOW);
-		setUnlocalizedName("dense_cloud");
-		setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	@Override
@@ -71,5 +68,18 @@ public class BlockDenseCloud extends Block
 	{
 		for(int i = 0; i < BlockType.values().length; i++)
 			items.add(new ItemStack(this, 1, i));
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this)
+		{
+			@Override
+			public int getMetadata(int damage)
+			{
+				return damage;
+			}
+		};
 	}
 }

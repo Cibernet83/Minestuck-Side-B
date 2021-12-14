@@ -1,7 +1,5 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.TabsMinestuck;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -19,27 +17,27 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public abstract class BlockLargeMachine extends BlockContainer
+public abstract class BlockLargeMachine extends MSBlockContainer
 {
 	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	
+
+	public BlockLargeMachine(String name)
+	{
+		super(name, Material.ROCK);
+		setHardness(2);
+	}
+
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
 		return new BlockStateContainer(this, DIRECTION);
-		
 	}
+
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
-	public BlockLargeMachine() 
-	{
-		super(Material.ROCK);
-		this.setHardness(2);
-		this.setCreativeTab(TabsMinestuck.minestuck);
-	}	
 	//keeps the blocks from dropping something
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world,BlockPos pos,IBlockState state,int fortune)

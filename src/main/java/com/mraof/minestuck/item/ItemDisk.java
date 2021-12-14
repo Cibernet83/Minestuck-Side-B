@@ -15,7 +15,7 @@ public class ItemDisk extends MSItemBase
 		super("computerDisk");
 		this.maxStackSize = 1;
 		this.setHasSubtypes(true);
-		this.setCreativeTab(TabsMinestuck.minestuck);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 	}
 	
 	@Override

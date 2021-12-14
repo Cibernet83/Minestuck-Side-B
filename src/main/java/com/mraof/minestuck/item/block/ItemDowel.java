@@ -1,13 +1,13 @@
 package com.mraof.minestuck.item.block;
 
-import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
@@ -21,13 +21,14 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemDowel extends ItemBlock
+public class ItemDowel extends MSItemBlock
 {
 	
 	public ItemDowel(Block block)
 	{
 		super(block);
 		this.setHasSubtypes(true);
+		MinestuckItems.items.add(this);
 	}
 	
 	@Override

@@ -1,11 +1,9 @@
 package com.mraof.minestuck.block;
 
-import java.util.Random;
-
 import com.mraof.minestuck.item.MinestuckItems;
-
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.state.IBlockState;
@@ -16,16 +14,23 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockMinestuckStem extends BlockStem
+import java.util.Random;
+
+public class BlockMinestuckStem extends BlockStem implements IRegistryBlock
 {
 	private BlockDirectional crop = null;
 	private boolean cropHasFacing = false;
+	private final String regName;
 
-	protected BlockMinestuckStem(BlockDirectional crop)
+	protected BlockMinestuckStem(String name, BlockDirectional crop)
 	{
 		super(crop);
 		this.crop = crop;
+		setUnlocalizedName(name);
+		regName = IRegistryItem.unlocToReg(name);
+		MinestuckBlocks.blocks.add(this);
 	}
 	
 	@Override
@@ -215,5 +220,18 @@ public class BlockMinestuckStem extends BlockStem
 	protected Item getSeedItem()
 	{
 		return MinestuckItems.strawberryChunk;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
 	}
 }

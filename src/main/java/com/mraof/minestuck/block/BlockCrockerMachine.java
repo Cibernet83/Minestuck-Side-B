@@ -2,11 +2,11 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiHandler;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import com.mraof.minestuck.tileentity.TileEntityCrockerMachine;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
 import com.mraof.minestuck.util.IdentifierHandler;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -29,7 +29,9 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCrockerMachine extends BlockContainer
+import static com.mraof.minestuck.block.MinestuckBlocks.crockerMachine;
+
+public class BlockCrockerMachine extends MSBlockContainer
 {
 	protected static final AxisAlignedBB[] GRIST_WIDGET_AABB = {new AxisAlignedBB(2/16D, 0.0D, 5/16D, 14/16D, 2.1/16D, 12/16D), new AxisAlignedBB(4/16D, 0.0D, 2/16D, 11/16D, 2.1/16D, 14/16D),new AxisAlignedBB(2/16D, 0.0D, 4/16D, 14/16D, 2.1/16D, 11/16D), new AxisAlignedBB(5/16D, 0.0D, 2/16D, 12/16D, 2.1/16D, 14/16D)};
 	
@@ -58,16 +60,13 @@ public class BlockCrockerMachine extends BlockContainer
 	public static final PropertyEnum<MachineType> MACHINE_TYPE = PropertyEnum.create("machine_type", MachineType.class);
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	public static final PropertyBool HAS_ITEM = PropertyBool.create("has_item");
-	
+
 	protected BlockCrockerMachine()
 	{
-		super(Material.ROCK);
-		
-		setUnlocalizedName("crockerMachine");
+		super("crockerMachine", Material.ROCK);
 		setHardness(3.0F);
 		setHarvestLevel("pickaxe", 0);
 		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.SOUTH));
-		this.setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	@Override
@@ -199,5 +198,11 @@ public class BlockCrockerMachine extends BlockContainer
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(crockerMachine, (ItemStack input) -> MachineType.values()[input.getItemDamage() % MachineType.values().length].getUnlocalizedName());
 	}
 }

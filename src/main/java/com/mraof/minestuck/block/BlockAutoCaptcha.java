@@ -1,12 +1,8 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityAutoCaptcha;
-import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MSUUtils;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -26,24 +22,20 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockAutoCaptcha extends BlockContainer implements IRegistryItem<Block>
+public class BlockAutoCaptcha extends MSBlockContainer
 {
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	
 	protected BlockAutoCaptcha()
 	{
-		super(Material.IRON);
-		setUnlocalizedName("autoCaptcha");
+		super("autoCaptcha", Material.IRON);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(3.0F);
-		setCreativeTab(TabsMinestuck.minestuck);
 	}
-	
 	
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
@@ -136,12 +128,5 @@ public class BlockAutoCaptcha extends BlockContainer implements IRegistryItem<Bl
 		if(stack.getCount() == stack.getMaxStackSize())
 			strength++;
 		return strength;
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName("auto_captcha");
-		registry.register(this);
 	}
 }

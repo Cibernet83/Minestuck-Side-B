@@ -1,10 +1,6 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.tileentity.TileEntityHolopad;
-import com.mraof.minestuck.item.TabsMinestuck;
-import com.mraof.minestuck.util.IRegistryItem;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -22,19 +18,16 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockHolopad extends BlockContainer implements IRegistryItem<Block>
+public class BlockHolopad extends MSBlockContainer
 {
 
 	public BlockHolopad()
 	{
-		super(Material.ROCK, MapColor.SNOW);
-		setUnlocalizedName("holopad");
-		setCreativeTab(TabsMinestuck.minestuck);
+		super("holopad", Material.ROCK, MapColor.SNOW);
 		this.setHardness(2.0F);
 		this.setHarvestLevel("pickaxe", 0);
 	}
@@ -42,8 +35,9 @@ public class BlockHolopad extends BlockContainer implements IRegistryItem<Block>
 	protected static final AxisAlignedBB HOLOPAD_AABB = new AxisAlignedBB(0.125D, 0.0D, 0.06875D, 0.875D, 0.375D, 0.81875D);
 	protected static final AxisAlignedBB HOLOPAD_TOP_AABB = new AxisAlignedBB(0.1875D, 0.375D, 0.1625D, 0.8125D, 0.4375D, 0.7875D);
 	protected static final AxisAlignedBB HOLOPAD_CARDSLOT_AABB = new AxisAlignedBB(0.25D, 0.0D, 0.8625D, 0.75D, 0.63125D, 0.99625D);
-	public static final PropertyDirection FACING;
-	public static final PropertyBool CARD;
+
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyBool CARD = PropertyBool.create("card");
 	
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityHolopad();
@@ -163,17 +157,5 @@ public class BlockHolopad extends BlockContainer implements IRegistryItem<Block>
 	
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT_MIPPED;
-	}
-	
-	static {
-		FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-		CARD = PropertyBool.create("card");
-	}
-
-	@Override
-	public void register(IForgeRegistry<Block> registry)
-	{
-		setRegistryName("holopad");
-		registry.register(this);
 	}
 }

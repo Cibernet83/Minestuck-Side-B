@@ -1,9 +1,9 @@
 package com.mraof.minestuck.block;
 
-import javax.annotation.Nullable;
-
-import com.mraof.minestuck.item.TabsMinestuck;
-
+import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.util.IRegistryItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -22,17 +22,23 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockVein extends BlockDirectional
+import javax.annotation.Nullable;
+
+public class BlockVein extends BlockDirectional implements IRegistryBlock
 {
+    private final String regName;
 
-	protected BlockVein(String unlocalizedName) {
+	protected BlockVein(String name) {
 		super(Material.WOOD);
-		setCreativeTab(TabsMinestuck.minestuck);
-		setUnlocalizedName(unlocalizedName);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		setHardness(0.45F);
 		setSoundType(SoundType.SLIME);
+        setUnlocalizedName(name);
+        regName = IRegistryItem.unlocToReg(name);
+        MinestuckBlocks.blocks.add(this);
 	}
 
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
@@ -135,5 +141,18 @@ public class BlockVein extends BlockDirectional
     protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, new IProperty[] {FACING});
+    }
+
+    @Override
+    public void register(IForgeRegistry<Block> registry)
+    {
+        setRegistryName(regName);
+        registry.register(this);
+    }
+
+    @Override
+    public MSItemBlock getItemBlock()
+    {
+        return new MSItemBlock(this);
     }
 }

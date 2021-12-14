@@ -4,7 +4,8 @@ import com.cibernet.splatcraft.items.ItemFilter;
 import com.google.common.collect.ImmutableList;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristType;
-import com.mraof.minestuck.block.*;
+import com.mraof.minestuck.block.IRegistryBlock;
+import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.client.model.armor.*;
 import com.mraof.minestuck.client.renderer.entity.RenderThrowable;
 import com.mraof.minestuck.enchantments.MSUEnchantments;
@@ -13,7 +14,8 @@ import com.mraof.minestuck.entity.item.EntityCrewPoster;
 import com.mraof.minestuck.entity.item.EntitySbahjPoster;
 import com.mraof.minestuck.inventory.captchalouge.PopTartModus;
 import com.mraof.minestuck.item.armor.*;
-import com.mraof.minestuck.item.block.*;
+import com.mraof.minestuck.item.block.ItemDowel;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.operandi.*;
 import com.mraof.minestuck.item.properties.*;
 import com.mraof.minestuck.item.properties.beams.PropertyBeamDeathMessage;
@@ -26,7 +28,6 @@ import com.mraof.minestuck.item.properties.shieldkind.*;
 import com.mraof.minestuck.item.properties.throwkind.*;
 import com.mraof.minestuck.item.weapon.*;
 import com.mraof.minestuck.util.*;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.GlStateManager;
@@ -57,15 +58,20 @@ import vazkii.botania.common.block.ModBlocks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.mraof.minestuck.block.MinestuckBlocks.*;
+import static com.mraof.minestuck.block.MinestuckBlocks.blocks;
+import static com.mraof.minestuck.block.MinestuckBlocks.strawberryStem;
 import static com.mraof.minestuck.util.ModusStorage.getStoredItem;
 
 public class MinestuckItems
 {
+	public static final ArrayList<IRegistryItem<Item>> items = new ArrayList<>();
+	public static final ArrayList<ItemModus> modi = new ArrayList<>();
+	public static final ArrayList<ItemMinestuckRecord> records = new ArrayList<>();
+
 	private static final PropertySoundOnHit.Value PITCH_NOTE = ((stack, target, player) -> (-player.rotationPitch + 90) / 90f);
-	public static final ArrayList<Block> itemBlocks = new ArrayList<>();
 
 	public static final Item.ToolMaterial toolUranium = EnumHelper.addToolMaterial("URANIUM", 3, 1220, 12.0F, 6.0F, 15);
 	public static final Item.ToolMaterial toolEmerald = EnumHelper.addToolMaterial("EMERALD", 3, 1220, 12.0F, 4.0F, 12).setRepairItem(new ItemStack(Items.EMERALD));
@@ -211,48 +217,48 @@ public class MinestuckItems
 	public static final Item recordDanceStab = new ItemMinestuckRecord("danceStab", MinestuckSoundHandler.soundDanceStabDance).setUnlocalizedName("record");
 	public static final Item recordRetroBattle = new ItemMinestuckRecord("retroBattle",MinestuckSoundHandler.soundRetroBattleTheme).setUnlocalizedName("record");
 
-	public static final Item stackModus = new MSItemBase("stackModus").setMaxStackSize(1);
-	public static final Item queueModus = new MSItemBase("queueModus").setMaxStackSize(1);
-	public static final Item queueStackModus = new MSItemBase("queueStackModus").setMaxStackSize(1);
-	public static final Item treeModus = new MSItemBase("treeModus").setMaxStackSize(1);
-	public static final Item hashmapModus = new MSItemBase("hashmapModus").setMaxStackSize(1);
-	public static final Item setModus = new MSItemBase("setModus").setMaxStackSize(1);
-	public static final Item wildMagicModus = new MSItemBase("wildMagicModus").setMaxStackSize(1);
-	public static final Item weightModus = new MSItemBase("weightModus").setMaxStackSize(1);
-	public static final Item bookModus = new MSItemBase("bookModus").setMaxStackSize(1);
-	public static final Item capitalistModus = new MSItemBase("capitalistModus").setMaxStackSize(1);
-	public static final Item modUs = new MSItemBase("modUs").setMaxStackSize(1);
-	public static final Item operandiModus = new MSItemBase("operandiModus").setMaxStackSize(1);
-	public static final Item onionModus = new MSItemBase("onionModus").setMaxStackSize(1);
-	public static final Item slimeModus = new MSItemBase("slimeModus").setMaxStackSize(1);
-	public static final Item popTartModus = new MSItemBase("popTartModus").setMaxStackSize(1);
-	public static final Item deckModus = new MSItemBase("deckModus").setMaxStackSize(1);
-	public static final Item hueModus = new MSItemBase("hueModus").setMaxStackSize(1);
-	public static final Item hueStackModus = new MSItemBase("hueStackModus").setMaxStackSize(1);
-	public static final Item chatModus = new MSItemBase("chatModus").setMaxStackSize(1);
-	public static final Item cycloneModus = new MSItemBase("cycloneModus").setMaxStackSize(1);
-	public static final Item energyModus = new MSItemBase("energyModus").setMaxStackSize(1);
-	public static final Item scratchAndSniffModus = new MSItemBase("scratchAndSniffModus").setMaxStackSize(1);
-	public static final Item eightBallModus = new MSItemBase("eightBallModus").setMaxStackSize(1);
-	public static final Item chasityModus = new MSItemBase("chasityModus").setMaxStackSize(1);
-	public static final Item jujuModus = new MSItemBase("jujuModus").setMaxStackSize(1);
-	public static final Item alcheModus = new MSItemBase("alchemodus").setMaxStackSize(1);
-	public static final Item arrayModus = new MSItemBase("arrayModus").setMaxStackSize(1);
-	public static final Item monsterModus = new MSItemBase("monsterModus").setMaxStackSize(1);
-	public static final Item walletModus = new MSItemBase("walletModus").setMaxStackSize(1);
-	public static final Item crystalBallModus = new MSItemBase("crystalBallModus").setMaxStackSize(1);
-	public static final Item hashchatModus = new MSItemBase("hashchatModus").setMaxStackSize(1);
-	public static final Item sacrificeModus = new MSItemBase("sacrificeModus").setMaxStackSize(1);
+	public static final Item stackModus = new ItemModus("stackModus");
+	public static final Item queueModus = new ItemModus("queueModus");
+	public static final Item queueStackModus = new ItemModus("queueStackModus");
+	public static final Item treeModus = new ItemModus("treeModus");
+	public static final Item hashmapModus = new ItemModus("hashmapModus");
+	public static final Item setModus = new ItemModus("setModus");
+	public static final Item wildMagicModus = new ItemModus("wildMagicModus");
+	public static final Item weightModus = new ItemModus("weightModus");
+	public static final Item bookModus = new ItemModus("bookModus");
+	public static final Item capitalistModus = new ItemModus("capitalistModus");
+	public static final Item modUs = new ItemModus("modUs");
+	public static final Item operandiModus = new ItemModus("operandiModus");
+	public static final Item onionModus = new ItemModus("onionModus");
+	public static final Item slimeModus = new ItemModus("slimeModus");
+	public static final Item popTartModus = new ItemModus("popTartModus");
+	public static final Item deckModus = new ItemModus("deckModus");
+	public static final Item hueModus = new ItemModus("hueModus");
+	public static final Item hueStackModus = new ItemModus("hueStackModus");
+	public static final Item chatModus = new ItemModus("chatModus");
+	public static final Item cycloneModus = new ItemModus("cycloneModus");
+	public static final Item energyModus = new ItemModus("energyModus");
+	public static final Item scratchAndSniffModus = new ItemModus("scratchAndSniffModus");
+	public static final Item eightBallModus = new ItemModus("eightBallModus");
+	public static final Item chasityModus = new ItemModus("chasityModus");
+	public static final Item jujuModus = new ItemModus("jujuModus");
+	public static final Item alcheModus = new ItemModus("alchemodus");
+	public static final Item arrayModus = new ItemModus("arrayModus");
+	public static final Item monsterModus = new ItemModus("monsterModus");
+	public static final Item walletModus = new ItemModus("walletModus");
+	public static final Item crystalBallModus = new ItemModus("crystalBallModus");
+	public static final Item hashchatModus = new ItemModus("hashchatModus");
+	public static final Item sacrificeModus = new ItemModus("sacrificeModus");
 	/*
-	public static final Item memoryModus = new MSItemBase("memoryModus");
-	public static final Item recipeModus = new MSItemBase("recipeModus");
-	public static final Item bottledMsgModus = new MSItemBase("messageInABottleModus");
-	public static final Item techHopModus = new MSItemBase("techHopModus");
-	public static final Item encryptionModus = new MSItemBase("encryptionModus");
-	public static final Item ouijaModus = new MSItemBase("ouijaModus");
-	public static final Item bundleModus = new MSItemBase("bundleModus");
-	public static final Item cakeModus = new MSItemBase("cakeModus");
-	public static final Item cipherModus = new MSItemBase("cipherModus");
+	public static final Item memoryModus = new ItemModus("memoryModus");
+	public static final Item recipeModus = new ItemModus("recipeModus");
+	public static final Item bottledMsgModus = new ItemModus("messageInABottleModus");
+	public static final Item techHopModus = new ItemModus("techHopModus");
+	public static final Item encryptionModus = new ItemModus("encryptionModus");
+	public static final Item ouijaModus = new ItemModus("ouijaModus");
+	public static final Item bundleModus = new ItemModus("bundleModus");
+	public static final Item cakeModus = new ItemModus("cakeModus");
+	public static final Item cipherModus = new ItemModus("cipherModus");
 	*/
 
 	public static final Item popTart = new ItemFood("popTart", 3, 0, false, PopTartModus.getConsumer());
@@ -302,7 +308,7 @@ public class MinestuckItems
 	public static final Item battery = new MSItemBase("battery");
 	public static final Item strifeCard = new ItemStrifeCard("strifeCard");
 	public static final Item dungeonKey = new MSItemBase("dungeonKey");
-	public static final Item laserPointer = new ItemBeamWeapon(-1, 0, 0, 0.01f, 0, 1, 1, "laserPointer").addProperties(new PropertyPotionBeam(new PotionEffect(MobEffects.BLINDNESS, 30, 0, false, false))).setRepairMaterials(new ItemStack(battery)).setCreativeTab(TabsMinestuck.minestuck);
+	public static final Item laserPointer = new ItemBeamWeapon(-1, 0, 0, 0.01f, 0, 1, 1, "laserPointer").addProperties(new PropertyPotionBeam(new PotionEffect(MobEffects.BLINDNESS, 30, 0, false, false))).setRepairMaterials(new ItemStack(battery)).setCreativeTab(MinestuckTabs.minestuck);
 	public static final Item whip = new ItemSound("whip", MinestuckSoundHandler.whipCrack);
 	public static final Item sbahjWhip = new ItemSound("whipSbahj", MinestuckSoundHandler.whipCrock).setSecret();
 	public static final Item unrealAir = new ItemUnrealAir("unrealAir");
@@ -555,8 +561,8 @@ public class MinestuckItems
 	public static final Item nightClub = new MSWeaponBase(1320, 11.2, -2.2, 6, "nightClub").setTool(toolClub, 3, 3).addProperties(new PropertyProjectileDeflect(0.2f, 3), new PropertyDaytimeDamage(false, 1.4f));
 
 	//Dicekind TODO
-	public static final Item dice = new MSItemBase("dice").setCreativeTab(TabsMinestuck.minestuck);
-	public static final Item fluoriteOctet = new MSItemBase("fluoriteOctet").setCreativeTab(TabsMinestuck.minestuck);
+	public static final Item dice = new MSItemBase("dice").setCreativeTab(MinestuckTabs.minestuck);
+	public static final Item fluoriteOctet = new MSItemBase("fluoriteOctet").setCreativeTab(MinestuckTabs.minestuck);
 
 	//Throwkind
 	public static final MSThrowableBase yarnBall = new ItemYarnBall("yarnBall");
@@ -641,20 +647,12 @@ public class MinestuckItems
 	public static final MSArmorBase crumplyHat = new MSArmorBase(materialCloth, 0, EntityEquipmentSlot.HEAD, "crumplyHat");
 
 	//Support
-	public static Item splatcraftCruxiteFilter = new MSItemBase("cruxiteFilter"){
-		@Override
-		public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		}
-	};
+	public static Item splatcraftCruxiteFilter = null;
 
 	@SubscribeEvent
 	public static void onMissingRegistries(RegistryEvent.MissingMappings<Item> event)
 	{
-		ArrayList<String> integratedMods = new ArrayList<>();
-		integratedMods.add("minestuck");
-		integratedMods.add("Minestuck");
-		integratedMods.add("fetchmodiplus");
-		integratedMods.add("minestuckgodtier");
+		List<String> integratedMods = Arrays.asList("minestuck", "minestuckuniverse", "fetchmodiplus", "minestuckgodtier");
 
 		for(RegistryEvent.MissingMappings.Mapping<Item> entry : ImmutableList.copyOf(event.getAllMappings().stream().filter(e -> integratedMods.contains(e.key.getResourceDomain())).collect(Collectors.toList())))
 		{
@@ -673,170 +671,17 @@ public class MinestuckItems
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
-		armorPrismarine.repairMaterial = new ItemStack(Items.PRISMARINE_SHARD);
-		((ItemMinestuckSeedFood) strawberryChunk).setPlant(strawberryStem.getDefaultState());
-
 		IForgeRegistry<Item> registry = event.getRegistry();
-		registerItemBlock(registry, new ItemMultiTexture(chessTile, chessTile, new String[]{"black", "white", "darkgrey", "lightgrey"}));
-		registerItemBlock(registry, new ItemBlock(skaiaPortal));
-		
-		registerItemBlock(registry, new ItemMultiTexture(oreCruxite, oreCruxite, new String[0])
-		{
-			@Override
-			public String getUnlocalizedName(ItemStack stack)
-			{
-				return block.getUnlocalizedName();
-			}
-		});
-		registerItemBlock(registry, new ItemMultiTexture(oreUranium, oreUranium, new String[0])
-		{
-			@Override
-			public String getUnlocalizedName(ItemStack stack)
-			{
-				return block.getUnlocalizedName();
-			}
-		});
-		// TODO: Stick all this in MSBlockBase
-		registerItemBlock(registry, new ItemBlock(coalOreNetherrack));
-		registerItemBlock(registry, new ItemBlock(ironOreEndStone));
-		registerItemBlock(registry, new ItemBlock(ironOreSandstone));
-		registerItemBlock(registry, new ItemBlock(ironOreSandstoneRed));
-		registerItemBlock(registry, new ItemBlock(goldOreSandstone));
-		registerItemBlock(registry, new ItemBlock(goldOreSandstoneRed));
-		registerItemBlock(registry, new ItemBlock(redstoneOreEndStone));
-		registerItemBlock(registry, new ItemBlock(quartzOreStone));
-		registerItemBlock(registry, new ItemBlock(coalOrePinkStone));
-		registerItemBlock(registry, new ItemBlock(goldOrePinkStone));
-		registerItemBlock(registry, new ItemBlock(diamondOrePinkStone));
-		registerItemBlock(registry, new ItemBlock(lapisOrePinkStone));
 
-		registerItemBlock(registry, new ItemBlockCraftingTab(cruxiteBlock, CreativeTabs.BUILDING_BLOCKS));
-		registerItemBlock(registry, new ItemBlockCraftingTab(uraniumBlock, CreativeTabs.BUILDING_BLOCKS));
-		registerItemBlock(registry, new ItemBlock(genericObject));
-		registerItemBlock(registry, new ItemSburbMachine(sburbMachine));
-		registerItemBlock(registry, new ItemMultiTexture(crockerMachine, crockerMachine,
-				(ItemStack input) -> BlockCrockerMachine.MachineType.values()[input.getItemDamage() % BlockCrockerMachine.MachineType.values().length].getUnlocalizedName()));
-		registerItemBlock(registry, new ItemBlock(blockComputerOff));
+		armorPrismarine.repairMaterial = new ItemStack(Items.PRISMARINE_SHARD);
+		toolUranium.setRepairItem(new ItemStack(rawUranium));
+		ItemWeapon.addToolMaterial("pickaxe", Arrays.asList(Material.IRON, Material.ANVIL, Material.ROCK));
+		ItemWeapon.addToolMaterial("axe", Arrays.asList(Material.WOOD, Material.PLANTS, Material.VINE));
+		ItemWeapon.addToolMaterial("shovel", Arrays.asList(Material.SNOW, Material.CRAFTED_SNOW, Material.CLAY, Material.GRASS, Material.GROUND, Material.SAND));
+		ItemWeapon.addToolMaterial("sword", Arrays.asList(Material.WEB));
+		ItemWeapon.addToolMaterial("sickle", Arrays.asList(Material.WEB, Material.LEAVES, Material.PLANTS, Material.VINE));
 
-		//registerItemBlock(registry, new ItemTransportalizer(transportalizer));
-		
-		registerItemBlock(registry, new ItemPunchDesignix(punchDesignix));
-		registerItemBlock(registry, new ItemTotemLathe(totemlathe[0]));
-		registerItemBlock(registry, new ItemAlchemiter(alchemiter[0]));
-		registerItemBlock(registry, new ItemCruxtruder(cruxtruder));
-		registerItemBlock(registry, new ItemBlock(cruxtruderLid));
-		registerItemBlock(registry, cruxiteDowel);
-		/*registerItemBlock(registry, new ItemBlock(holopad));
-		registerItemBlock(registry, new ItemJumperBlock(jumperBlockExtension[0]));*/
-		registerItemBlock(registry, new ItemBlock(blender));
-		registerItemBlock(registry, new ItemBlock(chessboard));
-		registerItemBlock(registry, new ItemBlock(frogStatueReplica));
-
-		registerItemBlock(registry, new ItemBlockLayered(layeredSand));
-		registerItemBlock(registry, new ItemMultiTexture(coloredDirt, coloredDirt,
-				(ItemStack input) -> BlockColoredDirt.BlockType.values()[input.getItemDamage() % BlockColoredDirt.BlockType.values().length].getName()));
-		registerItemBlock(registry, new ItemBlock(petrifiedLog));
-		registerItemBlock(registry, new ItemBlock(petrifiedPoppy));
-		registerItemBlock(registry, new ItemBlock(petrifiedGrass));
-		registerItemBlock(registry, new ItemBlock(bloomingCactus));
-		registerItemBlock(registry, new ItemBlock(desertBush));
-		registerItemBlock(registry, new ItemBlock(glowingMushroom));
-		registerItemBlock(registry, new ItemBlock(glowingLog));
-		registerItemBlock(registry, new ItemBlockCraftingTab(glowingPlanks, CreativeTabs.BUILDING_BLOCKS));
-		registerItemBlock(registry, new ItemBlock(frostPlanks));
-		registerItemBlock(registry, new ItemMultiTexture(stone, stone,
-				(ItemStack input) -> BlockMinestuckStone.BlockType.getFromMeta(input.getMetadata()).getUnlocalizedName()));
-		registerItemBlock(registry, new ItemBlock(glowyGoop));
-		registerItemBlock(registry, new ItemBlock(coagulatedBlood));
-		registerItemBlock(registry, new ItemBlockCraftingTab(coarseStoneStairs, CreativeTabs.BUILDING_BLOCKS));
-		registerItemBlock(registry, new ItemBlockCraftingTab(shadeBrickStairs, CreativeTabs.BUILDING_BLOCKS));
-		registerItemBlock(registry, new ItemBlockCraftingTab(frostBrickStairs, CreativeTabs.BUILDING_BLOCKS));
-		registerItemBlock(registry, new ItemBlockCraftingTab(castIronStairs, CreativeTabs.BUILDING_BLOCKS));
-		registerItemBlock(registry, new ItemBlockCraftingTab(myceliumBrickStairs, CreativeTabs.BUILDING_BLOCKS));
-		
-
-		registerItemBlock(registry, new ItemBlock(vein));
-		registerItemBlock(registry, new ItemBlock(veinCorner));
-		registerItemBlock(registry, new ItemBlock(veinCornerInverted));
-
-		registerItemBlock(registry, new ItemMultiTexture(log, log,
-				(ItemStack input) -> BlockMinestuckLog1.BlockType.values()[input.getItemDamage() % BlockMinestuckLog1.BlockType.values().length].getUnlocalizedName()));
-		registerItemBlock(registry, new ItemMultiTexture(leaves1, leaves1,
-				(ItemStack input) -> BlockMinestuckLeaves1.BlockType.values()[input.getItemDamage() % BlockMinestuckLeaves1.BlockType.values().length].getUnlocalizedName()));
-		registerItemBlock(registry, new ItemMultiTexture(planks, planks,
-				(ItemStack input) -> BlockMinestuckPlanks.BlockType.values()[Math.min(input.getItemDamage(), BlockMinestuckPlanks.BlockType.values().length - 1)].getUnlocalizedName()));
-				//Temporarily changed to this mechanism for handling larger inputs so that any leftover blocks at value 15 will convert properly.
-		
-		registerItemBlock(registry, new ItemMultiTexture(aspectSapling, aspectSapling,
-				(ItemStack input) -> BlockAspectSapling.BlockType.values()[input.getItemDamage() % BlockAspectSapling.BlockType.values().length].getUnlocalizedName()));
-		
-		registerItemBlock(registry, new ItemBlock(rainbowSapling));
-		
-		registerItemBlock(registry, new ItemMultiTexture(aspectLog1, aspectLog1,
-				(ItemStack input) -> BlockAspectLog.BlockType.values()[input.getItemDamage() % BlockAspectLog.BlockType.values().length].getUnlocalizedName()));
-		registerItemBlock(registry, new ItemMultiTexture(aspectLog2, aspectLog2,
-				(ItemStack input) -> BlockAspectLog2.BlockType.values()[input.getItemDamage() % BlockAspectLog2.BlockType.values().length].getUnlocalizedName()));
-		registerItemBlock(registry, new ItemMultiTexture(aspectLog3, aspectLog3,
-				(ItemStack input) -> BlockAspectLog3.BlockType.values()[input.getItemDamage() % BlockAspectLog3.BlockType.values().length].getUnlocalizedName()));
-		
-		registerItemBlock(registry, new ItemMultiTexture(blockLaptopOff, blockLaptopOff,
-				(ItemStack input) -> BlockVanityLaptopOff.BlockType.values()[input.getItemDamage() % BlockVanityLaptopOff.BlockType.values().length].getUnlocalizedName()));
-		
-		registerItemBlock(registry, new ItemBlock(woodenCactus));
-		registerItemBlock(registry, new ItemBlock(sugarCube));
-		registerItemBlock(registry, new ItemBlock(appleCake)).setMaxStackSize(1);
-		registerItemBlock(registry, new ItemBlock(blueCake)).setMaxStackSize(1);
-		registerItemBlock(registry, new ItemBlock(coldCake)).setMaxStackSize(1);
-		registerItemBlock(registry, new ItemBlock(redCake)).setMaxStackSize(1);
-		registerItemBlock(registry, new ItemBlock(hotCake)).setMaxStackSize(1);
-		registerItemBlock(registry, new ItemBlock(reverseCake)).setMaxStackSize(1);
-		registerItemBlock(registry, new ItemBlock(fuchsiaCake)).setMaxStackSize(1);
-		
-		registerItemBlock(registry, new ItemBlock(floweryMossBrick));
-		registerItemBlock(registry, new ItemBlock(floweryMossStone));
-		registerItemBlock(registry, new ItemBlock(treatedPlanks));
-		registerItemBlock(registry, new ItemBlock(coarseEndStone));
-		registerItemBlock(registry, new ItemBlock(endLog));
-		registerItemBlock(registry, new ItemBlock(endLeaves));
-		registerItemBlock(registry, new ItemBlock(endPlanks));
-		registerItemBlock(registry, new ItemBlock(endSapling));
-		registerItemBlock(registry, new ItemBlock(endGrass));
-		registerItemBlock(registry, new ItemBlock(strawberry));
-		registerItemBlock(registry, new ItemBlock(deadLog));
-		registerItemBlock(registry, new ItemBlock(deadPlanks));
-		registerItemBlock(registry, new ItemBlock(chalk));
-		registerItemBlock(registry, new ItemBlock(chalkBricks));
-		registerItemBlock(registry, new ItemBlock(chalkChisel));
-		registerItemBlock(registry, new ItemBlock(chalkPolish));
-		registerItemBlock(registry, new ItemBlock(pinkStoneSmooth));
-		registerItemBlock(registry, new ItemBlock(pinkStoneBricks));
-		registerItemBlock(registry, new ItemBlock(pinkStoneChisel));
-		registerItemBlock(registry, new ItemBlock(pinkStoneCracked));
-		registerItemBlock(registry, new ItemBlock(pinkStoneMossy));
-		registerItemBlock(registry, new ItemBlock(pinkStonePolish));
-		registerItemBlock(registry, new ItemBlock(denseCloud) {
-			@Override
-			public int getMetadata(int damage)
-			{
-				return damage;
-			}
-		});
-
-		for(EnumSlabStairMaterial mat : EnumSlabStairMaterial.values())
-		{
-			registerItemBlock(registry, new ItemBlock(mat.getStair()));
-			registerItemBlock(registry, mat.getSlabItem());
-		}
-
-		registerItemBlock(registry, new ItemBlock(primedTnt));
-		registerItemBlock(registry, new ItemBlock(unstableTnt));
-		registerItemBlock(registry, new ItemBlock(instantTnt));
-		registerItemBlock(registry, new ItemBlock(woodenExplosiveButton));
-		registerItemBlock(registry, new ItemBlock(stoneExplosiveButton));
-		
-		registerItemBlock(registry, new ItemBlock(uraniumCooker));
-
-		registerItemBlocks(registry);
+		((ItemMinestuckSeedFood) strawberryChunk).setPlant(strawberryStem.getDefaultState());
 
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(MinestuckItems.eightBall, new BehaviorProjectileDispense()
 		{
@@ -849,82 +694,33 @@ public class MinestuckItems
 			}
 		});
 
-		minestuckBucket.addBlock(blockOil.getDefaultState());
-		minestuckBucket.addBlock(blockBlood.getDefaultState());
-		minestuckBucket.addBlock(blockBrainJuice.getDefaultState());
-		minestuckBucket.addBlock(blockWatercolors.getDefaultState());
-		minestuckBucket.addBlock(blockEnder.getDefaultState());
-		minestuckBucket.addBlock(blockLightWater.getDefaultState());
-
-		/*for(Block block : liquidGrists)
-		{
-			minestuckBucket.addBlock(block.getDefaultState());
-		}*/
-
 		if(Minestuck.isSplatcraftLodaded)
-			splatcraftCruxiteFilter = new ItemFilter("cruxiteFilter", "cruxite_filter", false).setCreativeTab(TabsMinestuck.minestuck);
+		{
+			splatcraftCruxiteFilter = new ItemFilter("cruxiteFilter", "cruxite_filter", false).setCreativeTab(MinestuckTabs.minestuck);
+			registry.register(splatcraftCruxiteFilter);
+		}
 
-		for (IRegistryItem<Item> item : MSItemBase.items)
+		for (IRegistryBlock block : blocks)
+		{
+			MSItemBlock itemBlock = block.getItemBlock();
+			if (itemBlock != null)
+				items.add(itemBlock);
+		}
+
+		for (IRegistryItem<Item> item : items)
 			item.register(registry);
 
-		OreDictionary.registerOre("modus", stackModus);
-		OreDictionary.registerOre("modus", queueModus);
-		OreDictionary.registerOre("modus", queueStackModus);
-		OreDictionary.registerOre("modus", treeModus);
-		OreDictionary.registerOre("modus", hashmapModus);
-		OreDictionary.registerOre("modus", setModus);
-		OreDictionary.registerOre("modus", wildMagicModus);
-		OreDictionary.registerOre("modus", weightModus);
-		OreDictionary.registerOre("modus", bookModus);
-		OreDictionary.registerOre("modus", capitalistModus);
-		OreDictionary.registerOre("modus", modUs);
-		OreDictionary.registerOre("modus", operandiModus);
-		OreDictionary.registerOre("modus", onionModus);
-		OreDictionary.registerOre("modus", slimeModus);
-		OreDictionary.registerOre("modus", popTartModus);
-		OreDictionary.registerOre("modus", deckModus);
-		OreDictionary.registerOre("modus", hueModus);
-		OreDictionary.registerOre("modus", hueStackModus);
-		OreDictionary.registerOre("modus", chatModus);
-		OreDictionary.registerOre("modus", cycloneModus);
-		OreDictionary.registerOre("modus", energyModus);
-		OreDictionary.registerOre("modus", scratchAndSniffModus);
-		OreDictionary.registerOre("modus", eightBallModus);
-		OreDictionary.registerOre("modus", chasityModus);
-		OreDictionary.registerOre("modus", jujuModus);
-		OreDictionary.registerOre("modus", alcheModus);
-		OreDictionary.registerOre("modus", arrayModus);
-		OreDictionary.registerOre("modus", monsterModus);
-		OreDictionary.registerOre("modus", walletModus);
-		OreDictionary.registerOre("modus", crystalBallModus);
-		OreDictionary.registerOre("modus", hashchatModus);
-		OreDictionary.registerOre("modus", sacrificeModus);
+		for (ItemModus modus : modi)
+			OreDictionary.registerOre("modus", modus);
 
-		OreDictionary.registerOre("record", MinestuckItems.recordDanceStab);
-		OreDictionary.registerOre("record", MinestuckItems.recordEmissaryOfDance);
-		OreDictionary.registerOre("record", MinestuckItems.recordRetroBattle);
-
-		toolUranium.setRepairItem(new ItemStack(rawUranium));
-		ItemWeapon.addToolMaterial("pickaxe", Arrays.asList(Material.IRON, Material.ANVIL, Material.ROCK));
-		ItemWeapon.addToolMaterial("axe", Arrays.asList(Material.WOOD, Material.PLANTS, Material.VINE));
-		ItemWeapon.addToolMaterial("shovel", Arrays.asList(Material.SNOW, Material.CRAFTED_SNOW, Material.CLAY, Material.GRASS, Material.GROUND, Material.SAND));
-		ItemWeapon.addToolMaterial("sword", Arrays.asList(Material.WEB));
-		ItemWeapon.addToolMaterial("sickle", Arrays.asList(Material.WEB, Material.LEAVES, Material.PLANTS, Material.VINE));
+		for (ItemMinestuckRecord record : records)
+			OreDictionary.registerOre("record", record);
 	}
 
-	private static Item registerItemBlock(IForgeRegistry<Item> registry, ItemBlock item)
+	private static void registerItemBlock(IForgeRegistry<Item> registry, ItemBlock item)
 	{
-		registry.register(item.setRegistryName(item.getBlock().getRegistryName()));
-		return item;
-	}
-
-	public static final void registerItemBlocks(IForgeRegistry<Item> registry)
-	{
-		for(Block block : itemBlocks)
-			if (block instanceof BlockTransportalizer || block instanceof BlockCustomTransportalizer || block instanceof BlockParadoxTransportalizer)
-				new ItemTransportalizer(block);
-			else
-				new MSItemBlock(block);
+		item.setRegistryName(item.getBlock().getRegistryName());
+		registry.register(item);
 	}
 
 	public static final void setPostInitVariables()
@@ -937,7 +733,7 @@ public class MinestuckItems
 		overgrowthTransforms.put(Blocks.END_STONE, MinestuckBlocks.endGrass);
 		overgrowthTransforms.put(MinestuckBlocks.pinkStoneBricks, MinestuckBlocks.pinkStoneMossy);
 		overgrowthTransforms.put(Blocks.LOG, 0, MinestuckBlocks.log, 4);
-		overgrowthTransforms. put(Blocks.LOG, 4, MinestuckBlocks.log, 0);
+		overgrowthTransforms.put(Blocks.LOG, 4, MinestuckBlocks.log, 0);
 		overgrowthTransforms.put(Blocks.LOG, 8, MinestuckBlocks.log, 8);
 		overgrowthTransforms.put(Blocks.LOG, 12, MinestuckBlocks.log, 12);
 

@@ -1,10 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabsMinestuck;
-import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
-import net.minecraft.block.Block;
+import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -29,7 +28,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockCruxtiteDowel extends Block
+public class BlockCruxtiteDowel extends MSBlockBase
 {
 	protected static final AxisAlignedBB CRUXTRUDER_AABB = new AxisAlignedBB(5/16D, 0.0D, 5/16D, 11/16D, 5/16D, 11/16D);
 	protected static final AxisAlignedBB DOWEL_AABB = new AxisAlignedBB(5/16D, 0.0D, 5/16D, 11/16D, 8/16D, 11/16D);
@@ -37,9 +36,7 @@ public class BlockCruxtiteDowel extends Block
 	
 	public BlockCruxtiteDowel()
 	{
-		super(Material.GLASS);
-		this.setCreativeTab(TabsMinestuck.minestuck);
-		this.setUnlocalizedName("dowelCruxite");
+		super("cruxiteDowel",Material.GLASS);
 		setDefaultState(getDefaultState().withProperty(TYPE, Type.DOWEL));
 	}
 	
@@ -220,5 +217,11 @@ public class BlockCruxtiteDowel extends Block
 		{
 			return this.name().toLowerCase();
 		}
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return null; // Custom in MinestuckItems
 	}
 }

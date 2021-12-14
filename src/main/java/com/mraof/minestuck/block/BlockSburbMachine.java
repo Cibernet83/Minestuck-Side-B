@@ -2,11 +2,11 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiHandler;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.block.ItemSburbMachine;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
 import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
 import com.mraof.minestuck.util.IdentifierHandler;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockSburbMachine extends BlockContainer
+public class BlockSburbMachine extends MSBlockContainer
 {
 	protected static final AxisAlignedBB CRUXTRUDER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 15/16D, 1.0D);
 	protected static final AxisAlignedBB[] PUNCH_DESIGNIX_AABB = {new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 5/8D), new AxisAlignedBB(3/8D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 3/8D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 5/8D, 1.0D, 1.0D)};
@@ -73,14 +73,10 @@ public class BlockSburbMachine extends BlockContainer
 	
 	public BlockSburbMachine()
 	{
-		super(Material.ROCK);
-		
-		setUnlocalizedName("sburbMachine");
+		super("sburbMachine", Material.ROCK);
 		setHardness(3.0F);
 		setHarvestLevel("pickaxe", 0);
 		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.SOUTH));
-		this.setCreativeTab(TabsMinestuck.minestuck);
-
 	}
 	
 	@Override
@@ -251,5 +247,11 @@ public class BlockSburbMachine extends BlockContainer
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemSburbMachine(this);
 	}
 }

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.MSUUtils;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
@@ -21,11 +21,11 @@ public class BlockPorkhollowAtm extends MSBlockBase
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	protected BlockPorkhollowAtm()
 	{
-		super(Material.IRON, Material.IRON.getMaterialMapColor(), "porkhollow_atm");
+		super("porkhollow_atm", Material.IRON, Material.IRON.getMaterialMapColor());
 		setUnlocalizedName("porkhollowATM");
 		setHarvestLevel("pickaxe", 0);
 		setHardness(3.0F);
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 	}
 	
 	@Override

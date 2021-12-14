@@ -30,7 +30,7 @@ public class BlockGrist extends MSBlockBase
 
 	public BlockGrist(GristType type)
 	{
-		super(Material.GOURD, MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY, "grist_block_" + type.getName().toLowerCase());
+		super(type.getName().toLowerCase() + "GristBlock", Material.GOURD, MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY);
 		this.type = type;
 		this.value = (type.getValue() >= 5.0F || !type.equals(GristType.Build)) ? 10 : 100;
 		
@@ -38,8 +38,6 @@ public class BlockGrist extends MSBlockBase
 
 		setHardness(0.4f);
 		setHarvestLevel("pickaxe", 0);
-		
-		setUnlocalizedName("gristBlock." + type.getName().toLowerCase());
 	}
 	
 	@Override

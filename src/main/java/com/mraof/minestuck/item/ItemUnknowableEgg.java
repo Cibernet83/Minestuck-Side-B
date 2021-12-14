@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class ItemUnknowableEgg extends ItemFood {
     public ItemUnknowableEgg(int amount, float saturation, boolean isWolfFood, String name) {
         super(name, amount, saturation, isWolfFood);
-        setCreativeTab(TabsMinestuck.minestuck);
+        setCreativeTab(MinestuckTabs.minestuck);
         setMaxStackSize(16);
     }
 

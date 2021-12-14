@@ -3,7 +3,7 @@ package com.mraof.minestuck.item.weapon;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.mraof.minestuck.item.MSItemBase;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.MinestuckTabs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -30,7 +30,7 @@ public class ItemWeapon extends MSItemBase
 	private float efficiency;
 	private boolean unbreakable = false;
 	private static final HashMap<String, Set<Material>> toolMaterials = new HashMap<String, Set<Material>>();
-	private CreativeTabs overshadowTab = TabsMinestuck.minestuck;
+	private CreativeTabs overshadowTab = MinestuckTabs.minestuck;
 	
 	public ItemWeapon(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
 	{

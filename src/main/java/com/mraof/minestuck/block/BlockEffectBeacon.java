@@ -16,7 +16,7 @@ public class BlockEffectBeacon extends MSBlockBase
 
     public BlockEffectBeacon(MapColor blockMapColorIn, PotionEffect effect, String name)
     {
-        super(Material.IRON, blockMapColorIn, name);
+        super(name, Material.IRON, blockMapColorIn);
         this.effect = effect;
         setBlockUnbreakable();
         setResistance(6000000.0F);

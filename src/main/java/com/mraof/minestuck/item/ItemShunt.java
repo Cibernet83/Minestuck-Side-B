@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 public class ItemShunt extends Item {
 	public ItemShunt()
 	{
-		this.setCreativeTab(TabsMinestuck.minestuck);
+		this.setCreativeTab(MinestuckTabs.minestuck);
 		//this.setHasSubtypes(true);
 		this.setUnlocalizedName("shunt");
 	}

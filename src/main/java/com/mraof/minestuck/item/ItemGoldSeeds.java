@@ -20,8 +20,8 @@ public class ItemGoldSeeds extends ItemSeeds implements IRegistryItem<Item>
 	public ItemGoldSeeds()
 	{
 		super(MinestuckBlocks.blockGoldSeeds, Blocks.FARMLAND);
-		setCreativeTab(TabsMinestuck.minestuck);
-		MSItemBase.items.add(this);
+		setCreativeTab(MinestuckTabs.minestuck);
+		MinestuckItems.items.add(this);
 	}
 	
 	@Override

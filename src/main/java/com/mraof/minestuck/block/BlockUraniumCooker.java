@@ -2,10 +2,8 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiHandler;
-import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
 import com.mraof.minestuck.tileentity.TileEntityUraniumCooker;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
@@ -26,11 +24,11 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockUraniumCooker extends BlockContainer
+public class BlockUraniumCooker extends MSBlockContainer
 {
 	protected static final AxisAlignedBB URANIUM_COOKER_AABB = new AxisAlignedBB(1/4D, 0.0D, 1/4D, 3/4D, 11/32D, 3/4D);
 	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	
+
 	public enum MachineType implements IStringSerializable
 	{
 		URANIUM_COOKER("uraniumCooker");
@@ -58,13 +56,10 @@ public class BlockUraniumCooker extends BlockContainer
 	
 	protected BlockUraniumCooker()
 	{
-		super(Material.IRON);
-		
-		setUnlocalizedName("uraniumCooker");
+		super("uraniumCooker", Material.IRON);
 		setHardness(3.0F);
 		setHarvestLevel("pickaxe", 1);
 		setDefaultState(getDefaultState());
-		this.setCreativeTab(TabsMinestuck.minestuck);
 	}
 
 	@Override

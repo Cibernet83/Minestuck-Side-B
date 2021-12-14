@@ -7,11 +7,7 @@ package com.mraof.minestuck.block;//
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiHandler.GuiId;
-import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
-import com.mraof.minestuck.util.IRegistryItem;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
@@ -33,24 +29,19 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class BlockCustomTransportalizer extends BlockContainer implements IRegistryItem<Block>
+public abstract class BlockCustomTransportalizer extends MSBlockContainer
 {
     protected static final AxisAlignedBB TRANSPORTALIZER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
-    private String regName;
 
     public BlockCustomTransportalizer(MapColor color, String name)
     {
-        super(Material.IRON, color);
-        setUnlocalizedName(name);
-        this.regName = IRegistryItem.unlocToReg(name);
-        this.setCreativeTab(TabsMinestuck.minestuck);
+        super(name, Material.IRON, color);
     }
     
     @Override
@@ -132,12 +123,5 @@ public abstract class BlockCustomTransportalizer extends BlockContainer implemen
 
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
-    }
-
-    @Override
-    public void register(IForgeRegistry<Block> registry)
-    {
-        setRegistryName(regName);
-        registry.register(this);
     }
 }

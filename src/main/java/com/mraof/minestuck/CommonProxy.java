@@ -62,9 +62,9 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(KindAbstratus.class);
 		MinecraftForge.EVENT_BUS.register(MSUKindAbstrata.class);
 		MinecraftForge.EVENT_BUS.register(StrifeEventHandler.class);
-		
+
 		MSUCapabilities.registerCapabilities();
-		
+
 		MinestuckSoundHandler.initSound();
 		
 		MinestuckCriteriaTriggers.register();
@@ -97,9 +97,6 @@ public class CommonProxy
 		GameRegistry.registerTileEntity(TileEntityTransportalizer.class, Minestuck.MODID+":transportalizer");
 		GameRegistry.registerTileEntity(TileEntityGate.class, Minestuck.MODID+":gate");
 		GameRegistry.registerTileEntity(TileEntityUraniumCooker.class, Minestuck.MODID+":uranium_cooker");
-		GameRegistry.registerTileEntity(TileEntityJumperBlock.class, Minestuck.MODID+":jumper_block_extension");
-		GameRegistry.registerTileEntity(TileEntityUpgradedAlchemiter.class,  Minestuck.MODID+":upgraded_alchemiter");
-		GameRegistry.registerTileEntity(TileEntityAlchemiterUpgrade.class,  Minestuck.MODID+":alchemiter_upgrade");
 		GameRegistry.registerTileEntity(TileEntityHolopad.class, Minestuck.MODID+":holopad");
 		GameRegistry.registerTileEntity(TileEntityGristHopper.class, Minestuck.MODID+":grist_hopper");
 		GameRegistry.registerTileEntity(TileEntityAutoWidget.class, Minestuck.MODID+":auto_widget");
@@ -144,7 +141,7 @@ public class CommonProxy
 		AlchemyRecipes.registerMinestuckRecipes();
 		AlchemyRecipes.registerModRecipes();
 		MachineChasisRecipes.registerRecipes();
-		
+
 		//register smelting recipes and oredictionary
 		CraftingRecipes.registerSmelting();
 		CraftingRecipes.addOredictionary();
@@ -163,7 +160,7 @@ public class CommonProxy
 
 		if(Minestuck.isCarryOnLoaded)
 			MinecraftForge.EVENT_BUS.register(CarryOnSupport.class);
-		
+
 		ComputerProgram.registerProgram(0, SburbClient.class, new ItemStack(MinestuckItems.disk, 1, 0));	//This idea was kind of bad and should be replaced
 		ComputerProgram.registerProgram(1, SburbServer.class, new ItemStack(MinestuckItems.disk, 1, 1));
 		

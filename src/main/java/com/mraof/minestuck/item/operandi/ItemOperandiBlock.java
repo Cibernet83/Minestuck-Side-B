@@ -1,8 +1,8 @@
 package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
-import com.mraof.minestuck.item.MSItemBlock;
-import com.mraof.minestuck.item.TabsMinestuck;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.block.Block;
@@ -21,7 +21,7 @@ public class ItemOperandiBlock extends MSItemBlock //TODO turn into cruxite arti
 		
 		setUnlocalizedName(name);
 		
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		setMaxStackSize(1);
 
 		OperandiModus.itemPool.add(this);

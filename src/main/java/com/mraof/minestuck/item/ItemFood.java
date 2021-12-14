@@ -22,11 +22,11 @@ public class ItemFood extends net.minecraft.item.ItemFood implements IRegistryIt
 		super(amount, saturation, isWolfFood);
 		this.consumer = consumer;
 		
-		setCreativeTab(TabsMinestuck.minestuck);
+		setCreativeTab(MinestuckTabs.minestuck);
 		
 		setUnlocalizedName(name);
 		regName = IRegistryItem.unlocToReg(name);
-		MSItemBase.items.add(this);
+		MinestuckItems.items.add(this);
 	}
 	
 	public ItemFood(String name, int amount, float saturation, boolean isWolfFood)

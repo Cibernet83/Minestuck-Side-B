@@ -33,13 +33,13 @@ public class ItemCaptcharoidCamera extends MSItemBase {
 	@Override
 	protected boolean isInCreativeTab(CreativeTabs targetTab)
 	{
-		return targetTab == CreativeTabs.SEARCH || targetTab == TabsMinestuck.minestuck;
+		return targetTab == CreativeTabs.SEARCH || targetTab == MinestuckTabs.minestuck;
 	}
 	
 	@Override
 	public CreativeTabs[] getCreativeTabs()
 	{
-		return new CreativeTabs[] {TabsMinestuck.minestuck};
+		return new CreativeTabs[] {MinestuckTabs.minestuck};
 	}
 	
 	@Override

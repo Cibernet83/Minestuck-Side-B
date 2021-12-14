@@ -1,13 +1,13 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.item.block.ItemCruxtruder;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityCruxtruder;
-
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -27,7 +27,7 @@ public class BlockCruxtruder extends BlockLargeMachine
 	
 	public BlockCruxtruder()
 	{
-		setUnlocalizedName("cruxtruder");
+		super("cruxtruder");
 	}
 	//not sure how to do this.
 	@Override
@@ -165,9 +165,16 @@ public class BlockCruxtruder extends BlockLargeMachine
 					return pos;
 			}
 	}
+
 	@Override
 	public Item getItemFromMachine() 
 	{
 		return new ItemStack(MinestuckBlocks.cruxtruder).getItem();
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemCruxtruder(this);
 	}
 }

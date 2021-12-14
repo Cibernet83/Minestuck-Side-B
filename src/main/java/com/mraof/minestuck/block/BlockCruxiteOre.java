@@ -1,10 +1,8 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.item.TabsMinestuck;
 import com.mraof.minestuck.util.MinestuckRandom;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
@@ -20,19 +18,17 @@ import net.minecraft.world.IBlockAccess;
 
 import java.util.Random;
 
-public class BlockCruxiteOre extends Block 
+public class BlockCruxiteOre extends MSBlockBase
 {
 	public static final PropertyInteger BLOCK_TYPE = PropertyInteger.create("block_type", 0, 6);
 	
 	public BlockCruxiteOre()
 	{
-		super(Material.ROCK);
-		
-		this.setUnlocalizedName("oreCruxite");
+		super("oreCruxite",Material.ROCK);
+
 		setHardness(3.0F);
 		setResistance(5.0F);	//Values normally used by ores
 		setHarvestLevel("pickaxe", 0);
-		this.setCreativeTab(TabsMinestuck.minestuck);
 	}
 	
 	@Override
