@@ -352,7 +352,7 @@ public class MinestuckBlocks
 	private static Block generateSlabsAndStairs(Block block)
 	{
 		IBlockState blockState = block.getDefaultState();
-		String name = blockState.getBlock().getUnlocalizedName();
+		String name = blockState.getBlock().getUnlocalizedName().substring(5); // unloc name starts with an extra "tile."
 		stairs.put(block, new MSBlockStairs(name + "Stairs", blockState));
 		slabs.put(block, new MSBlockSlab(name + "Slab", blockState));
 		return block;
