@@ -347,6 +347,12 @@ public class BlockTotemLathe extends BlockLargeMachine
 		{
 			return new BlockStateContainer(this, PART2, DIRECTION);
 		}
+
+		@Override
+		public MSItemBlock getItemBlock()
+		{
+			return null;
+		}
 	}
 	
 	private static class BlockTotemLathe3 extends BlockTotemLathe
@@ -360,6 +366,12 @@ public class BlockTotemLathe extends BlockLargeMachine
 		protected BlockStateContainer createBlockState()
 		{
 			return new BlockStateContainer(this, PART3, DIRECTION);
+		}
+
+		@Override
+		public MSItemBlock getItemBlock()
+		{
+			return null;
 		}
 	}
 

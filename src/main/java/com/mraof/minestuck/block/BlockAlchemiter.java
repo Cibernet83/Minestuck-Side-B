@@ -250,6 +250,12 @@ public class BlockAlchemiter extends BlockLargeMachine
 		{
 			return new BlockStateContainer(this, PART2, DIRECTION);
 		}
+
+		@Override
+		public MSItemBlock getItemBlock()
+		{
+			return null;
+		}
 	}
 	
 	
