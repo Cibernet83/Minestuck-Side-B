@@ -73,8 +73,6 @@ public class MinestuckItems
 
 	private static final PropertySoundOnHit.Value PITCH_NOTE = ((stack, target, player) -> (-player.rotationPitch + 90) / 90f);
 
-	public static final Item.ToolMaterial toolUranium = EnumHelper.addToolMaterial("URANIUM", 3, 1220, 12.0F, 6.0F, 15);
-	public static final Item.ToolMaterial toolEmerald = EnumHelper.addToolMaterial("EMERALD", 3, 1220, 12.0F, 4.0F, 12).setRepairItem(new ItemStack(Items.EMERALD));
 	public static final ItemArmor.ArmorMaterial armorPrismarine = EnumHelper.addArmorMaterial("PRISMARINE", Minestuck.MODID+":prismarine", 20, new int[]{3, 7, 6, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
 	public static final ItemArmor.ArmorMaterial materialDiverHelmet = EnumHelper.addArmorMaterial("DIVER_HELMET", Minestuck.MODID+":diver_helmet", 120, new int[] {0, 0, 0, 3}, 5, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
 	public static final ItemArmor.ArmorMaterial materialSpikedHelmet = EnumHelper.addArmorMaterial("SPIKED_HELMET", Minestuck.MODID+":spiked_diver_helmet", 230, new int[] {0, 0, 0, 6}, 5, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
@@ -93,13 +91,14 @@ public class MinestuckItems
 	public static final MSToolClass toolClub = new MSToolClass("club").addEnchantments(EnumEnchantmentType.WEAPON);
 	public static final MSToolClass toolClaws = new MSToolClass("claws", Material.PLANTS, Material.WEB).addEnchantments(EnumEnchantmentType.WEAPON);
 	public static final MSToolClass toolCane = new MSToolClass("cane").addEnchantments(EnumEnchantmentType.WEAPON);
-	public static final MSToolClass toolSickle = new MSToolClass("sickle", Material.GRASS, Material.PLANTS, Material.LEAVES).addEnchantments(EnumEnchantmentType.WEAPON);
+	public static final MSToolClass toolSickle = new MSToolClass("sickle", Material.GRASS, Material.PLANTS, Material.LEAVES, Material.WEB, Material.VINE).addEnchantments(EnumEnchantmentType.WEAPON);
 	public static final MSToolClass toolSpoon = new MSToolClass("spoon", Material.GOURD).addEnchantments(EnumEnchantmentType.WEAPON);
 	public static final MSToolClass toolFork = new MSToolClass("fork", Material.GRASS).addEnchantments(EnumEnchantmentType.WEAPON);
 
 	public static final MSToolClass toolShovel = new MSToolClass("shovel", "shovel").addEnchantments(EnumEnchantmentType.DIGGER);
 	public static final MSToolClass toolAxe = new MSToolClass("axe", "axe").addEnchantments(EnumEnchantmentType.WEAPON, EnumEnchantmentType.DIGGER).setDisablesShield();
 	public static final MSToolClass toolPickaxe = new MSToolClass("pickaxe", "pickaxe").addEnchantments(EnumEnchantmentType.DIGGER);
+	public static final MSToolClass toolHoe = new MSToolClass("hoe", "hoe");
 
 	public static final MSToolClass toolSpork = new MSToolClass("spork", toolSpoon, toolFork);
 	public static final MSToolClass toolHammaxe = new MSToolClass("hammaxe", toolHammer, toolAxe);
@@ -108,11 +107,11 @@ public class MinestuckItems
 	public static final BlockMetaPair.Map overgrowthTransforms = new BlockMetaPair.Map();
 
 	//Material tools
-	public static final Item emeraldSword = new ItemWeapon(1220, 8, -2.4, 12, "emeraldSword");
-	public static final Item emeraldAxe = new ItemWeapon(1220, 8, -2.4, 12, "emeraldAxe");  //TODO turn into actual tools
-	public static final Item emeraldPickaxe = new ItemWeapon(1220, 8, -2.4, 12, "emeraldPickaxe");
-	public static final Item emeraldShovel = new ItemWeapon(1220, 8, -2.4, 12, "emeraldShovel");
-	public static final Item emeraldHoe = new ItemWeapon(1220, 8, -2.4, 12, "emeraldHoe");
+	public static final Item emeraldSword = new MSWeaponBase(1220, 8, -2.4, 12, "emeraldSword").setTool(toolSword, 3, 12);
+	public static final Item emeraldAxe = new MSWeaponBase(1220, 8, -2.4, 12, "emeraldAxe").setTool(toolAxe, 3, 12);
+	public static final Item emeraldPickaxe = new MSWeaponBase(1220, 8, -2.4, 12, "emeraldPickaxe").setTool(toolPickaxe, 3, 12);
+	public static final Item emeraldShovel = new MSWeaponBase(1220, 8, -2.4, 12, "emeraldShovel").setTool(toolShovel, 3, 12);
+	public static final Item emeraldHoe = new MSWeaponBase(1220, 8, -2.4, 12, "emeraldHoe").setTool(toolHoe, 3, 12).addProperties(new PropertyHoe());
 	//Armor
 	public static final Item prismarineHelmet = new MSArmorBase("prismarineHelmet", armorPrismarine, EntityEquipmentSlot.HEAD, armorPrismarine.getDurability(EntityEquipmentSlot.HEAD), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
 	public static final Item prismarineChestplate = new MSArmorBase("prismarineChestplate", armorPrismarine, EntityEquipmentSlot.CHEST, armorPrismarine.getDurability(EntityEquipmentSlot.CHEST), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
@@ -389,12 +388,12 @@ public class MinestuckItems
 	public static final Item regisword = new MSWeaponBase(743, 12.0, -2.07, 8, "regisword").setTool(toolSword, 3, 6);
 	public static final Item quantumSabre = new MSWeaponBase(880, 14.4, -2.3, 10, "quantumSabre").setTool(toolSword, 3, 6).addProperties(new PropertyPotion(new PotionEffect(MobEffects.WITHER, 100, 1), false, 0.6f));
 	public static final Item shatterBeacon = new MSWeaponBase(1100, 34.0, -2.3, 14, "shatterbeacon").setTool(toolSword, 3, 8).addProperties(new PropertyPotion(false, 0.6f,
-																																							   new PotionEffect(MobEffects.SPEED, 300, 0),
-																																							   new PotionEffect(MobEffects.HASTE, 300, 0),
-																																							   new PotionEffect(MobEffects.RESISTANCE, 300, 0),
-																																							   new PotionEffect(MobEffects.JUMP_BOOST, 300, 0),
-																																							   new PotionEffect(MobEffects.STRENGTH, 300, 0),
-																																							   new PotionEffect(MobEffects.REGENERATION, 300, 1)
+	   new PotionEffect(MobEffects.SPEED, 300, 0),
+	   new PotionEffect(MobEffects.HASTE, 300, 0),
+	   new PotionEffect(MobEffects.RESISTANCE, 300, 0),
+	   new PotionEffect(MobEffects.JUMP_BOOST, 300, 0),
+	   new PotionEffect(MobEffects.STRENGTH, 300, 0),
+	   new PotionEffect(MobEffects.REGENERATION, 300, 1)
 	));
 	public static final Item claymore = new MSWeaponBase(660, 18.4, -2.76, 5, "claymore").setTool(toolSword, 3, 4);
 	public static final Item katana = new MSWeaponBase(650, 8, -2.3, 6, "katana").setTool(toolSword, 1, 2);
@@ -675,12 +674,6 @@ public class MinestuckItems
 		IForgeRegistry<Item> registry = event.getRegistry();
 
 		armorPrismarine.repairMaterial = new ItemStack(Items.PRISMARINE_SHARD);
-		toolUranium.setRepairItem(new ItemStack(rawUranium));
-		ItemWeapon.addToolMaterial("pickaxe", Arrays.asList(Material.IRON, Material.ANVIL, Material.ROCK));
-		ItemWeapon.addToolMaterial("axe", Arrays.asList(Material.WOOD, Material.PLANTS, Material.VINE));
-		ItemWeapon.addToolMaterial("shovel", Arrays.asList(Material.SNOW, Material.CRAFTED_SNOW, Material.CLAY, Material.GRASS, Material.GROUND, Material.SAND));
-		ItemWeapon.addToolMaterial("sword", Arrays.asList(Material.WEB));
-		ItemWeapon.addToolMaterial("sickle", Arrays.asList(Material.WEB, Material.LEAVES, Material.PLANTS, Material.VINE));
 
 		((ItemMinestuckSeedFood) strawberryChunk).setPlant(strawberryStem.getDefaultState());
 
