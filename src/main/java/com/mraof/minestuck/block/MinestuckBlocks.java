@@ -90,8 +90,8 @@ public class MinestuckBlocks
 	public static final Block myceliumBrickStairs = new MSBlockStairs("myceliumBrickStairs", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.MYCELIUM_BRICK));
 	public static final Block log = new BlockMinestuckLogVariant("log");
 	public static final Block leaves1 = new BlockMinestuckLeavesVariant();
-	public static final Block planks = generateSlabsAndStairs(new BlockMinestuckPlanks());
-	public static final Block frostPlanks = new BlockFrostPlanks();
+	public static final Block rainbowPlanks = new BlockFlamable("rainbowPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F);
+	public static final Block frostPlanks = new MSBlockBase("frostPlanks", Material.WOOD).setSoundType(SoundType.WOOD).setHardness(2.0f);
 	public static final Block aspectSapling = new BlockAspectSapling();
 	public static final Block rainbowSapling = new BlockRainbowSapling();
 	public static final Block aspectLog1 = new BlockAspectLog();

@@ -1,6 +1,6 @@
 {
     "parent": "minestuck:block/hubtop",
     "textures": {
-        "screen": "minestuck:machines/computers/sburb_screen"
+        "screen": "minestuck:machines/computers/screen_sburb"
     }
 }

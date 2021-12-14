@@ -1,12 +1,7 @@
 package com.mraof.minestuck.world.lands.terrain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.mraof.minestuck.block.BlockMinestuckLeavesVariant;
 import com.mraof.minestuck.block.BlockMinestuckLogVariant;
-import com.mraof.minestuck.block.BlockMinestuckPlanks;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.biome.BiomeMinestuck;
@@ -19,18 +14,17 @@ import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import com.mraof.minestuck.world.lands.gen.ILandTerrainGen;
 import com.mraof.minestuck.world.lands.gen.SpecialTerrainGen;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
-
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockNewLog;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockStone;
+import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class LandAspectRainbow extends TerrainLandAspect 
 {
@@ -48,7 +42,7 @@ public class LandAspectRainbow extends TerrainLandAspect
 		registry.setBlockState("structure_primary", MinestuckBlocks.log.getDefaultState().withProperty(BlockMinestuckLogVariant.VARIANT, BlockMinestuckLogVariant.BlockType.RAINBOW).withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE));
 		registry.setBlockState("structure_primary_decorative", Blocks.LOG2.getDefaultState().withProperty(BlockNewLog.VARIANT, BlockPlanks.EnumType.ACACIA));
 		registry.setBlockState("structure_primary_stairs", Blocks.DARK_OAK_STAIRS.getDefaultState());
-		registry.setBlockState("structure_secondary", MinestuckBlocks.planks.getDefaultState().withProperty(BlockMinestuckPlanks.VARIANT, BlockMinestuckPlanks.BlockType.RAINBOW));
+		registry.setBlockState("structure_secondary", MinestuckBlocks.rainbowPlanks.getDefaultState());
 		registry.setBlockState("structure_secondary_decorative", Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE));
 		registry.setBlockState("structure_secondary_stairs", Blocks.JUNGLE_STAIRS.getDefaultState());
 		registry.setBlockState("salamander_floor", Blocks.STONEBRICK.getDefaultState());

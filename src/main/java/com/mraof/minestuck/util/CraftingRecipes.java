@@ -129,7 +129,7 @@ public class CraftingRecipes
 		OreDictionary.registerOre("plankWood", endPlanks);
 		OreDictionary.registerOre("plankWood", deadPlanks);
 		OreDictionary.registerOre("plankWood", treatedPlanks);
-		OreDictionary.registerOre("plankWood",	new ItemStack(planks, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("plankWood", new ItemStack(rainbowPlanks, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("logWood", glowingLog);
 		OreDictionary.registerOre("logWood", endLog);
 		OreDictionary.registerOre("logWood", deadLog);

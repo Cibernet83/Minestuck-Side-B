@@ -47,6 +47,9 @@ public class    MinestuckModelManager
 	
 	private static void itemModels()
 	{
+		if(splatcraftCruxiteFilter != null)
+			register(splatcraftCruxiteFilter);
+
 		//meta variants
 		register(disk, 0, "disk_client");
 		register(disk, 1, "disk_server");
@@ -203,10 +206,7 @@ public class    MinestuckModelManager
 
 		for(BlockMinestuckLogVariant.BlockType type : BlockMinestuckLogVariant.BlockType.values())
 			register(log, type.ordinal(), type.getName()+"_log");
-		
-		for(BlockMinestuckPlanks.BlockType type : BlockMinestuckPlanks.BlockType.values())
-			register(planks, type.ordinal(), type.getName()+"_planks");
-		
+
 		for(BlockMinestuckLeavesVariant.BlockType type : BlockMinestuckLeavesVariant.BlockType.values())
 			register(leaves1, type.ordinal(), type.getName()+"_leaves");
 		
