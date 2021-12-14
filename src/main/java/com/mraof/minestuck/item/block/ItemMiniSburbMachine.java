@@ -1,8 +1,8 @@
 package com.mraof.minestuck.item.block;
 
-import com.mraof.minestuck.block.BlockSburbMachine;
+import com.mraof.minestuck.block.BlockMiniCruxtruder;
 import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
+import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,11 +13,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemSburbMachine extends MSItemBlockMultiTexture
+public class ItemMiniSburbMachine extends MSItemBlockMultiTexture
 {
-	public ItemSburbMachine(Block block)
+	public ItemMiniSburbMachine(Block block)
 	{
-		super(block, (ItemStack input) -> ((BlockSburbMachine)Block.getBlockFromItem(input.getItem())).getType().getUnlocalizedName());
+		super(block, (ItemStack input) -> Block.getBlockFromItem(input.getItem()).getUnlocalizedName().replaceFirst("tile.", ""));
 	}
 	
 	@Override
@@ -25,11 +25,11 @@ public class ItemSburbMachine extends MSItemBlockMultiTexture
 	{
 		if(super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState))
 		{
-			if(((BlockSburbMachine)Block.getBlockFromItem(stack.getItem())).getType() == BlockSburbMachine.MachineType.CRUXTRUDER && stack.hasTagCompound() && stack.getTagCompound().hasKey("color"))
+			if(Block.getBlockFromItem(stack.getItem()) instanceof BlockMiniCruxtruder && stack.hasTagCompound() && stack.getTagCompound().hasKey("color"))
 			{
 				TileEntity te = world.getTileEntity(pos);
-				if(te instanceof TileEntitySburbMachine)
-					((TileEntitySburbMachine)te).color = stack.getTagCompound().getInteger("color");
+				if(te instanceof TileEntityMiniSburbMachine)
+					((TileEntityMiniSburbMachine)te).color = stack.getTagCompound().getInteger("color");
 			}
 			return true;
 		}

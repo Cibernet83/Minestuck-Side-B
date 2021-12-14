@@ -5,10 +5,9 @@ import com.mraof.minestuck.tileentity.TileEntityMiniCruxtruder;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.block.BlockCruxtiteDowel;
 import com.mraof.minestuck.block.BlockCruxtruder;
-import com.mraof.minestuck.block.BlockSburbMachine;
 import com.mraof.minestuck.tileentity.TileEntityCruxtruder;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
-import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
+import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import com.mraof.minestuck.util.ColorCollector;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,9 +43,9 @@ public class ItemCruxtruderGel extends ItemCruxite
 		ItemStack stack = player.getHeldItem(hand);
 		int color = stack.getMetadata()-1;
 		
-		if(worldIn.getTileEntity(pos) instanceof TileEntitySburbMachine)
+		if(worldIn.getTileEntity(pos) instanceof TileEntityMiniSburbMachine)
 		{
-			TileEntitySburbMachine te = (TileEntitySburbMachine) worldIn.getTileEntity(pos);
+			TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) worldIn.getTileEntity(pos);
 			if(te instanceof TileEntityMiniCruxtruder)
 			{
 				te.color = color;

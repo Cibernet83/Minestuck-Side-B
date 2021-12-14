@@ -3,10 +3,10 @@ package com.mraof.minestuck.block;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiHandler;
 import com.mraof.minestuck.item.MinestuckTabs;
-import com.mraof.minestuck.item.block.ItemSburbMachine;
+import com.mraof.minestuck.item.block.ItemMiniSburbMachine;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
-import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
+import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -101,7 +101,7 @@ public abstract class BlockSburbMachine extends MSBlockContainer
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (!(tileEntity instanceof TileEntitySburbMachine) || playerIn.isSneaking())
+		if (!(tileEntity instanceof TileEntityMiniSburbMachine) || playerIn.isSneaking())
 			return false;
 		
 		if(!worldIn.isRemote)
@@ -118,7 +118,7 @@ public abstract class BlockSburbMachine extends MSBlockContainer
 	@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos)
 	{
-		TileEntitySburbMachine te = (TileEntitySburbMachine) world.getTileEntity(pos);
+		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
 		if(te != null)
 			return te.comparatorValue();
 		return 0;
@@ -142,7 +142,7 @@ public abstract class BlockSburbMachine extends MSBlockContainer
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
 	{
-		TileEntitySburbMachine te = (TileEntitySburbMachine) world.getTileEntity(pos);
+		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
 		
 		boolean b = super.removedByPlayer(state, world, pos, player, willHarvest);
 		
@@ -176,6 +176,6 @@ public abstract class BlockSburbMachine extends MSBlockContainer
 	@Override
 	public MSItemBlock getItemBlock()
 	{
-		return new ItemSburbMachine(this);
+		return new ItemMiniSburbMachine(this);
 	}
 }

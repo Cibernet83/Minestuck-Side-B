@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.mraof.minestuck.inventory.ContainerCrockerMachine;
-import com.mraof.minestuck.inventory.ContainerSburbMachine;
+import com.mraof.minestuck.inventory.miniMachines.ContainerMiniSburbMachine;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
 import com.mraof.minestuck.util.Debug;
 
@@ -40,8 +40,8 @@ public class GoButtonPacket extends MinestuckPacket
 	public void execute(EntityPlayer player)
 	{
 		TileEntityMachine te;
-		if(player.openContainer instanceof ContainerSburbMachine)
-				te = ((ContainerSburbMachine) player.openContainer).tileEntity;
+		if(player.openContainer instanceof ContainerMiniSburbMachine)
+				te = ((ContainerMiniSburbMachine) player.openContainer).tileEntity;
 		else if(player.openContainer instanceof ContainerCrockerMachine)
 			te = ((ContainerCrockerMachine) player.openContainer).tileEntity;
 		else return;

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.inventory.ContainerSburbMachine;
-import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
+import com.mraof.minestuck.inventory.miniMachines.ContainerMiniSburbMachine;
+import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.alchemy.GristType;
 import io.netty.buffer.ByteBuf;
@@ -36,10 +36,10 @@ public class MachineStatePacket extends MinestuckPacket {
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(!(player.openContainer instanceof ContainerSburbMachine))
+		if(!(player.openContainer instanceof ContainerMiniSburbMachine))
 			return;
 		
-		TileEntitySburbMachine te = ((ContainerSburbMachine) player.openContainer).tileEntity;
+		TileEntityMiniSburbMachine te = ((ContainerMiniSburbMachine) player.openContainer).tileEntity;
 		
 		if (te == null)
 		{

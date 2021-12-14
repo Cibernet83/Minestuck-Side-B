@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.tileentity.TileEntityMiniCruxtruder;
-import com.mraof.minestuck.tileentity.TileEntitySburbMachine;
+import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -31,7 +31,7 @@ public class BlockMiniCruxtruder extends BlockSburbMachine
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
 	{
-		TileEntitySburbMachine te = (TileEntitySburbMachine) world.getTileEntity(pos);
+		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
 
 		boolean b = super.removedByPlayer(state, world, pos, player, willHarvest);
 
