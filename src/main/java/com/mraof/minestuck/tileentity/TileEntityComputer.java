@@ -1,7 +1,5 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.block.BlockComputerOn;
-import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.client.gui.GuiComputer;
 import com.mraof.minestuck.network.skaianet.ComputerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;

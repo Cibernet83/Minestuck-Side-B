@@ -1185,14 +1185,14 @@ public class AlchemyRecipes
 		
 		CombinationRegistry.addCombination(new ItemStack(crockerSpoon), new ItemStack(captchaCard), MODE_OR, false, true, new ItemStack(crockerMachine, 1, 0));
 		CombinationRegistry.addCombination(new ItemStack(Items.ENDER_PEARL), new ItemStack(Blocks.IRON_BLOCK), MODE_AND, false, false, new ItemStack(transportalizer));
-		CombinationRegistry.addCombination(new ItemStack(captchaCard), new ItemStack(MinestuckBlocks.blockComputerOff), MODE_AND, false, false, new ItemStack(captcharoidCamera));
+		CombinationRegistry.addCombination(new ItemStack(captchaCard), new ItemStack(MinestuckBlocks.blockSburbComputer), MODE_AND, false, false, new ItemStack(captcharoidCamera));
 		CombinationRegistry.addCombination(new ItemStack(captchaCard), new ItemStack(Items.ENDER_EYE), MODE_OR, false, false, new ItemStack(captcharoidCamera));
 		
 		CombinationRegistry.addCombination(new ItemStack(stackModus), new ItemStack(queueModus), MODE_AND, true, true, new ItemStack(queueStackModus));
 		CombinationRegistry.addCombination("stickWood", "modus", MODE_OR, new ItemStack(treeModus));
 		CombinationRegistry.addCombination("treeSapling", "modus", MODE_OR, new ItemStack(treeModus));
 		CombinationRegistry.addCombination("treeLeaves", "modus", MODE_OR, new ItemStack(treeModus));	//Not planks and logs though. Too little branch-related.
-		CombinationRegistry.addCombination("modus", new ItemStack(blockComputerOff), true, MODE_AND, new ItemStack(hashmapModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(blockSburbComputer), true, MODE_AND, new ItemStack(hashmapModus));
 		CombinationRegistry.addCombination("modus", new ItemStack(Items.ITEM_FRAME), true, MODE_AND, new ItemStack(setModus));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.IRON_BARS),new ItemStack(Items.LEATHER), MODE_AND, false, true, new ItemStack(catClaws));
 		CombinationRegistry.addCombination(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.GOLD_NUGGET), MODE_AND, new ItemStack(goldSeeds));
@@ -1377,7 +1377,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination(new ItemStack(Items.DYE), new ItemStack(queueModus), MODE_OR, false, true, new ItemStack(hueModus));
 		CombinationRegistry.addCombination(new ItemStack(Items.DYE), new ItemStack(queueStackModus), MODE_OR, false, true, new ItemStack(hueStackModus));
 		CombinationRegistry.addCombination(new ItemStack(hueModus), new ItemStack(stackModus), MODE_AND, new ItemStack(hueStackModus));
-		CombinationRegistry.addCombination(new ItemStack(MinestuckBlocks.blockComputerOff), new ItemStack(setModus), MODE_OR, false, true, new ItemStack(chatModus));
+		CombinationRegistry.addCombination(new ItemStack(MinestuckBlocks.blockSburbComputer), new ItemStack(setModus), MODE_OR, false, true, new ItemStack(chatModus));
 		CombinationRegistry.addCombination(new ItemStack(Items.ITEM_FRAME), new ItemStack(hashmapModus), MODE_AND, false, true, new ItemStack(chatModus));
 		CombinationRegistry.addCombination(new ItemStack(deckModus), new ItemStack(hueModus), MODE_AND, new ItemStack(scratchAndSniffModus));
 		CombinationRegistry.addCombination(new ItemStack(Items.APPLE), new ItemStack(setModus), MODE_OR, new ItemStack(scratchAndSniffModus));
@@ -1414,7 +1414,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination(new ItemStack(Items.GLASS_BOTTLE), new ItemStack(modusCard), MODE_OR, false, false, new ItemStack(bottledMsgModus));
 		CombinationRegistry.addCombination(new ItemStack(cruxiteBottle), new ItemStack(modusCard), MODE_OR, false, false, new ItemStack(bottledMsgModus));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.JUKEBOX), new ItemStack(modusCard, 1, 4), MODE_OR, false, true, new ItemStack(techHopModus));
-		CombinationRegistry.addCombination(new ItemStack(chasityModus), new ItemStack(blockComputerOff), MODE_AND, false, true, new ItemStack(encryptionModus));
+		CombinationRegistry.addCombination(new ItemStack(chasityModus), new ItemStack(blockSburbComputer), MODE_AND, false, true, new ItemStack(encryptionModus));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.IRON_TRAPDOOR), new ItemStack(modusCard, 1, 4), MODE_OR, false, true, new ItemStack(encryptionModus));
 		CombinationRegistry.addCombination(new ItemStack(chatModus), new ItemStack(grimoire), MODE_AND, false, false, new ItemStack(ouijaModus));
 		CombinationRegistry.addCombination(new ItemStack(modusCard, 1, 2), new ItemStack(Items.RABBIT_HIDE), MODE_OR, true, false, new ItemStack(bundleModus));

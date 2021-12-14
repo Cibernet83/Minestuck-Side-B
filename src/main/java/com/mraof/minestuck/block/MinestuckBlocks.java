@@ -16,6 +16,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -55,10 +56,11 @@ public class MinestuckBlocks
 	public static final Block miniPunchDesignix = new BlockMiniPunchDesignix();
 	public static final Block miniCruxtruder = new BlockMiniCruxtruder();
 	public static final Block crockerMachine = new BlockCrockerMachine();
-	public static final Block blockComputerOff = new BlockComputerOff("computerStandard");
-	public static final Block blockComputerOn = new BlockComputerOn();
-	public static final Block blockLaptopOff = new BlockVanityLaptopOff("vanityLaptop").setCreativeTab(null);
-	public static final Block blockLaptopOn = new BlockVanityLaptopOn("vanityLaptopOn");
+	public static final Block blockSburbComputer = new BlockComputer("sburbComputer", new AxisAlignedBB(1/16D, 0.0D, 1/16D, 15/16D, 3/16D, 15/16D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
+	public static final Block blockLaptop = new BlockComputer("laptop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
+	public static final Block blockHubtop = new BlockComputer("hubtop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
+	public static final Block blockCrockertop = new BlockComputer("crockertop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
+	public static final Block blockLunchtop = new BlockComputer("lunchtop", new AxisAlignedBB(5/16d, 0, 5/16d, 6/16d, 3.5/16d, 5/16d));
 
 	public static final Block punchDesignix = new BlockPunchDesignix();
 	public static final BlockTotemLathe[] totemlathe = BlockTotemLathe.createBlocks();

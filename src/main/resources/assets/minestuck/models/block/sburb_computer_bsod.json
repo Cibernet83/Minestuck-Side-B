@@ -1,6 +1,6 @@
 {
     "parent": "minestuck:block/sburb_computer",
     "textures": {
-        "screen": "minestuck:blocks/bsod"
+        "screen": "minestuck:machines/computers/bsod"
     }
 }

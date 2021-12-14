@@ -35,7 +35,7 @@ import static com.mraof.minestuck.block.MinestuckBlocks.*;
 import static com.mraof.minestuck.item.MinestuckItems.*;
 
 @SideOnly(Side.CLIENT)
-public class MinestuckModelManager
+public class    MinestuckModelManager
 {
 	@SubscribeEvent
 	public static void handleModelRegistry(ModelRegistryEvent event)
@@ -47,7 +47,7 @@ public class MinestuckModelManager
 	private static void itemModels()
 	{
 		//sheathed weapons TODO
-		
+
 		//meta variants
 		register(disk, 0, "disk_client");
 		register(disk, 1, "disk_server");
@@ -133,7 +133,7 @@ public class MinestuckModelManager
 			register(chessTile, type.ordinal(), "chesstile_"+type.name);
 		//register(skaiaPortal); // FIXME: ????????
 		register(transportalizer);
-		register(blockComputerOff);
+		register(blockSburbComputer);
 		register(oreCruxite, 0, "cruxite_stone");
 		register(oreCruxite, 1, "cruxite_netherrack");
 		register(oreCruxite, 2, "cruxite_cobblestone");
@@ -225,10 +225,7 @@ public class MinestuckModelManager
 			register(aspectLog2, type.ordinal(), type.getName()+"_log");
 		for(BlockAspectLog3.BlockType type : BlockAspectLog3.BlockType.values())
 			register(aspectLog3, type.ordinal(), type.getName()+"_log");
-		
-		for(BlockVanityLaptopOff.BlockType type : BlockVanityLaptopOff.BlockType.values())
-			register(blockLaptopOff, type.ordinal(), type.getName()+"_computer");
-		
+
 		register(woodenCactus);
 		register(sugarCube);
 		register(appleCake);
