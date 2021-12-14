@@ -1,6 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.client.util.MinestuckModelManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -11,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
 public class ItemYarnBall extends MSThrowableBase
 {
@@ -63,5 +65,13 @@ public class ItemYarnBall extends MSThrowableBase
             return EnumActionResult.SUCCESS;
         }
         return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+    }
+
+    @Override
+    public void registerModel()
+    {
+        MinestuckModelManager.DyedItemDefinition definition = new MinestuckModelManager.DyedItemDefinition("yarn_ball");
+        ModelLoader.registerItemVariants(this, definition.getResourceLocations());
+        ModelLoader.setCustomMeshDefinition(this, definition);
     }
 }

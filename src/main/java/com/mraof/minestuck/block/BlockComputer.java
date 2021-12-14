@@ -25,7 +25,6 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -107,43 +106,6 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 		return getDefaultState().withProperty(DIRECTION, EnumFacing.getHorizontal(meta % 4)).withProperty(COMPUTER_STATE, EnumComputerState.values()[meta / 4]);
 	}
 	
-	public static void setDefaultDirection(World world, int x, int y, int z)
-	{
-		if (!world.isRemote)
-		{
-			IBlockState block = world.getBlockState(new BlockPos(x, y, z - 1));
-			IBlockState block1 = world.getBlockState(new BlockPos(x, y, z + 1));
-			IBlockState block2 = world.getBlockState(new BlockPos(x - 1, y, z));
-			IBlockState block3 = world.getBlockState(new BlockPos(x + 1, y, z));
-			byte b0 = 0;
-
-			if (block.isFullBlock() && !block1.isFullBlock())
-			{
-				b0 = 3;
-			}
-
-			if (block1.isFullBlock() && !block.isFullBlock())
-			{
-				b0 = 2;
-			}
-
-			if (block2.isFullBlock() && !block3.isFullBlock())
-			{
-				b0 = 5;
-			}
-
-			if (block3.isFullBlock() && !block2.isFullBlock())
-			{
-				b0 = 4;
-			}
-			
-			if(b0 == 0)
-				b0 = (byte) (block3.isFullBlock() ? 2 : 5);
-			
-			world.setBlockState(new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)).withProperty(DIRECTION, EnumFacing.values()[b0]), 2);
-		}
-	}
-	
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
 	{
@@ -157,7 +119,7 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
-		return AABBS[0];
+		return modifyAABBForDirection(state.getValue(DIRECTION), AABBS[0]);
 	}
 	
 	@Override
@@ -285,11 +247,6 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 			entityItem.motionZ = rand.nextGaussian() * factor;
 			world.spawnEntity(entityItem);
 		}
-	}
-	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
-	{
-		return new ItemStack(MinestuckBlocks.blockSburbComputer);
 	}
 
 	public enum EnumComputerState implements IStringSerializable

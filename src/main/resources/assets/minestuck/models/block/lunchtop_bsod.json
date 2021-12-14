@@ -1,5 +1,5 @@
 {
-    "parent": "minestuck:block/crockertop",
+    "parent": "minestuck:block/lunchtop_on",
     "textures": {
         "screen": "minestuck:machines/computers/bsod"
     }

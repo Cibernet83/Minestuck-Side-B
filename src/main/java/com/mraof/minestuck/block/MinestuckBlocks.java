@@ -60,7 +60,7 @@ public class MinestuckBlocks
 	public static final Block blockLaptop = new BlockComputer("laptop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
 	public static final Block blockHubtop = new BlockComputer("hubtop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
 	public static final Block blockCrockertop = new BlockComputer("crockertop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
-	public static final Block blockLunchtop = new BlockComputer("lunchtop", new AxisAlignedBB(5/16d, 0, 5/16d, 6/16d, 3.5/16d, 5/16d));
+	public static final Block blockLunchtop = new BlockComputer("lunchtop", new AxisAlignedBB(5/16d, 0, 5/16d, 11/16d, 3.5/16d, 10/16d));
 
 	public static final Block punchDesignix = new BlockPunchDesignix();
 	public static final BlockTotemLathe[] totemlathe = BlockTotemLathe.createBlocks();

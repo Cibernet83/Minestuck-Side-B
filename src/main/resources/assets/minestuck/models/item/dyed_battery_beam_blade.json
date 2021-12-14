@@ -3,5 +3,13 @@
     "textures": {
         "layer0": "Minestuck:items/battery_beam_blade_handle",
         "layer1": "Minestuck:items/dyed_battery_beam_blade_on"
-    }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "Minestuck:sheathed": 1
+            },
+            "model": "Minestuck:item/dyed_battery_beam_blade_off"
+        }
+    ]
 }

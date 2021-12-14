@@ -1,6 +1,0 @@
-{
-    "parent": "Minestuck:item/claw",
-    "textures": {
-        "layer0": "Minestuck:items/sneaky_daggers"
-    }
-}

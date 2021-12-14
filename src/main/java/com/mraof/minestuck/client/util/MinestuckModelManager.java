@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -46,8 +47,6 @@ public class    MinestuckModelManager
 	
 	private static void itemModels()
 	{
-		//sheathed weapons TODO
-
 		//meta variants
 		register(disk, 0, "disk_client");
 		register(disk, 1, "disk_server");
@@ -101,9 +100,6 @@ public class    MinestuckModelManager
 		ModelLoader.registerItemVariants(boondollars, new ResourceLocation(Minestuck.MODID, "boondollars0"), new ResourceLocation(Minestuck.MODID, "boondollars1"), new ResourceLocation(Minestuck.MODID, "boondollars2"),
 				new ResourceLocation(Minestuck.MODID, "boondollars3"), new ResourceLocation(Minestuck.MODID, "boondollars4"), new ResourceLocation(Minestuck.MODID, "boondollars5"), new ResourceLocation(Minestuck.MODID, "boondollars6"));
 		ModelLoader.setCustomMeshDefinition(boondollars, new BoondollarsDefinition());
-
-		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation(Minestuck.MODID, "dowel_uncarved"), new ResourceLocation(Minestuck.MODID, "dowel_carved"));
-		ModelLoader.setCustomMeshDefinition(cruxiteDowel, new CruxiteDowelDefinition());
 
 		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation(Minestuck.MODID, "card_empty"), new ResourceLocation(Minestuck.MODID, "card_full"), new ResourceLocation(Minestuck.MODID, "card_punched"), new ResourceLocation(Minestuck.MODID, "card_ghost"));
 		ModelLoader.setCustomMeshDefinition(captchaCard, new CaptchaCardDefinition());
@@ -348,7 +344,7 @@ public class    MinestuckModelManager
 	}
 
 	
-	private static class CruxiteDowelDefinition implements ItemMeshDefinition
+	public static class CruxiteDowelDefinition implements ItemMeshDefinition
 	{
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack)
@@ -443,6 +439,32 @@ public class    MinestuckModelManager
 			else str = "boondollars6";
 			
 			return new ModelResourceLocation(Minestuck.MODID+":" + str, "inventory");
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static class DyedItemDefinition implements ItemMeshDefinition
+	{
+		private final String model;
+
+		public DyedItemDefinition(String model)
+		{
+			this.model = model;
+		}
+
+		public ResourceLocation[] getResourceLocations()
+		{
+			ResourceLocation[] result = new ResourceLocation[EnumDyeColor.values().length];
+
+			for(int i = 0; i < result.length; i++)
+				result[i] = new ResourceLocation(Minestuck.MODID, model + "_" + EnumDyeColor.byDyeDamage(i).getName());
+
+			return result;
+		}
+
+		@Override
+		public ModelResourceLocation getModelLocation(ItemStack stack) {
+			return new ModelResourceLocation(getResourceLocations()[stack.getItemDamage()], "inventory");
 		}
 	}
 }

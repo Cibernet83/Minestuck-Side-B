@@ -449,7 +449,7 @@ public class MinestuckItems
 	public static final Item litGlitterBeamTransistor = new ItemBeamWeapon(700,5.5, -0.3, 0.1f, 20, 1, 72000, 40, 30, "litGlitterBeamTransistor").setTool(toolNeedles, 2, 4f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.9f, 1.1f, 0), new PropertyRainbowBeam(), new PropertyBeamDeathMessage("rainbow"));
 	public static final Item needlewands = new ItemBeamWeapon(488,6.5, -0.3, 0.05f, 10, 1, 60, "needlewand").setTool(toolNeedles, 3, 2f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.95f, 1.15f, 0), new PropertyMagicBeam(), new PropertyBeamDeathMessage("magic"));
 	public static final Item oglogothThorn = new ItemBeamWeapon(666,7.2, -0.3, 0.1f, 30, 0.7f, 5, 20, 80, "oglogothThorn").setTool(toolNeedles, 4, 3f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.6f, 1.6f, 0.12f));
-	public static final Item echidnaQuills = new MSWeaponBase(17.3, -0.3, 100, "echidnaQuill").setTool(toolNeedles, 10, 5f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(1f, 1.2f, 0));
+	public static final Item echidnaQuills = new MSWeaponBase(17.3, -0.3, 100, "quillOfEchidna").setTool(toolNeedles, 10, 5f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(1f, 1.2f, 0));
 	public static final Item thistlesOfZillywitch = new MSWeaponBase(800, 9.1, -0.3, 40, "thistlesOfZillywitch").setTool(toolNeedles, 5, 10f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.9f, 1.3f, 0));
 
 	//Shieldkind
@@ -518,7 +518,7 @@ public class MinestuckItems
 	public static final Item stardustSmasher = new MSWeaponBase(1725, 44.8, -2.8, 20, "stardustSmasher").setTool(toolHammer, 20, 8.0f).addProperties(new PropertyMobTypeDamage(EnumCreatureAttribute.ARTHROPOD, 1000), new PropertyVMotionDamage(1.6f, 3));
 
 	//Clawkind
-	public static final Item catClaws = new ItemDualClaw(500, 4.0D, 1.0D, -1.5D, -1.0D, 6, "catclaws");
+	public static final Item catClaws = new ItemDualClaw(500, 4.0D, 1.0D, -1.5D, -1.0D, 6, "catClaws");
 	public static final Item katars = new MSWeaponBase(248, 1.6, -0.65, 2, "katars").setTool(toolClaws, 2, 3).addProperties(new PropertySweep(), new PropertyDualWield());
 	public static final Item diamondKatars = new MSWeaponBase(900, 2.5, -0.65, 6, "diamondKatars").setTool(toolClaws, 2, 3).addProperties(new PropertySweep(), new PropertyDualWield());
 	public static final Item actionClaws = new ItemDualClaw(608, 3.9D, 0.0D, -0.55D, -0.0D, 6, "actionClaws").setTool(toolClaws, 2, 3).addProperties(new PropertyActionBuff(200, 2.5));
@@ -795,17 +795,6 @@ public class MinestuckItems
 		archmageHat.setArmorModel(new ModelArchmageHat());
 		scarf.setArmorModel(new ModelScarf());
 		crumplyHat.setArmorModel(new ModelCrumplyHat());
-
-		for(ItemBeamBlade blade : dyedBeamBlade)
-			registerItemCustomRender(blade, new MSUModelManager.DualWeaponDefinition("dyed_battery_beam_blade", "dyed_battery_beam_blade_off"));
-		registerItemCustomRender(batteryBeamBlade, new MSUModelManager.DualWeaponDefinition("battery_beam_blade", "battery_beam_blade_off"));
-		registerItemCustomRender(yarnBall, new MSUModelManager.DyedItemDefinition("yarn_ball"));
-		registerItemCustomRender(scarf, new MSUModelManager.DyedItemDefinition("scarf"));
-		registerItemCustomRender(actionClaws, new MSUModelManager.DualWeaponDefinition("action_claws_drawn", "action_claws_sheathed"));
-		registerItemCustomRender(candyCornClaws, new MSUModelManager.DualWeaponDefinition("candy_corn_claws_drawn", "candy_corn_claws_sheathed"));
-		registerItemCustomRender(sneakyDaggers, new MSUModelManager.DualWeaponDefinition("sneaky_daggers_drawn", "sneaky_daggers_sheathed"));
-		registerItemCustomRender(blizzardCutters, new MSUModelManager.DualWeaponDefinition("blizzard_cutters_drawn", "blizzard_cutters_sheathed"));
-		registerItemCustomRender(katarsOfZillywhomst, new MSUModelManager.DualWeaponDefinition("katars_of_zillywhomst_drawn", "katars_of_zillywhomst_sheathed"));
 
 		RenderThrowable.IRenderProperties THROW_STAR_ROTATION = ((entity, partialTicks) ->
 		{

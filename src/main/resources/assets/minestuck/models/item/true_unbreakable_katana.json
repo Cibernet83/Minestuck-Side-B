@@ -1,6 +1,0 @@
-{
-    "parent": "item/handheld",
-    "textures": {
-        "layer0": "Minestuck:items/true_unbreakable_katana"
-    }
-}

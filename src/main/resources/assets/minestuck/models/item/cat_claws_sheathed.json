@@ -1,6 +1,6 @@
 {
     "parent": "Minestuck:item/claw",
     "textures": {
-        "layer0": "Minestuck:items/blizzard_cutters"
+        "layer0": "Minestuck:items/cat_claws_sheathed"
     }
 }

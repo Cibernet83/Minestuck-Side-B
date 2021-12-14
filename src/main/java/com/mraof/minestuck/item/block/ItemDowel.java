@@ -1,6 +1,8 @@
 package com.mraof.minestuck.item.block;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.client.util.MinestuckModelManager;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import net.minecraft.block.Block;
@@ -17,6 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -71,5 +74,13 @@ public class ItemDowel extends MSItemBlock
 			te.setStack(newStack);
 			return true;
 		} else return false;
+	}
+
+	@Override
+	public void registerModel() {
+
+		ModelLoader.registerItemVariants(this, new ResourceLocation(Minestuck.MODID, "dowel_uncarved"), new ResourceLocation(Minestuck.MODID, "dowel_carved"));
+		ModelLoader.setCustomMeshDefinition(this, new MinestuckModelManager.CruxiteDowelDefinition());
+
 	}
 }

@@ -1,15 +1,17 @@
 package com.mraof.minestuck.item.weapon;
 
-import com.mraof.minestuck.item.properties.PropertySweep;
-import com.mraof.minestuck.item.properties.clawkind.IPropertyClaw;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.properties.PropertyDualWield;
+import com.mraof.minestuck.item.properties.PropertySweep;
 import com.mraof.minestuck.item.properties.WeaponProperty;
+import com.mraof.minestuck.item.properties.clawkind.IPropertyClaw;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class ItemDualClaw extends MSWeaponBase
         this.attackSpeedSheathed = weaponSpeedWhileShiethed;
 
         this.addProperties(new PropertySweep(), new PropertyDualWield());
+        addPropertyOverride(new ResourceLocation(Minestuck.MODID, "sheathed"), ((stack, worldIn, entityIn) -> isDrawn(stack) ? 0 : 1));
     }
 
     @Override

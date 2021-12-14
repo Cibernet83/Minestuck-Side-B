@@ -5,9 +5,7 @@ import com.mraof.minestuck.alchemy.GristType;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -18,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mraof.minestuck.item.MinestuckItems.*;
+import static com.mraof.minestuck.item.MinestuckItems.candy;
 
 public class MSUModelManager // TODO: remove
 {
@@ -90,51 +88,5 @@ public class MSUModelManager // TODO: remove
     @SideOnly(Side.CLIENT)
     public interface CustomItemMeshDefinition extends ItemMeshDefinition {
         public ResourceLocation[] getResourceLocations();
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static class DualWeaponDefinition implements CustomItemMeshDefinition {
-        private final String model1;
-        private final String model2;
-        public DualWeaponDefinition(String model1, String model2)
-        {
-            this.model1 = model1;
-            this.model2 = model2;
-        }
-
-        public ModelResourceLocation getModelLocation(ItemStack stack) {
-            return new ModelResourceLocation( Minestuck.MODID+":" + (batteryBeamBlade.isDrawn(stack) ? model1 : model2), "inventory");
-        }
-
-        @Override
-        public ResourceLocation[] getResourceLocations() {
-            return new ResourceLocation[]{new ResourceLocation(Minestuck.MODID, "" + model1), new ResourceLocation(Minestuck.MODID, "" + model2)};
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static class DyedItemDefinition implements CustomItemMeshDefinition
-    {
-        private final String model;
-
-        public DyedItemDefinition(String model) {
-            this.model = model;
-        }
-
-        @Override
-        public ResourceLocation[] getResourceLocations()
-        {
-            ResourceLocation[] result = new ResourceLocation[EnumDyeColor.values().length];
-
-            for(int i = 0; i < result.length; i++)
-                result[i] = new ResourceLocation(Minestuck.MODID, model + "_" + EnumDyeColor.byDyeDamage(i).getName());
-
-            return result;
-        }
-
-        @Override
-        public ModelResourceLocation getModelLocation(ItemStack stack) {
-            return new ModelResourceLocation(getResourceLocations()[stack.getItemDamage()], "inventory");
-        }
     }
 }

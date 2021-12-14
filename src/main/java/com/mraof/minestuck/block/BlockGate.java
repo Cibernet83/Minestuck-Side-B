@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityGate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -222,5 +223,10 @@ public class BlockGate extends MSBlockBase
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
+	}
+
+	@Override
+	public MSItemBlock getItemBlock() {
+		return null;
 	}
 }

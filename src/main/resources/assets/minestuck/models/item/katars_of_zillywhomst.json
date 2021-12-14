@@ -1,14 +1,14 @@
 {
     "parent": "Minestuck:item/claw",
     "textures": {
-        "layer0": "Minestuck:items/action_claws"
+        "layer0": "Minestuck:items/katars_of_zillywhomst"
     },
     "overrides": [
         {
             "predicate": {
                 "Minestuck:sheathed": 1
             },
-            "model": "Minestuck:item/action_claws_sheathed"
+            "model": "Minestuck:item/katars_of_zillywhomst_sheathed"
         }
     ]
 }

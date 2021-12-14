@@ -1,9 +1,11 @@
 package com.mraof.minestuck.item.weapon;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.properties.PropertyElectric;
 import com.mraof.minestuck.item.properties.PropertySweep;
 import com.mraof.minestuck.item.properties.WeaponProperty;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,8 +16,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,8 @@ public class ItemBeamBlade extends MSWeaponBase
         super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
         addProperties(new PropertySweep(), new PropertyElectric(10, 2, 0.6f, false));
         setRepairMaterials(new ItemStack(MinestuckItems.battery));
+
+        addPropertyOverride(new ResourceLocation(Minestuck.MODID, "sheathed"), ((stack, worldIn, entityIn) -> isDrawn(stack) ? 0 : 1));
     }
 
     public ItemBeamBlade setColor(EnumDyeColor color)
@@ -42,15 +47,6 @@ public class ItemBeamBlade extends MSWeaponBase
 
     public boolean isDrawn(ItemStack itemStack) {
         return this.checkTagCompound(itemStack).getBoolean("IsDrawn");
-    }
-    
-    @Override
-    public String getItemStackDisplayName(ItemStack stack)
-    {
-        String color = "";
-        if(this.color != null)
-            color = "."+this.color.getUnlocalizedName();
-        return I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + color + ".name").trim();
     }
 
     @Override
@@ -137,5 +133,14 @@ public class ItemBeamBlade extends MSWeaponBase
     @Override
     public List<WeaponProperty> getProperties(ItemStack stack) {
         return isDrawn(stack) ? super.getProperties() : new ArrayList<>();
+    }
+
+
+    @Override
+    public void registerModel()
+    {
+        if(color == null)
+            super.registerModel();
+        else ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(Minestuck.MODID+":dyed_battery_beam_blade", "inventory"));
     }
 }

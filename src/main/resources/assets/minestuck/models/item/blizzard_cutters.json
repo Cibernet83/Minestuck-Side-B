@@ -1,14 +1,14 @@
 {
-    "parent": "item/handheld",
+    "parent": "Minestuck:item/claw",
     "textures": {
-        "layer0": "Minestuck:items/battery_beam_blade_on"
+        "layer0": "Minestuck:items/blizzard_cutters"
     },
     "overrides": [
         {
             "predicate": {
                 "Minestuck:sheathed": 1
             },
-            "model": "Minestuck:item/battery_beam_blade_off"
+            "model": "Minestuck:item/blizzard_cutters_sheathed"
         }
     ]
 }

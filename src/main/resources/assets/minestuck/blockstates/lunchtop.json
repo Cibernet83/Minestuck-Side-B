@@ -1,0 +1,19 @@
+{
+    "variants": {
+        "facing=north,state=off": { "model": "minestuck:lunchtop" },
+        "facing=east,state=off": { "model": "minestuck:lunchtop", "y": 90 },
+        "facing=south,state=off": { "model": "minestuck:lunchtop", "y": 180 },
+        "facing=west,state=off": { "model": "minestuck:lunchtop", "y": 270 },
+        "facing=north,state=off": { "model": "minestuck:lunchtop" },
+
+        "facing=east,state=on": { "model": "minestuck:lunchtop_on", "y": 90 },
+        "facing=south,state=on": { "model": "minestuck:lunchtop_on", "y": 180 },
+        "facing=west,state=on": { "model": "minestuck:lunchtop_on", "y": 270 },
+        "facing=north,state=on": { "model": "minestuck:lunchtop_on" },
+
+        "facing=east,state=bsod": { "model": "minestuck:lunchtop_bsod", "y": 90 },
+        "facing=south,state=bsod": { "model": "minestuck:lunchtop_bsod", "y": 180 },
+        "facing=west,state=bsod": { "model": "minestuck:lunchtop_bsod", "y": 270 },
+        "facing=north,state=bsod": { "model": "minestuck:lunchtop_bsod" }
+    }
+}
