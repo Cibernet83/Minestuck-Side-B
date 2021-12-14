@@ -2,11 +2,14 @@ package com.mraof.minestuck.client.util;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.alchemy.GristType;
 import com.mraof.minestuck.block.*;
 import com.mraof.minestuck.entity.EntityFrog;
-import com.mraof.minestuck.item.*;
+import com.mraof.minestuck.item.ItemBoondollars;
+import com.mraof.minestuck.item.ItemMetalBoat;
+import com.mraof.minestuck.item.ItemMinestuckBeverage;
+import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.weapon.ItemDualWeapon;
-import com.mraof.minestuck.alchemy.GristType;
 import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCactus;
@@ -26,13 +29,11 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Collections;
 
 import static com.mraof.minestuck.block.MinestuckBlocks.*;
 import static com.mraof.minestuck.item.MinestuckItems.*;
-import static com.mraof.minestuck.item.MinestuckItems.operandiBlock;
 
 @SideOnly(Side.CLIENT)
 public class MinestuckModelManager
@@ -105,7 +106,7 @@ public class MinestuckModelManager
 				new ResourceLocation("minestuck:boondollars3"), new ResourceLocation("minestuck:boondollars4"), new ResourceLocation("minestuck:boondollars5"), new ResourceLocation("minestuck:boondollars6"));
 		ModelLoader.setCustomMeshDefinition(boondollars, new BoondollarsDefinition());
 
-		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation("minestuck:dowel_uncarved"), new ResourceLocation("minestuck:dowel_carved"), new ResourceLocation("minestuck:dowel_uncarved_blank"), new ResourceLocation("minestuck:dowel_carved_blank"));
+		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation("minestuck:dowel_uncarved"), new ResourceLocation("minestuck:dowel_carved"));
 		ModelLoader.setCustomMeshDefinition(cruxiteDowel, new CruxiteDowelDefinition());
 
 		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation("minestuck:card_empty"), new ResourceLocation("minestuck:card_full"), new ResourceLocation("minestuck:card_punched"), new ResourceLocation("minestuck:card_ghost"));
@@ -370,8 +371,7 @@ public class MinestuckModelManager
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack)
 		{
-			String suffix = stack.getMetadata() == 0 ? "" : "_blank";
-			return new ModelResourceLocation("minestuck:"+(stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") ? "dowel_carved" : "dowel_uncarved")+suffix, "inventory");
+			return new ModelResourceLocation("minestuck:"+(stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") ? "dowel_carved" : "dowel_uncarved"), "inventory");
 		}
 	}
 	

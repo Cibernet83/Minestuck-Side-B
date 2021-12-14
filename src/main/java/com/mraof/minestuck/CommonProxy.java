@@ -86,7 +86,7 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(new MinestuckFluidHandler());
 		MinecraftForge.EVENT_BUS.register(ServerEditHandler.instance);
 		MinecraftForge.EVENT_BUS.register(MinestuckPlayerTracker.instance);
-		MinecraftForge.EVENT_BUS.register(CommonEventHandler.instance);
+		MinecraftForge.EVENT_BUS.register(CommonEventHandler.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckChannelHandler.instance);
 		MinecraftForge.EVENT_BUS.register(new ConnectionListener());
 		

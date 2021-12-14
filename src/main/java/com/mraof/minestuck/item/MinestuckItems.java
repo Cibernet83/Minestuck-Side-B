@@ -2,18 +2,17 @@ package com.mraof.minestuck.item;
 
 import com.google.common.collect.ImmutableList;
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.entity.EntityEightBall;
-import com.mraof.minestuck.item.operandi.*;
-import com.mraof.minestuck.util.IRegistryItem;
-import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.block.*;
+import com.mraof.minestuck.entity.EntityEightBall;
 import com.mraof.minestuck.entity.item.EntityCrewPoster;
 import com.mraof.minestuck.entity.item.EntitySbahjPoster;
 import com.mraof.minestuck.inventory.captchalouge.PopTartModus;
 import com.mraof.minestuck.item.block.*;
+import com.mraof.minestuck.item.operandi.*;
 import com.mraof.minestuck.item.weapon.*;
+import com.mraof.minestuck.util.IRegistryItem;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
-
+import com.mraof.minestuck.util.MinestuckSounds;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -37,17 +36,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import static com.mraof.minestuck.block.MinestuckBlocks.*;
-import static com.mraof.minestuck.util.ModusStorage.getStoredItem;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import com.mraof.minestuck.block.BlockAspectLog;
-import com.mraof.minestuck.block.BlockAspectLog2;
-import com.mraof.minestuck.block.BlockAspectLog3;
-import com.mraof.minestuck.block.BlockAspectSapling;
+import static com.mraof.minestuck.block.MinestuckBlocks.*;
+import static com.mraof.minestuck.util.ModusStorage.getStoredItem;
 
 public class MinestuckItems
 {
@@ -152,10 +146,10 @@ public class MinestuckItems
 	public static final Item emeraldShovel = new ItemWeapon(1220, 8, -2.4, 12, "emeraldShovel");
 	public static final Item emeraldHoe = new ItemWeapon(1220, 8, -2.4, 12, "emeraldHoe");
 	//Armor
-	public static final Item prismarineHelmet = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.HEAD, "prismarineHelmet");
-	public static final Item prismarineChestplate = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.CHEST, "prismarineChestplate");
-	public static final Item prismarineLeggings = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.LEGS, "prismarineLeggings");
-	public static final Item prismarineBoots = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.FEET, "prismarineBoots");
+	public static final Item prismarineHelmet = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.HEAD, "prismarineHelmet", Minestuck.MOD_NAME + ":prismarine_layer_1");
+	public static final Item prismarineChestplate = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.CHEST, "prismarineChestplate", Minestuck.MOD_NAME + ":prismarine_layer_1");
+	public static final Item prismarineLeggings = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.LEGS, "prismarineLeggings", Minestuck.MOD_NAME + ":prismarine_layer_2");
+	public static final Item prismarineBoots = new MSArmorBase(armorPrismarine, 0, EntityEquipmentSlot.FEET, "prismarineBoots", Minestuck.MOD_NAME + ":prismarine_layer_1");
 	//Food
 	public static final Item candy = new ItemMinestuckCandy();
 	public static final Item beverage = new ItemMinestuckBeverage();

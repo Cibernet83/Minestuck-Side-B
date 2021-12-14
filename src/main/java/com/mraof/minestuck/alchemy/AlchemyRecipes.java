@@ -572,6 +572,8 @@ public class AlchemyRecipes
 		for(Item i : cruxiteArtifacts)
 			GristRegistry.addGristConversion(new ItemStack(i), new GristSet());
 
+		GristRegistry.addGristConversion(new ItemStack(cruxiteApple), new GristSet());
+
 		GristRegistry.addGristConversion(new ItemStack(catClaws),false,new GristSet(new GristType[] {GristType.Build,GristType.Rust},new int[] {15,5}));
 		
 		GristRegistry.addGristConversion(new ItemStack(clawHammer), false, new GristSet(GristType.Build, 8));

@@ -1,5 +1,7 @@
 package com.mraof.minestuck.util;
 
+import com.mraof.minestuck.item.operandi.ICruxiteArtifact;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -59,5 +61,13 @@ public class ColorCollector
 	{
 		return colors.size();
 	}
-	
+
+	public static int getColorFromNBT(ItemStack stack)
+	{
+		if(stack.getItem() instanceof ICruxiteArtifact)
+		{
+			return ((ICruxiteArtifact) stack.getItem()).getCruxiteColor(stack);
+		}
+		else return 0x99D9EA;
+	}
 }

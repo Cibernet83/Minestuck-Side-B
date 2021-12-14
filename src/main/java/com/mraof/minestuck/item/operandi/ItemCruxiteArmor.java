@@ -5,16 +5,12 @@ import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.item.MSArmorBase;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.TabMinestuck;
-import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.registries.IForgeRegistry;
 
 public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 {
@@ -25,19 +21,19 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 
 	public ItemCruxiteArmor(String name, EntityEquipmentSlot equipmentSlotIn, boolean isEntryArtifact)
 	{
-		super(isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL, 5, equipmentSlotIn, name);
+		super(isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL, 5, equipmentSlotIn, name, (isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL).getName() + "_layer_" + (equipmentSlotIn == EntityEquipmentSlot.LEGS ? "2" : "1"));
 		
 		setCreativeTab(TabMinestuck.instance);
 
 		if(isEntryArtifact)
 		{
 			teleporter =  new CruxiteArtifactTeleporter();
-			OperandiModus.itemPool.add(this);
+			MinestuckItems.cruxiteArtifacts.add(this);
 		}
 		else
 		{
 			teleporter = null;
-			MinestuckItems.cruxiteArtifacts.add(this);
+			OperandiModus.itemPool.add(this);
 		}
 	}
 	
@@ -79,9 +75,13 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 	public boolean hasColor(ItemStack stack) {
 		return isEntryArtifact();
 	}
+	@Override
+	public boolean hasOverlay(ItemStack stack) {
+		return isEntryArtifact();
+	}
 
 	@Override
 	public int getColor(ItemStack stack) {
-		return getColor(stack);
+		return getCruxiteColor(stack);
 	}
 }

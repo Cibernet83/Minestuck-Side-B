@@ -3,30 +3,12 @@ package com.mraof.minestuck.client;
 import com.mraof.minestuck.CommonProxy;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.client.model.ModelBasilisk;
-import com.mraof.minestuck.client.model.ModelBishop;
-import com.mraof.minestuck.client.model.ModelGiclops;
-import com.mraof.minestuck.client.model.ModelIguana;
-import com.mraof.minestuck.client.model.ModelImp;
-import com.mraof.minestuck.client.model.ModelLich;
-import com.mraof.minestuck.client.model.ModelNakagator;
-import com.mraof.minestuck.client.model.ModelOgre;
-import com.mraof.minestuck.client.model.ModelRook;
-import com.mraof.minestuck.client.model.ModelSalamander;
-import com.mraof.minestuck.client.model.ModelTurtle;
+import com.mraof.minestuck.client.model.*;
 import com.mraof.minestuck.client.renderer.BlockColorCruxite;
 import com.mraof.minestuck.client.renderer.CruxiteSlimeRenderer;
 import com.mraof.minestuck.client.renderer.RenderMachineOutline;
 import com.mraof.minestuck.client.renderer.ThrowableRenderFactory;
-import com.mraof.minestuck.client.renderer.entity.RenderDecoy;
-import com.mraof.minestuck.client.renderer.entity.RenderEntityMinestuck;
-import com.mraof.minestuck.client.renderer.entity.RenderGrist;
-import com.mraof.minestuck.client.renderer.entity.RenderHangingArt;
-import com.mraof.minestuck.client.renderer.entity.RenderHologram;
-import com.mraof.minestuck.client.renderer.entity.RenderMetalBoat;
-import com.mraof.minestuck.client.renderer.entity.RenderPawn;
-import com.mraof.minestuck.client.renderer.entity.RenderShadow;
-import com.mraof.minestuck.client.renderer.entity.RenderVitalityGel;
+import com.mraof.minestuck.client.renderer.entity.*;
 import com.mraof.minestuck.client.renderer.entity.frog.RenderFrog;
 import com.mraof.minestuck.client.renderer.tileentity.RenderGate;
 import com.mraof.minestuck.client.renderer.tileentity.RenderSkaiaPortal;
@@ -41,32 +23,18 @@ import com.mraof.minestuck.entity.consort.EntityIguana;
 import com.mraof.minestuck.entity.consort.EntityNakagator;
 import com.mraof.minestuck.entity.consort.EntitySalamander;
 import com.mraof.minestuck.entity.consort.EntityTurtle;
-import com.mraof.minestuck.entity.item.EntityCrewPoster;
-import com.mraof.minestuck.entity.item.EntityGrist;
-import com.mraof.minestuck.entity.item.EntityHologram;
-import com.mraof.minestuck.entity.item.EntityMetalBoat;
-import com.mraof.minestuck.entity.item.EntitySbahjPoster;
-import com.mraof.minestuck.entity.item.EntityShopPoster;
-import com.mraof.minestuck.entity.item.EntityVitalityGel;
-import com.mraof.minestuck.entity.underling.EntityBasilisk;
-import com.mraof.minestuck.entity.underling.EntityGiclops;
-import com.mraof.minestuck.entity.underling.EntityImp;
-import com.mraof.minestuck.entity.underling.EntityLich;
-import com.mraof.minestuck.entity.underling.EntityOgre;
-import com.mraof.minestuck.entity.underling.EntityUnderlingPart;
+import com.mraof.minestuck.entity.item.*;
+import com.mraof.minestuck.entity.underling.*;
 import com.mraof.minestuck.event.ClientEventHandler;
 import com.mraof.minestuck.item.ItemFrog;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.TileEntityGate;
 import com.mraof.minestuck.tileentity.TileEntitySkaiaPortal;
 import com.mraof.minestuck.util.ColorCollector;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -95,14 +63,19 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGate.class, new RenderGate());
 //		MinecraftForgeClient.registerItemRenderer(Minestuck.captchaCard, new RenderCard());
 
-		Item[] cruxiteItems = new Item[MinestuckItems.cruxiteArtifacts.size()+1];
+		Item[] cruxiteItems = new Item[MinestuckItems.cruxiteArtifacts.size()];
 
-		cruxiteItems[0] = MinestuckItems.cruxiteDowel;
-		for(int i = 1; i <= MinestuckItems.cruxiteArtifacts.size(); i++)
+		for(int i = 0; i < MinestuckItems.cruxiteArtifacts.size(); i++)
 			cruxiteItems[i] = MinestuckItems.cruxiteArtifacts.get(i);
 
-		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? -1 : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex), cruxiteItems);
+		mc.getItemColors().registerItemColorHandler((stack, tintIndex) ->
+				BlockColorCruxite.handleColorTint(ColorCollector.getColorFromNBT(stack), tintIndex), cruxiteItems);
+
 		mc.getBlockColors().registerBlockColorHandler(new BlockColorCruxite(), MinestuckBlocks.alchemiter[0], MinestuckBlocks.totemlathe[1], MinestuckBlocks.blockCruxiteDowel);
+
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) ->
+						BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? 0x99D9EA : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex),
+				new Item[]{MinestuckItems.cruxiteDowel, MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey});
 
 		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
 			ItemFrog item = ((ItemFrog)stack.getItem());
@@ -171,10 +144,6 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(ClientEditHandler.instance);
 		MinecraftForge.EVENT_BUS.register(new MinestuckConfig());
 		MinecraftForge.EVENT_BUS.register(RenderMachineOutline.class);
-
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) ->
-			BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? 0x99D9EA : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex),
-			new Item[]{MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey});
 	}
 	
 }

@@ -7,7 +7,6 @@ import com.mraof.minestuck.block.BlockGate;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.event.CommonEventHandler;
-import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.modSupport.RefinedStorageSupport;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
@@ -582,8 +581,6 @@ public class CruxiteArtifactTeleporter implements Teleport.ITeleporter
 			case "refinedstorage":
 				if(extraData.getBoolean("newTE"))
 				{
-					//Destroys the newly-copied tile entity, so that a new one will be generated in its place.
-					System.out.println("is Controller"); 
 					chunkTo.removeTileEntity(dest);
 					TileEntity te = chunkFrom.getTileEntity(source,EnumCreateEntityType.CHECK);
 					INetworkNode node = ((INetworkNodeProxy)te).getNode();

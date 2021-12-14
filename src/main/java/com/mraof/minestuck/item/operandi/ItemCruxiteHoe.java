@@ -38,12 +38,12 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem<Item>, ICru
 		if(isEntryArtifact)
 		{
 			teleporter =  new CruxiteArtifactTeleporter();
-			OperandiModus.itemPool.add(this);
+			MinestuckItems.cruxiteArtifacts.add(this);
 		}
 		else
 		{
 			teleporter = null;
-			MinestuckItems.cruxiteArtifacts.add(this);
+			OperandiModus.itemPool.add(this);
 		}
 		MSItemBase.items.add(this);
 	}
