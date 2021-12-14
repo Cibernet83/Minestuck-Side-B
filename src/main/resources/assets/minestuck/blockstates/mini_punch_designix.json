@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=south":     { "model": "minestuck:machine_designix" },
+    "facing=west":      { "model": "minestuck:machine_designix", "y": 90 },
+    "facing=north":     { "model": "minestuck:machine_designix", "y": 180 },
+    "facing=east":      { "model": "minestuck:machine_designix", "y": 270 }
+  }
+}

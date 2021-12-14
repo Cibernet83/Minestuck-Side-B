@@ -1124,7 +1124,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination("modus", new ItemStack(Blocks.IRON_BLOCK), MODE_OR, new ItemStack(weightModus));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.CHEST), new ItemStack(jujuModus), MODE_AND, new ItemStack(modUs));
 		CombinationRegistry.addCombination("modus", new ItemStack(MinestuckBlocks.alchemiter[0]), MODE_OR, new ItemStack(alcheModus));
-		CombinationRegistry.addCombination("modus", new ItemStack(MinestuckBlocks.sburbMachine, 1, 3), MODE_OR, new ItemStack(alcheModus));
+		CombinationRegistry.addCombination("modus", new ItemStack(miniAlchemiter, 1), MODE_OR, new ItemStack(alcheModus));
 
 
 

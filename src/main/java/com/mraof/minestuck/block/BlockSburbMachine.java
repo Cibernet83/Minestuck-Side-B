@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockSburbMachine extends BlockContainer implements IRegistryItem<Block>
+public abstract class BlockSburbMachine extends BlockContainer implements IRegistryItem<Block>
 {
 	protected static final AxisAlignedBB CRUXTRUDER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 15/16D, 1.0D);
 	protected static final AxisAlignedBB[] PUNCH_DESIGNIX_AABB = {new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 5/8D), new AxisAlignedBB(3/8D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 3/8D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 5/8D, 1.0D, 1.0D)};
@@ -45,13 +45,15 @@ public class BlockSburbMachine extends BlockContainer implements IRegistryItem<B
 	protected static final AxisAlignedBB ALCHMITER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/2D, 1.0D);
 	protected static final AxisAlignedBB[] ALCHEMITER_POLE_AABB = {new AxisAlignedBB(0.0D, 2/16D, 0.0D, 4.5/16D, 1.0D, 1/8D), new AxisAlignedBB(7/8D, 2/16D, 0.0D, 1.0D, 1.0D, 4.5/16D), new AxisAlignedBB(11.5/16D, 2/16D, 7/8D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 2/16D, 11.5/16D, 1/8D, 1.0D, 1.0D)};
 	private final String regName;
+	private final MachineType type;
+	//cruxtruder  = 0, punch = 1, lathe = 2, alch = 3
 
 	// TODO: Expand these into their own machines
 	public enum MachineType implements IStringSerializable
 	{
 		CRUXTRUDER("cruxtruder"),
-		PUNCH_DESIGNIX("punchDesignix"),
-		TOTEM_LATHE("totemLathe"),
+		PUNCH_DESIGNIX("designix"),
+		TOTEM_LATHE("lathe"),
 		ALCHEMITER("alchemiter");
 		
 		private final String unlocalizedName;
@@ -72,21 +74,26 @@ public class BlockSburbMachine extends BlockContainer implements IRegistryItem<B
 		}
 	}
 	
-	public static final PropertyEnum<MachineType> MACHINE_TYPE = PropertyEnum.create("machine_type", MachineType.class);
+	//public static final PropertyEnum<MachineType> MACHINE_TYPE = PropertyEnum.create("machine_type", MachineType.class);
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	
-	public BlockSburbMachine()
+	public BlockSburbMachine(MachineType type, String unloc)
 	{
 		super(Material.ROCK);
-		
-		setUnlocalizedName("sburbMachine");
+		this.type = type;
+		setUnlocalizedName(unloc);
 		setHardness(3.0F);
 		setHarvestLevel("pickaxe", 0);
 		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.SOUTH));
 		this.setCreativeTab(TabMinestuck.instance);
-		regName = IRegistryItem.unlocToReg("sburbMachine");
+		regName = IRegistryItem.unlocToReg(unloc);
 		MSBlockBase.blocks.add(this);
 
+	}
+
+	public MachineType getType()
+	{
+		return type;
 	}
 
 	@Override
@@ -99,19 +106,19 @@ public class BlockSburbMachine extends BlockContainer implements IRegistryItem<B
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, MACHINE_TYPE, FACING);
+		return new BlockStateContainer(this, FACING);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return state.getValue(MACHINE_TYPE).ordinal() + state.getValue(FACING).getHorizontalIndex()*4;
+		return state.getValue(FACING).getHorizontalIndex()*4;
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(MACHINE_TYPE, MachineType.values()[meta%4]).withProperty(FACING, EnumFacing.getHorizontal(meta/4));
+		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta/4));
 	}
 	
 	@Override
@@ -120,12 +127,14 @@ public class BlockSburbMachine extends BlockContainer implements IRegistryItem<B
 		return new ArrayList<ItemStack>();
 	}
 	
+	/*
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
 	{
 		for(int i = 0; i < 4; i++)
 			items.add(new ItemStack(this, 1, i));
 	}
+	*/
 	
 	@Override
 	public boolean isFullCube(IBlockState state)
@@ -155,7 +164,7 @@ public class BlockSburbMachine extends BlockContainer implements IRegistryItem<B
 		
 		if(!worldIn.isRemote)
 		{
-			if(state.getValue(MACHINE_TYPE) == MachineType.ALCHEMITER)
+			if(type == MachineType.ALCHEMITER)
 				((TileEntitySburbMachine) tileEntity).owner = IdentifierHandler.encode(playerIn);
 			playerIn.openGui(Minestuck.instance, GuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
@@ -201,8 +210,8 @@ public class BlockSburbMachine extends BlockContainer implements IRegistryItem<B
 		
 		if(!world.isRemote && willHarvest && te != null)
 		{
-			ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(MACHINE_TYPE).ordinal());
-			if(state.getValue(MACHINE_TYPE) == MachineType.CRUXTRUDER && te.color != -1)
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1);
+			if(type == MachineType.CRUXTRUDER && te.color != -1)
 			{	//Moved this here because it's unnecessarily hard to check the tile entity in block.getDrops(), since it has been removed by then
 				stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setInteger("color", te.color);
@@ -220,16 +229,10 @@ public class BlockSburbMachine extends BlockContainer implements IRegistryItem<B
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(World world, int metadata)
-	{
-		return new TileEntitySburbMachine();
-	}
-	
-	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		EnumFacing rotation = (EnumFacing) state.getValue(FACING);
-		MachineType type = (MachineType) state.getValue(MACHINE_TYPE);
+		MachineType type = this.type;
 		
 		switch(type)
 		{
@@ -245,7 +248,7 @@ public class BlockSburbMachine extends BlockContainer implements IRegistryItem<B
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
 	{
 		super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, p_185477_7_);
-		if(state.getValue(MACHINE_TYPE).equals(MachineType.ALCHEMITER))
+		if(type == MachineType.ALCHEMITER)
 		{
 			EnumFacing roation = (EnumFacing) getActualState(state, worldIn, pos).getValue(FACING);
 			AxisAlignedBB bb = ALCHEMITER_POLE_AABB[roation.getHorizontalIndex()].offset(pos);
@@ -257,7 +260,7 @@ public class BlockSburbMachine extends BlockContainer implements IRegistryItem<B
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
 	{
-		return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(MACHINE_TYPE).ordinal());
+		return new ItemStack(Item.getItemFromBlock(this), 1);
 	}
 	
 	@Override

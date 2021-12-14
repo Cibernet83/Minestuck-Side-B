@@ -46,7 +46,11 @@ public class MinestuckBlocks
 	public static final Block chessboard = new BlockDecor("chessboard");
 	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica");
 	
-	public static final Block sburbMachine = new BlockSburbMachine();
+	//public static final Block sburbMachine = new BlockSburbMachine();
+	public static final Block miniAlchemiter = new BlockMiniAlchemiter();
+	public static final Block miniTotemLathe = new BlockMiniTotemLathe();
+	public static final Block miniPunchDesignix = new BlockMiniPunchDesignix();
+	public static final Block miniCruxtruder = new BlockMiniCruxtruder();
 	public static final Block crockerMachine = new BlockCrockerMachine();
 	public static final Block blockComputerOff = new BlockComputerOff("computerStandard");
 	public static final Block blockComputerOn = new BlockComputerOn();

@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 
 import java.util.EnumSet;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -76,7 +77,23 @@ public class ClientEditPacket extends MinestuckPacket
 						c.givenItems()[i] = playerMP.inventory.addItemStackToInventory(card) || c.givenItems()[i];
 				} else
 				{
-					ItemStack machine = new ItemStack(MinestuckBlocks.sburbMachine, 1, i);
+					Block block;
+					switch (i)
+					{
+						case 0:
+							block = MinestuckBlocks.miniCruxtruder;
+							break;
+						case 1:
+							block = MinestuckBlocks.miniPunchDesignix;
+							break;
+						case 2:
+							block = MinestuckBlocks.miniTotemLathe;
+							break;
+						default:
+							block = MinestuckBlocks.miniAlchemiter;
+							break;
+					}
+					ItemStack machine = new ItemStack(block, 1);
 					if(i == 1 && !c.enteredGame())
 						continue;
 					if(!playerMP.inventory.hasItemStack(machine))

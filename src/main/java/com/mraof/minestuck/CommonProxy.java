@@ -65,7 +65,11 @@ public class CommonProxy
 		MinestuckEntities.registerEntities();
 		//register Tile Entities
 		GameRegistry.registerTileEntity(TileEntitySkaiaPortal.class, "minestuck:gate_portal");
-		GameRegistry.registerTileEntity(TileEntitySburbMachine.class, "minestuck:sburb_machine");
+		//GameRegistry.registerTileEntity(TileEntitySburbMachine.class, "minestuck:sburb_machine");
+		GameRegistry.registerTileEntity(TileEntityMiniAlchemiter.class, "minestuck:mini_alchemiter");
+		GameRegistry.registerTileEntity(TileEntityMiniCruxtruder.class, "minestuck:mini_cruxtruder");
+		GameRegistry.registerTileEntity(TileEntityMiniPunchDesignix.class, "minestuck:mini_punch_designix");
+		GameRegistry.registerTileEntity(TileEntityMiniTotemLathe.class, "minestuck:mini_totem_lathe");
 		GameRegistry.registerTileEntity(TileEntityPunchDesignix.class, "Minestuck:punch_designix");
 		GameRegistry.registerTileEntity(TileEntityTotemLathe.class, "Minestuck:totem_lathe");
 		GameRegistry.registerTileEntity(TileEntityAlchemiter.class,"Minestuck:alchemiter");
