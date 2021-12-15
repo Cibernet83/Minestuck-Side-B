@@ -6,7 +6,7 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.block.BlockAlchemiter;
 import com.mraof.minestuck.block.BlockAlchemiter.EnumParts;
-import com.mraof.minestuck.client.gui.GuiHandler;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.event.AlchemizeItemAlchemiterEvent;
 import com.mraof.minestuck.event.AlchemizeItemEvent;
@@ -341,7 +341,7 @@ public class TileEntityAlchemiter extends TileEntity
 				if(!isBroken())
 				{
 					{
-						playerIn.openGui(Minestuck.instance, GuiHandler.GuiId.ALCHEMITER.ordinal(), worldIn, mainPos.getX(), mainPos.getY(), mainPos.getZ());
+						playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.ALCHEMITER.ordinal(), worldIn, mainPos.getX(), mainPos.getY(), mainPos.getZ());
 					}
 				}
 			}

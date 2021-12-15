@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.GuiHandler;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.network.skaianet.SkaiaClient;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
@@ -181,7 +181,7 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 		}
 
 		if(worldIn.isRemote && SkaiaClient.requestData(tileEntity))
-			playerIn.openGui(Minestuck.instance, GuiHandler.GuiId.COMPUTER.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.COMPUTER.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 
 		return true;
 	}

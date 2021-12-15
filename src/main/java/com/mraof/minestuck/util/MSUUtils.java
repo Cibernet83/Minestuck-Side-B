@@ -1,10 +1,6 @@
 package com.mraof.minestuck.util;
 
-import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
-import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
-import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.client.Minecraft;
@@ -20,12 +16,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MSUUtils
 {
-    public static final int MACHINE_CHASIS_GUI = 0;
-    public static final int AUTO_CAPTCHA_GUI = 1;
-    public static final int PORKHOLLOW_ATM_GUI = 2;
-    public static final int BOONDOLLAR_REGISTER_GUI = 3;
-    public static final int STRIFE_CARD_GUI = 4;
-    
     public static boolean compareCards(ItemStack card1, ItemStack card2, boolean ignoreStacksize)
     {
         ItemStack stack1 = AlchemyRecipes.getDecodedItem(card1);

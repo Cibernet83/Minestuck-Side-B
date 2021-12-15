@@ -1,25 +1,20 @@
 package com.mraof.minestuck;
 
-import com.mraof.minestuck.recipes.MachineChasisRecipes;
-import com.mraof.minestuck.strife.KindAbstratus;
-import com.mraof.minestuck.strife.MSUKindAbstrata;
-import com.mraof.minestuck.util.BannerPatterns;
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.block.BlockArtifact;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.capabilities.MSUCapabilities;
-import com.mraof.minestuck.client.gui.GuiHandler;
-import com.mraof.minestuck.client.gui.MSUGuiHandler;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.enchantments.MSUEnchantments;
 import com.mraof.minestuck.entity.MinestuckEntities;
 import com.mraof.minestuck.entity.consort.ConsortDialogue;
 import com.mraof.minestuck.entity.consort.ConsortRewardHandler;
-import com.mraof.minestuck.event.handlers.*;
 import com.mraof.minestuck.event.CommonEventHandler;
 import com.mraof.minestuck.event.SaveHandler;
+import com.mraof.minestuck.event.handlers.*;
 import com.mraof.minestuck.item.ItemMinestuckCandy;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.modSupport.BotaniaSupport;
@@ -28,6 +23,9 @@ import com.mraof.minestuck.modSupport.SplatcraftSupport;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.skaianet.SessionHandler;
 import com.mraof.minestuck.potions.MSUPotions;
+import com.mraof.minestuck.recipes.MachineChasisRecipes;
+import com.mraof.minestuck.strife.KindAbstratus;
+import com.mraof.minestuck.strife.MSUKindAbstrata;
 import com.mraof.minestuck.tileentity.*;
 import com.mraof.minestuck.tracker.ConnectionListener;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
@@ -81,7 +79,7 @@ public class CommonProxy
 		GameRegistry.registerWorldGenerator(oreHandler, 0);
 		
 		//register GUI handler
-		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new GuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new MSGuiHandler());
 		
 		MinestuckEntities.registerEntities();
 		//register Tile Entities
@@ -124,8 +122,6 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(IDBasedAlchemyHandler.class);
 		MinecraftForge.EVENT_BUS.register(BlockArtifact.class);
 		PropertyEventHandler.register();
-
-		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new MSUGuiHandler());
 		
 		//register channel handler
 		MinestuckChannelHandler.setupChannel();

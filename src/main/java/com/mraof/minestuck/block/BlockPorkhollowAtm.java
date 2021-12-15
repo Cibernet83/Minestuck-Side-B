@@ -1,8 +1,8 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.item.MinestuckTabs;
-import com.mraof.minestuck.util.MSUUtils;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -37,7 +37,7 @@ public class BlockPorkhollowAtm extends MSBlockBase
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(worldIn.isRemote)
-			playerIn.openGui(Minestuck.instance, MSUUtils.PORKHOLLOW_ATM_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.PORKHOLLOW_ATM.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 	

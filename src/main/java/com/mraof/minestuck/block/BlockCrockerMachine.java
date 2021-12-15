@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.GuiHandler;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import com.mraof.minestuck.tileentity.TileEntityCrockerMachine;
@@ -125,7 +125,7 @@ public class BlockCrockerMachine extends MSBlockContainer
 		{
 			if(state.getValue(MACHINE_TYPE) == MachineType.GRIST_WIDGET)
 				((TileEntityCrockerMachine) tileEntity).owner = IdentifierHandler.encode(playerIn);
-			playerIn.openGui(Minestuck.instance, GuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
