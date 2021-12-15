@@ -1,9 +1,9 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/blank",
-        "layer1": "minestuckgodtier:items/blank",
-        "layer2": "minestuckgodtier:items/pants/page_pants_bottom",
-        "layer3": "minestuckgodtier:items/pants/page_pants_top"
+        "layer0": "minestuck:items/blank",
+        "layer1": "minestuck:items/blank",
+        "layer2": "minestuck:items/pants/page_pants_bottom",
+        "layer3": "minestuck:items/pants/page_pants_top"
     }
 }

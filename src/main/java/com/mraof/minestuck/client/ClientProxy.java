@@ -35,10 +35,12 @@ import com.mraof.minestuck.util.AspectColorHandler;
 import com.mraof.minestuck.util.ColorCollector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -186,5 +188,9 @@ public class ClientProxy extends CommonProxy
 	{
 		for (IRegistryItem item : MinestuckItems.items)
 			item.registerModel();
+
+		if(MinestuckItems.splatcraftCruxiteFilter != null)
+			ModelLoader.setCustomModelResourceLocation(MinestuckItems.splatcraftCruxiteFilter, 0,
+					new ModelResourceLocation(MinestuckItems.splatcraftCruxiteFilter.getRegistryName(), "inventory"));
 	}
 }

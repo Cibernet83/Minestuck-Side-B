@@ -1,6 +1,6 @@
 {
     "parent": "block/wall_post",
     "textures": {
-        "wall": "minestuckgodtier:blocks/prospit_bricks"
+        "wall": "minestuck:blocks/prospit_bricks"
     }
 }

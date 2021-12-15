@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/sash_kit"
+        "layer0": "minestuck:items/sash_kit"
     }
 }

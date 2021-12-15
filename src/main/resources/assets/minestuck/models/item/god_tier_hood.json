@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/hood/default_hood"
+        "layer0": "minestuck:items/hood/default_hood"
     }
 }

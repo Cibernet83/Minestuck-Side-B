@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.entity.EntityFrog;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -293,6 +294,6 @@ public class ItemFrog extends MSItemBase
 	public void registerModel()
 	{
 		for (int i = 0; i <= EntityFrog.maxTypes(); i++)
-			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation("frog_" + i, "inventory"));
+			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(Minestuck.MODID+":frog_" + i, "inventory"));
 	}
 }

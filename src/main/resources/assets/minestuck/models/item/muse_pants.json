@@ -1,11 +1,11 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/blank",
-        "layer1": "minestuckgodtier:items/blank",
-        "layer2": "minestuckgodtier:items/pants/muse_pants",
-        "layer3": "minestuckgodtier:items/blank",
-        "layer4": "minestuckgodtier:items/blank"
+        "layer0": "minestuck:items/blank",
+        "layer1": "minestuck:items/blank",
+        "layer2": "minestuck:items/pants/muse_pants",
+        "layer3": "minestuck:items/blank",
+        "layer4": "minestuck:items/blank"
 
     }
 }

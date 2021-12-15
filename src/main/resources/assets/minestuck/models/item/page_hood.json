@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/blank",
-        "layer1": "minestuckgodtier:items/hood/page_hood"
+        "layer0": "minestuck:items/blank",
+        "layer1": "minestuck:items/hood/page_hood"
     }
 }

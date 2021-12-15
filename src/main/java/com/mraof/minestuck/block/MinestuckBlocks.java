@@ -78,7 +78,7 @@ public class MinestuckBlocks
 	public static final Block blockGoldSeeds = new BlockGoldSeeds();
 	public static final Block returnNode = new BlockReturnNode("returnNode");
 	public static final Block gate = new BlockGate("gate");
-	public static final Block petrifiedLog = new BlockPetrifiedLog("petrifiedLog");
+	public static final Block petrifiedLog = new BlockPetrifiedLog("logPetrified");
 	public static final Block petrifiedPoppy = new BlockPetrifiedFlora("petrifiedPoppy");
 	public static final Block petrifiedGrass = new BlockPetrifiedFlora("petrifiedGrass");
 	public static final Block bloomingCactus = new BlockDesertFlora("bloomingCactus");
@@ -88,17 +88,17 @@ public class MinestuckBlocks
 	public static final Block glowingPlanks = new BlockFlamable("glowingPlanks", Material.WOOD, MapColor.LIGHT_BLUE, SoundType.WOOD).setFireInfo(5, 20).setLightLevel(0.5F).setHardness(2.0F).setResistance(5.0F);
 	public static final Block glowyGoop = new BlockGlowyGoop("glowyGoop");
 	public static final Block coagulatedBlood = new BlockGoop("coagulatedBlood");
-	public static final Block coarseStone = generateSlabsAndStairs(new MSBlockBase("coarseStone").setHardness(2).setResistance(10));
-	public static final Block chiseledCoarseStone = new MSBlockBase("chiseledCoarseStone").setHardness(2).setResistance(10);
-	public static final Block shadeBrick = generateSlabsAndStairs(new MSBlockBase("shadeBrick", MapColor.BLUE).setHardness(1.5f).setResistance(10));
+	public static final Block coarseStone = slabs(stairs(new MSBlockBase("coarseStone").setHardness(2).setResistance(10)));
+	public static final Block chiseledCoarseStone = new MSBlockBase("coarseStoneChiseled").setHardness(2).setResistance(10);
+	public static final Block shadeBrick = slabs(stairs(new MSBlockBase("shadeBrick", MapColor.BLUE).setHardness(1.5f).setResistance(10)));
 	public static final Block shadeBrickSmooth = new MSBlockBase("shadeBrickSmooth", MapColor.BLUE).setHardness(1.5f).setResistance(10);
-	public static final Block frostBrick = generateSlabsAndStairs(new MSBlockBase("frostBrick", MapColor.ICE).setHardness(1.5f).setResistance(10));
+	public static final Block frostBrick = slabs(stairs(new MSBlockBase("frostBrick", MapColor.ICE).setHardness(1.5f).setResistance(10)));
 	public static final Block frostTile = new MSBlockBase("frostTile", MapColor.ICE).setHardness(1.5f).setResistance(10);
-	public static final Block chiseledFrostBrick = new MSBlockBase("chiseledFrostBrick", MapColor.ICE).setHardness(1.5f).setResistance(10);
-	public static final Block castIron = generateSlabsAndStairs(new MSBlockBase("castIron", Material.IRON).setHardness(3).setResistance(10));
-	public static final Block chiseledCastIron = new MSBlockBase("chiseledCastIron", Material.IRON).setHardness(3).setResistance(10);
+	public static final Block chiseledFrostBrick = new MSBlockBase("frostBrickChiseled", MapColor.ICE).setHardness(1.5f).setResistance(10);
+	public static final Block castIron = slabs(stairs(new MSBlockBase("castIron", Material.IRON).setHardness(3).setResistance(10)));
+	public static final Block chiseledCastIron = new MSBlockBase("castIronChiseled", Material.IRON).setHardness(3).setResistance(10);
 	public static final Block blackStone = new MSBlockBase("blackStone", MapColor.BLACK).setHardness(2.5f).setResistance(10);
-	public static final Block myceliumBrick = generateSlabsAndStairs(new MSBlockBase("myceliumBrick", MapColor.MAGENTA).setHardness(1.5f).setResistance(10));
+	public static final Block myceliumBrick = slabs(stairs(new MSBlockBase("myceliumBrick", MapColor.MAGENTA).setHardness(1.5f).setResistance(10)));
 	public static final Block log = new MSBlockLogVariant("log");
 	public static final Block leaves1 = new MSBlockLeavesVariant();
 	public static final Block rainbowPlanks = new BlockFlamable("rainbowPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F);
@@ -125,11 +125,11 @@ public class MinestuckBlocks
 		player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 350, 1));
 		player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));
 	});
-	public static final Block treatedPlanks = generateSlabsAndStairs(new BlockFlamable("treatedPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(1, 0).setHardness(1.0F));
+	public static final Block treatedPlanks = slabs(stairs(new BlockFlamable("treatedPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(1, 0).setHardness(1.0F)));
 
 	public static final Block endLog = new BlockEndLog();
 	public static final Block endLeaves = new BlockEndLeaves();
-	public static final Block endPlanks = generateSlabsAndStairs(new BlockFlamable("endPlanks", Material.WOOD, MapColor.SAND, SoundType.WOOD).setFireInfo(1, 250).setHardness(1.0F));
+	public static final Block endPlanks = slabs(stairs(new BlockFlamable("endPlanks", Material.WOOD, MapColor.SAND, SoundType.WOOD).setFireInfo(1, 250).setHardness(1.0F)));
 	public static final Block endSapling = new BlockEndSapling();
 	public static final Block endGrass = new BlockEndGrass();
 	public static final Block coarseEndStone = new MSBlockBase("coarseEndStone", MapColor.SAND).setHardness(3.0F);
@@ -140,16 +140,16 @@ public class MinestuckBlocks
 	public static final Block strawberryStem = new MSBlockStem("strawberryStem", (BlockDirectional) strawberry).setCreativeTab(null);
 
 	public static final Block deadLog = new MSBlockLog("deadLog");
-	public static final Block deadPlanks = generateSlabsAndStairs(new BlockFlamable("deadPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 5).setHardness(1.0F));
-	public static final Block chalk = generateSlabsAndStairs(new MSBlockBase("chalk", MapColor.SNOW));
-	public static final Block chalkBricks = generateSlabsAndStairs(new MSBlockBase("chalkBricks", MapColor.SNOW));
-	public static final Block chalkChisel = new MSBlockBase("chiseledChalkBricks", MapColor.SNOW);
+	public static final Block deadPlanks = slabs(stairs(new BlockFlamable("deadPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 5).setHardness(1.0F)));
+	public static final Block chalk = slabs(stairs(new MSBlockBase("chalk", MapColor.SNOW)));
+	public static final Block chalkBricks = slabs(stairs(new MSBlockBase("chalkBrick", MapColor.SNOW)));
+	public static final Block chalkChisel = new MSBlockBase("chalkBrickChiseled", MapColor.SNOW);
 	public static final Block chalkPolish = new MSBlockBase("polishedChalk", MapColor.SNOW);
 	public static final Block pinkStoneSmooth = new MSBlockBase("pinkStone", MapColor.PINK);
-	public static final Block pinkStoneBricks = generateSlabsAndStairs(new MSBlockBase("pinkStoneBricks", MapColor.PINK));
-	public static final Block pinkStoneChisel = new MSBlockBase("pinkChiseledStone", MapColor.PINK);
+	public static final Block pinkStoneBricks = slabs(stairs(new MSBlockBase("pinkStoneBrick", MapColor.PINK)));
+	public static final Block pinkStoneChisel = new MSBlockBase("pinkStoneChiseled", MapColor.PINK);
 	public static final Block pinkStoneCracked = new MSBlockBase("pinkCrackedStone", MapColor.PINK);
-	public static final Block pinkStoneMossy = new MSBlockBase("pinkMossStoneBricks", MapColor.PINK);
+	public static final Block pinkStoneMossy = new MSBlockBase("pinkMossStoneBrick", MapColor.PINK);
 	public static final Block pinkStonePolish = new MSBlockBase("pinkPolishedStone", MapColor.PINK);
 	public static final Block denseCloud = new BlockDenseCloud();
 
@@ -257,8 +257,6 @@ public class MinestuckBlocks
 	public static final MSBlockBase uniqueObject = new MSBlockBase("uniqueObject", Material.CORAL, MapColor.DIAMOND);
 	public static final MSBlockBase artifact = new BlockArtifact("artifact", Material.FIRE, MapColor.PURPLE);
 
-	public static final MSBlockBase thaumChasis = new MSBlockBase("thaumChasis", Material.IRON);
-
 	public static final BlockHeroStone wildcardHeroStone = new BlockHeroStone(null, false);
 	public static final BlockHeroStone wildcardChiseledHeroStone = new BlockHeroStone(null, true);
 	public static final BlockHeroStoneWall wildcardHeroStoneWall = new BlockHeroStoneWall(wildcardHeroStone.getDefaultState());
@@ -268,16 +266,16 @@ public class MinestuckBlocks
 
 	public static final Block glorb = new BlockGlorb();
 
-	public static final Block prospitStone = generateWall(generateSlabsAndStairs(new MSBlockBase("prospitStone", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F)));
-	public static final Block prospitStoneSmooth = generateSlabsAndStairs(new MSBlockBase("prospitStoneSmooth", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F));
-	public static final Block prospitBrick = generateWall(generateSlabsAndStairs(new MSBlockBase("prospitBrick", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F)));
+	public static final Block prospitStone = walls(slabs(stairs(new MSBlockBase("prospitStone", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F))));
+	public static final Block prospitStoneSmooth = slabs(new MSBlockBase("prospitStoneSmooth", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F));
+	public static final Block prospitBrick = walls(slabs(stairs(new MSBlockBase("prospitBrick", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F))));
 	public static final Block prospitBrickCracked = new MSBlockBase("prospitBrickCracked", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
 	public static final Block prospitBrickChiseled = new MSBlockBase("prospitBrickChiseled", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
 	public static final Block prospitPillar = new MSBlockPillar("prospitPillar", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
 
-	public static final Block derseStone = generateWall(generateSlabsAndStairs(new MSBlockBase("derseStone", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F)));
-	public static final Block derseStoneSmooth = generateSlabsAndStairs(new MSBlockBase("derseStoneSmooth", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F));
-	public static final Block derseBrick = generateWall(generateSlabsAndStairs(new MSBlockBase("derseBrick", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F)));
+	public static final Block derseStone = walls(slabs(stairs(new MSBlockBase("derseStone", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F))));
+	public static final Block derseStoneSmooth = slabs(new MSBlockBase("derseStoneSmooth", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F));
+	public static final Block derseBrick = walls(slabs(stairs(new MSBlockBase("derseBrick", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F))));
 	public static final Block derseBrickCracked = new MSBlockBase("derseBrickCracked", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
 	public static final Block derseBrickChiseled = new MSBlockBase("derseBrickChiseled", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
 	public static final Block dersePillar = new MSBlockPillar("dersePillar", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
@@ -295,7 +293,7 @@ public class MinestuckBlocks
 	public static final Fluid fluidEnder = createFluid("ender", new ResourceLocation("minestuck", "blocks/ender_still"), new ResourceLocation("minestuck", "blocks/ender_flowing"), "tile.ender");
 	public static final Fluid fluidLightWater = createFluid("light_water", new ResourceLocation("minestuck", "blocks/light_water_still"), new ResourceLocation("minestuck", "blocks/light_water_flowing"), "tile.lightWater");
 
-	public static final Block blockOil = new MSFluidBase("blockOil", fluidOil, Material.WATER)
+	public static final Block blockOil = new MSFluidBase("oil", fluidOil, Material.WATER)
 	{
 		@SideOnly(Side.CLIENT)
 		@Override
@@ -305,7 +303,7 @@ public class MinestuckBlocks
 		}
 	}.setLightOpacity(2);
 
-	public static final Block blockBlood = new MSFluidBase("blockBlood", fluidBlood, Material.WATER)
+	public static final Block blockBlood = new MSFluidBase("blood", fluidBlood, Material.WATER)
 	{
 		@SideOnly(Side.CLIENT)
 		@Override
@@ -315,7 +313,7 @@ public class MinestuckBlocks
 		}
 	}.setLightOpacity(1);
 
-	public static final Block blockBrainJuice = new MSFluidBase("blockBrainJuice", fluidBrainJuice, Material.WATER)
+	public static final Block blockBrainJuice = new MSFluidBase("brainJuice", fluidBrainJuice, Material.WATER)
 	{
 		@SideOnly(Side.CLIENT)
 		@Override
@@ -325,7 +323,7 @@ public class MinestuckBlocks
 		}
 	}.setLightOpacity(1);
 
-	public static final Block blockWatercolors = new MSFluidBase("blockWatercolors", fluidWatercolors, Material.WATER)
+	public static final Block blockWatercolors = new MSFluidBase("watercolors", fluidWatercolors, Material.WATER)
 	{
 		@SideOnly(Side.CLIENT)
 		@Override
@@ -342,9 +340,9 @@ public class MinestuckBlocks
 		}
 	}.setLightOpacity(1);
 
-	public static final Block blockEnder = new BlockFluidEnder("blockEnder", fluidEnder, Material.WATER).setLightOpacity(1);
+	public static final Block blockEnder = new BlockFluidEnder("ender", fluidEnder, Material.WATER).setLightOpacity(1);
 
-	public static final Block blockLightWater = new MSFluidBase("blockLightWater", fluidLightWater, Material.WATER)
+	public static final Block blockLightWater = new MSFluidBase("lightWater", fluidLightWater, Material.WATER)
 	{
 		@SideOnly(Side.CLIENT)
 		@Override
@@ -360,7 +358,8 @@ public class MinestuckBlocks
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event)
 	{
-		generateSlabsAndStairs(Blocks.BEDROCK);
+		slabs(Blocks.BEDROCK);
+		stairs(Blocks.BEDROCK);
 
 		for(EnumAspect aspect : EnumAspect.values())
 			generateHeroStones(aspect);
@@ -383,16 +382,23 @@ public class MinestuckBlocks
 		return fluid;
 	}
 
-	private static Block generateSlabsAndStairs(Block block)
+	private static Block stairs(Block block)
 	{
 		IBlockState blockState = block.getDefaultState();
 		String name = blockState.getBlock().getUnlocalizedName().substring(5); // unloc name starts with an extra "tile."
 		stairs.put(block, new MSBlockStairs(name + "Stairs", blockState));
+		return block;
+	}
+
+	private static Block slabs(Block block)
+	{
+		IBlockState blockState = block.getDefaultState();
+		String name = blockState.getBlock().getUnlocalizedName().substring(5); // unloc name starts with an extra "tile."
 		slabs.put(block, new MSBlockSlab(name + "Slab", blockState));
 		return block;
 	}
 
-	private static Block generateWall(Block block)
+	private static Block walls(Block block)
 	{
 		IBlockState blockState = block.getDefaultState();
 		String name = blockState.getBlock().getUnlocalizedName().substring(5); // unloc name starts with an extra "tile."

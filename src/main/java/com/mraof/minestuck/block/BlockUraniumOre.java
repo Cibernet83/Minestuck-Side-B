@@ -14,7 +14,7 @@ public class BlockUraniumOre extends MSBlockCustomOre
 {
 	public BlockUraniumOre()
 	{
-		super("oreUranium");
+		super("uraniumOre");
 		setLightLevel(0.2F);
 		setHarvestLevel("pickaxe", 1);
 	}

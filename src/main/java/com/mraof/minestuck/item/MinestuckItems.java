@@ -435,7 +435,7 @@ public class MinestuckItems
 	public static final Item pogoFist = new MSWeaponBase("pogoFist", 600, 7.2D, -0.6, 8).setTool(toolGauntlet, 2, 4F).addProperties(new PropertyPogo(0.55D));
 	public static final Item rocketFist = new MSWeaponBase("rocketPoweredFist", 360, 7.2D, -0.54, 6).setTool(toolGauntlet, 2, 4F).addProperties(new PropertyRocketDash(10, 15, 0.4f, 3));
 	public static final Item jawbreaker = new MSWeaponBase("jawbreaker", 660, 6.5, -0.6D, 6).setTool(toolGauntlet, 3, 1.6F).addProperties(new PropertyCandyWeapon());
-	public static final Item eldrichGauntlet = new MSWeaponBase("eldrichGauntlet", 1200, 9.6, -0.72, 6).setTool(toolGauntlet, 3, 6).addProperties(new PropertyEldrichBoost());
+	public static final Item eldrichGauntlet = new MSWeaponBase("eldritchGauntlet", 1200, 9.6, -0.72, 6).setTool(toolGauntlet, 3, 6).addProperties(new PropertyEldrichBoost());
 	public static final Item gauntletOfZillywenn = new MSWeaponBase("gauntletOfZillywenn", 2400, 24.5, -0.78, 14).setTool(toolGauntlet, 5, 8F);
 	public static final Item gasterBlaster = new ItemWindUpBeam("gasterBlaster", 640, 7.7, -0.66D, 0.05f, 10, 1.3f, 16, 0, 16).setSounds(MinestuckSoundHandler.gasterBlasterCharge, MinestuckSoundHandler.gasterBlasterRelease).setTool(toolGauntlet, 6, 4F)
 													 .setTool(toolGauntlet, 4, 8).addProperties(new PropertyPotionBeam(new PotionEffect(MobEffects.WITHER, 100, 0)), new PropertyBeamDeathMessage("sans"));
@@ -449,7 +449,7 @@ public class MinestuckItems
 	public static final Item dragonBlades = new MSWeaponBase("dragonBlades", 500, 7.9, -0.36, 4).setTool(toolNeedles, 2, 4).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.8f, 1.3f, 0.1f)).setCreativeTab(null);
 	public static final Item litGlitterBeamTransistor = new ItemBeamWeapon("litGlitterBeamTransistor", 700, 5.5, -0.3, 0.1f, 20, 1, 72000, 40, 30).setTool(toolNeedles, 2, 4f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.9f, 1.1f, 0), new PropertyRainbowBeam(), new PropertyBeamDeathMessage("rainbow"));
 	public static final Item needlewands = new ItemBeamWeapon("needlewand", 488, 6.5, -0.3, 0.05f, 10, 1, 60).setTool(toolNeedles, 3, 2f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.95f, 1.15f, 0), new PropertyMagicBeam(), new PropertyBeamDeathMessage("magic"));
-	public static final Item oglogothThorn = new ItemBeamWeapon("oglogothThorn", 666, 7.2, -0.3, 0.1f, 30, 0.7f, 5, 20, 80).setTool(toolNeedles, 4, 3f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.6f, 1.6f, 0.12f));
+	public static final Item oglogothThorn = new ItemBeamWeapon("thornOfOglogoth", 666, 7.2, -0.3, 0.1f, 30, 0.7f, 5, 20, 80).setTool(toolNeedles, 4, 3f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.6f, 1.6f, 0.12f));
 	public static final Item echidnaQuills = new MSWeaponBase("quillOfEchidna", 17.3, -0.3, 100).setTool(toolNeedles, 10, 5f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(1f, 1.2f, 0));
 	public static final Item thistlesOfZillywitch = new MSWeaponBase("thistlesOfZillywitch", 800, 9.1, -0.3, 40).setTool(toolNeedles, 5, 10f).addProperties(new PropertyDualWield(), new PropertyTipperDamage(0.9f, 1.3f, 0));
 
@@ -519,7 +519,7 @@ public class MinestuckItems
 	public static final Item stardustSmasher = new MSWeaponBase("stardustSmasher", 1725, 44.8, -2.8, 20).setTool(toolHammer, 20, 8.0f).addProperties(new PropertyMobTypeDamage(EnumCreatureAttribute.ARTHROPOD, 1000), new PropertyVMotionDamage(1.6f, 3));
 
 	//Clawkind
-	public static final Item catClaws = new ItemDualClaw("catclaws", 500, 4.0D, 1.0D, -1.5D, -1.0D, 6);
+	public static final Item catClaws = new ItemDualClaw("catClaws", 500, 4.0D, 1.0D, -1.5D, -1.0D, 6);
 	public static final Item katars = new MSWeaponBase("katars", 248, 1.6, -0.65, 2).setTool(toolClaws, 2, 3).addProperties(new PropertySweep(), new PropertyDualWield());
 	public static final Item diamondKatars = new MSWeaponBase("diamondKatars", 900, 2.5, -0.65, 6).setTool(toolClaws, 2, 3).addProperties(new PropertySweep(), new PropertyDualWield());
 	public static final Item actionClaws = new ItemDualClaw("actionClaws", 608, 3.9D, 0.0D, -0.55D, -0.0D, 6).setTool(toolClaws, 2, 3).addProperties(new PropertyActionBuff(200, 2.5));

@@ -184,7 +184,7 @@ public class DeployList
 				removeEntry("portable_punch_designix");
 			}
 		}
-		DeployList.registerItem("gt_kit", new GristSet(GristType.Zillium, 50), 0, ItemKit::isAvailable, ItemKit::generateKit);
+		registerItem("gt_kit", new GristSet(GristType.Zillium, 50), 0, ItemKit::isAvailable, ItemKit::generateKit);
 	}
 	
 	public static DeployEntry getEntryForName(String name)

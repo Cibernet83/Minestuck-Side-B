@@ -1,7 +1,7 @@
 {
     "parent": "block/cube_column",
     "textures": {
-        "end": "minestuckgodtier:blocks/prospit_smoothstone",
-        "side": "minestuckgodtier:blocks/prospit_pillar"
+        "end": "minestuck:blocks/prospit_smoothstone",
+        "side": "minestuck:blocks/prospit_pillar"
     }
 }

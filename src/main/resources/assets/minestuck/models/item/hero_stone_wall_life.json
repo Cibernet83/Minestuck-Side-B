@@ -1,6 +1,6 @@
 {
-    "parent": "minestuckgodtier:item/hero_stone_wall",
+    "parent": "minestuck:item/hero_stone_wall",
     "textures": {
-        "wall": "minestuckgodtier:blocks/secondary_hero_stone_life"
+        "wall": "minestuck:blocks/secondary_hero_stone_life"
     }
 }

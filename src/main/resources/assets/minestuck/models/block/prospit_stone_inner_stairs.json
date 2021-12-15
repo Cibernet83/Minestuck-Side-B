@@ -1,8 +1,8 @@
 {
     "parent": "block/inner_stairs",
     "textures": {
-        "bottom": "minestuckgodtier:blocks/prospit_stone",
-        "top": "minestuckgodtier:blocks/prospit_stone",
-        "side": "minestuckgodtier:blocks/prospit_stone"
+        "bottom": "minestuck:blocks/prospit_stone",
+        "top": "minestuck:blocks/prospit_stone",
+        "side": "minestuck:blocks/prospit_stone"
     }
 }

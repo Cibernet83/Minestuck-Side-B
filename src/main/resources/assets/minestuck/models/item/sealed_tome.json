@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/sealed_tome"
+        "layer0": "minestuck:items/sealed_tome"
     }
 }

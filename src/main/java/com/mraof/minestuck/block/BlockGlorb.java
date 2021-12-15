@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -101,5 +102,10 @@ public class BlockGlorb extends MSBlockBase
     {
         if(rand.nextInt(4) == 0)
             MSGTParticles.spawnAuraParticles(worldIn, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0xFFFDDE, Math.max(1, rand.nextInt(6)-3));
+    }
+
+    @Override
+    public MSItemBlock getItemBlock() {
+        return null;
     }
 }

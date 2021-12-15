@@ -1,15 +1,15 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/blank",
-        "layer1": "minestuckgodtier:items/blank",
-        "layer2": "minestuckgodtier:items/blank",
-        "layer3": "minestuckgodtier:items/shoes/maid_shoes",
-        "layer4": "minestuckgodtier:items/shoes/maid_shoes_bottom",
-        "layer5": "minestuckgodtier:items/blank",
-        "layer6": "minestuckgodtier:items/blank",
-        "layer7": "minestuckgodtier:items/blank",
-        "layer8": "minestuckgodtier:items/shoes/maid_bandages"
+        "layer0": "minestuck:items/blank",
+        "layer1": "minestuck:items/blank",
+        "layer2": "minestuck:items/blank",
+        "layer3": "minestuck:items/shoes/maid_shoes",
+        "layer4": "minestuck:items/shoes/maid_shoes_bottom",
+        "layer5": "minestuck:items/blank",
+        "layer6": "minestuck:items/blank",
+        "layer7": "minestuck:items/blank",
+        "layer8": "minestuck:items/shoes/maid_bandages"
 
     }
 }
