@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.IRegistryObject;
@@ -413,9 +414,9 @@ public class MinestuckBlocks
 		spectralHeroStones.put(aspect, new BlockSpectralHeroStone(aspect));
 
 		aspectPlanks.put(aspect, new BlockFlamable("aspectPlanks"+aspect.getName().toLowerCase().replaceFirst(aspect.getName().charAt(0)+"", aspect.getName().toUpperCase().charAt(0)+""),
-				Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F));
+				Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F).setCreativeTab(MinestuckTabs.godTier));
 		aspectLogs.put(aspect, new BlockFlamable("logAspect"+aspect.getName().toLowerCase().replaceFirst(aspect.getName().charAt(0)+"", aspect.getName().toUpperCase().charAt(0)+""),
-				Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F));
+				Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F).setCreativeTab(MinestuckTabs.godTier));
 		aspectSaplings.put(aspect, new BlockAspectSapling(aspect));
 
 	}

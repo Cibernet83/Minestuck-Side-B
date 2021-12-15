@@ -1,6 +1,6 @@
 package com.mraof.minestuck.editmode;
 
-import com.mraof.minestuck.item.ItemKit;
+import com.mraof.minestuck.item.ItemGTKit;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.GristType;
@@ -184,7 +184,7 @@ public class DeployList
 				removeEntry("portable_punch_designix");
 			}
 		}
-		registerItem("gt_kit", new GristSet(GristType.Zillium, 50), 0, ItemKit::isAvailable, ItemKit::generateKit);
+		registerItem("gt_kit", new GristSet(GristType.Zillium, 50), 0, ItemGTKit::isAvailable, ItemGTKit::generateKit);
 	}
 	
 	public static DeployEntry getEntryForName(String name)

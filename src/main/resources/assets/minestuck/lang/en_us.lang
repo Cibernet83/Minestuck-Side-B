@@ -2505,6 +2505,7 @@ item.judgementHammer.name=Judgement Hammer
 #Creative Tab
 itemGroup.minestuck=Minestuck
 itemGroup.minestuckWeapons=Minestuck Weapons
+itemGroup.minestuckGodTier=Minestuck God Tier
 
 #Keybinds
 key.categories.minestuck=Minestuck

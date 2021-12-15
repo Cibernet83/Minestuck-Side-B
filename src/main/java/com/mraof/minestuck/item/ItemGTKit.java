@@ -26,12 +26,13 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemKit extends MSItemBase
+public class ItemGTKit extends MSItemBase
 {
 	
-	public ItemKit()
+	public ItemGTKit()
 	{
 		super("gtArmorKit");
+		setCreativeTab(MinestuckTabs.godTier);
 		setMaxStackSize(1);
 	}
 	
@@ -129,9 +130,9 @@ public class ItemKit extends MSItemBase
 	}
 	
 	public static int getColor(ItemStack stack, EnumColor color) 
-	{	
+	{
 		NBTTagCompound nbt = stack.getTagCompound();
-		if(nbt == null) return color == EnumColor.SYMBOL ? 8355711 : 0;
+		if(nbt == null || !nbt.hasKey("aspect")) return color == EnumColor.SYMBOL ? 8355711 : 0;
 		
 		return AspectColorHandler.getAspectColor(nbt.getInteger("aspect"), color);
 	}
@@ -153,7 +154,7 @@ public class ItemKit extends MSItemBase
 	
 	public static ItemStack generateKit(EnumClass heroClass, EnumAspect aspect)
 	{
-		ItemStack stack = new ItemStack(MinestuckItems.armorKit);
+		ItemStack stack = new ItemStack(MinestuckItems.gtArmorKit);
 		
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setInteger("aspect", aspect == null ? 12 : aspect.ordinal());

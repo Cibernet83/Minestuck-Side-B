@@ -723,7 +723,7 @@ public class MinestuckItems
 		}
 	};
 
-	public static final Item armorKit = new ItemKit();
+	public static final Item gtArmorKit = new ItemGTKit();
 	public static final Item gtHood = new ItemGTArmor("gtHood", gtMaterial, EntityEquipmentSlot.HEAD);
 	public static final Item gtShirt = new ItemGTArmor("gtShirt", gtMaterial, EntityEquipmentSlot.CHEST);
 	public static final Item gtPants = new ItemGTArmor("gtPants", gtMaterial, EntityEquipmentSlot.LEGS);

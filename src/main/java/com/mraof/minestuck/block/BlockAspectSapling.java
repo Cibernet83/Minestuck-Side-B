@@ -24,7 +24,7 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
     protected BlockAspectSapling(EnumAspect aspect)
 	{
         MinestuckBlocks.blocks.add(this);
-		this.setCreativeTab(MinestuckTabs.minestuck);
+		this.setCreativeTab(MinestuckTabs.godTier);
 		this.setUnlocalizedName("aspectSapling"+aspect.getName().toLowerCase().replaceFirst(aspect.getName().charAt(0)+"", aspect.getName().toUpperCase().charAt(0)+""));
 		this.setSoundType(SoundType.PLANT);
 		regName = "aspect_sapling_"+aspect.getName();
