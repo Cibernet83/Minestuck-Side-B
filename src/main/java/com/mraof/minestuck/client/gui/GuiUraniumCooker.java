@@ -1,7 +1,6 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.block.BlockUraniumCooker.MachineType;
 import com.mraof.minestuck.inventory.ContainerUraniumCooker;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -9,7 +8,6 @@ import com.mraof.minestuck.network.MinestuckPacket.Type;
 import com.mraof.minestuck.tileentity.TileEntityUraniumCooker;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -23,12 +21,8 @@ import java.io.IOException;
 
 public class GuiUraniumCooker extends GuiMachine
 {
-	
-	private static final String[] guis = {"uranium_cooker"};
-	
 	private ResourceLocation guiBackground;
 	private ResourceLocation guiProgress;
-	private MachineType type;
 	protected TileEntityUraniumCooker te;
 	
 	private int progressX;
@@ -42,22 +36,16 @@ public class GuiUraniumCooker extends GuiMachine
 	{
 		super(new ContainerUraniumCooker(inventoryPlayer, tileEntity), tileEntity);
 		this.te = tileEntity;
-		this.type = tileEntity.getMachineType();
-		guiBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/" + guis[type.ordinal()] + ".png");
-		guiProgress = new ResourceLocation(Minestuck.MODID, "textures/gui/progress/" + guis[type.ordinal()] + ".png");
+		guiBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/uranium_cooker.png");
+		guiProgress = new ResourceLocation(Minestuck.MODID, "textures/gui/progress/uranium_cooker.png");
 		
 		//sets progress bar information based on machine type
-		switch (type)
-		{
-		case URANIUM_COOKER:
-			progressX = 67;
-			progressY = 24;
-			progressWidth = 35;
-			progressHeight = 39;
-			goX = 69;
-			goY = 69;
-			break;
-		}
+		progressX = 67;
+		progressY = 24;
+		progressWidth = 35;
+		progressHeight = 39;
+		goX = 69;
+		goY = 69;
 	}
 	
 	@Override
@@ -72,7 +60,7 @@ public class GuiUraniumCooker extends GuiMachine
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		//draws "Cookalyzer"
-		fontRenderer.drawString(I18n.format("gui."+guis[type.ordinal()]+".name"), 8, 6, 4210752);
+		fontRenderer.drawString(I18n.format("gui.uranium_cooker.name"), 8, 6, 4210752);
 		
 		//draws "Inventory" or your regional equivalent
 		fontRenderer.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);

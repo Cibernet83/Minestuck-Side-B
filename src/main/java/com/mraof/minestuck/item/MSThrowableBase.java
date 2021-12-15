@@ -1,14 +1,15 @@
 package com.mraof.minestuck.item;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.renderer.entity.RenderThrowable;
 import com.mraof.minestuck.entity.EntityMSUThrowable;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.properties.throwkind.IPropertyThrowable;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.Entity;
@@ -43,13 +44,14 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 	protected double attackSpeed;
 	protected float throwSpeed;
 	protected float size = 1;
+	private boolean rotates = false;
 
 	@SideOnly(Side.CLIENT)
 	protected RenderThrowable.IRenderProperties renderProperties;
 
 	protected final ArrayList<WeaponProperty> properties = new ArrayList<>();
 
-	public MSThrowableBase(int useDuration, int cooldownTime, int stackSize, float throwSpeed, double meleeDamage, double meleeSpeed, String name)
+	public MSThrowableBase(String name, int useDuration, int cooldownTime, int stackSize, float throwSpeed, double meleeDamage, double meleeSpeed)
 	{
 		super(name);
 
@@ -89,15 +91,15 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 		});
 	}
 
-	public MSThrowableBase(int useDuration, int cooldownTime, int stackSize, String name)
+	public MSThrowableBase(String name, int useDuration, int cooldownTime, int stackSize)
 	{
-		this(useDuration, cooldownTime, stackSize, 1.5f,  0, 0, name);
+		this(name, useDuration, cooldownTime, stackSize, 1.5f,  0, 0);
 	}
 
 	//Throwable Material
 	public MSThrowableBase(String name)
 	{
-		this(1, 0, 64, 1.5f, 0, 1.5f, name);
+		this(name, 1, 0, 64, 1.5f, 0, 1.5f);
 		setCreativeTab(MinestuckTabs.minestuck);
 	}
 
@@ -332,5 +334,23 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 	public RenderThrowable.IRenderProperties getRenderProperties()
 	{
 		return renderProperties;
+	}
+
+	public MSThrowableBase rotates()
+	{
+		this.rotates = true;
+		return this;
+	}
+
+	@Override
+	public void registerModel()
+	{
+		super.registerModel();
+		if (rotates)
+			setRenderProperties((EntityMSUThrowable entity, float partialTicks) ->
+			{
+				GlStateManager.rotate(90, 1, 0, 0);
+				GlStateManager.rotate((entity.ticksExisted + partialTicks) * -(float) Math.PI * 10f, 0, 0, 1);
+			});
 	}
 }

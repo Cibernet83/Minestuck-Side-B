@@ -1,8 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.util.MinestuckModelManager;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -21,7 +20,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MSItemBase extends Item implements IRegistryItem<Item>
+public class MSItemBase extends Item implements IRegistryItem
 {
 	public static final ArrayList<String> DEDICATED_TOOLTIPS = new ArrayList<String>()
 	{{
@@ -45,7 +44,7 @@ public class MSItemBase extends Item implements IRegistryItem<Item>
 
 	public MSItemBase(String name, CreativeTabs tab, int stackSize, boolean hasCustomModel)
 	{
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		setUnlocalizedName(name);
 		setCreativeTab(tab);
 		setMaxStackSize(stackSize);
@@ -53,14 +52,14 @@ public class MSItemBase extends Item implements IRegistryItem<Item>
 		this.hasCustomModel = hasCustomModel;
 	}
 
-	public MSItemBase(String name)
-	{
-		this(name, MinestuckTabs.minestuck, 64, false);
-	}
-
 	public MSItemBase(String name, boolean hasCustomModel)
 	{
 		this(name, MinestuckTabs.minestuck, 64, hasCustomModel);
+	}
+
+	public MSItemBase(String name)
+	{
+		this(name, MinestuckTabs.minestuck, 64, false);
 	}
 
 	public MSItemBase setSecret()
@@ -107,10 +106,6 @@ public class MSItemBase extends Item implements IRegistryItem<Item>
 	{
 		if(hasCustomModel)
 			return;
-
-		if(getHasSubtypes())
-			ModelLoader.setCustomMeshDefinition(this, new MinestuckModelManager.SubtypesItemDefinition(Item.REGISTRY.getNameForObject(this).toString()));
-		else
-			ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
 }

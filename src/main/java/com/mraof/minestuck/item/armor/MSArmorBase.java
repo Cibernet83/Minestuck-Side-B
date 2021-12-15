@@ -1,7 +1,8 @@
 package com.mraof.minestuck.item.armor;
 
+import com.mraof.minestuck.item.IRegistryItem;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class MSArmorBase extends ItemArmor implements IRegistryItem<Item>
+public class MSArmorBase extends ItemArmor implements IRegistryItem
 {
     private final String registryName;
     private ModelBiped model;
@@ -35,13 +36,13 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem<Item>
         setMaxDamage(maxUses);
         this.texture = texture;
         setUnlocalizedName(name);
-        registryName = IRegistryItem.unlocToReg(name);
+        registryName = IRegistryObject.unlocToReg(name);
         MinestuckItems.items.add(this);
     }
 
     public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses)
     {
-        this(name, material, equipmentSlot, maxUses, new ResourceLocation(IRegistryItem.unlocToReg(name)));
+        this(name, material, equipmentSlot, maxUses, new ResourceLocation(IRegistryObject.unlocToReg(name)));
     }
 
     public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot)
@@ -58,7 +59,10 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem<Item>
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
-    public void setArmorModel(ModelBiped model) {this.model = model;}
+    public void setArmorModel(ModelBiped model)
+    {
+        this.model = model;
+    }
 
     @Nullable
     @Override

@@ -1,8 +1,8 @@
 package com.mraof.minestuck.item.weapon;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.capabilities.MSUCapabilities;
-import com.mraof.minestuck.capabilities.beam.Beam;
+import com.mraof.minestuck.capabilities.MinestuckCapabilities;
+import com.mraof.minestuck.capabilities.Beam;
 import com.mraof.minestuck.item.properties.PropertyDualWield;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,8 +26,8 @@ public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 	
 	protected ResourceLocation beamTexture = new ResourceLocation(Minestuck.MODID, "textures/entity/projectiles/beam.png");
 
-	public ItemWindUpBeam(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int beamHurtTime, int enchantability, String name) {
-		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
+	public ItemWindUpBeam(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int beamHurtTime, int enchantability) {
+		super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
 		this.beamDamage = beamDamage;
 		this.beamRadius = beamRadius;
 		this.beamSpeed = beamSpeed;
@@ -35,8 +35,8 @@ public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 		this.chargeTime = chargeTime;
 	}
 
-	public ItemWindUpBeam(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int enchantability, String name) {
-		this(maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, chargeTime,15, enchantability, name);
+	public ItemWindUpBeam(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int enchantability) {
+		this(name, maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, chargeTime,15, enchantability);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 		{
 			if(stack.getTagCompound().hasUniqueId("Beam"))
 			{
-				Beam beam = worldIn.getCapability(MSUCapabilities.BEAM_DATA, null).getBeam(stack.getTagCompound().getUniqueId("Beam"));
+				Beam beam = worldIn.getCapability(MinestuckCapabilities.BEAM_DATA, null).getBeam(stack.getTagCompound().getUniqueId("Beam"));
 				if(beam == null)
 				{
 					stack.getTagCompound().removeTag("BeamLeast");

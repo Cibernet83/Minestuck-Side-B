@@ -9,14 +9,15 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -27,33 +28,8 @@ import net.minecraft.world.World;
 public class BlockUraniumCooker extends MSBlockContainer
 {
 	protected static final AxisAlignedBB URANIUM_COOKER_AABB = new AxisAlignedBB(1/4D, 0.0D, 1/4D, 3/4D, 11/32D, 3/4D);
-	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-	public enum MachineType implements IStringSerializable
-	{
-		URANIUM_COOKER("uraniumCooker");
-		
-		private final String unlocalizedName;
-		MachineType(String name)
-		{
-			unlocalizedName = name;
-		}
-		
-		public String getUnlocalizedName()
-		{
-			return unlocalizedName;
-		}
-		
-		@Override
-		public String getName()
-		{
-			return name().toLowerCase();
-		}
-	}
-	
-	//public static final PropertyEnum<MachineType> MACHINE_TYPE = PropertyEnum.create("machine_type", MachineType.class);
-	//public static final PropertyDirection FACING = BlockHorizontal.FACING;
-	
 	protected BlockUraniumCooker()
 	{
 		super("uraniumCooker", Material.IRON);
@@ -65,19 +41,19 @@ public class BlockUraniumCooker extends MSBlockContainer
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, DIRECTION);
+		return new BlockStateContainer(this, FACING);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return ((EnumFacing)state.getValue(DIRECTION)).ordinal() - 2;
+		return state.getValue(FACING).ordinal() - 2;
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(DIRECTION, EnumFacing.values()[meta + 2]);
+		return getDefaultState().withProperty(FACING, EnumFacing.values()[meta + 2]);
 	}
 	
 	public static void setDefaultDirection(World world, int x, int y, int z)
@@ -113,15 +89,8 @@ public class BlockUraniumCooker extends MSBlockContainer
 			if(b0 == 0)
 				b0 = (byte) (block3.isFullBlock() ? 2 : 5);
 			
-			world.setBlockState(new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)).withProperty(DIRECTION, EnumFacing.values()[b0]), 2);
+			world.setBlockState(new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)).withProperty(FACING, EnumFacing.values()[b0]), 2);
 		}
-	}
-	
-	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
-	{
-		for(int i = 0; i < MachineType.values().length; i++)
-			items.add(new ItemStack(this, 1, i));
 	}
 	
 	@Override
@@ -187,7 +156,7 @@ public class BlockUraniumCooker extends MSBlockContainer
 		
 		EnumFacing facing = new EnumFacing[]{EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST}[l];
 		
-		worldIn.setBlockState(pos, state.withProperty(DIRECTION, facing), 2);
+		worldIn.setBlockState(pos, state.withProperty(FACING, facing), 2);
 	}
 	
 	@Override

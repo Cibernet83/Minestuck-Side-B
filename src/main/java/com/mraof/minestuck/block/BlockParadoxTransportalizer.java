@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.tileentity.TileEntityParadoxTransportalizer;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
@@ -25,7 +25,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockParadoxTransportalizer extends BlockContainer implements IRegistryItem<Block>
+public class BlockParadoxTransportalizer extends BlockContainer implements IRegistryObject<Block>
 {
 	protected static final AxisAlignedBB TRANSPORTALIZER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
 	public BlockParadoxTransportalizer()

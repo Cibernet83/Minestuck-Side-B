@@ -1,27 +1,26 @@
 package com.mraof.minestuck.editmode;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
+import com.mraof.minestuck.item.ItemKit;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.block.ItemMiniSburbMachine;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
-import com.mraof.minestuck.util.*;
+import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.item.ItemStack;
-
-import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class will be used to keep track of all deployable
@@ -185,6 +184,7 @@ public class DeployList
 				removeEntry("portable_punch_designix");
 			}
 		}
+		DeployList.registerItem("gt_kit", new GristSet(GristType.Zillium, 50), 0, ItemKit::isAvailable, ItemKit::generateKit);
 	}
 	
 	public static DeployEntry getEntryForName(String name)

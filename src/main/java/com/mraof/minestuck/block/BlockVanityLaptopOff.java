@@ -4,6 +4,8 @@ import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
+import com.mraof.minestuck.util.IRegistryObject;
+import com.mraof.minestuck.util.IUnlocSerializable;
 import com.mraof.minestuck.util.IdentifierHandler;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.PropertyDirection;
@@ -17,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +36,7 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 	protected static final AxisAlignedBB COMPUTER_SCREEN_AABB = new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D);
 
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("type", BlockType.class);
-	public static final PropertyDirection DIRECTION = BlockComputerOff.DIRECTION;
+	public static final PropertyDirection FACING = BlockComputerOff.FACING;
 	
 	public BlockVanityLaptopOff(String name)
 	{
@@ -52,7 +53,7 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, DIRECTION, VARIANT);
+		return new BlockStateContainer(this, FACING, VARIANT);
 	}
 	
 	@Override
@@ -64,13 +65,13 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return ((state.getValue(DIRECTION).getHorizontalIndex()) << 2) + ((state.getValue(VARIANT)).ordinal() % 4);
+		return ((state.getValue(FACING).getHorizontalIndex()) << 2) + ((state.getValue(VARIANT)).ordinal() % 4);
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(DIRECTION, EnumFacing.getHorizontal((meta >> 2) % 4)).withProperty(VARIANT, BlockType.values()[meta & 3]);
+		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal((meta >> 2) % 4)).withProperty(VARIANT, BlockType.values()[meta & 3]);
 	}
 	
 	@Override
@@ -84,7 +85,7 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 		if(!worldIn.isRemote)
 		{
 			worldIn.setBlockState(pos, MinestuckBlocks.blockLaptopOn.getDefaultState()
-					.withProperty(DIRECTION, state.getValue(DIRECTION))
+					.withProperty(FACING, state.getValue(FACING))
 					.withProperty(VARIANT, state.getValue(VARIANT))
 					, 2);
 			
@@ -103,7 +104,7 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 		
 		EnumFacing facing = new EnumFacing[]{EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST}[l];
 		
-		worldIn.setBlockState(pos, state.withProperty(DIRECTION, facing).withProperty(VARIANT, BlockType.values()[stack.getMetadata() % 4]), 2);
+		worldIn.setBlockState(pos, state.withProperty(FACING, facing).withProperty(VARIANT, BlockType.values()[stack.getMetadata() % 4]), 2);
 	}
 	
 	@Override
@@ -111,9 +112,9 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 	{
 		if(state.getValue(VARIANT)==BlockType.LUNCH_TOP)
 		{
-			return modifyAABBForDirection(state.getValue(DIRECTION), new AxisAlignedBB(5/16D, 0.0D, 5/16D, 11/16D, 3.5/16D, 10/16D));
+			return modifyAABBForDirection(state.getValue(FACING), new AxisAlignedBB(5/16D, 0.0D, 5/16D, 11/16D, 3.5/16D, 10/16D));
 		}
-		return modifyAABBForDirection(state.getValue(DIRECTION), COMPUTER_AABB);
+		return modifyAABBForDirection(state.getValue(FACING), COMPUTER_AABB);
 	}
 	
 	@Override
@@ -128,46 +129,42 @@ public class BlockVanityLaptopOff extends BlockComputerOff
 		super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, p_185477_7_);
 		if(state.getValue(VARIANT)!=BlockType.LUNCH_TOP)
 		{
-			EnumFacing rotation = state.getValue(DIRECTION);
+			EnumFacing rotation = state.getValue(FACING);
 			AxisAlignedBB bb = modifyAABBForDirection(rotation, COMPUTER_SCREEN_AABB).offset(pos);
 			if(entityBox.intersects(bb))
 				collidingBoxes.add(bb);
 		}
 	}
 	
-	public enum BlockType implements IStringSerializable
+	public enum BlockType implements IUnlocSerializable
 	{
-		CROCKER_TOP("crockertop", "crockertop", MapColor.RED, MapColor.OBSIDIAN),
-		HUB_TOP("hubtop", "hubtop", MapColor.GREEN, MapColor.OBSIDIAN),
-		LAP_TOP("laptop", "laptop", MapColor.IRON, MapColor.OBSIDIAN),
-		LUNCH_TOP("lunchtop", "lunchtop", MapColor.RED, MapColor.OBSIDIAN);
-		
-		private final String name;
-		private final String unlocalizedName;
+		CROCKER_TOP("crockertop", MapColor.RED),
+		HUB_TOP("hubtop", MapColor.GREEN),
+		LAP_TOP("laptop", MapColor.IRON),
+		LUNCH_TOP("lunchtop", MapColor.RED);
+		private final String name, regName;
 		private final MapColor color;
-		
-		BlockType(String name, String unlocalizedName, MapColor color, MapColor sideColor)
+		BlockType(String name, MapColor color)
 		{
 			this.name = name;
-			this.unlocalizedName = unlocalizedName;
+			this.regName = IRegistryObject.unlocToReg(name);
 			this.color = color;
 		}
-		
 		@Override
 		public String getName()
 		{
-			return name;
+			return regName;
 		}
-		
+		@Override
 		public String getUnlocalizedName()
 		{
-			return unlocalizedName;
+			return name;
 		}
 	}
 
 	@Override
 	public MSItemBlock getItemBlock()
 	{
-		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[input.getItemDamage() % BlockType.values().length].getUnlocalizedName());
+		return new MSItemBlockMultiTexture(this, BlockType.values());
 	}
 }

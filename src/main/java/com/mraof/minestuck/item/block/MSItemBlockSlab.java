@@ -1,11 +1,13 @@
 package com.mraof.minestuck.item.block;
 
+import com.mraof.minestuck.block.MSBlockSlab;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -16,6 +18,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -67,7 +70,7 @@ public class MSItemBlockSlab extends MSItemBlock
 			{
 				IProperty<?> iproperty = this.singleSlab.getVariantProperty();
 				Comparable<?> comparable1 = iblockstate.getValue(iproperty);
-				BlockSlab.EnumBlockHalf blockslab$enumblockhalf = (BlockSlab.EnumBlockHalf)iblockstate.getValue(BlockSlab.HALF);
+				BlockSlab.EnumBlockHalf blockslab$enumblockhalf = iblockstate.getValue(BlockSlab.HALF);
 
 				if ((facing == EnumFacing.UP && blockslab$enumblockhalf == BlockSlab.EnumBlockHalf.BOTTOM || facing == EnumFacing.DOWN && blockslab$enumblockhalf == BlockSlab.EnumBlockHalf.TOP) && comparable1 == comparable)
 				{
@@ -151,5 +154,12 @@ public class MSItemBlockSlab extends MSItemBlock
 	protected <T extends Comparable<T>> IBlockState makeState(IProperty<T> p_185055_1_, Comparable<?> p_185055_2_)
 	{
 		return this.doubleSlab.getDefaultState().withProperty(p_185055_1_, (T)p_185055_2_);
+	}
+
+	@Override
+	public void registerModel()
+	{
+		ModelLoader.setCustomStateMapper(singleSlab, (new StateMap.Builder()).ignore(MSBlockSlab.dummy).build());
+		ModelLoader.setCustomStateMapper(doubleSlab, (new StateMap.Builder()).ignore(BlockSlab.HALF, MSBlockSlab.dummy).build());
 	}
 }

@@ -73,6 +73,8 @@ public final class MinestuckEntities
 		registerEntity(EntityMSUArrow.class, "arrow");
 		registerEntity(EntityUnrealAir.class, "unreal_air");
 		registerEntity(EntityRock.class, "rock");
+		registerEntity(EntityHopeGolem.class, "hope_golem");
+		registerEntity(EntityLocatorEye.class, "denizen_eye");
 	}
 	
 	

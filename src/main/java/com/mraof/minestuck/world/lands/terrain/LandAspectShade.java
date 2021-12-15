@@ -1,7 +1,6 @@
 package com.mraof.minestuck.world.lands.terrain;
 
 import com.mraof.minestuck.block.BlockColoredDirt;
-import com.mraof.minestuck.block.BlockMinestuckStone;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.biome.BiomeMinestuck;
@@ -28,13 +27,13 @@ public class LandAspectShade extends TerrainLandAspect
 	@Override
 	public void registerBlocks(StructureBlockRegistry registry)
 	{
-		registry.setBlockState("upper", MinestuckBlocks.coloredDirt.getDefaultState().withProperty(BlockColoredDirt.BLOCK_TYPE, BlockColoredDirt.BlockType.BLUE));
+		registry.setBlockState("upper", MinestuckBlocks.coloredDirt.getDefaultState().withProperty(BlockColoredDirt.VARIANT, BlockColoredDirt.BlockType.BLUE));
 		registry.setBlockState("ocean", MinestuckBlocks.blockOil.getDefaultState());
 		registry.setBlockState("structure_primary_decorative", Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED));
 		registry.setBlockState("structure_primary_stairs", Blocks.STONE_BRICK_STAIRS.getDefaultState());
-		registry.setBlockState("structure_secondary", MinestuckBlocks.stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.SHADE_BRICK));
-		registry.setBlockState("structure_secondary_decorative", MinestuckBlocks.stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.SHADE_SMOOTH));
-		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.shadeBrickStairs.getDefaultState());
+		registry.setBlockState("structure_secondary", MinestuckBlocks.shadeBrick.getDefaultState());
+		registry.setBlockState("structure_secondary_decorative", MinestuckBlocks.shadeBrickSmooth.getDefaultState());
+		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.stairs.get(MinestuckBlocks.shadeBrick).getDefaultState());
 		registry.setBlockState("village_path", Blocks.GRAVEL.getDefaultState());
 		registry.setBlockState("light_block", MinestuckBlocks.glowingLog.getDefaultState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE));
 		registry.setBlockState("torch", Blocks.REDSTONE_TORCH.getDefaultState());

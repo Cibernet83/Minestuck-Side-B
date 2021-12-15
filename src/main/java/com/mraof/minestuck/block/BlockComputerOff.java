@@ -29,7 +29,7 @@ public class BlockComputerOff extends MSBlockBase
 	protected static final AxisAlignedBB COMPUTER_AABB = new AxisAlignedBB(1/16D, 0.0D, 1/16D, 15/16D, 3/16D, 15/16D);
 	protected static final AxisAlignedBB COMPUTER_SCREEN_AABB = new AxisAlignedBB(0.5/16D, 0.0D, 6/16D, 15.5/16D, 14/16D, 7.2/16D);
 	
-	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
 	public BlockComputerOff(String name)
 	{
@@ -82,19 +82,19 @@ public class BlockComputerOff extends MSBlockBase
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, DIRECTION);
+		return new BlockStateContainer(this, FACING);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return state.getValue(DIRECTION).getHorizontalIndex();
+		return state.getValue(FACING).getHorizontalIndex();
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(DIRECTION, EnumFacing.getHorizontal(meta % 4));
+		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta % 4));
 	}
 	
 	public static void setDefaultDirection(World world, int x, int y, int z)
@@ -130,7 +130,7 @@ public class BlockComputerOff extends MSBlockBase
 			if(b0 == 0)
 				b0 = (byte) (block3.isFullBlock() ? 2 : 5);
 			
-			world.setBlockState(new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)).withProperty(DIRECTION, EnumFacing.values()[b0]), 2);
+			world.setBlockState(new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)).withProperty(FACING, EnumFacing.values()[b0]), 2);
 		}
 	}
 	
@@ -144,7 +144,7 @@ public class BlockComputerOff extends MSBlockBase
 		
 		if(!worldIn.isRemote)
 		{
-			worldIn.setBlockState(pos, MinestuckBlocks.blockComputerOn.getDefaultState().withProperty(DIRECTION, state.getValue(DIRECTION)), 2);
+			worldIn.setBlockState(pos, MinestuckBlocks.blockComputerOn.getDefaultState().withProperty(FACING, state.getValue(FACING)), 2);
 			
 			TileEntityComputer te = (TileEntityComputer) worldIn.getTileEntity(pos);
 			te.owner = IdentifierHandler.encode(playerIn);
@@ -161,7 +161,7 @@ public class BlockComputerOff extends MSBlockBase
 		
 		EnumFacing facing = new EnumFacing[]{EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST}[l];
 		
-		worldIn.setBlockState(pos, state.withProperty(DIRECTION, facing), 2);
+		worldIn.setBlockState(pos, state.withProperty(FACING, facing), 2);
 	}
 	
 	@Override
@@ -176,7 +176,7 @@ public class BlockComputerOff extends MSBlockBase
 		super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, p_185477_7_);
 		if(state.getBlock() == MinestuckBlocks.blockComputerOff || state.getBlock() == MinestuckBlocks.blockComputerOn)
 		{
-			AxisAlignedBB bb = modifyAABBForDirection(state.getValue(DIRECTION), COMPUTER_SCREEN_AABB).offset(pos);
+			AxisAlignedBB bb = modifyAABBForDirection(state.getValue(FACING), COMPUTER_SCREEN_AABB).offset(pos);
 			if(entityBox.intersects(bb))
 				collidingBoxes.add(bb);
 		}

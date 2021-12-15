@@ -1,16 +1,20 @@
 package com.mraof.minestuck.item.weapon;
 
-import com.mraof.minestuck.item.properties.PropertySweep;
-import com.mraof.minestuck.item.properties.clawkind.IPropertyClaw;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.properties.PropertyDualWield;
+import com.mraof.minestuck.item.properties.PropertySweep;
 import com.mraof.minestuck.item.properties.WeaponProperty;
+import com.mraof.minestuck.item.properties.clawkind.IPropertyClaw;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +28,8 @@ public class ItemDualClaw extends MSWeaponBase
 
     protected final ArrayList<WeaponProperty> sheathedProperties = new ArrayList<>();
 
-    public ItemDualClaw(int maxUses, double damageVsEntity, double damagedVsEntityWhileShiethed, double weaponSpeed, double weaponSpeedWhileShiethed, int enchantability, String name) {
-        super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
+    public ItemDualClaw(String name, int maxUses, double damageVsEntity, double damagedVsEntityWhileShiethed, double weaponSpeed, double weaponSpeedWhileShiethed, int enchantability) {
+        super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
         this.damage = damageVsEntity;
         this.damageSheathed = damagedVsEntityWhileShiethed;
         this.attackSpeed = weaponSpeed;
@@ -54,7 +58,7 @@ public class ItemDualClaw extends MSWeaponBase
         return checkTagCompound(itemStack).getBoolean("IsDrawn");
     }
 
-    private static NBTTagCompound checkTagCompound(ItemStack stack) {
+    public static NBTTagCompound checkTagCompound(ItemStack stack) {
         NBTTagCompound tagCompound = stack.getTagCompound();
         if (tagCompound == null) {
             tagCompound = new NBTTagCompound();
@@ -129,5 +133,17 @@ public class ItemDualClaw extends MSWeaponBase
     @Override
     public List<WeaponProperty> getProperties(ItemStack stack) {
         return isDrawn(stack) ? super.getProperties() : sheathedProperties;
+    }
+
+    @Override
+    public void registerModel()
+    {
+        super.registerModel();
+        String sheathed = getRegistryName().getResourcePath() + "_sheathed";
+        String drawn = getRegistryName().getResourcePath() + "_drawn";
+        ModelLoader.registerItemVariants(this,
+                new ResourceLocation(Minestuck.MODID, sheathed),
+                new ResourceLocation(Minestuck.MODID, drawn));
+        ModelLoader.setCustomMeshDefinition(this, (ItemStack stack) -> new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, isDrawn(stack) ? drawn : sheathed), "inventory"));
     }
 }

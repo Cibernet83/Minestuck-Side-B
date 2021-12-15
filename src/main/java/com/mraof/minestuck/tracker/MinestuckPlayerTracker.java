@@ -6,11 +6,11 @@ import com.mraof.minestuck.alchemy.GristType;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
-import com.mraof.minestuck.network.CaptchaDeckPacket;
+import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
-import com.mraof.minestuck.network.PlayerDataPacket;
+import com.mraof.minestuck.network.PacketPlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.util.*;
@@ -82,20 +82,20 @@ public class MinestuckPlayerTracker
 		{
 			Modus modus = CaptchaDeckHandler.getModus(player);
 			modus.player = player;
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.CAPTCHA, CaptchaDeckPacket.DATA, CaptchaDeckHandler.writeToNBT(modus)), player);
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.DATA, CaptchaDeckHandler.writeToNBT(modus)), player);
 		}
 		
 		updateGristCache(identifier);
 		updateTitle(player);
 		updateEcheladder(player, true);
-		MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.PLAYER_DATA, PlayerDataPacket.BOONDOLLAR, MinestuckPlayerData.getData(identifier).boondollars), player);
+		MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.BOONDOLLAR, MinestuckPlayerData.getData(identifier).boondollars), player);
 		ServerEditHandler.onPlayerLoggedIn(player);
 		
 		if(firstTime && !player.isSpectator())
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.PLAYER_DATA, PlayerDataPacket.COLOR), player);
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.COLOR), player);
 		else
 		{
-			MinestuckPacket packet = MinestuckPacket.makePacket(Type.PLAYER_DATA, PlayerDataPacket.COLOR, MinestuckPlayerData.getData(player).color);
+			MinestuckPacket packet = MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.COLOR, MinestuckPlayerData.getData(player).color);
 			MinestuckChannelHandler.sendToPlayer(packet, player);
 		}
 		
@@ -187,14 +187,14 @@ public class MinestuckPlayerTracker
 		Title newTitle = MinestuckPlayerData.getTitle(identifier);
 		if(newTitle == null)
 			return;
-		MinestuckPacket packet = MinestuckPacket.makePacket(Type.PLAYER_DATA, PlayerDataPacket.TITLE, newTitle.getHeroClass(), newTitle.getHeroAspect());
+		MinestuckPacket packet = MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.TITLE, newTitle.getHeroClass(), newTitle.getHeroAspect());
 		MinestuckChannelHandler.sendToPlayer(packet, player);
 	}
 	
 	public static void updateEcheladder(EntityPlayer player, boolean jump)
 	{
 		Echeladder echeladder = MinestuckPlayerData.getData(player).echeladder;
-		MinestuckPacket packet = MinestuckPacket.makePacket(Type.PLAYER_DATA, PlayerDataPacket.ECHELADDER, echeladder.getRung(), MinestuckConfig.echeladderProgress ? echeladder.getProgress() : 0F, jump);
+		MinestuckPacket packet = MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.ECHELADDER, echeladder.getRung(), MinestuckConfig.echeladderProgress ? echeladder.getProgress() : 0F, jump);
 		MinestuckChannelHandler.sendToPlayer(packet, player);
 	}
 	

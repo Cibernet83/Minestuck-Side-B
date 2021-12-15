@@ -1,6 +1,5 @@
 package com.mraof.minestuck.world.lands.terrain;
 
-import com.mraof.minestuck.block.BlockMinestuckStone;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.biome.BiomeMinestuck;
@@ -60,9 +59,9 @@ public class LandAspectRock extends TerrainLandAspect
 		registry.setBlockState("upper", Blocks.COBBLESTONE.getDefaultState());
 		registry.setBlockState("structure_primary_decorative", Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED));
 		registry.setBlockState("structure_primary_stairs", Blocks.STONE_BRICK_STAIRS.getDefaultState());
-		registry.setBlockState("structure_secondary", MinestuckBlocks.stone.getDefaultState());
-		registry.setBlockState("structure_secondary_decorative", MinestuckBlocks.stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.COARSE_CHISELED));
-		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.coarseStoneStairs.getDefaultState());
+		registry.setBlockState("structure_secondary", MinestuckBlocks.coarseStone.getDefaultState());
+		registry.setBlockState("structure_secondary_decorative", MinestuckBlocks.chiseledCoarseStone.getDefaultState());
+		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.stairs.get(MinestuckBlocks.coarseStone).getDefaultState());
 		registry.setBlockState("structure_planks_slab", Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.BRICK));		registry.setBlockState("structure_planks_slab", Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.BRICK));
 		registry.setBlockState("village_path", Blocks.MOSSY_COBBLESTONE.getDefaultState());
 		registry.setBlockState("village_fence", Blocks.COBBLESTONE_WALL.getDefaultState());

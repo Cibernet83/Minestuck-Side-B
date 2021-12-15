@@ -1,9 +1,10 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.util.IRegistryItem;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -17,9 +18,10 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem<Item> //Unsure if anything more should update for 1.9
+public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem
 {
 	public ItemMinestuckBucket() 
 	{
@@ -126,5 +128,8 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem<Ite
 	}
 
 	@Override
-	public void registerModel() {}
+	public void registerModel() {
+		for (int i = 0; i < MinestuckBlocks.fluids.size(); i++)
+			ModelLoader.setCustomModelResourceLocation(ItemMinestuckBucket.this, i, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "bucket_" + MinestuckBlocks.fluids.get(i).getBlock().getRegistryName().getResourcePath()), "inventory"));
+	}
 }

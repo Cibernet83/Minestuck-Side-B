@@ -25,9 +25,9 @@ public class ItemMechanicalCrossbow extends MSWeaponBase
 
 	protected float power;
 
-	public ItemMechanicalCrossbow(int maxUses, float power, String name)
+	public ItemMechanicalCrossbow(String name, int maxUses, float power)
 	{
-		super(maxUses, 0, 0, 1, name);
+		super(name, maxUses, 0, 0, 1);
 		this.power = power;
 	}
 

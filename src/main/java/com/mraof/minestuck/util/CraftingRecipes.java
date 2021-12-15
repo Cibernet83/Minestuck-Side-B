@@ -9,8 +9,11 @@ import com.google.gson.JsonSyntaxException;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.item.ItemKnittingNeedles;
+import com.mraof.minestuck.item.ItemMinestuckRecord;
+import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.TileEntityUraniumCooker;
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -74,33 +77,8 @@ public class CraftingRecipes
 		{
 			TileEntityUraniumCooker.setRadiation(ectoSlime, new ItemStack(Items.SLIME_BALL));
 		}
-		
-		
 	}
 
-    
-  //Forge: Made private use GameData/Registry events!
-    private static void register(String name, IRecipe recipe)
-    {
-    	
-        register(new ResourceLocation(name), recipe);
-    }
-
-    //Forge: Made private use GameData/Registry events!
-    private static void register(ResourceLocation name, IRecipe recipe)
-    {
-        if (REGISTRY.containsKey(name))
-        {
-            throw new IllegalStateException("Duplicate recipe ignored with ID " + name);
-        }
-        else
-        {
-            REGISTRY.register(nextAvailableId++, name, recipe);
-        }
-    }
-
-    
-    
 	public static void addOredictionary()
 	{
 		//Register ore dictionary entries
@@ -129,7 +107,6 @@ public class CraftingRecipes
 		OreDictionary.registerOre("plankWood", endPlanks);
 		OreDictionary.registerOre("plankWood", deadPlanks);
 		OreDictionary.registerOre("plankWood", treatedPlanks);
-		OreDictionary.registerOre("plankWood",	new ItemStack(planks, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("logWood", glowingLog);
 		OreDictionary.registerOre("logWood", endLog);
 		OreDictionary.registerOre("logWood", deadLog);
@@ -141,6 +118,20 @@ public class CraftingRecipes
 		
 		OreDictionary.registerOre("cropStrawberry", strawberry);
 		OreDictionary.registerOre("blockCactus", bloomingCactus);
+
+		for (ItemModus modus : modi)
+			OreDictionary.registerOre("modus", modus);
+
+		for (ItemMinestuckRecord record : records)
+			OreDictionary.registerOre("record", record);
+
+		for(Block block : chiseledHeroStones.values())
+		{
+			OreDictionary.registerOre("chiseled_hero_stone", block);
+			OreDictionary.registerOre("hero_stone", block);
+		}
+		for(Block block : heroStones.values())
+			OreDictionary.registerOre("hero_stone", block);
 	}
 	
 	/**

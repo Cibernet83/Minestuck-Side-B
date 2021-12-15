@@ -1,25 +1,26 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static com.mraof.minestuck.block.MinestuckBlocks.genericObject;
+import static com.mraof.minestuck.item.MinestuckItems.captchaCard;
 
 public class ItemCaptchaCard extends MSItemBase
 {
@@ -88,5 +89,26 @@ public class ItemCaptchaCard extends MSItemBase
 		}
 		
 	}
-	
+
+
+	@Override
+	public void registerModel()
+	{
+		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation(Minestuck.MODID, "card_empty"), new ResourceLocation(Minestuck.MODID, "card_full"), new ResourceLocation(Minestuck.MODID, "card_punched"), new ResourceLocation(Minestuck.MODID, "card_ghost"));
+		ModelLoader.setCustomMeshDefinition(captchaCard, (ItemStack stack) ->
+		{
+			NBTTagCompound nbt = stack.getTagCompound();
+			String str;
+			if(nbt != null && nbt.hasKey("contentID"))
+			{
+				if(nbt.getBoolean("punched") && !(Item.REGISTRY.getObject(new ResourceLocation(nbt.getString("contentID"))) == Item.getItemFromBlock(genericObject)))
+					str = "card_punched";
+				else if(nbt.getInteger("contentSize") <= 0) str = "card_ghost";
+				else str = "card_full";
+			}
+			else
+				str = "card_empty";
+			return new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, str), "inventory");
+		});
+	}
 }

@@ -32,7 +32,7 @@ import java.util.Map.Entry;
 public class BlockVanityLaptopOn extends BlockComputerOff implements ITileEntityProvider
 {
 	public static final PropertyEnum<BlockType> VARIANT = BlockVanityLaptopOff.VARIANT;
-	public static final PropertyDirection DIRECTION = BlockVanityLaptopOff.DIRECTION;
+	public static final PropertyDirection DIRECTION = BlockVanityLaptopOff.FACING;
 	public static final PropertyBool BSOD = BlockComputerOn.BSOD;
 	
 	protected static final AxisAlignedBB COMPUTER_AABB = new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D);

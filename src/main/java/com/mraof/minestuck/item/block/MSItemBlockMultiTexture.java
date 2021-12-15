@@ -1,25 +1,23 @@
 package com.mraof.minestuck.item.block;
 
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.util.IUnlocSerializable;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
-
-import static net.minecraft.item.ItemMultiTexture.Mapper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 
 public class MSItemBlockMultiTexture extends MSItemBlock
 {
-	protected final Mapper nameFunction;
+	protected final IUnlocSerializable[] states;
 
-	public MSItemBlockMultiTexture(Block block, Mapper nameFunction)
+	public MSItemBlockMultiTexture(Block block, final IUnlocSerializable[] states)
 	{
 		super(block);
-		this.nameFunction = nameFunction;
-		this.setMaxDamage(0);
-		this.setHasSubtypes(true);
-	}
-
-	public MSItemBlockMultiTexture(Block block, final String[] namesByMeta)
-	{
-		this(block, (ItemStack input) -> input.getMetadata() < 0 || input.getMetadata() >= namesByMeta.length ? namesByMeta[0] : namesByMeta[input.getMetadata()]);
+		this.states = states;
+		setMaxDamage(0);
+		setHasSubtypes(true);
 	}
 
 	@Override
@@ -31,6 +29,13 @@ public class MSItemBlockMultiTexture extends MSItemBlock
 	@Override
 	public String getUnlocalizedName(ItemStack stack)
 	{
-		return super.getUnlocalizedName() + "." + this.nameFunction.apply(stack);
+		return super.getUnlocalizedName() + "." + states[stack.getMetadata() % states.length].getUnlocalizedName();
+	}
+
+	@Override
+	public void registerModel()
+	{
+		for (int i = 0; i < states.length; i++)
+			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, getRegistryName().getResourcePath() + "_" + states[i].getName()), "inventory"));
 	}
 }

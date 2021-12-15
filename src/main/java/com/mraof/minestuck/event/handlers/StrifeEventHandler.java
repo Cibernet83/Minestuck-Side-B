@@ -1,8 +1,8 @@
 package com.mraof.minestuck.event.handlers;
 
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.capabilities.MSUCapabilities;
-import com.mraof.minestuck.capabilities.strife.IStrifeData;
+import com.mraof.minestuck.capabilities.MinestuckCapabilities;
+import com.mraof.minestuck.capabilities.api.IStrifeData;
 import com.mraof.minestuck.client.gui.GuiStrifePortfolio;
 import com.mraof.minestuck.client.gui.playerStats.GuiStrifeSpecibus;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
@@ -12,7 +12,7 @@ import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.weapon.MSWeaponBase;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.UpdateStrifeDataPacket;
+import com.mraof.minestuck.network.PacketUpdateStrifeData;
 import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.MSUKindAbstrata;
 import com.mraof.minestuck.strife.StrifePortfolioHandler;
@@ -60,7 +60,7 @@ public class StrifeEventHandler
 	@SubscribeEvent
 	public static void onGuiOpen(GuiOpenEvent event)
 	{
-		if(event.getGui() instanceof GuiStrifeSpecibus && Minecraft.getMinecraft().player.getCapability(MSUCapabilities.STRIFE_DATA, null).canStrife())
+		if(event.getGui() instanceof GuiStrifeSpecibus && Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.STRIFE_DATA, null).canStrife())
 			event.setGui(new GuiStrifePortfolio());
 	}
 
@@ -119,7 +119,7 @@ public class StrifeEventHandler
 
 		if(stack.isEmpty())
 		{
-			IStrifeData cap = source.getCapability(MSUCapabilities.STRIFE_DATA, null);
+			IStrifeData cap = source.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 			if(cap.getPortfolio().length > 0 && cap.getSelectedSpecibusIndex() >= 0)
 			{
 				StrifeSpecibus selStrife = cap.getPortfolio()[cap.getSelectedSpecibusIndex()];
@@ -241,7 +241,7 @@ public class StrifeEventHandler
 		if(event.phase == TickEvent.Phase.END)
 			return;
 
-		IStrifeData cap = event.player.getCapability(MSUCapabilities.STRIFE_DATA, null);
+		IStrifeData cap = event.player.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 		checkArmed(event.player);
 
 		if(event.player.world.isRemote)
@@ -252,7 +252,7 @@ public class StrifeEventHandler
 		if(!event.player.world.isRemote && cap.abstrataSwitcherUnlocked() != unlockSwitcher)
 		{
 			cap.unlockAbstrataSwitcher(unlockSwitcher);
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, event.player, UpdateStrifeDataPacket.UpdateType.CONFIG), event.player);
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, event.player, PacketUpdateStrifeData.UpdateType.CONFIG), event.player);
 
 			if(unlockSwitcher)
 				event.player.sendStatusMessage(new TextComponentTranslation("status.strife.unlockSwitcher"), false);
@@ -263,7 +263,7 @@ public class StrifeEventHandler
 
 	private static void checkArmed(EntityPlayer player)
 	{
-		IStrifeData cap = player.getCapability(MSUCapabilities.STRIFE_DATA, null);
+		IStrifeData cap = player.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 		if(cap == null)
 			return;
 
@@ -279,7 +279,7 @@ public class StrifeEventHandler
 				if(!player.world.isRemote)
 				{
 					cap.setArmed(false);
-					MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.INDEXES), player);
+					MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.INDEXES), player);
 				}
 				return;
 			}
@@ -305,7 +305,7 @@ public class StrifeEventHandler
 					if(!player.world.isRemote)
 					{
 						cap.setArmed(false);
-						MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.INDEXES), player);
+						MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.INDEXES), player);
 					}
 					return;
 				}
@@ -354,7 +354,7 @@ public class StrifeEventHandler
 
 								specibus.switchKindAbstratus(abstratusList.get(0), player);
 								if(!player.world.isRemote)
-									MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, UpdateStrifeDataPacket.UpdateType.PORTFOLIO, cap.getSelectedSpecibusIndex()), player);
+									MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.PORTFOLIO, cap.getSelectedSpecibusIndex()), player);
 							}
 							else
 							{
@@ -461,7 +461,7 @@ public class StrifeEventHandler
 			return;
 
 		EntityPlayer source = (EntityPlayer) event.getSource().getTrueSource();
-		IStrifeData cap = source.getCapability(MSUCapabilities.STRIFE_DATA, null);
+		IStrifeData cap = source.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 
 		if(cap.canDropCards() && source.world.rand.nextFloat() < (cap.getDroppedCards() <= 0  && event.getEntityLiving() instanceof EntityUnderling ? 0.05f : 0.01f)*(event.getLootingLevel()+1))
 		{
@@ -516,7 +516,7 @@ public class StrifeEventHandler
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onPlayerDrops(PlayerDropsEvent event)
 	{
-		IStrifeData cap = event.getEntityPlayer().getCapability(MSUCapabilities.STRIFE_DATA, null);
+		IStrifeData cap = event.getEntityPlayer().getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 
 		ItemStack selectedWeapon = !MinestuckConfig.keepPortfolioOnDeath && cap.isArmed() && cap.getPortfolio().length > 0 && cap.getSelectedSpecibusIndex() >= 0 && cap.getSelectedWeaponIndex() >= 0
 								   && cap.getPortfolio()[cap.getSelectedSpecibusIndex()] != null && !cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getContents().isEmpty() ?
@@ -552,7 +552,7 @@ public class StrifeEventHandler
 	@SubscribeEvent
 	public static void onPlayerRespawn(PlayerEvent.Clone event)
 	{
-		event.getEntity().getCapability(MSUCapabilities.STRIFE_DATA, null).readFromNBT(event.getOriginal().getCapability(MSUCapabilities.STRIFE_DATA, null).writeToNBT());
+		event.getEntity().getCapability(MinestuckCapabilities.STRIFE_DATA, null).readFromNBT(event.getOriginal().getCapability(MinestuckCapabilities.STRIFE_DATA, null).writeToNBT());
 	}
 
 	public static int getSlotFor(InventoryPlayer inv, ItemStack stack)

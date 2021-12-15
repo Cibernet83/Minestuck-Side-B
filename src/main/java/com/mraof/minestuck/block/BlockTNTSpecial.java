@@ -2,11 +2,12 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +16,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
@@ -36,7 +38,7 @@ public class BlockTNTSpecial extends BlockTNT implements IRegistryBlock
 		if(unstable)
 			setTickRandomly(true);
 		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		MinestuckBlocks.blocks.add(this);
 	}
 	
@@ -99,6 +101,14 @@ public class BlockTNTSpecial extends BlockTNT implements IRegistryBlock
 	@Override
 	public MSItemBlock getItemBlock()
 	{
-		return new MSItemBlock(this);
+		return new MSItemBlock(this)
+		{
+			@Override
+			public void registerModel()
+			{
+				super.registerModel();
+				ModelLoader.setCustomStateMapper(BlockTNTSpecial.this, (new StateMap.Builder()).ignore(BlockTNT.EXPLODE).build());
+			}
+		};
 	}
 }

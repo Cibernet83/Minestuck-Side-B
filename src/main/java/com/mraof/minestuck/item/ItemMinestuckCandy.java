@@ -1,10 +1,15 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristType;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 
+import java.util.List;
 import java.util.TreeMap;
 
 public class ItemMinestuckCandy extends ItemFood
@@ -83,5 +88,14 @@ public class ItemMinestuckCandy extends ItemFood
 			this.saturation = saturation;
 			this.name = "item.candy" + name;
 		}
+	}
+
+	@Override
+	public void registerModel()
+	{
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy"), "inventory"));
+		List<GristType> gristTypes = GristType.values();
+		for (int i = 0; i < gristTypes.size(); i++)
+			ModelLoader.setCustomModelResourceLocation(this, i + 1, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy_" + gristTypes.get(i).getName()), "inventory"));
 	}
 }

@@ -15,7 +15,7 @@ import java.util.Random;
  * The <code>toString()</code> method is overridden and returns a better cased version of the aspect name.
  * @author kirderf1
  */
-public enum EnumAspect
+public enum EnumAspect implements IUnlocSerializable
 {
 	BLOOD,BREATH,DOOM,HEART,HOPE,LIFE,LIGHT,MIND,RAGE,SPACE,TIME,VOID;
 	
@@ -99,5 +99,17 @@ public enum EnumAspect
 	public ITextComponent asTextComponent()
 	{
 		return new TextComponentTranslation("title." + this.toString());
+	}
+
+	@Override
+	public String getName()
+	{
+		return this.name().toLowerCase();
+	}
+
+	@Override
+	public String getUnlocalizedName()
+	{
+		return this.name().toLowerCase();
 	}
 }

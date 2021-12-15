@@ -3,10 +3,9 @@ package com.mraof.minestuck.block;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.block.MSItemBlockSlab;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
@@ -14,7 +13,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class MSBlockSlab extends BlockSlab implements IRegistryItem<Block>, IRegistryBlock
+public class MSBlockSlab extends BlockSlab implements IRegistryObject<Block>, IRegistryBlock
 {
 	private final IBlockState modelState;
 	private final String regName;
@@ -26,22 +25,21 @@ public class MSBlockSlab extends BlockSlab implements IRegistryItem<Block>, IReg
 	 */
 	public final static PropertyInteger dummy = PropertyInteger.create("dummy", 0, 1);
 
-	public MSBlockSlab(String name, IBlockState modelState)
+	public MSBlockSlab(String name, IBlockState blockState)
 	{
-		super(modelState.getMaterial());
+		super(blockState.getMaterial());
+		setHardness(blockState.getBlockHardness(null, null));
+		setResistance(blockState.getBlock().getExplosionResistance(null) * 5f/3f);
+		setHarvestLevel(blockState.getBlock().getHarvestTool(blockState), blockState.getBlock().getHarvestLevel(blockState));
 		setCreativeTab(MinestuckTabs.minestuck);
-		this.modelState = modelState;
+		this.modelState = blockState;
 		this.useNeighborBrightness = true;
 		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		MinestuckBlocks.blocks.add(this);
 
-		//TODO: Use the modelState's hardness.
-		setHardness(modelState.getMaterial()==Material.WOOD ? 1.0F : 3.0F);
-		setHarvestLevel("pickaxe", modelState.getBlock().getHarvestLevel(modelState));
-
 		if (!isDouble())
-			fullSlab = new MSBlockSlab(name + "Full", modelState)
+			fullSlab = new MSBlockSlab(name + "Full", blockState)
 			{
 				@Override
 				public boolean isDouble()

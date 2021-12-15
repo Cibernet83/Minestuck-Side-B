@@ -29,9 +29,9 @@ public class MSShieldBase extends MSWeaponBase
 	protected int parryTime;
 	protected float parryDeflect;
 
-	public MSShieldBase(int maxUses, double damageVsEntity, double weaponSpeed, int parryTimeFrame, float parryDamageDeflect, int enchantability, String name)
+	public MSShieldBase(String name, int maxUses, double damageVsEntity, double weaponSpeed, int parryTimeFrame, float parryDamageDeflect, int enchantability)
 	{
-		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
+		super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
 		this.parryDeflect = parryDamageDeflect;
 		this.parryTime = parryTimeFrame;
 
@@ -39,9 +39,9 @@ public class MSShieldBase extends MSWeaponBase
 
 	}
 
-	public MSShieldBase(int maxUses, int parryTimeFrame, float parryDamageDeflect, int enchantability, String name)
+	public MSShieldBase(String name, int maxUses, int parryTimeFrame, float parryDamageDeflect, int enchantability)
 	{
-		this(maxUses, 0, 0, parryTimeFrame, parryDamageDeflect, enchantability, name);
+		this(name, maxUses, 0, 0, parryTimeFrame, parryDamageDeflect, enchantability);
 	}
 
 	@Override

@@ -1,8 +1,5 @@
 package com.mraof.minestuck.event.handlers;
 
-import javax.annotation.Nullable;
-
-import com.mraof.minestuck.util.ModusStorage;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
@@ -16,12 +13,14 @@ import com.mraof.minestuck.inventory.ContainerConsortMerchant;
 import com.mraof.minestuck.inventory.ContainerEditmode;
 import com.mraof.minestuck.inventory.captchalouge.*;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.*;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.skaianet.SkaiaClient;
 import com.mraof.minestuck.util.ColorCollector;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.MinestuckPlayerData;
-
+import com.mraof.minestuck.util.ModusStorage;
 import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.state.IBlockState;
@@ -57,6 +56,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 /**
@@ -275,7 +275,7 @@ public class ClientEventHandler
 		if(Keyboard.isKeyDown(MinestuckKeyHandler.instance.captchaKey.getKeyCode()) && Minecraft.getMinecraft().player.getHeldItemMainhand().isEmpty())
 		{
 			if(CaptchaDeckHandler.clientSideModus instanceof OuijaModus)
-				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.GET, 0, false));
+				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.GET, 0, false));
 			if(CaptchaDeckHandler.clientSideModus instanceof WalletModus || CaptchaDeckHandler.clientSideModus instanceof CrystalBallModus)
 				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.WALLET_CAPTCHA, Minecraft.getMinecraft().objectMouseOver));
 		}

@@ -3,12 +3,12 @@ package com.mraof.minestuck.potions;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class PotionBuildInhibit extends MSUPotionBase
+public class PotionBuildInhibit extends MSPotionBase
 {
 
-    protected PotionBuildInhibit(int liquidColorIn, String name)
+    protected PotionBuildInhibit(String name, int liquidColorIn)
     {
-        super(true, liquidColorIn, name);
+        super(name, true, liquidColorIn);
     }
 
     @Override

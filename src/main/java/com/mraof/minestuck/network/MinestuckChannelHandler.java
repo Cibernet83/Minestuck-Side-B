@@ -1,6 +1,5 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.ClientProxy;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
 import com.mraof.minestuck.util.Debug;
@@ -60,7 +59,7 @@ public class MinestuckChannelHandler extends FMLIndexedMessageToMessageCodec<Min
 			switch (side)
 			{
 			case CLIENT:
-				if(msg instanceof LandRegisterPacket)
+				if(msg instanceof PacketLandRegister)
 					msg.execute(null);
 				else {
 					ClientProxy.addScheduledTask(() -> msg.execute(ClientProxy.getClientPlayer()));
@@ -103,6 +102,13 @@ public class MinestuckChannelHandler extends FMLIndexedMessageToMessageCodec<Min
 	public static void sendToAllPlayers(MinestuckPacket packet)
 	{
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
+		channels.get(Side.SERVER).writeOutbound(packet);
+	}
+
+	public static void sendToDimension(MinestuckPacket packet, int dimId)
+	{
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimId);
 		channels.get(Side.SERVER).writeOutbound(packet);
 	}
 

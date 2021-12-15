@@ -6,7 +6,7 @@ import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.client.ClientProxy;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.CaptchaDeckPacket;
+import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
@@ -239,7 +239,7 @@ public class CaptchaDeckHandler
 		
 		if(modus != null)
 		{
-			MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.DATA, writeToNBT(modus));
+			MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, writeToNBT(modus));
 			MinestuckChannelHandler.sendToPlayer(packet, player);
 		}
 	}
@@ -289,7 +289,7 @@ public class CaptchaDeckHandler
 					player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
 				else stack.shrink(1);
 			}
-			MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.DATA, writeToNBT(modus));
+			MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, writeToNBT(modus));
 			MinestuckChannelHandler.sendToPlayer(packet, player);
 		}
 		
@@ -346,7 +346,7 @@ public class CaptchaDeckHandler
 						player.inventory.setInventorySlotContents(hotbarIndex, ItemStack.EMPTY);
 					} else stack.shrink(1);
 				}
-				MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.DATA, writeToNBT(modus));
+				MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, writeToNBT(modus));
 				MinestuckChannelHandler.sendToPlayer(packet, player);
 			}
 		}
@@ -395,7 +395,7 @@ public class CaptchaDeckHandler
 						slot.putStack(ItemStack.EMPTY);
 					} else stack.shrink(1);
 				}
-				MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.DATA, writeToNBT(modus));
+				MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, writeToNBT(modus));
 				MinestuckChannelHandler.sendToPlayer(packet, player);
 			}
 		}
@@ -439,7 +439,7 @@ public class CaptchaDeckHandler
 					launchAnyItem(player, stack);
 			}
 		}
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.DATA, writeToNBT(modus));
+		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, writeToNBT(modus));
 		MinestuckChannelHandler.sendToPlayer(packet, player);
 	}
 	
@@ -480,7 +480,7 @@ public class CaptchaDeckHandler
 			setModus(player, null);
 		} else modus.initModus(null, size);
 		
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.DATA, writeToNBT(getModus(player)));
+		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, writeToNBT(getModus(player)));
 		MinestuckChannelHandler.sendToPlayer(packet, player);
 	}
 	

@@ -1,6 +1,5 @@
 package com.mraof.minestuck.world.lands.terrain;
 
-import com.mraof.minestuck.block.BlockMinestuckStone;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.biome.BiomeMinestuck;
@@ -27,9 +26,9 @@ public class LandAspectHeat extends TerrainLandAspect
 		registry.setBlockState("ocean", Blocks.LAVA.getDefaultState());
 		registry.setBlockState("structure_primary", Blocks.NETHER_BRICK.getDefaultState());
 		registry.setBlockState("structure_primary_stairs", Blocks.NETHER_BRICK_STAIRS.getDefaultState());
-		registry.setBlockState("structure_secondary", MinestuckBlocks.stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.CAST_IRON));
-		registry.setBlockState("structure_secondary_decorative", MinestuckBlocks.stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.CAST_IRON_CHISELED));
-		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.castIronStairs.getDefaultState());
+		registry.setBlockState("structure_secondary", MinestuckBlocks.castIron.getDefaultState());
+		registry.setBlockState("structure_secondary_decorative", MinestuckBlocks.chiseledCastIron.getDefaultState());
+		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.stairs.get(MinestuckBlocks.castIron).getDefaultState());
 		registry.setBlockState("fall_fluid", Blocks.WATER.getDefaultState());
 		registry.setBlockState("structure_planks", Blocks.BRICK_BLOCK.getDefaultState());
 		registry.setBlockState("structure_planks_slab", Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.BRICK));

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fluids.BlockFluidClassic;
@@ -18,7 +18,7 @@ public class BlockFluidGrist extends BlockFluidClassic implements IRegistryBlock
     public BlockFluidGrist(String grist, Fluid fluid, Material material) {
         super(fluid, material);
         setUnlocalizedName("liquid_"+grist);
-        regName = IRegistryItem.unlocToReg("liquid_"+grist);
+        regName = IRegistryObject.unlocToReg("liquid_"+grist);
         MinestuckBlocks.blocks.add(this);
     }
 

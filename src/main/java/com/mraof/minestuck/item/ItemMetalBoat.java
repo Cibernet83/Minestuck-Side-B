@@ -1,11 +1,13 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.entity.item.EntityMetalBoat;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
 public class ItemMetalBoat extends ItemCustomBoat
 {
@@ -37,5 +39,11 @@ public class ItemMetalBoat extends ItemCustomBoat
 			for(int i = 0; i < NAMES.length; i++)
 				items.add(new ItemStack(this, 1, i));
 	}
-	
+
+	@Override
+	public void registerModel()
+	{
+		for (int i = 0; i < NAMES.length; i++)
+			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation("boat_" + NAMES[i], "inventory"));
+	}
 }

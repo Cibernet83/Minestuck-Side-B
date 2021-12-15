@@ -9,104 +9,82 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 
+public class ItemDualWeapon extends ItemWeapon
+{
+	public String prefix;
+	private double power;
+	private double shiethedPower;
+	private double speed;
+	private double shiethedSpeed;
 
-public class ItemDualWeapon extends ItemWeapon{
-	public String Prefex;
-	public double Power;
-	public double ShiethedPower;
-	public double Speed;
-	public double ShiethedSpeed;
-	public ItemDualWeapon(int maxUses, double damageVsEntity,double damagedVsEntityWhileShiethed,double weaponSpeed,double weaponSpeedWhileShiethed, int enchantability, String name)
+	public ItemDualWeapon(int maxUses, double damageVsEntity, double damagedVsEntityWhileShiethed, double weaponSpeed, double weaponSpeedWhileShiethed, int enchantability, String name)
 	{
 		super(ToolMaterial.IRON, maxUses, damageVsEntity, weaponSpeed, enchantability, name, true);
-
-
-
-		this.Prefex = name;
-		this.Power=damageVsEntity;
-		this.ShiethedPower= damagedVsEntityWhileShiethed;
-		this.Speed=weaponSpeed;
-		this.ShiethedSpeed=weaponSpeedWhileShiethed;
+		this.prefix = name;
+		this.power = damageVsEntity;
+		this.shiethedPower = damagedVsEntityWhileShiethed;
+		this.speed = weaponSpeed;
+		this.shiethedSpeed = weaponSpeedWhileShiethed;
 	}
-	
-	public boolean IsDrawn(ItemStack itemStack)
+
+	public boolean isDrawn(ItemStack itemStack)
 	{
 		return checkTagCompound(itemStack).getBoolean("IsDrawn");
 	}
-	
+
 	private NBTTagCompound checkTagCompound(ItemStack stack)
 	{
 		NBTTagCompound tagCompound = stack.getTagCompound();
-		if(tagCompound == null)
-		{
-			tagCompound = new NBTTagCompound();
-			stack.setTagCompound(tagCompound);
-		}
-		if(!tagCompound.hasKey("IsDrawn"))
-		{
+		if (tagCompound == null)
+			stack.setTagCompound(tagCompound = new NBTTagCompound());
+		if (!tagCompound.hasKey("IsDrawn"))
 			tagCompound.setBoolean("IsDrawn", true);
-		}
 		return tagCompound;
 	}
-	
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-	{
-		ItemStack itemStackIn = playerIn.getHeldItem(handIn);
-			if(playerIn.isSneaking() ){
-			if (IsDrawn(itemStackIn)){
-				Sheath(itemStackIn);
-			}else{
-				Draw(itemStackIn);
-			}
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
-		}
-		return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
-	}
-	
-	@Override
-    public String getUnlocalizedName(ItemStack stack)
-    {
 
-        
-        if (IsDrawn(stack)){
-        	return "item." + Prefex + "Drawn";
-        }
-        else{
-        	return "item." + Prefex +  "Sheathed";
-        }
-    }
 	@Override
-	public double getAttackDamage(ItemStack stack){
-		if (IsDrawn(stack)){
-			return this.Power;
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	{
+		ItemStack itemStackIn = player.getHeldItem(hand);
+		if (player.isSneaking())
+		{
+			if (isDrawn(itemStackIn))
+				sheath(itemStackIn);
+			else
+				draw(itemStackIn);
+			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 		}
-		else{
-			return this.ShiethedPower;
-		}
+		return new ActionResult<>(EnumActionResult.PASS, itemStackIn);
 	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		return "item." + prefix + (isDrawn(stack) ? "Drawn" : "Sheathed");
+	}
+
+	@Override
+	public double getAttackDamage(ItemStack stack)
+	{
+		return isDrawn(stack) ? power : shiethedPower;
+	}
+
 	@Override
 	protected double getAttackSpeed(ItemStack stack)
 	{
-		if (IsDrawn(stack)){
-			return this.Speed;
-		}
-		else{
-			return this.ShiethedSpeed;
-		}
-	}	
-
-
-	public void Sheath(ItemStack stack){
-	NBTTagCompound tagCompound = checkTagCompound(stack);
-	tagCompound.setBoolean("IsDrawn",false);
+		return isDrawn(stack) ? speed : shiethedSpeed;
 	}
-	public void Draw(ItemStack stack){
+
+
+	public void sheath(ItemStack stack)
+	{
 		NBTTagCompound tagCompound = checkTagCompound(stack);
-		tagCompound.setBoolean("IsDrawn",true);
+		tagCompound.setBoolean("IsDrawn", false);
 	}
-	
 
-
-
+	public void draw(ItemStack stack)
+	{
+		NBTTagCompound tagCompound = checkTagCompound(stack);
+		tagCompound.setBoolean("IsDrawn", true);
+	}
 }

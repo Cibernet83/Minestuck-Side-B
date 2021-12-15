@@ -7,7 +7,7 @@ import com.mraof.minestuck.alchemy.GristType;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.PlayerDataPacket;
+import com.mraof.minestuck.network.PacketPlayerData;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -41,7 +41,7 @@ public class CapitalistModus extends BaseModus
 			{
 				playerData.boondollars -= price;
 				if(!player.world.isRemote)
-					MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.PLAYER_DATA, PlayerDataPacket.BOONDOLLAR, playerData.boondollars), player);
+					MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.PLAYER_DATA, PacketPlayerData.BOONDOLLAR, playerData.boondollars), player);
 				player.sendStatusMessage(new TextComponentTranslation("status.capitalistBuyAll", price), false);
 				return super.getItem(id, asCard);
 			}
@@ -62,7 +62,7 @@ public class CapitalistModus extends BaseModus
 		{
 			playerData.boondollars -= price;
 			if(!player.world.isRemote)
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.PLAYER_DATA, PlayerDataPacket.BOONDOLLAR, playerData.boondollars), player);
+				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.PLAYER_DATA, PacketPlayerData.BOONDOLLAR, playerData.boondollars), player);
 			player.sendStatusMessage(new TextComponentTranslation("status.capitalistBuy", price, stack.getTextComponent()), false);
 			return super.getItem(id, asCard);
 		}

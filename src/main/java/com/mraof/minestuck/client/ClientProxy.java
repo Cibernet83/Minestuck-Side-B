@@ -1,7 +1,5 @@
 package com.mraof.minestuck.client;
 
-import com.mraof.minestuck.tileentity.TileEntityHolopad;
-import com.mraof.minestuck.util.MSUModelManager;
 import com.mraof.minestuck.CommonProxy;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
@@ -16,7 +14,6 @@ import com.mraof.minestuck.client.renderer.entity.frog.RenderFrog;
 import com.mraof.minestuck.client.renderer.tileentity.RenderGate;
 import com.mraof.minestuck.client.renderer.tileentity.RenderSkaiaPortal;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
-import com.mraof.minestuck.client.util.MinestuckModelManager;
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.entity.*;
 import com.mraof.minestuck.entity.carapacian.EntityBishop;
@@ -26,34 +23,27 @@ import com.mraof.minestuck.entity.consort.EntityIguana;
 import com.mraof.minestuck.entity.consort.EntityNakagator;
 import com.mraof.minestuck.entity.consort.EntitySalamander;
 import com.mraof.minestuck.entity.consort.EntityTurtle;
-import com.mraof.minestuck.entity.item.EntityCrewPoster;
-import com.mraof.minestuck.entity.item.EntityGrist;
-import com.mraof.minestuck.entity.item.EntityMetalBoat;
-import com.mraof.minestuck.entity.item.EntitySbahjPoster;
-import com.mraof.minestuck.entity.item.EntityShopPoster;
-import com.mraof.minestuck.entity.item.EntityVitalityGel;
-import com.mraof.minestuck.entity.underling.EntityBasilisk;
-import com.mraof.minestuck.entity.underling.EntityGiclops;
-import com.mraof.minestuck.entity.underling.EntityImp;
-import com.mraof.minestuck.entity.underling.EntityLich;
-import com.mraof.minestuck.entity.underling.EntityOgre;
-import com.mraof.minestuck.entity.underling.EntityUnderlingPart;
+import com.mraof.minestuck.entity.item.*;
+import com.mraof.minestuck.entity.underling.*;
 import com.mraof.minestuck.event.handlers.ClientEventHandler;
-import com.mraof.minestuck.item.ItemFrog;
-import com.mraof.minestuck.item.ItemWarpMedallion;
-import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.*;
 import com.mraof.minestuck.item.weapon.ItemBeamBlade;
 import com.mraof.minestuck.tileentity.TileEntityGate;
+import com.mraof.minestuck.tileentity.TileEntityHolopad;
 import com.mraof.minestuck.tileentity.TileEntitySkaiaPortal;
+import com.mraof.minestuck.util.AspectColorHandler;
 import com.mraof.minestuck.util.ColorCollector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -108,15 +98,27 @@ public class ClientProxy extends CommonProxy
 
 		mc.getItemColors().registerItemColorHandler(new ItemBeamBlade.BladeColorHandler(), MinestuckItems.dyedBeamBlade);
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> BlockColorCruxite.handleColorTint(ItemWarpMedallion.getColor(stack), tintIndex), MinestuckItems.returnMedallion);
+
+		mc.getItemColors().registerItemColorHandler((stack, tintIndex) ->
+		{
+			switch(tintIndex)
+			{
+				case 0: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.SHIRT);
+				case 1: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.PRIMARY);
+				case 2: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.SECONDARY);
+				case 3: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.SHOES);
+				case 4: case 7: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.SYMBOL);
+				case 5: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_PRIMARY);
+				case 6: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_SECONDARY);
+				default: return 0xFFFFFF;
+			}
+		}, MinestuckItems.armorKit, MinestuckItems.gtHood, MinestuckItems.gtShirt, MinestuckItems.gtPants, MinestuckItems.gtShoes);
 	}
 	
 	@Override
 	public void preInit()
 	{
 		super.preInit();
-
-		MinestuckItems.setClientsideVariables();
-
 		RenderingRegistry.registerEntityRenderingHandler(EntityFrog.class, manager -> new RenderFrog(manager, new ModelBiped(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityNakagator.class, RenderEntityMinestuck.getFactory(new ModelNakagator(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySalamander.class, RenderEntityMinestuck.getFactory(new ModelSalamander(), 0.5F));
@@ -149,17 +151,20 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityMSUArrow.class, RenderArrow::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityUnrealAir.class, RenderUnrealAir::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityRock.class, RenderRock::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityHopeGolem.class, (manager) -> new RenderHopeGolem(manager));
+		RenderingRegistry.registerEntityRenderingHandler(EntityLocatorEye.class, (manager) -> new RenderSnowball<>(manager, MinestuckItems.denizenEye, Minecraft.getMinecraft().getRenderItem()));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHolopad.class, new RenderHologram());
 
 		MinestuckKeyHandler.instance.registerKeys();
+		MSGTKeyHandler.registerKeys();
 
 		MinecraftForge.EVENT_BUS.register(MinestuckKeyHandler.instance);
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-		MinecraftForge.EVENT_BUS.register(MinestuckModelManager.class);
-		MinecraftForge.EVENT_BUS.register(MSUModelManager.class);
 		MinecraftForge.EVENT_BUS.register(MSURenderMachineOutline.class);
 		MinecraftForge.EVENT_BUS.register(RenderBeams.class);
 		MinecraftForge.EVENT_BUS.register(GuiStrifeSwitcher.class);
+		MinecraftForge.EVENT_BUS.register(MSGTKeyHandler.class);
+		MinecraftForge.EVENT_BUS.register(ClientProxy.class);
 	}
 	
 	@Override
@@ -172,8 +177,14 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(new MinestuckConfig());
 		MinecraftForge.EVENT_BUS.register(RenderMachineOutline.class);
 
-		MSUKeys.register();
+		MSKeyHandler.register();
 		MSUFontRenderer.registerFonts();
 	}
-	
+
+	@SubscribeEvent
+	public static void handleModelRegistry(ModelRegistryEvent event)
+	{
+		for (IRegistryItem item : MinestuckItems.items)
+			item.registerModel();
+	}
 }

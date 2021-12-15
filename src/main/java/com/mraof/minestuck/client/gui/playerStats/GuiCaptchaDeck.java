@@ -4,7 +4,7 @@ import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
 import com.mraof.minestuck.inventory.captchalouge.ContainerCaptchaDeck;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.item.ItemCaptchaCard;
-import com.mraof.minestuck.network.CaptchaDeckPacket;
+import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
@@ -97,7 +97,7 @@ public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 					return;
 				}
 			}
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, CaptchaDeckPacket.MODUS));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.MODUS));
 		}
 		else if(button == this.sylladexMap && CaptchaDeckHandler.clientSideModus != null)
 		{
@@ -112,7 +112,7 @@ public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 	public void confirmClicked(boolean result, int id)
 	{
 		if(result && !container.inventory.getStackInSlot(0).isEmpty())
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, CaptchaDeckPacket.MODUS));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.MODUS));
 		mc.currentScreen = this;
 	}
 	

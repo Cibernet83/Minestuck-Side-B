@@ -1,8 +1,8 @@
 package com.mraof.minestuck.item.weapon;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.capabilities.MSUCapabilities;
-import com.mraof.minestuck.capabilities.beam.Beam;
+import com.mraof.minestuck.capabilities.MinestuckCapabilities;
+import com.mraof.minestuck.capabilities.Beam;
 import com.mraof.minestuck.item.properties.PropertyDualWield;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -32,8 +32,8 @@ public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 	public int beamTime;
 	protected ResourceLocation beamTexture = new ResourceLocation(Minestuck.MODID, "textures/entity/projectiles/beam.png");
 
-	public ItemBeamWeapon(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int beamHurtTime, int enchantability, String name) {
-		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
+	public ItemBeamWeapon(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int beamHurtTime, int enchantability) {
+		super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
 		this.beamDamage = beamDamage;
 		this.beamRadius = beamRadius;
 		this.beamSpeed = beamSpeed;
@@ -41,12 +41,12 @@ public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 		this.beamTime = beamTime;
 	}
 
-	public ItemBeamWeapon(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int enchantability, String name) {
-		this(maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, beamTime,15, enchantability, name);
+	public ItemBeamWeapon(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int enchantability) {
+		this(name, maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, beamTime,15, enchantability);
 	}
 
-	public ItemBeamWeapon(int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int enchantability, String name) {
-		this(maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, 72000, enchantability, name);
+	public ItemBeamWeapon(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int enchantability) {
+		this(name, maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, 72000, enchantability);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 
 			if(useTime > beamTime)
 			{
-				Beam beam = worldIn.getCapability(MSUCapabilities.BEAM_DATA, null).getBeam(stack.getTagCompound().getUniqueId("Beam"));
+				Beam beam = worldIn.getCapability(MinestuckCapabilities.BEAM_DATA, null).getBeam(stack.getTagCompound().getUniqueId("Beam"));
 				if(beam != null && !beam.isBeamReleased())
 				{
 					if(entityIn instanceof EntityPlayer)

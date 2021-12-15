@@ -1,6 +1,8 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.MinestuckBlocks;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -11,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
 public class ItemYarnBall extends MSThrowableBase
 {
@@ -63,5 +66,16 @@ public class ItemYarnBall extends MSThrowableBase
             return EnumActionResult.SUCCESS;
         }
         return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+    }
+
+    @Override
+    public void registerModel()
+    {
+        super.registerModel();
+        ResourceLocation[] variants = new ResourceLocation[EnumDyeColor.values().length];
+        for(int i = 0; i < variants.length; i++)
+            variants[i] = new ResourceLocation(Minestuck.MODID, getRegistryName() + "_" + EnumDyeColor.byDyeDamage(i).getName());
+        ModelLoader.registerItemVariants(this, variants);
+        ModelLoader.setCustomMeshDefinition(this, (ItemStack stack) -> new ModelResourceLocation(variants[stack.getItemDamage()], "inventory"));
     }
 }

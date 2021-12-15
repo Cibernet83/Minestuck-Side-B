@@ -38,9 +38,9 @@ public class MSBowBase extends MSWeaponBase
 	public float arrowDamage;
 	public boolean firesCustom;
 
-	public MSBowBase(int maxUses, double damageVsEntity, double weaponSpeed, float arrowDamage, int drawTime, float arrowVel, float inaccuracy,  int enchantability, boolean usesArrowProperties, String name)
+	public MSBowBase(String name, int maxUses, double damageVsEntity, double weaponSpeed, float arrowDamage, int drawTime, float arrowVel, float inaccuracy,  int enchantability, boolean usesArrowProperties)
 	{
-		super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
+		super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
 
 		this.arrowDamage = arrowDamage;
 		this.drawTime = drawTime;
@@ -69,6 +69,11 @@ public class MSBowBase extends MSWeaponBase
 		});
 	}
 
+	public MSBowBase(String name, int maxUses, float arrowDamage, int drawSpeed, float arrowVel, float inaccuracy,  int enchantability, boolean firesCustom)
+	{
+		this(name, maxUses, 0, 0, arrowDamage, drawSpeed, arrowVel, inaccuracy, enchantability, firesCustom);
+	}
+
 	private int getDrawTime(EntityLivingBase entityIn, ItemStack stack)
 	{
 		int result = drawTime;
@@ -77,12 +82,6 @@ public class MSBowBase extends MSWeaponBase
 				result = ((IPropertyArrow)p).getDrawTime(entityIn, stack, result);
 		return result;
 	}
-
-	public MSBowBase(int maxUses, float arrowDamage, int drawSpeed, float arrowVel, float inaccuracy,  int enchantability, boolean firesCustom, String name)
-	{
-		this(maxUses, 0, 0, arrowDamage, drawSpeed, arrowVel, inaccuracy, enchantability, firesCustom, name);
-	}
-
 
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack)

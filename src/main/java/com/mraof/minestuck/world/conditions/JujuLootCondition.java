@@ -1,10 +1,10 @@
 package com.mraof.minestuck.world.conditions;
 
-import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.capabilities.game.GameData;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.capabilities.caps.GameData;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.item.Item;
 import net.minecraft.util.JsonUtils;

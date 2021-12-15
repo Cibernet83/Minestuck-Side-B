@@ -1,5 +1,7 @@
 package com.mraof.minestuck;
 
+import com.mraof.minestuck.command.CommandGlobalSay;
+import com.mraof.minestuck.command.CommandGodTier;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.command.*;
 import com.mraof.minestuck.editmode.DeployList;
@@ -7,9 +9,10 @@ import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.event.CommonEventHandler;
 import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
 import com.mraof.minestuck.modSupport.crafttweaker.CraftTweakerSupport;
-import com.mraof.minestuck.tileentity.*;
+import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
-import com.mraof.minestuck.util.*;
+import com.mraof.minestuck.util.Debug;
+import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -63,6 +66,8 @@ public class Minestuck
 	public static boolean isVcLoaded;
 	public static boolean isFutureMcLoaded;
 	public static boolean isArsenalLoaded;
+	public static boolean isTrophySlotsLoaded;
+	public static boolean isLocksLoaded;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) 
@@ -85,7 +90,9 @@ public class Minestuck
 		Minestuck.isVcLoaded = Loader.isModLoaded("variedcommodities");
 		Minestuck.isFutureMcLoaded = Loader.isModLoaded("futuremc");
 		Minestuck.isArsenalLoaded = Loader.isModLoaded("minestuckarsenal");
-		
+		Minestuck.isTrophySlotsLoaded = Loader.isModLoaded("trophyslots");
+		Minestuck.isLocksLoaded = Loader.isModLoaded("locks");
+
 		Debug.logger = event.getModLog();
 		
 		MinestuckConfig.loadConfigFile(event.getSuggestedConfigurationFile(), event.getSide());
@@ -141,6 +148,8 @@ public class Minestuck
 		event.registerServerCommand(new CommandToStructure());
 		event.registerServerCommand(new CommandPorkhollow());
 		event.registerServerCommand(new CommandLandDebug());
+		event.registerServerCommand(new CommandGodTier());
+		event.registerServerCommand(new CommandGlobalSay());
 		
 		worldSeed = event.getServer().worlds[0].getSeed();
 		CommonEventHandler.lastDay = event.getServer().worlds[0].getWorldTime() / 24000L;

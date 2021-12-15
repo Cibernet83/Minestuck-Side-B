@@ -1,10 +1,6 @@
 package com.mraof.minestuck.util;
 
-import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
-import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
-import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.client.Minecraft;

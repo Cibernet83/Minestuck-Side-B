@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.MinestuckTabs;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCake;
 import net.minecraft.block.SoundType;
@@ -25,7 +25,7 @@ public abstract class BlockCustomCake extends BlockCake implements IRegistryBloc
 	public BlockCustomCake(String name)
 	{
 		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		MinestuckBlocks.blocks.add(this);
 		setHardness(0.5F);
 		setSoundType(SoundType.CLOTH);

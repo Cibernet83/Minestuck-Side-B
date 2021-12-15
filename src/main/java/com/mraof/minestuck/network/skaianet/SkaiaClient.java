@@ -6,7 +6,7 @@ import com.mraof.minestuck.client.gui.GuiHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
-import com.mraof.minestuck.network.SkaianetInfoPacket;
+import com.mraof.minestuck.network.PacketSkaianetInfo;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -151,7 +151,7 @@ public class SkaiaClient
 		return c;
 	}
 	
-	public static void consumePacket(SkaianetInfoPacket data)
+	public static void consumePacket(PacketSkaianetInfo data)
 	{
 		if(data.landChains != null)
 		{

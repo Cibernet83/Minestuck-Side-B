@@ -1,10 +1,11 @@
 package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
+import com.mraof.minestuck.item.IRegistryItem;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.util.IRegistryItem;
-import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.util.IRegistryObject;
+import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem<Item>, ICruxiteArtifact
+public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem, ICruxiteArtifact
 {
 	private final String regName;
 	private final CruxiteArtifactTeleporter teleporter;
@@ -30,7 +31,7 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem<Item>, ICru
 		super(ToolMaterial.IRON);
 		setMaxDamage(10);
 
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		setUnlocalizedName(name);
 		setCreativeTab(MinestuckTabs.minestuck);
 

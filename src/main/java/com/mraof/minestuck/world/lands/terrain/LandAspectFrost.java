@@ -24,9 +24,9 @@ public class LandAspectFrost extends TerrainLandAspect
 		registry.setBlockState("upper", Blocks.DIRT.getDefaultState());
 		registry.setBlockState("structure_primary", Blocks.PRISMARINE.getDefaultState());
 		registry.setBlockState("structure_primary_decorative", Blocks.PRISMARINE.getDefaultState().withProperty(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.BRICKS));
-		registry.setBlockState("structure_secondary", MinestuckBlocks.stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.FROST_BRICK));
-		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.frostBrickStairs.getDefaultState());
-		registry.setBlockState("structure_secondary_decorative", MinestuckBlocks.stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.FROST_CHISELED));
+		registry.setBlockState("structure_secondary", MinestuckBlocks.frostBrick.getDefaultState());
+		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.stairs.get(MinestuckBlocks.frostBrick).getDefaultState());
+		registry.setBlockState("structure_secondary_decorative", MinestuckBlocks.chiseledFrostBrick.getDefaultState());
 		registry.setBlockState("structure_planks", Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE));
 		registry.setBlockState("structure_planks_slab", Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockWoodSlab.VARIANT, BlockPlanks.EnumType.SPRUCE));
 		registry.setBlockState("river", Blocks.ICE.getDefaultState());
@@ -54,8 +54,8 @@ public class LandAspectFrost extends TerrainLandAspect
 		ArrayList<ILandDecorator> list = new ArrayList<ILandDecorator>();
 		list.add(new IceDecorator());
 		list.add(new LayeredBlockDecorator(Blocks.SNOW_LAYER, true));
-		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(BlockMinestuckLogVariant.VARIANT, BlockMinestuckLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(BlockMinestuckLeavesVariant.VARIANT, BlockMinestuckLeavesVariant.BlockType.FROST).withProperty(BlockMinestuckLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), BiomeMinestuck.mediumNormal));
-		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(BlockMinestuckLogVariant.VARIANT, BlockMinestuckLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(BlockMinestuckLeavesVariant.VARIANT, BlockMinestuckLeavesVariant.BlockType.FROST).withProperty(BlockMinestuckLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), BiomeMinestuck.mediumRough));
+		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), BiomeMinestuck.mediumNormal));
+		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), BiomeMinestuck.mediumRough));
 
 		list.add(new SurfaceDecoratorVein(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT), 10, 32, BiomeMinestuck.mediumRough, BiomeMinestuck.mediumOcean));
 		list.add(new SurfaceDecoratorVein(Blocks.ICE.getDefaultState(), 5, 8, BiomeMinestuck.mediumRough));

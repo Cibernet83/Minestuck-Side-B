@@ -2,6 +2,8 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
+import com.mraof.minestuck.util.IRegistryObject;
+import com.mraof.minestuck.util.IUnlocSerializable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -13,7 +15,6 @@ import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -21,51 +22,32 @@ import net.minecraftforge.common.IPlantable;
 
 public class BlockColoredDirt extends MSBlockBase
 {
-	
-	public enum BlockType implements IStringSerializable
-	{
-		BLUE("blue"),
-		THOUGHT("thought");
-		
-		public final String name;
-		BlockType(String name)
-		{
-			this.name = name;
-		}
-		@Override
-		public String getName()
-		{
-			return name;
-		}
-		
-	}
-	
-	public static final PropertyEnum BLOCK_TYPE = PropertyEnum.create("block_type", BlockType.class);
+	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", BlockType.class);
 	
 	public BlockColoredDirt()
 	{
-		super("coloredDirt",Material.GROUND);
+		super("coloredDirt", Material.GROUND);
 		setHardness(0.5F);
 		setSoundType(SoundType.GROUND);
-		setDefaultState(getBlockState().getBaseState().withProperty(BLOCK_TYPE, BlockType.BLUE));
+		setDefaultState(getBlockState().getBaseState().withProperty(VARIANT, BlockType.BLUE));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, BLOCK_TYPE);
+		return new BlockStateContainer(this, VARIANT);
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(BLOCK_TYPE, BlockType.values()[meta]);
+		return getDefaultState().withProperty(VARIANT, BlockType.values()[meta]);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return ((BlockType) state.getValue(BLOCK_TYPE)).ordinal();
+		return ((BlockType) state.getValue(VARIANT)).ordinal();
 	}
 	
 	@Override
@@ -91,11 +73,11 @@ public class BlockColoredDirt extends MSBlockBase
 	@Override
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		switch((BlockType) state.getValue(BLOCK_TYPE))
+		switch((BlockType) state.getValue(VARIANT))
 		{
-		case BLUE: return MapColor.BLUE;
-		case THOUGHT: return MapColor.LIME;
-		default: return super.getMapColor(state, worldIn, pos);
+			case BLUE: return MapColor.BLUE;
+			case THOUGHT: return MapColor.LIME;
+			default: return super.getMapColor(state, worldIn, pos);
 		}
 	}
 	
@@ -105,9 +87,31 @@ public class BlockColoredDirt extends MSBlockBase
 		return plantable == Blocks.SAPLING || super.canSustainPlant(state, world, pos, direction, plantable);
 	}
 
+	public enum BlockType implements IUnlocSerializable
+	{
+		BLUE("blue"),
+		THOUGHT("thought");
+		public final String name, regName;
+		BlockType(String name)
+		{
+			this.name = name;
+			this.regName = IRegistryObject.unlocToReg(name);
+		}
+		@Override
+		public String getName()
+		{
+			return regName;
+		}
+		@Override
+		public String getUnlocalizedName()
+		{
+			return name;
+		}
+	}
+
 	@Override
 	public MSItemBlock getItemBlock()
 	{
-		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[input.getItemDamage() % BlockType.values().length].getName());
+		return new MSItemBlockMultiTexture(this, BlockType.values());
 	}
 }

@@ -1,32 +1,21 @@
 package com.mraof.minestuck.world.lands.terrain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mraof.minestuck.block.BlockColoredDirt;
-import com.mraof.minestuck.block.BlockMinestuckStone;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.biome.BiomeMinestuck;
-import com.mraof.minestuck.world.lands.decorator.ILandDecorator;
-import com.mraof.minestuck.world.lands.decorator.LeaflessTreeDecorator;
-import com.mraof.minestuck.world.lands.decorator.SurfaceDecoratorRegistryVein;
-import com.mraof.minestuck.world.lands.decorator.SurfaceDecoratorVein;
-import com.mraof.minestuck.world.lands.decorator.SurfaceMushroomGenerator;
-import com.mraof.minestuck.world.lands.decorator.UndergroundDecoratorVein;
-import com.mraof.minestuck.world.lands.decorator.WorldGenDecorator;
-import com.mraof.minestuck.world.lands.structure.GateStructurePillar;
-import com.mraof.minestuck.world.lands.structure.IGateStructure;
+import com.mraof.minestuck.world.lands.decorator.*;
 import com.mraof.minestuck.world.lands.structure.GateStructureMushroom;
+import com.mraof.minestuck.world.lands.structure.IGateStructure;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
-
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.gen.feature.WorldGenBigMushroom;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LandAspectFungi extends TerrainLandAspect 
 {
@@ -40,9 +29,9 @@ public class LandAspectFungi extends TerrainLandAspect
 		registry.setBlockState("ocean", Blocks.WATER.getDefaultState());
 		registry.setBlockState("structure_primary_decorative", Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.MOSSY));
 		registry.setBlockState("structure_primary_stairs", Blocks.STONE_BRICK_STAIRS.getDefaultState());
-		registry.setBlockState("structure_secondary", MinestuckBlocks.stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.MYCELIUM_BRICK));
+		registry.setBlockState("structure_secondary", MinestuckBlocks.myceliumBrick.getDefaultState());
 		registry.setBlockState("structure_secondary_decorative", Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED));
-		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.myceliumBrickStairs.getDefaultState());
+		registry.setBlockState("structure_secondary_stairs", MinestuckBlocks.stairs.get(MinestuckBlocks.myceliumBrick).getDefaultState());
 		registry.setBlockState("village_path", Blocks.GRASS_PATH.getDefaultState());
 		registry.setBlockState("light_block", MinestuckBlocks.glowyGoop.getDefaultState());
 		registry.setBlockState("torch", Blocks.REDSTONE_TORCH.getDefaultState());

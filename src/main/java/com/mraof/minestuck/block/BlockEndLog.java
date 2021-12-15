@@ -1,9 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
-
-import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.MapColor;
@@ -34,7 +32,7 @@ public class BlockEndLog extends BlockLog implements IRegistryBlock
 		setCreativeTab(MinestuckTabs.minestuck);
 		setDefaultState(blockState.getBaseState().withProperty(SECOND_AXIS, EnumAxis.NONE).withProperty(LOG_AXIS, EnumAxis.Y));
 		setUnlocalizedName("endLog");
-		regName = IRegistryItem.unlocToReg("end_log");
+		regName = IRegistryObject.unlocToReg("end_log");
 		MinestuckBlocks.blocks.add(this);
 	}
 	
@@ -183,11 +181,5 @@ public class BlockEndLog extends BlockLog implements IRegistryBlock
 	{
 		setRegistryName(regName);
 		registry.register(this);
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlock(this);
 	}
 }

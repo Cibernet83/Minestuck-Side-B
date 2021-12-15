@@ -17,7 +17,7 @@ import com.mraof.minestuck.item.weapon.ItemBeamBlade;
 import com.mraof.minestuck.item.weapon.MSWeaponBase;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.potions.MSUPotions;
+import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.MSUUtils;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
 import net.minecraft.block.Block;
@@ -161,19 +161,19 @@ public class CommonEventHandler
 
 		EntityPlayer player = Minecraft.getMinecraft().player;
 
-		if((player.isPotionActive(MSUPotions.SKYHBOUND) && player.getActivePotionEffect(MSUPotions.SKYHBOUND).getDuration() >= 5)
-				|| (player.isCreative() && player.isPotionActive(MSUPotions.EARTHBOUND) && player.getActivePotionEffect(MSUPotions.EARTHBOUND).getDuration() < 5))
+		if((player.isPotionActive(MinestuckPotions.SKYHBOUND) && player.getActivePotionEffect(MinestuckPotions.SKYHBOUND).getDuration() >= 5)
+				|| (player.isCreative() && player.isPotionActive(MinestuckPotions.EARTHBOUND) && player.getActivePotionEffect(MinestuckPotions.EARTHBOUND).getDuration() < 5))
 			player.capabilities.allowFlying = true;
-		if((player.isPotionActive(MSUPotions.EARTHBOUND) && player.getActivePotionEffect(MSUPotions.EARTHBOUND).getDuration() >= 5)
-				|| (!player.isCreative() && player.isPotionActive(MSUPotions.SKYHBOUND) && player.getActivePotionEffect(MSUPotions.SKYHBOUND).getDuration() < 5))
+		if((player.isPotionActive(MinestuckPotions.EARTHBOUND) && player.getActivePotionEffect(MinestuckPotions.EARTHBOUND).getDuration() >= 5)
+				|| (!player.isCreative() && player.isPotionActive(MinestuckPotions.SKYHBOUND) && player.getActivePotionEffect(MinestuckPotions.SKYHBOUND).getDuration() < 5))
 		{
 			player.capabilities.allowFlying = false;
 			player.capabilities.isFlying = false;
 		}
 
-		if(!player.isCreative() && player.isPotionActive(MSUPotions.CREATIVE_SHOCK))
+		if(!player.isCreative() && player.isPotionActive(MinestuckPotions.CREATIVE_SHOCK))
 		{
-			int duration = player.getActivePotionEffect(MSUPotions.CREATIVE_SHOCK).getDuration();
+			int duration = player.getActivePotionEffect(MinestuckPotions.CREATIVE_SHOCK).getDuration();
 			if(duration >= 5)
 				player.capabilities.allowEdit = false;
 			else player.capabilities.allowEdit = !MSUUtils.getPlayerGameType(player).hasLimitedInteractions();
@@ -281,18 +281,18 @@ public class CommonEventHandler
 		{
 			EntityPlayer player = (EntityPlayer) entityLiving;
 
-			if(potion == MSUPotions.EARTHBOUND && player.isCreative())
+			if(potion == MinestuckPotions.EARTHBOUND && player.isCreative())
 			{
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.FLIGHT_EFFECT, potion == MSUPotions.EARTHBOUND), player);
+				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.FLIGHT_EFFECT, potion == MinestuckPotions.EARTHBOUND), player);
 				player.capabilities.allowFlying = true;
 			}
-			if(potion == MSUPotions.SKYHBOUND && !player.isCreative())
+			if(potion == MinestuckPotions.SKYHBOUND && !player.isCreative())
 			{
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.FLIGHT_EFFECT, potion == MSUPotions.EARTHBOUND), player);
+				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.FLIGHT_EFFECT, potion == MinestuckPotions.EARTHBOUND), player);
 				player.capabilities.allowFlying = false;
 				player.capabilities.isFlying = false;
 			}
-			if(!player.isCreative() && potion == MSUPotions.CREATIVE_SHOCK)
+			if(!player.isCreative() && potion == MinestuckPotions.CREATIVE_SHOCK)
 			{
 				player.capabilities.allowEdit = !MSUUtils.getPlayerGameType(player).hasLimitedInteractions();
 				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.BUILD_INHIBIT_EFFECT), player);
@@ -303,14 +303,14 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public static void onBreakSpeed(PlayerEvent.BreakSpeed event)
 	{
-		if(event.getEntityPlayer().isPotionActive(MSUPotions.CREATIVE_SHOCK))
+		if(event.getEntityPlayer().isPotionActive(MinestuckPotions.CREATIVE_SHOCK))
 			event.setNewSpeed(0);
 	}
 
 	@SubscribeEvent
 	public static void onHarvestCheck(PlayerEvent.HarvestCheck event)
 	{
-		if(event.getEntityPlayer().isPotionActive(MSUPotions.CREATIVE_SHOCK))
+		if(event.getEntityPlayer().isPotionActive(MinestuckPotions.CREATIVE_SHOCK))
 			event.setCanHarvest(false);
 	}
 

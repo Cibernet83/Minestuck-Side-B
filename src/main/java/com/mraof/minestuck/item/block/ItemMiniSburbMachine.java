@@ -13,11 +13,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemMiniSburbMachine extends MSItemBlockMultiTexture
+public class ItemMiniSburbMachine extends MSItemBlock
 {
 	public ItemMiniSburbMachine(Block block)
 	{
-		super(block, (ItemStack input) -> Block.getBlockFromItem(input.getItem()).getUnlocalizedName().replaceFirst("tile.", ""));
+		super(block);
 	}
 	
 	@Override

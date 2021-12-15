@@ -3,39 +3,38 @@ package com.mraof.minestuck.block;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
+import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
 
 public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistryBlock
 {
-	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
+	public static final PropertyEnum<EnumAspect> VARIANT = PropertyEnum.create("variant", EnumAspect.class);
 	protected static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
-    private final String regName;
 
     protected BlockAspectSapling()
 	{
-        regName = "aspect_sapling";
         MinestuckBlocks.blocks.add(this);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockType.ASPECT_BLOOD));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumAspect.BLOOD));
 		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.setUnlocalizedName("aspectSapling");
 		this.setSoundType(SoundType.PLANT);
@@ -52,8 +51,9 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
 	@Override
 	public String getLocalizedName()
 	{
-		return I18n.translateToLocal(this.getUnlocalizedName() + "." + BlockType.ASPECT_BLOOD.getUnlocalizedName() + ".name");
+		return I18n.translateToLocal(this.getUnlocalizedName() + "." + EnumAspect.BLOOD + ".name");
 	}
+
 	/**
 	 * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
 	 * returns the metadata of the dropped item based on the old metadata of the block.
@@ -61,7 +61,7 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
 	@Override
 	public int damageDropped(IBlockState state)
 	{
-		return ((BlockType)state.getValue(VARIANT)).ordinal();
+		return state.getValue(VARIANT).ordinal();
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
 	{
-		for (BlockType blocktype : BlockType.values())
+		for (EnumAspect blocktype : EnumAspect.values())
 		{
 			items.add(new ItemStack(this, 1, blocktype.ordinal()));
 		}
@@ -82,7 +82,7 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(VARIANT, BlockType.values()[meta]);
+		return this.getDefaultState().withProperty(VARIANT, EnumAspect.values()[meta]);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		int i = ((BlockType)state.getValue(VARIANT)).ordinal();
+		int i = state.getValue(VARIANT).ordinal();
 		return i;
 	}
 
@@ -118,55 +118,25 @@ public class BlockAspectSapling extends BlockBush implements IGrowable, IRegistr
 		// TODO Auto-generated method stub
 		
 	}
-	
-	public enum BlockType implements IStringSerializable
-	{
-		ASPECT_BLOOD("aspect_blood", "aspectBlood", MapColor.FOLIAGE),
-		ASPECT_BREATH("aspect_breath", "aspectBreath", MapColor.FOLIAGE),
-		ASPECT_DOOM("aspect_doom", "aspectDoom", MapColor.FOLIAGE),
-		ASPECT_HEART("aspect_heart", "aspectHeart", MapColor.FOLIAGE),
-		ASPECT_HOPE("aspect_hope", "aspectHope", MapColor.FOLIAGE),
-		ASPECT_LIFE("aspect_life", "aspectLife", MapColor.FOLIAGE),
-		ASPECT_LIGHT("aspect_light", "aspectLight", MapColor.FOLIAGE),
-		ASPECT_MIND("aspect_mind", "aspectMind", MapColor.FOLIAGE),
-		ASPECT_RAGE("aspect_rage", "aspectRage", MapColor.FOLIAGE),
-		ASPECT_SPACE("aspect_space", "aspectSpace", MapColor.FOLIAGE),
-		ASPECT_TIME("aspect_time", "aspectTime", MapColor.FOLIAGE),
-		ASPECT_VOID("aspect_void", "aspectVoid", MapColor.FOLIAGE);
-		
-		private final String name;
-		private final String unlocalizedName;
-		private final MapColor color;
-		
-		BlockType(String name, String unlocalizedName, MapColor color)
-		{
-			this.name = name;
-			this.unlocalizedName = unlocalizedName;
-			this.color = color;
-		}
-		
-		@Override
-		public String getName()
-		{
-			return name;
-		}
-		
-		public String getUnlocalizedName()
-		{
-			return unlocalizedName;
-		}
-	}
 
 	@Override
 	public void register(IForgeRegistry<Block> registry)
 	{
-		setRegistryName(regName);
+		setRegistryName("aspect_sapling");
 		registry.register(this);
 	}
 
 	@Override
 	public MSItemBlock getItemBlock()
 	{
-		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[input.getItemDamage() % BlockType.values().length].getUnlocalizedName());
+		return new MSItemBlockMultiTexture(this, EnumAspect.values())
+		{
+			@Override
+			public void registerModel()
+			{
+				super.registerModel();
+				ModelLoader.setCustomStateMapper(BlockAspectSapling.this, (new StateMap.Builder()).withName(BlockAspectSapling.VARIANT).withSuffix("_sapling").build());
+			}
+		};
 	}
 }

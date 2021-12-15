@@ -1,9 +1,11 @@
 package com.mraof.minestuck.item;
 
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.client.model.ModelLoader;
 
 public class ItemMinestuckBeverage extends ItemFood
 {
@@ -73,5 +75,12 @@ public class ItemMinestuckBeverage extends ItemFood
 		if(this.isInCreativeTab(tab))
 			for(int i = 0; i < num_beverages; i++)
 				items.add(new ItemStack(this, 1, i));
+	}
+
+	@Override
+	public void registerModel()
+	{
+		for (int i = 0; i < NAMES.length; i++)
+			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(NAMES[i], "inventory"));
 	}
 }

@@ -2,7 +2,7 @@ package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.capabilities.MSUCapabilities;
+import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.client.MSUFontRenderer;
 import com.mraof.minestuck.client.gui.playerStats.GuiPlayerStats;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
@@ -77,7 +77,7 @@ public class GuiStrifePortfolio extends GuiPlayerStats
 		blankCardCount = 0;
 
 		portfolio = StrifePortfolioHandler.getPortfolio(mc.player);
-		activeSpecibus = mc.player.getCapability(MSUCapabilities.STRIFE_DATA, null).getSelectedSpecibusIndex();
+		activeSpecibus = mc.player.getCapability(MinestuckCapabilities.STRIFE_DATA, null).getSelectedSpecibusIndex();
 
 		if(MinestuckConfig.dataCheckerAccess)
 		{

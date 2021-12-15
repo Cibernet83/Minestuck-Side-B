@@ -5,7 +5,7 @@ import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.client.gui.captchalogue.TreeGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.CaptchaDeckPacket;
+import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
@@ -187,7 +187,7 @@ public class TreeModus extends Modus
 			TreeNode node = this.node;
 			autobalance();
 			if(node != this.node && player != null)
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.DATA, CaptchaDeckHandler.writeToNBT(this)), player);
+				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, CaptchaDeckHandler.writeToNBT(this)), player);
 		}
 	}
 	

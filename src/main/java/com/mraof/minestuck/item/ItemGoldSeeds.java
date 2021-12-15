@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class ItemGoldSeeds extends ItemSeeds implements IRegistryItem<Item>
+public class ItemGoldSeeds extends ItemSeeds implements IRegistryItem
 {
 
 	public ItemGoldSeeds()

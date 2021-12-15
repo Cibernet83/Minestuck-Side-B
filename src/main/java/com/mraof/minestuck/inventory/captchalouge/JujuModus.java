@@ -1,7 +1,7 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
 import com.mraof.minestuck.client.gui.captchalogue.JujuGuiHandler;
-import com.mraof.minestuck.network.JujuModusPacket;
+import com.mraof.minestuck.network.PacketJujuModus;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -285,7 +285,7 @@ public class JujuModus extends BaseModus
 			gui = new JujuGuiHandler(this);
 		
 		if(partnerID != -1 && displayStacks == null)
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.JUJU_UPDATE, JujuModusPacket.Type.REQUEST_CLIENT));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.JUJU_UPDATE, PacketJujuModus.Type.REQUEST_CLIENT));
 		
 		return gui;
 	}
@@ -298,7 +298,7 @@ public class JujuModus extends BaseModus
 		if(!result)
 		{
 			if(side == Side.CLIENT)
-				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.JUJU_UPDATE, JujuModusPacket.Type.UNLINK));
+				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.JUJU_UPDATE, PacketJujuModus.Type.UNLINK));
 			else unlink(IdentifierHandler.encode(player));
 		}
 		

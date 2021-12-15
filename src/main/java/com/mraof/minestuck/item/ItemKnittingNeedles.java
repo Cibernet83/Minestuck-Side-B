@@ -25,9 +25,9 @@ import javax.annotation.Nullable;
 
 public class ItemKnittingNeedles extends MSWeaponBase
 {
-    public ItemKnittingNeedles(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
+    public ItemKnittingNeedles(String name, int maxUses, double damageVsEntity, double weaponSpeed, int enchantability)
     {
-        super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
+        super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
         setMaxStackSize(2);
 
         this.addPropertyOverride(new ResourceLocation(Minestuck.MODID, "plural"), new IItemPropertyGetter()

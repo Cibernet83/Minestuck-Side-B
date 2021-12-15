@@ -1,8 +1,5 @@
 package com.mraof.minestuck.recipes;
 
-import static com.mraof.minestuck.block.MinestuckBlocks.*;
-import static com.mraof.minestuck.item.MinestuckItems.*;
-
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.block.Block;
@@ -16,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
+import static com.mraof.minestuck.block.MinestuckBlocks.*;
+import static com.mraof.minestuck.item.MinestuckItems.moonstone;
+import static com.mraof.minestuck.item.MinestuckItems.zillystoneShard;
+
 public class MachineChasisRecipes
 {
     protected static Hashtable<String, Block> recipes = new Hashtable<>();
@@ -25,7 +26,7 @@ public class MachineChasisRecipes
     {
         addRecipe(gristHopper, new ItemStack(Blocks.HOPPER), new ItemStack(gristBlockBuild),
                 new ItemStack(gristBlockUranium), new ItemStack(MinestuckBlocks.blockComputerOff), new ItemStack(gristBlockUranium));
-        addRecipe(autoWidget, new ItemStack(MinestuckBlocks.crockerMachine), new ItemStack(MinestuckItems.boondollars),
+        addRecipe(autoWidget, new ItemStack(MinestuckBlocks.gristWidget), new ItemStack(MinestuckItems.boondollars),
                 new ItemStack(MinestuckItems.boondollars), new ItemStack(MinestuckItems.energyCore), new ItemStack(zillystoneShard));
         addRecipe(autoCaptcha, new ItemStack(Blocks.DISPENSER), new ItemStack(MinestuckItems.captchaCard),
                 new ItemStack(moonstone), ItemStack.EMPTY, new ItemStack(MinestuckItems.energyCore));

@@ -2,7 +2,7 @@ package com.mraof.minestuck.client.gui.captchalogue;
 
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
-import com.mraof.minestuck.network.CaptchaDeckPacket;
+import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
@@ -248,7 +248,7 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 	public void confirmClicked(boolean result, int id)
 	{
 		if(result)
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, CaptchaDeckPacket.GET, CaptchaDeckHandler.EMPTY_SYLLADEX, false));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.GET, CaptchaDeckHandler.EMPTY_SYLLADEX, false));
 		mc.currentScreen = this;
 	}
 	
@@ -341,7 +341,7 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 			
 			if(toSend != -1)
 			{
-				MinestuckPacket packet = MinestuckPacket.makePacket(Type.CAPTCHA, CaptchaDeckPacket.GET, toSend, mouseButton != 0);
+				MinestuckPacket packet = MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.GET, toSend, mouseButton != 0);
 				MinestuckChannelHandler.sendToServer(packet);
 			}
 		}

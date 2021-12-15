@@ -1,7 +1,7 @@
 package com.mraof.minestuck.client.gui.captchalogue;
 
 import com.mraof.minestuck.inventory.captchalouge.JujuModus;
-import com.mraof.minestuck.network.JujuModusPacket;
+import com.mraof.minestuck.network.PacketJujuModus;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import net.minecraft.client.gui.GuiButton;
@@ -74,7 +74,7 @@ public class JujuGuiHandler extends BaseModusGuiHandler
 		super.actionPerformed(button);
 		if (button == this.guiButton)
 		{
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.JUJU_UPDATE, link ? JujuModusPacket.Type.LINK : JujuModusPacket.Type.UNLINK));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.JUJU_UPDATE, link ? PacketJujuModus.Type.LINK : PacketJujuModus.Type.UNLINK));
 		}
 		
 	}

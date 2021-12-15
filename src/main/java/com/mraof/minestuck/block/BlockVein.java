@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
@@ -37,7 +37,7 @@ public class BlockVein extends BlockDirectional implements IRegistryBlock
 		setHardness(0.45F);
 		setSoundType(SoundType.SLIME);
         setUnlocalizedName(name);
-        regName = IRegistryItem.unlocToReg(name);
+        regName = IRegistryObject.unlocToReg(name);
         MinestuckBlocks.blocks.add(this);
 	}
 

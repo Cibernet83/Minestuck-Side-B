@@ -1,8 +1,14 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.item.ItemGhost;
+import com.mraof.minestuck.item.block.MSItemBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
+
+import java.util.Collections;
 
 public class BlockReturnNode extends BlockGate
 {
@@ -51,5 +57,18 @@ public class BlockReturnNode extends BlockGate
 				if(world.getBlockState(pos.add(x, 0, z)).getBlock() == this)
 					world.setBlockToAir(pos.add(x, 0, z));
 	}
-	
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this)
+		{
+			@Override
+			public void registerModel()
+			{
+				super.registerModel();
+				ModelLoader.setCustomStateMapper(BlockReturnNode.this, (Block block) -> Collections.emptyMap());
+			}
+		};
+	}
 }

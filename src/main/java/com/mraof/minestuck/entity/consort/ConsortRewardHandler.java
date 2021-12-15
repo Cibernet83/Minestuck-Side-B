@@ -81,14 +81,15 @@ public class ConsortRewardHandler
 		ConsortRewardHandler.registerPrice(new ItemStack(ironCane), 300, 400);
 		ConsortRewardHandler.registerPrice(new ItemStack(glowingLog), 20, 32);
 		ConsortRewardHandler.registerPrice(new ItemStack(glowingPlanks), 5, 8);
-		ConsortRewardHandler.registerPrice(new ItemStack(stone, 1, 0), 5, 8);
-		ConsortRewardHandler.registerPrice(new ItemStack(stone, 1, 1), 8, 15);
-		ConsortRewardHandler.registerPrice(new ItemStack(stone, 1, 2), 5, 8);
-		ConsortRewardHandler.registerPrice(new ItemStack(stone, 1, 3), 5, 8);
-		ConsortRewardHandler.registerPrice(new ItemStack(stone, 1, 4), 5, 8);
-		ConsortRewardHandler.registerPrice(new ItemStack(stone, 1, 5), 5, 8);
-		ConsortRewardHandler.registerPrice(new ItemStack(stone, 1, 7), 5, 8);
-		ConsortRewardHandler.registerPrice(new ItemStack(stone, 1, 8), 8, 15);
+		ConsortRewardHandler.registerPrice(new ItemStack(coarseStone), 5, 8);
+		ConsortRewardHandler.registerPrice(new ItemStack(chiseledCoarseStone), 8, 15);
+		ConsortRewardHandler.registerPrice(new ItemStack(shadeBrick), 5, 8);
+		ConsortRewardHandler.registerPrice(new ItemStack(shadeBrickSmooth), 5, 8);
+		ConsortRewardHandler.registerPrice(new ItemStack(frostBrick), 5, 8);
+		ConsortRewardHandler.registerPrice(new ItemStack(frostTile), 5, 8);
+		ConsortRewardHandler.registerPrice(new ItemStack(chiseledFrostBrick), 5, 8);
+		ConsortRewardHandler.registerPrice(new ItemStack(castIron), 5, 8);
+		ConsortRewardHandler.registerPrice(new ItemStack(chiseledCastIron), 8, 15);
 		ConsortRewardHandler.registerPrice(new ItemStack(log, 1, 0), 20, 32);
 		ConsortRewardHandler.registerPrice(new ItemStack(log, 1, 1), 25, 40);
 		ConsortRewardHandler.registerPrice(new ItemStack(log, 1, 2), 20, 32);
@@ -184,7 +185,8 @@ public class ConsortRewardHandler
 		ConsortRewardHandler.registerPrice(new ItemStack(ELYTRA), 500, 1000);
 		ConsortRewardHandler.registerPrice(new ItemStack(OBSIDIAN), 8, 20);
 		ConsortRewardHandler.registerPrice(new ItemStack(PAPER), 5, 20);
-
+		ConsortRewardHandler.registerPrice(new ItemStack(MinestuckItems.tomeOfTheAncients), 10000, 10000);
+		ConsortRewardHandler.registerPrice(new ItemStack(MinestuckItems.candy, 1, 21), 500, 600);
 	}
 	
 	public static void registerPrice(ItemStack stack, int min, int max)	//Maybe add json support at some point too

@@ -45,8 +45,6 @@ public class MinestuckConfig
 	@SideOnly(Side.CLIENT)
 	public static boolean clientHardMode;
 	@SideOnly(Side.CLIENT)
-	public static boolean oldItemModels;
-	@SideOnly(Side.CLIENT)
 	public static boolean loginColorSelector;
 	@SideOnly(Side.CLIENT)
 	public static boolean dataCheckerAccess;
@@ -139,6 +137,9 @@ public class MinestuckConfig
 	public static int strifeDeckMaxSize;
 	public static int strifeCardMobDrops;
 	public static double weaponAttackMultiplier;
+
+	public static boolean localizedChat;
+	public static boolean multiAspectUnlocks;
 
 	static void loadConfigFile(File file, Side side)
 	{
@@ -280,10 +281,12 @@ public class MinestuckConfig
 		strifeDeckMaxSize = config.get("Strife", "strifeDeckMaxSize", 20, "Determines the max amount of weapons that can fit inside a single Strife Deck, set this to -1 to remove the limit.").setMinValue(-1).setLanguageKey("config.minestuck.strife.strifeDeckMaxSize").getInt();
 		abstrataSwitcherRung = config.get("Strife", "abstrataSwitcherRung", 17, "Determines the rung needed to unlock the Strife Specibus Quick Switcher. Set it to -1 to let all players use it, or " + Echeladder.RUNG_COUNT + " to completely disable it.").setMinValue(-1).setMaxValue(Echeladder.RUNG_COUNT).setLanguageKey("config.minestuck.strife.abstrataSwitcherRung").getInt();
 		weaponAttackMultiplier = config.get("Strife", "weaponAttackMultiplier", 0.15, "Allows players to tweak how much damage Minestuck and Minestuck Universe weapons do as a percentage against entities that aren't Underlings.").setMinValue(0).setMaxValue(1).setLanguageKey("config.minestuck.strife.weaponAttackMultiplier").getDouble();
-		
+
+		localizedChat = config.get("General", "localizedChat", false, "Enabling this makes players only be able to receive chat messages from nearby players unless Gift of Gab is enabled.").setLanguageKey("config.minestuck.general.localizedChat").getBoolean();
+		multiAspectUnlocks = config.get("General", "multiAspectUnlocks", true, "Enabling this makes certain badges require multiple kinds of Hero Stone Shards to unlock.").setLanguageKey("config.minestuck.general.multiAspectUnlocks").getBoolean();
+
 		if(gameSide.isClient())	//Client sided config values
 		{
-			oldItemModels = config.get("General", "oldItemModels", false, "Set this to true to have back all old 2D item models.").setRequiresMcRestart(true).setLanguageKey("config.minestuck.oldItemModels").getBoolean();
 			//specialCardRenderer = config.getBoolean("specialCardRenderer", "General", false, "Whenether to use the special render for cards or not.");
 			if(specialCardRenderer && !GLContext.getCapabilities().GL_EXT_framebuffer_object)
 			{

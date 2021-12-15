@@ -3,7 +3,7 @@ package com.mraof.minestuck.client.gui;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.PorkhollowAtmPacket;
+import com.mraof.minestuck.network.PacketPorkhollowAtm;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -200,7 +200,7 @@ public class GuiPorkhollowAtm extends GuiScreen
 			int amount = getInt(amountTextField);
 			int n = getInt(nTextField);
 			amount *= n;
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.ATM, tab == 1 ? PorkhollowAtmPacket.Type.TAKE : PorkhollowAtmPacket.Type.SEND, player, amount, n));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.ATM, tab == 1 ? PacketPorkhollowAtm.Type.TAKE : PacketPorkhollowAtm.Type.SEND, player, amount, n));
 			this.mc.displayGuiScreen(null);
 			if (this.mc.currentScreen == null)
 				this.mc.setIngameFocus();

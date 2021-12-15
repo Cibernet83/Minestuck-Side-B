@@ -1,8 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
-import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
@@ -26,7 +25,7 @@ public class BlockGlowingMushroom extends BlockBush implements IRegistryBlock
 		setLightLevel(0.75F);
 		setSoundType(SoundType.PLANT);
 		setUnlocalizedName("glowingMushroom");
-		regName = IRegistryItem.unlocToReg("glowingMushroom");
+		regName = IRegistryObject.unlocToReg("glowingMushroom");
 		MinestuckBlocks.blocks.add(this);
 	}
 
@@ -75,18 +74,12 @@ public class BlockGlowingMushroom extends BlockBush implements IRegistryBlock
 	public boolean canSpread(World world, BlockPos pos, IBlockState state)
 	{
 		IBlockState soil = world.getBlockState(pos.down());
-		return soil.getBlock().equals(MinestuckBlocks.coloredDirt) && soil.getValue(BlockColoredDirt.BLOCK_TYPE).equals(BlockColoredDirt.BlockType.BLUE);
+		return soil.getBlock().equals(MinestuckBlocks.coloredDirt) && soil.getValue(BlockColoredDirt.VARIANT).equals(BlockColoredDirt.BlockType.BLUE);
 	}
 	
 	@Override
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		return MapColor.DIAMOND;
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlock(this);
 	}
 }

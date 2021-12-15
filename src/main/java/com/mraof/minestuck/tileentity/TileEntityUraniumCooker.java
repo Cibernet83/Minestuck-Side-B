@@ -1,6 +1,5 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.block.BlockUraniumCooker.MachineType;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
@@ -50,13 +49,7 @@ public class TileEntityUraniumCooker extends TileEntityMachine
 	@Override
 	public int getSizeInventory()
 	{
-		switch (getMachineType())
-		{
-		case URANIUM_COOKER:
-			return 3;
-		default:
-			return 0;
-		}
+		return 3;
 	}
 	
 	@Override
@@ -78,20 +71,15 @@ public class TileEntityUraniumCooker extends TileEntityMachine
 	@Override
 	public boolean contentsValid()
 	{
-		switch (getMachineType())
+		if(world.isBlockPowered(this.getPos()))
 		{
-		case URANIUM_COOKER:
-			if(world.isBlockPowered(this.getPos()))
-			{
-				return false;
-			}
-			
-			ItemStack inputA = this.inv.get(0);
-			ItemStack inputB = this.inv.get(1);
-			ItemStack output = irradiate(inputB);
-			return (inputA.getItem() == MinestuckItems.rawUranium && !inputB.isEmpty());
+			return false;
 		}
-		return false;
+
+		ItemStack inputA = this.inv.get(0);
+		ItemStack inputB = this.inv.get(1);
+		ItemStack output = irradiate(inputB);
+		return (inputA.getItem() == MinestuckItems.rawUranium && !inputB.isEmpty());
 	}
 	
 	private ItemStack irradiate(ItemStack input)
@@ -126,38 +114,30 @@ public class TileEntityUraniumCooker extends TileEntityMachine
 	@Override
 	public void processContents()
 	{
-		switch (getMachineType()) {
-		case URANIUM_COOKER:
-			//if(!world.isRemote)
-			//{
-				ItemStack item = inv.get(1);
-				if(getFuel() <= getMaxFuel() - 32 && inv.get(0).getItem() == MinestuckItems.rawUranium)
-				{	//Refill fuel
-					fuel += 32;
-					this.decrStackSize(0, 1);
-				}
-				if(canIrradiate())
-				{
-					ItemStack output = irradiate(this.getStackInSlot(1));
-					if(inv.get(2).isEmpty() && fuel > 0)
-					{
-						this.setInventorySlotContents(2, output);
-					} else
-					{
-						this.getStackInSlot(2).grow(output.getCount());
-					}
-					if(this.getStackInSlot(1).getItem() == Items.MUSHROOM_STEW)
-					{
-						this.setInventorySlotContents(1, new ItemStack(Items.BOWL));
-					} else
-					{
-						this.decrStackSize(1, 1);
-					}
-					fuel--;
-				}
-			//}
-			//this.markDirty();
-			break;
+		ItemStack item = inv.get(1);
+		if(getFuel() <= getMaxFuel() - 32 && inv.get(0).getItem() == MinestuckItems.rawUranium)
+		{	//Refill fuel
+			fuel += 32;
+			this.decrStackSize(0, 1);
+		}
+		if(canIrradiate())
+		{
+			ItemStack output = irradiate(this.getStackInSlot(1));
+			if(inv.get(2).isEmpty() && fuel > 0)
+			{
+				this.setInventorySlotContents(2, output);
+			} else
+			{
+				this.getStackInSlot(2).grow(output.getCount());
+			}
+			if(this.getStackInSlot(1).getItem() == Items.MUSHROOM_STEW)
+			{
+				this.setInventorySlotContents(1, new ItemStack(Items.BOWL));
+			} else
+			{
+				this.decrStackSize(1, 1);
+			}
+			fuel--;
 		}
 	}
 	
@@ -204,18 +184,13 @@ public class TileEntityUraniumCooker extends TileEntityMachine
 	@Override
 	public String getName()
 	{
-		return "tile.cooker." + getMachineType().getUnlocalizedName() + ".name";
+		return "tile.uranium_cooker.name";
 	}
 	
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
 	{
 		return oldState.getBlock() != newSate.getBlock();
-	}
-	
-	public MachineType getMachineType()
-	{
-		return MachineType.values()[getBlockMetadata() % 1];
 	}
 
 	public short getFuel() {

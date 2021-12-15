@@ -1,7 +1,7 @@
 package com.mraof.minestuck.client;
 
-import com.mraof.minestuck.capabilities.MSUCapabilities;
-import com.mraof.minestuck.capabilities.beam.Beam;
+import com.mraof.minestuck.capabilities.MinestuckCapabilities;
+import com.mraof.minestuck.capabilities.Beam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,7 +23,7 @@ public class RenderBeams
 		if(mc.player == null)
 			return;
 
-		for(Beam beam : mc.player.world.getCapability(MSUCapabilities.BEAM_DATA, null).getBeams())
+		for(Beam beam : mc.player.world.getCapability(MinestuckCapabilities.BEAM_DATA, null).getBeams())
 		{
 			mc.getTextureManager().bindTexture(beam.getTexture());
 

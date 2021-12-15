@@ -1,7 +1,7 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.inventory.ContainerConsortMerchant;
-import com.mraof.minestuck.inventory.ContainerCrockerMachine;
+import com.mraof.minestuck.inventory.ContainerGristWidget;
 import com.mraof.minestuck.inventory.miniMachines.*;
 import com.mraof.minestuck.inventory.ContainerUraniumCooker;
 import com.mraof.minestuck.item.MinestuckItems;
@@ -43,8 +43,8 @@ public class GuiHandler implements IGuiHandler
 				return new ContainerMiniTotemLathe(player.inventory, (TileEntityMiniTotemLathe) tileEntity);
 			if(tileEntity instanceof TileEntityMiniPunchDesignix)
 				return new ContainerMiniPunchDesignix(player.inventory, (TileEntityMiniPunchDesignix) tileEntity);
-			else if(tileEntity instanceof TileEntityCrockerMachine)
-				return new ContainerCrockerMachine(player.inventory, (TileEntityCrockerMachine) tileEntity);
+			else if(tileEntity instanceof TileEntityGristWidget)
+				return new ContainerGristWidget(player.inventory, (TileEntityGristWidget) tileEntity);
 			else if(tileEntity instanceof TileEntityUraniumCooker)
 				return new ContainerUraniumCooker(player.inventory, (TileEntityUraniumCooker) tileEntity);
 		} else if(id == GuiId.MERCHANT.ordinal())
@@ -67,8 +67,8 @@ public class GuiHandler implements IGuiHandler
 			return new GuiMiniTotemLathe(player.inventory, (TileEntityMiniTotemLathe) tileEntity);
 		if(tileEntity instanceof TileEntityMiniPunchDesignix)
 			return new GuiMiniPunchDesignix(player.inventory, (TileEntityMiniPunchDesignix) tileEntity);
-			else if(tileEntity instanceof TileEntityCrockerMachine)
-				return new GuiCrockerMachine(player.inventory, (TileEntityCrockerMachine) tileEntity);
+			else if(tileEntity instanceof TileEntityGristWidget)
+				return new GuiGristWidget(player.inventory, (TileEntityGristWidget) tileEntity);
 			else if(tileEntity instanceof TileEntityUraniumCooker)
 				return new GuiUraniumCooker(player.inventory, (TileEntityUraniumCooker) tileEntity);
 			

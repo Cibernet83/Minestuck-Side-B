@@ -1,7 +1,7 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.network.BoondollarRegisterPacket;
+import com.mraof.minestuck.network.PacketBoondollarRegister;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.tileentity.TileEntityBoondollarRegister;
@@ -136,7 +136,7 @@ public class GuiBoondollarRegister extends GuiScreen
 			mavTextField.textboxKeyTyped(typedChar, keyCode);
 			try {vault.mav = mavTextField.getText().isEmpty() ? 0 : Integer.parseInt(mavTextField.getText()); }
 			catch (NumberFormatException e) {vault.mav = Integer.MAX_VALUE;}
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.VAULT, BoondollarRegisterPacket.EnumType.MAV, vault));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.VAULT, PacketBoondollarRegister.EnumType.MAV, vault));
 			mavTextField.setText(String.valueOf(vault.mav));
 		}
 
@@ -149,8 +149,8 @@ public class GuiBoondollarRegister extends GuiScreen
 		super.actionPerformed(button);
 
 		if(button == autoButton)
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.VAULT, BoondollarRegisterPacket.EnumType.AUTO, vault));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.VAULT, PacketBoondollarRegister.EnumType.AUTO, vault));
 		if(button == withdrawButton)
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.VAULT, BoondollarRegisterPacket.EnumType.TAKE, vault));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.VAULT, PacketBoondollarRegister.EnumType.TAKE, vault));
 	}
 }

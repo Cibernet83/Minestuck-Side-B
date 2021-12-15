@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import com.mraof.minestuck.world.gen.feature.WorldGenEndTree;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -38,7 +38,7 @@ public class BlockEndSapling extends BlockBush implements IGrowable, IRegistryBl
 		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.setUnlocalizedName("endSapling");
 		this.setSoundType(SoundType.PLANT);
-		regName = IRegistryItem.unlocToReg("endSapling");
+		regName = IRegistryObject.unlocToReg("endSapling");
 		MinestuckBlocks.blocks.add(this);
 	}
 	
@@ -171,11 +171,5 @@ public class BlockEndSapling extends BlockBush implements IGrowable, IRegistryBl
 	{
 		setRegistryName(regName);
 		registry.register(this);
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlock(this);
 	}
 }

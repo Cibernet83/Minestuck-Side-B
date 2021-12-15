@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
@@ -37,7 +37,7 @@ public class BlockStrawberry extends BlockDirectional implements IRegistryBlock
 		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.UP));
 		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.setSoundType(SoundType.WOOD);
-		regName = IRegistryItem.unlocToReg("strawberry");
+		regName = IRegistryObject.unlocToReg("strawberry");
 		MinestuckBlocks.blocks.add(this);
 	}
 	
@@ -108,11 +108,5 @@ public class BlockStrawberry extends BlockDirectional implements IRegistryBlock
 	{
 		setRegistryName(regName);
 		registry.register(this);
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlock(this);
 	}
 }

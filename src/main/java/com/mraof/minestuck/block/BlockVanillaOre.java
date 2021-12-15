@@ -7,12 +7,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -37,95 +34,49 @@ public class BlockVanillaOre extends MSBlockBase
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
-		if (oreType == Blocks.COAL_ORE) return Items.COAL;
-		if (oreType == Blocks.IRON_ORE) return Item.getItemFromBlock(MinestuckConfig.vanillaOreDrop ? Blocks.IRON_ORE : this);
-		if (oreType == Blocks.GOLD_ORE) return Item.getItemFromBlock(MinestuckConfig.vanillaOreDrop ? Blocks.GOLD_ORE : this);
-		if (oreType == Blocks.LAPIS_ORE) return Items.DYE;
-		if (oreType == Blocks.DIAMOND_ORE) return Items.DIAMOND;
-		if (oreType == Blocks.EMERALD_ORE) return Items.EMERALD;
-		if (oreType == Blocks.QUARTZ_ORE) return Items.QUARTZ;
-		if (oreType == Blocks.REDSTONE_ORE) return Items.REDSTONE;
-		return Item.getItemFromBlock(this);
+		if (!MinestuckConfig.vanillaOreDrop && (oreType == Blocks.IRON_ORE || oreType == Blocks.GOLD_ORE))
+			return Item.getItemFromBlock(this);
+		else
+			return oreType.getItemDropped(state, rand, fortune);
 	}
 	
 	@Override
 	public int quantityDropped(Random random)
 	{
-		return oreType == Blocks.LAPIS_ORE ? 4 + random.nextInt(5) : oreType == Blocks.REDSTONE_ORE ? 4 + random.nextInt(2) : 1;
+		return oreType.quantityDropped(random);
 	}
 	
 	@Override
 	public int quantityDroppedWithBonus(int fortune, Random random)
 	{
-		if(oreType == Blocks.REDSTONE_ORE)
-		{
-			return this.quantityDropped(random) + random.nextInt(fortune + 1);
-		}
-		else if(fortune > 0 && oreType != Blocks.IRON_ORE && oreType != Blocks.GOLD_ORE)
-		{
-			int j = random.nextInt(fortune + 2) - 1;
-			
-			if(j < 0)
-				j = 0;
-			
-			return this.quantityDropped(random) * (j + 1);
-		}
-		else return this.quantityDropped(random);
+		return oreType.quantityDroppedWithBonus(fortune, random);
 	}
 	
 	@Override
 	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
 	{
-		Random rand = world instanceof World ? ((World)world).rand : new Random();
-		if(oreType != Blocks.IRON_ORE && oreType != Blocks.GOLD_ORE)
-		{
-			int j = 0;
-			
-			if(oreType == Blocks.COAL_ORE)
-				j = MathHelper.getInt(rand, 0, 2);
-			else if(oreType == Blocks.DIAMOND_ORE)
-				j = MathHelper.getInt(rand, 3, 7);
-			else if(oreType == Blocks.EMERALD_ORE)
-				j = MathHelper.getInt(rand, 3, 7);
-			else if(oreType == Blocks.LAPIS_ORE)
-				j = MathHelper.getInt(rand, 2, 5);
-			else if(oreType == Blocks.QUARTZ_ORE)
-				j = MathHelper.getInt(rand, 2, 5);
-			else if(oreType == Blocks.REDSTONE_ORE)
-				j = MathHelper.getInt(rand, 1, 6);
-			
-			return j;
-		}
-		return 0;
+		return oreType.getExpDrop(state, world, pos, fortune);
 	}
 	
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
 	{
-		return new ItemStack(this);
+		return oreType.getPickBlock(state, target, world, pos, player);
 	}
 	
 	@Override
 	public int damageDropped(IBlockState state)
 	{
-		return oreType == Blocks.LAPIS_ORE ? EnumDyeColor.BLUE.getDyeDamage() : 0;
+		return oreType.damageDropped(state);
 	}
 	
 	@Override
 	protected ItemStack getSilkTouchDrop(IBlockState state)
 	{
-		if(!MinestuckConfig.vanillaOreDrop)
+		if(MinestuckConfig.vanillaOreDrop)
+			return new ItemStack(oreType);
+		else
 			return super.getSilkTouchDrop(state);
-
-		if (oreType == Blocks.COAL_ORE) return new ItemStack(Blocks.COAL_ORE);
-		if (oreType == Blocks.IRON_ORE) return new ItemStack(Blocks.IRON_ORE);
-		if (oreType == Blocks.GOLD_ORE) return new ItemStack(Blocks.GOLD_ORE);
-		if (oreType == Blocks.LAPIS_ORE) return new ItemStack(Blocks.LAPIS_ORE);
-		if (oreType == Blocks.DIAMOND_ORE) return new ItemStack(Blocks.DIAMOND_ORE);
-		if (oreType == Blocks.EMERALD_ORE) return new ItemStack(Blocks.EMERALD_ORE);
-		if (oreType == Blocks.QUARTZ_ORE) return new ItemStack(Blocks.QUARTZ_ORE);
-		if (oreType == Blocks.REDSTONE_ORE) return new ItemStack(Blocks.REDSTONE_ORE);
-		return new ItemStack(this);
 	}
 	
 }

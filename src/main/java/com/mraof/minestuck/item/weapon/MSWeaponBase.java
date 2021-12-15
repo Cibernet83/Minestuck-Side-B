@@ -52,7 +52,7 @@ public class MSWeaponBase extends MSItemBase implements IClassedTool, ISortedTab
 
     protected final ArrayList<WeaponProperty> properties = new ArrayList<>();
 
-    public MSWeaponBase(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name)
+    public MSWeaponBase(String name, int maxUses, double damageVsEntity, double weaponSpeed, int enchantability)
     {
         super(name);
         this.setCreativeTab(MinestuckTabs.weapons);
@@ -67,9 +67,9 @@ public class MSWeaponBase extends MSItemBase implements IClassedTool, ISortedTab
         this.addPropertyOverride(new ResourceLocation(Minestuck.MODID, "active"), (stack, worldIn, entityIn) -> isAbilityActive(stack, worldIn, entityIn) ? 1 : 0);
     }
 
-    public MSWeaponBase(double damageVsEntity, double weaponSpeed, int enchantability, String name)
+    public MSWeaponBase(String name, double damageVsEntity, double weaponSpeed, int enchantability)
     {
-        this(-1, damageVsEntity, weaponSpeed, enchantability, name);
+        this(name, -1, damageVsEntity, weaponSpeed, enchantability);
         unbreakable = true;
     }
 

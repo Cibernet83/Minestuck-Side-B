@@ -3,7 +3,7 @@ package com.mraof.minestuck.block;
 import com.mraof.minestuck.item.MinestuckTabs;
 
 import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
@@ -21,7 +21,7 @@ public class BlockDesertFlora extends BlockBush implements IRegistryBlock
 	public BlockDesertFlora(String name) 
 	{
 		super(Material.PLANTS);
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		MinestuckBlocks.blocks.add(this);
 		setCreativeTab(MinestuckTabs.minestuck);
 		setUnlocalizedName(name);
@@ -43,11 +43,5 @@ public class BlockDesertFlora extends BlockBush implements IRegistryBlock
 	{
 		setRegistryName(regName);
 		registry.register(this);
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlock(this);
 	}
 }

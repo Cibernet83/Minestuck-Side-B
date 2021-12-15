@@ -2,6 +2,8 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
+import com.mraof.minestuck.util.IRegistryObject;
+import com.mraof.minestuck.util.IUnlocSerializable;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -10,7 +12,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -19,50 +20,32 @@ import static com.mraof.minestuck.block.MinestuckBlocks.chessTile;
 
 public class BlockChessTile extends MSBlockBase
 {
-	public enum BlockType implements IStringSerializable
-	{
-		BLACK("black"),
-		WHITE("white"),
-		DARK_GREY("dark_grey"),
-		LIGHT_GREY("light_grey");
-		public final String name;
-		BlockType(String resource)
-		{
-			this.name = resource;
-		}
-		@Override
-		public String getName()
-		{
-			return name;
-		}
-	}
-	
-	public static final PropertyEnum BLOCK_TYPE = PropertyEnum.create("block_type", BlockType.class);
+	public static final PropertyEnum VARIANT = PropertyEnum.create("block_type", BlockType.class);
 	
 	public BlockChessTile()
 	{
 		super("chessTile",Material.GROUND);
 		setHardness(0.5F);
 
-		setDefaultState(getDefaultState().withProperty(BLOCK_TYPE, BlockType.BLACK));
+		setDefaultState(getDefaultState().withProperty(VARIANT, BlockType.BLACK));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, BLOCK_TYPE);
+		return new BlockStateContainer(this, VARIANT);
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(BLOCK_TYPE, BlockType.values()[meta]);
+		return getDefaultState().withProperty(VARIANT, BlockType.values()[meta]);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return ((BlockType) state.getValue(BLOCK_TYPE)).ordinal();
+		return ((BlockType) state.getValue(VARIANT)).ordinal();
 	}
 	
 	@Override
@@ -87,19 +70,43 @@ public class BlockChessTile extends MSBlockBase
 	@Override
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		switch((BlockType) state.getValue(BLOCK_TYPE))
+		switch((BlockType) state.getValue(VARIANT))
 		{
-		case WHITE: return MapColor.SNOW;
-		case LIGHT_GREY: return MapColor.SILVER;
-		case DARK_GREY: return MapColor.GRAY;
-		case BLACK: return MapColor.BLACK;
-		default: return super.getMapColor(state, worldIn, pos);
+			case WHITE: return MapColor.SNOW;
+			case LIGHT_GREY: return MapColor.SILVER;
+			case DARK_GREY: return MapColor.GRAY;
+			case BLACK: return MapColor.BLACK;
+			default: return super.getMapColor(state, worldIn, pos);
+		}
+	}
+
+	public enum BlockType implements IUnlocSerializable
+	{
+		BLACK("black"),
+		WHITE("white"),
+		DARK_GREY("darkGrey"),
+		LIGHT_GREY("lightGrey");
+		public final String name, regName;
+		BlockType(String name)
+		{
+			this.name = name;
+			this.regName = IRegistryObject.unlocToReg(name);
+		}
+		@Override
+		public String getName()
+		{
+			return regName;
+		}
+		@Override
+		public String getUnlocalizedName()
+		{
+			return name;
 		}
 	}
 
 	@Override
 	public MSItemBlock getItemBlock()
 	{
-		return new MSItemBlockMultiTexture(chessTile, new String[]{"black", "white", "darkgrey", "lightgrey"});
+		return new MSItemBlockMultiTexture(chessTile, BlockType.values());
 	}
 }

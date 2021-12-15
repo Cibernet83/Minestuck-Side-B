@@ -3,7 +3,7 @@ package com.mraof.minestuck.block;
 import com.mraof.minestuck.item.MinestuckTabs;
 
 import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.SoundType;
@@ -26,7 +26,7 @@ public class BlockPetrifiedLog extends BlockLog implements IRegistryBlock
 		setSoundType(SoundType.STONE);
 		setHarvestLevel("pickaxe", 0);
 		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		MinestuckBlocks.blocks.add(this);
 	}
 	
@@ -76,11 +76,5 @@ public class BlockPetrifiedLog extends BlockLog implements IRegistryBlock
 	{
 		setRegistryName(regName);
 		registry.register(this);
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlock(this);
 	}
 }

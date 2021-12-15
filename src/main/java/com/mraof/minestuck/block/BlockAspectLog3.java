@@ -3,35 +3,34 @@ package com.mraof.minestuck.block;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
+import com.mraof.minestuck.util.IUnlocSerializable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class BlockAspectLog3 extends BlockLog implements IRegistryBlock
 {
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
-	private final String regName;
 
 	public BlockAspectLog3()
 	{
 		super();
-		regName = "aspect_log_3";
 		MinestuckBlocks.blocks.add(this);
 		setCreativeTab(MinestuckTabs.minestuck);
-		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.ASPECT_TIME).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
+		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.TIME).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 		setUnlocalizedName("aspectLog3");
 	}
 
@@ -73,15 +72,6 @@ public class BlockAspectLog3 extends BlockLog implements IRegistryBlock
 	}
 	
 	@Override
-	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-	{
-		BlockType type = state.getValue(VARIANT);
-		if(state.getValue(LOG_AXIS).equals(EnumAxis.Y))
-			return type.topColor;
-		else return type.sideColor;
-	}
-	
-	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
 	{
 		for(BlockType type : BlockType.values())
@@ -100,47 +90,39 @@ public class BlockAspectLog3 extends BlockLog implements IRegistryBlock
 		return state.getValue(VARIANT).ordinal();
 	}
 	
-	public enum BlockType implements IStringSerializable
+	public enum BlockType implements IUnlocSerializable
 	{
-		ASPECT_RAGE("aspect_rage", "aspectRage", MapColor.WOOD, MapColor.WOOD),
-		ASPECT_SPACE("aspect_space", "aspectSpace", MapColor.WOOD, MapColor.WOOD),
-		ASPECT_TIME("aspect_time", "aspectTime", MapColor.WOOD, MapColor.WOOD),
-		ASPECT_VOID("aspect_void", "aspectVoid", MapColor.WOOD, MapColor.WOOD);
-		
-		private final String name;
-		private final String unlocalizedName;
-		private final MapColor topColor, sideColor;
-		
-		BlockType(String name, String unlocalizedName, MapColor topColor, MapColor sideColor)
-		{
-			this.name = name;
-			this.unlocalizedName = unlocalizedName;
-			this.topColor = topColor;
-			this.sideColor = sideColor;
-		}
-		
+		RAGE, SPACE, TIME, VOID;
 		@Override
 		public String getName()
 		{
-			return name;
+			return name().toLowerCase();
 		}
-		
+		@Override
 		public String getUnlocalizedName()
 		{
-			return unlocalizedName;
+			return name().toLowerCase();
 		}
 	}
 
 	@Override
 	public void register(IForgeRegistry<Block> registry)
 	{
-		setRegistryName(regName);
+		setRegistryName("aspect_log_3");
 		registry.register(this);
 	}
 
 	@Override
 	public MSItemBlock getItemBlock()
 	{
-		return new MSItemBlockMultiTexture(this, (ItemStack input) -> BlockType.values()[input.getItemDamage() % BlockType.values().length].getUnlocalizedName());
+		return new MSItemBlockMultiTexture(this, BlockType.values())
+		{
+			@Override
+			public void registerModel()
+			{
+				super.registerModel();
+				ModelLoader.setCustomStateMapper(BlockAspectLog3.this, (new StateMap.Builder()).withName(BlockAspectLog3.VARIANT).withSuffix("_log").build());
+			}
+		};
 	}
 }

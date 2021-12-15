@@ -1,9 +1,11 @@
 package com.mraof.minestuck.item.weapon;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.properties.PropertyElectric;
 import com.mraof.minestuck.item.properties.PropertySweep;
 import com.mraof.minestuck.item.properties.WeaponProperty;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,17 +16,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mraof.minestuck.item.weapon.ItemDualClaw.isDrawn;
+
 public class ItemBeamBlade extends MSWeaponBase
 {
     public EnumDyeColor color = null;
-    public ItemBeamBlade(int maxUses, double damageVsEntity, double weaponSpeed, int enchantability, String name) {
-        super(maxUses, damageVsEntity, weaponSpeed, enchantability, name);
+    public ItemBeamBlade(String name, int maxUses, double damageVsEntity, double weaponSpeed, int enchantability) {
+        super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
         addProperties(new PropertySweep(), new PropertyElectric(10, 2, 0.6f, false));
         setRepairMaterials(new ItemStack(MinestuckItems.battery));
     }
@@ -38,10 +44,6 @@ public class ItemBeamBlade extends MSWeaponBase
     public EnumDyeColor getColor()
     {
         return color;
-    }
-
-    public boolean isDrawn(ItemStack itemStack) {
-        return this.checkTagCompound(itemStack).getBoolean("IsDrawn");
     }
     
     @Override
@@ -71,20 +73,6 @@ public class ItemBeamBlade extends MSWeaponBase
             changeState(stack, false);
         else super.setDamage(stack, damage);
     }
-    
-    private static NBTTagCompound checkTagCompound(ItemStack stack) {
-        NBTTagCompound tagCompound = stack.getTagCompound();
-        if (tagCompound == null) {
-            tagCompound = new NBTTagCompound();
-            stack.setTagCompound(tagCompound);
-        }
-
-        if (!tagCompound.hasKey("IsDrawn")) {
-            tagCompound.setBoolean("IsDrawn", true);
-        }
-
-        return tagCompound;
-    }
 
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         ItemStack stack = playerIn.getHeldItem(handIn);
@@ -97,15 +85,15 @@ public class ItemBeamBlade extends MSWeaponBase
     }
 
     public double getAttackDamage(ItemStack stack) {
-        return this.isDrawn(stack) ? super.getAttackDamage(stack) : 0;
+        return isDrawn(stack) ? super.getAttackDamage(stack) : 0;
     }
 
     public double getAttackSpeed(ItemStack stack) {
-        return this.isDrawn(stack) ? super.getAttackSpeed(stack) : 0;
+        return isDrawn(stack) ? super.getAttackSpeed(stack) : 0;
     }
 
     public static void changeState(ItemStack stack, boolean drawn) {
-        NBTTagCompound tagCompound = checkTagCompound(stack);
+        NBTTagCompound tagCompound = ItemDualClaw.checkTagCompound(stack);
         tagCompound.setBoolean("IsDrawn", drawn);
     }
 
@@ -128,8 +116,7 @@ public class ItemBeamBlade extends MSWeaponBase
         {
             if(tintIndex != 1 || ((ItemBeamBlade) stack.getItem()).getColor() == null)
                 return -1;
-            
-            int meta = stack.getMetadata();
+
             return ((ItemBeamBlade) stack.getItem()).getColor().getColorValue();
         }
     }
@@ -137,5 +124,17 @@ public class ItemBeamBlade extends MSWeaponBase
     @Override
     public List<WeaponProperty> getProperties(ItemStack stack) {
         return isDrawn(stack) ? super.getProperties() : new ArrayList<>();
+    }
+
+    @Override
+    public void registerModel()
+    {
+        super.registerModel();
+        String on = getRegistryName().getResourcePath();
+        String off = getRegistryName().getResourcePath() + "_off";
+        ModelLoader.registerItemVariants(this,
+                new ResourceLocation(Minestuck.MODID, on),
+                new ResourceLocation(Minestuck.MODID, off));
+        ModelLoader.setCustomMeshDefinition(this, (ItemStack stack) -> new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, isDrawn(stack) ? on : off), "inventory"));
     }
 }

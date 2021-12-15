@@ -4,11 +4,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public class PotionFlight extends MSUPotionBase
+public class PotionFlight extends MSPotionBase
 {
-    protected PotionFlight(boolean isBadEffectIn, int liquidColorIn, String name)
+    protected PotionFlight(String name, boolean isBadEffectIn, int liquidColorIn)
     {
-        super(isBadEffectIn, liquidColorIn, name);
+        super(name, isBadEffectIn, liquidColorIn);
         if(!isBadEffectIn)
             setBeneficial();
     }

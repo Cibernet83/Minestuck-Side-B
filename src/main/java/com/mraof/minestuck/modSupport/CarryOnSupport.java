@@ -1,6 +1,6 @@
 package com.mraof.minestuck.modSupport;
 
-import com.mraof.minestuck.potions.MSUPotions;
+import com.mraof.minestuck.potions.MinestuckPotions;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -21,7 +21,7 @@ public class CarryOnSupport
             ItemStack main = player.getHeldItemMainhand();
             ItemStack off = player.getHeldItemOffhand();
 
-            if(!player.isCreative() && main.isEmpty() && off.isEmpty() && CarryOnKeybinds.isKeyPressed(player) && player.getActivePotionEffect(MSUPotions.CREATIVE_SHOCK) != null)
+            if(!player.isCreative() && main.isEmpty() && off.isEmpty() && CarryOnKeybinds.isKeyPressed(player) && player.getActivePotionEffect(MinestuckPotions.CREATIVE_SHOCK) != null)
                 event.setCanceled(true);
         }
     }
@@ -36,7 +36,7 @@ public class CarryOnSupport
             ItemStack main = player.getHeldItemMainhand();
             ItemStack off = player.getHeldItemOffhand();
 
-            if(!player.isCreative() && main.isEmpty() && off.isEmpty() && CarryOnKeybinds.isKeyPressed(player) && player.getActivePotionEffect(MSUPotions.CREATIVE_SHOCK) != null)
+            if(!player.isCreative() && main.isEmpty() && off.isEmpty() && CarryOnKeybinds.isKeyPressed(player) && player.getActivePotionEffect(MinestuckPotions.CREATIVE_SHOCK) != null)
                 event.setCanceled(true);
         }
     }

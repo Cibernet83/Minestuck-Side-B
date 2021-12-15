@@ -2,14 +2,21 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.tileentity.TileEntityMiniCruxtruder;
 import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
+import com.mraof.minestuck.util.SpaceSaltUtils;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -53,5 +60,46 @@ public class BlockMiniCruxtruder extends BlockSburbMachine
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return CRUXTRUDER_AABB;
+	}
+
+	@Override
+	public boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing)
+	{
+		BlockPos pos = rayTraceResult.getBlockPos();
+
+		Block block = player.world.getBlockState(pos).getBlock();
+		boolean flag = block.isReplaceable(player.world, pos);
+
+		//if (!flag)
+		//	pos = pos.up();
+
+		//EnumFacing placedFacing = player.getHorizontalFacing().getOpposite();
+		double hitX = rayTraceResult.hitVec.x - pos.getX(), hitZ = rayTraceResult.hitVec.z - pos.getZ();
+		boolean r = placedFacing.getAxis() == EnumFacing.Axis.Z;
+		boolean f = placedFacing== EnumFacing.NORTH || placedFacing==EnumFacing.EAST;
+		double d1 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
+		double d2 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
+		double d3 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
+
+		boolean placeable;
+		AxisAlignedBB boundingBox;
+
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+		GlStateManager.glLineWidth(2.0F);
+		GlStateManager.disableTexture2D();
+		GlStateManager.depthMask(false);	//GL stuff was copied from the standard mouseover bounding box drawing, which is likely why the alpha isn't working
+		BlockPos mchnPos = pos;
+
+		BlockPos placementPos = pos.offset(placedFacing.rotateYCCW(), (placedFacing.equals(EnumFacing.SOUTH) || placedFacing.equals(EnumFacing.WEST) ? -1 : 1)).offset(placedFacing, (placedFacing.equals(EnumFacing.NORTH) || placedFacing.equals(EnumFacing.WEST) ? 2 : 0));
+
+		boundingBox = new AxisAlignedBB(0,0,0, 3, 3, 3).offset(placementPos).offset(-d1, -d2, -d3).shrink(0.002);
+		placeable = SpaceSaltUtils.canPlaceCruxtruder(stack, player, player.world, pos.offset(placedFacing.rotateY()).offset(placedFacing, 2), placedFacing, mchnPos);
+
+		RenderGlobal.drawSelectionBoundingBox(boundingBox, placeable ? 0 : 1, placeable ? 1 : 0, 0, 0.5F);
+		GlStateManager.depthMask(true);
+		GlStateManager.enableTexture2D();
+		GlStateManager.disableBlend();
+
+		return true;
 	}
 }

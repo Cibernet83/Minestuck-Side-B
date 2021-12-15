@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item.properties.beams;
 
-import com.mraof.minestuck.capabilities.beam.Beam;
+import com.mraof.minestuck.capabilities.Beam;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;

@@ -1,14 +1,9 @@
 package com.mraof.minestuck.item;
 
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import com.mraof.minestuck.entity.EntityFrog;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -27,6 +22,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.UUID;
 
 public class ItemFrog extends MSItemBase
 {
@@ -288,6 +288,11 @@ public class ItemFrog extends MSItemBase
 
         return 14081667;
     }
-    
-    
+
+	@Override
+	public void registerModel()
+	{
+		for (int i = 0; i <= EntityFrog.maxTypes(); i++)
+			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation("frog_" + i, "inventory"));
+	}
 }

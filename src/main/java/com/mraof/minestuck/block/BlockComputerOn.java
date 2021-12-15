@@ -36,7 +36,7 @@ public class BlockComputerOn extends BlockComputerOff implements ITileEntityProv
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, BlockComputerOff.DIRECTION, BSOD);
+		return new BlockStateContainer(this, BlockComputerOff.FACING, BSOD);
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class BlockComputerOn extends BlockComputerOff implements ITileEntityProv
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(BSOD, meta % 2 == 1).withProperty(BlockComputerOff.DIRECTION, EnumFacing.getHorizontal(meta/2 % 4));
+		return getDefaultState().withProperty(BSOD, meta % 2 == 1).withProperty(BlockComputerOff.FACING, EnumFacing.getHorizontal(meta/2 % 4));
 	}
 	
 	@Override

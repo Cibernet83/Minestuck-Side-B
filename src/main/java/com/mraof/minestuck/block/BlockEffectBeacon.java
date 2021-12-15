@@ -14,7 +14,7 @@ public class BlockEffectBeacon extends MSBlockBase
 {
     protected final PotionEffect effect;
 
-    public BlockEffectBeacon(MapColor blockMapColorIn, PotionEffect effect, String name)
+    public BlockEffectBeacon(String name, MapColor blockMapColorIn, PotionEffect effect)
     {
         super(name, Material.IRON, blockMapColorIn);
         this.effect = effect;

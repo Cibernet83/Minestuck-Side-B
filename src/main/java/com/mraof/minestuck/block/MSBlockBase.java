@@ -1,8 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.MinestuckTabs;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -27,7 +26,7 @@ public class MSBlockBase extends Block implements IRegistryBlock
 	{
 		super(material, mapColor);
 		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		setCreativeTab(tab);
 		MinestuckBlocks.blocks.add(this);
 	}
@@ -45,6 +44,11 @@ public class MSBlockBase extends Block implements IRegistryBlock
 	public MSBlockBase(String name, MapColor mapColor)
 	{
 		this(name, Material.ROCK, mapColor);
+	}
+
+	public MSBlockBase(String name)
+	{
+		this(name, Material.ROCK);
 	}
 
 	public Block setHarvestLevelChain(String toolClass, int harvestLevel)
@@ -68,11 +72,5 @@ public class MSBlockBase extends Block implements IRegistryBlock
 	{
 		setRegistryName(regName);
 		registry.register(this);
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlock(this);
 	}
 }

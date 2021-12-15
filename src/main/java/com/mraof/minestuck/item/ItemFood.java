@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -13,7 +13,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class ItemFood extends net.minecraft.item.ItemFood implements IRegistryItem<Item>
+public class ItemFood extends net.minecraft.item.ItemFood implements IRegistryItem
 {
 	protected final FoodItemConsumer consumer;
 	private final String regName;
@@ -25,7 +25,7 @@ public class ItemFood extends net.minecraft.item.ItemFood implements IRegistryIt
 		setCreativeTab(MinestuckTabs.minestuck);
 		
 		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		MinestuckItems.items.add(this);
 	}
 	

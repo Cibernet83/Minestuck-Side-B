@@ -1,13 +1,13 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.capabilities.MSUCapabilities;
-import com.mraof.minestuck.capabilities.strife.IStrifeData;
-import com.mraof.minestuck.client.MSUKeys;
+import com.mraof.minestuck.capabilities.MinestuckCapabilities;
+import com.mraof.minestuck.capabilities.api.IStrifeData;
+import com.mraof.minestuck.client.MSKeyHandler;
 import com.mraof.minestuck.event.handlers.StrifeEventHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.UpdateStrifeDataPacket;
+import com.mraof.minestuck.network.PacketUpdateStrifeData;
 import com.mraof.minestuck.strife.StrifeSpecibus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -52,9 +52,9 @@ public class GuiStrifeSwitcher extends Gui
 		if(!showSwitcher || mc.player == null)
 			return;
 
-		IStrifeData cap = mc.player.getCapability(MSUCapabilities.STRIFE_DATA, null);
+		IStrifeData cap = mc.player.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 
-		boolean isDown = offhandMode ? MSUKeys.swapOffhandStrifeKey.isKeyDown() : MSUKeys.strifeKey.isKeyDown();
+		boolean isDown = offhandMode ? MSKeyHandler.swapOffhandStrifeKey.isKeyDown() : MSKeyHandler.strifeKey.isKeyDown();
 
 		if(isDown != strifeDown && isDown)
 		{
@@ -88,7 +88,7 @@ public class GuiStrifeSwitcher extends Gui
 					{
 						cap.setSelectedWeaponIndex(selWeaponIndex);
 						cap.setSelectedSpecibusIndex(selSpecibusIndex);
-						MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, mc.player, UpdateStrifeDataPacket.UpdateType.INDEXES));
+						MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, mc.player, PacketUpdateStrifeData.UpdateType.INDEXES));
 					}
 					if(!(mc.player.isSneaking() && canUseAbstrataSwitcher()))
 					{
@@ -180,9 +180,9 @@ public class GuiStrifeSwitcher extends Gui
 	{
 		if(showSwitcher && Minecraft.getMinecraft().player != null)
 		{
-			int scroll = (MSUKeys.strifeSelectorRightKey.isKeyDown() ? 1 : 0) - (MSUKeys.strifeSelectorLeftKey.isKeyDown() ? 1 : 0);
+			int scroll = (MSKeyHandler.strifeSelectorRightKey.isKeyDown() ? 1 : 0) - (MSKeyHandler.strifeSelectorLeftKey.isKeyDown() ? 1 : 0);
 
-			IStrifeData cap = Minecraft.getMinecraft().player.getCapability(MSUCapabilities.STRIFE_DATA, null);
+			IStrifeData cap = Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 			StrifeSpecibus[] nonNullPortfolio = cap.getNonEmptyPortfolio();
 
 			if(nonNullPortfolio.length > 0)
@@ -219,7 +219,7 @@ public class GuiStrifeSwitcher extends Gui
 	{
 		if(showSwitcher && Minecraft.getMinecraft().player != null)
 		{
-			IStrifeData cap = Minecraft.getMinecraft().player.getCapability(MSUCapabilities.STRIFE_DATA, null);
+			IStrifeData cap = Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 			StrifeSpecibus[] nonNullPortfolio = cap.getNonEmptyPortfolio();
 
 			if(nonNullPortfolio.length > 0)
@@ -255,7 +255,7 @@ public class GuiStrifeSwitcher extends Gui
 
 	protected static boolean canUseAbstrataSwitcher()
 	{
-		return Minecraft.getMinecraft().player.getCapability(MSUCapabilities.STRIFE_DATA, null).abstrataSwitcherUnlocked();
+		return Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.STRIFE_DATA, null).abstrataSwitcherUnlocked();
 	}
 
 	protected static void renderItem(Minecraft mc, int x, int y, float partialTicks, EntityPlayer player, ItemStack stack)

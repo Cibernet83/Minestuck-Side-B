@@ -2,7 +2,7 @@ package com.mraof.minestuck.client.gui.captchalogue;
 
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.inventory.captchalouge.HashmapModus;
-import com.mraof.minestuck.network.CaptchaDeckPacket;
+import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
@@ -63,7 +63,7 @@ public class HashmapGuiHandler extends SylladexGuiHandler
 				{
 					if(this.item != null && mouseButton == 1)
 					{
-						MinestuckPacket packet = MinestuckPacket.makePacket(Type.CAPTCHA, CaptchaDeckPacket.GET, this.index, true);
+						MinestuckPacket packet = MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.GET, this.index, true);
 						MinestuckChannelHandler.sendToServer(packet);
 					} else super.onClick(mouseButton);
 				}
@@ -108,7 +108,7 @@ public class HashmapGuiHandler extends SylladexGuiHandler
 		if(button == this.guiButton && MinestuckConfig.clientHashmapChat == 0)
 		{
 			modus.ejectByChat = !modus.ejectByChat;
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, CaptchaDeckPacket.VALUE, (byte) 0, modus.ejectByChat ? 1 : 0)); 
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.VALUE, (byte) 0, modus.ejectByChat ? 1 : 0));
 		}
 	}
 }

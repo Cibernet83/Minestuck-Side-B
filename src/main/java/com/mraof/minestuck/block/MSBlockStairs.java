@@ -1,8 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
-import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
@@ -12,14 +11,16 @@ public class MSBlockStairs extends BlockStairs implements IRegistryBlock
 {
 	final String regName;
 
-	public MSBlockStairs(String name, IBlockState modelState)
+	public MSBlockStairs(String name, IBlockState blockState)
 	{
-		super(modelState);
+		super(blockState);setHardness(blockState.getBlockHardness(null, null));
+		setResistance(blockState.getBlock().getExplosionResistance(null) * 5f/3f);
+		setHarvestLevel(blockState.getBlock().getHarvestTool(blockState), blockState.getBlock().getHarvestLevel(blockState));
 		setUnlocalizedName(name);
-		this.regName = IRegistryItem.unlocToReg(name);
+		this.regName = IRegistryObject.unlocToReg(name);
 		this.useNeighborBrightness = true;
-		MinestuckBlocks.blocks.add(this);
 		setCreativeTab(MinestuckTabs.minestuck);
+		MinestuckBlocks.blocks.add(this);
 	}
 
 	@Override
@@ -27,11 +28,5 @@ public class MSBlockStairs extends BlockStairs implements IRegistryBlock
 	{
 		setRegistryName(regName);
 		registry.register(this);
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlock(this);
 	}
 }

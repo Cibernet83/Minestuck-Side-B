@@ -59,7 +59,7 @@ public class SurfaceMushroomGenerator extends BiomeSpecificDecorator
 			if(state.getBlock() instanceof BlockGlowingMushroom)
 			{
 				out = soil.getBlock().equals(MinestuckBlocks.coloredDirt);
-				out = out && soil.getValue(BlockColoredDirt.BLOCK_TYPE).equals(BlockColoredDirt.BlockType.BLUE);
+				out = out && soil.getValue(BlockColoredDirt.VARIANT).equals(BlockColoredDirt.BlockType.BLUE);
 			} else if(soil.getBlock() == Blocks.MYCELIUM)
 			{
 				out = true;

@@ -3,7 +3,7 @@ package com.mraof.minestuck.world.lands.terrain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mraof.minestuck.block.BlockMinestuckLogVariant;
+import com.mraof.minestuck.block.MSBlockLogVariant;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.biome.BiomeMinestuck;
@@ -53,11 +53,11 @@ public class LandAspectForest extends TerrainLandAspect
 		registry.setBlockState("surface", Blocks.GRASS.getDefaultState());
 		registry.setBlockState("upper", Blocks.DIRT.getDefaultState());
 		if(type == Variant.TAIGA) {
-			registry.setBlockState("structure_primary", Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockMinestuckLogVariant.LOG_AXIS, EnumAxis.NONE));
-			registry.setBlockState("structure_primary_decorative", MinestuckBlocks.log.getDefaultState().withProperty(BlockMinestuckLogVariant.VARIANT, BlockMinestuckLogVariant.BlockType.FROST).withProperty(BlockMinestuckLogVariant.LOG_AXIS, EnumAxis.NONE));
+			registry.setBlockState("structure_primary", Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(MSBlockLogVariant.LOG_AXIS, EnumAxis.NONE));
+			registry.setBlockState("structure_primary_decorative", MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST).withProperty(MSBlockLogVariant.LOG_AXIS, EnumAxis.NONE));
 		} else {
-			registry.setBlockState("structure_primary", MinestuckBlocks.log.getDefaultState().withProperty(BlockMinestuckLogVariant.VARIANT, BlockMinestuckLogVariant.BlockType.VINE_OAK).withProperty(BlockMinestuckLogVariant.LOG_AXIS, EnumAxis.NONE));
-			registry.setBlockState("structure_primary_decorative", MinestuckBlocks.log.getDefaultState().withProperty(BlockMinestuckLogVariant.VARIANT, BlockMinestuckLogVariant.BlockType.FLOWERY_VINE_OAK).withProperty(BlockMinestuckLogVariant.LOG_AXIS, EnumAxis.NONE));
+			registry.setBlockState("structure_primary", MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.VINE_OAK).withProperty(MSBlockLogVariant.LOG_AXIS, EnumAxis.NONE));
+			registry.setBlockState("structure_primary_decorative", MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FLOWERY_VINE_OAK).withProperty(MSBlockLogVariant.LOG_AXIS, EnumAxis.NONE));
 		}
 		registry.setBlockState("structure_secondary", Blocks.STONEBRICK.getDefaultState());
 		registry.setBlockState("structure_secondary_decorative", Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED));

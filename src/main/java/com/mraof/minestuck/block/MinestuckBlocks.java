@@ -1,8 +1,9 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.alchemy.GristType;
-import com.mraof.minestuck.potions.MSUPotions;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.potions.MinestuckPotions;
+import com.mraof.minestuck.util.EnumAspect;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
@@ -36,6 +37,11 @@ public class MinestuckBlocks
 	public static final List<IBlockState> fluids = new ArrayList<>();
 	public static final Map<Block, MSBlockStairs> stairs = new HashMap<>();
 	public static final Map<Block, MSBlockSlab> slabs = new HashMap<>();
+	public static final Map<Block, MSBlockWall> walls = new HashMap<>();
+	public static final Map<EnumAspect, BlockHeroStone> heroStones = new TreeMap<>();
+	public static final Map<EnumAspect, BlockHeroStone> chiseledHeroStones = new TreeMap<>();
+	public static final Map<EnumAspect, BlockHeroStoneWall> heroStoneWalls = new TreeMap<>();
+	public static final Map<EnumAspect, BlockSpectralHeroStone> spectralHeroStones = new TreeMap<>();
 
 	//Blocks
 	public static final Block chessTile = new BlockChessTile();
@@ -54,7 +60,7 @@ public class MinestuckBlocks
 	public static final Block miniTotemLathe = new BlockMiniTotemLathe();
 	public static final Block miniPunchDesignix = new BlockMiniPunchDesignix();
 	public static final Block miniCruxtruder = new BlockMiniCruxtruder();
-	public static final Block crockerMachine = new BlockCrockerMachine();
+	public static final Block gristWidget = new BlockGristWidget();
 	public static final Block blockComputerOff = new BlockComputerOff("computerStandard");
 	public static final Block blockComputerOn = new BlockComputerOn();
 	public static final Block blockLaptopOff = new BlockVanityLaptopOff("vanityLaptop").setCreativeTab(null);
@@ -78,26 +84,28 @@ public class MinestuckBlocks
 	public static final Block glowingMushroom = new BlockGlowingMushroom();
 	public static final Block glowingLog = new BlockGlowingLog();
 	public static final Block glowingPlanks = new BlockFlamable("glowingPlanks", Material.WOOD, MapColor.LIGHT_BLUE, SoundType.WOOD).setFireInfo(5, 20).setLightLevel(0.5F).setHardness(2.0F).setResistance(5.0F);
-	public static final Block stone = new BlockMinestuckStone();
 	public static final Block glowyGoop = new BlockGlowyGoop("glowyGoop");
 	public static final Block coagulatedBlood = new BlockGoop("coagulatedBlood");
-	public static final Block coarseStoneStairs = new MSBlockStairs("coarseStoneStairs", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.COARSE));
-	public static final Block shadeBrickStairs = new MSBlockStairs("shadeBrickStairs", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.SHADE_BRICK));
-	public static final Block frostBrickStairs = new MSBlockStairs("frostBrickStairs", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.FROST_BRICK));
-	public static final Block castIronStairs = new MSBlockStairs("castIronStairs", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.CAST_IRON));
-	public static final Block myceliumBrickStairs = new MSBlockStairs("myceliumBrickStairs", stone.getDefaultState().withProperty(BlockMinestuckStone.VARIANT, BlockMinestuckStone.BlockType.MYCELIUM_BRICK));
-	public static final Block log = new BlockMinestuckLogVariant("log");
-	public static final Block leaves1 = new BlockMinestuckLeavesVariant();
-	public static final Block planks = generateSlabsAndStairs(new BlockMinestuckPlanks());
-	public static final Block frostPlanks = new BlockFrostPlanks();
+	public static final Block coarseStone = generateSlabsAndStairs(new MSBlockBase("coarseStone").setHardness(2).setResistance(10));
+	public static final Block chiseledCoarseStone = new MSBlockBase("chiseledCoarseStone").setHardness(2).setResistance(10);
+	public static final Block shadeBrick = generateSlabsAndStairs(new MSBlockBase("shadeBrick", MapColor.BLUE).setHardness(1.5f).setResistance(10));
+	public static final Block shadeBrickSmooth = new MSBlockBase("shadeBrickSmooth", MapColor.BLUE).setHardness(1.5f).setResistance(10);
+	public static final Block frostBrick = generateSlabsAndStairs(new MSBlockBase("frostBrick", MapColor.ICE).setHardness(1.5f).setResistance(10));
+	public static final Block frostTile = new MSBlockBase("frostTile", MapColor.ICE).setHardness(1.5f).setResistance(10);
+	public static final Block chiseledFrostBrick = new MSBlockBase("chiseledFrostBrick", MapColor.ICE).setHardness(1.5f).setResistance(10);
+	public static final Block castIron = generateSlabsAndStairs(new MSBlockBase("castIron", Material.IRON).setHardness(3).setResistance(10));
+	public static final Block chiseledCastIron = new MSBlockBase("chiseledCastIron", Material.IRON).setHardness(3).setResistance(10);
+	public static final Block blackStone = new MSBlockBase("blackStone", MapColor.BLACK).setHardness(2.5f).setResistance(10);
+	public static final Block myceliumBrick = generateSlabsAndStairs(new MSBlockBase("myceliumBrick", MapColor.MAGENTA).setHardness(1.5f).setResistance(10));
+	public static final Block log = new MSBlockLogVariant("log");
+	public static final Block leaves1 = new MSBlockLeavesVariant();
 	public static final Block aspectSapling = new BlockAspectSapling();
 	public static final Block rainbowSapling = new BlockRainbowSapling();
-	public static final Block aspectLog1 = new BlockAspectLog();
+	public static final Block aspectLog1 = new BlockAspectLog1();
 	public static final Block aspectLog2 = new BlockAspectLog2();
 	public static final Block aspectLog3 = new BlockAspectLog3();
 	public static final Block woodenCactus = new BlockCactusSpecial("woodenCactus", SoundType.WOOD, "axe").setHardness(1.0F).setResistance(2.5F);
 	public static final Block sugarCube = new BlockFlamable("sugarCube", Material.SAND, MapColor.SNOW, SoundType.SAND).setHardness(0.4F);
-	public static final Block rabbitSpawner = new BlockMobSpawner("rabbitSpawner");
 	public static final Block appleCake = new BlockSimpleCake("appleCake", 2, 0.5F, null);
 	public static final Block blueCake = new BlockSimpleCake("blueCake", 2, 0.3F, (EntityPlayer player) -> player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 150, 0)));
 	public static final Block coldCake = new BlockSimpleCake("coldCake", 2, 0.3F, (EntityPlayer player) ->
@@ -129,9 +137,9 @@ public class MinestuckBlocks
 	public static final Block floweryMossStone = new MSBlockBase("floweryMossStone", MapColor.GRAY);
 	public static final Block floweryMossBrick = new MSBlockBase("floweryMossBrick", MapColor.GRAY);
 	public static final Block strawberry = new BlockStrawberry();
-	public static final Block strawberryStem = new BlockMinestuckStem("strawberryStem", (BlockDirectional) strawberry).setCreativeTab(null);
+	public static final Block strawberryStem = new MSBlockStem("strawberryStem", (BlockDirectional) strawberry).setCreativeTab(null);
 
-	public static final Block deadLog = new BlockMinestuckLog("deadLog");
+	public static final Block deadLog = new MSBlockLog("deadLog");
 	public static final Block deadPlanks = generateSlabsAndStairs(new BlockFlamable("deadPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 5).setHardness(1.0F));
 	public static final Block chalk = generateSlabsAndStairs(new MSBlockBase("chalk", MapColor.SNOW));
 	public static final Block chalkBricks = generateSlabsAndStairs(new MSBlockBase("chalkBricks", MapColor.SNOW));
@@ -242,14 +250,43 @@ public class MinestuckBlocks
 	public static final MSBlockBase gristBlockVis = new BlockGrist(GristType.Vis);
 	public static final MSBlockBase gristBlockMana = new BlockGrist(GristType.Mana);
 
-	public static final MSBlockBase dungeonShield = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.CREATIVE_SHOCK, 40, 0), "dungeonShield");
-	public static final MSBlockBase flightBeacon = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.SKYHBOUND, 40, 0), "flightBeacon");
-	public static final MSBlockBase flightInhibitor = new BlockEffectBeacon(MapColor.ADOBE, new PotionEffect(MSUPotions.EARTHBOUND, 40, 0), "flightInhibitor");
+	public static final MSBlockBase dungeonShield = new BlockEffectBeacon("dungeonShield", MapColor.ADOBE, new PotionEffect(MinestuckPotions.CREATIVE_SHOCK, 40, 0));
+	public static final MSBlockBase flightBeacon = new BlockEffectBeacon("flightBeacon", MapColor.ADOBE, new PotionEffect(MinestuckPotions.SKYHBOUND, 40, 0));
+	public static final MSBlockBase flightInhibitor = new BlockEffectBeacon("flightInhibitor", MapColor.ADOBE, new PotionEffect(MinestuckPotions.EARTHBOUND, 40, 0));
 
 	public static final MSBlockBase uniqueObject = new MSBlockBase("uniqueObject", Material.CORAL, MapColor.DIAMOND);
 	public static final MSBlockBase artifact = new BlockArtifact("artifact", Material.FIRE, MapColor.PURPLE);
 
 	public static final MSBlockBase thaumChasis = new MSBlockBase("thaumChasis", Material.IRON);
+
+	public static final BlockHeroStone wildcardHeroStone = new BlockHeroStone(null, false);
+	public static final BlockHeroStone wildcardChiseledHeroStone = new BlockHeroStone(null, true);
+	public static final BlockHeroStoneWall wildcardHeroStoneWall = new BlockHeroStoneWall(wildcardHeroStone.getDefaultState());
+	public static final BlockSpectralHeroStone wildcardSpectralHeroStone = new BlockSpectralHeroStone(null);
+	public static final Block glowingHeroStone = new BlockGlowingHeroStone();
+	public static final Block heroLockBeacon = new BlockEffectBeacon("badgeInhibitor", MapColor.IRON, new PotionEffect(MinestuckPotions.GOD_TIER_LOCK, 60, 2));
+
+	public static final Block glorb = new BlockGlorb();
+
+	public static final Block prospitStone = generateWall(generateSlabsAndStairs(new MSBlockBase("prospitStone", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F)));
+	public static final Block prospitStoneSmooth = generateSlabsAndStairs(new MSBlockBase("prospitStoneSmooth", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F));
+	public static final Block prospitBrick = generateWall(generateSlabsAndStairs(new MSBlockBase("prospitBrick", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F)));
+	public static final Block prospitBrickCracked = new MSBlockBase("prospitBrickCracked", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
+	public static final Block prospitBrickChiseled = new MSBlockBase("prospitBrickChiseled", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
+	public static final Block prospitPillar = new MSBlockPillar("prospitPillar", MapColor.YELLOW).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
+
+	public static final Block derseStone = generateWall(generateSlabsAndStairs(new MSBlockBase("derseStone", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F)));
+	public static final Block derseStoneSmooth = generateSlabsAndStairs(new MSBlockBase("derseStoneSmooth", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F));
+	public static final Block derseBrick = generateWall(generateSlabsAndStairs(new MSBlockBase("derseBrick", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F)));
+	public static final Block derseBrickCracked = new MSBlockBase("derseBrickCracked", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
+	public static final Block derseBrickChiseled = new MSBlockBase("derseBrickChiseled", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
+	public static final Block dersePillar = new MSBlockPillar("dersePillar", MapColor.PURPLE).setHarvestLevelChain("pickaxe", 3).setHardness(20.0F).setResistance(2000.0F);
+
+	public static final Block hardStone = new BlockHardStone("hardStone");
+	public static final Block operandiBlock = new BlockOperandi("operandiBlock", 1.0f, 0, Material.GOURD, "");
+	public static final Block operandiGlass = new BlockOperandiGlass("operandiGlass", 0.5f, 0, Material.GLASS, "");
+	public static final Block operandiStone = new BlockOperandi("operandiStone", 3.0f, 6.5f, Material.IRON, "pickaxe");
+	public static final Block operandiLog = new BlockOperandiLog("operandiLog", 2.0f, 0, BlockOperandi.LOG, "axe");
 
 	public static final Fluid fluidOil = createFluid("oil", new ResourceLocation("minestuck", "blocks/oil_still"), new ResourceLocation("minestuck", "blocks/oil_flowing"), "tile.oil");
 	public static final Fluid fluidBlood = createFluid("blood", new ResourceLocation("minestuck", "blocks/blood_still"), new ResourceLocation("minestuck", "blocks/blood_flowing"), "tile.blood");
@@ -317,12 +354,6 @@ public class MinestuckBlocks
 		}
 	}.setLightOpacity(1);
 
-	public static final Block hardStone = new BlockHardStone("hardStone");
-	public static final Block operandiBlock = new BlockOperandi("operandiBlock", 1.0f, 0, Material.GOURD, "");
-	public static final Block operandiGlass = new BlockOperandiGlass("operandiGlass", 0.5f, 0, Material.GLASS, "");
-	public static final Block operandiStone = new BlockOperandi("operandiStone", 3.0f, 6.5f, Material.IRON, "pickaxe");
-	public static final Block operandiLog = new BlockOperandiLog("operandiLog", 2.0f, 0, BlockOperandi.LOG, "axe");
-
 	//public static final Block[] liquidGrists;
 	//public static final Fluid[] gristFluids;
 
@@ -331,8 +362,11 @@ public class MinestuckBlocks
 	{
 		generateSlabsAndStairs(Blocks.BEDROCK);
 
+		for(EnumAspect aspect : EnumAspect.values())
+			generateHeroStones(aspect);
+
 		IForgeRegistry<Block> registry = event.getRegistry();
-		for (IRegistryItem<Block> block : blocks)
+		for (IRegistryObject<Block> block : blocks)
 			block.register(registry);
 	}
 
@@ -356,5 +390,21 @@ public class MinestuckBlocks
 		stairs.put(block, new MSBlockStairs(name + "Stairs", blockState));
 		slabs.put(block, new MSBlockSlab(name + "Slab", blockState));
 		return block;
+	}
+
+	private static Block generateWall(Block block)
+	{
+		IBlockState blockState = block.getDefaultState();
+		String name = blockState.getBlock().getUnlocalizedName().substring(5); // unloc name starts with an extra "tile."
+		walls.put(block, new MSBlockWall(name + "Wall", blockState));
+		return block;
+	}
+
+	private static void generateHeroStones(EnumAspect aspect)
+	{
+		heroStones.put(aspect, new BlockHeroStone(aspect, false));
+		chiseledHeroStones.put(aspect, new BlockHeroStone(aspect, true));
+		heroStoneWalls.put(aspect, new BlockHeroStoneWall(heroStones.get(aspect).getDefaultState()));
+		spectralHeroStones.put(aspect, new BlockSpectralHeroStone(aspect));
 	}
 }

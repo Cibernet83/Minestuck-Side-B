@@ -2,15 +2,17 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
-import com.mraof.minestuck.util.IRegistryItem;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCactus;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
@@ -24,7 +26,7 @@ public class BlockCactusSpecial extends BlockCactus implements IRegistryBlock
 	{
 		super();
 		setUnlocalizedName(name);
-		regName = IRegistryItem.unlocToReg(name);
+		regName = IRegistryObject.unlocToReg(name);
 		MinestuckBlocks.blocks.add(this);
 		this.setCreativeTab(MinestuckTabs.minestuck);
 		setSoundType(soundType);
@@ -74,6 +76,14 @@ public class BlockCactusSpecial extends BlockCactus implements IRegistryBlock
 	@Override
 	public MSItemBlock getItemBlock()
 	{
-		return new MSItemBlock(this);
+		return new MSItemBlock(this)
+		{
+			@Override
+			public void registerModel()
+			{
+				super.registerModel();
+				ModelLoader.setCustomStateMapper(BlockCactusSpecial.this, new StateMap.Builder().ignore(BlockCactus.AGE).build());
+			}
+		};
 	}
 }
