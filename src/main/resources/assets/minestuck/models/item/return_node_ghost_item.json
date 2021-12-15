@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"1": "Minestuck:items/return_node",
-		"particle": "Minestuck:items/travel_gate"
+		"1": "minestuck:items/return_node",
+		"particle": "minestuck:items/travel_gate"
 	},
 	"elements": [
 		{

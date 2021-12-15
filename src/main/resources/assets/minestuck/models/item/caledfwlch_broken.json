@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/broken_caledfwlch"
+        "layer0": "minestuck:items/broken_caledfwlch"
     }
 }

@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/overgrown_loghammer"
+        "layer0": "minestuck:items/overgrown_loghammer"
     }
 }

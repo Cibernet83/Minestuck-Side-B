@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"0": "Minestuck:machines/boondollar_register",
-		"particle": "Minestuck:machines/boondollar_register"
+		"0": "minestuck:machines/boondollar_register",
+		"particle": "minestuck:machines/boondollar_register"
 	},
 	"elements": [
 		{

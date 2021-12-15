@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "Minestuck:items/air_jordans"
+        "layer0": "minestuck:items/air_jordans"
     }
 }

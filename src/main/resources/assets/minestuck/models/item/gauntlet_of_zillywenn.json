@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "Minestuck:models/gauntlet_of_zillywenn",
+		"0": "minestuck:models/gauntlet_of_zillywenn",
 		"1": "minestuck:items/zilly6",
 		"2": "minestuck:items/zilly7",
-		"particle": "Minestuck:models/gauntlet_of_zillywenn"
+		"particle": "minestuck:models/gauntlet_of_zillywenn"
 	},
 	"elements": [
 		{

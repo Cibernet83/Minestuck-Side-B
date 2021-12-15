@@ -1,6 +1,14 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/battery_beam_blade_on"
-    }
+        "layer0": "minestuck:items/battery_beam_blade_on"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "minestuck:sheathed": 1
+            },
+            "model": "minestuck:item/battery_beam_blade_off"
+        }
+    ]
 }

@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/quill_of_echidna"
+        "layer0": "minestuck:items/quill_of_echidna"
     }
 }

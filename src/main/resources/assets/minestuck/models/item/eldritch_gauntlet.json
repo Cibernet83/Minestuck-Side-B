@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [4, 4],
 	"textures": {
-		"1": "Minestuck:models/eldritch_gauntlet",
-		"2": "Minestuck:models/eldritch_eye",
-		"3": "Minestuck:models/eldritch_tendrils"
+		"1": "minestuck:models/eldritch_gauntlet",
+		"2": "minestuck:models/eldritch_eye",
+		"3": "minestuck:models/eldritch_tendrils"
 	},
 	"elements": [
 		{

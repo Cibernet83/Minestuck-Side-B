@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "Minestuck:moonstone_ore" }
+        "normal": { "model": "minestuck:moonstone_ore" }
     }
 }

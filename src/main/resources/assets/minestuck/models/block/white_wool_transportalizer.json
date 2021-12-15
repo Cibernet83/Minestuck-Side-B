@@ -1,5 +1,5 @@
 {
-    "parent": "Minestuck:block/wool_transportalizer",
+    "parent": "minestuck:block/wool_transportalizer",
     "textures": {
         "wool": "minecraft:blocks/wool_colored_white"
     }

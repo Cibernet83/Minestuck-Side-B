@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "Minestuck:items/mechanical_crossbow"
+        "layer0": "minestuck:items/mechanical_crossbow"
     },
     "display": {
         "thirdperson_righthand": {

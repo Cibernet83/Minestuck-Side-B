@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/bow_of_light",
+    "parent": "minestuck:item/bow_of_light",
     "textures": {
-        "layer0": "Minestuck:items/bow_of_light_pulling_2"
+        "layer0": "minestuck:items/bow_of_light_pulling_2"
     }
 }

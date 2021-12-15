@@ -202,11 +202,6 @@ public class CommonEventHandler
 			randValue = prop.getMax() * prop.getMulitiplier();
 			isRandom = true;
 		}
-		else if(stack.getItem() instanceof com.mraof.minestuck.item.weapon.ItemRandomWeapon)
-		{
-			randValue = 64;
-			isRandom = true;
-		}
 
 		for (EntityEquipmentSlot entityequipmentslot : EntityEquipmentSlot.values())
 		{

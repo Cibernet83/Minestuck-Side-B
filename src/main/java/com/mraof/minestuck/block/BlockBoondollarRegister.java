@@ -1,11 +1,11 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.TileEntityBoondollarRegister;
 import com.mraof.minestuck.util.IdentifierHandler;
-import com.mraof.minestuck.util.MSUUtils;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -263,7 +263,7 @@ public class BlockBoondollarRegister extends MSBlockContainer
             return false;
         }
         else if(playerIdentifier.equals(te.owner) && !stack.getItem().equals(Items.PAPER) && !stack.getItem().equals(MinestuckItems.boondollars))
-                playerIn.openGui(Minestuck.instance, MSUUtils.BOONDOLLAR_REGISTER_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.BOONDOLLAR_REGISTER.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 

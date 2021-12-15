@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/dungeon_key"
+        "layer0": "minestuck:items/dungeon_key"
     }
 }

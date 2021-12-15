@@ -17,6 +17,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -61,10 +62,11 @@ public class MinestuckBlocks
 	public static final Block miniPunchDesignix = new BlockMiniPunchDesignix();
 	public static final Block miniCruxtruder = new BlockMiniCruxtruder();
 	public static final Block gristWidget = new BlockGristWidget();
-	public static final Block blockComputerOff = new BlockComputerOff("computerStandard");
-	public static final Block blockComputerOn = new BlockComputerOn();
-	public static final Block blockLaptopOff = new BlockVanityLaptopOff("vanityLaptop").setCreativeTab(null);
-	public static final Block blockLaptopOn = new BlockVanityLaptopOn("vanityLaptopOn");
+	public static final Block blockSburbComputer = new BlockComputer("sburbComputer", new AxisAlignedBB(1/16D, 0.0D, 1/16D, 15/16D, 3/16D, 15/16D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
+	public static final Block blockLaptop = new BlockComputer("laptop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
+	public static final Block blockHubtop = new BlockComputer("hubtop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
+	public static final Block blockCrockertop = new BlockComputer("crockertop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
+	public static final Block blockLunchtop = new BlockComputer("lunchtop", new AxisAlignedBB(5/16d, 0, 5/16d, 11/16d, 3.5/16d, 10/16d));
 
 	public static final Block punchDesignix = new BlockPunchDesignix();
 	public static final BlockTotemLathe[] totemlathe = BlockTotemLathe.createBlocks();
@@ -99,6 +101,8 @@ public class MinestuckBlocks
 	public static final Block myceliumBrick = generateSlabsAndStairs(new MSBlockBase("myceliumBrick", MapColor.MAGENTA).setHardness(1.5f).setResistance(10));
 	public static final Block log = new MSBlockLogVariant("log");
 	public static final Block leaves1 = new MSBlockLeavesVariant();
+	public static final Block rainbowPlanks = new BlockFlamable("rainbowPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F);
+	public static final Block frostPlanks = new MSBlockBase("frostPlanks", Material.WOOD).setSoundType(SoundType.WOOD).setHardness(2.0f);
 	public static final Block aspectSapling = new BlockAspectSapling();
 	public static final Block rainbowSapling = new BlockRainbowSapling();
 	public static final Block aspectLog1 = new BlockAspectLog1();
@@ -121,10 +125,6 @@ public class MinestuckBlocks
 		player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 350, 1));
 		player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));
 	});
-	public static final Block vein = new BlockVein("vein");
-	public static final Block veinCorner = new BlockVeinCorner("veinCorner");
-	public static final Block veinCornerInverted = new BlockVeinCorner("veinCornerInverted");
-
 	public static final Block treatedPlanks = generateSlabsAndStairs(new BlockFlamable("treatedPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(1, 0).setHardness(1.0F));
 
 	public static final Block endLog = new BlockEndLog();

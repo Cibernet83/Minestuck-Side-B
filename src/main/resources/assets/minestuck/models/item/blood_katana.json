@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/blood_katana"
+        "layer0": "minestuck:items/blood_katana"
     }
 }

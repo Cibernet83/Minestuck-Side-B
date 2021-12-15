@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/boomerang"
+        "layer0": "minestuck:items/boomerang"
     },
     "display": {
         "thirdperson_righthand": {

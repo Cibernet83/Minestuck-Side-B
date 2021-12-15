@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "Minestuck:models/gaster_blaster",
-		"particle": "Minestuck:models/gaster_blaster"
+		"0": "minestuck:models/gaster_blaster",
+		"particle": "minestuck:models/gaster_blaster"
 	},
 	"elements": [
 		{

@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/high_voltage_storm_crusher"
+        "layer0": "minestuck:items/high_voltage_storm_crusher"
     }
 }

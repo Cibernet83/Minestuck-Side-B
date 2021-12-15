@@ -100,7 +100,7 @@ public class MinestuckPlayerTracker
 		}
 		
 		if(UpdateChecker.outOfDate)
-			player.sendMessage(new TextComponentString("New version of Minestuck: " + UpdateChecker.latestVersion + "\nChanges: " + UpdateChecker.updateChanges));
+			player.sendMessage(new TextComponentString("New version of minestuck: " + UpdateChecker.latestVersion + "\nChanges: " + UpdateChecker.updateChanges));
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGH)	//Editmode players need to be reset before nei handles the event

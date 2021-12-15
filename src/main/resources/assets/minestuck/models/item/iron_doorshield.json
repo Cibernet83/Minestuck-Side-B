@@ -2,7 +2,7 @@
 	"credit": "Made by Ishumire",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/iron_doorshield"
+		"0": "minestuck:models/iron_doorshield"
 	},
 	"elements": [
 		{
@@ -180,7 +180,7 @@
             "predicate": {
                 "blocking": 1
             },
-            "model": "Minestuck:item/iron_doorshield_blocking"
+            "model": "minestuck:item/iron_doorshield_blocking"
         }
     ]
 }

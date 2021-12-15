@@ -1,11 +1,11 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-		"0": "minestuck:blocks/green",
-		"1": "minestuck:blocks/hubback",
-		"3": "minestuck:blocks/cable",
-		"6": "minestuck:blocks/keysgreen",
-		"particle": "minestuck:blocks/green"
+		"0": "minestuck:machines/computers/green",
+		"1": "minestuck:machines/computers/hubback",
+		"screen": "minestuck:machines/computers/computer_screen_off",
+		"6": "minestuck:machines/computers/keysgreen",
+		"particle": "minestuck:machines/computers/green"
 	},
 	"elements": [
 		{
@@ -897,7 +897,7 @@
 			"faces": {
 				"north": {
 					"uv": [0, 2.1, 16, 13.1],
-					"texture": "#3"
+					"texture": "#screen"
 				},
 				"east": {"uv": [0, 0, 14.4, 8.2], "texture": "#1"},
 				"south": {"uv": [0, 0, 14.4, 8.2], "texture": "#1"},

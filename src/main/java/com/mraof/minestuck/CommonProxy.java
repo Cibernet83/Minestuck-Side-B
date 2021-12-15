@@ -6,9 +6,7 @@ import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.block.BlockArtifact;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.client.gui.GuiHandler;
-import com.mraof.minestuck.client.gui.MSGTGuiHandler;
-import com.mraof.minestuck.client.gui.MSUGuiHandler;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.client.particles.MSGTParticles;
 import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.editmode.ServerEditHandler;
@@ -99,8 +97,8 @@ public class CommonProxy
 		GameRegistry.registerWorldGenerator(oreHandler, 0);
 
 		//register GUI handler
-		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new GuiHandler());
-
+		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new MSGuiHandler());
+		
 		MinestuckEntities.registerEntities();
 		//register Tile Entities
 		GameRegistry.registerTileEntity(TileEntitySkaiaPortal.class, Minestuck.MODID+":gate_portal");
@@ -143,9 +141,6 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(BlockArtifact.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckBadges.class);
 		PropertyEventHandler.register();
-
-		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new MSUGuiHandler());
-		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new MSGTGuiHandler());
 
 		//register channel handler
 		MinestuckChannelHandler.setupChannel();

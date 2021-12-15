@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/king_of_the_pond",
+    "parent": "minestuck:item/king_of_the_pond",
     "textures": {
-        "layer0": "Minestuck:items/king_of_the_pond_pulling_1"
+        "layer0": "minestuck:items/king_of_the_pond_pulling_1"
     }
 }

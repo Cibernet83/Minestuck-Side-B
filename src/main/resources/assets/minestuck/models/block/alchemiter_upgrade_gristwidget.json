@@ -1,14 +1,14 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "Minestuck:blocks/gristwidget",
+		"0": "minestuck:blocks/gristwidget",
 		"2": "minestuck:machines/alchemiter/corner_base_side",
 		"3": "minestuck:machines/alchemiter/side",
 		"4": "minestuck:machines/alchemiter/upgrades/base_top",
 		"5": "minestuck:machines/alchemiter/upgrades/down_side",
 		"6": "minestuck:machines/alchemiter/upgrades/inside",
 		"7": "minestuck:machines/alchemiter/upgrades/player_color",
-		"particle": "Minestuck:blocks/gristwidget"
+		"particle": "minestuck:blocks/gristwidget"
 	},
 	"elements": [
 		{

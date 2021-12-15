@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "Minestuck:items/iron_medallion"
+        "layer0": "minestuck:items/iron_medallion"
     }
 }

@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"0": "Minestuck:machines/porkhollow_atm",
-		"particle": "Minestuck:machines/porkhollow_atm"
+		"0": "minestuck:machines/porkhollow_atm",
+		"particle": "minestuck:machines/porkhollow_atm"
 	},
 	"elements": [
 		{

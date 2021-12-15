@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/claw",
+    "parent": "minestuck:item/claw",
     "textures": {
-        "layer0": "Minestuck:items/makeshift_claws"
+        "layer0": "minestuck:items/makeshift_claws"
     }
 }

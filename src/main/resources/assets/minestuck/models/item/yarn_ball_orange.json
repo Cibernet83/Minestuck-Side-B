@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "Minestuck:items/yarn_ball_orange"
+        "layer0": "minestuck:items/yarn_ball_orange"
     }
 }

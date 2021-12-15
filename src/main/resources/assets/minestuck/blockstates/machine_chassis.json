@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "Minestuck:machine_chassis" }
+        "normal": { "model": "minestuck:machine_chassis" }
     }
 }

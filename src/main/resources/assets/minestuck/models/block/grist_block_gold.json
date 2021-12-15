@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "Minestuck:blocks/grist_block_gold"
+        "all": "minestuck:blocks/grist_block_gold"
     }
 }

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.util.MSUUtils;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.tileentity.TileEntityMachineChasis;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -56,7 +56,7 @@ public class BlockMachineChasis extends MSBlockBase implements ITileEntityProvid
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
-            playerIn.openGui(Minestuck.instance, MSUUtils.MACHINE_CHASIS_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.MACHINE_CHASSIS.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 

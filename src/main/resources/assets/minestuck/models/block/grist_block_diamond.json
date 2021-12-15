@@ -2,11 +2,11 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"1": "Minestuck:blocks/grist_block_diamond",
-		"2": "Minestuck:blocks/grist_block_diamond_bottom",
-		"3": "Minestuck:blocks/grist_block_diamond_flipped",
-		"4": "Minestuck:blocks/grist_block_diamond_top",
-		"particle": "Minestuck:blocks/grist_block_diamond"
+		"1": "minestuck:blocks/grist_block_diamond",
+		"2": "minestuck:blocks/grist_block_diamond_bottom",
+		"3": "minestuck:blocks/grist_block_diamond_flipped",
+		"4": "minestuck:blocks/grist_block_diamond_top",
+		"particle": "minestuck:blocks/grist_block_diamond"
 	},
 	"elements": [
 		{

@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/flimsy_bow",
+    "parent": "minestuck:item/flimsy_bow",
     "textures": {
-        "layer0": "Minestuck:items/flimsy_bow_pulling_0"
+        "layer0": "minestuck:items/flimsy_bow_pulling_0"
     }
 }

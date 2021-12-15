@@ -3,7 +3,7 @@
 	"ambientocclusion": false,
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "Minestuck:models/clarity_ward"
+		"0": "minestuck:models/clarity_ward"
 	},
 	"elements": [
 		{

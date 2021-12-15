@@ -1,9 +1,7 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.block.BlockComputerOn;
 import com.mraof.minestuck.entity.item.EntityGrist;
 import com.mraof.minestuck.util.IdentifierHandler;
-import ibxm.Player;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;

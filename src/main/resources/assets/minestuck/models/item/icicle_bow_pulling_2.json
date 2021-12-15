@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/icicle_bow",
+    "parent": "minestuck:item/icicle_bow",
     "textures": {
-        "layer0": "Minestuck:items/icicle_bow_pulling_2"
+        "layer0": "minestuck:items/icicle_bow_pulling_2"
     }
 }

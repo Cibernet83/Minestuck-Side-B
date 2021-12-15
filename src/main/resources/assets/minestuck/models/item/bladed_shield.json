@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/bladed_shield"
+		"0": "minestuck:models/bladed_shield"
 	},
 	"elements": [
 		{
@@ -375,7 +375,7 @@
 			"predicate": {
 				"blocking": 1
 			},
-			"model": "Minestuck:item/bladed_shield_blocking"
+			"model": "minestuck:item/bladed_shield_blocking"
 		}
 	],
 	"display": {

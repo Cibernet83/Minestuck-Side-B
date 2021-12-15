@@ -2,7 +2,7 @@
 	"credit": "Made by Ishumire",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/ejector_shield"
+		"0": "minestuck:models/ejector_shield"
 	},
 	"elements": [
 		{
@@ -89,7 +89,7 @@
             "predicate": {
                 "blocking": 1
             },
-            "model": "Minestuck:item/ejector_shield_blocking"
+            "model": "minestuck:item/ejector_shield_blocking"
         }
     ]
 }

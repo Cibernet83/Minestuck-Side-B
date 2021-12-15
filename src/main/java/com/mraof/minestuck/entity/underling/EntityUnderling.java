@@ -49,7 +49,7 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 	protected static final DataParameter<String> GRIST_TYPE = EntityDataManager.createKey(EntityUnderling.class, DataSerializers.STRING);
 
 	public boolean fromSpawner;
-	public boolean dropCandy;
+	protected DamageSource lastSource; //doesn't need to be saved to NBT, does it?
 	
 	private static final float maxSharedProgress = 2;	//The multiplier for the maximum amount progress that can be gathered from each enemy with the group fight bonus
 	
@@ -130,7 +130,14 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
 		return flag;
 	}
-	
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		lastSource = source;
+		return super.attackEntityFrom(source, amount);
+	}
+
 	@Override
 	protected void onDeathUpdate()
 	{
@@ -138,7 +145,7 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 		if(this.deathTime == 20 && !this.world.isRemote)
 		{
 
-			UnderlingSpoilsEvent event = new UnderlingSpoilsEvent(this, getAttackingEntity(), getGristSpoils());
+			UnderlingSpoilsEvent event = new UnderlingSpoilsEvent(this, lastSource, getGristSpoils());
 			MinecraftForge.EVENT_BUS.post(event);
 			GristSet grist = event.getSpoils();
 
@@ -155,26 +162,6 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 				this.world.spawnEntity(new EntityItem(world, randX(), this.posY, randZ(), item));
 			}
 
-			/*
-			if(!dropCandy)
-			{
-
-			}
-			else
-			{
-				for(GristAmount gristType : grist.getArray())
-				{
-					int candy = (gristType.getAmount() + 2)/4;
-					int gristAmount = gristType.getAmount() - candy*2;
-					ItemStack candyItem = gristType.getType().getCandyItem();
-					candyItem.setCount(candy);
-					if(candy > 0)
-						this.world.spawnEntity(new EntityItem(world, randX(), this.posY, randZ(), candyItem));
-					if(gristAmount > 0)
-						this.world.spawnEntity(new EntityGrist(world, randX(), this.posY, randZ(),new GristAmount(gristType.getType(), gristAmount)));
-				}
-			}
-			*/
 			if(this.rand.nextInt(4) == 0)
 				this.world.spawnEntity(new EntityVitalityGel(world, randX(), this.posY, randZ(), this.getVitalityGel()));
 		}
@@ -315,8 +302,6 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 	public void onEntityUpdate()
 	{
 		super.onEntityUpdate();
-		if(this.getHealth() > 0.0F)
-			dropCandy = false;
 	}
 	
 	protected void computePlayerProgress(int progress)

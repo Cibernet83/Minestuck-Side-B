@@ -3,6 +3,7 @@ package com.mraof.minestuck.block;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
@@ -72,5 +73,10 @@ public class MSBlockBase extends Block implements IRegistryBlock
 	{
 		setRegistryName(regName);
 		registry.register(this);
+	}
+
+	@Override
+	public Block setSoundType(SoundType sound) {
+		return super.setSoundType(sound);
 	}
 }

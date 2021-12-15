@@ -1,0 +1,15 @@
+{
+    "parent": "minestuck:item/claw",
+    "textures": {
+        "layer0": "minestuck:items/sneaky_daggers"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "minestuck:sheathed": 1
+            },
+            "model": "minestuck:item/sneaky_daggers_sheathed"
+        }
+    ]
+
+}

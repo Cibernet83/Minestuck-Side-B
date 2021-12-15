@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class LandAspectRainbow extends TerrainLandAspect 
+public class LandAspectRainbow extends TerrainLandAspect
 {
 	static Vec3d fogColor = new Vec3d(0.0D, 0.6D, 0.8D);
 	static Vec3d skyColor = new Vec3d(0.9D, 0.6D, 0.8D);
@@ -42,7 +42,7 @@ public class LandAspectRainbow extends TerrainLandAspect
 		registry.setBlockState("structure_primary", MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.RAINBOW).withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE));
 		registry.setBlockState("structure_primary_decorative", Blocks.LOG2.getDefaultState().withProperty(BlockNewLog.VARIANT, BlockPlanks.EnumType.ACACIA));
 		registry.setBlockState("structure_primary_stairs", Blocks.DARK_OAK_STAIRS.getDefaultState());
-		registry.setBlockState("structure_secondary", MinestuckBlocks.glowingPlanks.getDefaultState());
+		registry.setBlockState("structure_secondary", MinestuckBlocks.rainbowPlanks.getDefaultState());
 		registry.setBlockState("structure_secondary_decorative", Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE));
 		registry.setBlockState("structure_secondary_stairs", Blocks.JUNGLE_STAIRS.getDefaultState());
 		registry.setBlockState("salamander_floor", Blocks.STONEBRICK.getDefaultState());

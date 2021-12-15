@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/throwing_star"
+        "layer0": "minestuck:items/throwing_star"
     },
     "display": {
         "thirdperson_righthand": {

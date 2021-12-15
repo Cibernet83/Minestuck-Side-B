@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.GuiHandler;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.tileentity.TileEntityMiniAlchemiter;
 import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import com.mraof.minestuck.util.IdentifierHandler;
@@ -53,7 +53,7 @@ public class BlockMiniAlchemiter extends BlockSburbMachine
 		if(!worldIn.isRemote)
 		{
 			((TileEntityMiniSburbMachine) tileEntity).owner = IdentifierHandler.encode(playerIn);
-			playerIn.openGui(Minestuck.instance, GuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

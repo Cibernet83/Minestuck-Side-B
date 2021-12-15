@@ -1,5 +1,5 @@
 {
-	"parent": "Minestuck:item/firewall",
+	"parent": "minestuck:item/firewall",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

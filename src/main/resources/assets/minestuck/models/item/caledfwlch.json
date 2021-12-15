@@ -6,9 +6,9 @@
     "overrides": [
         {
             "predicate": {
-                "Minestuck:broken": 1
+                "minestuck:broken": 1
             },
-            "model": "Minestuck:item/caledfwlch_broken"
+            "model": "minestuck:item/caledfwlch_broken"
         }
     ]
 }

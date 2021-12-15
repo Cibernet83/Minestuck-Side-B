@@ -1,12 +1,12 @@
 {
     "variants": {
-        "facing=north,powered=false":    { "model": "Minestuck:boondollar_register" },
-        "facing=east,powered=false":     { "model": "Minestuck:boondollar_register", "y": 90 },
-        "facing=south,powered=false":    { "model": "Minestuck:boondollar_register", "y": 180 },
-        "facing=west,powered=false":     { "model": "Minestuck:boondollar_register", "y": 270 },
-        "facing=north,powered=true":     { "model": "Minestuck:boondollar_register_powered" },
-        "facing=east,powered=true":      { "model": "Minestuck:boondollar_register_powered", "y": 90 },
-        "facing=south,powered=true":     { "model": "Minestuck:boondollar_register_powered", "y": 180 },
-        "facing=west,powered=true":      { "model": "Minestuck:boondollar_register_powered", "y": 270 }
+        "facing=north,powered=false":    { "model": "minestuck:boondollar_register" },
+        "facing=east,powered=false":     { "model": "minestuck:boondollar_register", "y": 90 },
+        "facing=south,powered=false":    { "model": "minestuck:boondollar_register", "y": 180 },
+        "facing=west,powered=false":     { "model": "minestuck:boondollar_register", "y": 270 },
+        "facing=north,powered=true":     { "model": "minestuck:boondollar_register_powered" },
+        "facing=east,powered=true":      { "model": "minestuck:boondollar_register_powered", "y": 90 },
+        "facing=south,powered=true":     { "model": "minestuck:boondollar_register_powered", "y": 180 },
+        "facing=west,powered=true":      { "model": "minestuck:boondollar_register_powered", "y": 270 }
     }
 }

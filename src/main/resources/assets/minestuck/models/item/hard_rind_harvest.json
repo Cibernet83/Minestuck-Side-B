@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/hard_rind_harvest",
+		"0": "minestuck:models/hard_rind_harvest",
 		"particle": "blocks/melon_side"
 	},
 	"elements": [
@@ -297,7 +297,7 @@
             "predicate": {
                 "blocking": 1
             },
-            "model": "Minestuck:item/hard_rind_harvest_blocking"
+            "model": "minestuck:item/hard_rind_harvest_blocking"
         }
     ]
 }

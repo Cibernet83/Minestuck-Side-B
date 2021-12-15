@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "Minestuck:flight_beacon" }
+        "normal": { "model": "minestuck:flight_beacon" }
     }
 }

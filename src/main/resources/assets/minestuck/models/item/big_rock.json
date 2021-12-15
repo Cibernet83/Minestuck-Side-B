@@ -3,7 +3,7 @@
 	"parent": "block/block",
 	"texture_size": [256, 256],
 	"textures": {
-		"0": "Minestuck:entity/rock"
+		"0": "minestuck:entity/rock"
 	},
 	"elements": [
 		{

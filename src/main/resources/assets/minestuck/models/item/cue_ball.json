@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "Minestuck:items/cue_ball"
+        "layer0": "minestuck:items/cue_ball"
     }
 }

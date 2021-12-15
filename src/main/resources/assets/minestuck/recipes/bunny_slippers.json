@@ -1,20 +1,20 @@
 {
-    "type": "Minestuck:knitting",
+    "type": "minestuck:knitting",
     "pattern": [
         "#k#",
         "# #"
     ],
     "key": {
         "k": {
-            "item": "Minestuck:knitting_needle"
+            "item": "minestuck:knitting_needle"
         },
         "#": {
-            "item": "Minestuck:yarn_ball",
+            "item": "minestuck:yarn_ball",
             "data": 15
         }
     },
     "result": {
-        "item": "Minestuck:bunny_slippers",
+        "item": "minestuck:bunny_slippers",
         "count": 1
     }
 }

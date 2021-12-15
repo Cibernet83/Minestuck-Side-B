@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "Minestuck:items/wisdom_pierce_standby"
+        "layer0": "minestuck:items/wisdom_pierce_standby"
     },
     "display": {
         "thirdperson_righthand": {
@@ -30,50 +30,50 @@
             "predicate": {
                 "pulling": 1
             },
-            "model": "Minestuck:item/wisdom_pierce_pulling_0"
+            "model": "minestuck:item/wisdom_pierce_pulling_0"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.65
             },
-            "model": "Minestuck:item/wisdom_pierce_pulling_1"
+            "model": "minestuck:item/wisdom_pierce_pulling_1"
         },
         {
             "predicate": {
                 "pulling": 1,
                 "pull": 0.9
             },
-            "model": "Minestuck:item/wisdom_pierce_pulling_2"
+            "model": "minestuck:item/wisdom_pierce_pulling_2"
         },
         {
             "predicate": {
-                "Minestuck:awakened": 0.2
+                "minestuck:awakened": 0.2
             },
-            "model": "Minestuck:item/wisdom_pierce_awakened"
+            "model": "minestuck:item/wisdom_pierce_awakened"
         },
         {
             "predicate": {
                 "pulling": 1,
-                "Minestuck:awakened": 0.2
+                "minestuck:awakened": 0.2
             },
-            "model": "Minestuck:item/wisdom_pierce_awakened_pulling_0"
+            "model": "minestuck:item/wisdom_pierce_awakened_pulling_0"
         },
         {
             "predicate": {
-                "Minestuck:awakened": 0.2,
+                "minestuck:awakened": 0.2,
                 "pulling": 1,
                 "pull": 0.65
             },
-            "model": "Minestuck:item/wisdom_pierce_awakened_pulling_1"
+            "model": "minestuck:item/wisdom_pierce_awakened_pulling_1"
         },
         {
             "predicate": {
-                "Minestuck:awakened": 0.2,
+                "minestuck:awakened": 0.2,
                 "pulling": 1,
                 "pull": 0.9
             },
-            "model": "Minestuck:item/wisdom_pierce_awakened_pulling_2"
+            "model": "minestuck:item/wisdom_pierce_awakened_pulling_2"
         }
     ]
 }

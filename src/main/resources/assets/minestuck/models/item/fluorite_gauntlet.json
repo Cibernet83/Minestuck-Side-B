@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "Minestuck:models/fluorite_gauntlet"
+		"1": "minestuck:models/fluorite_gauntlet"
 	},
 	"elements": [
 		{

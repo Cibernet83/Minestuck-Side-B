@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/wisdom_pierce",
+    "parent": "minestuck:item/wisdom_pierce",
     "textures": {
-        "layer0": "Minestuck:items/wisdom_pierce_pulling_1"
+        "layer0": "minestuck:items/wisdom_pierce_pulling_1"
     }
 }

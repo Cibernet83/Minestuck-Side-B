@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "Minestuck:models/cobble_basher",
-		"particle": "Minestuck:models/cobble_basher"
+		"0": "minestuck:models/cobble_basher",
+		"particle": "minestuck:models/cobble_basher"
 	},
 	"elements": [
 		{

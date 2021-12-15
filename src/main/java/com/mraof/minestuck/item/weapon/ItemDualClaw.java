@@ -36,6 +36,7 @@ public class ItemDualClaw extends MSWeaponBase
         this.attackSpeedSheathed = weaponSpeedWhileShiethed;
 
         this.addProperties(new PropertySweep(), new PropertyDualWield());
+        addPropertyOverride(new ResourceLocation(Minestuck.MODID, "sheathed"), ((stack, worldIn, entityIn) -> isDrawn(stack) ? 0 : 1));
     }
 
     @Override

@@ -1,13 +1,13 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "Minestuck:blocks/wizard_statue",
-		"1": "Minestuck:blocks/wizard_statue_back",
-		"2": "Minestuck:blocks/wizard_statue_side",
-		"3": "Minestuck:blocks/wizard_statue_bottom",
-		"4": "Minestuck:blocks/wizard_statue_top",
+		"0": "minestuck:blocks/wizard_statue",
+		"1": "minestuck:blocks/wizard_statue_back",
+		"2": "minestuck:blocks/wizard_statue_side",
+		"3": "minestuck:blocks/wizard_statue_bottom",
+		"4": "minestuck:blocks/wizard_statue_top",
 		"5": "minestuck:blocks/coarse_stone",
-		"particle": "Minestuck:blocks/wizard_statue"
+		"particle": "minestuck:blocks/wizard_statue"
 	},
 	"elements": [
 		{

@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "Minestuck:items/teleport_medallion"
+        "layer0": "minestuck:items/teleport_medallion"
     }
 }

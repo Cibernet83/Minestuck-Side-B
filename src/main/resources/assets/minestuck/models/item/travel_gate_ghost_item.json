@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"0": "Minestuck:items/travel_gate",
-		"1": "Minestuck:items/return_node",
-		"particle": "Minestuck:items/travel_gate"
+		"0": "minestuck:items/travel_gate",
+		"1": "minestuck:items/return_node",
+		"particle": "minestuck:items/travel_gate"
 	},
 	"elements": [
 		{

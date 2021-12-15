@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "Minestuck:blocks/nether_reactor_core"
+        "all": "minestuck:blocks/nether_reactor_core"
     }
 }

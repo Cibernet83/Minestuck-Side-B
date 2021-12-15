@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "Minestuck:blocks/kringlefucker",
-		"particle": "Minestuck:blocks/kringlefucker"
+		"0": "minestuck:blocks/kringlefucker",
+		"particle": "minestuck:blocks/kringlefucker"
 	},
 	"elements": [
 		{

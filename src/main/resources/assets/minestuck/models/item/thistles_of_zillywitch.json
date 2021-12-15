@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/thistles_of_zillywitch"
+        "layer0": "minestuck:items/thistles_of_zillywitch"
     }
 }

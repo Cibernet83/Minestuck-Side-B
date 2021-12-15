@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/cranial_ender"
+        "layer0": "minestuck:items/cranial_ender"
     }
 }

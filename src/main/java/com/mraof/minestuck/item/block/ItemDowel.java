@@ -24,8 +24,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.mraof.minestuck.item.MinestuckItems.cruxiteDowel;
-
 public class ItemDowel extends MSItemBlock
 {
 	
@@ -81,7 +79,7 @@ public class ItemDowel extends MSItemBlock
 	@Override
 	public void registerModel()
 	{
-		ModelLoader.registerItemVariants(cruxiteDowel, new ResourceLocation(Minestuck.MODID, "dowel_uncarved"), new ResourceLocation(Minestuck.MODID, "dowel_carved"));
-		ModelLoader.setCustomMeshDefinition(cruxiteDowel, (ItemStack stack) -> new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, (stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") ? "dowel_carved" : "dowel_uncarved")), "inventory"));
+		ModelLoader.registerItemVariants(this, new ResourceLocation(Minestuck.MODID, "dowel_uncarved"), new ResourceLocation(Minestuck.MODID, "dowel_carved"));
+		ModelLoader.setCustomMeshDefinition(this, (ItemStack stack) -> new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, (stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") ? "dowel_carved" : "dowel_uncarved")), "inventory"));
 	}
 }

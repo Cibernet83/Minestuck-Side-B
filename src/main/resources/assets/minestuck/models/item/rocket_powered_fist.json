@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "Minestuck:item/gauntlet",
+	"parent": "minestuck:item/gauntlet",
 	"textures": {
-		"0": "Minestuck:models/rocket_fist",
-		"particle": "Minestuck:models/rocket_fist"
+		"0": "minestuck:models/rocket_fist",
+		"particle": "minestuck:models/rocket_fist"
 	},
 	"elements": [
 		{

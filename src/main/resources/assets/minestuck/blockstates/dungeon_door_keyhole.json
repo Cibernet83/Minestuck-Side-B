@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "Minestuck:dungeon_door_keyhole" }
+        "normal": { "model": "minestuck:dungeon_door_keyhole" }
     }
 }

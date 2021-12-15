@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "Minestuck:fluorite_block" }
+        "normal": { "model": "minestuck:fluorite_block" }
     }
 }

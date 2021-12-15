@@ -1,5 +1,5 @@
 {
-	"parent": "Minestuck:item/hard_rind_harvest",
+	"parent": "minestuck:item/hard_rind_harvest",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [45, -45, 0],

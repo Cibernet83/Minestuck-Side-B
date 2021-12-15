@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "Minestuck:grist_block_mana" }
+        "normal": { "model": "minestuck:grist_block_mana" }
     }
 }

@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/rolled_up_paper",
+    "parent": "minestuck:item/rolled_up_paper",
     "textures": {
-        "layer0": "Minestuck:items/yesterdays_news"
+        "layer0": "minestuck:items/yesterdays_news"
     }
 }

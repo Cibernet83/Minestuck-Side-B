@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "Minestuck:blocks/moonstone_ore"
+        "all": "minestuck:blocks/moonstone_ore"
     }
 }

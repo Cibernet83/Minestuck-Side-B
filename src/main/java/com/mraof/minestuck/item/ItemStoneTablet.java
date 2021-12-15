@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.GuiHandler;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -38,7 +38,7 @@ public class ItemStoneTablet extends MSItemBase
 	{
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 		BlockPos pos = playerIn.getPosition();
-		playerIn.openGui(Minestuck.instance, GuiHandler.GuiId.STONE_TABLET.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+		playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.STONE_TABLET.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
 	}
 

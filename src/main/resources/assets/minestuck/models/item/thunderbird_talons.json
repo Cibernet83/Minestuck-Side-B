@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/claw",
+    "parent": "minestuck:item/claw",
     "textures": {
-        "layer0": "Minestuck:items/thunderbird_talons"
+        "layer0": "minestuck:items/thunderbird_talons"
     }
 }

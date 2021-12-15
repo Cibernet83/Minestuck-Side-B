@@ -1,14 +1,14 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/knitting_needle"
+        "layer0": "minestuck:items/knitting_needle"
     },
     "overrides": [
         {
             "predicate": {
-                "Minestuck:plural": 1
+                "minestuck:plural": 1
             },
-            "model": "Minestuck:item/knitting_needles"
+            "model": "minestuck:item/knitting_needles"
         }
     ]
 }

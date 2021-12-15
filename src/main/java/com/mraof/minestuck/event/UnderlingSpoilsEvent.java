@@ -2,8 +2,8 @@ package com.mraof.minestuck.event;
 
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 import java.util.ArrayList;
@@ -11,22 +11,22 @@ import java.util.ArrayList;
 public class UnderlingSpoilsEvent extends Event
 {
 	private final EntityUnderling underling;
-	private final EntityLivingBase attacker;
+	private final DamageSource source;
 	private final GristSet originalSpoils;
 	private GristSet spoils;
 	private ArrayList<ItemStack> drops = new ArrayList<>();
 
-	public UnderlingSpoilsEvent(EntityUnderling underling, EntityLivingBase attacker, GristSet spoils)
+	public UnderlingSpoilsEvent(EntityUnderling underling, DamageSource source, GristSet spoils)
 	{
 		this.underling = underling;
-		this.attacker = attacker;
+		this.source = source;
 		this.originalSpoils = spoils;
 		this.spoils = spoils;
 	}
 
-	public UnderlingSpoilsEvent(EntityUnderling underling, EntityLivingBase attacker, GristSet spoils, ArrayList<ItemStack> drops)
+	public UnderlingSpoilsEvent(EntityUnderling underling, DamageSource source, GristSet spoils, ArrayList<ItemStack> drops)
 	{
-		this(underling, attacker, spoils);
+		this(underling, source, spoils);
 		this.drops.addAll(drops);
 	}
 
@@ -39,9 +39,7 @@ public class UnderlingSpoilsEvent extends Event
 		return underling;
 	}
 
-	public EntityLivingBase getAttacker() {
-		return attacker;
-	}
+	public DamageSource getSource() {return source;}
 
 	public GristSet getOriginalSpoils() {
 		return originalSpoils;

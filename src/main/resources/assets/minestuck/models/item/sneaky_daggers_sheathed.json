@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/claw",
+    "parent": "minestuck:item/claw",
     "textures": {
-        "layer0": "Minestuck:items/sneaky_daggers_sheathed"
+        "layer0": "minestuck:items/sneaky_daggers_sheathed"
     }
 }

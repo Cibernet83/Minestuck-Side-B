@@ -2,7 +2,7 @@
 	"credit": "Made by Ishumire",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/wooden_doorshield_oak"
+		"0": "minestuck:models/wooden_doorshield_oak"
 	},
 	"elements": [
 		{
@@ -180,7 +180,7 @@
             "predicate": {
                 "blocking": 1
             },
-            "model": "Minestuck:item/wooden_doorshield_blocking"
+            "model": "minestuck:item/wooden_doorshield_blocking"
         }
     ]
 }

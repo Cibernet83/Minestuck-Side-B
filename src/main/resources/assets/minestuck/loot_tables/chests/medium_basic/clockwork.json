@@ -33,7 +33,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "Minestuck:ticking_stopwatch",
+                    "name": "minestuck:ticking_stopwatch",
                     "weight": 2
                 }
             ]

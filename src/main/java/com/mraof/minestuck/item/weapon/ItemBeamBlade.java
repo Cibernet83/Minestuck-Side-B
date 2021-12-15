@@ -33,6 +33,8 @@ public class ItemBeamBlade extends MSWeaponBase
         super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
         addProperties(new PropertySweep(), new PropertyElectric(10, 2, 0.6f, false));
         setRepairMaterials(new ItemStack(MinestuckItems.battery));
+
+        addPropertyOverride(new ResourceLocation(Minestuck.MODID, "sheathed"), ((stack, worldIn, entityIn) -> isDrawn(stack) ? 0 : 1));
     }
 
     public ItemBeamBlade setColor(EnumDyeColor color)
@@ -44,15 +46,6 @@ public class ItemBeamBlade extends MSWeaponBase
     public EnumDyeColor getColor()
     {
         return color;
-    }
-    
-    @Override
-    public String getItemStackDisplayName(ItemStack stack)
-    {
-        String color = "";
-        if(this.color != null)
-            color = "."+this.color.getUnlocalizedName();
-        return I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + color + ".name").trim();
     }
 
     @Override
@@ -129,12 +122,9 @@ public class ItemBeamBlade extends MSWeaponBase
     @Override
     public void registerModel()
     {
-        super.registerModel();
-        String on = getRegistryName().getResourcePath();
-        String off = getRegistryName().getResourcePath() + "_off";
-        ModelLoader.registerItemVariants(this,
-                new ResourceLocation(Minestuck.MODID, on),
-                new ResourceLocation(Minestuck.MODID, off));
-        ModelLoader.setCustomMeshDefinition(this, (ItemStack stack) -> new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, isDrawn(stack) ? on : off), "inventory"));
+        if(color == null)
+            super.registerModel();
+        else
+        	ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "dyed_battery_beam_blade"), "inventory"));
     }
 }

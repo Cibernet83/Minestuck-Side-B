@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/rocket_riot_shield"
+		"0": "minestuck:models/rocket_riot_shield"
 	},
 	"elements": [
 		{
@@ -259,13 +259,13 @@
 			"predicate": {
 				"blocking": 1
 			},
-			"model": "Minestuck:item/rocket_riot_shield_blocking"
+			"model": "minestuck:item/rocket_riot_shield_blocking"
 		},
 		{
 			"predicate": {
-				"Minestuck:active": 1
+				"minestuck:active": 1
 			},
-			"model": "Minestuck:item/rocket_riot_shield_active"
+			"model": "minestuck:item/rocket_riot_shield_active"
 		}
 	]
 }

@@ -3,7 +3,7 @@
 	"ambientocclusion": false,
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "Minestuck:models/nuclear_neglector"
+		"0": "minestuck:models/nuclear_neglector"
 	},
 	"elements": [
 		{
@@ -122,7 +122,7 @@
 			"predicate": {
 				"blocking": 1
 			},
-			"model": "Minestuck:item/nuclear_neglector_blocking"
+			"model": "minestuck:item/nuclear_neglector_blocking"
 		}
 	],
 	"display": {

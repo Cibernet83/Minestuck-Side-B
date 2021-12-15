@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "Minestuck:flight_inhibitor" }
+        "normal": { "model": "minestuck:flight_inhibitor" }
     }
 }

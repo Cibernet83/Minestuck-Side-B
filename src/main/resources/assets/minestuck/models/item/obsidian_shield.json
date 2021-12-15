@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/obsidian_shield",
-		"1": "Minestuck:models/obsidian_shield_frame",
-		"particle": "Minestuck:models/obsidian_shield_frame"
+		"0": "minestuck:models/obsidian_shield",
+		"1": "minestuck:models/obsidian_shield_frame",
+		"particle": "minestuck:models/obsidian_shield_frame"
 	},
 	"elements": [
 		{
@@ -47,21 +47,21 @@
 		{
 			"predicate": {
 				"blocking": 1,
-				"Minestuck:active": 1
+				"minestuck:active": 1
 			},
-			"model": "Minestuck:item/obsidian_shield_active_blocking"
+			"model": "minestuck:item/obsidian_shield_active_blocking"
 		},
 		{
 			"predicate": {
-				"Minestuck:active": 1
+				"minestuck:active": 1
 			},
-			"model": "Minestuck:item/obsidian_shield_active"
+			"model": "minestuck:item/obsidian_shield_active"
 		},
 		{
 			"predicate": {
 				"blocking": 1
 			},
-			"model": "Minestuck:item/obsidian_shield_blocking"
+			"model": "minestuck:item/obsidian_shield_blocking"
 		}
 	],
 	"display": {

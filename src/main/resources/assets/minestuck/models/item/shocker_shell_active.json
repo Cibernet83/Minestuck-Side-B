@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/shocker_shell",
-		"1": "Minestuck:models/shocker_shell_effect"
+		"0": "minestuck:models/shocker_shell",
+		"1": "minestuck:models/shocker_shell_effect"
 	},
 	"elements": [
 		{

@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"0": "Minestuck:machines/auto_captcha",
-		"particle": "Minestuck:machines/auto_captcha"
+		"0": "minestuck:machines/auto_captcha",
+		"particle": "minestuck:machines/auto_captcha"
 	},
 	"elements": [
 		{

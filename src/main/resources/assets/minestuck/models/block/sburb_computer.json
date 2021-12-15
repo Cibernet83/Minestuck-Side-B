@@ -3,9 +3,9 @@
 	"parent": "block/orientable",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "minestuck:machines/sburb_computer",
-		"screen": "minestuck:blocks/computer_screen_off",
-		"particle": "minestuck:machines/sburb_computer"
+		"0": "minestuck:machines/computers/sburb_computer",
+		"particle": "minestuck:machines/computers/sburb_computer",
+		"screen": "minestuck:machines/computers/computer_screen_off"
 	},
 	"elements": [
 		{
@@ -106,7 +106,7 @@
 		},
 		{
 			"from": [0.5, 5.5, 8.8],
-			"to": [0.8, 13.7, 9],
+			"to": [1, 13.7, 9],
 			"faces": {
 				"north": {"uv": [4.75, 7.25, 5, 9.25], "texture": "#0"},
 				"east": {"uv": [5, 7.25, 5.25, 9.25], "texture": "#0"},
@@ -117,7 +117,7 @@
 			}
 		},
 		{
-			"from": [0.5, 13.7, 8.8],
+			"from": [0.5, 13.25, 8.8],
 			"to": [15.5, 14, 9],
 			"faces": {
 				"north": {"uv": [6.75, 6.25, 10.5, 6.5], "texture": "#0"},
@@ -129,7 +129,7 @@
 			}
 		},
 		{
-			"from": [15.2, 5.5, 8.8],
+			"from": [15, 5.5, 8.8],
 			"to": [15.5, 13.7, 9],
 			"faces": {
 				"north": {"uv": [5.75, 7.25, 6, 9.25], "texture": "#0"},
@@ -142,7 +142,7 @@
 		},
 		{
 			"from": [0.5, 5, 8.8],
-			"to": [15.5, 5.5, 9],
+			"to": [15.5, 5.75, 9],
 			"faces": {
 				"north": {"uv": [0, 7.25, 3.75, 7.5], "texture": "#0"},
 				"east": {"uv": [3, 7.75, 3.25, 8], "texture": "#0"},

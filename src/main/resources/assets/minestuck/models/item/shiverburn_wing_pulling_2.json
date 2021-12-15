@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/shiverburn_wing",
+    "parent": "minestuck:item/shiverburn_wing",
     "textures": {
-        "layer0": "Minestuck:items/shiverburn_wing_pulling_2"
+        "layer0": "minestuck:items/shiverburn_wing_pulling_2"
     }
 }

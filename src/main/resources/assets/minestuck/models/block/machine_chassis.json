@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "Minestuck:machines/machine_chassis",
-		"particle": "Minestuck:machines/machine_chassis"
+		"0": "minestuck:machines/machine_chassis",
+		"particle": "minestuck:machines/machine_chassis"
 	},
 	"parent": "minecraft:block/block",
 	"elements": [

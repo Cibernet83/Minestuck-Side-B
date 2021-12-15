@@ -1,0 +1,8 @@
+{
+    "parent": "block/half_slab",
+    "textures": {
+        "bottom": "minecraft:blocks/bedrock",
+        "top": "minecraft:blocks/bedrock",
+        "side": "minecraft:blocks/bedrock"
+    }
+}

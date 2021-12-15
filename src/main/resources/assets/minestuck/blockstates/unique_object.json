@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "Minestuck:unique_object" }
+        "normal": { "model": "minestuck:unique_object" }
     }
 }

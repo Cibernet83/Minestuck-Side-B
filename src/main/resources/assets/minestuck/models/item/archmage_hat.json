@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "Minestuck:items/archmage_hat"
+        "layer0": "minestuck:items/archmage_hat"
     }
 }

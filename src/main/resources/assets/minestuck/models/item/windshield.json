@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/wind_shield",
-		"particle": "Minestuck:models/wind_shield"
+		"0": "minestuck:models/wind_shield",
+		"particle": "minestuck:models/wind_shield"
 	},
 	"elements": [
 		{
@@ -132,7 +132,7 @@
 			"predicate": {
 				"blocking": 1
 			},
-			"model": "Minestuck:item/windshield_blocking"
+			"model": "minestuck:item/windshield_blocking"
 		}
 	],
 	"display": {

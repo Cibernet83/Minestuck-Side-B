@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/stardust_smasher"
+        "layer0": "minestuck:items/stardust_smasher"
     },
     "display": {
         "thirdperson_righthand": {

@@ -1,6 +1,6 @@
 {
-    "parent": "Minestuck:item/boomerang",
+    "parent": "minestuck:item/boomerang",
     "textures": {
-        "layer0": "Minestuck:items/red_hot_rang_flaming"
+        "layer0": "minestuck:items/red_hot_rang_flaming"
     }
 }

@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "Minestuck:artifact" }
+        "normal": { "model": "minestuck:artifact" }
     }
 }

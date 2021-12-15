@@ -25,12 +25,12 @@ public class MachineChasisRecipes
     public static void registerRecipes()
     {
         addRecipe(gristHopper, new ItemStack(Blocks.HOPPER), new ItemStack(gristBlockBuild),
-                new ItemStack(gristBlockUranium), new ItemStack(MinestuckBlocks.blockComputerOff), new ItemStack(gristBlockUranium));
-        addRecipe(autoWidget, new ItemStack(MinestuckBlocks.gristWidget), new ItemStack(MinestuckItems.boondollars),
+                new ItemStack(gristBlockUranium), new ItemStack(MinestuckBlocks.blockSburbComputer), new ItemStack(gristBlockUranium));
+        addRecipe(autoWidget, new ItemStack(gristWidget), new ItemStack(MinestuckItems.boondollars),
                 new ItemStack(MinestuckItems.boondollars), new ItemStack(MinestuckItems.energyCore), new ItemStack(zillystoneShard));
         addRecipe(autoCaptcha, new ItemStack(Blocks.DISPENSER), new ItemStack(MinestuckItems.captchaCard),
                 new ItemStack(moonstone), ItemStack.EMPTY, new ItemStack(MinestuckItems.energyCore));
-        addRecipe(porkhollowAtm, new ItemStack(MinestuckBlocks.blockComputerOff), new ItemStack(MinestuckItems.boondollars),
+        addRecipe(porkhollowAtm, new ItemStack(MinestuckBlocks.blockSburbComputer), new ItemStack(MinestuckItems.boondollars),
                 new ItemStack(MinestuckItems.boondollars), new ItemStack(Items.PORKCHOP), new ItemStack(MinestuckItems.boondollars));
         addRecipe(boondollarRegister, new ItemStack(porkhollowAtm), new ItemStack(Blocks.HOPPER), new ItemStack(Items.COMPARATOR),
                 new ItemStack(Blocks.CHEST), new ItemStack(Items.REDSTONE));

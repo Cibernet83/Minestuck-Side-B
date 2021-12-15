@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/dynamite_stick"
+        "layer0": "minestuck:items/dynamite_stick"
     }
 }

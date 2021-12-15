@@ -2,7 +2,7 @@
 	"credit": "Made by Ishumire",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "Minestuck:models/firewall",
+		"0": "minestuck:models/firewall",
 		"1": "minecraft:blocks/fire_layer_0",
 		"2": "minecraft:blocks/fire_layer_1"
 	},

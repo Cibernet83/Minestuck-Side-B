@@ -2,12 +2,9 @@ package com.mraof.minestuck.event.handlers;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.IPropertyWeapon;
-import com.mraof.minestuck.item.properties.PropertyAutoSmelt;
-import com.mraof.minestuck.item.properties.PropertyTrueDamage;
+import com.mraof.minestuck.item.properties.*;
 import com.mraof.minestuck.item.properties.throwkind.PropertyVariableItem;
 import com.mraof.minestuck.item.weapon.MSShieldBase;
-import com.mraof.minestuck.item.properties.PropertyGristSetter;
-import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -47,6 +44,7 @@ public class PropertyEventHandler
 		MinecraftForge.EVENT_BUS.register(PropertyTrueDamage.class);
 		MinecraftForge.EVENT_BUS.register(PropertyAutoSmelt.class);
 		MinecraftForge.EVENT_BUS.register(PropertyVariableItem.class);
+		MinecraftForge.EVENT_BUS.register(PropertyCandyWeapon.class);
 	}
 
 	@SubscribeEvent

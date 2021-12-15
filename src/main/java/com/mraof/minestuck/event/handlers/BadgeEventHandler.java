@@ -1,7 +1,6 @@
 package com.mraof.minestuck.event.handlers;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.badges.BadgeBuilder;
@@ -17,8 +16,6 @@ import com.mraof.minestuck.capabilities.api.IGodKeyStates;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MSGTParticles;
-import com.mraof.minestuck.entity.item.EntityGrist;
-import com.mraof.minestuck.entity.underling.EntityUnderling;
 import com.mraof.minestuck.event.WeaponAssignedEvent;
 import com.mraof.minestuck.modSupport.LocksSupport;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
@@ -41,7 +38,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -51,13 +47,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import java.util.Iterator;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -186,7 +184,8 @@ public class BadgeEventHandler
 		}
 	}
 
-	@SubscribeEvent(priority = EventPriority.LOWEST)
+	// TODO: Migrate to UnderlingSpoilsEvent @Cibernet
+	/*@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onLivingDeath(LivingDeathEvent event)
 	{
 		if (event.getEntity().world.isRemote)
@@ -253,7 +252,7 @@ public class BadgeEventHandler
 				}
 			}
 		}
-	}
+	}*/
 
 	private static int blockCount = 0;
 

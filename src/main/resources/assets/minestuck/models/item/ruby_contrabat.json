@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/ruby_bat"
+        "layer0": "minestuck:items/ruby_bat"
     }
 }

@@ -1,5 +1,5 @@
 {
-    "type": "Minestuck:knitting",
+    "type": "minestuck:knitting",
     "pattern": [
         "###",
         " k#",
@@ -7,15 +7,15 @@
     ],
     "key": {
         "k": {
-            "item": "Minestuck:knitting_needle"
+            "item": "minestuck:knitting_needle"
         },
         "#": {
-            "item": "Minestuck:yarn_ball",
+            "item": "minestuck:yarn_ball",
             "data": 11
         }
     },
     "result": {
-        "item": "Minestuck:scarf",
+        "item": "minestuck:scarf",
         "data": 11
     }
 }

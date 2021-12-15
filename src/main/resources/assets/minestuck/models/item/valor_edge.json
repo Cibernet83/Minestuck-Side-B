@@ -1,14 +1,14 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/valors_edge"
+        "layer0": "minestuck:items/valors_edge"
     },
     "overrides": [
         {
             "predicate": {
-                "Minestuck:awakened": 0.2
+                "minestuck:awakened": 0.2
             },
-            "model": "Minestuck:item/valor_edge_awakened"
+            "model": "minestuck:item/valor_edge_awakened"
         }
     ]
 }

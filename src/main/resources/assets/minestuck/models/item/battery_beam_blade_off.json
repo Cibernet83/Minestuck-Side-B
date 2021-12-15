@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "Minestuck:items/battery_beam_blade_off"
+        "layer0": "minestuck:items/battery_beam_blade_off"
     }
 }

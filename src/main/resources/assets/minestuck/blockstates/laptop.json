@@ -1,0 +1,19 @@
+{
+    "variants": {
+        "facing=north,state=off": { "model": "minestuck:laptop" },
+        "facing=east,state=off": { "model": "minestuck:laptop", "y": 90 },
+        "facing=south,state=off": { "model": "minestuck:laptop", "y": 180 },
+        "facing=west,state=off": { "model": "minestuck:laptop", "y": 270 },
+        "facing=north,state=off": { "model": "minestuck:laptop" },
+
+        "facing=east,state=on": { "model": "minestuck:laptop_on", "y": 90 },
+        "facing=south,state=on": { "model": "minestuck:laptop_on", "y": 180 },
+        "facing=west,state=on": { "model": "minestuck:laptop_on", "y": 270 },
+        "facing=north,state=on": { "model": "minestuck:laptop_on" },
+
+        "facing=east,state=bsod": { "model": "minestuck:laptop_bsod", "y": 90 },
+        "facing=south,state=bsod": { "model": "minestuck:laptop_bsod", "y": 180 },
+        "facing=west,state=bsod": { "model": "minestuck:laptop_bsod", "y": 270 },
+        "facing=north,state=bsod": { "model": "minestuck:laptop_bsod" }
+    }
+}
