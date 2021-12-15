@@ -696,7 +696,6 @@ public class MinestuckItems
 			setArmorModel(new ModelArchmageHat());
 		}
 	};
-	public static final MSArmorBase cozySweater = new ItemWitherproofArmor("cozySweater", materialCloth, EntityEquipmentSlot.CHEST, 100);
 	public static final MSArmorBase scarf = new ItemScarf("scarf", materialCloth, EntityEquipmentSlot.HEAD)
 	{
 		@Override
@@ -706,6 +705,7 @@ public class MinestuckItems
 			setArmorModel(new ModelScarf());
 		}
 	};
+	public static final MSArmorBase cozySweater = new ItemWitherproofArmor("cozySweater", materialCloth, EntityEquipmentSlot.CHEST, 100);
 	public static final MSArmorBase rubberBoots = new MSArmorBase("rubberBoots", materialRubber, EntityEquipmentSlot.FEET);
 	public static final MSArmorBase bunnySlippers = new MSArmorBase("bunnySlippers", materialCloth, EntityEquipmentSlot.FEET);
 	public static final MSArmorBase moonShoes = new ItemPogoBoots("moonShoes", 1.1f, materialRubber, 0);
