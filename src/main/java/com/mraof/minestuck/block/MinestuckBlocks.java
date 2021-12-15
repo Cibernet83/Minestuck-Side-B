@@ -43,6 +43,9 @@ public class MinestuckBlocks
 	public static final Map<EnumAspect, BlockHeroStone> chiseledHeroStones = new TreeMap<>();
 	public static final Map<EnumAspect, BlockHeroStoneWall> heroStoneWalls = new TreeMap<>();
 	public static final Map<EnumAspect, BlockSpectralHeroStone> spectralHeroStones = new TreeMap<>();
+	public static final Map<EnumAspect, Block> aspectLogs = new TreeMap<>();
+	public static final Map<EnumAspect, Block> aspectPlanks = new TreeMap<>();
+	public static final Map<EnumAspect, Block> aspectSaplings = new TreeMap<>();
 
 	//Blocks
 	public static final Block chessTile = new BlockChessTile();
@@ -103,11 +106,7 @@ public class MinestuckBlocks
 	public static final Block leaves1 = new MSBlockLeavesVariant();
 	public static final Block rainbowPlanks = new BlockFlamable("rainbowPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F);
 	public static final Block frostPlanks = new MSBlockBase("frostPlanks", Material.WOOD).setSoundType(SoundType.WOOD).setHardness(2.0f);
-	public static final Block aspectSapling = new BlockAspectSapling();
 	public static final Block rainbowSapling = new BlockRainbowSapling();
-	public static final Block aspectLog1 = new BlockAspectLog1();
-	public static final Block aspectLog2 = new BlockAspectLog2();
-	public static final Block aspectLog3 = new BlockAspectLog3();
 	public static final Block woodenCactus = new BlockCactusSpecial("woodenCactus", SoundType.WOOD, "axe").setHardness(1.0F).setResistance(2.5F);
 	public static final Block sugarCube = new BlockFlamable("sugarCube", Material.SAND, MapColor.SNOW, SoundType.SAND).setHardness(0.4F);
 	public static final Block appleCake = new BlockSimpleCake("appleCake", 2, 0.5F, null);
@@ -412,5 +411,12 @@ public class MinestuckBlocks
 		chiseledHeroStones.put(aspect, new BlockHeroStone(aspect, true));
 		heroStoneWalls.put(aspect, new BlockHeroStoneWall(heroStones.get(aspect).getDefaultState()));
 		spectralHeroStones.put(aspect, new BlockSpectralHeroStone(aspect));
+
+		aspectPlanks.put(aspect, new BlockFlamable("aspectPlanks"+aspect.getName().toLowerCase().replaceFirst(aspect.getName().charAt(0)+"", aspect.getName().toUpperCase().charAt(0)+""),
+				Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F));
+		aspectLogs.put(aspect, new BlockFlamable("logAspect"+aspect.getName().toLowerCase().replaceFirst(aspect.getName().charAt(0)+"", aspect.getName().toUpperCase().charAt(0)+""),
+				Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F));
+		aspectSaplings.put(aspect, new BlockAspectSapling(aspect));
+
 	}
 }
