@@ -67,7 +67,7 @@ public abstract class GuiMiniSburbMachine extends GuiMachine
 		//draw progress bar
 		this.mc.getTextureManager().bindTexture(guiProgress);
 		int width = getScaledValue(te.progress, te.maxProgress, progressWidth);
-		int height = getScaledValue(te.progress, te.maxProgress, progressHeight);
+		int height = progressHeight;
 		drawModalRectWithCustomSizedTexture(x + progressX, y + progressY + progressHeight - height, 0, progressHeight - height, width, height, progressWidth, progressHeight);
 	}
 
@@ -123,6 +123,6 @@ public abstract class GuiMiniSburbMachine extends GuiMachine
 	 */
 	public int getScaledValue(int progress, int max, int imageMax)
 	{
-		return (int) ((float) imageMax * ((float) progress / (float) max));
+		return Math.round((float) imageMax * ((float) progress / (float) max));
 	}
 }
