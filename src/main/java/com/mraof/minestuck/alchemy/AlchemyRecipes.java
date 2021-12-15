@@ -830,7 +830,6 @@ public class AlchemyRecipes
 		GristRegistry.addGristConversion(new ItemStack(shopPoster, 1, 2), new GristSet(new GristType[] {GristType.Build, GristType.Chalk, GristType.Caulk}, new int[] {8, 2, 2}));
 		GristRegistry.addGristConversion(new ItemStack(shopPoster, 1, 3), new GristSet(new GristType[] {GristType.Build, GristType.Rust, GristType.Amber}, new int[] {7, 3, 2}));
 		GristRegistry.addGristConversion(new ItemStack(shopPoster, 1, 4), new GristSet(new GristType[] {GristType.Build, GristType.Iodine, GristType.Chalk}, new int[] {9, 2, 1}));*/
-		GristRegistry.addGristConversion(new ItemStack(vein), new GristSet(new GristType[] {GristType.Garnet, GristType.Iodine}, new int[] {12, 8}));
 
 		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.hardStone), new GristSet(new GristType[] {Build}, new int[] {4}));
 		GristRegistry.addGristConversion(new ItemStack(floatStone), new GristSet(new GristType[] {Build}, new int[] {400}));

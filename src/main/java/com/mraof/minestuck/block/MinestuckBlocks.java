@@ -115,10 +115,6 @@ public class MinestuckBlocks
 		player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 350, 1));
 		player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));
 	});
-	public static final Block vein = new BlockVein("vein");
-	public static final Block veinCorner = new BlockVeinCorner("veinCorner");
-	public static final Block veinCornerInverted = new BlockVeinCorner("veinCornerInverted");
-
 	public static final Block treatedPlanks = generateSlabsAndStairs(new BlockFlamable("treatedPlanks", Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(1, 0).setHardness(1.0F));
 
 	public static final Block endLog = new BlockEndLog();
