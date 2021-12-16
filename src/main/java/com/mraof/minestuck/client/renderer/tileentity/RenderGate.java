@@ -47,7 +47,7 @@ public class RenderGate extends TileEntitySpecialRenderer<TileEntityGate>
 	public void renderGateAt(TileEntityGate tileEntity, double posX, double posY, double posZ, float f, int p_180535_9_)
 	{
 		BufferBuilder buffer = Tessellator.getInstance().getBuffer();
-		float tick = (System.currentTimeMillis() - Minestuck.startTime) / 50f; //tileEntity.getWorld().getTotalWorldTime() + f;
+		float tick = (float)((System.currentTimeMillis()/1000d - Minestuck.startTime) * 20d);  //tileEntity.getWorld().getTotalWorldTime() + f;
 		GlStateManager.translate(posX + 0.5, posY, posZ + 0.5);
 		
 		GlStateManager.pushMatrix();
@@ -65,8 +65,11 @@ public class RenderGate extends TileEntitySpecialRenderer<TileEntityGate>
 	
 	public void renderReturnNodeAt(TileEntityGate tileEntity, double posX, double posY, double posZ, float f, int p_180535_9_)
 	{
+
+
+
 		BufferBuilder buffer = Tessellator.getInstance().getBuffer();
-		float tick = (System.currentTimeMillis() - Minestuck.startTime) / 50f; //tileEntity.getWorld().getTotalWorldTime() + f;
+		float tick = (float)((System.currentTimeMillis()/1000d - Minestuck.startTime) * 20d); //tileEntity.getWorld().getTotalWorldTime() + f;
 		GlStateManager.translate(posX, posY, posZ);
 		
 		GlStateManager.pushMatrix();

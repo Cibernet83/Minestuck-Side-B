@@ -312,7 +312,7 @@ public class MinestuckItems
 
 	public static final Item tickingStopwatch = new MSItemBase("tickingStopwatch")
 	{{
-		addPropertyOverride(new ResourceLocation(Minestuck.MODID, "time"), ((stack, worldIn, entityIn) -> ((System.currentTimeMillis() - Minestuck.startTime) / 1000f) % 60));
+		addPropertyOverride(new ResourceLocation(Minestuck.MODID, "time"), ((stack, worldIn, entityIn) -> ((float)(System.currentTimeMillis()/1000d - Minestuck.startTime) ) % 60));
 	}}.setMaxStackSize(1);
 	public static final Item cueBall = new MSItemBase("cueBall")
 	{
