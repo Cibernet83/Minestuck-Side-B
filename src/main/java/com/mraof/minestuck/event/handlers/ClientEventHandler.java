@@ -73,10 +73,9 @@ public class ClientEventHandler
 	private static int maxEightBallMsgs = 20;
 
 	private static final UUID WEIGHT_MODUS_SPEED_UUID = MathHelper.getRandomUUID(ThreadLocalRandom.current());
-	private boolean captchaKeyPressed = false;
 
 	@SubscribeEvent
-	public void onConnectedToServer(ClientConnectedToServerEvent event)	//Reset all static client-side data here
+	public static void onConnectedToServer(ClientConnectedToServerEvent event)	//Reset all static client-side data here
 	{
 		GuiPlayerStats.normalTab = GuiPlayerStats.NormalGuiType.CAPTCHA_DECK;
 		GuiPlayerStats.editmodeTab = GuiPlayerStats.EditmodeGuiType.DEPLOY_LIST;
@@ -93,7 +92,7 @@ public class ClientEventHandler
 	}
 	
 	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent event)
+	public static void onClientTick(TickEvent.ClientTickEvent event)
 	{
 		if(event.phase == TickEvent.Phase.END)
 		{
@@ -187,7 +186,7 @@ public class ClientEventHandler
 	}
 	
 	@SubscribeEvent(priority=EventPriority.HIGHEST)
-	public void addCustomTooltip(ItemTooltipEvent event)
+	public static void addCustomTooltip(ItemTooltipEvent event)
 	{
 		//Add config check
 		{
@@ -220,7 +219,7 @@ public class ClientEventHandler
 	}
 	
 	@SubscribeEvent
-	public void onFogRender(EntityViewRenderEvent.FogDensity event)
+	public static void onFogRender(EntityViewRenderEvent.FogDensity event)
 	{
 		if (event.getState().getBlock() == MinestuckBlocks.blockEnder)
 		{
@@ -231,13 +230,13 @@ public class ClientEventHandler
 	}
 	
 	@SubscribeEvent
-	public void onModelBake(ModelBakeEvent event)
+	public static void onModelBake(ModelBakeEvent event)
 	{
 		Debug.info(event.getModelManager().getModel(new ModelResourceLocation(Minestuck.MODID+":alchemiter#facing=east,has_dowel=true,part=totem_pad")));
 	}
 	
 	@SubscribeEvent
-	public void onBlockColorsInit(ColorHandlerEvent.Block e)
+	public static void onBlockColorsInit(ColorHandlerEvent.Block e)
 	{
 		BlockColors blockColors = e.getBlockColors();
 		blockColors.registerBlockColorHandler(new IBlockColor()
@@ -279,16 +278,5 @@ public class ClientEventHandler
 			if(CaptchaDeckHandler.clientSideModus instanceof WalletModus || CaptchaDeckHandler.clientSideModus instanceof CrystalBallModus)
 				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.WALLET_CAPTCHA, Minecraft.getMinecraft().objectMouseOver));
 		}
-	}
-
-
-	@SubscribeEvent
-	public void onTick(TickEvent.ClientTickEvent event)
-	{
-		try
-		{
-			this.captchaKeyPressed = Keyboard.isKeyDown(MinestuckKeyHandler.instance.captchaKey.getKeyCode());
-		} catch(IndexOutOfBoundsException ignored)
-		{}
 	}
 }

@@ -161,7 +161,7 @@ public class ClientProxy extends CommonProxy
 		MSGTKeyHandler.registerKeys();
 
 		MinecraftForge.EVENT_BUS.register(MinestuckKeyHandler.instance);
-		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+		MinecraftForge.EVENT_BUS.register(ClientEventHandler.class);
 		MinecraftForge.EVENT_BUS.register(MSURenderMachineOutline.class);
 		MinecraftForge.EVENT_BUS.register(RenderBeams.class);
 		MinecraftForge.EVENT_BUS.register(GuiStrifeSwitcher.class);
