@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.gui.captchalogue;
 
+import com.mraof.minestuck.color.ColorGetter;
 import com.mraof.minestuck.inventory.captchalouge.HueModus;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
 import net.minecraft.client.renderer.GlStateManager;
@@ -58,10 +59,10 @@ public class HueGuiHandler extends BaseModusGuiHandler
 	
 	public static CardColor getCardColor(ItemStack stack, boolean includeRainbow)
 	{
-		//if(stack.isEmpty())
+		if(stack.isEmpty())
 			return CardColor.RAINBOW;
 		
-		/*List<Color> colors = ColorGetter.getColors(stack, 3);
+		List<Color> colors = ColorGetter.getColors(stack, 3);
 		
 		if(colors == null || colors.size() < 1)
 			return CardColor.GRAY;
@@ -86,7 +87,7 @@ public class HueGuiHandler extends BaseModusGuiHandler
 		if(!includeRainbow)
 			return cardColors[0];
 		
-		return CardColor.RAINBOW;*/
+		return CardColor.RAINBOW;
 		
 	}
 	
