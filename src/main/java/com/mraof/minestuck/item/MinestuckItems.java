@@ -11,6 +11,7 @@ import com.mraof.minestuck.enchantments.MSUEnchantments;
 import com.mraof.minestuck.entity.EntityEightBall;
 import com.mraof.minestuck.entity.item.EntityCrewPoster;
 import com.mraof.minestuck.entity.item.EntitySbahjPoster;
+import com.mraof.minestuck.entity.item.EntityShopPoster;
 import com.mraof.minestuck.inventory.captchalouge.PopTartModus;
 import com.mraof.minestuck.item.armor.*;
 import com.mraof.minestuck.item.block.ItemDowel;
@@ -33,7 +34,6 @@ import com.mraof.minestuck.util.MinestuckSoundHandler;
 import com.mraof.minestuck.util.MinestuckSounds;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -70,6 +70,7 @@ public class MinestuckItems
 
 	private static final PropertySoundOnHit.Value PITCH_NOTE = ((stack, target, player) -> (-player.rotationPitch + 90) / 90f);
 
+	//Armor Materials
 	public static final ItemArmor.ArmorMaterial armorPrismarine = EnumHelper.addArmorMaterial("PRISMARINE", Minestuck.MODID+":prismarine", 20, new int[]{3, 7, 6, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
 	public static final ItemArmor.ArmorMaterial materialDiverHelmet = EnumHelper.addArmorMaterial("DIVER_HELMET", Minestuck.MODID+":diver_helmet", 120, new int[] {0, 0, 0, 3}, 5, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
 	public static final ItemArmor.ArmorMaterial materialSpikedHelmet = EnumHelper.addArmorMaterial("SPIKED_HELMET", Minestuck.MODID+":spiked_diver_helmet", 230, new int[] {0, 0, 0, 6}, 5, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
@@ -104,17 +105,6 @@ public class MinestuckItems
 	//Block Swap Property Maps
 	public static final BlockMetaPair.Map overgrowthTransforms = new BlockMetaPair.Map();
 
-	//Material tools
-	public static final Item emeraldSword = new MSWeaponBase("emeraldSword", 1220, 8, -2.4, 12).setTool(toolSword, 3, 12);
-	public static final Item emeraldAxe = new MSWeaponBase("emeraldAxe", 1220, 8, -2.4, 12).setTool(toolAxe, 3, 12);
-	public static final Item emeraldPickaxe = new MSWeaponBase("emeraldPickaxe", 1220, 8, -2.4, 12).setTool(toolPickaxe, 3, 12);
-	public static final Item emeraldShovel = new MSWeaponBase("emeraldShovel", 1220, 8, -2.4, 12).setTool(toolShovel, 3, 12);
-	public static final Item emeraldHoe = new MSWeaponBase("emeraldHoe", 1220, 8, -2.4, 12).setTool(toolHoe, 3, 12).addProperties(new PropertyHoe());
-	//Armor
-	public static final Item prismarineHelmet = new MSArmorBase("prismarineHelmet", armorPrismarine, EntityEquipmentSlot.HEAD, armorPrismarine.getDurability(EntityEquipmentSlot.HEAD), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
-	public static final Item prismarineChestplate = new MSArmorBase("prismarineChestplate", armorPrismarine, EntityEquipmentSlot.CHEST, armorPrismarine.getDurability(EntityEquipmentSlot.CHEST), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
-	public static final Item prismarineLeggings = new MSArmorBase("prismarineLeggings", armorPrismarine, EntityEquipmentSlot.LEGS, armorPrismarine.getDurability(EntityEquipmentSlot.LEGS), new ResourceLocation(Minestuck.MODID, "prismarine_layer_2"));
-	public static final Item prismarineBoots = new MSArmorBase("prismarineBoots", armorPrismarine, EntityEquipmentSlot.FEET, armorPrismarine.getDurability(EntityEquipmentSlot.FEET), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
 	//Food
 	public static final Item candy = new ItemMinestuckCandy();
 	public static final Item beverage = new ItemMinestuckBeverage();
@@ -135,17 +125,80 @@ public class MinestuckItems
 	public static final Item strawberryChunk = new ItemMinestuckSeedFood(4, 0.5F, "strawberryChunk");
 	public static final Item surpriseEmbryo = new ItemSurpriseEmbryo(3, 0.2F, false);
 	public static final Item unknowableEgg = new ItemUnknowableEgg(3, 0.3F, false, "unknowableEgg");
-	//Other
-	public static final Item goldenGrasshopper = new MSItemBase("goldenGrasshopper");
-	public static final Item bugNet = new ItemNet();
-	public static final Item itemFrog = new ItemFrog();
+
+	//Materials
 	public static final Item boondollars = new ItemBoondollars();
 	public static final Item rawCruxite = new MSItemBase("rawCruxite");
 	public static final Item rawUranium = new MSItemBase("rawUranium");
 	public static final Item energyCore = new MSItemBase("energyCore");
-	public static final ItemDowel cruxiteDowel = new ItemDowel(MinestuckBlocks.blockCruxiteDowel);
-	public static final Item captchaCard = new ItemCaptchaCard();
+	public static final Item fluorite = new MSItemBase("fluorite");
+	public static final Item moonstone = new MSItemBase("moonstone");
 
+	public static final Item tickingStopwatch = new MSItemBase("tickingStopwatch")
+	{{
+		addPropertyOverride(new ResourceLocation(Minestuck.MODID, "time"), ((stack, worldIn, entityIn) -> ((float)(System.currentTimeMillis()/1000d - Minestuck.startTime) ) % 60));
+	}}.setMaxStackSize(1);
+	public static final Item cueBall = new MSItemBase("cueBall")
+	{
+		@Override
+		public boolean onEntityItemUpdate(EntityItem entityItem)
+		{
+			entityItem.setEntityInvulnerable(true);
+			entityItem.setGlowing(true);
+			entityItem.setNoDespawn();
+
+			if (entityItem.posY < 1)
+			{
+				entityItem.setPosition(entityItem.getPosition().getX(), 260, entityItem.getPosition().getZ());
+				entityItem.motionY = entityItem.world.rand.nextDouble() * 1.2;
+			}
+
+			return super.onEntityItemUpdate(entityItem);
+		}
+
+	}.setMaxStackSize(1);
+
+	//Alchemy Items
+	public static final Item grimoire = new ItemGrimoire();
+	public static final Item battery = new MSItemBase("battery");
+	public static final Item stoneEyeballs = new MSItemBase("stoneEyeballs");
+	public static final Item zillystoneShard = new MSItemBase("zillystoneShard");
+	public static final Item threshDvd = new MSItemBase("threshDvd").setMaxStackSize(1);
+	public static final Item gamebroMagazine = new MSItemBase("gamebroMagazine").setMaxStackSize(1);
+	public static final Item gamegrlMagazine = new MSItemBase("gamegrlMagazine").setMaxStackSize(1);
+
+	//Posters
+	public static final Item crewPoster = new ItemHanging("crewPoster")
+	{
+		@Override
+		public EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing facing, ItemStack stack, int meta)
+		{
+			return new EntityCrewPoster(worldIn, pos, facing);
+		}
+	}.setMaxStackSize(1);
+	public static final Item sbahjPoster = new ItemHanging("sbahjPoster")
+	{
+		@Override
+		public EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing facing, ItemStack stack, int meta)
+		{
+			return new EntitySbahjPoster(worldIn, pos, facing);
+		}
+	}.setMaxStackSize(1);
+	public static final Item shopPoster = new ItemShopPoster()
+	{
+		@Override
+		public EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing facing, ItemStack stack, int meta)
+		{
+			return new EntityShopPoster(worldIn, pos, facing, stack, meta);
+		}
+	}.setMaxStackSize(1).setCreativeTab(null);
+
+	//Froges
+	public static final Item itemFrog = new ItemFrog();
+	public static final Item bugNet = new ItemNet();
+	public static final Item goldenGrasshopper = new MSItemBase("goldenGrasshopper");
+
+	//Cruxite Artifacts
 	public static final ArrayList<Item> cruxiteArtifacts = new ArrayList<>();
 	public static final Item cruxiteApple = new ItemCruxiteFood("cruxiteApple", 0, 0, true);
 	public static final Item cruxitePotion = new ItemCruxiteFood("cruxitePotion", 0, 0, EnumAction.DRINK, true);
@@ -163,57 +216,35 @@ public class MinestuckItems
 	public static final Item cruxiteLeggings = new ItemCruxiteArmor("cruxiteLeggings", EntityEquipmentSlot.LEGS, true);
 	public static final Item cruxiteBoots = new ItemCruxiteArmor("cruxiteBoots", EntityEquipmentSlot.FEET, true);
 
-	public static final Item disk = new ItemDisk();
-	public static final Item grimoire = new ItemGrimoire();
-	public static final Item longForgottenWarhorn = new ItemLongForgottenWarhorn();
+	//Useful Items
+	public static final Item captcharoidCamera = new ItemCaptcharoidCamera();
+	public static final Item moonstoneChisel = new ItemChisel("moonstone", 31);
+	public static final Item spaceSalt = new ItemSpaceSalt();
+	public static final Item timetable = new ItemTimetable();
+
+	//Knick Knacks
 	public static final ItemMinestuckBucket minestuckBucket = new ItemMinestuckBucket();
 	public static final Item obsidianBucket = new ItemObsidianBucket();
+	public static final Item longForgottenWarhorn = new ItemLongForgottenWarhorn();
 	public static final Item goldSeeds = new ItemGoldSeeds();
-	public static final Item razorBlade = new ItemRazorBlade();
 	public static final Item metalBoat = new ItemMetalBoat();
-	public static final Item shunt = new ItemShunt();
-	public static final Item captcharoidCamera = new ItemCaptcharoidCamera();
-	public static final Item threshDvd = new MSItemBase("threshDvd").setMaxStackSize(1);
-	public static final Item gamebroMagazine = new MSItemBase("gamebroMagazine").setMaxStackSize(1);
-	public static final Item gamegrlMagazine = new MSItemBase("gamegrlMagazine").setMaxStackSize(1);
-	public static final Item crewPoster = new ItemHanging("crewPoster")
-	{
-		@Override
-		public EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing facing, ItemStack stack, int meta)
-		{
-			return new EntityCrewPoster(worldIn, pos, facing);
-		}
-	}.setMaxStackSize(1);
-	public static final Item sbahjPoster = new ItemHanging("sbahjPoster")
-	{
-		@Override
-		public EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing facing, ItemStack stack, int meta)
-		{
-			return new EntitySbahjPoster(worldIn, pos, facing);
-		}
-	}.setMaxStackSize(1);
-
-	/*
-	public static final Item shopPoster = new ItemShopPoster()
-	{
-		@Override
-		public EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing facing, ItemStack stack, int meta)
-		{
-			return new EntityShopPoster(worldIn, pos, facing, stack, meta);
-		}
-	}.setMaxStackSize(1);
-	*/
-
 	public static final Item carvingTool = new MSItemBase("carvingTool").setMaxStackSize(1);
-	public static final Item stoneEyeballs = new MSItemBase("stoneEyeballs");
 	public static final Item stoneTablet = new ItemStoneTablet();
 	public static final Item glowystoneDust = new ItemGlowystoneDust().setUnlocalizedName("glowystoneDust");
 	public static final Item fakeArms = new MSItemBase("fakeArms").setCreativeTab(null);
+
+	public static final Item laserPointer = new ItemBeamWeapon("laserPointer", -1, 0, 0, 0.01f, 0, 1, 1).addProperties(new PropertyPotionBeam(new PotionEffect(MobEffects.BLINDNESS, 30, 0, false, false))).setRepairMaterials(new ItemStack(battery)).setCreativeTab(MinestuckTabs.minestuck);
+	public static final Item whip = new ItemSound("whip", MinestuckSoundHandler.whipCrack);
+	public static final Item sbahjWhip = new ItemSound("whipSbahj", MinestuckSoundHandler.whipCrock).setSecret();
+	public static final Item unrealAir = new ItemUnrealAir("unrealAir");
+	public static final Item dungeonKey = new MSItemBase("dungeonKey");
+
 	//Music disks
 	public static final Item recordEmissaryOfDance = new ItemMinestuckRecord("emissary", MinestuckSoundHandler.soundEmissaryOfDance).setUnlocalizedName("record");
 	public static final Item recordDanceStab = new ItemMinestuckRecord("danceStab", MinestuckSoundHandler.soundDanceStabDance).setUnlocalizedName("record");
 	public static final Item recordRetroBattle = new ItemMinestuckRecord("retroBattle", MinestuckSoundHandler.soundRetroBattleTheme).setUnlocalizedName("record");
 
+	//Fetch Modi
 	public static final Item stackModus = new ItemModus("stackModus");
 	public static final Item queueModus = new ItemModus("queueModus");
 	public static final Item queueStackModus = new ItemModus("queueStackModus");
@@ -258,6 +289,7 @@ public class MinestuckItems
 	public static final Item cipherModus = new ItemModus("cipherModus");
 	*/
 
+	//Fetch Modi Containers
 	public static final Item popTart = new ItemFood("popTart", 3, 0, false, PopTartModus.getConsumer());
 	public static final Item eightBall = new ItemEightBall("eightBall", false);
 	public static final Item popBall = new ItemFood("magicPopBalls", 6, 0.4f, false, ItemFood.getPopBallConsumer());
@@ -293,51 +325,7 @@ public class MinestuckItems
 	public static final Item operandiLog = new ItemOperandiBlock("operandiLog", MinestuckBlocks.operandiLog);
 	public static final Item operandiGlass = new ItemOperandiBlock("operandiGlass", MinestuckBlocks.operandiGlass);
 
-	public static final Item hardStone = new MSItemBlock(MinestuckBlocks.hardStone);
 	public static final Item walletEntityItem = new ItemWalletEntity("walletEntity");
-
-	public static final Item spaceSalt = new ItemSpaceSalt();
-	public static final Item timetable = new ItemTimetable();
-	public static final Item moonstone = new MSItemBase("moonstone");
-	public static final Item moonstoneChisel = new ItemChisel("moonstone", 31);
-	public static final Item zillystoneShard = new MSItemBase("zillystoneShard");
-	public static final Item fluorite = new MSItemBase("fluorite");
-	public static final Item battery = new MSItemBase("battery");
-	public static final Item strifeCard = new ItemStrifeCard("strifeCard");
-	public static final Item dungeonKey = new MSItemBase("dungeonKey");
-	public static final Item laserPointer = new ItemBeamWeapon("laserPointer", -1, 0, 0, 0.01f, 0, 1, 1).addProperties(new PropertyPotionBeam(new PotionEffect(MobEffects.BLINDNESS, 30, 0, false, false))).setRepairMaterials(new ItemStack(battery)).setCreativeTab(MinestuckTabs.minestuck);
-	public static final Item whip = new ItemSound("whip", MinestuckSoundHandler.whipCrack);
-	public static final Item sbahjWhip = new ItemSound("whipSbahj", MinestuckSoundHandler.whipCrock).setSecret();
-	public static final Item unrealAir = new ItemUnrealAir("unrealAir");
-
-	public static final Item tickingStopwatch = new MSItemBase("tickingStopwatch")
-	{{
-		addPropertyOverride(new ResourceLocation(Minestuck.MODID, "time"), ((stack, worldIn, entityIn) -> ((float)(System.currentTimeMillis()/1000d - Minestuck.startTime) ) % 60));
-	}}.setMaxStackSize(1);
-	public static final Item cueBall = new MSItemBase("cueBall")
-	{
-		@Override
-		public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-		{
-		}
-
-		@Override
-		public boolean onEntityItemUpdate(EntityItem entityItem)
-		{
-			entityItem.setEntityInvulnerable(true);
-			entityItem.setGlowing(true);
-			entityItem.setNoDespawn();
-
-			if (entityItem.posY < 1)
-			{
-				entityItem.setPosition(entityItem.getPosition().getX(), 260, entityItem.getPosition().getZ());
-				entityItem.motionY = entityItem.world.rand.nextDouble() * 1.2;
-			}
-
-			return super.onEntityItemUpdate(entityItem);
-		}
-
-	}.setSecret().setMaxStackSize(1);
 
 	//Ghost Items
 	public static final Item returnNode = new ItemGhost("return_node_ghost_item", MinestuckBlocks.returnNode);
@@ -360,6 +348,7 @@ public class MinestuckItems
 	//Weapons
 
 	//Bladekind
+	public static final Item emeraldSword = new MSWeaponBase("emeraldSword", 1220, 8, -2.4, 12).setTool(toolSword, 3, 12);
 	public static final Item sord = new MSWeaponBase("sord", 250, 3, -2.3, 1).setTool(toolSword, 0, 0).addProperties(new PropertySlippery());
 	public static final Item cactusCutlass = new MSWeaponBase("cactaceaeCutlass", 746, 12.7, -2.3, 5).setTool(toolSword, 1, 4);
 	public static final Item beefSword = new MSWeaponBase("beefSword", 550, 7.2, -2.3, 4).setTool(toolSword, 1, 2).addProperties(new PropertyEdible(3, 0.3F, 75));
@@ -625,6 +614,7 @@ public class MinestuckItems
 	public static final Item battlesporkOfZillywut = new MSWeaponBase("battlesporkOfZillywut", 3150, 37.9, -2, 40).setTool(toolSpork, 5, 10).addProperties(new PropertyHungerSpeed(1.2f));
 
 	//Axekind
+	public static final Item emeraldAxe = new MSWeaponBase("emeraldAxe", 1220, 8, -2.4, 12).setTool(toolAxe, 3, 12);
 	public static final Item copseCrusher = new MSWeaponBase("copseCrusher", 500, 16, -2.85, 2).setTool(toolAxe, 4, 4).addProperties(new PropertyFarmine(100, 64));
 	public static final Item battleaxe = new MSWeaponBase("battleaxe", 600, 32, -3.15, 5).setTool(toolAxe, 3, 2);
 	public static final Item batleacks = new MSWeaponBase("batleacks", 750, 24, -3, 1).setTool(toolAxe, 2, 2).addProperties(new PropertySlippery());
@@ -634,13 +624,28 @@ public class MinestuckItems
 	public static final Item rubyCroak = new MSWeaponBase("rubyCroak", 1000, 32, -2.7, 10).setTool(toolAxe, 3, 3).addProperties(new PropertyFire(10, 0.8f, false));
 	public static final Item battleaxeOfZillywahoo = new MSWeaponBase("battleaxeOfZillywahoo", 3000, 86.4, -3, 40).setTool(toolAxe, 5, 10);
 
-	//Misc.
+	//Shovelkind
+	public static final Item emeraldShovel = new MSWeaponBase("emeraldShovel", 1220, 8, -2.4, 12).setTool(toolShovel, 3, 12);
 	public static final Item gravediggerShovel = new MSWeaponBase("gravediggerShovel", 720, 16, -3, 8).setTool(toolShovel, 3, 4).addProperties(new PropertyMobTypeDamage(EnumCreatureAttribute.UNDEAD, 3));
+
+	//Pickaxekind
+	public static final Item emeraldPickaxe = new MSWeaponBase("emeraldPickaxe", 1220, 8, -2.4, 12).setTool(toolPickaxe, 3, 12);
 	public static final Item battlepickOfZillydew = new MSWeaponBase("battlepickOfZillydew", 780, 16, -2.8, 40).setTool(toolPickaxe, 5, 10);
+
+	//Hoekind
+	public static final Item emeraldHoe = new MSWeaponBase("emeraldHoe", 1220, 8, -2.4, 12).setTool(toolHoe, 3, 12).addProperties(new PropertyHoe());
+
+
+	//Paperkind
 	public static final Item rolledUpPaper = new MSWeaponBase("rolledUpPaper", 200, 3, 0, 1);
 	public static final Item yesterdaysNews = new MSWeaponBase("yesterdaysNews", 450, 7, 0, 1).addProperties(new PropertyPotion(new PotionEffect(MobEffects.MINING_FATIGUE, 200, 1), false, 0.5f), new PropertyPotion(new PotionEffect(MobEffects.SLOWNESS, 200, 1), false, 0.5f), new PropertyFire(3, 0.7f, true));
 
 	//Armor
+	public static final Item prismarineHelmet = new MSArmorBase("prismarineHelmet", armorPrismarine, EntityEquipmentSlot.HEAD, armorPrismarine.getDurability(EntityEquipmentSlot.HEAD), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
+	public static final Item prismarineChestplate = new MSArmorBase("prismarineChestplate", armorPrismarine, EntityEquipmentSlot.CHEST, armorPrismarine.getDurability(EntityEquipmentSlot.CHEST), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
+	public static final Item prismarineLeggings = new MSArmorBase("prismarineLeggings", armorPrismarine, EntityEquipmentSlot.LEGS, armorPrismarine.getDurability(EntityEquipmentSlot.LEGS), new ResourceLocation(Minestuck.MODID, "prismarine_layer_2"));
+	public static final Item prismarineBoots = new MSArmorBase("prismarineBoots", armorPrismarine, EntityEquipmentSlot.FEET, armorPrismarine.getDurability(EntityEquipmentSlot.FEET), new ResourceLocation(Minestuck.MODID, "prismarine_layer_1"));
+
 	public static final MSArmorBase diverHelmet = new ItemDiverHelmet("diverHelmet", materialDiverHelmet, EntityEquipmentSlot.HEAD)
 	{
 		@Override
@@ -723,6 +728,7 @@ public class MinestuckItems
 		}
 	};
 
+	//GT jammies
 	public static final Item gtArmorKit = new ItemGTKit();
 	public static final Item gtHood = new ItemGTArmor("gtHood", gtMaterial, EntityEquipmentSlot.HEAD);
 	public static final Item gtShirt = new ItemGTArmor("gtShirt", gtMaterial, EntityEquipmentSlot.CHEST);
@@ -734,6 +740,7 @@ public class MinestuckItems
 			put(aspect, new ItemHeroStoneShard(aspect));
 	}};
 
+	//GT Items
 	public static final Item skillReseter = new ItemGodTierReseter("skillResetCharm");
 	public static final Item tomeOfTheAncients = new ItemDenizenTome("tomeOfTheAncients");
 	public static final Item denizenEye = new ItemLocatorEye("denizenEye");
@@ -742,6 +749,13 @@ public class MinestuckItems
 
 	//Support
 	public static Item splatcraftCruxiteFilter = null;
+
+	//Alchemy
+	public static final Item disk = new ItemDisk();
+	public static final ItemDowel cruxiteDowel = new ItemDowel(MinestuckBlocks.blockCruxiteDowel);
+	public static final Item captchaCard = new ItemCaptchaCard();
+	public static final Item strifeCard = new ItemStrifeCard("strifeCard");
+	public static final Item shunt = new ItemShunt();
 
 	@SubscribeEvent
 	public static void onMissingRegistries(RegistryEvent.MissingMappings<Item> event)
@@ -784,7 +798,7 @@ public class MinestuckItems
 
 		if (Minestuck.isSplatcraftLodaded)
 		{
-			splatcraftCruxiteFilter = new ItemFilter("cruxiteFilter", "cruxite_filter", false).setCreativeTab(MinestuckTabs.minestuck);
+			splatcraftCruxiteFilter = new ItemFilter("cruxiteFilter", "cruxite_filter", false);
 			registry.register(splatcraftCruxiteFilter);
 		}
 
