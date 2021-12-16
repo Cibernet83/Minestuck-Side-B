@@ -144,6 +144,8 @@ public abstract class MessageType
 		{
 			message.getStyle().setColor(consort.getConsortType().getColor());
 			TextComponentTranslation entity = new TextComponentTranslation("entity." + s + ".name");
+			if(!consort.getCustomNameTag().equals(""))
+				return new TextComponentTranslation("chat.type.text", consort.getCustomNameTag(), message);
 			
 			return new TextComponentTranslation("chat.type.text", entity, message);
 		} else

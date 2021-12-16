@@ -1,9 +1,6 @@
 package com.mraof.minestuck.client;
 
-import com.mraof.minestuck.block.BlockMiniCruxtruder;
-import com.mraof.minestuck.block.BlockMiniPunchDesignix;
-import com.mraof.minestuck.block.BlockMiniTotemLathe;
-import com.mraof.minestuck.block.BlockSburbMachine;
+import com.mraof.minestuck.block.*;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.SpaceSaltUtils;
 import net.minecraft.block.Block;
@@ -39,18 +36,18 @@ public class MSURenderMachineOutline
 			
 			
 			IBlockState state = mc.player.getEntityWorld().getBlockState(mc.objectMouseOver.getBlockPos());
-			if (mc.player.getHeldItemMainhand().getItem().equals(MinestuckItems.spaceSalt) && state.getBlock() instanceof BlockSburbMachine)
+			if (mc.player.getHeldItemMainhand().getItem().equals(MinestuckItems.spaceSalt) && state.getBlock() instanceof MSFacingBase)
 			{
-				EnumFacing facing = state.getValue(BlockSburbMachine.FACING);
+				EnumFacing facing = state.getValue(MSFacingBase.FACING);
 				//facing = mc.player.getHorizontalFacing().getOpposite();
 				ItemStack stack = mc.player.getHeldItemMainhand();
 				
-				renderCheckItem(mc.player, stack, (BlockSburbMachine)state.getBlock(), event.getContext(), rayTraceResult, event.getPartialTicks(), facing);
+				renderCheckItem(mc.player, stack, (MSFacingBase) state.getBlock(), event.getContext(), rayTraceResult, event.getPartialTicks(), facing);
 			}
 		}
 	}
 	
-	private static boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, BlockSburbMachine machine, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing)
+	private static boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, MSFacingBase machine, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing)
 	{
 			BlockPos pos = rayTraceResult.getBlockPos();
 			

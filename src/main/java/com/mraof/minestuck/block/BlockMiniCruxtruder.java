@@ -1,5 +1,9 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.item.block.ItemMiniSburbMachine;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityMiniCruxtruder;
 import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import com.mraof.minestuck.util.SpaceSaltUtils;
@@ -14,13 +18,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockMiniCruxtruder extends BlockSburbMachine
+public class BlockMiniCruxtruder extends MSFacingBase
 {
 	private static final AxisAlignedBB CRUXTRUDER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 15/16D, 1.0D);
 
@@ -100,6 +105,25 @@ public class BlockMiniCruxtruder extends BlockSburbMachine
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
 
+		return true;
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemMiniSburbMachine(this);
+	}
+
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		if (!(tileEntity instanceof TileEntityMiniSburbMachine) || playerIn.isSneaking())
+			return false;
+
+		if(!worldIn.isRemote)
+			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 }

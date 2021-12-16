@@ -102,7 +102,11 @@ public class BlockArtifact extends MSBlockBase
 		IBlockState state = worldIn.getBlockState(pos);
 		float hardness =  state.getBlockHardness(worldIn, pos);
 
-		if(state.getBlock() instanceof BlockSburbMachine || state.getBlock() instanceof BlockLargeMachine || hardness == 0)
+		if(state.getBlock() instanceof BlockMiniAlchemiter ||
+		   state.getBlock() instanceof BlockMiniCruxtruder ||
+		   state.getBlock() instanceof BlockMiniPunchDesignix ||
+		   state.getBlock() instanceof BlockMiniTotemLathe ||
+		   state.getBlock() instanceof BlockLargeMachine || hardness == 0)
 			return 1;
 		if(state.getBlock() instanceof BlockArtifact || hardness < 0)
 			return 0;
