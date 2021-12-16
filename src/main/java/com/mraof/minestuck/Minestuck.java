@@ -51,7 +51,7 @@ public class Minestuck
 
 	public static long worldSeed = 0;	//TODO proper usage of seed when generating titles, land aspects, and land dimension data
 
-	public static final long startTime = System.currentTimeMillis(); // Yes I'm being very stupid, for render effects
+	public static final double startTime = System.currentTimeMillis()/1000d; // Yes I'm being very stupid, for render effects
 
 	public static boolean isMekanismLoaded;
 	public static boolean isCyclicLoaded;

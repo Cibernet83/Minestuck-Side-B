@@ -135,8 +135,8 @@ public class ItemDenizenTome extends MSItemBase
 	@Override
 	public void registerModel()
 	{
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID, "sealed_tome"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID, "server_sealed_tome"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(this, 2, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID, "tome_of_the_ancients"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "sealed_tome"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID  + ":" + "server_sealed_tome"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 2, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "tome_of_the_ancients"), "inventory"));
 	}
 }

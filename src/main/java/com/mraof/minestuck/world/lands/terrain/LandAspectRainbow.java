@@ -48,7 +48,7 @@ public class LandAspectRainbow extends TerrainLandAspect
 		registry.setBlockState("salamander_floor", Blocks.STONEBRICK.getDefaultState());
 		registry.setBlockState("fall_fluid", MinestuckBlocks.blockWatercolors.getDefaultState());
 		registry.setBlockState("light_block", MinestuckBlocks.glowingLog.getDefaultState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE));
-		IBlockState rainbow_leaves = MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.RAINBOW);
+		IBlockState rainbow_leaves = MinestuckBlocks.leaves.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.RAINBOW);
 			rainbow_leaves = rainbow_leaves.withProperty(MSBlockLeavesVariant.CHECK_DECAY, false).withProperty(MSBlockLeavesVariant.DECAYABLE, false);
 		registry.setBlockState("bush", rainbow_leaves);
 		registry.setBlockState("mushroom_1", rainbow_leaves);

@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/hero_stone_shard_mind"
+        "layer0": "minestuck:items/hero_stone_shard_mind"
     }
 }

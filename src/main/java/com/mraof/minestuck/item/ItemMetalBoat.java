@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.entity.item.EntityMetalBoat;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -44,6 +45,6 @@ public class ItemMetalBoat extends ItemCustomBoat
 	public void registerModel()
 	{
 		for (int i = 0; i < NAMES.length; i++)
-			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation("boat_" + NAMES[i], "inventory"));
+			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(Minestuck.MODID + ":" + "boat_" + NAMES[i], "inventory"));
 	}
 }

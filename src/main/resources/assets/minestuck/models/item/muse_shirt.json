@@ -1,14 +1,14 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/shirt/muse_shirt",
-        "layer1": "minestuckgodtier:items/blank",
-        "layer2": "minestuckgodtier:items/blank",
-        "layer3": "minestuckgodtier:items/blank",
-        "layer4": "minestuckgodtier:items/blank",
-        "layer5": "minestuckgodtier:items/blank",
-        "layer6": "minestuckgodtier:items/blank",
-        "layer7": "minestuckgodtier:items/shirt/shirt_symbol_2"
+        "layer0": "minestuck:items/shirt/muse_shirt",
+        "layer1": "minestuck:items/blank",
+        "layer2": "minestuck:items/blank",
+        "layer3": "minestuck:items/blank",
+        "layer4": "minestuck:items/blank",
+        "layer5": "minestuck:items/blank",
+        "layer6": "minestuck:items/blank",
+        "layer7": "minestuck:items/shirt/shirt_symbol_2"
 
     }
 }

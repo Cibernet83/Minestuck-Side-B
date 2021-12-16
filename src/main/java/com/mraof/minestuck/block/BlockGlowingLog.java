@@ -1,7 +1,6 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
-import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
@@ -24,7 +23,7 @@ public class BlockGlowingLog extends BlockLog implements IRegistryBlock
 		setLightLevel(0.75F);
 		setDefaultState(blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 		setUnlocalizedName("glowingLog");
-		regName = IRegistryObject.unlocToReg("glowingLog");
+		regName = IRegistryObject.unlocToReg("logGlowing");
 		MinestuckBlocks.blocks.add(this);
 	}
 	

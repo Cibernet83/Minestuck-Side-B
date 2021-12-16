@@ -30,7 +30,7 @@ public class BlockGrist extends MSBlockBase
 
 	public BlockGrist(GristType type)
 	{
-		super(type.getName().toLowerCase() + "GristBlock", Material.GOURD, MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY);
+		super("gristBlock" + type.getName().toLowerCase().replaceFirst(type.getName().charAt(0)+"", (type.getName().charAt(0)+"").toUpperCase()), Material.GOURD, MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY);
 		this.type = type;
 		this.value = (type.getValue() >= 5.0F || !type.equals(GristType.Build)) ? 10 : 100;
 		

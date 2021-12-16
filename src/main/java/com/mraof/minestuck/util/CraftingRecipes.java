@@ -115,7 +115,7 @@ public class CraftingRecipes
 		OreDictionary.registerOre("treeSapling",endSapling);
 		OreDictionary.registerOre("treeSapling",rainbowSapling);
 		OreDictionary.registerOre("treeLeaves",	endLeaves);
-		OreDictionary.registerOre("treeLeaves",	new ItemStack(leaves1, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("treeLeaves",	new ItemStack(leaves, 1, OreDictionary.WILDCARD_VALUE));
 		
 		OreDictionary.registerOre("cropStrawberry", strawberry);
 		OreDictionary.registerOre("blockCactus", bloomingCactus);

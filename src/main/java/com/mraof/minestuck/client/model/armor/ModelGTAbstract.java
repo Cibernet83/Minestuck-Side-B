@@ -141,7 +141,7 @@ public abstract class ModelGTAbstract extends ModelBiped
 				continue;
 			
 			AspectColorHandler.AspectColor color = colorSet[i];
-			ResourceLocation loc = new ResourceLocation(Minestuck.MODID, "textures/models/armor/gt_"+heroClass.toString()+"_layer_"+(i+1)+".png");
+			ResourceLocation loc = new ResourceLocation(Minestuck.MODID, "textures/models/armor/godtier/gt_"+heroClass.toString()+"_layer_"+(i+1)+".png");
 			Minecraft.getMinecraft().getTextureManager().bindTexture(loc);
 			
 			GlStateManager.color(color.r, color.g, color.b);
@@ -184,7 +184,7 @@ public abstract class ModelGTAbstract extends ModelBiped
 				continue;
 				
 			AspectColorHandler.AspectColor color = colorSet[i];
-			ResourceLocation loc = new ResourceLocation(Minestuck.MODID, "textures/models/armor/gt_"+heroClass.toString()+"_layer_"+(i+1)+".png");
+			ResourceLocation loc = new ResourceLocation(Minestuck.MODID, "textures/models/armor/godtier/gt_"+heroClass.toString()+"_layer_"+(i+1)+".png");
 			Minecraft.getMinecraft().getTextureManager().bindTexture(loc);
 			GlStateManager.color(color.r, color.g, color.b);
 			

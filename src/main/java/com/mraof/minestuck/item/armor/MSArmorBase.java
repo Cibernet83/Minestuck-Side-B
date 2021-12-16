@@ -2,6 +2,7 @@ package com.mraof.minestuck.item.armor;
 
 import com.mraof.minestuck.item.IRegistryItem;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
@@ -33,6 +34,7 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem
     public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses, ResourceLocation texture)
     {
         super(material, 0, equipmentSlot);
+        setCreativeTab(MinestuckTabs.minestuck);
         setMaxDamage(maxUses);
         this.texture = texture;
         setUnlocalizedName(name);

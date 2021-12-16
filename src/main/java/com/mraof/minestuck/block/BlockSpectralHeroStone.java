@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.block.Block;
@@ -34,6 +35,7 @@ public class BlockSpectralHeroStone extends MSBlockBase implements IGodTierBlock
 		setHarvestLevel("pickaxe", 3);
 		setHardness(20.0F);
 		setResistance(2000.0F);
+		setCreativeTab(MinestuckTabs.godTier);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -159,6 +160,7 @@ public class MSItemBlockSlab extends MSItemBlock
 	@Override
 	public void registerModel()
 	{
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(this.getRegistryName(), "inventory"));
 		ModelLoader.setCustomStateMapper(singleSlab, (new StateMap.Builder()).ignore(MSBlockSlab.dummy).build());
 		ModelLoader.setCustomStateMapper(doubleSlab, (new StateMap.Builder()).ignore(BlockSlab.HALF, MSBlockSlab.dummy).build());
 	}

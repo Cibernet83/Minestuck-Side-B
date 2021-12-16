@@ -14,7 +14,7 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 public class WorldGenRainbowTree extends WorldGenAbstractTree
 {
 	private static final IBlockState LOG = MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.RAINBOW);
-	private static final IBlockState LEAF = MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.RAINBOW);
+	private static final IBlockState LEAF = MinestuckBlocks.leaves.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.RAINBOW);
 	
 	public WorldGenRainbowTree(boolean notify)
 	{

@@ -4,7 +4,7 @@ public class ItemModus extends MSItemBase
 {
 	public ItemModus(String name)
 	{
-		super(name, MinestuckTabs.minestuck, 1, false);
+		super(name, MinestuckTabs.fetchModi, 1, false);
 		MinestuckItems.modi.add(this);
 	}
 }

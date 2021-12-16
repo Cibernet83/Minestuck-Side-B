@@ -1,11 +1,11 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/blank",
-        "layer1": "minestuckgodtier:items/hood/heir_hood",
-        "layer2": "minestuckgodtier:items/blank",
-        "layer3": "minestuckgodtier:items/blank",
-        "layer4": "minestuckgodtier:items/blank"
+        "layer0": "minestuck:items/blank",
+        "layer1": "minestuck:items/hood/heir_hood",
+        "layer2": "minestuck:items/blank",
+        "layer3": "minestuck:items/blank",
+        "layer4": "minestuck:items/blank"
 
     }
 }

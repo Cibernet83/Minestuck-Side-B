@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "minestuckgodtier:items/pants/default_pants"
+        "layer0": "minestuck:items/pants/default_pants"
     }
 }

@@ -13,7 +13,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class MSBlockSlab extends BlockSlab implements IRegistryObject<Block>, IRegistryBlock
+public class MSBlockSlab extends BlockSlab implements IRegistryBlock
 {
 	private final IBlockState modelState;
 	private final String regName;

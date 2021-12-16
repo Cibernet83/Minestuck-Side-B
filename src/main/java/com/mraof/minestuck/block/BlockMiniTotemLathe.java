@@ -34,7 +34,7 @@ public class BlockMiniTotemLathe extends BlockSburbMachine
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
-		return TOTEM_LATHE_AABB[state.getValue(FACING).getHorizontalIndex()];
+		return TOTEM_LATHE_AABB[state.getValue(FACING).getHorizontalIndex() % 2];
 	}
 
 	@Override

@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"0": "minestuckgodtier:blocks/glow_orb",
-		"particle": "minestuckgodtier:blocks/glow_orb"
+		"0": "minestuck:blocks/glow_orb",
+		"particle": "minestuck:blocks/glow_orb"
 	},
 	"elements": [
 		{

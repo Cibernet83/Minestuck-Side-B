@@ -35,10 +35,12 @@ import com.mraof.minestuck.util.AspectColorHandler;
 import com.mraof.minestuck.util.ColorCollector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -103,16 +105,16 @@ public class ClientProxy extends CommonProxy
 		{
 			switch(tintIndex)
 			{
-				case 0: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.SHIRT);
-				case 1: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.PRIMARY);
-				case 2: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.SECONDARY);
-				case 3: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.SHOES);
-				case 4: case 7: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.SYMBOL);
-				case 5: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_PRIMARY);
-				case 6: return ItemKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_SECONDARY);
+				case 0: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SHIRT);
+				case 1: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.PRIMARY);
+				case 2: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SECONDARY);
+				case 3: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SHOES);
+				case 4: case 7: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SYMBOL);
+				case 5: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_PRIMARY);
+				case 6: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_SECONDARY);
 				default: return 0xFFFFFF;
 			}
-		}, MinestuckItems.armorKit, MinestuckItems.gtHood, MinestuckItems.gtShirt, MinestuckItems.gtPants, MinestuckItems.gtShoes);
+		}, MinestuckItems.gtArmorKit, MinestuckItems.gtHood, MinestuckItems.gtShirt, MinestuckItems.gtPants, MinestuckItems.gtShoes);
 	}
 	
 	@Override
@@ -186,5 +188,9 @@ public class ClientProxy extends CommonProxy
 	{
 		for (IRegistryItem item : MinestuckItems.items)
 			item.registerModel();
+
+		if(MinestuckItems.splatcraftCruxiteFilter != null)
+			ModelLoader.setCustomModelResourceLocation(MinestuckItems.splatcraftCruxiteFilter, 0,
+					new ModelResourceLocation(MinestuckItems.splatcraftCruxiteFilter.getRegistryName(), "inventory"));
 	}
 }

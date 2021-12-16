@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "minestuckgodtier:items/black_hole_rifter"
+        "layer0": "minestuck:items/black_hole_rifter"
     }
 }
