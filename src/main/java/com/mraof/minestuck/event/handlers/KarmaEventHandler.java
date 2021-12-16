@@ -20,6 +20,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -117,7 +118,7 @@ public class KarmaEventHandler
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onPlayerDamage(LivingDamageEvent event)
 	{
-		if(event.getEntityLiving() instanceof EntityPlayer && event.getSource().getTrueSource() instanceof EntityPlayer)
+		if(event.getEntityLiving() instanceof EntityPlayer && event.getSource().getTrueSource() instanceof EntityPlayer && !(event.getSource().getTrueSource() instanceof FakePlayer))
 		{
 			IdentifierHandler.PlayerIdentifier sourceIdentifier = IdentifierHandler.encode((EntityPlayer) event.getSource().getTrueSource());
 			SburbConnection sC = SkaianetHandler.getMainConnection(sourceIdentifier, true);
