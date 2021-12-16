@@ -11,6 +11,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -19,6 +20,7 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -31,7 +33,7 @@ import java.util.Random;
 
 public class MSBlockLeavesVariant extends MSBlockLeaves implements IRegistryBlock
 {
-	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", BlockType.class);
+	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
 	
 	public MSBlockLeavesVariant()
 	{
@@ -45,13 +47,16 @@ public class MSBlockLeavesVariant extends MSBlockLeaves implements IRegistryBloc
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
 	{
-//		for (BlockType blocktype : BlockType.values())		//keyword
-		BlockType blocktype = BlockType.RAINBOW;
-		{
+		for (BlockType blocktype : BlockType.values())
 			items.add(new ItemStack(this, 1, blocktype.ordinal()));
-		}
 	}
-	
+
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+	{
+		return new ItemStack(this, 1, state.getValue(VARIANT).ordinal());
+	}
+
 	/**
 	 * Convert the given metadata into a BlockState for this Block
 	 */
@@ -67,7 +72,7 @@ public class MSBlockLeavesVariant extends MSBlockLeaves implements IRegistryBloc
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		int i = ((BlockType)state.getValue(VARIANT)).ordinal();
+		int i = state.getValue(VARIANT).ordinal();
 		return i;
 	}
 
