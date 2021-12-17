@@ -4,8 +4,8 @@ import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
-import com.mraof.minestuck.event.handlers.GodTierEventHandler;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
+import com.mraof.minestuck.event.handler.GodTierEventHandler;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -43,7 +43,7 @@ public class BadgeMuse extends BadgeHeroClass
 		if(title == null)
 			return;
 
-		player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumClass.MUSE, 30);
+		player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumClass.MUSE, 30);
 
 		for(EntityPlayer target : player.world.getMinecraftServer().getPlayerList().getPlayers())
 		{
@@ -56,7 +56,7 @@ public class BadgeMuse extends BadgeHeroClass
 			for(PotionEffect p : effects)
 				target.addPotionEffect(new PotionEffect(p.getPotion(), 1200, 9));
 
-			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.MUSE, 10);
+			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.MUSE, 10);
 		}
 	}
 }

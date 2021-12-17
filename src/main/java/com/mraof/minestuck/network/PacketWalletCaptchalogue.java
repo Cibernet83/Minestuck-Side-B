@@ -2,7 +2,7 @@ package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.item.ItemWalletEntity;
 import com.mraof.minestuck.block.*;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
 import com.mraof.minestuck.tileentity.TileEntityCruxtruder;
@@ -82,7 +82,7 @@ public class PacketWalletCaptchalogue extends MinestuckPacket
         }
         else if(pos != null)
             player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, captchalogueTileEntity(player.world, pos));
-        CaptchaDeckHandler.captchalougeItem((EntityPlayerMP) player);
+        SylladexUtils.captchalougeItem((EntityPlayerMP) player);
     }
 
     @Override

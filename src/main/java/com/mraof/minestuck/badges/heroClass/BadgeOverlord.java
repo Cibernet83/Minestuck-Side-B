@@ -9,7 +9,7 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.caps.GodTierData;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.potions.MinestuckPotions;
@@ -105,7 +105,7 @@ public class BadgeOverlord extends BadgeHeroClass
 						player.world.getMinecraftServer().getPlayerList().sendMessage(new TextComponentTranslation("status.overlordAscend", player.getDisplayName()).setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)));
 						player.addPotionEffect(new PotionEffect(MinestuckPotions.GOD_TIER_COMEBACK, 200, 3));
 
-						player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.LORD, 25);
+						player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.LORD, 25);
 						player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_WITHER_SPAWN, player.getSoundCategory(), 1.0F, 1.0F);
 
 						player.setHealth(10);

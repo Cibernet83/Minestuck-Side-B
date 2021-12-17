@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item.properties;
 
-import com.mraof.minestuck.event.handlers.CommonEventHandler;
+import com.mraof.minestuck.event.handler.CommonEventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;

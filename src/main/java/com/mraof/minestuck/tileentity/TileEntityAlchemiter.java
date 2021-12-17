@@ -31,7 +31,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityAlchemiter extends TileEntity
 {
-	protected GristType selectedGrist = GristType.Build;
+	protected Grist selectedGrist = MinestuckGrists.build;
 	protected boolean broken = false;
 	protected ItemStack dowel = ItemStack.EMPTY;
 	protected ItemStack upgradeItem[] = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY,ItemStack.EMPTY,ItemStack.EMPTY};
@@ -61,13 +61,13 @@ public class TileEntityAlchemiter extends TileEntity
 	{
 		if(false)//hasUpgrade(AlchemiterUpgrades.captchaCard)) [asks for upgrade]
 		{
-		if (!AlchemyRecipes.hasDecodedItem(dowel))
-			return AlchemyRecipes.createCard(new ItemStack(MinestuckBlocks.genericObject), false);
-		else return AlchemyRecipes.createCard(new ItemStack(AlchemyRecipes.getDecodedItem(dowel).getItem(), 1), false);
+		if (!AlchemyUtils.hasDecodedItem(dowel))
+			return AlchemyUtils.createCard(new ItemStack(MinestuckBlocks.genericObject), false);
+		else return AlchemyUtils.createCard(new ItemStack(AlchemyUtils.getDecodedItem(dowel).getItem(), 1), false);
 		}
-		else if (!AlchemyRecipes.hasDecodedItem(dowel)) 
+		else if (!AlchemyUtils.hasDecodedItem(dowel))
 			return new ItemStack(MinestuckBlocks.genericObject);
-		else return AlchemyRecipes.getDecodedItem(dowel);
+		else return AlchemyUtils.getDecodedItem(dowel);
 	}
 	
 	/**
@@ -263,10 +263,10 @@ public class TileEntityAlchemiter extends TileEntity
 		super.readFromNBT(tagCompound);
 
 		if(tagCompound.hasKey("gristType"))
-			this.selectedGrist = GristType.getTypeFromString(tagCompound.getString("gristType"));
+			this.selectedGrist = Grist.getTypeFromString(tagCompound.getString("gristType"));
 		if(this.selectedGrist == null)
 		{
-			this.selectedGrist = GristType.Build;
+			this.selectedGrist = MinestuckGrists.build;
 		}
 		
 		this.upgraded = tagCompound.getBoolean("upgraded");
@@ -421,10 +421,10 @@ public class TileEntityAlchemiter extends TileEntity
 				ItemStack stack = newItem.copy();
 				//TODO
 				if(false){//hasUpgrade(AlchemiterUpgrades.captchaCard)) { (asks for alc upgrade)
-					int stackCount =  Math.min(AlchemyRecipes.getDecodedItem(stack).getMaxStackSize(), quantity);
+					int stackCount =  Math.min(AlchemyUtils.getDecodedItem(stack).getMaxStackSize(), quantity);
 					
-					stack = AlchemyRecipes.changeEncodeSize(stack, stackCount);
-					quantity -=  Math.min(AlchemyRecipes.getDecodedItem(stack).getMaxStackSize(), quantity);
+					stack = AlchemyUtils.changeEncodeSize(stack, stackCount);
+					quantity -=  Math.min(AlchemyUtils.getDecodedItem(stack).getMaxStackSize(), quantity);
 				}
 				else{
 					stack.setCount(Math.min(stack.getMaxStackSize(), quantity));
@@ -434,7 +434,7 @@ public class TileEntityAlchemiter extends TileEntity
 				world.spawnEntity(item);
 			}
 			
-			AlchemyRecipes.giveAlchemyExperience(newItem, player);
+			AlchemyUtils.giveAlchemyExperience(newItem, player);
 			
 			PlayerIdentifier pid = IdentifierHandler.encode(player);
 			GristHelper.decrease(pid, cost);
@@ -473,12 +473,12 @@ public class TileEntityAlchemiter extends TileEntity
 		return set;
 	}
 
-	public GristType getSelectedGrist()
+	public Grist getSelectedGrist()
 	{
 		return selectedGrist;
 	}
 	
-	public void setSelectedGrist(GristType selectedGrist)
+	public void setSelectedGrist(Grist selectedGrist)
 	{
 		this.selectedGrist = selectedGrist;
 	}

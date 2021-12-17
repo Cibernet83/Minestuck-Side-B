@@ -20,7 +20,7 @@ import java.util.List;
 import static com.mraof.minestuck.block.MinestuckBlocks.gristBlockMana;
 import static com.mraof.minestuck.alchemy.CombinationRegistry.Mode.MODE_AND;
 import static com.mraof.minestuck.alchemy.CombinationRegistry.Mode.MODE_OR;
-import static com.mraof.minestuck.alchemy.GristType.Build;
+import static com.mraof.minestuck.alchemy.MinestuckGrists.build;
 
 public class BotaniaSupport
 {
@@ -52,7 +52,7 @@ public class BotaniaSupport
         {
             ItemStack seeds = new ItemStack(ModItems.grassSeeds, 1, i+3);
             ItemStack grass = new ItemStack(ModBlocks.altGrass, 1, i);
-            GristRegistry.addGristConversion(grass, true, new GristSet(Build, 2).addGrist(GristRegistry.getGristConversion(seeds)));
+            GristRegistry.addGristConversion(grass, true, new GristSet(build, 2).addGrist(GristRegistry.getGristConversion(seeds)));
             CombinationRegistry.addCombination(new ItemStack(Blocks.DIRT), seeds, MODE_OR, false, true, grass);
             CombinationRegistry.addCombination(new ItemStack(Blocks.GRASS), seeds, MODE_AND, false, true, grass);
         }

@@ -5,15 +5,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.mraof.minestuck.alchemy.*;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.util.Debug;
-import com.mraof.minestuck.alchemy.GristRegistry;
-import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
 
 public class Minegicka3Support extends ModSupport
 {
@@ -29,7 +26,7 @@ public class Minegicka3Support extends ModSupport
 		Item stick2 = ((Item) (Class.forName("com.williameze.minegicka3.ModBase").getField("stickGood").get(null)));
 		Item stick3 = ((Item) (Class.forName("com.williameze.minegicka3.ModBase").getField("stickSuper").get(null)));
 		
-		GristRegistry.addGristConversion(new ItemStack(thingy), false, new GristSet(new GristType[]{GristType.Rust, GristType.Gold}, new int[]{16, 16}));
+		GristRegistry.addGristConversion(new ItemStack(thingy), false, new GristSet(new Grist[]{MinestuckGrists.rust, MinestuckGrists.gold}, new int[]{16, 16}));
 		
 		CombinationRegistry.addCombination(new ItemStack(thingy), new ItemStack(Items.STICK), CombinationRegistry.Mode.MODE_AND, new ItemStack(stick));
 		CombinationRegistry.addCombination(new ItemStack(thingy2), new ItemStack(Items.STICK), CombinationRegistry.Mode.MODE_AND, new ItemStack(stick2));

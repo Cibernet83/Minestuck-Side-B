@@ -1,6 +1,6 @@
 package com.mraof.minestuck.client.gui.playerStats;
 
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.inventory.captchalouge.ContainerCaptchaDeck;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.item.ItemCaptchaCard;
@@ -44,14 +44,14 @@ public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 		sylladexMap = new GuiButtonExt(1, xOffset + 6, yOffset + 31, 60, 18, I18n.format("gui.sylladex"));
 		buttonList.add(modusButton);
 		buttonList.add(sylladexMap);
-		sylladexMap.enabled = CaptchaDeckHandler.clientSideModus != null;
+		sylladexMap.enabled = SylladexUtils.clientSideModus != null;
 		modusButton.enabled = !container.inventory.getStackInSlot(0).isEmpty();
 	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int xcor, int ycor)
 	{
-		sylladexMap.enabled = CaptchaDeckHandler.clientSideModus != null;
+		sylladexMap.enabled = SylladexUtils.clientSideModus != null;
 		modusButton.enabled = !container.inventory.getStackInSlot(0).isEmpty();
 		
 		drawTabs();
@@ -81,8 +81,8 @@ public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 			ItemStack stack = container.inventory.getStackInSlot(0);
 			if(!(stack.getItem() instanceof ItemCaptchaCard))
 			{
-				Modus newModus = CaptchaDeckHandler.createInstance(CaptchaDeckHandler.getType(stack), Side.CLIENT);
-				if(newModus != null && CaptchaDeckHandler.clientSideModus != null && newModus.getClass() != CaptchaDeckHandler.clientSideModus.getClass() && !newModus.canSwitchFrom(CaptchaDeckHandler.clientSideModus))
+				Modus newModus = SylladexUtils.createInstance(SylladexUtils.getType(stack), Side.CLIENT);
+				if(newModus != null && SylladexUtils.clientSideModus != null && newModus.getClass() != SylladexUtils.clientSideModus.getClass() && !newModus.canSwitchFrom(SylladexUtils.clientSideModus))
 				{
 					mc.currentScreen = new GuiYesNo(this, I18n.format("gui.emptySylladex1"), I18n.format("gui.emptySylladex2"), 0)
 					{
@@ -99,11 +99,11 @@ public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 			}
 			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.MODUS));
 		}
-		else if(button == this.sylladexMap && CaptchaDeckHandler.clientSideModus != null)
+		else if(button == this.sylladexMap && SylladexUtils.clientSideModus != null)
 		{
 			mc.player.connection.sendPacket(new CPacketCloseWindow(mc.player.openContainer.windowId));
 			mc.player.inventory.setItemStack(ItemStack.EMPTY);
-			mc.displayGuiScreen(CaptchaDeckHandler.clientSideModus.getGuiHandler());
+			mc.displayGuiScreen(SylladexUtils.clientSideModus.getGuiHandler());
 			mc.player.openContainer = mc.player.inventoryContainer;
 		}
 	}

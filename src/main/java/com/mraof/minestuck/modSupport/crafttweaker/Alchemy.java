@@ -2,7 +2,7 @@ package com.mraof.minestuck.modSupport.crafttweaker;
 
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
@@ -108,8 +108,8 @@ public class Alchemy
 			String[] gristAmount = value.split("\\s+");
 			if(gristAmount.length == 2)
 			{
-				if(GristType.getTypeFromString(gristAmount[0].toLowerCase()) != null)
-					grist.addGrist(GristType.getTypeFromString(gristAmount[0].toLowerCase()), Integer.parseInt(gristAmount[1]));
+				if(Grist.getTypeFromString(gristAmount[0].toLowerCase()) != null)
+					grist.addGrist(Grist.getTypeFromString(gristAmount[0].toLowerCase()), Integer.parseInt(gristAmount[1]));
 				else
 				{
 					CraftTweakerAPI.logError("\""+gristAmount[0].toLowerCase()+"\" does not match any grist types. Look for typos and make sure the grist type is actually in the mod.");

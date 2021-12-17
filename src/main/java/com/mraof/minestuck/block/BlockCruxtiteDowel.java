@@ -1,9 +1,9 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -168,7 +168,7 @@ public class BlockCruxtiteDowel extends MSBlockBase
 		if(te instanceof TileEntityItemStack)
 		{
 			ItemStack dowel = ((TileEntityItemStack) te).getStack();
-			if(state.getValue(TYPE) == Type.DOWEL && AlchemyRecipes.hasDecodedItem(dowel))
+			if(state.getValue(TYPE) == Type.DOWEL && AlchemyUtils.hasDecodedItem(dowel))
 				return state.withProperty(TYPE, Type.TOTEM);
 		}
 		

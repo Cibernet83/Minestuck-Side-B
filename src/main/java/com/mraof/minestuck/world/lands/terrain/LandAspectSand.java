@@ -3,9 +3,8 @@ package com.mraof.minestuck.world.lands.terrain;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.LandAspectRegistry;
-import com.mraof.minestuck.world.lands.decorator.BasicTreeDecorator;
 import com.mraof.minestuck.world.lands.decorator.ILandDecorator;
 import com.mraof.minestuck.world.lands.decorator.SurfaceMushroomGenerator;
 import com.mraof.minestuck.world.lands.decorator.UndergroundDecoratorVein;
@@ -108,25 +107,25 @@ public class LandAspectSand extends TerrainLandAspect
 	public List<ILandDecorator> getDecorators()
 	{
 		ArrayList<ILandDecorator> list = new ArrayList<ILandDecorator>();
-		list.add(new WorldGenDecorator(new WorldGenCactus(), 15, 0.4F, BiomeMinestuck.mediumNormal));
-		list.add(new WorldGenDecorator(new WorldGenCactus(), 5, 0.4F, BiomeMinestuck.mediumRough));
-		list.add(new WorldGenDecorator(new WorldGenDeadBush(), 1, 0.4F, BiomeMinestuck.mediumNormal, BiomeMinestuck.mediumRough));
+		list.add(new WorldGenDecorator(new WorldGenCactus(), 15, 0.4F, MinestuckBiomes.mediumNormal));
+		list.add(new WorldGenDecorator(new WorldGenCactus(), 5, 0.4F, MinestuckBiomes.mediumRough));
+		list.add(new WorldGenDecorator(new WorldGenDeadBush(), 1, 0.4F, MinestuckBiomes.mediumNormal, MinestuckBiomes.mediumRough));
 		list.add(new OasisDecorator());
 		if(type == Variant.LUSH_DESERTS) {
-			list.add(new WorldGenDecorator(new WorldGenCactus(), 45, 0.4F, BiomeMinestuck.mediumNormal));
-			list.add(new WorldGenDecorator(new WorldGenCactus(), 30, 0.4F, BiomeMinestuck.mediumRough));
-			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.bloomingCactus, true, 55, 15, BiomeMinestuck.mediumRough));
-			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.bloomingCactus, true, 65, 15, BiomeMinestuck.mediumNormal));
-			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.desertBush, true, 1, 1, BiomeMinestuck.mediumNormal));
-			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.desertBush, true, 1, 1, BiomeMinestuck.mediumRough));
+			list.add(new WorldGenDecorator(new WorldGenCactus(), 45, 0.4F, MinestuckBiomes.mediumNormal));
+			list.add(new WorldGenDecorator(new WorldGenCactus(), 30, 0.4F, MinestuckBiomes.mediumRough));
+			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.bloomingCactus, true, 55, 15, MinestuckBiomes.mediumRough));
+			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.bloomingCactus, true, 65, 15, MinestuckBiomes.mediumNormal));
+			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.desertBush, true, 1, 1, MinestuckBiomes.mediumNormal));
+			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.desertBush, true, 1, 1, MinestuckBiomes.mediumRough));
 		} else {
-			list.add(new WorldGenDecorator(new WorldGenCactus(), 15, 0.4F, BiomeMinestuck.mediumNormal));
-			list.add(new WorldGenDecorator(new WorldGenCactus(), 5, 0.4F, BiomeMinestuck.mediumRough));
-			list.add(new WorldGenDecorator(new WorldGenDeadBush(), 1, 0.4F, BiomeMinestuck.mediumNormal, BiomeMinestuck.mediumRough));
-			list.add(new WorldGenDecorator(new WorldGenDeadBush(), 1, 0.4F, BiomeMinestuck.mediumNormal, BiomeMinestuck.mediumRough));
-			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.bloomingCactus, true, 5, 32, BiomeMinestuck.mediumRough));
+			list.add(new WorldGenDecorator(new WorldGenCactus(), 15, 0.4F, MinestuckBiomes.mediumNormal));
+			list.add(new WorldGenDecorator(new WorldGenCactus(), 5, 0.4F, MinestuckBiomes.mediumRough));
+			list.add(new WorldGenDecorator(new WorldGenDeadBush(), 1, 0.4F, MinestuckBiomes.mediumNormal, MinestuckBiomes.mediumRough));
+			list.add(new WorldGenDecorator(new WorldGenDeadBush(), 1, 0.4F, MinestuckBiomes.mediumNormal, MinestuckBiomes.mediumRough));
+			list.add(new SurfaceMushroomGenerator(MinestuckBlocks.bloomingCactus, true, 5, 32, MinestuckBiomes.mediumRough));
 		}
-		list.add(new OasisDecorator(BiomeMinestuck.mediumNormal));
+		list.add(new OasisDecorator(MinestuckBiomes.mediumNormal));
 		
 		list.add(new UndergroundDecoratorVein(Blocks.SAND.getDefaultState().withProperty(BlockSand.VARIANT, type == Variant.SAND_RED?BlockSand.EnumType.RED_SAND:BlockSand.EnumType.SAND), 8, 28, 256));
 		list.add(new UndergroundDecoratorVein((type == Variant.SAND_RED?MinestuckBlocks.ironOreSandstoneRed:MinestuckBlocks.ironOreSandstone).getDefaultState(), 24, 9, 64));

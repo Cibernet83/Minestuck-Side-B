@@ -2,9 +2,9 @@ package com.mraof.minestuck.item;
 
 import java.util.List;
 
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.block.BlockLargeMachine;
 
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -64,7 +64,7 @@ public class ItemCaptcharoidCamera extends MSItemBase {
 				ItemStack item = list.get(0).getDisplayedItem();
 				if(item.isEmpty()) item = new ItemStack(Items.ITEM_FRAME);
 				
-				player.inventory.addItemStackToInventory(AlchemyRecipes.createGhostCard(item));
+				player.inventory.addItemStackToInventory(AlchemyUtils.createGhostCard(item));
 				player.getHeldItem(hand).damageItem(1, player);
 			}
 			else
@@ -77,7 +77,7 @@ public class ItemCaptcharoidCamera extends MSItemBase {
 				if(worldIn.getBlockState(pos).getBlock() instanceof BlockLargeMachine)
 					block = new ItemStack(((BlockLargeMachine) worldIn.getBlockState(pos).getBlock()).getItemFromMachine());
 				
-				player.inventory.addItemStackToInventory(AlchemyRecipes.createGhostCard(block));
+				player.inventory.addItemStackToInventory(AlchemyUtils.createGhostCard(block));
 				player.getHeldItem(hand).damageItem(1, player);
 			}
 			return EnumActionResult.PASS;

@@ -6,7 +6,7 @@ import java.util.Random;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.decorator.CanopyTreeDecorator;
 import com.mraof.minestuck.world.lands.decorator.FlowerDecorator;
 import com.mraof.minestuck.world.lands.decorator.ILandDecorator;
@@ -90,11 +90,11 @@ public class LandAspectFlora extends TerrainLandAspect
 		list.add(new SwordDecorator());
 		list.add(new StrawberryDecorator());
 		
-		list.add(new CanopyTreeDecorator(25, BiomeMinestuck.mediumNormal));
-		list.add(new CanopyTreeDecorator(3, BiomeMinestuck.mediumRough));
-		list.add(new TallGrassDecorator(0.3F, BiomeMinestuck.mediumNormal));
-		list.add(new TallGrassDecorator(0.5F, 0.2F, BiomeMinestuck.mediumRough));
-		list.add(new FlowerDecorator(0.5F, 0.2F, BiomeMinestuck.mediumNormal, BiomeMinestuck.mediumRough));
+		list.add(new CanopyTreeDecorator(25, MinestuckBiomes.mediumNormal));
+		list.add(new CanopyTreeDecorator(3, MinestuckBiomes.mediumRough));
+		list.add(new TallGrassDecorator(0.3F, MinestuckBiomes.mediumNormal));
+		list.add(new TallGrassDecorator(0.5F, 0.2F, MinestuckBiomes.mediumRough));
+		list.add(new FlowerDecorator(0.5F, 0.2F, MinestuckBiomes.mediumNormal, MinestuckBiomes.mediumRough));
 		
 		list.add(new UndergroundDecoratorVein(Blocks.DIRT.getDefaultState(), 3, 33, 64));
 		list.add(new UndergroundDecoratorVein(Blocks.GRAVEL.getDefaultState(), 2, 28, 64));
@@ -103,7 +103,7 @@ public class LandAspectFlora extends TerrainLandAspect
 		list.add(new UndergroundDecoratorVein(Blocks.DIAMOND_ORE.getDefaultState(), 8, 3, 32));
 		list.add(new UndergroundDecoratorVein(Blocks.LAPIS_ORE.getDefaultState(), 8, 3, 32));
 		list.add(new UndergroundDecoratorVein(MinestuckBlocks.quartzOreStone.getDefaultState(), 8, 5, 32));
-		list.add(new SurfaceDecoratorVein(Blocks.CLAY.getDefaultState(), 15, 10, BiomeMinestuck.mediumOcean));
+		list.add(new SurfaceDecoratorVein(Blocks.CLAY.getDefaultState(), 15, 10, MinestuckBiomes.mediumOcean));
 		return list;
 	}
 	

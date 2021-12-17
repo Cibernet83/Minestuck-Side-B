@@ -1,6 +1,7 @@
 package com.mraof.minestuck.capabilities.caps;
 
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.badges.Badge;
 import com.mraof.minestuck.badges.MasterBadge;
 import com.mraof.minestuck.badges.MinestuckBadges;
@@ -54,7 +55,7 @@ public class GodTierData implements IGodTierData
 
 	private EnumLunarSway lunarSway;
 	private EnumConsort consortType;
-	private GristType gristHoard = GristType.Build;
+	private Grist gristHoard = MinestuckGrists.build;
 
 	private boolean reset = false;
 
@@ -355,13 +356,13 @@ public class GodTierData implements IGodTierData
 	}
 
 	@Override
-	public GristType getGristHoard()
+	public Grist getGristHoard()
 	{
 		return gristHoard;
 	}
 
 	@Override
-	public void setGristHoard(GristType gristHoard)
+	public void setGristHoard(Grist gristHoard)
 	{
 		this.gristHoard = gristHoard;
 	}
@@ -439,7 +440,7 @@ public class GodTierData implements IGodTierData
 			climbedTheSpire = nbt.getBoolean("ClimbedTheSpire");
 
 		if(nbt.hasKey("GristHoardType"))
-			gristHoard = GristType.getTypeFromString(nbt.getString("GristHoardType"));
+			gristHoard = Grist.getTypeFromString(nbt.getString("GristHoardType"));
 
 		if(nbt.getInteger("ConsortType") != -1)
 			consortType = EnumConsort.values()[nbt.getInteger("ConsortType")];

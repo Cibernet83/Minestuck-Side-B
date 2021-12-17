@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroClass;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.MSGTUtils;
@@ -36,7 +36,7 @@ public class BadgeWitch extends BadgeHeroClass
 
 		if (state != GodKeyStates.KeyState.RELEASED)
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumClass.WITCH, time > 20 ? 5 : 1);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.WITCH, time > 20 ? 5 : 1);
 			return true;
 		}
 
@@ -48,7 +48,7 @@ public class BadgeWitch extends BadgeHeroClass
 		if (target == null)
 			return false;
 
-		target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.WITCH, 20);
+		target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.WITCH, 20);
 		PotionEffect effect = new PotionEffect(MinestuckPotions.GOD_TIER_LOCK, 800, 1);
 		effect.setCurativeItems(Collections.emptyList());
 		target.addPotionEffect(effect);

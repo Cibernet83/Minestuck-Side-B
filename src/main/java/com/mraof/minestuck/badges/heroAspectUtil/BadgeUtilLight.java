@@ -4,7 +4,7 @@ import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,7 +46,7 @@ public class BadgeUtilLight extends BadgeHeroAspectUtil
 				|| (!player.isSneaking() && state == GodKeyStates.KeyState.PRESS)) &&
 				   player.world.getBlockState(player.getPosition()).getMaterial() == Material.AIR)
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.LIGHT, 4);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIGHT, 4);
 			player.world.setBlockState(player.getPosition(), MinestuckBlocks.glorb.getDefaultState());
 			return true;
 		}

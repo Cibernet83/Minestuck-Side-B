@@ -1,6 +1,6 @@
 package com.mraof.minestuck.capabilities.api;
 
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.SoulData;
 import com.mraof.minestuck.capabilities.IBadgeEffect;
 import com.mraof.minestuck.capabilities.IMinestuckCapabilityBase;
@@ -91,25 +91,25 @@ public interface IBadgeEffects extends IMinestuckCapabilityBase<EntityLivingBase
 
 
 	// ----- Particles
-	Map<Class, MSGTParticles.PowerParticleState> getPowerParticles();
+	Map<Class, MinestuckParticles.PowerParticleState> getPowerParticles();
 
-	default void startPowerParticles(Class badge, MSGTParticles.ParticleType particleType, EnumAspect aspect, int count) {
-		startPowerParticles(badge, new MSGTParticles.PowerParticleState(particleType, aspect, count));
+	default void startPowerParticles(Class badge, MinestuckParticles.ParticleType particleType, EnumAspect aspect, int count) {
+		startPowerParticles(badge, new MinestuckParticles.PowerParticleState(particleType, aspect, count));
 	}
-	default void startPowerParticles(Class badge, MSGTParticles.ParticleType particleType, EnumClass clazz, int count) {
-		startPowerParticles(badge, new MSGTParticles.PowerParticleState(particleType, clazz, count));
+	default void startPowerParticles(Class badge, MinestuckParticles.ParticleType particleType, EnumClass clazz, int count) {
+		startPowerParticles(badge, new MinestuckParticles.PowerParticleState(particleType, clazz, count));
 	}
-	void startPowerParticles(Class badge, MSGTParticles.PowerParticleState state);
+	void startPowerParticles(Class badge, MinestuckParticles.PowerParticleState state);
 
 	void stopPowerParticles(Class badge);
 
-	default void oneshotPowerParticles(MSGTParticles.ParticleType particleType, EnumAspect aspect, int count) {
-		oneshotPowerParticles(new MSGTParticles.PowerParticleState(particleType, aspect, count));
+	default void oneshotPowerParticles(MinestuckParticles.ParticleType particleType, EnumAspect aspect, int count) {
+		oneshotPowerParticles(new MinestuckParticles.PowerParticleState(particleType, aspect, count));
 	}
-	default void oneshotPowerParticles(MSGTParticles.ParticleType particleType, EnumClass clazz, int count) {
-		oneshotPowerParticles(new MSGTParticles.PowerParticleState(particleType, clazz, count));
+	default void oneshotPowerParticles(MinestuckParticles.ParticleType particleType, EnumClass clazz, int count) {
+		oneshotPowerParticles(new MinestuckParticles.PowerParticleState(particleType, clazz, count));
 	}
-	void oneshotPowerParticles(MSGTParticles.PowerParticleState state);
+	void oneshotPowerParticles(MinestuckParticles.PowerParticleState state);
 
 	// ----- Data
 	void setOwner(EntityLivingBase entity);

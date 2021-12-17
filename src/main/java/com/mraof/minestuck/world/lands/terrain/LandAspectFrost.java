@@ -2,7 +2,7 @@ package com.mraof.minestuck.world.lands.terrain;
 
 import com.mraof.minestuck.block.*;
 import com.mraof.minestuck.entity.consort.EnumConsort;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.decorator.*;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
 import net.minecraft.block.*;
@@ -54,13 +54,13 @@ public class LandAspectFrost extends TerrainLandAspect
 		ArrayList<ILandDecorator> list = new ArrayList<ILandDecorator>();
 		list.add(new IceDecorator());
 		list.add(new LayeredBlockDecorator(Blocks.SNOW_LAYER, true));
-		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), BiomeMinestuck.mediumNormal));
-		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), BiomeMinestuck.mediumRough));
+		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), MinestuckBiomes.mediumNormal));
+		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), MinestuckBiomes.mediumRough));
 
-		list.add(new SurfaceDecoratorVein(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT), 10, 32, BiomeMinestuck.mediumRough, BiomeMinestuck.mediumOcean));
-		list.add(new SurfaceDecoratorVein(Blocks.ICE.getDefaultState(), 5, 8, BiomeMinestuck.mediumRough));
-		list.add(new SurfaceDecoratorVein(Blocks.SNOW.getDefaultState(), 8, 16, BiomeMinestuck.mediumRough));
-		list.add(new SurfaceDecoratorVein(Blocks.SNOW.getDefaultState(), 15, 16, BiomeMinestuck.mediumNormal));
+		list.add(new SurfaceDecoratorVein(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT), 10, 32, MinestuckBiomes.mediumRough, MinestuckBiomes.mediumOcean));
+		list.add(new SurfaceDecoratorVein(Blocks.ICE.getDefaultState(), 5, 8, MinestuckBiomes.mediumRough));
+		list.add(new SurfaceDecoratorVein(Blocks.SNOW.getDefaultState(), 8, 16, MinestuckBiomes.mediumRough));
+		list.add(new SurfaceDecoratorVein(Blocks.SNOW.getDefaultState(), 15, 16, MinestuckBiomes.mediumNormal));
 		
 		list.add(new UndergroundDecoratorVein(Blocks.PACKED_ICE.getDefaultState(), 2, 8, 64));
 		list.add(new UndergroundDecoratorVein(Blocks.SNOW.getDefaultState(), 3, 16, 64));

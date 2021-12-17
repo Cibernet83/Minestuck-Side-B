@@ -1,7 +1,7 @@
 package com.mraof.minestuck.world.lands.title;
  import com.mraof.minestuck.MinestuckConfig;
  import com.mraof.minestuck.entity.EntityFrog;
- import com.mraof.minestuck.world.biome.BiomeMinestuck;
+ import com.mraof.minestuck.world.biome.MinestuckBiomes;
  import com.mraof.minestuck.world.lands.decorator.LilypadDecorator;
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
@@ -35,7 +35,7 @@ public class LandAspectFrogs extends TitleLandAspect
 
 		chunkProvider.monsterList.add(new Biome.SpawnListEntry(EntityFrog.class, 10, MinestuckConfig.landAnimalSpawnAmount - 4, MinestuckConfig.landAnimalSpawnAmount));
 
-		chunkProvider.decorators.add(new LilypadDecorator(10, BiomeMinestuck.mediumOcean));
+		chunkProvider.decorators.add(new LilypadDecorator(10, MinestuckBiomes.mediumOcean));
 		chunkProvider.sortDecorators();
 	}
 	

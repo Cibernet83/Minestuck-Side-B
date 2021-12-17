@@ -5,7 +5,7 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GameData;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.gui.MSGTGuiHandler;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +35,7 @@ public class BadgeUtilVoid extends BadgeHeroAspectUtil
 
 		player.openGui(Minestuck.instance, MSGTGuiHandler.ITEM_VOID, world, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.VOID, 20);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.VOID, 20);
 
 		return true;
 	}

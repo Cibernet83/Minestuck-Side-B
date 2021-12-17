@@ -3,7 +3,7 @@ package com.mraof.minestuck.network;
 import com.mraof.minestuck.inventory.miniMachines.ContainerMiniSburbMachine;
 import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import com.mraof.minestuck.util.Debug;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,12 +15,12 @@ public class PacketMachineState extends MinestuckPacket {
 	public int xCoord;
 	public int yCoord;
 	public int zCoord;
-	public GristType gristType;
+	public Grist grist;
 	
 	@Override
 	public MinestuckPacket generatePacket(Object... dat) 
 	{
-		data.writeInt(GristType.REGISTRY.getID((GristType) dat[0]));
+		data.writeInt(Grist.REGISTRY.getID((Grist) dat[0]));
 		
 		return this;
 	}
@@ -28,7 +28,7 @@ public class PacketMachineState extends MinestuckPacket {
 	@Override
 	public MinestuckPacket consumePacket(ByteBuf data) 
 	{
-		gristType = GristType.REGISTRY.getValue(data.readInt());
+		grist = Grist.REGISTRY.getValue(data.readInt());
 		
 		return this;
 	}
@@ -47,7 +47,7 @@ public class PacketMachineState extends MinestuckPacket {
 		}
 		else
 		{
-			te.selectedGrist = gristType;
+			te.selectedGrist = grist;
 		}
 	}
 

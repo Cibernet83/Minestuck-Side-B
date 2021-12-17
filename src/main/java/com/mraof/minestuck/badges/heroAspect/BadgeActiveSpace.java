@@ -2,7 +2,7 @@ package com.mraof.minestuck.badges.heroAspect;
 
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.util.EnumAspect;
@@ -62,8 +62,8 @@ public class BadgeActiveSpace extends BadgeHeroAspect
 			player.getFoodStats().setFoodLevel((int) Math.max(0, player.getFoodStats().getFoodLevel()-Math.floor(distance)));
 
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.SPACE, 10);
-		MinestuckChannelHandler.sendToTrackingAndSelf(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MSGTParticles.ParticleType.AURA, 0x4BEC13, 10, player.posX, player.posY, player.posZ), player);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.SPACE, 10);
+		MinestuckChannelHandler.sendToTrackingAndSelf(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x4BEC13, 10, player.posX, player.posY, player.posZ), player);
 
 		Teleport.localTeleport(player, null, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
 

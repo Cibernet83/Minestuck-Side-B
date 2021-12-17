@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroClass;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.MSGTUtils;
 import net.minecraft.entity.EntityLivingBase;
@@ -50,7 +50,7 @@ public class BadgeRogue extends BadgeHeroClass
 				for(PotionEffect effect : appliedPotions)
 				{
 					target.addPotionEffect(effect);
-					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.ROGUE, 3);
+					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.ROGUE, 3);
 				}
 			if (!player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 8);
@@ -58,9 +58,9 @@ public class BadgeRogue extends BadgeHeroClass
 
 		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
 		if(time < 57)
-			badgeEffects.oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.ROGUE, target != null ? 5 : 1);
+			badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.ROGUE, target != null ? 5 : 1);
 		else
-			badgeEffects.oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumClass.ROGUE, 20);
+			badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumClass.ROGUE, 20);
 		if(!state.equals(GodKeyStates.KeyState.PRESS))
 			return true;
 
@@ -68,7 +68,7 @@ public class BadgeRogue extends BadgeHeroClass
 		{
 			for(PotionEffect effect : appliedPotions)
 				target.addPotionEffect(effect);
-			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.ROGUE, 3);
+			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.ROGUE, 3);
 			if (!player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 4);
 		}

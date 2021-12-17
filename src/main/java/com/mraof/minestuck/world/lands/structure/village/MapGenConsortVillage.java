@@ -1,7 +1,7 @@
 package com.mraof.minestuck.world.lands.structure.village;
 
 import com.mraof.minestuck.util.Debug;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.LandAspectRegistry;
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -23,7 +23,7 @@ import java.util.Random;
 public class MapGenConsortVillage extends MapGenStructure
 {
 	
-	private static final List<Biome> BIOMES = Arrays.asList(BiomeMinestuck.mediumNormal);
+	private static final List<Biome> BIOMES = Arrays.asList(MinestuckBiomes.mediumNormal);
 	
 	private static final int VILLAGE_DISTANCE = 24;
 	private static final int MIN_VILLAGE_DISTANCE = 5;

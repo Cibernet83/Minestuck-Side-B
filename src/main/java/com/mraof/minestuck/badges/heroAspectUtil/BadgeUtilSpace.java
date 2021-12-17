@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspectUtil;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.item.ItemManipulatedMatter;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.EnumAspect;
@@ -93,10 +93,10 @@ public class BadgeUtilSpace extends BadgeHeroAspectUtil
 				player.sendStatusMessage(new TextComponentTranslation("item.manipulatedMatter.cantEdit"), true);
 
 			if (time >= 20)
-				badgeEffects.startPowerParticles(BadgeUtilSpace.class, MSGTParticles.ParticleType.BURST, EnumAspect.SPACE, 10);
-			else badgeEffects.startPowerParticles(BadgeUtilSpace.class, MSGTParticles.ParticleType.AURA, EnumAspect.SPACE, 5);
+				badgeEffects.startPowerParticles(BadgeUtilSpace.class, MinestuckParticles.ParticleType.BURST, EnumAspect.SPACE, 10);
+			else badgeEffects.startPowerParticles(BadgeUtilSpace.class, MinestuckParticles.ParticleType.AURA, EnumAspect.SPACE, 5);
 		}
-		else badgeEffects.startPowerParticles(BadgeUtilSpace.class, MSGTParticles.ParticleType.AURA, EnumAspect.SPACE, (time >= 20 && pos1 != null && pos2 != null) ? 6 : 1);
+		else badgeEffects.startPowerParticles(BadgeUtilSpace.class, MinestuckParticles.ParticleType.AURA, EnumAspect.SPACE, (time >= 20 && pos1 != null && pos2 != null) ? 6 : 1);
 
 		return true;
 	}

@@ -7,7 +7,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.item.ItemKnittingNeedles;
 import com.mraof.minestuck.item.ItemMinestuckRecord;
 import com.mraof.minestuck.item.ItemModus;
@@ -246,8 +245,8 @@ public class CraftingRecipes
 				stack = crafting.getStackInSlot(i);
 				if(stack.getItem() == MinestuckItems.captchaCard && stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") && stack.getTagCompound().getBoolean("punched"))
 				{
-					decode = AlchemyRecipes.getDecodedItem(stack);
-					return AlchemyRecipes.createEncodedItem(decode, output);
+					decode = AlchemyUtils.getDecodedItem(stack);
+					return AlchemyUtils.createEncodedItem(decode, output);
 				}
 					
 			}
@@ -286,8 +285,8 @@ public class CraftingRecipes
 				stack = crafting.getStackInSlot(i);
 				if(stack.getItem() == MinestuckItems.shunt && stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID"))
 				{
-					decode = AlchemyRecipes.getDecodedItem(stack);
-					return AlchemyRecipes.createCard(decode, true);
+					decode = AlchemyUtils.getDecodedItem(stack);
+					return AlchemyUtils.createCard(decode, true);
 				}
 					
 			}
@@ -302,7 +301,7 @@ public class CraftingRecipes
 			{
 				final ItemStack stack = crafting.getStackInSlot(i);
 				
-				if(AlchemyRecipes.hasDecodedItem(stack))
+				if(AlchemyUtils.hasDecodedItem(stack))
 					remainingItems.set(i, new ItemStack(stack.getItem()));
 				else
 					remainingItems.set(i, ForgeHooks.getContainerItem(stack));

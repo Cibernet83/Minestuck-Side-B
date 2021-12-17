@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspect;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
 import com.mraof.minestuck.util.SoulData;
@@ -39,7 +39,7 @@ public class BadgeActiveTime extends BadgeHeroAspect
 
 		if (time < 20)
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.TIME, 2);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.TIME, 2);
 			return true;
 		}
 
@@ -49,12 +49,12 @@ public class BadgeActiveTime extends BadgeHeroAspect
 			return false;
 		}
 
-		badgeEffects.oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.TIME, 4);
+		badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.TIME, 4);
 
 		soulData.element().apply(player);
 		soulData.clear();
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.TIME,4);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.TIME,4);
 
 		if (!player.isCreative())
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - ENERGY_USE);

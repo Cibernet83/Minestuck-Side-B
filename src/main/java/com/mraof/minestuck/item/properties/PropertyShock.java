@@ -3,9 +3,9 @@ package com.mraof.minestuck.item.properties;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.event.LivingShockEvent;
-import com.mraof.minestuck.event.handlers.CommonEventHandler;
+import com.mraof.minestuck.event.handler.CommonEventHandler;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -77,7 +77,7 @@ public class PropertyShock extends WeaponProperty
 			for(EnumHand hand : EnumHand.values())
 			{
 				GristSet heldGristCost = GristRegistry.getGristConversion(target.getHeldItem(hand));
-				if(!target.getHeldItem(hand).isEmpty() && (player == null || player == target || (heldGristCost != null && (heldGristCost.getGrist(GristType.Rust) != 0 || heldGristCost.getGrist(GristType.Gold) != 0))))
+				if(!target.getHeldItem(hand).isEmpty() && (player == null || player == target || (heldGristCost != null && (heldGristCost.getGrist(MinestuckGrists.rust) != 0 || heldGristCost.getGrist(MinestuckGrists.gold) != 0))))
 				{
 					EntityItem item = target.entityDropItem(target.getHeldItem(hand), target.getEyeHeight());
 					item.setPickupDelay(20);

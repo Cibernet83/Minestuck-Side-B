@@ -1,6 +1,6 @@
 package com.mraof.minestuck.client.settings;
 
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
@@ -73,8 +73,8 @@ public class MinestuckKeyHandler
 		
 		while(sylladexKey.isPressed())
 		{
-			if(CaptchaDeckHandler.clientSideModus != null)
-				Minecraft.getMinecraft().displayGuiScreen(CaptchaDeckHandler.clientSideModus.getGuiHandler());
+			if(SylladexUtils.clientSideModus != null)
+				Minecraft.getMinecraft().displayGuiScreen(SylladexUtils.clientSideModus.getGuiHandler());
 		}
 	}
 	

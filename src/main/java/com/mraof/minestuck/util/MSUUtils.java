@@ -1,6 +1,5 @@
 package com.mraof.minestuck.util;
 
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.client.Minecraft;
@@ -18,8 +17,8 @@ public class MSUUtils
 {
     public static boolean compareCards(ItemStack card1, ItemStack card2, boolean ignoreStacksize)
     {
-        ItemStack stack1 = AlchemyRecipes.getDecodedItem(card1);
-        ItemStack stack2 = AlchemyRecipes.getDecodedItem(card2);
+        ItemStack stack1 = AlchemyUtils.getDecodedItem(card1);
+        ItemStack stack2 = AlchemyUtils.getDecodedItem(card2);
         if(!card1.isItemEqual(card2))
             return false;
         if(!card1.hasTagCompound() || !card2.hasTagCompound())

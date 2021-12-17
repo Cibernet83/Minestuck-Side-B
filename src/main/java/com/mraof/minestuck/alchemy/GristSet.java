@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class GristSet
 {
 
-	public TreeMap<GristType, Integer> gristTypes;
+	public TreeMap<Grist, Integer> gristTypes;
 
 	/**
 	 * Creates a blank set of grist values, used in setting up the Grist Registry.
@@ -20,7 +20,7 @@ public class GristSet
 		this.gristTypes = new TreeMap<>();
 	}
 
-	public GristSet(Map<GristType, Integer> map)
+	public GristSet(Map<Grist, Integer> map)
 	{
 		this.gristTypes = new TreeMap<>(map);
 	}
@@ -28,7 +28,7 @@ public class GristSet
 	/**
 	 * Creates a set of grist values with one grist/amount pair. used in setting up the Grist Registry.
 	 */
-	public GristSet(GristType type, int amount)
+	public GristSet(Grist type, int amount)
 	{
 		this();
 		this.gristTypes.put(type, amount);
@@ -37,7 +37,7 @@ public class GristSet
 	/**
 	 * Creates a set of grist values with multiple grist/amount pairs. used in setting up the Grist Registry.
 	 */
-	public GristSet(GristType[] type, int[] amount)
+	public GristSet(Grist[] type, int[] amount)
 	{
 		this();
 
@@ -59,7 +59,7 @@ public class GristSet
 	/**
 	 * Gets the amount of grist, given a type of grist.
 	 */
-	public int getGrist(GristType type)
+	public int getGrist(Grist type)
 	{
 		return this.gristTypes.getOrDefault(type, 0);
 	}
@@ -78,7 +78,7 @@ public class GristSet
 	/**
 	 * Sets the amount of grist, given a type of grist and the new amount.
 	 */
-	public GristSet setGrist(GristType type, int amount)
+	public GristSet setGrist(Grist type, int amount)
 	{
 		if(type != null)
 			gristTypes.put(type, amount);
@@ -88,7 +88,7 @@ public class GristSet
 	/**
 	 * Adds an amount of grist to a GristSet, given a grist type and amount.
 	 */
-	public GristSet addGrist(GristType type, int amount)
+	public GristSet addGrist(Grist type, int amount)
 	{
 		if (amount == 0)
 		{
@@ -104,7 +104,7 @@ public class GristSet
 	/**
 	 * Returns a Hashtable with grist->amount pairs.
 	 */
-	public TreeMap<GristType, Integer> getMap()
+	public TreeMap<Grist, Integer> getMap()
 	{
 		return this.gristTypes;
 	}
@@ -170,7 +170,7 @@ public class GristSet
 		build.append("gristSet:[");
 
 		boolean first = true;
-		for (Map.Entry<GristType, Integer> entry : gristTypes.entrySet())
+		for (Map.Entry<Grist, Integer> entry : gristTypes.entrySet())
 		{
 			if (!first)
 				build.append(',');

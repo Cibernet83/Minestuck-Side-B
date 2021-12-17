@@ -1,8 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.block.IGodTierBlock;
-import com.mraof.minestuck.client.particles.MSGTParticles;
-import com.mraof.minestuck.item.MSItemBase;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import net.minecraft.block.Block;
@@ -177,7 +176,7 @@ public class ItemManipulatedMatter extends MSItemBase
 				}
 				world.setBlockToAir(pos);
 
-				MinestuckChannelHandler.sendToTrackingAndSelf(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MSGTParticles.ParticleType.AURA, 0x4bec13, 2, pos), player);
+				MinestuckChannelHandler.sendToTrackingAndSelf(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x4bec13, 2, pos), player);
 			}
 			blockList.appendTag(bnbt);
 		}

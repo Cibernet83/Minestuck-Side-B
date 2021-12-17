@@ -4,8 +4,8 @@ import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
-import com.mraof.minestuck.event.handlers.BadgeEventHandler;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
+import com.mraof.minestuck.event.handler.BadgeEventHandler;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.*;
 import net.minecraft.entity.EntityLivingBase;
@@ -40,7 +40,7 @@ public class BadgeLord extends BadgeHeroClass
 			return false;
 		}
 
-		badgeEffects.startPowerParticles(getClass(), time > chargeTime-3 ? MSGTParticles.ParticleType.BURST : MSGTParticles.ParticleType.AURA, EnumClass.LORD, 20);
+		badgeEffects.startPowerParticles(getClass(), time > chargeTime-3 ? MinestuckParticles.ParticleType.BURST : MinestuckParticles.ParticleType.AURA, EnumClass.LORD, 20);
 
 		if(time >= chargeTime)
 		{
@@ -66,7 +66,7 @@ public class BadgeLord extends BadgeHeroClass
 				}
 
 				target.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration()*2 * (isOverlord ? 2 : 1), (int) (effect.getAmplifier()*1.5f * (isOverlord ? 2 : 1))));
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.LORD, 10);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.LORD, 10);
 			}
 			if (!player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - energy);

@@ -6,7 +6,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
@@ -66,7 +66,7 @@ public class ChangeModusTrigger implements ICriterionTrigger<ChangeModusTrigger.
 		if(json.has("modus"))
 		{
 			modus = json.get("modus").getAsString();
-			if(!CaptchaDeckHandler.isInRegistry(new ResourceLocation(modus)))
+			if(!SylladexUtils.isInRegistry(new ResourceLocation(modus)))
 				throw new IllegalArgumentException("Invalid modus "+modus);
 		}
 		return new Instance(modus);
@@ -76,7 +76,7 @@ public class ChangeModusTrigger implements ICriterionTrigger<ChangeModusTrigger.
 	{
 		Listeners listeners = listenersMap.get(player.getAdvancements());
 		if(listeners != null)
-			listeners.trigger(CaptchaDeckHandler.getType(modus.getClass()).toString());
+			listeners.trigger(SylladexUtils.getType(modus.getClass()).toString());
 	}
 	
 	public static class Instance extends AbstractCriterionInstance

@@ -1,6 +1,6 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import io.netty.buffer.ByteBuf;
@@ -72,7 +72,7 @@ public class PacketRequestModusUpdate extends MinestuckPacket
 		else player = target.getPlayer();
 		
 		if(player != null)
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.UPDATE_MODUS, CaptchaDeckHandler.writeToNBT(MinestuckPlayerData.getData(target).modus)), player);
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.UPDATE_MODUS, SylladexUtils.writeToNBT(MinestuckPlayerData.getData(target).modus)), player);
 	}
 	
 	@Override

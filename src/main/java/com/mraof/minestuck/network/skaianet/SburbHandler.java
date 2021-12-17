@@ -21,6 +21,7 @@ import java.util.Set;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.entity.underling.EntityBasilisk;
 import com.mraof.minestuck.entity.underling.EntityGiclops;
 import com.mraof.minestuck.entity.underling.EntityImp;
@@ -37,7 +38,7 @@ import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.alchemy.GristHelper;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -539,10 +540,10 @@ public class SburbHandler
 		return stack;
 	}
 	
-	public static GristType getPrimaryGristType(PlayerIdentifier player)
+	public static Grist getPrimaryGristType(PlayerIdentifier player)
 	{
 		
-		return GristType.Shale;
+		return MinestuckGrists.shale;
 	}
 	
 	public static int getColorForDimension(int dim)
@@ -630,7 +631,7 @@ public class SburbHandler
 		MinestuckDimensionHandler.registerLandDimension(connection.clientHomeLand, new AspectCombination(terrainAspect, titleAspect));
 	}
 	
-	public static GristType getUnderlingType(EntityUnderling entity)
+	public static Grist getUnderlingType(EntityUnderling entity)
 	{
 		return GristHelper.getPrimaryGrist();
 	}

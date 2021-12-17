@@ -2,8 +2,7 @@ package com.mraof.minestuck.world.lands.title;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.world.WorldProviderLands;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
-import com.mraof.minestuck.world.lands.decorator.PillarDecorator;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.decorator.SurfaceDecoratorVein;
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
@@ -52,7 +51,7 @@ public class LandAspectPulse extends TitleLandAspect
 		chunkProvider.blockRegistry.setBlockState("river", MinestuckBlocks.blockBlood.getDefaultState());
 		chunkProvider.blockRegistry.setBlockState("slime", MinestuckBlocks.coagulatedBlood.getDefaultState());
 		
-		chunkProvider.decorators.add(new SurfaceDecoratorVein(MinestuckBlocks.coagulatedBlood.getDefaultState(), 25, 30, BiomeMinestuck.mediumRough));
+		chunkProvider.decorators.add(new SurfaceDecoratorVein(MinestuckBlocks.coagulatedBlood.getDefaultState(), 25, 30, MinestuckBiomes.mediumRough));
 	}
 	
 	@Override

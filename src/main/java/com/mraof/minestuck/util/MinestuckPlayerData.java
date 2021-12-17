@@ -1,10 +1,10 @@
 package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.editmode.ClientEditHandler;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
-import com.mraof.minestuck.inventory.captchalouge.Modus;
+import com.mraof.minestuck.inventory.captchalouge.ISylladex;
 import com.mraof.minestuck.network.PacketGristCache;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -26,40 +26,26 @@ import java.util.Objects;
 
 public class MinestuckPlayerData
 {
+	@SideOnly(Side.CLIENT)
+	public static PlayerData clientData;
+	@SideOnly(Side.CLIENT)
+	private static GristSet sessionClientGrist;
 
-	//Client sided
-
-	@SideOnly(Side.CLIENT)
-	public static Title title;
-	@SideOnly(Side.CLIENT)
-	public static int rung;
-	@SideOnly(Side.CLIENT)
-	public static float rungProgress;
-	@SideOnly(Side.CLIENT)
-	public static long boondollars;
-	@SideOnly(Side.CLIENT)
-	static GristSet playerGrist;
-	@SideOnly(Side.CLIENT)
-	static GristSet targetGrist;
-	static Map<PlayerIdentifier, PlayerData> dataMap = new HashMap<>();
+	private static Map<PlayerIdentifier, PlayerData> dataMap = new HashMap<>();
 
 	public static void onPacketRecived(PacketGristCache packet)
 	{
 		if (packet.targetGrist)
-		{
-			targetGrist = packet.values;
-		}
+			sessionClientGrist = packet.values;
 		else
-		{
-			playerGrist = packet.values;
-		}
+			clientData.gristCache = packet.values;
 	}
 
 	//Server sided
 
 	public static GristSet getClientGrist()
 	{
-		return ClientEditHandler.isActive() ? targetGrist : playerGrist;
+		return ClientEditHandler.isActive() ? sessionClientGrist : clientData.gristCache;
 	}
 
 	public static GristSet getGristSet(PlayerIdentifier player)
@@ -178,7 +164,7 @@ public class MinestuckPlayerData
 		public PlayerIdentifier player;
 		public Title title;
 		public GristSet gristCache;
-		public Modus modus;
+		public ISylladex sylladex;
 		public boolean givenModus;
 		public int color = -1;
 		public long boondollars;
@@ -187,9 +173,7 @@ public class MinestuckPlayerData
 		
 		private void readFromNBT(NBTTagCompound nbt)
 		{
-			if (nbt.hasKey("username"))
-				this.player = IdentifierHandler.load(nbt, "username");    //For compability with saves from older minestuck versions
-			else this.player = IdentifierHandler.load(nbt, "player");
+			this.player = IdentifierHandler.load(nbt, "player");
 			if (nbt.hasKey("grist"))
 			{
 				//old format
@@ -197,27 +181,27 @@ public class MinestuckPlayerData
 				{
 					int[] array = nbt.getIntArray("grist");
 					this.gristCache = new GristSet()
-							.addGrist(GristType.Amber, array[0])
-							.addGrist(GristType.Amethyst, array[1])
-							.addGrist(GristType.Artifact, array[2])
-							.addGrist(GristType.Build, array[3])
-							.addGrist(GristType.Caulk, array[4])
-							.addGrist(GristType.Chalk, array[5])
-							.addGrist(GristType.Cobalt, array[6])
-							.addGrist(GristType.Diamond, array[7])
-							.addGrist(GristType.Garnet, array[8])
-							.addGrist(GristType.Gold, array[9])
-							.addGrist(GristType.Iodine, array[10])
-							.addGrist(GristType.Marble, array[11])
-							.addGrist(GristType.Mercury, array[12])
-							.addGrist(GristType.Quartz, array[13])
-							.addGrist(GristType.Ruby, array[14])
-							.addGrist(GristType.Rust, array[15])
-							.addGrist(GristType.Shale, array[16])
-							.addGrist(GristType.Sulfur, array[17])
-							.addGrist(GristType.Tar, array[18])
-							.addGrist(GristType.Uranium, array[19])
-							.addGrist(GristType.Zillium, array[20]);
+							.addGrist(MinestuckGrists.amber, array[0])
+							.addGrist(MinestuckGrists.amethyst, array[1])
+							.addGrist(MinestuckGrists.artifact, array[2])
+							.addGrist(MinestuckGrists.build, array[3])
+							.addGrist(MinestuckGrists.caulk, array[4])
+							.addGrist(MinestuckGrists.chalk, array[5])
+							.addGrist(MinestuckGrists.cobalt, array[6])
+							.addGrist(MinestuckGrists.diamond, array[7])
+							.addGrist(MinestuckGrists.garnet, array[8])
+							.addGrist(MinestuckGrists.gold, array[9])
+							.addGrist(MinestuckGrists.iodine, array[10])
+							.addGrist(MinestuckGrists.marble, array[11])
+							.addGrist(MinestuckGrists.mercury, array[12])
+							.addGrist(MinestuckGrists.quartz, array[13])
+							.addGrist(MinestuckGrists.ruby, array[14])
+							.addGrist(MinestuckGrists.rust, array[15])
+							.addGrist(MinestuckGrists.shale, array[16])
+							.addGrist(MinestuckGrists.sulfur, array[17])
+							.addGrist(MinestuckGrists.tar, array[18])
+							.addGrist(MinestuckGrists.uranium, array[19])
+							.addGrist(MinestuckGrists.zillium, array[20]);
 				}
 				else
 				{
@@ -225,7 +209,7 @@ public class MinestuckPlayerData
 					for (NBTBase nbtBase : nbt.getTagList("grist", 10))
 					{
 						NBTTagCompound gristTag = (NBTTagCompound) nbtBase;
-						GristType type = GristType.getTypeFromString(gristTag.getString("id"));
+						Grist type = Grist.getTypeFromString(gristTag.getString("id"));
 						if(type != null)
 							this.gristCache.setGrist(type, gristTag.getInteger("amount"));
 					}
@@ -235,7 +219,7 @@ public class MinestuckPlayerData
 				this.title = new Title(EnumClass.getClassFromInt(nbt.getByte("titleClass")), EnumAspect.getAspectFromInt(nbt.getByte("titleAspect")));
 			if (nbt.hasKey("modus"))
 			{
-				this.modus = CaptchaDeckHandler.readFromNBT(nbt.getCompoundTag("modus"), false);
+				this.sylladex = SylladexUtils.readFromNBT(nbt.getCompoundTag("modus"));
 				givenModus = true;
 			}
 			else givenModus = nbt.getBoolean("givenModus");
@@ -255,7 +239,7 @@ public class MinestuckPlayerData
 			if (this.gristCache != null)
 			{
 				NBTTagList list = new NBTTagList();
-				for (GristType type : GristType.values())
+				for (Grist type : Grist.values())
 				{
 					NBTTagCompound gristTag = new NBTTagCompound();
 					gristTag.setString("id", String.valueOf(type.getRegistryName()));
@@ -269,8 +253,8 @@ public class MinestuckPlayerData
 				nbt.setByte("titleClass", (byte) this.title.getHeroClass().ordinal());
 				nbt.setByte("titleAspect", (byte) this.title.getHeroAspect().ordinal());
 			}
-			if (this.modus != null)
-				nbt.setTag("modus", CaptchaDeckHandler.writeToNBT(modus));
+			if (this.sylladex != null)
+				nbt.setTag("modus", SylladexUtils.writeToNBT(sylladex));
 			else nbt.setBoolean("givenModus", givenModus);
 			nbt.setInteger("color", this.color);
 			nbt.setLong("boondollars", boondollars);

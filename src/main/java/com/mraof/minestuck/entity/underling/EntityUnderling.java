@@ -2,7 +2,8 @@ package com.mraof.minestuck.entity.underling;
 
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.entity.EntityListFilter;
 import com.mraof.minestuck.entity.EntityMinestuck;
 import com.mraof.minestuck.entity.ai.EntityAIHurtByTargetAllied;
@@ -63,7 +64,7 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		dataManager.register(GRIST_TYPE, GristType.Artifact.getRegistryName().toString());
+		dataManager.register(GRIST_TYPE, MinestuckGrists.artifact.getRegistryName().toString());
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(this.getWanderSpeed());
 	}
 	
-	public void applyGristType(GristType type, boolean fullHeal)
+	public void applyGristType(Grist type, boolean fullHeal)
 	{
 		type = Objects.requireNonNull(type);
 		if(type.getRarity() == 0)	//Utility grist type
@@ -106,9 +107,9 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 			this.setHealth(this.getMaxHealth());
 	}
 
-	public GristType getGristType()
+	public Grist getGristType()
 	{
-		return GristType.getTypeFromString(dataManager.get(GRIST_TYPE));
+		return Grist.getTypeFromString(dataManager.get(GRIST_TYPE));
 	}
 
 	//used when getting how much grist should be dropped on death
@@ -229,9 +230,9 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 	{
 		if(tagCompound.hasKey("type", 8))
 		{
-			GristType gristType = GristType.getTypeFromString(tagCompound.getString("type"));
-			if(gristType != null)
-				applyGristType(gristType, false);
+			Grist grist = Grist.getTypeFromString(tagCompound.getString("type"));
+			if(grist != null)
+				applyGristType(grist, false);
 			else Debug.warnf("Unable to load grist type \"%s\" when reading underling from nbt!", tagCompound.getString("type"));
 		}else applyGristType(SburbHandler.getUnderlingType(this), true);
 		super.readEntityFromNBT(tagCompound);
@@ -261,7 +262,7 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 	@Override
 	public void readSpawnData(ByteBuf additionalData)
 	{
-		applyGristType(GristType.REGISTRY.getValue(additionalData.readInt()), false);
+		applyGristType(Grist.REGISTRY.getValue(additionalData.readInt()), false);
 		this.textureResource = new ResourceLocation("minestuck", this.getTexture());
 	}
 	
@@ -271,7 +272,7 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 
 		if(!(livingData instanceof UnderlingData))
 		{
-			if(this.getGristType() == GristType.Artifact)
+			if(this.getGristType() == MinestuckGrists.artifact)
 				applyGristType(SburbHandler.getUnderlingType(this), true);
 			livingData = new UnderlingData(this.getGristType());
 		} else
@@ -336,8 +337,8 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 	
 	protected static class UnderlingData implements IEntityLivingData
 	{
-		public final GristType type;
-		public UnderlingData(GristType type)
+		public final Grist type;
+		public UnderlingData(Grist type)
 		{
 			this.type = type;
 		}

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.client.gui.playerStats;
 
 import com.mraof.minestuck.editmode.ClientEditHandler;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -33,7 +33,7 @@ public class GuiGristCache extends GuiPlayerStats
 		super.initGui();
 		this.previousButton = new GuiButtonExt(1, this.xOffset + 8, this.yOffset + 8, 16, 16, "<");
 		this.nextButton = new GuiButtonExt(2, this.xOffset + guiWidth - 24, this.yOffset + 8, 16, 16, ">");
-		if(GristType.REGISTRY.getValues().size() > rows * columns)
+		if(Grist.REGISTRY.getValues().size() > rows * columns)
 		{
 			this.buttonList.add(this.nextButton);
 		}
@@ -72,7 +72,7 @@ public class GuiGristCache extends GuiPlayerStats
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
-		int maxPage = (GristType.REGISTRY.getValues().size() - 1) / (rows * columns);
+		int maxPage = (Grist.REGISTRY.getValues().size() - 1) / (rows * columns);
 		if (button == previousButton && page > 0)
 		{
 			page--;

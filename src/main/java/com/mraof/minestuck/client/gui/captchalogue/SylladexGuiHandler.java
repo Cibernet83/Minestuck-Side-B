@@ -1,11 +1,14 @@
 package com.mraof.minestuck.client.gui.captchalogue;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
-import com.mraof.minestuck.network.PacketCaptchaDeck;
+import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
+import com.mraof.minestuck.util.SylladexUtils;
+import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
+import com.mraof.minestuck.network.PacketCaptchaDeck;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -29,11 +32,10 @@ import java.util.ArrayList;
 @SideOnly(Side.CLIENT)
 public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 {
-	
-	
-	protected static final ResourceLocation sylladexFrame = new ResourceLocation("minestuck", "textures/gui/sylladex_frame.png");
-	protected static final ResourceLocation cardTexture = new ResourceLocation("minestuck", "textures/gui/icons.png");
-	protected static final int GUI_WIDTH = 256, GUI_HEIGHT= 202;
+	protected static final ResourceLocation SYLLADEX_FRAME = new ResourceLocation("minestuck", "textures/gui/sylladex_frame.png");
+	protected static final ResourceLocation CARD_TEXTURE = new ResourceLocation("minestuck", "textures/gui/captcha_cards.png");
+	protected static final ResourceLocation EXTRAS = new ResourceLocation(Minestuck.MODID, "textures/gui/fmp_icons.png");
+	protected static final int GUI_WIDTH = 256, GUI_HEIGHT = 202;
 	protected static final int MAP_WIDTH = 224, MAP_HEIGHT = 153;
 	protected static final int X_OFFSET = 16, Y_OFFSET = 17;
 	protected static final int CARD_WIDTH = 21, CARD_HEIGHT = 26;
@@ -42,9 +44,10 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 	protected ArrayList<GuiCard> cards = new ArrayList<GuiCard>();
 	protected int textureIndex;
 	protected int maxWidth, maxHeight;
+	protected Modus modus;
 	
 	/**
-	 * Position of the map
+	 * Position of the map (the actual gui viewport)
 	 */
 	protected int mapX, mapY;
 	protected int mapWidth = MAP_WIDTH, mapHeight = MAP_HEIGHT;
@@ -60,9 +63,11 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 	
 	protected Minecraft mc = Minecraft.getMinecraft();
 	
-	public SylladexGuiHandler()
+	public SylladexGuiHandler(Modus modus, int cardIndex)
 	{
-		itemRender = mc.getRenderItem();
+		this.modus = modus;
+		this.textureIndex = cardIndex;
+		this.itemRender = mc.getRenderItem();
 	}
 	
 	@Override
@@ -153,12 +158,12 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 		
 		finishMap();
 		
-		mc.getTextureManager().bindTexture(sylladexFrame);
+		mc.getTextureManager().bindTexture(SYLLADEX_FRAME);
 		drawTexturedModalRect(xOffset, yOffset, 0, 0, GUI_WIDTH, GUI_HEIGHT);
 		
 		mc.fontRenderer.drawString(I18n.format("gui.sylladex"), xOffset + 15, yOffset + 5, 0x404040);
 		
-		String str = CaptchaDeckHandler.clientSideModus.getName();
+		String str = SylladexUtils.clientSideModus.getName();
 		mc.fontRenderer.drawString(str, xOffset + GUI_WIDTH - mc.fontRenderer.getStringWidth(str) - 16, yOffset + 5, 0x404040);
 		
 		super.drawScreen(xcor, ycor, f);
@@ -214,41 +219,13 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 		super.keyTyped(typedChar, keyCode);
 		if(MinestuckKeyHandler.instance.sylladexKey.isActiveAndMatches(keyCode))
 			mc.displayGuiScreen(null);
-		/*if(Loader.isModLoaded("NotEnoughItems"))
-		{
-			boolean usage = keyCode == NEIClientConfig.getKeyBinding("gui.usage") || (keyCode == NEIClientConfig.getKeyBinding("gui.recipe") && NEIClientUtils.shiftKey());
-			boolean recipe = keyCode == NEIClientConfig.getKeyBinding("gui.recipe");
-			
-			if(usage || recipe)
-			{
-				Point mousePos = GuiDraw.getMousePosition();
-				int xcor = mousePos.x;
-				int ycor = mousePos.y;
-				
-				if(isMouseInContainer(xcor, ycor))
-				{
-					int translX = (int) ((xcor - (width - GUI_WIDTH)/2 - X_OFFSET) * scroll);
-					int translY = (int) ((ycor - (height - GUI_HEIGHT)/2 - Y_OFFSET) * scroll);
-					for(GuiCard card : cards)
-						if(translX >= card.xPos + 2 - mapX && translX < card.xPos + 18 - mapX &&
-								translY >= card.yPos + 7 - mapY && translY < card.yPos + 23 - mapY)
-						{
-							if(card.item != null)
-								if(usage)
-									GuiUsageRecipe.openRecipeGui("item", card.item.copy());
-								else GuiCraftingRecipe.openRecipeGui("item", card.item.copy());
-							return;
-						}
-				}
-			}
-		}*/
 	}
 	
 	@Override
 	public void confirmClicked(boolean result, int id)
 	{
 		if(result)
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.GET, CaptchaDeckHandler.EMPTY_SYLLADEX, false));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.GET, SylladexUtils.EMPTY_SYLLADEX, false));
 		mc.currentScreen = this;
 	}
 	
@@ -274,39 +251,65 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 	{
 		GlStateManager.popMatrix();
 	}
-	
-	private boolean isMouseInContainer(int xcor, int ycor)
-	{
-		int xOffset = (width - GUI_WIDTH)/2;
-		int yOffset = (height - GUI_HEIGHT)/2;
-		return xcor >= xOffset + X_OFFSET && xcor < xOffset + X_OFFSET + MAP_WIDTH &&
-				ycor >= yOffset + Y_OFFSET && ycor < yOffset + Y_OFFSET + MAP_HEIGHT;
+
+	protected boolean isMouseInContainer(int xcor, int ycor) {
+		int xOffset = (this.width - 256) / 2;
+		int yOffset = (this.height - 202) / 2;
+		return xcor >= xOffset + 16 && xcor < xOffset + 16 + 224 && ycor >= yOffset + 17 && ycor < yOffset + 17 + 153;
 	}
-	
+
+	/**
+	 * Updates the contents of cards.
+	 */
 	public void updateContent()
 	{
+		cards.clear();
+
+		ArrayList<ICaptchalogueable> contents = modus.getItems();
+		maxWidth = Math.max(mapWidth, 10 + stacks.size() * CARD_WIDTH + (stacks.size() - 1) * 5);
+		maxHeight = mapHeight;
 		mapX = Math.min(mapX, maxWidth - mapWidth);
 		mapY = Math.min(mapY, maxHeight - mapHeight);
+		int start = Math.max(5, (mapWidth - (stacks.size() * CARD_WIDTH + (stacks.size() - 1) * 5)) / 2);
+
+		for(int i = 0; i < stacks.size(); i++)
+			cards.add(new GuiCard(stacks.get(i), this, i, start + i * (CARD_WIDTH + 5), (mapHeight - CARD_HEIGHT) / 2));
 	}
 	
 	/**
 	 * Called when the player zooms in or out.
 	 */
-	public abstract void updatePosition();
-	
-	public ResourceLocation getCardTexture(GuiCard card)
-	{
-		return cardTexture;
+	public void updatePosition() {
+		this.maxWidth = Math.max(this.mapWidth, 10 + this.cards.size() * 21 + (this.cards.size() - 1) * 5);
+		this.maxHeight = this.mapHeight;
+		int start = Math.max(5, (this.mapWidth - (this.cards.size() * 21 + (this.cards.size() - 1) * 5)) / 2);
+
+		for(int i = 0; i < this.cards.size(); ++i) {
+			GuiCard card = this.cards.get(i);
+			card.xPos = start + i * 26;
+			card.yPos = (this.mapHeight - 26) / 2;
+		}
+
 	}
 	
+	public ResourceLocation getCardTexture()
+	{
+		return CARD_TEXTURE;
+	}
+
 	public int getCardTextureX(GuiCard card)
 	{
-		return textureIndex*CARD_WIDTH;
+		return getTextureIndex(card) % 12 * 21;
 	}
-	
+
 	public int getCardTextureY(GuiCard card)
 	{
-		return 96;
+		return getTextureIndex(card) / 12 * 26;
+	}
+
+	public int getTextureIndex(GuiCard card)
+	{
+		return this.textureIndex;
 	}
 	
 	public static class GuiCard
@@ -335,7 +338,7 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 		{
 			int toSend = -1;
 			if(this.item.isEmpty() && mouseButton == 1)
-				toSend = CaptchaDeckHandler.EMPTY_CARD;
+				toSend = SylladexUtils.EMPTY_CARD;
 			else if(this.index != -1 && (mouseButton == 0 || mouseButton == 1))
 				toSend = this.index;
 			

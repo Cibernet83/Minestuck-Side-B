@@ -83,7 +83,6 @@ public class MinestuckConfig
 	public static int artifactRange;
 	public static int overworldEditRange;
 	public static int landEditRange;
-	public static int cardResolution;
 	public static int initialModusSize;
 	public static String[] defaultModusTypes;
 	public static int modusMaxSize;
@@ -99,7 +98,6 @@ public class MinestuckConfig
 	public static int preEntryRungLimit;
 	public static int[] forbiddenDimensionsTpz;
 	public static byte treeModusSetting;
-	public static byte hashmapChatModusSetting;
 	/**
 	 * An option related to dropping the sylladex on death
 	 * If 0: only captchalouged items are dropped. If 1: Both captchalouged items and cards are dropped. If 2: All items, including the actual modus.
@@ -174,8 +172,6 @@ public class MinestuckConfig
 			
 			String setting = config.get("Modus", "forceAutobalance", "both", "This determines if auto-balance should be forced. 'both' if the player should choose, 'on' if forced at on, and 'off' if forced at off.", new String[] {"both", "off", "on"}).setRequiresWorldRestart(true).setLanguageKey("config.minestuck.forceAutobalance").getString();
 			treeModusSetting = (byte) (setting.equals("both") ? 0 : setting.equals("on") ? 1 : 2);
-			setting = config.get("Modus", "forceEjectByChat", "on", "This determines if hashmap chat ejection should be forced. 'both' if the player should choose, 'on' if forced at on, and 'off' if forced at off.", new String[] {"both", "off", "on"}).setRequiresWorldRestart(true).setLanguageKey("config.minestuck.forceEjectByChat").getString();
-			hashmapChatModusSetting = (byte) (setting.equals("both") ? 0 : setting.equals("on") ? 1 : 2);
 			
 			giveItems = config.get("General", "giveItems", false, "Setting this to true replaces editmode with the old Give Items button.").setLanguageKey("config.minestuck.giveItems").setRequiresWorldRestart(true).getBoolean();
 			
@@ -195,7 +191,7 @@ public class MinestuckConfig
 		
 		initialModusSize = config.get("Modus", "initialModusSize", 5).setMinValue(0).setLanguageKey("config.minestuck.initialModusSize").getInt();
 		defaultModusTypes = config.get("Modus", "defaultModusTypes", new String[] {Minestuck.MODID+":stack", Minestuck.MODID+":queue"},
-				"An array with the possible modus types to be assigned. Written with mod-id and modus name, for example \""+Minestuck.MODID+":queue_stack\" or \""+Minestuck.MODID+":hashmap\"").setLanguageKey("config.minestuck.defaultModusType").getStringList();
+				"An array with the possible modus types to be assigned. Written with mod-id and modus name, for example \""+Minestuck.MODID+":queue_stack\" or \""+Minestuck.MODID+":hashtable\"").setLanguageKey("config.minestuck.defaultModusType").getStringList();
 		modusMaxSize = config.get("Modus", "modusMaxSize", 0, "The max size on a modus. Ignored if the value is 0.").setMinValue(0).setLanguageKey("config.minestuck.modusMaxSize").getInt();
 		if(initialModusSize > modusMaxSize && modusMaxSize > 0)
 			initialModusSize = modusMaxSize;

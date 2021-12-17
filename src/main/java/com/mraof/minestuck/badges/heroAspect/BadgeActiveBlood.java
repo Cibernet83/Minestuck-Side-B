@@ -6,7 +6,7 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.caps.GodTierData;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
@@ -42,7 +42,7 @@ public class BadgeActiveBlood extends BadgeHeroAspect
 		{
 			if(sourcePlayer.world.rand.nextFloat() < Math.min(0.8f, (sourcePlayer.getLuck()/25f)))
 			{
-				event.getEntityLiving().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.BLOOD, 5);
+				event.getEntityLiving().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.BLOOD, 5);
 				PotionEffect effect = new PotionEffect(MinestuckPotions.BLEEDING, (int) ((int) sourcePlayer.getHealth()/sourcePlayer.getMaxHealth()*600), (int) Math.min(5, sourceData.getSkillLevel(GodTierData.SkillType.ATTACK)/5f));
 				effect.setCurativeItems(Collections.emptyList());
 				event.getEntityLiving().addPotionEffect(effect);

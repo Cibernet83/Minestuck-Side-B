@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspect;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.ai.EntityAIMindflayerTarget;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -51,7 +51,7 @@ public class BadgeActiveMind extends BadgeHeroAspect
 
 			player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setMindflayerEntity(mfTarget);
 
-			badgeEffects.oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumAspect.MIND, mfTarget != null ? 5 : 2);
+			badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.MIND, mfTarget != null ? 5 : 2);
 		}
 
 		if (mfTarget == null)
@@ -67,7 +67,7 @@ public class BadgeActiveMind extends BadgeHeroAspect
 		if (!player.isCreative() && time % 40 == 0)
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 1);
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.MIND, 2);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.MIND, 2);
 
 		return true;
 	}

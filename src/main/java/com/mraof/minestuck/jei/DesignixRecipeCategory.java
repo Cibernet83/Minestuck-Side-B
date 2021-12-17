@@ -1,7 +1,7 @@
 package com.mraof.minestuck.jei;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.util.AlchemyUtils;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
@@ -65,11 +65,11 @@ public class DesignixRecipeCategory implements IRecipeCategory<DesignixRecipeWra
         List<ItemStack> second = new ArrayList<ItemStack>();
         for(ItemStack stack : inputs.get(1))
         {
-            second.add(AlchemyRecipes.createCard(stack, true));
+            second.add(AlchemyUtils.createCard(stack, true));
         }
         stackGroup.set(1, second);
         List<ItemStack> outputs = new ArrayList<ItemStack>(ingredients.getOutputs(ItemStack.class).get(0));
-        outputs.add(AlchemyRecipes.createCard(outputs.get(0), true));
+        outputs.add(AlchemyUtils.createCard(outputs.get(0), true));
         stackGroup.set(2, outputs);
     }
 }

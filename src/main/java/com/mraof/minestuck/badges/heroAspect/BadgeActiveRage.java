@@ -2,7 +2,7 @@ package com.mraof.minestuck.badges.heroAspect;
 
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
@@ -34,7 +34,7 @@ public class BadgeActiveRage extends BadgeHeroAspect
 
 		if(!player.isPotionActive(MinestuckPotions.RAGE_BERSERK))
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
 
 			player.addPotionEffect(new PotionEffect(MinestuckPotions.RAGE_BERSERK, 1200, 0));
 			if (!player.isCreative())

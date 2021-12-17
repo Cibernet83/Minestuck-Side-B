@@ -1,6 +1,6 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +11,7 @@ import java.util.EnumSet;
 
 public class PacketSendParticle extends MinestuckPacket
 {
-    MSGTParticles.ParticleType type;
+    MinestuckParticles.ParticleType type;
     double x;
     double y;
     double z;
@@ -21,7 +21,7 @@ public class PacketSendParticle extends MinestuckPacket
     @Override
     public MinestuckPacket generatePacket(Object... args)
     {
-        data.writeInt(((MSGTParticles.ParticleType)args[0]).ordinal());
+        data.writeInt(((MinestuckParticles.ParticleType)args[0]).ordinal());
         data.writeInt((Integer) args[1]);
         data.writeInt((Integer) args[2]);
 
@@ -51,7 +51,7 @@ public class PacketSendParticle extends MinestuckPacket
     @Override
     public MinestuckPacket consumePacket(ByteBuf data)
     {
-        type = MSGTParticles.ParticleType.values()[data.readInt()];
+        type = MinestuckParticles.ParticleType.values()[data.readInt()];
         color = data.readInt();
         count = data.readInt();
 
@@ -68,10 +68,10 @@ public class PacketSendParticle extends MinestuckPacket
         switch (type)
         {
             case AURA:
-                MSGTParticles.spawnAuraParticles(player.world, x, y, z, color, count);
+                MinestuckParticles.spawnAuraParticles(player.world, x, y, z, color, count);
                 break;
             case BURST:
-                MSGTParticles.spawnBurstParticles(player.world, x, y, z, color, count);
+                MinestuckParticles.spawnBurstParticles(player.world, x, y, z, color, count);
                 break;
         }
     }

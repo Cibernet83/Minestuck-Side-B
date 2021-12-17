@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspect;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.potions.MinestuckPotions;
@@ -58,7 +58,7 @@ public class BadgeActiveVoid extends BadgeHeroAspect
         }
 
         if(!player.isPotionActive(MinestuckPotions.VOID_CONCEAL))
-            MinestuckChannelHandler.sendToTrackingAndSelf(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MSGTParticles.ParticleType.AURA, (player.ticksExisted % 2) == 0 ? 0x104EA2 : 0x001856, 1, player), player);
+            MinestuckChannelHandler.sendToTrackingAndSelf(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, (player.ticksExisted % 2) == 0 ? 0x104EA2 : 0x001856, 1, player), player);
 
         return true;
     }

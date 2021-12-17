@@ -1,9 +1,6 @@
 package com.mraof.minestuck.entity.item;
 
-import com.mraof.minestuck.alchemy.GristAmount;
-import com.mraof.minestuck.alchemy.GristHelper;
-import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
@@ -34,7 +31,7 @@ public class EntityGrist extends Entity implements IEntityAdditionalSpawnData
 
 	private int gristHealth = 5;
 	//Type of grist
-	private GristType gristType = GristType.Build;
+	private Grist grist = MinestuckGrists.build;
 	private int gristValue = 1;
 
 	private EntityPlayer closestPlayer;
@@ -54,7 +51,7 @@ public class EntityGrist extends Entity implements IEntityAdditionalSpawnData
 		this.motionZ = (double)((float)(world.rand.nextGaussian() * 0.20000000298023224D - 0.10000000149011612D));
 		this.isImmuneToFire = true;
 		
-		this.gristType = Objects.requireNonNull(gristData.getType(), "Tried to create a grist entity with null grist type!");
+		this.grist = Objects.requireNonNull(gristData.getType(), "Tried to create a grist entity with null grist type!");
 	}
 
 	public EntityGrist(World par1World)
@@ -206,7 +203,7 @@ public class EntityGrist extends Entity implements IEntityAdditionalSpawnData
 		par1NBTTagCompound.setShort("Health", (short)((byte)this.gristHealth));
 		par1NBTTagCompound.setShort("Age", (short)this.gristAge);
 		par1NBTTagCompound.setShort("Value", (short)this.gristValue);
-		par1NBTTagCompound.setString("Type", this.gristType.getName());
+		par1NBTTagCompound.setString("Type", this.grist.getName());
 	}
 	
 	@Override
@@ -218,11 +215,11 @@ public class EntityGrist extends Entity implements IEntityAdditionalSpawnData
 			this.gristValue = par1NBTTagCompound.getShort("Value");
 		if(par1NBTTagCompound.hasKey("Type", 8))
 		{
-			GristType type = GristType.getTypeFromString(par1NBTTagCompound.getString("Type"));
+			Grist type = Grist.getTypeFromString(par1NBTTagCompound.getString("Type"));
 			if(type == null) {
 				Debug.warnf("Loaded grist entity from nbt but got null grist type! Can't find grist type for %s.", par1NBTTagCompound.getString("Type"));
 				this.setDead();
-			} else this.gristType = type;
+			} else this.grist = type;
 		}
 	}
 	
@@ -247,7 +244,7 @@ public class EntityGrist extends Entity implements IEntityAdditionalSpawnData
 			throw new IllegalStateException("Grist entities shouldn't be consumed client-side.");
 		if(sound)
 			this.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 0.1F, 0.5F * ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.8F));
-		if(GristHelper.increase(identifier, new GristSet(gristType, gristValue)))
+		if(GristHelper.increase(identifier, new GristSet(grist, gristValue)))
 		{
 			MinestuckPlayerTracker.updateGristCache(identifier);
 			this.setDead();
@@ -260,17 +257,17 @@ public class EntityGrist extends Entity implements IEntityAdditionalSpawnData
 		return false;
 	}
 	
-	public GristType getType() 
+	public Grist getType()
 	{
-		return gristType;
+		return grist;
 	}
 	
 	public GristAmount getAmount()
 	{
-		return new GristAmount(gristType, gristValue);
+		return new GristAmount(grist, gristValue);
 	}
 	
-	public static int typeInt(GristType type)
+	public static int typeInt(Grist type)
 	{
 		return type == null ? -1 : type.getId();
 	
@@ -284,11 +281,11 @@ public class EntityGrist extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void writeSpawnData(ByteBuf data) 
 	{
-		if(typeInt(this.gristType) < 0)
+		if(typeInt(this.grist) < 0)
 		{
 			this.setDead();
 		}
-		data.writeInt(typeInt(this.gristType));
+		data.writeInt(typeInt(this.grist));
 		data.writeInt(this.gristValue);
 	}
 
@@ -301,7 +298,7 @@ public class EntityGrist extends Entity implements IEntityAdditionalSpawnData
 			this.setDead();
 			return;
 		}
-		this.gristType = Objects.requireNonNull(GristType.REGISTRY.getValue(typeOffset), "Got null grist type when reading spawn data!");
+		this.grist = Objects.requireNonNull(Grist.REGISTRY.getValue(typeOffset), "Got null grist type when reading spawn data!");
 		this.gristValue = data.readInt();
 		this.setSize(this.getSizeByValue(), 0.5F);
 //		this.yOffset = this.height / 2.0F;

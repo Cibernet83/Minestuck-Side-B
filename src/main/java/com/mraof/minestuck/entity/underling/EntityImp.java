@@ -2,7 +2,7 @@ package com.mraof.minestuck.entity.underling;
 
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.entity.ai.EntityAIAttackOnCollideWithRate;
 import com.mraof.minestuck.util.*;
 import net.minecraft.entity.Entity;
@@ -11,8 +11,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-
-import javax.annotation.Nullable;
 
 public class EntityImp extends EntityUnderling
 {
@@ -87,7 +85,7 @@ public class EntityImp extends EntityUnderling
 	}
 	
 	@Override
-	public void applyGristType(GristType type, boolean fullHeal)
+	public void applyGristType(Grist type, boolean fullHeal)
 	{
 		super.applyGristType(type, fullHeal);
 		this.experienceValue = (int) (3 * type.getPower() + 1);

@@ -1,17 +1,13 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.editmode.ServerEditHandler;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.inventory.captchalouge.ContainerCaptchaDeck;
 import com.mraof.minestuck.util.Debug;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -130,18 +126,18 @@ public class PacketCaptchaDeck extends MinestuckPacket
 				return;
 			
 			if(this.type == MODUS && player.openContainer instanceof ContainerCaptchaDeck)
-				CaptchaDeckHandler.useItem((EntityPlayerMP) player);
+				SylladexUtils.useItem((EntityPlayerMP) player);
 			else if(this.type == CAPTCHALOUGE && !player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).isEmpty())
-				CaptchaDeckHandler.captchalougeItem((EntityPlayerMP) player);
+				SylladexUtils.captchalougeItem((EntityPlayerMP) player);
 			else if(this.type == CAPTCHALOUGE_INV) {
-				CaptchaDeckHandler.captchalougeInventoryItem((EntityPlayerMP) player, slotIndex);
+				SylladexUtils.captchalougeInventoryItem((EntityPlayerMP) player, slotIndex);
 			}
 			else if(this.type == GET)
-				CaptchaDeckHandler.getItem((EntityPlayerMP) player, itemIndex, getCard);
+				SylladexUtils.getItem((EntityPlayerMP) player, itemIndex, getCard);
 //			else if(this.type == DATA)
-//				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.CAPTCHA, DATA, CaptchaDeckHandler.writeToNBT(CaptchaDeckHandler.getModus(player))), player);
-			else if(this.type == VALUE && CaptchaDeckHandler.getModus(player) != null)
-				CaptchaDeckHandler.getModus(player).setValue(valueType, value);
+//				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.CAPTCHA, DATA, CaptchaDeckHandler.writeToNBT(CaptchaDeckHandler.getSylladex(player))), player);
+			else if(this.type == VALUE && SylladexUtils.getSylladex(player) != null)
+				SylladexUtils.getSylladex(player).setValue(valueType, value);
 		}
 		else
 		{
@@ -151,9 +147,9 @@ public class PacketCaptchaDeck extends MinestuckPacket
 //					MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, DATA));
 //				else
 //				{
-				CaptchaDeckHandler.clientSideModus = CaptchaDeckHandler.readFromNBT(nbt, true);
-				if(CaptchaDeckHandler.clientSideModus != null)
-					CaptchaDeckHandler.clientSideModus.getGuiHandler().updateContent();
+				SylladexUtils.clientSideModus = SylladexUtils.readFromNBT(nbt, true);
+				if(SylladexUtils.clientSideModus != null)
+					SylladexUtils.clientSideModus.getGuiHandler().updateContent();
 				else Debug.debug("Lost modus");
 //				}
 			}

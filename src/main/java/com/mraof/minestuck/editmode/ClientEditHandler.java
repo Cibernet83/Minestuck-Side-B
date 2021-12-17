@@ -121,9 +121,9 @@ public class ClientEditHandler {
 			return;
 		}
 		
-		for(Entry<GristType, Integer> entry : cost.getMap().entrySet())
+		for(Entry<Grist, Integer> entry : cost.getMap().entrySet())
 		{
-			GristType grist = entry.getKey();
+			Grist grist = entry.getKey();
 			String s = "" + (entry.getValue() <= have.getGrist(grist) ? TextFormatting.GREEN : TextFormatting.RED);
 			toolTip.add(s + entry.getValue() + " " + grist.getDisplayName() + " (" + have.getGrist(grist) + ")");
 		}
@@ -224,7 +224,7 @@ public class ClientEditHandler {
 		{
 			IBlockState block = event.getWorld().getBlockState(event.getPos());
 			if(block.getBlockHardness(event.getWorld(), event.getPos()) < 0 || block.getMaterial() == Material.PORTAL
-					|| MinestuckPlayerData.getClientGrist().getGrist(GristType.Build) <= 0)
+					|| MinestuckPlayerData.getClientGrist().getGrist(MinestuckGrists.build) <= 0)
 				event.setCanceled(true);
 		}
 	}

@@ -3,7 +3,7 @@ package com.mraof.minestuck.client.util;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -52,7 +52,7 @@ public class GuiUtil
 			while (it.hasNext())
 			{
 				GristAmount amount = it.next();
-				GristType type = amount.getType();
+				Grist type = amount.getType();
 				int need = amount.getAmount();
 				int have = playerGrist.getGrist(type);
 				
@@ -76,7 +76,7 @@ public class GuiUtil
 			while(it.hasNext())
 			{
 				GristAmount amount = it.next();
-				GristType type = amount.getType();
+				Grist type = amount.getType();
 				int need = amount.getAmount();
 				int have = playerGrist.getGrist(type);
 				int row = index/GRIST_BOARD_WIDTH;
@@ -147,7 +147,7 @@ public class GuiUtil
 			int index = 0;
 			for(GristAmount entry : grist.getArray())
 			{
-				GristType type = entry.getType();
+				Grist type = entry.getType();
 				int need = entry.getAmount();
 				int have = playerGrist.getGrist(type);
 				int row = index/GRIST_BOARD_WIDTH;

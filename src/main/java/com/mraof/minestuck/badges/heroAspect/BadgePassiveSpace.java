@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspect;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.util.EnumAspect;
@@ -30,7 +30,7 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
 		if(player.isSneaking() && badgeEffects.hasWarpPoint() && badgeEffects.getWarpPointDim() == player.world.provider.getDimension())
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MSGTParticles.ParticleType.AURA, 0x4BEC13, 3, badgeEffects.getWarpPoint().x, badgeEffects.getWarpPoint().y, badgeEffects.getWarpPoint().z), player);
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x4BEC13, 3, badgeEffects.getWarpPoint().x, badgeEffects.getWarpPoint().y, badgeEffects.getWarpPoint().z), player);
 
 		if (state != GodKeyStates.KeyState.PRESS)
 			return false;
@@ -48,7 +48,7 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 				player.sendStatusMessage(new TextComponentTranslation("status.spatialWarp.clearPoint"), true);
 			}
 
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.BURST, EnumAspect.SPACE, badgeEffects.hasWarpPoint() ? 10 : 3);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.SPACE, badgeEffects.hasWarpPoint() ? 10 : 3);
 		}
 		else
 		{
@@ -74,8 +74,8 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 
 						if (target.attemptTeleport(attemptX, attemptY, attemptZ))
 						{
-							target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumAspect.SPACE, 5);
-							MinestuckChannelHandler.sendToTrackingAndSelf(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MSGTParticles.ParticleType.BURST, 0x4BEC13, 5, attemptX, attemptY, attemptZ), target);
+							target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.SPACE, 5);
+							MinestuckChannelHandler.sendToTrackingAndSelf(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.BURST, 0x4BEC13, 5, attemptX, attemptY, attemptZ), target);
 							break;
 						}
 					}
@@ -85,15 +85,15 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 					Vec3d warpPoint = badgeEffects.getWarpPoint();
 					Teleport.teleportEntity(target, badgeEffects.getWarpPointDim(), null, warpPoint.x, warpPoint.y, warpPoint.z);
 
-					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumAspect.SPACE, 5);
-					MinestuckChannelHandler.sendToDimension(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MSGTParticles.ParticleType.BURST, 0x4BEC13, 5, warpPoint.x, warpPoint.y, warpPoint.z), badgeEffects.getWarpPointDim()); // leaving this as dim bc dims
+					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.SPACE, 5);
+					MinestuckChannelHandler.sendToDimension(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.BURST, 0x4BEC13, 5, warpPoint.x, warpPoint.y, warpPoint.z), badgeEffects.getWarpPointDim()); // leaving this as dim bc dims
 				}
 
 				if (!player.isCreative())
 					player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 6);
 			}
 
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.BURST, EnumAspect.SPACE, target != null ? 10 : 3);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.SPACE, target != null ? 10 : 3);
 		}
 
 		return true;

@@ -23,7 +23,6 @@ import java.util.EnumMap;
 
 public class MinestuckChannelHandler extends FMLIndexedMessageToMessageCodec<MinestuckPacket>
 {
-	
 	public static MinestuckChannelHandler instance = new MinestuckChannelHandler();
 	public static EnumMap<Side, FMLEmbeddedChannel> channels;
 	

@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item.properties;
 
-import com.mraof.minestuck.event.handlers.CommonEventHandler;
+import com.mraof.minestuck.event.handler.CommonEventHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

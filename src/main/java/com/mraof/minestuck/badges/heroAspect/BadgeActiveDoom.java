@@ -2,7 +2,7 @@ package com.mraof.minestuck.badges.heroAspect;
 
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.damage.CritDamageSource;
 import com.mraof.minestuck.util.EnumRole;
 import com.mraof.minestuck.util.MSGTUtils;
@@ -44,7 +44,7 @@ public class BadgeActiveDoom extends BadgeHeroAspect
 
 		if (targetPctg > 0.4f)
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.DOOM, 10);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.DOOM, 10);
 			return true;
 		}
 
@@ -58,7 +58,7 @@ public class BadgeActiveDoom extends BadgeHeroAspect
 		if(!player.isCreative())
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 16);
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.DOOM, 20);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.DOOM, 20);
 		return true;
 	}
 

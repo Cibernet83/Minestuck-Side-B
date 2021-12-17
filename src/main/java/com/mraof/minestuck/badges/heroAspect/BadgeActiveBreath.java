@@ -2,7 +2,7 @@ package com.mraof.minestuck.badges.heroAspect;
 
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumRole;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.entity.Entity;
@@ -49,7 +49,7 @@ public class BadgeActiveBreath extends BadgeHeroAspect
 			player.motionY = Math.min(2, Math.max(1.2f, time/30f));
 			player.velocityChanged = true;
 
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.BURST, EnumAspect.BREATH, 40);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.BREATH, 40);
 
 			if(!player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-2);
@@ -73,7 +73,7 @@ public class BadgeActiveBreath extends BadgeHeroAspect
 			if(time % 10 == 0 && !player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-1);
 
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.BREATH, time < 30 ? 2 : 8);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.BREATH, time < 30 ? 2 : 8);
 		}
 
 		return true;

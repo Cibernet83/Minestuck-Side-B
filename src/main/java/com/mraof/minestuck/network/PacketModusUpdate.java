@@ -1,6 +1,6 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.util.Debug;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,9 +60,9 @@ public class PacketModusUpdate extends MinestuckPacket
 	
 	public void execute(EntityPlayer player)
 	{
-		CaptchaDeckHandler.clientSideModus = CaptchaDeckHandler.readFromNBT(this.nbt, true);
-		if (CaptchaDeckHandler.clientSideModus != null)
-			CaptchaDeckHandler.clientSideModus.getGuiHandler().updateContent();
+		SylladexUtils.clientSideModus = SylladexUtils.readFromNBT(this.nbt, true);
+		if (SylladexUtils.clientSideModus != null)
+			SylladexUtils.clientSideModus.getGuiHandler().updateContent();
 		else Debug.debug("Lost modus");
 	}
 	

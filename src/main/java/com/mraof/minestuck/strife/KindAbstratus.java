@@ -3,6 +3,7 @@ package com.mraof.minestuck.strife;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.IClassedTool;
 import com.mraof.minestuck.item.weapon.MSToolClass;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -12,19 +13,20 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
-public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> implements Comparable<KindAbstratus>
+public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> implements Comparable<KindAbstratus>, IRegistryObject<KindAbstratus>
 {
 	public static ForgeRegistry<KindAbstratus> REGISTRY;
 
 	private static int idAt = 0;
 	protected final int ID;
-	protected String unlocName;
+	protected final String name, regName;
 	protected boolean hidden = false;
 	protected boolean isFist = false;
 	protected boolean preventRightClick = false;
@@ -36,12 +38,13 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 
 	protected IAbstratusConditional conditional;
 
-	public KindAbstratus(String unlocName, MSToolClass... toolClasses)
+	public KindAbstratus(String name, MSToolClass... toolClasses)
 	{
 		ID = idAt++;
-
-		setUnlocalizedName(unlocName);
+		this.name = name;
+		this.regName = IRegistryObject.unlocToReg(name);
 		addToolClasses(toolClasses);
+		MinestuckKindAbstrata.kindAbstrata.add(this);
 	}
 
 	public boolean isHidden() {
@@ -173,7 +176,7 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 	}
 
 	public String getUnlocalizedName() {
-		return "kindAbstratus."+unlocName;
+		return "kindAbstratus." + name;
 	}
 
 	public String getLocalizedName()
@@ -191,11 +194,6 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 		return name;
 	}
 
-	public KindAbstratus setUnlocalizedName(String unlocName) {
-		this.unlocName = unlocName;
-		return this;
-	}
-
 	@Override
 	public int compareTo(KindAbstratus o) {
 		return this.ID - o.ID;
@@ -211,19 +209,26 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 		return !isHidden() && !isEmpty();
 	}
 
-	@SubscribeEvent
-	public static void registerRegistry(RegistryEvent.NewRegistry event)
-	{
-		KindAbstratus.REGISTRY = (ForgeRegistry)(new RegistryBuilder()).setName(new ResourceLocation(Minestuck.MODID, "kind_abstrata"))
-				.setType(KindAbstratus.class).setDefaultKey(new ResourceLocation(Minestuck.MODID)).create();
-	}
-
 	@Override
 	public String toString() {
 		return getRegistryName().toString();
 	}
 
-	public static interface IAbstratusConditional
+	@Override
+	public void register(IForgeRegistry<KindAbstratus> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	@SubscribeEvent
+	public static void onNewRegistry(RegistryEvent.NewRegistry event)
+	{
+		KindAbstratus.REGISTRY = (ForgeRegistry)(new RegistryBuilder()).setName(new ResourceLocation(Minestuck.MODID, "kind_abstrata"))
+				.setType(KindAbstratus.class).setDefaultKey(new ResourceLocation(Minestuck.MODID)).create();
+	}
+
+	public interface IAbstratusConditional
 	{
 		boolean consume(Item item, ItemStack stack, boolean originalResult);
 	}

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.inventory.captchalouge.CommunistModus;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.util.Debug;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -62,8 +62,8 @@ public class PacketCommunistUpdate extends MinestuckPacket
 	public void execute(EntityPlayer player)
 	{
 		CommunistModus.readFromNBTGlobal(nbt);
-		if (CaptchaDeckHandler.clientSideModus instanceof CommunistModus)
-			CaptchaDeckHandler.clientSideModus.getGuiHandler().updateContent();
+		if (SylladexUtils.clientSideModus instanceof CommunistModus)
+			SylladexUtils.clientSideModus.getGuiHandler().updateContent();
 		else Debug.debug("Lost modus");
 	}
 	

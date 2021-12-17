@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspect;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.EntityHopeGolem;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
@@ -38,8 +38,8 @@ public class BadgeActiveHope extends BadgeHeroAspect
 		{
 			((EntityHopeGolem) target).setHopeTicks(((EntityHopeGolem) target).getHopeTicks() + Math.max(10-(int) (player.getHealth()/player.getMaxHealth()*10), 1)+10);
 
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.HOPE, 4);
-			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.HOPE, 10);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, 4);
+			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, 10);
 
 			if((player.ticksExisted % 10) == 0 && !player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-1);
@@ -47,7 +47,7 @@ public class BadgeActiveHope extends BadgeHeroAspect
 
 		else if(time <= 160)
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.HOPE, (int) ((float) time / 320f * 20));
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, (int) ((float) time / 320f * 20));
 
 			if (time == 160)
 			{

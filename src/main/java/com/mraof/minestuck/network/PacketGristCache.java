@@ -1,7 +1,7 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +20,7 @@ public class PacketGristCache extends MinestuckPacket
 	{
 		GristSet gristSet = (GristSet) dat[0];
 		data.writeInt(gristSet.gristTypes.size());
-		for (Map.Entry<GristType, Integer> entry : gristSet.getMap().entrySet())
+		for (Map.Entry<Grist, Integer> entry : gristSet.getMap().entrySet())
 		{
 			data.writeInt(entry.getKey().getId());
 			data.writeInt(entry.getValue());
@@ -36,7 +36,7 @@ public class PacketGristCache extends MinestuckPacket
 		int length = data.readInt();
 		for (int i = 0; i < length; i++)
 		{
-			values.setGrist(GristType.REGISTRY.getValue(data.readInt()), data.readInt());
+			values.setGrist(Grist.REGISTRY.getValue(data.readInt()), data.readInt());
 		}
 		targetGrist = data.readBoolean();
 		return this;

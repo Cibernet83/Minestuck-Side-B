@@ -3,8 +3,8 @@ package com.mraof.minestuck.badges.heroClass;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
-import com.mraof.minestuck.event.handlers.GodTierEventHandler;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
+import com.mraof.minestuck.event.handler.GodTierEventHandler;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.*;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,7 +45,7 @@ public class BadgeMaid extends BadgeHeroClass
 			{
 				if(!(target instanceof EntityPlayer))
 				{
-					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, aspect, 10);
+					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, aspect, 10);
 					target.addPotionEffect(new PotionEffect(GodTierEventHandler.aspectEffects[aspect.ordinal()], 2400, 3));
 					continue;
 				}
@@ -53,12 +53,12 @@ public class BadgeMaid extends BadgeHeroClass
 
 				if(targetAspect == EnumAspect.HOPE || targetAspect == EnumAspect.MIND || targetAspect == EnumAspect.VOID)
 				{
-					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, aspect, 10);
+					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, aspect, 10);
 					target.addPotionEffect(new PotionEffect(MinestuckPotions.GOD_TIER_COMEBACK, 1200, 0));
 					continue;
 				}
 
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.MAID, 10);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.MAID, 10);
 				target.addPotionEffect(new PotionEffect(GodTierEventHandler.aspectEffects[targetAspect.ordinal()], 1500, (int) ((MinestuckPlayerData.getData(player).echeladder.getRung() * GodTierEventHandler.aspectStrength[targetAspect.ordinal()]) + 3)));
 			}
 			if (!player.isCreative())
@@ -68,9 +68,9 @@ public class BadgeMaid extends BadgeHeroClass
 
 		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
 		if(time <= 36)
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumClass.MAID, target == null ? 1 : 5);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.MAID, target == null ? 1 : 5);
 		else
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.BURST, EnumClass.MAID, 20);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumClass.MAID, 20);
 		if(state != GodKeyStates.KeyState.PRESS)
 			return true;
 
@@ -80,18 +80,18 @@ public class BadgeMaid extends BadgeHeroClass
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 2);
 			if(!(target instanceof EntityPlayer))
 			{
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, aspect, 10);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, aspect, 10);
 				target.addPotionEffect(new PotionEffect(GodTierEventHandler.aspectEffects[aspect.ordinal()], 2400, 3));
 				return true;
 			}
 			EnumAspect targetAspect = MinestuckPlayerData.getTitle(IdentifierHandler.encode((EntityPlayer) target)).getHeroAspect();
 			if(targetAspect == EnumAspect.HOPE || targetAspect == EnumAspect.MIND || targetAspect == EnumAspect.VOID)
 			{
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, aspect, 10);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, aspect, 10);
 				target.addPotionEffect(new PotionEffect(MinestuckPotions.GOD_TIER_COMEBACK, 1200, 0));
 				return true;
 			}
-			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.MAID, 10);
+			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.MAID, 10);
 			target.addPotionEffect(new PotionEffect(GodTierEventHandler.aspectEffects[targetAspect.ordinal()], 1500, (int) ((MinestuckPlayerData.getData(player).echeladder.getRung() * GodTierEventHandler.aspectStrength[targetAspect.ordinal()]) + 3)));
 		}
 		return true;

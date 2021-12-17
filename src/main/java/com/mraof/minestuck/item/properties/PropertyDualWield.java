@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item.properties;
 
-import com.mraof.minestuck.event.handlers.CommonEventHandler;
+import com.mraof.minestuck.event.handler.CommonEventHandler;
 import com.mraof.minestuck.item.IClassedTool;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import net.minecraft.enchantment.EnchantmentHelper;

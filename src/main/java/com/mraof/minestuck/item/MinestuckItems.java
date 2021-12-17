@@ -3,11 +3,11 @@ package com.mraof.minestuck.item;
 import com.cibernet.splatcraft.items.ItemFilter;
 import com.google.common.collect.ImmutableList;
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.block.IRegistryBlock;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.client.model.armor.*;
-import com.mraof.minestuck.enchantments.MSUEnchantments;
+import com.mraof.minestuck.enchantments.MinestuckEnchantments;
 import com.mraof.minestuck.entity.EntityEightBall;
 import com.mraof.minestuck.entity.item.EntityCrewPoster;
 import com.mraof.minestuck.entity.item.EntitySbahjPoster;
@@ -83,7 +83,7 @@ public class MinestuckItems
 
 	//Tool Classes
 	public static final MSToolClass toolSword = new MSToolClass("sword", Material.WEB).addEnchantments(EnumEnchantmentType.WEAPON);
-	public static final MSToolClass toolGauntlet = new MSToolClass("gauntlet", Material.GLASS, Material.ICE, Material.PACKED_ICE).addEnchantments(Enchantments.SILK_TOUCH, Enchantments.FIRE_ASPECT, Enchantments.LOOTING, MSUEnchantments.SUPERPUNCH);
+	public static final MSToolClass toolGauntlet = new MSToolClass("gauntlet", Material.GLASS, Material.ICE, Material.PACKED_ICE).addEnchantments(Enchantments.SILK_TOUCH, Enchantments.FIRE_ASPECT, Enchantments.LOOTING, MinestuckEnchantments.SUPERPUNCH);
 	public static final MSToolClass toolNeedles = new MSToolClass("needle", Material.CLOTH).addEnchantments(EnumEnchantmentType.WEAPON);
 	public static final MSToolClass toolHammer = new MSToolClass("pickaxe", "pickaxe").addEnchantments(EnumEnchantmentType.WEAPON, EnumEnchantmentType.DIGGER);
 	public static final MSToolClass toolClub = new MSToolClass("club").addEnchantments(EnumEnchantmentType.WEAPON);
@@ -384,7 +384,7 @@ public class MinestuckItems
 	{{
 		addPropertyOverride(new ResourceLocation(Minestuck.MODID, "broken"), PropertyBreakableItem.getPropertyOverride());
 	}}.setTool(toolSword, 4, 10).addProperties(new PropertyFire(30, 0.5f, true), new PropertyBreakableItem());
-	public static final Item cobaltSabre = new MSWeaponBase("cobaltSabre", 1210, 16.0, -2.07, 20).setTool(toolSword, 4, 8).addProperties(new PropertyFire(8, 0.8f, true), new PropertyGristSetter(GristType.Cobalt));
+	public static final Item cobaltSabre = new MSWeaponBase("cobaltSabre", 1210, 16.0, -2.07, 20).setTool(toolSword, 4, 8).addProperties(new PropertyFire(8, 0.8f, true), new PropertyGristSetter(MinestuckGrists.cobalt));
 	public static final Item zillywairCutlass = new MSWeaponBase("cutlassOfZillywair", 3300, 33.6, -2.3, 40).setTool(toolSword, 5, 10);
 	public static final Item regisword = new MSWeaponBase("regisword", 743, 12.0, -2.07, 8).setTool(toolSword, 3, 6);
 	public static final Item quantumSabre = new MSWeaponBase("quantumSabre", 880, 14.4, -2.3, 10).setTool(toolSword, 3, 6).addProperties(new PropertyPotion(new PotionEffect(MobEffects.WITHER, 100, 1), false, 0.6f));
@@ -439,7 +439,7 @@ public class MinestuckItems
 	public static final Item gauntletOfZillywenn = new MSWeaponBase("gauntletOfZillywenn", 2400, 24.5, -0.78, 14).setTool(toolGauntlet, 5, 8F);
 	public static final Item gasterBlaster = new ItemWindUpBeam("gasterBlaster", 640, 7.7, -0.66D, 0.05f, 10, 1.3f, 16, 0, 16).setSounds(MinestuckSoundHandler.gasterBlasterCharge, MinestuckSoundHandler.gasterBlasterRelease).setTool(toolGauntlet, 6, 4F)
 													 .setTool(toolGauntlet, 4, 8).addProperties(new PropertyPotionBeam(new PotionEffect(MobEffects.WITHER, 100, 0)), new PropertyBeamDeathMessage("sans"));
-	public static final Item midasGlove = new MSWeaponBase("midasGlove", 800, 8.7D, -0.57D, 14).setTool(toolGauntlet, 3, 10F).addProperties(new PropertyGristSetter(GristType.Gold));
+	public static final Item midasGlove = new MSWeaponBase("midasGlove", 800, 8.7D, -0.57D, 14).setTool(toolGauntlet, 3, 10F).addProperties(new PropertyGristSetter(MinestuckGrists.gold));
 
 	//Needlekind
 	public static final Item knittingNeedles = new ItemKnittingNeedles("knittingNeedle", 128, 1.6, -0.24, 1).setTool(toolNeedles, 2, 1f);
@@ -512,7 +512,7 @@ public class MinestuckItems
 	public static final Item loghammer = new MSWeaponBase("loghammer", 776, 12.8, -2.8, 7).setTool(toolHammer, 0, 3.0f).setRepairMaterial("logWood");
 	public static final Item overgrownLoghammer = new MSWeaponBase("overgrownLoghammer", 575, 19.2, -2.8, 7).setTool(toolHammer, 0, 3.0f).setRepairMaterial("logWood").addProperties(new PropertyPlantMend());
 	public static final Item glowingLoghammer = new MSWeaponBase("glowingLoghammer", 906, 19.2, -2.8, 7).setTool(toolHammer, 0, 3.0f).setRepairMaterials(new ItemStack(MinestuckBlocks.glowingLog)).addProperties(new PropertyPotion(new PotionEffect(MobEffects.GLOWING, 200, 0), false, 1));
-	public static final Item midasMallet = new MSWeaponBase("midasMallet", 1150, 26.9D, -2.94D, 15).setTool(toolHammer, 3, 2f).addProperties(new PropertyGristSetter(GristType.Gold), new PropertyVMotionDamage(1.6f, 3));
+	public static final Item midasMallet = new MSWeaponBase("midasMallet", 1150, 26.9D, -2.94D, 15).setTool(toolHammer, 3, 2f).addProperties(new PropertyGristSetter(MinestuckGrists.gold), new PropertyVMotionDamage(1.6f, 3));
 	public static final Item aaaNailShocker = new MSWeaponBase("aaaNailShocker", 776, 19.2, -2.52, 10).setTool(toolHammer, 2, 3f).setRepairMaterials(new ItemStack(battery)).addProperties(new PropertyElectric(20, 0, 0.7f, true));
 	public static final Item highVoltageStormCrusher = new MSWeaponBase("highVoltageStormCrusher", 1150, 30.7, -2.8, 18).setTool(toolHammer, 4, 3.0f).addProperties(new PropertyLightning(8, 1, true, false), new PropertyElectric(60, 8, -1, false), new PropertyVMotionDamage(1.6f, 3));
 	public static final Item barrelsWarhammer = new MSWeaponBase("barrelWarhammer", 1438, 64, -2.8, 18).setTool(toolHammer, 4, 4.0f).addProperties(new PropertyRocketBoost(0.6f), new PropertyLowHealthBoost(SharedMonsterAttributes.ATTACK_DAMAGE, "Calamity Boost", 0.6, 0.1, 0.3f, 2), new PropertyVMotionDamage(1.6f, 3), new PropertyVMotionDamage(1.6f, 3));
@@ -534,7 +534,7 @@ public class MinestuckItems
 
 	//Canekind
 	public static final Item staffOfOvergrowth = new MSWeaponBase("staffOfOvergrowth", 1040, 14.4, -2, 20).setTool(toolCane, 3, 2).addProperties(new PropertyBlockSwap(overgrowthTransforms, 1), new PropertyPotion(new PotionEffect(MobEffects.POISON, 400, 1), false, 0.4f));
-	public static final Item atomicIrradiator = new MSWeaponBase("atomicIrradiator", 900, 18, -2, 20).setTool(toolCane, 3, 3).addProperties(new PropertyPotion(new PotionEffect(MobEffects.WITHER, 400, 1), true, 0.6f), new PropertyGristSetter(GristType.Uranium));
+	public static final Item atomicIrradiator = new MSWeaponBase("atomicIrradiator", 900, 18, -2, 20).setTool(toolCane, 3, 3).addProperties(new PropertyPotion(new PotionEffect(MobEffects.WITHER, 400, 1), true, 0.6f), new PropertyGristSetter(MinestuckGrists.uranium));
 	public static final Item goldCane = new MSWeaponBase("goldCane", 600, 12, -2, 18).setTool(toolCane, 2, 5).setRepairMaterial("ingotGold");
 	public static final Item goldenCuestaff = new MSWeaponBase("goldenCuestaff", 1000, 20, -2, 32).setTool(toolCane, 2, 6);
 	public static final Item scepterOfZillywuud = new MSWeaponBase("scepterOfZillywuud", 2400, 43.2, -2, 32).setTool(toolCane, 5, 10);
@@ -548,7 +548,7 @@ public class MinestuckItems
 	public static final Item upStick = new MSWeaponBase("uraniumPoweredStick", -1, 6.4, -2, 5).setTool(toolCane, 1, 3).addProperties(new PropertyPotion(true, 1, new PotionEffect(MobEffects.WITHER, 20, 2)));
 
 	//Clubkind
-	public static final Item rubyContrabat = new MSWeaponBase("rubyContrabat", 1200, 14.1, -1.98, 22).setTool(toolClub, 3, 4.0f).addProperties(new PropertySweep(), new PropertyGristSetter(GristType.Ruby), new PropertyProjectileDeflect(0.5f, 4));
+	public static final Item rubyContrabat = new MSWeaponBase("rubyContrabat", 1200, 14.1, -1.98, 22).setTool(toolClub, 3, 4.0f).addProperties(new PropertySweep(), new PropertyGristSetter(MinestuckGrists.ruby), new PropertyProjectileDeflect(0.5f, 4));
 	public static final Item homeRunBat = new MSWeaponBase("homeRunBat", 3240, 16.9, -3.9, 10).setTool(toolClub, 5, 2.0f).addProperties(new PropertySweep(), new PropertyKnockback(15), new PropertySoundOnHit(MinestuckSoundHandler.homeRunBat, 1, 1.2f), new PropertyProjectileDeflect(1, 10));
 	public static final Item dynamiteStick = new MSWeaponBase("dynamiteStick", 1050, 17.6, -2.2, 8).setTool(toolClub, 1, 2.0f).addProperties(new PropertySweep(), new PropertyExplode(2.5f, 1, true), new PropertyProjectileDeflect(0.6f, 4));
 	public static final Item nightmareMace = new MSWeaponBase("nightmareMace", 1200, 14.1, -2.09, 8).setTool(toolClub, 3, 3.0f).addProperties(new PropertySweep(), new PropertyHungry(3, 4, true), new PropertyProjectileDeflect(0.3f, 8),

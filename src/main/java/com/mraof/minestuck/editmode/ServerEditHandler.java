@@ -62,7 +62,6 @@ public class ServerEditHandler
 {
 	
 	public static final ArrayList<String> commands = new ArrayList<String>(Arrays.asList(new String[]{"effect", "gamemode", "defaultgamemode", "enchant", "xp", "tp", "spreadplayers", "kill", "clear", "spawnpoint", "setworldspawn", "give"}));
-	public static final ServerEditHandler instance = new ServerEditHandler();
 	
 	static List<EditData> list = new ArrayList<EditData>();
 	
@@ -164,7 +163,7 @@ public class ServerEditHandler
 		}
 	}
 	
-	static boolean setPlayerStats(EntityPlayerMP player, SburbConnection c)
+	public static boolean setPlayerStats(EntityPlayerMP player, SburbConnection c)
 	{
 		
 		double posX, posY = 0, posZ;
@@ -218,7 +217,7 @@ public class ServerEditHandler
 	}
 	
 	@SubscribeEvent
-	public void tickEnd(PlayerTickEvent event) {
+	public static void tickEnd(PlayerTickEvent event) {
 		if(event.phase != Phase.END || event.side.isClient())
 			return;
 		EntityPlayerMP player = (EntityPlayerMP)event.player;
@@ -237,7 +236,7 @@ public class ServerEditHandler
 	}
 	
 	@SubscribeEvent
-	public void onTossEvent(ItemTossEvent event)
+	public static void onTossEvent(ItemTossEvent event)
 	{
 		InventoryPlayer inventory = event.getPlayer().inventory;
 		if(!event.getEntity().world.isRemote && getData(event.getPlayer()) != null)
@@ -275,14 +274,14 @@ public class ServerEditHandler
 	}
 	
 	@SubscribeEvent
-	public void onItemPickupEvent(EntityItemPickupEvent event)
+	public static void onItemPickupEvent(EntityItemPickupEvent event)
 	{
 		if(!event.getEntity().world.isRemote && getData(event.getEntityPlayer()) != null)
 			event.setCanceled(true);
 	}
 	
 	@SubscribeEvent(priority=EventPriority.NORMAL)
-	public void onRightClickBlockControl(PlayerInteractEvent.RightClickBlock event)
+	public static void onRightClickBlockControl(PlayerInteractEvent.RightClickBlock event)
 	{
 		if(!event.getWorld().isRemote && getData(event.getEntityPlayer()) != null)
 		{
@@ -331,20 +330,20 @@ public class ServerEditHandler
 	}
 	
 	@SubscribeEvent(priority=EventPriority.NORMAL)
-	public void onLeftClickBlockControl(PlayerInteractEvent.LeftClickBlock event)
+	public static void onLeftClickBlockControl(PlayerInteractEvent.LeftClickBlock event)
 	{
 		if(!event.getWorld().isRemote && getData(event.getEntityPlayer()) != null)
 		{
 			EditData data = getData(event.getEntityPlayer());
 			IBlockState block = event.getWorld().getBlockState(event.getPos());
 			if(block.getBlockHardness(event.getWorld(), event.getPos()) < 0 || block.getMaterial() == Material.PORTAL
-					|| (GristHelper.getGrist(data.connection.getClientIdentifier(), GristType.Build) <= 0 && !MinestuckConfig.gristRefund))
+					|| (GristHelper.getGrist(data.connection.getClientIdentifier(), MinestuckGrists.build) <= 0 && !MinestuckConfig.gristRefund))
 				event.setCanceled(true);
 		}
 	}
 	
 	@SubscribeEvent(priority=EventPriority.NORMAL)
-	public void onItemUseControl(PlayerInteractEvent.RightClickItem event)
+	public static void onItemUseControl(PlayerInteractEvent.RightClickItem event)
 	{
 		if(!event.getWorld().isRemote && getData(event.getEntityPlayer()) != null)
 		{
@@ -353,13 +352,13 @@ public class ServerEditHandler
 	}
 	
 	@SubscribeEvent(priority=EventPriority.LOWEST)
-	public void onBlockBreak(PlayerInteractEvent.LeftClickBlock event)
+	public static void onBlockBreak(PlayerInteractEvent.LeftClickBlock event)
 	{
 		if(!event.getEntity().world.isRemote && getData(event.getEntityPlayer()) != null)
 		{
 			EditData data = getData(event.getEntityPlayer());
 			if(!MinestuckConfig.gristRefund)
-				GristHelper.decrease(data.connection.getClientIdentifier(), new GristSet(GristType.Build,1));
+				GristHelper.decrease(data.connection.getClientIdentifier(), new GristSet(MinestuckGrists.build,1));
 			else
 			{
 				IBlockState block = event.getWorld().getBlockState(event.getPos());
@@ -373,7 +372,7 @@ public class ServerEditHandler
 	}
 	
 	@SubscribeEvent(priority=EventPriority.LOW)
-	public void onBlockPlaced(BlockEvent.PlaceEvent event)
+	public static void onBlockPlaced(BlockEvent.PlaceEvent event)
 	{
 		if(getData(event.getPlayer()) != null)
 		{
@@ -411,14 +410,14 @@ public class ServerEditHandler
 	}
 	
 	@SubscribeEvent(priority=EventPriority.NORMAL)
-	public void onAttackEvent(AttackEntityEvent event)
+	public static void onAttackEvent(AttackEntityEvent event)
 	{
 		if(!event.getEntity().world.isRemote && getData(event.getEntityPlayer()) != null)
 			event.setCanceled(true);
 	}
 	
 	@SubscribeEvent(priority=EventPriority.NORMAL)
-	public void onEntityInteractEvent(PlayerInteractEvent.EntityInteract event)
+	public static void onEntityInteractEvent(PlayerInteractEvent.EntityInteract event)
 	{
 		if(!event.getEntity().world.isRemote && getData(event.getEntityPlayer()) != null)
 			event.setCanceled(true);
@@ -514,7 +513,7 @@ public class ServerEditHandler
 	}
 	
 	@SubscribeEvent(priority=EventPriority.LOWEST, receiveCanceled=false)
-	public void onCommandEvent(CommandEvent event)
+	public static void onCommandEvent(CommandEvent event)
 	{
 		if(list.isEmpty())
 			return;
@@ -579,7 +578,7 @@ public class ServerEditHandler
 	}
 	
 	@SubscribeEvent
-	public void onEntityTeleport(EntityTravelToDimensionEvent event)
+	public static void onEntityTeleport(EntityTravelToDimensionEvent event)
 	{
 		if(event.getEntity() instanceof EntityPlayerMP && getData((EntityPlayerMP) event.getEntity()) != null)
 		{

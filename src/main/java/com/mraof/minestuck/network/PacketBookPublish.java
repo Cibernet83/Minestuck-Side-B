@@ -1,7 +1,7 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.inventory.captchalouge.BookModus;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import io.netty.buffer.ByteBuf;
@@ -35,7 +35,7 @@ public class PacketBookPublish extends MinestuckPacket
 			ItemStack book = ((BookModus) modus).createBook();
 			
 			if(!player.addItemStackToInventory(book))
-				CaptchaDeckHandler.launchAnyItem(player, book);
+				SylladexUtils.launchItem(player, book);
 			
 			((BookModus) modus).clear();
 		}

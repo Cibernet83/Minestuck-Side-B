@@ -2,21 +2,24 @@ package com.mraof.minestuck;
 
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.block.BlockArtifact;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.client.gui.MSGuiHandler;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.editmode.ServerEditHandler;
-import com.mraof.minestuck.enchantments.MSUEnchantments;
+import com.mraof.minestuck.enchantments.MinestuckEnchantments;
 import com.mraof.minestuck.entity.MinestuckEntities;
 import com.mraof.minestuck.entity.consort.ConsortDialogue;
 import com.mraof.minestuck.entity.consort.ConsortRewardHandler;
 import com.mraof.minestuck.event.CommonEventHandler;
 import com.mraof.minestuck.event.SaveHandler;
-import com.mraof.minestuck.event.handlers.*;
+import com.mraof.minestuck.event.handler.*;
+import com.mraof.minestuck.inventory.captchalouge.MinestuckModi;
+import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.item.ItemMinestuckCandy;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.modSupport.BotaniaSupport;
@@ -28,13 +31,13 @@ import com.mraof.minestuck.network.skaianet.SessionHandler;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.recipes.MachineChasisRecipes;
 import com.mraof.minestuck.strife.KindAbstratus;
-import com.mraof.minestuck.strife.MSUKindAbstrata;
+import com.mraof.minestuck.strife.MinestuckKindAbstrata;
 import com.mraof.minestuck.tileentity.*;
 import com.mraof.minestuck.tracker.ConnectionListener;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.*;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.gen.OreHandler;
 import com.mraof.minestuck.world.gen.QuestBedWorldGenHandler;
 import com.mraof.minestuck.world.gen.structure.StructureCastlePieces;
@@ -54,33 +57,31 @@ public class CommonProxy
 {
 	public void preInit()
 	{
-		MinecraftForge.EVENT_BUS.register(MinestuckSoundHandler.instance);
+		// Register registries
+		MinecraftForge.EVENT_BUS.register(Grist.class);
+		MinecraftForge.EVENT_BUS.register(KindAbstratus.class);
+		MinecraftForge.EVENT_BUS.register(Modus.class);
+
+		// Register items
 		MinecraftForge.EVENT_BUS.register(MinestuckBlocks.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckItems.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckSounds.class);
-		MinecraftForge.EVENT_BUS.register(BiomeMinestuck.class);
+		MinecraftForge.EVENT_BUS.register(MinestuckBiomes.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckPotions.class);
-		MinecraftForge.EVENT_BUS.register(MSUEnchantments.class);
-		MinecraftForge.EVENT_BUS.register(KindAbstratus.class);
-		MinecraftForge.EVENT_BUS.register(MSUKindAbstrata.class);
-		MinecraftForge.EVENT_BUS.register(StrifeEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(MinestuckEnchantments.class);
+		MinecraftForge.EVENT_BUS.register(MinestuckKindAbstrata.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckItems.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckPotions.class);
-		MinecraftForge.EVENT_BUS.register(GodTierEventHandler.class);
-		MinecraftForge.EVENT_BUS.register(KarmaEventHandler.class);
-		MinecraftForge.EVENT_BUS.register(EditModeEventHandler.class);
-		MinecraftForge.EVENT_BUS.register(MSGTPlayerData.class);
-		MinecraftForge.EVENT_BUS.register(MSGTParticles.class);
-		MinecraftForge.EVENT_BUS.register(MagicDamageEventHandler.class);
-		MinecraftForge.EVENT_BUS.register(LocalChatEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(MinestuckModi.class);
+		MinecraftForge.EVENT_BUS.register(MSGTPlayerData.class); // TODO: caps ugh
+		MinecraftForge.EVENT_BUS.register(MinestuckParticles.class);
 
 		MinestuckCapabilities.registerCapabilities();
-		PotionEventHandler.registerPotionEvents();
-		BadgeEventHandler.registerBadgeEvents();
 
 		if(Minestuck.isTrophySlotsLoaded)
 			MinecraftForge.EVENT_BUS.register(MSGTTrophySlotsSupport.class);
 
+		MinecraftForge.EVENT_BUS.register(MinestuckSoundHandler.class);
 		MinestuckSoundHandler.initSound();
 		
 		MinestuckCriteriaTriggers.register();
@@ -128,19 +129,27 @@ public class CommonProxy
 		GameRegistry.registerTileEntity(TileEntityBoondollarRegister.class, Minestuck.MODID+":porkhollow_vault");
 
 		//Register event handlers
-		MinecraftForge.EVENT_BUS.register(new MinestuckSaveHandler());
-		MinecraftForge.EVENT_BUS.register(new MinestuckFluidHandler());
-		MinecraftForge.EVENT_BUS.register(ServerEditHandler.instance);
-		MinecraftForge.EVENT_BUS.register(MinestuckPlayerTracker.instance);
+		MinecraftForge.EVENT_BUS.register(MinestuckSaveHandler.class);
+		MinecraftForge.EVENT_BUS.register(MinestuckFluidHandler.class);
+		MinecraftForge.EVENT_BUS.register(ServerEditHandler.class);
+		MinecraftForge.EVENT_BUS.register(MinestuckPlayerTracker.class);
 		MinecraftForge.EVENT_BUS.register(CommonEventHandler.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckChannelHandler.instance);
-		MinecraftForge.EVENT_BUS.register(new ConnectionListener());
-		MinecraftForge.EVENT_BUS.register(com.mraof.minestuck.event.handlers.CommonEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(ConnectionListener.class);
+		MinecraftForge.EVENT_BUS.register(com.mraof.minestuck.event.handler.CommonEventHandler.class);
 		MinecraftForge.EVENT_BUS.register(ArmorEventHandler.class);
 		MinecraftForge.EVENT_BUS.register(IDBasedAlchemyHandler.class);
 		MinecraftForge.EVENT_BUS.register(BlockArtifact.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckBadges.class);
-		PropertyEventHandler.register();
+		MinecraftForge.EVENT_BUS.register(StrifeEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(GodTierEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(KarmaEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(EditModeEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(MagicDamageEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(LocalChatEventHandler.class);
+		PropertyEventHandler.registerPropertyHandlers();
+		PotionEventHandler.registerPotionHandlers();
+		BadgeEventHandler.registerBadgeHandlers();
 
 		//register channel handler
 		MinestuckChannelHandler.setupChannel();

@@ -31,7 +31,7 @@ public class GenLayerLands extends GenLayer
 			for(int y = 0; y < areaHeight; y++)
 			{
 				initChunkSeed(areaX + x, areaY + y);
-				biomeGen[x + y*areaWidth] = Biome.getIdForBiome((nextInt(Integer.MAX_VALUE) >= oceanChance ? BiomeMinestuck.mediumNormal : BiomeMinestuck.mediumOcean));
+				biomeGen[x + y*areaWidth] = Biome.getIdForBiome((nextInt(Integer.MAX_VALUE) >= oceanChance ? MinestuckBiomes.mediumNormal : MinestuckBiomes.mediumOcean));
 			}
 		return biomeGen;
 	}

@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspectUtil;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.ai.EntityAIAttackRageShifted;
 import com.mraof.minestuck.entity.ai.EntityAINearestAttackableTargetWithHeight;
 import com.mraof.minestuck.util.EnumAspect;
@@ -61,7 +61,7 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 				return false;
 
 			toggleRageShift((EntityCreature) target);
-			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
+			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
 			if(!player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-3);
 		}
@@ -76,7 +76,7 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 					break;
 
 				toggleRageShift((EntityCreature) target);
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
 				count++;
 
 				if(!player.isCreative())
@@ -84,7 +84,7 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 			}
 
 			if(count > 0 || list.isEmpty())
-				badgeEffects.oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumAspect.RAGE, list.isEmpty() ? 1 : 4);
+				badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.RAGE, list.isEmpty() ? 1 : 4);
 			else
 			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);

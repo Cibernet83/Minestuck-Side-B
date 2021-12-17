@@ -1,6 +1,6 @@
 package com.mraof.minestuck.client.gui;
 
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -54,7 +54,7 @@ public class GuiGristHoardSelector extends GuiScreenMinestuck
         int yOffset = (height - guiHeight) / 2;
         this.previousButton = new GuiButtonExt(1, (this.width) + 8, yOffset + 8, 16, 16, "<");
         this.nextButton = new GuiButtonExt(2, xOffset + guiWidth - 24, yOffset + 8, 16, 16, ">");
-        if(GristType.REGISTRY.getValues().size() > rows * columns)
+        if(Grist.REGISTRY.getValues().size() > rows * columns)
         {
             this.buttonList.add(this.nextButton);
         }
@@ -101,12 +101,12 @@ public class GuiGristHoardSelector extends GuiScreenMinestuck
             int xOffset = (width - guiWidth) / 2;
             int yOffset = (height - guiHeight) / 2;
 
-            List<GristType> types = new ArrayList<>(GristType.REGISTRY.getValues());
+            List<Grist> types = new ArrayList<>(Grist.REGISTRY.getValues());
             Collections.sort(types);
             types = types.stream().skip(page * rows * columns).limit(rows * columns).collect(Collectors.toList());
 
             int offset = 0;
-            for (GristType type : types)
+            for (Grist type : types)
             {
                 int row = offset / columns;
                 int column = offset % columns;
@@ -141,7 +141,7 @@ public class GuiGristHoardSelector extends GuiScreenMinestuck
     @Override
     protected void actionPerformed(GuiButton button) throws IOException
     {
-        int maxPage = (GristType.REGISTRY.getValues().size() - 1) / (rows * columns);
+        int maxPage = (Grist.REGISTRY.getValues().size() - 1) / (rows * columns);
         if (button == previousButton && page > 0)
         {
             page--;

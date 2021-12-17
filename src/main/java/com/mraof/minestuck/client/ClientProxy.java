@@ -25,7 +25,7 @@ import com.mraof.minestuck.entity.consort.EntitySalamander;
 import com.mraof.minestuck.entity.consort.EntityTurtle;
 import com.mraof.minestuck.entity.item.*;
 import com.mraof.minestuck.entity.underling.*;
-import com.mraof.minestuck.event.handlers.ClientEventHandler;
+import com.mraof.minestuck.event.handler.ClientEventHandler;
 import com.mraof.minestuck.item.*;
 import com.mraof.minestuck.item.weapon.ItemBeamBlade;
 import com.mraof.minestuck.tileentity.TileEntityGate;

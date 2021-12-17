@@ -3,9 +3,9 @@ package com.mraof.minestuck.badges.heroClass;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
-import com.mraof.minestuck.event.handlers.BadgeEventHandler;
-import com.mraof.minestuck.event.handlers.GodTierEventHandler;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
+import com.mraof.minestuck.event.handler.BadgeEventHandler;
+import com.mraof.minestuck.event.handler.GodTierEventHandler;
 import com.mraof.minestuck.util.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -51,13 +51,13 @@ public class BadgeBard extends BadgeHeroClass
 				for(PotionEffect p : effects)
 					target.addPotionEffect(new PotionEffect(p.getPotion(), 1200, 9));
 
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.MUSE, 10);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.MUSE, 10);
 			}
 		}
 		if (!player.isCreative())
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 6);
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.BURST, EnumClass.BARD, 20);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumClass.BARD, 20);
 
 		return true;
 	}

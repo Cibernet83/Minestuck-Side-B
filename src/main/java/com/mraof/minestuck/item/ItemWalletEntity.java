@@ -1,11 +1,9 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
-import com.mraof.minestuck.util.ModusStorage;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -56,8 +54,8 @@ public class ItemWalletEntity extends MSItemBase
 
         Entity entity = AnvilChunkLoader.readWorldEntityPos(nbt, world, source.posX, source.posY, source.posZ, true);
         if(entity != null) {
-            entity.motionX = CaptchaDeckHandler.rand.nextDouble() - 0.5D;
-            entity.motionZ = CaptchaDeckHandler.rand.nextDouble() - 0.5D;
+            entity.motionX = SylladexUtils.rand.nextDouble() - 0.5D;
+            entity.motionZ = SylladexUtils.rand.nextDouble() - 0.5D;
             entity.setPosition(source.posX, source.posY + 1.0D, source.posZ);
         }
         stack.shrink(1);

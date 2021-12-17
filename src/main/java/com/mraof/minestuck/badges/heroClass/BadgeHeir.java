@@ -4,8 +4,8 @@ import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
-import com.mraof.minestuck.event.handlers.BadgeEventHandler;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
+import com.mraof.minestuck.event.handler.BadgeEventHandler;
 import com.mraof.minestuck.util.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,7 +44,7 @@ public class BadgeHeir extends BadgeHeroClass
 					}
 					PotionEffect effect = BadgeEventHandler.NEGATIVE_EFFECTS.get(title.getHeroAspect());
 					trueSource.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier()));
-					trueSource.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.HEIR, 5);
+					trueSource.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.HEIR, 5);
 				}
 			}
 		}

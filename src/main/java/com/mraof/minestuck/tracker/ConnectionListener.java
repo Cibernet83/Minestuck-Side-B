@@ -17,7 +17,7 @@ public class ConnectionListener
 {
 	
 	@SubscribeEvent
-	public void onServerConnectionCreated(FMLNetworkEvent.ServerConnectionFromClientEvent event)
+	public static void onServerConnectionCreated(FMLNetworkEvent.ServerConnectionFromClientEvent event)
 	{
 		MinestuckPacket packet = MinestuckPacket.makePacket(Type.LANDREGISTER);
 		
@@ -27,7 +27,7 @@ public class ConnectionListener
 	}
 	
 	@SubscribeEvent
-	public void onClientConnectionClosed(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
+	public static void onClientConnectionClosed(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
 	{
 		Debug.debug("Disconnecting from server. Unregistering land dimensions...");
 		if(!Minestuck.isServerRunning)

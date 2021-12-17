@@ -3,7 +3,7 @@ package com.mraof.minestuck.entity;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.ai.EntityAIFollowHope;
 import com.mraof.minestuck.entity.ai.EntityAIHopeHurtByTarget;
 import com.mraof.minestuck.entity.ai.EntityAIHopeHurtTarget;
@@ -77,7 +77,7 @@ public class EntityHopeGolem extends EntityIronGolem
 	public void onAddedToWorld()
 	{
 		super.onAddedToWorld();
-		getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.HOPE, 20);
+		getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, 20);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class EntityHopeGolem extends EntityIronGolem
 			setHopeTicks(getHopeTicks()-hopeDecay);
 			if(getHopeTicks() < 0)
 			{
-				getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumAspect.HOPE, 20);
+				getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.HOPE, 20);
 				setDead();
 			}
 

@@ -3,6 +3,7 @@ package com.mraof.minestuck.jei;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.ColorCollector;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -66,14 +67,14 @@ public class TotemLatheRecipeCategory implements IRecipeCategory<TotemLatheRecip
 		List<ItemStack> first = new ArrayList<>();
 		for(ItemStack stack : inputs.get(0))
 		{
-			first.add(AlchemyRecipes.createCard(stack, true));
+			first.add(AlchemyUtils.createCard(stack, true));
 		}
 		stackGroup.set(0, first);
 
 		List<ItemStack> second = new ArrayList<>();
 		for(ItemStack stack : inputs.get(1))
 		{
-			second.add(AlchemyRecipes.createCard(stack, true));
+			second.add(AlchemyUtils.createCard(stack, true));
 		}
 		stackGroup.set(1, second);
 		

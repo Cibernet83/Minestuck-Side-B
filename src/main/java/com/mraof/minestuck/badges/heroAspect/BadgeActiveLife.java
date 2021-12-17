@@ -4,7 +4,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
 import com.mraof.minestuck.util.MSGTUtils;
@@ -44,19 +44,19 @@ public class BadgeActiveLife extends BadgeHeroAspect
 
 		if (target != null)
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.LIFE, 10);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 10);
 
 			target.attackEntityFrom(new LifeDamageSource(player), 4);
 			player.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400));
 			player.heal(4);
 
 			if(target.hasCapability(MinestuckCapabilities.BADGE_EFFECTS, null))
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.LIFE, 5);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 5);
 
 			if (!player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 4);
 		}
-		else badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.LIFE, 5);
+		else badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 5);
 
 		return true;
 	}
