@@ -345,6 +345,7 @@ commands.porkhollow.notEnough=You don't have enough boondollars.
 commands.tpStruct.usage=/tpStruct village
 commands.landDebug.usage=/landDebug <~ OR terrainlandspect titlelandspect ...>
 
+commands.localizedChat.outOfReach=%s is too far away to talk to!
 commands.globalsay.usage=/globalsay <message>
 commands.godtier.usage=/godtier <title|reset|maxbadges|mastercontrol|lunarsway>
 commands.godtier.locate.wrongDim=Cannot find Quest Bed outside of The Medium
