@@ -534,7 +534,7 @@ public class MinestuckItems
 	public static final Item regiCane = new MSWeaponBase("regiCane", 540, 12, -1.8, 5).setTool(toolCane, 3, 4).addProperties(new PropertyTipperDamage(0.8f, 1.1f, 1));
 	public static final Item dragonCane = new MSWeaponBase("dragonCane", 1000, 24, -2, 7).setTool(toolCane, 4, 3);
 	public static final Item pogoCane = new MSWeaponBase("pogoCane", 600, 12, -2, 5).setTool(toolCane, 2, 4).addProperties(new PropertyPogo(0.6));
-	public static final Item upStick = new MSWeaponBase("uraniumPoweredStick", -1, 6.4, -2, 5).setTool(toolCane, 1, 3).addProperties(new PropertyPotion(true, 1, new PotionEffect(MobEffects.WITHER, 20, 2)));
+	public static final Item upStick = new MSWeaponBase("uraniumPoweredStick", -1, .5, -2, 5).setTool(toolCane, 1, 3).addProperties(new PropertyPotion(true, 1, new PotionEffect(MobEffects.WITHER, 20, 2)));
 
 	//Clubkind
 	public static final Item rubyContrabat = new MSWeaponBase("rubyContrabat", 1200, 14.1, -1.98, 22).setTool(toolClub, 3, 4.0f).addProperties(new PropertySweep(), new PropertyGristSetter(GristType.Ruby), new PropertyProjectileDeflect(0.5f, 4));

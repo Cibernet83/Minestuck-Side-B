@@ -2,6 +2,8 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.item.block.ItemMiniSburbMachine;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityMiniAlchemiter;
 import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import com.mraof.minestuck.util.IdentifierHandler;
@@ -13,6 +15,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -26,7 +29,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockMiniAlchemiter extends BlockSburbMachine
+public class BlockMiniAlchemiter extends MSFacingBase
 {
 	private static final AxisAlignedBB ALCHMITER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/2D, 1.0D);
 	private static final AxisAlignedBB[] ALCHEMITER_POLE_AABB = {new AxisAlignedBB(0.0D, 2/16D, 0.0D, 4.5/16D, 1.0D, 1/8D), new AxisAlignedBB(7/8D, 2/16D, 0.0D, 1.0D, 1.0D, 4.5/16D), new AxisAlignedBB(11.5/16D, 2/16D, 7/8D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 2/16D, 11.5/16D, 1/8D, 1.0D, 1.0D)};
@@ -129,4 +132,28 @@ public class BlockMiniAlchemiter extends BlockSburbMachine
 
 		return true;
 	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemMiniSburbMachine(this);
+	}
+
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+	{
+		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
+
+		boolean b = super.removedByPlayer(state, world, pos, player, willHarvest);
+
+		if(!world.isRemote && willHarvest && te != null)
+		{
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1);
+			spawnAsEntity(world, pos, stack);
+		}
+
+		return b;
+	}
+
+
 }
