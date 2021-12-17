@@ -16,6 +16,8 @@ import com.mraof.minestuck.capabilities.api.IGodKeyStates;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.entity.underling.EntityUnderling;
+import com.mraof.minestuck.event.UnderlingSpoilsEvent;
 import com.mraof.minestuck.event.WeaponAssignedEvent;
 import com.mraof.minestuck.modSupport.LocksSupport;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
@@ -184,74 +186,36 @@ public class BadgeEventHandler
 		}
 	}
 
-	// TODO: Migrate to UnderlingSpoilsEvent @Cibernet
-	/*@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void onLivingDeath(LivingDeathEvent event)
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public static void onUnderlingSpoils(UnderlingSpoilsEvent event)
 	{
-		if (event.getEntity().world.isRemote)
-			return;
-
 		if(event.getSource().getTrueSource() instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
 			IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
 
-			if(event.getEntityLiving() instanceof EntityUnderling
-					&& data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE))
+			if(data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE))
 			{
-				EntityUnderling underling = (EntityUnderling) event.getEntityLiving();
+				EntityUnderling underling = event.getUnderling();
 
-				if (!underling.world.isRemote)
+				GristSet grist = event.getSpoils().scaleGrist(1 + MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player));
+
+				if((underling.world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
 				{
-					GristSet grist = underling.getGristSpoils().scaleGrist(1 + MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player));
-
-					if((event.getEntity().world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
-					{
-						grist = grist.scaleGrist(5);
-						MinestuckChannelHandler.sendToTracking(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MSGTParticles.ParticleType.AURA, 0x00D54E, 20, underling.posX, underling.posY, underling.posZ), underling);
-					}
-
-					if (grist == null) {
-						return;
-					}
-
-					if (underling.fromSpawner) {
-						grist.scaleGrist(0.5F);
-					}
-
-					Iterator var2;
-					GristAmount gristType;
-					if (!underling.dropCandy) {
-						var2 = grist.getArray().iterator();
-
-						while(var2.hasNext()) {
-							gristType = (GristAmount)var2.next();
-							underling.world.spawnEntity(new EntityGrist(underling.world, underling.posX + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), underling.posY,
-									underling.posZ + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), gristType));
-						}
-					} else {
-						var2 = grist.getArray().iterator();
-
-						while(var2.hasNext()) {
-							gristType = (GristAmount)var2.next();
-							int candy = (gristType.getAmount() + 2) / 4;
-							int gristAmount = gristType.getAmount() - candy * 2;
-							ItemStack candyItem = gristType.getType().getCandyItem();
-							candyItem.setCount(candy);
-							if (candy > 0) {
-								underling.world.spawnEntity(new EntityItem(underling.world, underling.posX + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), underling.posY,
-										underling.posZ + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), candyItem));
-							}
-
-							if (gristAmount > 0) {
-								underling.world.spawnEntity(new EntityGrist(underling.world, underling.posX + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), underling.posY,
-										underling.posZ + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), new GristAmount(gristType.getType(), gristAmount)));
-							}
-						}
-					}
+					grist = grist.scaleGrist(5);
+					MinestuckChannelHandler.sendToTracking(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MSGTParticles.ParticleType.AURA, 0x00D54E, 20, underling.posX, underling.posY, underling.posZ), underling);
 				}
+
+				event.setSpoils(grist);
 			}
 		}
+	}
+
+	// TODO: Migrate to UnderlingSpoilsEvent @Cibernet
+	/*@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void onLivingDeath(LivingDeathEvent event)
+	{
+
 	}*/
 
 	private static int blockCount = 0;
