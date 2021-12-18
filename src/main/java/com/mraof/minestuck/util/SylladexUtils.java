@@ -9,7 +9,6 @@ import com.mraof.minestuck.inventory.captchalouge.ISylladex.Sylladex;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.PacketCaptchaDeck;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -57,18 +56,11 @@ public class SylladexUtils
 
 		MinestuckCriteriaTriggers.CAPTCHALOGUE.trigger(player, sylladex, (ItemStack)object.getObject()); // FIXME: unsafe once we start getting other captcha types lol
 
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, sylladex.writeToNBT());
+		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, sylladex.writeToNBT());
 		MinestuckChannelHandler.sendToPlayer(packet, player);
 	}
 	
-	public static void captchalougeItemInHand(EntityPlayerMP player)
-	{
-		ItemStack stack = player.getHeldItemMainhand();
-		captchalogue(new CaptchalogueableItemStack(stack), player);
-		player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
-	}
-	
-	public static void captchalougeItemInInventory(EntityPlayerMP player, int slotIndex) {
+	public static void captchalouge(int slotIndex, EntityPlayerMP player) {
 		// This statement is so that the server knows whether the item is in the hotbar or not because apparently THE "openContainer" CANT EDIT THE HOTBAR SLOTS.
 		if(player.openContainer == player.inventoryContainer && InventoryPlayer.isHotbar(slotIndex)) {
 			int hotbarIndex = slotIndex;
@@ -85,7 +77,7 @@ public class SylladexUtils
 		}
 	}
 
-	public static void retrieve(EntityPlayerMP player, int[] slotStack, boolean asCard)
+	public static void fetch(EntityPlayerMP player, int[] slotStack, boolean asCard)
 	{
 		ISylladex sylladex = getSylladex(player);
 		if(sylladex == null)
@@ -128,7 +120,7 @@ public class SylladexUtils
 				launchItem(player, stack);
 		}
 
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, sylladex.writeToNBT());
+		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, sylladex.writeToNBT());
 		MinestuckChannelHandler.sendToPlayer(packet, player);
 	}
 
@@ -177,7 +169,7 @@ public class SylladexUtils
 
 		setSylladex(player, new Sylladex(sylladex));
 
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, getSylladex(player).writeToNBT());
+		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, getSylladex(player).writeToNBT());
 		MinestuckChannelHandler.sendToPlayer(packet, player);
 	}
 	

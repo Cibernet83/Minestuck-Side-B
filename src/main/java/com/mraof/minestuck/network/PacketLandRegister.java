@@ -19,7 +19,7 @@ public class PacketLandRegister extends MinestuckPacket
 	public HashMap<Integer, BlockPos> spawnMap;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat) 
+	public void generatePacket(Object... dat)
 	{
 		for(Map.Entry<Integer, LandAspectRegistry.AspectCombination> entry : MinestuckDimensionHandler.getLandSet())
 		{
@@ -31,11 +31,11 @@ public class PacketLandRegister extends MinestuckPacket
 			data.writeInt(spawn.getY());
 			data.writeInt(spawn.getZ());
 		}
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data) 
+	public void consumePacket(ByteBuf data)
 	{
 		aspectMap = new HashMap<Integer, LandAspectRegistry.AspectCombination>();
 		spawnMap = new HashMap<Integer, BlockPos>();
@@ -49,7 +49,7 @@ public class PacketLandRegister extends MinestuckPacket
 			spawnMap.put(dim, spawn);
 		}
 		
-		return this;
+
 	}
 	
 	@Override

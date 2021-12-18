@@ -27,19 +27,16 @@ public abstract class MinestuckPacket
 		TRANSPORTALIZER(PacketTransportalizer.class),
 		CONTAINER(PacketMiscContainer.class),
 		INVENTORY(PacketInventoryChanged.class),
-		CAPTCHA(PacketCaptchaDeck.class),
 		SELECTION(PacketSelection.class),
 		DATA_CHECKER(PacketDataChecker.class),
 		EFFECT_TOGGLE(PacketEffectToggle.class),
-		CHAT_MODUS_EJECT(PacketChatModusEject.class),
-		UPDATE_MODUS(PacketModusUpdate.class),
-		BOOK_UPDATE_PAGE(PacketBookModusPage.class),
-		REQUEST_UPDATE_MODUS(PacketRequestModusUpdate.class),
-		JUJU_UPDATE(PacketJujuModus.class),
-		COM_UPDATE(PacketCommunistUpdate.class),
-		REQUEST_COM_UPDATE(PacketRequestCommunistUpdate.class),
-		ALCHEM_WILDCARD(PacketAlchemyWildcard.class),
-		BOOK_PUBLISH(PacketBookPublish.class),
+		//CHAT_MODUS_EJECT(PacketChatModusEject.class),
+		//BOOK_UPDATE_PAGE(PacketBookModusPage.class),
+		//JUJU_UPDATE(PacketJujuModus.class),
+		//COM_UPDATE(PacketCommunistUpdate.class),
+		//REQUEST_COM_UPDATE(PacketRequestCommunistUpdate.class),
+		//ALCHEM_WILDCARD(PacketAlchemyWildcard.class),
+		//BOOK_PUBLISH(PacketBookPublish.class),
 		WALLET_CAPTCHA(PacketWalletCaptchalogue.class),
 		STONE_TABLET(PacketStoneTablet.class),
 		MACHINE_CHASSIS(PacketMachineChassis.class),
@@ -68,60 +65,45 @@ public abstract class MinestuckPacket
 		SET_MOUSE_SENSITIVITY(PacketSetMouseSensitivity.class),
 		SEND_PARTICLE(PacketSendParticle.class),
 		UPDATE_BADGE_EFFECT(PacketUpdateBadgeEffect.class),
-		KEY_INPUT(PacketKeyInput.class),
+		GOD_KEY_INPUT(PacketGodKeyInput.class),
 		SEND_POWER_PARTICLES(PacketSendPowerParticlesState.class),
 		MINDFLAYER_MOVEMENT_INPUT(PacketMindflayerMovementInput.class),
 		SET_CURRENT_ITEM(PacketSetCurrentItem.class),
 		EDIT_FILL_BLOCKS(PacketPlaceBlockArea.class),
+		SYLLADEX_DATA(PacketSylladexData.class),
+		SYLLADEX_FETCH(PacketSylladexFetch.class),
+		SYLLADEX_CAPTCHALOGUE(PacketSylladexCaptchalogue.class),
+		SYLLADEX_EMPTY_REQUEST(PacketSylladexEmptyRequest.class),
 		;
 		
 		Class<? extends MinestuckPacket> packetType;
-		private Type(Class<? extends MinestuckPacket> packetClass)
+		Type(Class<? extends MinestuckPacket> packetClass)
 		{
 			packetType = packetClass;
 		}
-		MinestuckPacket make()
+		private MinestuckPacket make()
 		{
 			try {
 				return this.packetType.newInstance();
-			} catch (Exception e) 
+			}
+			catch (InstantiationException | IllegalAccessException e)
 			{
-				e.printStackTrace();
-				return null;
+				throw new RuntimeException(e);
 			}
 		}
 	}
 	
-	protected ByteBuf data = Unpooled.buffer();
+	protected final ByteBuf data = Unpooled.buffer();
 	
-    public static MinestuckPacket makePacket(Type type, Object... dat)
+    public static MinestuckPacket makePacket(Type type, Object... args)
     {
-        return type.make().generatePacket(dat);
+    	MinestuckPacket packet = type.make();
+    	packet.generatePacket(args);
+        return packet;
     }
 	
-	public static String readLine(ByteBuf data)
-	{
-		StringBuilder str = new StringBuilder();
-		while(data.readableBytes() > 0)
-		{
-			char c = data.readChar();
-			if(c == '\n')
-				break;
-			else str.append(c);
-		}
-		
-		return str.toString();
-	}
-	
-	public static void writeString(ByteBuf data, String str)
-	{
-		for(int i = 0; i < str.length(); i++)
-			data.writeChar(str.charAt(i));
-	}
-	
-    public abstract MinestuckPacket generatePacket(Object... data);
-
-    public abstract MinestuckPacket consumePacket(ByteBuf data);
+    public abstract void generatePacket(Object... args);
+    public abstract void consumePacket(ByteBuf data);
     public abstract void execute(EntityPlayer player);
     public abstract EnumSet<Side> getSenderSide();
 }

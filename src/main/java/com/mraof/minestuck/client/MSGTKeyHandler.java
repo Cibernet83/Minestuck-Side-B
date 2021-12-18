@@ -41,7 +41,7 @@ public class MSGTKeyHandler
 			if (keyBindings[i].isKeyDown() ^ downs[i])
 			{
 				downs[i] = !downs[i];
-				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.KEY_INPUT, i, downs[i]));
+				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.GOD_KEY_INPUT, i, downs[i]));
 				if(Minecraft.getMinecraft().player != null)
 					Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_KEY_STATES, null).updateKeyState(GodKeyStates.Key.values()[i], downs[i]);
 			}

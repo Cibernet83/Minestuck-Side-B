@@ -1,6 +1,5 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.MinestuckItems;
@@ -61,7 +60,7 @@ public class TileEntityMiniTotemLathe extends TileEntityMiniSburbMachine
 		}
 
 		ItemStack outputDowel = output.getItem().equals(Item.getItemFromBlock(MinestuckBlocks.genericObject))
-								? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyRecipes.createEncodedItem(output, false);
+								? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyUtils.createEncodedItem(output, MinestuckItems.cruxiteDowel);
 		outputDowel.setItemDamage(inv.get(2).getItemDamage());
 
 		setInventorySlotContents(3, outputDowel);

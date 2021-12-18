@@ -17,17 +17,17 @@ public class PacketMiscContainer extends MinestuckPacket
 	int i;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... data)
+	public void generatePacket(Object... data)
 	{
 		this.data.writeInt((Integer) data[0]);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		i = data.readInt();
-		return this;
+
 	}
 
 	@Override

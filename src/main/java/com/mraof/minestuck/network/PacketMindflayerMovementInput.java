@@ -19,25 +19,25 @@ public class PacketMindflayerMovementInput extends MinestuckPacket
 	private int currentItem;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeFloat((float) args[0]);
 		data.writeFloat((float) args[1]);
 		data.writeBoolean((boolean) args[2]);
 		data.writeBoolean((boolean) args[3]);
 		data.writeInt((int) args[4]);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		moveStrafe = data.readFloat();
 		moveForward = data.readFloat();
 		jump = data.readBoolean();
 		sneak = data.readBoolean();
 		currentItem = data.readInt();
-		return this;
+
 	}
 
 	@Override

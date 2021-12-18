@@ -18,19 +18,19 @@ public class PacketMachineState extends MinestuckPacket {
 	public Grist grist;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat) 
+	public void generatePacket(Object... dat)
 	{
 		data.writeInt(Grist.REGISTRY.getID((Grist) dat[0]));
 		
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data) 
+	public void consumePacket(ByteBuf data)
 	{
 		grist = Grist.REGISTRY.getValue(data.readInt());
 		
-		return this;
+
 	}
 
 	@Override

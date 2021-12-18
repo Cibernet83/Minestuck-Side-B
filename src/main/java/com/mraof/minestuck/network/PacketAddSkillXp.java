@@ -17,21 +17,21 @@ public class PacketAddSkillXp extends MinestuckPacket
     UUID                  playerUUID;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
         data.writeInt(((GodTierData.SkillType)args[0]).ordinal());
         data.writeInt(args.length > 2 ? (Integer) args[2] : 1);
         ByteBufUtils.writeUTF8String(data, ((EntityPlayer)args[1]).getUniqueID().toString());
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
         skillType = GodTierData.SkillType.values()[data.readInt()];
         amount = data.readInt();
         playerUUID = UUID.fromString(ByteBufUtils.readUTF8String(data));
-        return this;
+
     }
 
     @Override

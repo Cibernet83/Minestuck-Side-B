@@ -19,21 +19,21 @@ public class PacketGoButton extends MinestuckPacket
 	public boolean overrideStop;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat) 
+	public void generatePacket(Object... dat)
 	{
 		data.writeBoolean((Boolean) dat[0]);
 		data.writeBoolean((Boolean) dat[1]);
 		
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data) 
+	public void consumePacket(ByteBuf data)
 	{
 		newMode = data.readBoolean();
 		overrideStop = data.readBoolean();
 		
-		return this;
+
 	}
 
 	@Override

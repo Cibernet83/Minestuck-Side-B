@@ -14,17 +14,17 @@ public class PacketSendGristHoard extends MinestuckPacket
     Grist type;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
         ByteBufUtils.writeUTF8String(data, ((Grist)args[0]).getRegistryName().toString());
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
         type = Grist.getTypeFromString(ByteBufUtils.readUTF8String(data));
-        return this;
+
     }
 
     @Override

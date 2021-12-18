@@ -75,7 +75,8 @@ public class GristHelper {
 	{
 		while (true)
 		{
-			Grist randGrist = Grist.values().get(random.nextInt(Grist.values().size()));
+			Grist[] grists = Grist.REGISTRY.getValuesCollection().toArray(new Grist[0]);
+			Grist randGrist = grists[random.nextInt(grists.length)];
 			if (randGrist.getRarity() > random.nextFloat() && randGrist != MinestuckGrists.artifact)
 				return randGrist;
 		}

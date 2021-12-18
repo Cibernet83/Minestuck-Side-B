@@ -168,7 +168,7 @@ public class Session
 		locked = nbt.getBoolean("locked");
 		
 		checkIfCompleted();
-		return this;
+
 	}
 	
 	public boolean isCustom()

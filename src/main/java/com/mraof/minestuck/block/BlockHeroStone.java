@@ -102,7 +102,7 @@ public class BlockHeroStone extends MSBlockBase implements IGodTierBlock
 		}
 		else if(!(playerIn instanceof FakePlayer))
 		{
-			Title title = worldIn.isRemote ? MinestuckPlayerData.title : MinestuckPlayerData.getTitle(IdentifierHandler.encode(playerIn));
+			Title title = worldIn.isRemote ? MinestuckPlayerData.clientData.title : MinestuckPlayerData.getTitle(IdentifierHandler.encode(playerIn));
 			EnumAspect aspect = getAspect();
 
 			if(!playerIn.isSneaking() && playerIn.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isGodTier() && (aspect == null || aspect == title.getHeroAspect()) && facing == EnumFacing.UP)

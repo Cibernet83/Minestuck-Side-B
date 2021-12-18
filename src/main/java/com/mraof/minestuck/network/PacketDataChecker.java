@@ -29,7 +29,7 @@ public class PacketDataChecker extends MinestuckPacket
 	public int packetIndex;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		if(dat.length == 0)	//Cient request to server
 			data.writeByte(index = (index + 1) % 100);
@@ -50,11 +50,11 @@ public class PacketDataChecker extends MinestuckPacket
 			}
 		}
 		
-		return this;
+
 	}
 	
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		packetIndex = data.readByte();
 		
@@ -73,7 +73,7 @@ public class PacketDataChecker extends MinestuckPacket
 			}
 		}
 		
-		return this;
+
 	}
 	
 	@Override

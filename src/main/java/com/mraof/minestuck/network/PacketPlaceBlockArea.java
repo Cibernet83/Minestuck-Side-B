@@ -40,7 +40,7 @@ public class PacketPlaceBlockArea extends MinestuckPacket
 	EnumFacing face;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeInt(((BlockPos)args[0]).getX());
 		data.writeInt(((BlockPos)args[0]).getY());
@@ -53,17 +53,17 @@ public class PacketPlaceBlockArea extends MinestuckPacket
 		data.writeDouble(((Vec3d)args[2]).z);
 		data.writeInt(((EnumFacing)args[3]).ordinal());
 
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		pos1 = new BlockPos(data.readInt(), data.readInt(), data.readInt());
 		pos2 = new BlockPos(data.readInt(), data.readInt(), data.readInt());
 		hitVec = new Vec3d(data.readDouble(), data.readDouble(), data.readDouble());
 		face = EnumFacing.values()[data.readInt()];
-		return this;
+
 	}
 
 	@Override

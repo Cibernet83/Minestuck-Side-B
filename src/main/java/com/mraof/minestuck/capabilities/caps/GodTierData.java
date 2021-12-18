@@ -269,7 +269,7 @@ public class GodTierData implements IGodTierData
 	{
 		Title title = MinestuckPlayerData.getTitle(IdentifierHandler.encode(owner));
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
-			title = MinestuckPlayerData.title;
+			title = MinestuckPlayerData.clientData.title;
 
 		if(title == null)
 			return 50;

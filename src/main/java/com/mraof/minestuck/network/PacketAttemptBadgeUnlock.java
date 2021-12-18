@@ -18,17 +18,17 @@ public class PacketAttemptBadgeUnlock extends MinestuckPacket
     Badge badge;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
         ByteBufUtils.writeUTF8String(data, ((Badge)args[0]).getRegistryName().toString());
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
         badge = MinestuckBadges.REGISTRY.getValue(new ResourceLocation(ByteBufUtils.readUTF8String(data)));
-        return this;
+
     }
 
     @Override

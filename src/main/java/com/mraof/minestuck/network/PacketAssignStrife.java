@@ -23,7 +23,7 @@ public class PacketAssignStrife extends MinestuckPacket
 	int slot;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeBoolean(args[0] instanceof ItemStack);
 
@@ -31,7 +31,7 @@ public class PacketAssignStrife extends MinestuckPacket
 		{
 			ByteBufUtils.writeItemStack(data, (ItemStack) args[0]);
 			data.writeInt((Integer) args[1]);
-			return this;
+
 		}
 
 		data.writeInt(((EnumHand)args[0]).ordinal());
@@ -39,24 +39,24 @@ public class PacketAssignStrife extends MinestuckPacket
 		if(args.length > 1)
 			ByteBufUtils.writeTag(data, ((StrifeSpecibus)args[1]).writeToNBT(new NBTTagCompound()));
 
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		if(data.readBoolean())
 		{
 			stack = ByteBufUtils.readItemStack(data);
 			slot = data.readInt();
-			return this;
+
 		}
 
 		hand = EnumHand.values()[data.readInt()];
 		if(data.readBoolean())
 			specibus = new StrifeSpecibus(ByteBufUtils.readTag(data));
 
-		return this;
+
 	}
 
 	@Override

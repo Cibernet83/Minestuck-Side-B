@@ -31,7 +31,7 @@ public class PacketPlayerData extends MinestuckPacket
 	public boolean b;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat) 
+	public void generatePacket(Object... dat)
 	{
 		byte type = (Byte) dat[0];
 		data.writeByte(type);
@@ -60,11 +60,11 @@ public class PacketPlayerData extends MinestuckPacket
 			}
 		}
 		
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data) 
+	public void consumePacket(ByteBuf data)
 	{
 		type = data.readByte();
 		if(type == COLOR)
@@ -94,7 +94,7 @@ public class PacketPlayerData extends MinestuckPacket
 			} else i1 = -1;
 		}
 		
-		return this;
+
 	}
 	
 	@Override

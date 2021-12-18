@@ -17,15 +17,15 @@ import java.util.List;
 public class PacketLeftClickEmpty extends MinestuckPacket
 {
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
-		return this;
+
 	}
 
 	@Override

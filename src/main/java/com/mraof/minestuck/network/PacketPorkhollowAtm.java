@@ -18,7 +18,7 @@ public class PacketPorkhollowAtm extends MinestuckPacket
 	int n;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		IdentifierHandler.PlayerIdentifier identifier = IdentifierHandler.encode((EntityPlayer) dat[1]);
 		int n = 1;
@@ -28,17 +28,17 @@ public class PacketPorkhollowAtm extends MinestuckPacket
 		if(dat.length > 3)
 			n = Math.max(0,(int)dat[3]);
 		this.data.writeInt(n);
-		return this;
+
 	}
 	
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		type = Type.values()[data.readInt()];
 		reciever = IdentifierHandler.getById(data.readInt()).getPlayer();
 		amount = data.readInt();
 		n = data.readInt();
-		return this;
+
 	}
 	
 	@Override

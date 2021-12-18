@@ -16,7 +16,7 @@ public class PacketGristCache extends MinestuckPacket
 	public boolean targetGrist;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		GristSet gristSet = (GristSet) dat[0];
 		data.writeInt(gristSet.gristTypes.size());
@@ -26,11 +26,11 @@ public class PacketGristCache extends MinestuckPacket
 			data.writeInt(entry.getValue());
 		}
 		data.writeBoolean((Boolean) dat[1]);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		values = new GristSet();
 		int length = data.readInt();
@@ -39,7 +39,7 @@ public class PacketGristCache extends MinestuckPacket
 			values.setGrist(Grist.REGISTRY.getValue(data.readInt()), data.readInt());
 		}
 		targetGrist = data.readBoolean();
-		return this;
+
 	}
 
 	@Override

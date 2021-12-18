@@ -27,24 +27,24 @@ public class PacketClientEdit extends MinestuckPacket
 	int target;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		if(dat.length > 0)
 		{
 			data.writeInt((Integer) dat[0]);
 			data.writeInt((Integer) dat[1]);
 		}
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		if(data.readableBytes() == 0)
-			return this;
+
 		username = data.readInt();
 		target = data.readInt();
-		return this;
+
 	}
 
 	@Override

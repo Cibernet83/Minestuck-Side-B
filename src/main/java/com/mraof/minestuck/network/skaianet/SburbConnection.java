@@ -204,7 +204,7 @@ public class SburbConnection
 		}
 		artifactType = nbt.getInteger("artifact");
 		
-		return this;
+
 	}
 	
 }

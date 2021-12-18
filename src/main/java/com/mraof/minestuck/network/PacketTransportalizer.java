@@ -20,18 +20,18 @@ public class PacketTransportalizer extends MinestuckPacket
 	String destId;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		data.writeInt((Integer) dat[0]);
 		data.writeInt((Integer) dat[1]);
 		data.writeInt((Integer) dat[2]);
 		if(dat.length > 0)
 			data.writeBytes(((String) dat[3]).getBytes());
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		x = data.readInt();
 		y = data.readInt();
@@ -42,7 +42,7 @@ public class PacketTransportalizer extends MinestuckPacket
 			destBytes[i] = data.readByte();
 		Debug.debugf("%d, %d, %d, %d", destBytes[0], destBytes[1], destBytes[2], destBytes[3]);
 		destId = new String(destBytes);
-		return this;
+
 	}
 
 	@Override

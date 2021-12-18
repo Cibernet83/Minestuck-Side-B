@@ -19,7 +19,7 @@ public class PacketSendPowerParticlesState extends MinestuckPacket
 	private MinestuckParticles.PowerParticleState state;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeInt(((EntityLivingBase)args[0]).getEntityId());
 
@@ -50,11 +50,11 @@ public class PacketSendPowerParticlesState extends MinestuckPacket
 		else
 			data.writeBoolean(false);
 
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		entityId = data.readInt();
 
@@ -88,7 +88,7 @@ public class PacketSendPowerParticlesState extends MinestuckPacket
 					);
 		}
 
-		return this;
+
 	}
 
 	@Override

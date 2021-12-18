@@ -37,7 +37,7 @@ public class PacketMinestuckConfig extends MinestuckPacket
 	boolean[] deployValues;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		boolean mode = (Boolean) dat[0];
 		data.writeBoolean(mode);
@@ -63,11 +63,11 @@ public class PacketMinestuckConfig extends MinestuckPacket
 			data.writeBoolean(MinestuckConfig.preEntryRungLimit <= 0);
 		}
 		
-		return this;
+
 	}
 	
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		mode = data.readBoolean();
 		
@@ -94,7 +94,7 @@ public class PacketMinestuckConfig extends MinestuckPacket
 			preEntryEcheladder = data.readBoolean();
 		}
 		
-		return this;
+
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class PacketClearMessage extends MinestuckPacket {
 	}
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat) {
+	public void generatePacket(Object... dat) {
 		ComputerData cd = (ComputerData)dat[0];
 		
 		data.writeInt(cd.getX());
@@ -39,17 +39,17 @@ public class PacketClearMessage extends MinestuckPacket {
 		data.writeInt(cd.getDimension());
 		data.writeInt((Integer)dat[1]);
 		
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		
 		computer = new ComputerData(null,data.readInt(),data.readInt(),data.readInt(),data.readInt());
 		program = data.readInt();
 		
-		return this;
+
 	}
 
 	@Override

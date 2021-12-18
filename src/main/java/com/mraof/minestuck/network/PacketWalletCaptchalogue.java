@@ -37,7 +37,7 @@ public class PacketWalletCaptchalogue extends MinestuckPacket
     BlockPos pos;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
         RayTraceResult lookingAt = ((RayTraceResult)args[0]);
 
@@ -53,18 +53,18 @@ public class PacketWalletCaptchalogue extends MinestuckPacket
             data.writeInt(lookingAt.getBlockPos().getY());
             data.writeInt(lookingAt.getBlockPos().getZ());
         }
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf buffer)
+    public void consumePacket(ByteBuf buffer)
     {
         if(buffer.readBoolean())
             entity = buffer.readInt();
         if(buffer.readBoolean())
             pos = new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt());
 
-        return this;
+
     }
 
     @Override

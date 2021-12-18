@@ -1,37 +1,38 @@
 package com.mraof.minestuck.network;
 
+import com.mraof.minestuck.util.SylladexUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class PacketSetCurrentItem extends MinestuckPacket
+public class PacketSylladexCaptchalogue extends MinestuckPacket
 {
-	private int currentItem;
+	private int slotIndex;
 
 	@Override
 	public void generatePacket(Object... args)
 	{
-		data.writeInt((int) args[0]);
-
+		data.writeByte((int)args[0]);
 	}
 
 	@Override
 	public void consumePacket(ByteBuf data)
 	{
-		currentItem = data.readInt();
-
+		slotIndex = data.readByte();
 	}
 
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		player.inventory.currentItem = currentItem;
+		SylladexUtils.captchalouge(slotIndex, (EntityPlayerMP)player);
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide() {
-		return EnumSet.of(Side.SERVER);
+	public EnumSet<Side> getSenderSide()
+	{
+		return EnumSet.of(Side.CLIENT);
 	}
 }

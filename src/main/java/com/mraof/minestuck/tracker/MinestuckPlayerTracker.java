@@ -102,9 +102,9 @@ public class MinestuckPlayerTracker
 	public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event)
 	{
 		ServerEditHandler.onPlayerExit(event.player);
-		Modus modus = SylladexUtils.getSylladex(event.player);
-		if(modus != null)
-			modus.player = null;
+		//ISylladex sylladex = SylladexUtils.getSylladex(event.player);
+		//if(sylladex != null)
+		//	sylladex.player = null; // TODO: I don't know what this does???
 		dataCheckerPermission.remove(event.player.getName());
 	}
 	

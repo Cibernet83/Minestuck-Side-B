@@ -2,6 +2,7 @@ package com.mraof.minestuck.inventory.captchalouge;
 
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,6 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
@@ -37,6 +40,9 @@ public interface ISylladex
 		private final ArrayList<Modus> modi = new ArrayList<>();
 		private final ArrayList<ModusGuiContainer> containers = new ArrayList<>();
 
+		@SideOnly(Side.CLIENT)
+		private SylladexGuiHandler gui;
+
 		public Sylladex(LinkedList<ISylladex> sylladices, Modus... modi)
 		{
 			this.sylladices = sylladices;
@@ -55,6 +61,12 @@ public interface ISylladex
 			this.sylladices = new LinkedList<>();
 		}
 
+		public Sylladex(NBTTagCompound nbt)
+		{
+			this();
+			readFromNBT(nbt);
+		}
+
 		@Override
 		public ICaptchalogueable get(int[] slots, int i, boolean asCard)
 		{
@@ -64,7 +76,7 @@ public interface ISylladex
 					ICaptchalogueable rtn = modus.get(sylladices, slots, i, asCard);
 
 					if (asCard)
-						cleanUpMarkedCards(slots,  i);
+						cleanUpMarkedCards(slots,  i); // TODO: the queuestack below an empty one would pop off into it
 
 					return rtn;
 				}
@@ -198,11 +210,21 @@ public interface ISylladex
 				sylladex.readFromNBT(sylladexTag);
 				this.sylladices.add(sylladex);
 			}
+
+			generateSubContainers();
 		}
 
 		public String getName()
 		{
 			return modi.get(0).getUnlocalizedName().toString();
+		}
+
+		@SideOnly(Side.CLIENT)
+		public SylladexGuiHandler getGuiHandler()
+		{
+			if (gui == null)
+				gui = new SylladexGuiHandler(this);
+			return gui;
 		}
 	}
 
@@ -304,7 +326,7 @@ public interface ISylladex
 			if (markedForDeletion)
 				throw new NullPointerException("Attempted to interact from a card marked for deletion");
 			if (slots != null && i >= slots.length)
-				throw new IndexOutOfBoundsException("Attempted to retrieve a numbered slot from a card");
+				throw new IndexOutOfBoundsException("Attempted to fetch a numbered slot from a card");
 		}
 
 		@Override

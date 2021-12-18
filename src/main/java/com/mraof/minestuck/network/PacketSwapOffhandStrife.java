@@ -13,19 +13,19 @@ public class PacketSwapOffhandStrife extends MinestuckPacket
 	int weaponIndex;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeInt((int) args[0]);
 		data.writeInt((int) args[1]);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		specibusIndex = data.readInt();
 		weaponIndex = data.readInt();
-		return this;
+
 	}
 
 	@Override

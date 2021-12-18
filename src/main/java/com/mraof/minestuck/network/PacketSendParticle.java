@@ -19,7 +19,7 @@ public class PacketSendParticle extends MinestuckPacket
     int count;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
         data.writeInt(((MinestuckParticles.ParticleType)args[0]).ordinal());
         data.writeInt((Integer) args[1]);
@@ -45,11 +45,11 @@ public class PacketSendParticle extends MinestuckPacket
             data.writeDouble((Double) args[5]);
         }
 
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
         type = MinestuckParticles.ParticleType.values()[data.readInt()];
         color = data.readInt();
@@ -59,7 +59,7 @@ public class PacketSendParticle extends MinestuckPacket
         y = data.readDouble();
         z = data.readDouble();
 
-        return this;
+
     }
 
     @Override

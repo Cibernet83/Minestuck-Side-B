@@ -82,7 +82,7 @@ public abstract class BadgeHeroClass extends BadgeLevel
 		EnumClass playerClass;
 
 		if(world.isRemote)
-			playerClass = MinestuckPlayerData.title.getHeroClass();
+			playerClass = MinestuckPlayerData.clientData.title.getHeroClass();
 		else playerClass = MinestuckPlayerData.getData(player).title.getHeroClass();
 
 		return heroClass.equals(playerClass);

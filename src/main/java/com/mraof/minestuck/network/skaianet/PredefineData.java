@@ -23,7 +23,7 @@ class PredefineData
 		if(nbt.hasKey("landTitle", 8))
 			landTitle = LandAspectRegistry.fromNameTitle(nbt.getString("landTitle"));
 		
-		return this;
+
 	}
 	
 	NBTTagCompound write()

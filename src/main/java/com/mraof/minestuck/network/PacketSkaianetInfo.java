@@ -25,7 +25,7 @@ public class PacketSkaianetInfo extends MinestuckPacket
 	public List<List<Integer>> landChains;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		if(dat[0] instanceof List) //Land chain data
 		{
@@ -37,14 +37,14 @@ public class PacketSkaianetInfo extends MinestuckPacket
 				for(int i : list)
 					data.writeInt(i);
 			}
-			return this;
+
 		}
 		
 		data.writeBoolean(false);
 		data.writeInt((Integer)dat[0]);
 		
 		if(dat.length == 1)	//If request from client
-			return this;
+
 		
 		data.writeBoolean((Boolean)dat[1]);
 		data.writeBoolean((Boolean)dat[2]);
@@ -60,11 +60,11 @@ public class PacketSkaianetInfo extends MinestuckPacket
 		for(int i = size*2+4; i < dat.length; i++)
 			((SburbConnection)dat[i]).writeBytes(data);
 		
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		if(data.readBoolean())
 		{
@@ -78,12 +78,12 @@ public class PacketSkaianetInfo extends MinestuckPacket
 				landChains.add(list);
 			}
 			
-			return this;
+
 		}
 		
 		this.playerId = data.readInt();
 		if(data.readableBytes() == 0)
-			return this;
+
 		isClientResuming = data.readBoolean();
 		isServerResuming = data.readBoolean();
 		int size = data.readInt();
@@ -100,7 +100,7 @@ public class PacketSkaianetInfo extends MinestuckPacket
 			e.printStackTrace();
 		}
 		
-		return this;
+
 	}
 
 	@Override

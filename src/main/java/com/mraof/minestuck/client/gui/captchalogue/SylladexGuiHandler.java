@@ -8,7 +8,6 @@ import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
-import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -193,7 +192,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 			if (hitSlots != null)
 			{
 				int[] slots = hitSlots.stream().mapToInt(Integer::intValue).toArray();
-				MinestuckPacket packet = MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.GET, slots, mouseButton != 0);
+				MinestuckPacket packet = MinestuckPacket.makePacket(Type.SYLLADEX_FETCH, slots, mouseButton != 0);
 				MinestuckChannelHandler.sendToServer(packet);
 				return;
 			}
@@ -202,7 +201,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	}
 	
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException
+	protected void actionPerformed(GuiButton button)
 	{
 		if(button == emptySylladex)
 		{
@@ -223,7 +222,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	public void confirmClicked(boolean result, int id)
 	{
 		if(result)
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.GET, SylladexUtils.EMPTY_SYLLADEX, false));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.SYLLADEX_EMPTY_REQUEST));
 		mc.currentScreen = this;
 	}
 	

@@ -50,7 +50,7 @@ public class ComputerData
 		y = nbt.getInteger("y");
 		z = nbt.getInteger("z");
 		dimension = nbt.getInteger("dim");
-		return this;
+
 	}
 	
 	NBTTagCompound write()

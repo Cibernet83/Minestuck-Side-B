@@ -23,11 +23,11 @@ public class PacketServerEdit extends MinestuckPacket
 	NBTTagCompound deployTags;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		if(dat.length == 0)
 		{
-			return this;
+
 		}
 		if(dat.length == 1 || dat.length == 2)
 		{
@@ -49,7 +49,7 @@ public class PacketServerEdit extends MinestuckPacket
 					return null;
 				}
 			}
-			return this;
+
 		}
 		data.writeBoolean(false);
 		writeString(data,dat[0].toString()+"\n");
@@ -70,14 +70,14 @@ public class PacketServerEdit extends MinestuckPacket
 			return null;
 		}
 		
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		if(data.readableBytes() == 0)
-			return this;
+
 		if(data.readBoolean())
 		{
 			givenItems = new boolean[data.readableBytes()];
@@ -85,7 +85,7 @@ public class PacketServerEdit extends MinestuckPacket
 			{
 				givenItems[i] = data.readBoolean();
 			}
-			return this;
+
 		}
 		target = readLine(data);
 		posX = data.readInt();
@@ -108,7 +108,7 @@ public class PacketServerEdit extends MinestuckPacket
 			return null;
 		}
 		
-		return this;
+
 	}
 
 	@Override

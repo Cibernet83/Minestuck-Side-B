@@ -16,7 +16,7 @@ public class PacketBoondollarRegister extends MinestuckPacket
     int mav;
 
     @Override
-    public MinestuckPacket generatePacket(Object... dat)
+    public void generatePacket(Object... dat)
     {
         this.data.writeInt(((EnumType)dat[0]).ordinal());
         TileEntityBoondollarRegister te = (TileEntityBoondollarRegister) dat[1];
@@ -25,16 +25,16 @@ public class PacketBoondollarRegister extends MinestuckPacket
         data.writeInt(te.getPos().getZ());
 
         data.writeInt(te.mav);
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf dat)
+    public void consumePacket(ByteBuf dat)
     {
         type = EnumType.values()[dat.readInt()];
         pos = new BlockPos(dat.readInt(), dat.readInt(), dat.readInt());
         mav = dat.readInt();
-        return this;
+
     }
 
     @Override

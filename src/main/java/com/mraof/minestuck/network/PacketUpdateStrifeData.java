@@ -20,7 +20,7 @@ public class PacketUpdateStrifeData extends MinestuckPacket
 	private NBTTagCompound nbtData;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		EntityLivingBase entity = (EntityLivingBase) args[0];
 		NBTTagCompound nbt;
@@ -45,14 +45,14 @@ public class PacketUpdateStrifeData extends MinestuckPacket
 		}
 		nbt.setUniqueId("TargetUUID", entity.getUniqueID());
 		ByteBufUtils.writeTag(data, nbt);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		nbtData = ByteBufUtils.readTag(data);
-		return this;
+
 	}
 
 	@Override

@@ -21,24 +21,24 @@ public class PacketSburbConnectClosed extends MinestuckPacket
 	public boolean isClient;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		data.writeInt((Integer) dat[0]);
 		data.writeInt((Integer) dat[1]);
 		data.writeBoolean((Boolean)dat[2]);
 		
-		return this;
+
 	}
 	
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		
 		player = data.readInt();
 		otherPlayer = data.readInt();
 		isClient = data.readBoolean();
 		
-		return this;
+
 	}
 	
 	@Override
