@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
+    "parent": "minestuck:item/fetch_modus",
     "textures": {
-        "layer0": "minestuck:items/array_modus"
+        "texture": "minestuck:items/fetch_modi/array_modus"
     }
 }
