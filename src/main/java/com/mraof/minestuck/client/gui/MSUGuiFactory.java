@@ -42,7 +42,7 @@ public class MSUGuiFactory implements IModGuiFactory
 
 	static class Config extends GuiConfig {
 		public Config(GuiScreen parentScreen) {
-			super(parentScreen, getConfigElements(), Minestuck.MODID, false, false, I18n.format("config.Minestuck.title"));
+			super(parentScreen, getConfigElements(), Minestuck.MODID, false, false, I18n.format("config.minestuck.title"));
 		}
 
 		private static List<IConfigElement> getConfigElements() {

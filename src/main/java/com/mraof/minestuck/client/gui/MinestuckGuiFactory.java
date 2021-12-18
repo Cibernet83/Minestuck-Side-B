@@ -49,7 +49,7 @@ public class MinestuckGuiFactory implements IModGuiFactory
 
 		public MinestuckConfigGui(GuiScreen parentScreen)
 		{
-			super(parentScreen, getConfigElements(), Minestuck.class.getAnnotation(Mod.class).modid(), false, false, I18n.format("minestuck.config.title"));
+			super(parentScreen, getConfigElements(), Minestuck.class.getAnnotation(Mod.class).modid(), false, false, I18n.format("config.minestuck.title"));
 		}
 		
 		private static List<IConfigElement> getConfigElements()
