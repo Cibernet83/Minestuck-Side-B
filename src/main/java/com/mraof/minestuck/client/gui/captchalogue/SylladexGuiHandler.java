@@ -3,12 +3,13 @@ package com.mraof.minestuck.client.gui.captchalogue;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
-import com.mraof.minestuck.util.SylladexUtils;
+import com.mraof.minestuck.inventory.captchalouge.ISylladex;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
 import com.mraof.minestuck.network.PacketCaptchaDeck;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -41,10 +42,8 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 	protected static final int CARD_WIDTH = 21, CARD_HEIGHT = 26;
 	
 	protected RenderItem itemRender;
-	protected ArrayList<GuiCard> cards = new ArrayList<GuiCard>();
-	protected int textureIndex;
 	protected int maxWidth, maxHeight;
-	protected Modus modus;
+	protected ISylladex.Sylladex sylladex;
 	
 	/**
 	 * Position of the map (the actual gui viewport)
@@ -63,10 +62,9 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 	
 	protected Minecraft mc = Minecraft.getMinecraft();
 	
-	public SylladexGuiHandler(Modus modus, int cardIndex)
+	public SylladexGuiHandler(ISylladex.Sylladex sylladex, int cardIndex)
 	{
-		this.modus = modus;
-		this.textureIndex = cardIndex;
+		this.sylladex = sylladex;
 		this.itemRender = mc.getRenderItem();
 	}
 	
@@ -138,14 +136,7 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 		
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		
-		ArrayList<GuiCard> visibleCards = new ArrayList<GuiCard>();
-		for(GuiCard card : cards)
-			if(card.xPos + CARD_WIDTH > mapX && card.xPos < mapX + mapWidth 
-					&& card.yPos + CARD_HEIGHT > mapY && card.yPos < mapY + mapHeight)
-				visibleCards.add(card);
-		
-		for(GuiCard card : visibleCards)
-			card.drawItemBackground();
+		sylladex.drawBackgrounds();
 		
 		RenderHelper.enableGUIStandardItemLighting();
 		GlStateManager.enableRescaleNormal();
@@ -257,60 +248,6 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 		int yOffset = (this.height - 202) / 2;
 		return xcor >= xOffset + 16 && xcor < xOffset + 16 + 224 && ycor >= yOffset + 17 && ycor < yOffset + 17 + 153;
 	}
-
-	/**
-	 * Updates the contents of cards.
-	 */
-	public void updateContent()
-	{
-		cards.clear();
-
-		ArrayList<ICaptchalogueable> contents = modus.getItems();
-		maxWidth = Math.max(mapWidth, 10 + stacks.size() * CARD_WIDTH + (stacks.size() - 1) * 5);
-		maxHeight = mapHeight;
-		mapX = Math.min(mapX, maxWidth - mapWidth);
-		mapY = Math.min(mapY, maxHeight - mapHeight);
-		int start = Math.max(5, (mapWidth - (stacks.size() * CARD_WIDTH + (stacks.size() - 1) * 5)) / 2);
-
-		for(int i = 0; i < stacks.size(); i++)
-			cards.add(new GuiCard(stacks.get(i), this, i, start + i * (CARD_WIDTH + 5), (mapHeight - CARD_HEIGHT) / 2));
-	}
-	
-	/**
-	 * Called when the player zooms in or out.
-	 */
-	public void updatePosition() {
-		this.maxWidth = Math.max(this.mapWidth, 10 + this.cards.size() * 21 + (this.cards.size() - 1) * 5);
-		this.maxHeight = this.mapHeight;
-		int start = Math.max(5, (this.mapWidth - (this.cards.size() * 21 + (this.cards.size() - 1) * 5)) / 2);
-
-		for(int i = 0; i < this.cards.size(); ++i) {
-			GuiCard card = this.cards.get(i);
-			card.xPos = start + i * 26;
-			card.yPos = (this.mapHeight - 26) / 2;
-		}
-
-	}
-	
-	public ResourceLocation getCardTexture()
-	{
-		return CARD_TEXTURE;
-	}
-
-	public int getCardTextureX(GuiCard card)
-	{
-		return getTextureIndex(card) % 12 * 21;
-	}
-
-	public int getCardTextureY(GuiCard card)
-	{
-		return getTextureIndex(card) / 12 * 26;
-	}
-
-	public int getTextureIndex(GuiCard card)
-	{
-		return this.textureIndex;
-	}
 	
 	public static class GuiCard
 	{
@@ -319,19 +256,21 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 		public ItemStack item;
 		public int index;
 		public int xPos, yPos;
+		public int textureIndex;
 		
 		protected GuiCard()
 		{
 			item = ItemStack.EMPTY;
 		}
 		
-		public GuiCard(ItemStack item, SylladexGuiHandler gui, int index, int xPos, int yPos)
+		public GuiCard(ItemStack item, SylladexGuiHandler gui, int index, int xPos, int yPos, int textureIndex)
 		{
 			this.gui = gui;
 			this.item = item;
 			this.index = index;
 			this.xPos = xPos;
 			this.yPos = yPos;
+			this.textureIndex = textureIndex;
 		}
 		
 		public void onClick(int mouseButton)
@@ -362,7 +301,7 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 			else if(this.yPos + maxY > gui.mapY + gui.mapHeight)
 				maxY -= (this.yPos + maxY) - (gui.mapY + gui.mapHeight);
 			gui.drawTexturedModalRect(this.xPos + minX - gui.mapX, this.yPos + minY - gui.mapY,	//Gui pos
-					gui.getCardTextureX(this) + minX, gui.getCardTextureY(this) + minY,	//Texture pos
+					getCardTextureX() + minX, getCardTextureY() + minY,	//Texture pos
 					maxX - minX, maxY - minY);	//Size
 		}
 		
@@ -396,20 +335,31 @@ public abstract class SylladexGuiHandler extends GuiScreen implements GuiYesNoCa
 			if(!item.isEmpty())
 				gui.renderToolTip(item, mouseX, mouseY);
 		}
-		
+
+		public int getCardTextureX()
+		{
+			return textureIndex % 12 * 21;
+		}
+
+		public int getCardTextureY()
+		{
+			return textureIndex / 12 * 26;
+		}
+
+		public ResourceLocation getCardTexture()
+		{
+			return CARD_TEXTURE;
+		}
 	}
 	
 	public static class ModusSizeCard extends GuiCard
 	{
 		public int size;
 		
-		public ModusSizeCard(SylladexGuiHandler gui, int size, int xPos, int yPos)
+		public ModusSizeCard(SylladexGuiHandler gui, int size, int xPos, int yPos, int textureIndex)
 		{
-			this.gui = gui;
-			this.index = -1;
+			super(ItemStack.EMPTY, gui, -1, xPos, yPos, textureIndex);
 			this.size = size;
-			this.xPos = xPos;
-			this.yPos = yPos;
 		}
 		
 		@Override

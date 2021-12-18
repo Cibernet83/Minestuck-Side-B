@@ -82,7 +82,7 @@ public class PacketWalletCaptchalogue extends MinestuckPacket
         }
         else if(pos != null)
             player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, captchalogueTileEntity(player.world, pos));
-        SylladexUtils.captchalougeItem((EntityPlayerMP) player);
+        SylladexUtils.captchalougeItemInHand((EntityPlayerMP) player);
     }
 
     @Override

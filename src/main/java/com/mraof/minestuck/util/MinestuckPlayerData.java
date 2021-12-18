@@ -1,13 +1,13 @@
 package com.mraof.minestuck.util;
 
-import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.inventory.captchalouge.ISylladex;
-import com.mraof.minestuck.network.PacketGristCache;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.PacketGristCache;
 import com.mraof.minestuck.network.PacketPlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
@@ -164,7 +164,7 @@ public class MinestuckPlayerData
 		public PlayerIdentifier player;
 		public Title title;
 		public GristSet gristCache;
-		public ISylladex sylladex;
+		public ISylladex.Sylladex sylladex;
 		public boolean givenModus;
 		public int color = -1;
 		public long boondollars;

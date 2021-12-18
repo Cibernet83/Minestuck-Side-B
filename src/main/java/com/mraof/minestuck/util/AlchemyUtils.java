@@ -67,12 +67,12 @@ public class AlchemyUtils
 	}
 
 	@Nonnull
-	public static ItemStack getDecodedItem(ItemStack card, boolean ignoreGhost)
+	public static ItemStack getDecodedItem(ItemStack card, boolean useGhostSize)
 	{
 		if (!hasDecodedItem(card))
 			return ItemStack.EMPTY;
 		ItemStack stack = decodeFrom(card.getTagCompound());
-		if (stack.getCount() <= 0 && !ignoreGhost)
+		if (stack.getCount() <= 0 && !useGhostSize)
 			stack.setCount(1);
 		return stack;
 	}
@@ -162,29 +162,29 @@ public class AlchemyUtils
 		return stack;
 	}
 
-	public static ItemStack changeEncodeSize(ItemStack stack, int size)
+	public static ItemStack changeEncodeSize(ItemStack card, int size)
 	{
-		stack.getTagCompound().setInteger("contentSize", size);
-		return stack;
+		card.getTagCompound().setInteger("contentSize", size);
+		return card;
 	}
 
-	public static boolean isPunchedCard(ItemStack item)
+	public static boolean isPunchedCard(ItemStack card)
 	{
-		return item.getItem() == captchaCard && item.hasTagCompound() && item.getTagCompound().getBoolean("punched");
+		return card.getItem() == captchaCard && card.hasTagCompound() && card.getTagCompound().getBoolean("punched");
 	}
 
-	public static boolean isGhostCard(ItemStack item)
+	public static boolean isGhostCard(ItemStack card)
 	{
-		return item.getItem() == captchaCard && item.hasTagCompound() && item.getTagCompound().hasKey("contentSize") && item.getTagCompound().getInteger("contentSize") == 0;
+		return card.getItem() == captchaCard && card.hasTagCompound() && card.getTagCompound().hasKey("contentSize") && card.getTagCompound().getInteger("contentSize") == 0;
 	}
 
-	public static boolean hasDecodedItem(ItemStack item)
+	public static boolean hasDecodedItem(ItemStack card)
 	{
-		return item.hasTagCompound() && item.getTagCompound().hasKey("contentID", 8);
+		return card.hasTagCompound() && card.getTagCompound().hasKey("contentID", 8);
 	}
 
-	public static boolean containsItem(ItemStack item)
+	public static boolean containsItem(ItemStack card)
 	{
-		return item.getItem() == captchaCard && item.hasTagCompound() && !item.getTagCompound().getBoolean("punched") && item.getTagCompound().getInteger("contentSize") > 0;
+		return card.getItem() == captchaCard && card.hasTagCompound() && !card.getTagCompound().getBoolean("punched") && card.getTagCompound().getInteger("contentSize") > 0;
 	}
 }

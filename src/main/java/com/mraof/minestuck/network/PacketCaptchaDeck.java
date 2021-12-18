@@ -126,14 +126,13 @@ public class PacketCaptchaDeck extends MinestuckPacket
 				return;
 			
 			if(this.type == MODUS && player.openContainer instanceof ContainerCaptchaDeck)
-				SylladexUtils.useItem((EntityPlayerMP) player);
+				SylladexUtils.activateModusSlot((EntityPlayerMP) player);
 			else if(this.type == CAPTCHALOUGE && !player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).isEmpty())
-				SylladexUtils.captchalougeItem((EntityPlayerMP) player);
-			else if(this.type == CAPTCHALOUGE_INV) {
-				SylladexUtils.captchalougeInventoryItem((EntityPlayerMP) player, slotIndex);
-			}
+				SylladexUtils.captchalougeItemInHand((EntityPlayerMP) player);
+			else if(this.type == CAPTCHALOUGE_INV)
+				SylladexUtils.captchalougeItemInInventory((EntityPlayerMP) player, slotIndex);
 			else if(this.type == GET)
-				SylladexUtils.getItem((EntityPlayerMP) player, itemIndex, getCard);
+				SylladexUtils.retrieve((EntityPlayerMP) player, itemIndex, getCard);
 //			else if(this.type == DATA)
 //				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.CAPTCHA, DATA, CaptchaDeckHandler.writeToNBT(CaptchaDeckHandler.getSylladex(player))), player);
 			else if(this.type == VALUE && SylladexUtils.getSylladex(player) != null)

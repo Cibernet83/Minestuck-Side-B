@@ -24,6 +24,7 @@ public interface ISylladex
 	boolean put(ICaptchalogueable object, EntityPlayer player);
 	void grow(ICaptchalogueable object);
 	void eject(EntityPlayer player);
+	void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull);
 	int getFreeSlots();
 	int getTotalSlots();
 	ArrayList<ModusGuiContainer> generateSubContainers();
@@ -42,9 +43,16 @@ public interface ISylladex
 			this.modi.addAll(Arrays.asList(modi));
 		}
 
+		public Sylladex(Sylladex settings)
+		{
+			this.sylladices = new LinkedList<>();
+			this.modi.addAll(settings.modi);
+			this.sylladices.add(settings.sylladices.get(0) instanceof Sylladex ? new Sylladex((Sylladex)settings.sylladices.get(0)) : new CardSylladex(this));
+		}
+
 		private Sylladex()
 		{
-			sylladices = new LinkedList<>();
+			this.sylladices = new LinkedList<>();
 		}
 
 		@Override
@@ -114,6 +122,17 @@ public interface ISylladex
 		public void eject(EntityPlayer player)
 		{
 			modi.get(0).eject(sylladices, player);
+		}
+
+		@Override
+		public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
+		{
+			for (int i =  0; i < sylladices.size(); i++)
+			{
+				sylladices.get(i).ejectAll(player, asCards, onlyFull);
+				if (sylladices.get(i).getTotalSlots() == 0)
+					sylladices.remove(i--);
+			}
 		}
 
 		@Override
@@ -253,7 +272,14 @@ public interface ISylladex
 		@Override
 		public void eject(EntityPlayer player)
 		{
-			object.eject(owner, player);
+			ejectAll(player, false, false);
+		}
+
+		@Override
+		public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
+		{
+			if (!onlyFull || object != null)
+				get(null, 0, asCards).eject(null, player);
 		}
 
 		@Override
@@ -272,7 +298,7 @@ public interface ISylladex
 		{
 			if (markedForDeletion)
 				throw new NullPointerException("Attempted to interact from a card marked for deletion");
-			if (i >= slots.length)
+			if (slots != null && i >= slots.length)
 				throw new IndexOutOfBoundsException("Attempted to retrieve a numbered slot from a card");
 		}
 

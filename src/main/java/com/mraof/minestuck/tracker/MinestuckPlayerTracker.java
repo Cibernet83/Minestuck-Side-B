@@ -113,10 +113,8 @@ public class MinestuckPlayerTracker
 	{
 		if(!event.getEntityPlayer().world.isRemote)
 		{
-			SylladexUtils.dropSylladex(event.getEntityPlayer());
-			
+			SylladexUtils.dropSylladexOnDeath(event.getEntityPlayer());
 		}
-		
 	}
 	
 	@SubscribeEvent

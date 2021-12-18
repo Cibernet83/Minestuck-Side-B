@@ -100,7 +100,7 @@ public class MinestuckConfig
 	public static byte treeModusSetting;
 	/**
 	 * An option related to dropping the sylladex on death
-	 * If 0: only captchalouged items are dropped. If 1: Both captchalouged items and cards are dropped. If 2: All items, including the actual modus.
+	 * If 0: only captchalouged items are dropped. If 1: Both captchalouged items and cards are dropped. If 2: All items and cards.
 	 */
 	public static byte sylladexDropMode;
 	public static byte dataCheckerPermission;

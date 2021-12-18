@@ -21,7 +21,7 @@ public class CardGuiContainer extends ModusGuiContainer
 	@Override
 	public void draw(SylladexGuiHandler gui)
 	{
-		gui.mc.getTextureManager().bindTexture(gui.getCardTexture());
+		gui.mc.getTextureManager().bindTexture(SylladexGuiHandler.CARD_TEXTURE);
 		gui.drawTexturedModalRect(x, y,	0, 0, (int) getWidth(), (int) getHeight());
 	}
 }

@@ -21,13 +21,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	{
 		if (!isCompatibleWith(other))
 			return;
-
-		ItemStack otherStack = (ItemStack)other.getObject();
-		int amount = otherStack.getCount();
-		if (stack.getCount() + amount > stack.getMaxStackSize())
-			amount = stack.getMaxStackSize() - stack.getCount();
-		stack.grow(amount);
-		otherStack.shrink(amount);
+		SylladexUtils.moveItemStack((ItemStack)other.getObject(), stack);
 	}
 
 	@Override
@@ -42,7 +36,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 		if (!(other.getObject() instanceof ItemStack))
 			return false;
 		ItemStack otherStack = (ItemStack)other.getObject();
-		return stack.isItemEqual(otherStack) && ItemStack.areItemStackTagsEqual(stack, otherStack);
+		return SylladexUtils.areItemStacksCompatible(stack, otherStack);
 	}
 
 	@Override
@@ -54,7 +48,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	@Override
 	public void eject(ISylladex fromSylladex, EntityPlayer player)
 	{
-		if(stack.getItem().equals(MinestuckItems.captchaCard) && !AlchemyUtils.containsItem(stack))
+		if(fromSylladex != null && stack.getItem().equals(MinestuckItems.captchaCard) && !AlchemyUtils.containsItem(stack))
 			while (!stack.isEmpty())
 			{
 				fromSylladex.addCard(new CaptchalogueableItemStack(AlchemyUtils.getDecodedItem(stack)));
