@@ -1,5 +1,7 @@
 package com.mraof.minestuck.client.gui.captchalogue;
 
+import net.minecraft.client.Minecraft;
+
 import java.util.ArrayList;
 
 public class CardGuiContainer extends ModusGuiContainer
@@ -21,7 +23,7 @@ public class CardGuiContainer extends ModusGuiContainer
 	@Override
 	public void draw(SylladexGuiHandler gui)
 	{
-		gui.mc.getTextureManager().bindTexture(SylladexGuiHandler.CARD_TEXTURE);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(SylladexGuiHandler.CARD_TEXTURE);
 		gui.drawTexturedModalRect(x, y,	0, 0, (int) getWidth(), (int) getHeight());
 	}
 }

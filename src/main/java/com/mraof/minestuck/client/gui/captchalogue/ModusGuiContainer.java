@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.gui.captchalogue;
 
+import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
 import com.mraof.minestuck.inventory.captchalouge.ISylladex;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,11 +41,30 @@ public class ModusGuiContainer
 
 	public void draw(SylladexGuiHandler gui)
 	{
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y, 0F);
+		GlStateManager.translate(x, y, 0);
 		for (ModusGuiContainer container : containers)
 			container.draw(gui);
-		GlStateManager.popMatrix();
+		GlStateManager.translate(-x, -y, 0);
+	}
+
+	public ArrayList<Integer> hit(float x, float y)
+	{
+		if (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.height)
+			return null;
+
+		x += this.x;
+		y += this.y;
+
+		for (int i = 0; i < containers.size(); i++)
+		{
+			ArrayList<Integer> hitSlots = containers.get(i).hit(x, y);
+			if (hitSlots != null)
+			{
+				hitSlots.add(0, i);
+				return hitSlots;
+			}
+		}
+		return null;
 	}
 
 	public float getX()

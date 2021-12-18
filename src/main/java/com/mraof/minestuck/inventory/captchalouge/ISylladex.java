@@ -199,6 +199,11 @@ public interface ISylladex
 				this.sylladices.add(sylladex);
 			}
 		}
+
+		public String getName()
+		{
+			return modi.get(0).getUnlocalizedName().toString();
+		}
 	}
 
 	class CardSylladex implements ISylladex

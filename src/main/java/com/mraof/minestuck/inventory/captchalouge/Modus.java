@@ -20,10 +20,11 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 {
 	public static ForgeRegistry<Modus> REGISTRY;
 
-	private String regName;
+	private final String name, regName;
 
 	protected Modus(String name)
 	{
+		this.name = name;
 		this.regName = IRegistryObject.unlocToReg(name);
 	}
 
@@ -41,6 +42,11 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	protected boolean doesAutobalance()
 	{
 		return false;
+	}
+
+	public String getUnlocalizedName()
+	{
+		return name;
 	}
 
 	@Override

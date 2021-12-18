@@ -62,8 +62,11 @@ public class PacketCaptchaDeck extends MinestuckPacket
 			}
 			else if(type == GET)
 			{
-				this.data.writeInt((Integer)data[1]);	//Client side index
-				this.data.writeBoolean((Boolean)data[2]);	//Retrive card
+				int[] slots = (int[]) data[1];
+				this.data.writeByte((byte)slots.length);
+				for (int slot : slots)
+					this.data.writeByte(slot);
+				this.data.writeBoolean((boolean)data[2]); // asCard
 			}
 			else if(type == VALUE)
 			{
@@ -101,7 +104,7 @@ public class PacketCaptchaDeck extends MinestuckPacket
 			}
 			else if(this.type == GET)
 			{
-				this.itemIndex = data.readInt();
+				this.itemIndex = data.readByte();
 				this.getCard = data.readBoolean();
 			}
 			else if(this.type == VALUE)
