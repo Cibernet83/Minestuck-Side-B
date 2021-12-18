@@ -117,6 +117,7 @@ public class CommonProxy
 		GameRegistry.registerTileEntity(TileEntityGate.class, Minestuck.MODID+":gate");
 		GameRegistry.registerTileEntity(TileEntityUraniumCooker.class, Minestuck.MODID+":uranium_cooker");
 		GameRegistry.registerTileEntity(TileEntityHolopad.class, Minestuck.MODID+":holopad");
+		GameRegistry.registerTileEntity(TileEntityModusControlDeck.class, Minestuck.MODID+":modus_control_deck");
 		GameRegistry.registerTileEntity(TileEntityGristHopper.class, Minestuck.MODID+":grist_hopper");
 		GameRegistry.registerTileEntity(TileEntityAutoWidget.class, Minestuck.MODID+":auto_widget");
 		GameRegistry.registerTileEntity(TileEntityAutoCaptcha.class, Minestuck.MODID+":auto_captcha");

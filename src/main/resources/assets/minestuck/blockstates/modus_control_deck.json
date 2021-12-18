@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north":    { "model": "minestuck:modus_control_deck" },
+        "facing=east":     { "model": "minestuck:modus_control_deck", "y": 90 },
+        "facing=south":    { "model": "minestuck:modus_control_deck", "y": 180 },
+        "facing=west":     { "model": "minestuck:modus_control_deck", "y": 270 }
+    }
+}

@@ -69,6 +69,7 @@ public class MinestuckBlocks
 	public static final Block blockLunchtop = new BlockComputer("lunchtop", new AxisAlignedBB(5/16d, 0, 5/16d, 11/16d, 3.5/16d, 10/16d));
 
 	//Machines
+	public static final Block modusControlDeck = new BlockModusControlDeck();
 	public static final Block uraniumCooker = new BlockUraniumCooker();
 	public static final Block gristWidget = new BlockGristWidget();
 	public static final BlockMachineChasis machineChasis = new BlockMachineChasis();

@@ -11,6 +11,7 @@ import com.mraof.minestuck.client.renderer.RenderMachineOutline;
 import com.mraof.minestuck.client.renderer.ThrowableRenderFactory;
 import com.mraof.minestuck.client.renderer.entity.*;
 import com.mraof.minestuck.client.renderer.entity.frog.RenderFrog;
+import com.mraof.minestuck.client.renderer.tileentity.RenderControlDeckModi;
 import com.mraof.minestuck.client.renderer.tileentity.RenderGate;
 import com.mraof.minestuck.client.renderer.tileentity.RenderSkaiaPortal;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
@@ -30,6 +31,7 @@ import com.mraof.minestuck.item.*;
 import com.mraof.minestuck.item.weapon.ItemBeamBlade;
 import com.mraof.minestuck.tileentity.TileEntityGate;
 import com.mraof.minestuck.tileentity.TileEntityHolopad;
+import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
 import com.mraof.minestuck.tileentity.TileEntitySkaiaPortal;
 import com.mraof.minestuck.util.AspectColorHandler;
 import com.mraof.minestuck.util.ColorCollector;
@@ -156,6 +158,7 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityHopeGolem.class, (manager) -> new RenderHopeGolem(manager));
 		RenderingRegistry.registerEntityRenderingHandler(EntityLocatorEye.class, (manager) -> new RenderSnowball<>(manager, MinestuckItems.denizenEye, Minecraft.getMinecraft().getRenderItem()));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHolopad.class, new RenderHologram());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityModusControlDeck.class, new RenderControlDeckModi());
 
 		MinestuckKeyHandler.instance.registerKeys();
 		MSGTKeyHandler.registerKeys();
