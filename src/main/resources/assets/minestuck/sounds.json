@@ -15,6 +15,14 @@
         }
       ]
     },
+    "record.retroBattle": {
+      "sounds": [
+       {
+          "name": "minestuck:records/retro_battle_theme",
+          "stream": true
+        }
+     ]
+    },
   "warhorn": {
     "category": "ambient",
     "subtitle": "subtitle.warhorn",
@@ -270,14 +278,6 @@
     "subtitle": "subtitle.giclopsDeath",
     "sounds": [
       "minestuck:soundeffects/mobs/giclops_death"
-    ]
-  },
-  "record.retroBattle": {
-    "sounds": [
-      {
-          "name": "minestuck:records/retro_battle_theme",
-          "stream": true
-      }
     ]
   },
   "chat_ping": {

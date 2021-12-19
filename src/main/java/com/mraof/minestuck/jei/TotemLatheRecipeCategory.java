@@ -45,7 +45,7 @@ public class TotemLatheRecipeCategory implements IRecipeCategory<TotemLatheRecip
 	@Override
 	public String getTitle()
 	{
-		return I18n.format("tile.sburbMachine.totemLathe.name");
+		return I18n.format("tile.miniTotemLathe.name");
 	}
 
 	@Override
