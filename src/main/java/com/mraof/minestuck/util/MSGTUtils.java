@@ -7,7 +7,6 @@ import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.PacketPlayerData;
-import com.sun.javafx.geom.Vec3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,13 +28,13 @@ public class MSGTUtils
 
 	public static final int TARGET_REACH = 10;
 
-	public static Vec3f getRGBVecFromHex(int hex)
+	public static Vec3d getRGBVecFromHex(int hex)
 	{
 		float r = (float) ((hex & 16711680) >> 16) / 255f;
 		float g = (float) ((hex & 65280) >> 8) / 255f;
 		float b = (float) ((hex & 255) >> 0) / 255f;
 
-		return new Vec3f(r, g, b);
+		return new Vec3d(r, g, b);
 	}
 
 	public static RayTraceResult rayTraceBlocks(Entity entity, double blockReachDistance)
