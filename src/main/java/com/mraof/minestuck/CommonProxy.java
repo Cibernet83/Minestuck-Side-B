@@ -2,7 +2,6 @@ package com.mraof.minestuck;
 
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
-import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.block.BlockArtifact;
 import com.mraof.minestuck.block.MinestuckBlocks;
@@ -16,10 +15,7 @@ import com.mraof.minestuck.entity.MinestuckEntities;
 import com.mraof.minestuck.entity.consort.ConsortDialogue;
 import com.mraof.minestuck.entity.consort.ConsortRewardHandler;
 import com.mraof.minestuck.event.CommonEventHandler;
-import com.mraof.minestuck.event.SaveHandler;
 import com.mraof.minestuck.event.handler.*;
-import com.mraof.minestuck.inventory.captchalouge.MinestuckModi;
-import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.item.ItemMinestuckCandy;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.modSupport.BotaniaSupport;
@@ -30,7 +26,6 @@ import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.skaianet.SessionHandler;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.recipes.MachineChasisRecipes;
-import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.MinestuckKindAbstrata;
 import com.mraof.minestuck.tileentity.*;
 import com.mraof.minestuck.tracker.ConnectionListener;
@@ -57,11 +52,6 @@ public class CommonProxy
 {
 	public void preInit()
 	{
-		// Register registries
-		MinecraftForge.EVENT_BUS.register(Grist.class);
-		MinecraftForge.EVENT_BUS.register(KindAbstratus.class);
-		MinecraftForge.EVENT_BUS.register(Modus.class);
-
 		// Register items
 		MinecraftForge.EVENT_BUS.register(MinestuckBlocks.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckItems.class);
@@ -72,7 +62,6 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(MinestuckKindAbstrata.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckItems.class);
 		MinecraftForge.EVENT_BUS.register(MinestuckPotions.class);
-		MinecraftForge.EVENT_BUS.register(MinestuckModi.class);
 		MinecraftForge.EVENT_BUS.register(MSGTPlayerData.class); // TODO: caps ugh
 		MinecraftForge.EVENT_BUS.register(MinestuckParticles.class);
 
@@ -193,8 +182,6 @@ public class CommonProxy
 		ComputerProgram.registerProgram(1, SburbServer.class, new ItemStack(MinestuckItems.disk, 1, 1));
 
 		SessionHandler.maxSize = 144;//acceptTitleCollision?(generateSpecialClasses?168:144):12;
-
-		MinecraftForge.EVENT_BUS.register(new SaveHandler());
 	}
 
 	public void postInit()

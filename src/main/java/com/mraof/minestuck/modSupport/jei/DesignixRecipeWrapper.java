@@ -1,4 +1,4 @@
-package com.mraof.minestuck.jei;
+package com.mraof.minestuck.modSupport.jei;
 
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.item.ItemStack;

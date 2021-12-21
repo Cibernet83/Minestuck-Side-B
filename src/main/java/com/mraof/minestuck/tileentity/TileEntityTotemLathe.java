@@ -1,12 +1,10 @@
 package com.mraof.minestuck.tileentity;
 
 
+import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.block.BlockTotemLathe;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
-import com.mraof.minestuck.alchemy.CombinationRegistry;
-
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.Debug;
 import net.minecraft.block.state.IBlockState;
@@ -335,7 +333,7 @@ public class TileEntityTotemLathe extends TileEntity
 			
 			if(!output.isEmpty())
 			{
-				ItemStack outputDowel = output.getItem().equals(Item.getItemFromBlock(MinestuckBlocks.genericObject)) ? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyRecipes.createEncodedItem(output, false);
+				ItemStack outputDowel = output.getItem().equals(Item.getItemFromBlock(MinestuckBlocks.genericObject)) ? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyUtils.createEncodedItem(output, MinestuckItems.cruxiteDowel);
 				outputDowel.setItemDamage(dowel.getItemDamage());
 				
 				setDowel(outputDowel);

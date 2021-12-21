@@ -37,7 +37,7 @@ public abstract class MinestuckPacket
 		//REQUEST_COM_UPDATE(PacketRequestCommunistUpdate.class),
 		//ALCHEM_WILDCARD(PacketAlchemyWildcard.class),
 		//BOOK_PUBLISH(PacketBookPublish.class),
-		WALLET_CAPTCHA(PacketWalletCaptchalogue.class),
+		//WALLET_CAPTCHA(PacketWalletCaptchalogue.class),
 		STONE_TABLET(PacketStoneTablet.class),
 		MACHINE_CHASSIS(PacketMachineChassis.class),
 		ATM(PacketPorkhollowAtm.class),

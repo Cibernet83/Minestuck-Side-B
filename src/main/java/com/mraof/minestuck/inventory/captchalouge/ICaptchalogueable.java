@@ -1,8 +1,11 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
+import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface ICaptchalogueable
 {
@@ -14,4 +17,6 @@ public interface ICaptchalogueable
 	ItemStack captchalogueIntoCardItem();
 	NBTTagCompound writeToNBT();
 	void readFromNBT(NBTTagCompound nbt);
+	@SideOnly(Side.CLIENT)
+	void draw(SylladexGuiHandler gui);
 }

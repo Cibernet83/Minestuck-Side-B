@@ -1,10 +1,10 @@
 package com.mraof.minestuck.editmode;
 
-import com.mraof.minestuck.alchemy.MinestuckGrists;
-import com.mraof.minestuck.item.ItemKit;
-import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.GristSet;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.item.ItemKit;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.block.ItemMiniSburbMachine;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
@@ -35,7 +35,6 @@ public class DeployList
 	
 	public static void registerItems()
 	{
-		
 		registerItem("cruxtruder", new ItemStack(MinestuckBlocks.cruxtruder, 1, 0), new GristSet(), new GristSet(MinestuckGrists.build, 100), 0);
 		registerItem("totem_lathe", new ItemStack(MinestuckBlocks.totemlathe[0], 1, 0), new GristSet(), new GristSet(MinestuckGrists.build, 100), 0);
 		registerItem("artifact_card", new GristSet(), null, 0, connection -> !connection.enteredGame(),
@@ -47,6 +46,7 @@ public class DeployList
 		registerItem("punch_card_shunt", new ItemStack(MinestuckItems.shunt), new GristSet(GristType.build, 100), 1);
 		registerItem("holopad", new ItemStack(MinestuckBlocks.holopad), new GristSet(GristType.build, 10000), 2);*/
 		registerItem("holopad", new ItemStack(MinestuckBlocks.holopad), new GristSet(MinestuckGrists.build, 1000), 2);
+		registerItem("gt_kit", new GristSet(MinestuckGrists.zillium, 50), 0, ItemKit::isAvailable, ItemKit::generateKit);
 	}
 	
 	public static void registerItem(String name, ItemStack stack, GristSet cost, int tier)
@@ -185,7 +185,6 @@ public class DeployList
 				removeEntry("portable_punch_designix");
 			}
 		}
-		DeployList.registerItem("gt_kit", new GristSet(MinestuckGrists.zillium, 50), 0, ItemKit::isAvailable, ItemKit::generateKit);
 	}
 	
 	public static DeployEntry getEntryForName(String name)

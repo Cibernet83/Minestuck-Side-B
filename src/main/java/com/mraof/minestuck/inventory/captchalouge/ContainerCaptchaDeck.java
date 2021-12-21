@@ -1,7 +1,8 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
+import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.util.SylladexUtils;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -30,7 +31,7 @@ public class ContainerCaptchaDeck extends Container
 			@Override
 			public boolean isItemValid(ItemStack stack)
 			{
-				return SylladexUtils.getType(stack) != null || stack.getItem().equals(MinestuckItems.captchaCard) && (!stack.hasTagCompound() || !stack.getTagCompound().getBoolean("punched"));
+				return stack.getItem() instanceof ItemModus || (stack.getItem().equals(MinestuckItems.captchaCard) && (!stack.hasTagCompound() || AlchemyUtils.containsItem(stack)));
 			}
 		});
 	}

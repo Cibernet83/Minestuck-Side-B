@@ -217,9 +217,9 @@ public class MinestuckPlayerData
 			}
 			if (nbt.hasKey("titleClass"))
 				this.title = new Title(EnumClass.getClassFromInt(nbt.getByte("titleClass")), EnumAspect.getAspectFromInt(nbt.getByte("titleAspect")));
-			if (nbt.hasKey("modus"))
+			if (nbt.hasKey("sylladex"))
 			{
-				this.sylladex = SylladexUtils.readFromNBT(nbt.getCompoundTag("modus"));
+				this.sylladex = new ISylladex.Sylladex(nbt.getCompoundTag("sylladex"));
 				givenModus = true;
 			}
 			else givenModus = nbt.getBoolean("givenModus");
@@ -254,7 +254,7 @@ public class MinestuckPlayerData
 				nbt.setByte("titleAspect", (byte) this.title.getHeroAspect().ordinal());
 			}
 			if (this.sylladex != null)
-				nbt.setTag("modus", SylladexUtils.writeToNBT(sylladex));
+				nbt.setTag("sylladex", sylladex.writeToNBT());
 			else nbt.setBoolean("givenModus", givenModus);
 			nbt.setInteger("color", this.color);
 			nbt.setLong("boondollars", boondollars);

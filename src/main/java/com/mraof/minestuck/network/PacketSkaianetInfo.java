@@ -1,20 +1,19 @@
 package com.mraof.minestuck.network;
 
+import com.mraof.minestuck.network.skaianet.SburbConnection;
+import com.mraof.minestuck.network.skaianet.SkaiaClient;
+import com.mraof.minestuck.network.skaianet.SkaianetHandler;
+import com.mraof.minestuck.util.IdentifierHandler;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-
-import com.mraof.minestuck.network.skaianet.SburbConnection;
-import com.mraof.minestuck.network.skaianet.SkaiaClient;
-import com.mraof.minestuck.network.skaianet.SkaianetHandler;
-import com.mraof.minestuck.util.IdentifierHandler;
 
 public class PacketSkaianetInfo extends MinestuckPacket
 {
@@ -37,30 +36,29 @@ public class PacketSkaianetInfo extends MinestuckPacket
 				for(int i : list)
 					data.writeInt(i);
 			}
-
 		}
-		
-		data.writeBoolean(false);
-		data.writeInt((Integer)dat[0]);
-		
-		if(dat.length == 1)	//If request from client
-
-		
-		data.writeBoolean((Boolean)dat[1]);
-		data.writeBoolean((Boolean)dat[2]);
-		
-		int size = (Integer)dat[3];
-		data.writeInt(size);
-		for(int i = 0; i < size; i++)
+		else
 		{
-			data.writeInt((Integer)dat[i*2+4]);
-			writeString(data,((String)dat[i*2+5]+'\n'));
-		}
-		
-		for(int i = size*2+4; i < dat.length; i++)
-			((SburbConnection)dat[i]).writeBytes(data);
-		
+			data.writeBoolean(false);
+			data.writeInt((int)dat[0]);
 
+			if(dat.length == 1)	//If request from client
+				return;
+
+			data.writeBoolean((Boolean)dat[1]);
+			data.writeBoolean((Boolean)dat[2]);
+
+			int size = (Integer)dat[3];
+			data.writeInt(size);
+			for(int i = 0; i < size; i++)
+			{
+				data.writeInt((int)dat[i*2+4]);
+				ByteBufUtils.writeUTF8String(data,((String)dat[i*2+5]));
+			}
+
+			for(int i = size*2+4; i < dat.length; i++)
+				((SburbConnection)dat[i]).writeBytes(data);
+		}
 	}
 
 	@Override
@@ -77,30 +75,29 @@ public class PacketSkaianetInfo extends MinestuckPacket
 					list.add(data.readInt());
 				landChains.add(list);
 			}
-			
-
 		}
-		
-		this.playerId = data.readInt();
-		if(data.readableBytes() == 0)
+		else
+		{
+			this.playerId = data.readInt();
+			if (data.readableBytes() == 0)
+				return;
 
-		isClientResuming = data.readBoolean();
-		isServerResuming = data.readBoolean();
-		int size = data.readInt();
-		openServers = new HashMap<>();
-		for(int i = 0; i < size; i++)
-			openServers.put(data.readInt(), readLine(data));
-		connections = new ArrayList<>();
-		try
-		{
-			while(data.readableBytes() > 0)
-				connections.add(SkaiaClient.getConnection(data));
-		} catch(IllegalStateException e)
-		{
-			e.printStackTrace();
+			isClientResuming = data.readBoolean();
+			isServerResuming = data.readBoolean();
+			int size = data.readInt();
+			openServers = new HashMap<>();
+			for (int i = 0; i < size; i++)
+				openServers.put(data.readInt(), ByteBufUtils.readUTF8String(data));
+			connections = new ArrayList<>();
+			try
+			{
+				while (data.readableBytes() > 0)
+					connections.add(SkaiaClient.getConnection(data));
+			} catch (IllegalStateException e)
+			{
+				e.printStackTrace();
+			}
 		}
-		
-
 	}
 
 	@Override

@@ -182,7 +182,7 @@ public class ClientProxy extends CommonProxy
 	}
 
 	@SubscribeEvent
-	public static void handleModelRegistry(ModelRegistryEvent event)
+	public static void handleModelRegistry(ModelRegistryEvent event) // FIXME: candy models borked
 	{
 		for (IRegistryItem item : MinestuckItems.items)
 			item.registerModel();

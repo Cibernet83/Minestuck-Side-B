@@ -1,6 +1,5 @@
 package com.mraof.minestuck.client.gui.captchalogue;
 
-import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
 import com.mraof.minestuck.inventory.captchalouge.ISylladex;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,6 +32,7 @@ public class ModusGuiContainer
 			container.setX(width);
 			container.setY(0);
 			width += container.width + 5;
+			height = Math.max(height, container.height);
 		}
 		width -= 5;
 

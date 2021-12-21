@@ -4,19 +4,15 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
 import com.mraof.minestuck.inventory.captchalouge.ISylladex;
-import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
-import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -40,16 +36,16 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	private static final int X_OFFSET = 16, Y_OFFSET = 17;
 	private static final int CARD_WIDTH = 21, CARD_HEIGHT = 26;
 
-	private RenderItem itemRender;
-	private int maxWidth, maxHeight;
-	private final ISylladex.Sylladex sylladex;
-	private final ModusGuiContainer cardGuiContainer;
+	public RenderItem itemRender;
+	private ISylladex.Sylladex sylladex;
+	private ModusGuiContainer cardGuiContainer;
 	
 	/**
 	 * Position of the map (the actual gui viewport)
 	 */
-	private int mapX, mapY;
-	private int mapWidth = MAP_WIDTH, mapHeight = MAP_HEIGHT;
+	private float mapX, mapY;
+	private float mapWidth = MAP_WIDTH, mapHeight = MAP_HEIGHT;
+	private float cardsWidth, cardsHeight;
 	/**
 	 * The scrolling
 	 */
@@ -62,10 +58,9 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	
 	public SylladexGuiHandler(ISylladex.Sylladex sylladex)
 	{
-		this.sylladex = sylladex;
-		this.cardGuiContainer = new ModusGuiContainer(sylladex);
+		updateSylladex(sylladex);
+		this.mc = Minecraft.getMinecraft();
 		this.itemRender = mc.getRenderItem();
-		updateContainers();
 	}
 	
 	@Override
@@ -94,15 +89,15 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		
 		if(prevScroll != scroll)
 		{
-			double i1 = mapX + ((double)mapWidth)/2;
-			double i2 = mapY + ((double)mapHeight)/2;
+			float i1 = mapX + mapWidth/2; // TODO: Make scrolling revolve around the mouse pos
+			float i2 = mapY + mapHeight/2;
 			mapWidth = Math.round(MAP_WIDTH*scroll);
 			mapHeight = Math.round(MAP_HEIGHT*scroll);
-			mapX = (int) (i1 - ((double)mapWidth)/2);
-			mapY = (int) (i2 - ((double)mapHeight)/2);
+			mapX = i1 - mapWidth/2;
+			mapY = i2 - mapHeight/2;
 
-			mapX = Math.max(0, Math.min(maxWidth - mapWidth, mapX));
-			mapY = Math.max(0, Math.min(maxHeight - mapHeight, mapY));
+			mapX = MathHelper.clamp(mapX, 0, mapWidth - cardsWidth);
+			mapY = MathHelper.clamp(mapY, 0, mapHeight - cardsHeight);
 		}
 		
 		int xOffset = (width - GUI_WIDTH)/2;
@@ -110,46 +105,33 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		
 		if(Mouse.isButtonDown(0))
 		{
-			
-			if(isMouseInContainer(xcor, ycor))
+			if (mousePressed)
 			{
-				if(isMouseInContainer(mousePosX, mousePosY))
-				{
-					mapX = Math.max(0, Math.min(maxWidth - mapWidth, mapX + mousePosX - xcor));
-					mapY = Math.max(0, Math.min(maxHeight - mapHeight, mapY + mousePosY - ycor));
-				}
-				mousePosX = xcor;
-				mousePosY = ycor;
+				//mapX = MathHelper.clamp(mapX - (mousePosX - xcor) * scroll, 0, mapWidth - cardsWidth);
+				//mapY = MathHelper.clamp(mapY - (mousePosY - ycor) * scroll, 0, mapHeight - cardsHeight);
+				mapX = mapX - (mousePosX - xcor) * scroll;
+				mapY = mapY - (mousePosY - ycor) * scroll;
 			}
-			
+			mousePosX = xcor;
+			mousePosY = ycor;
+			mousePressed = true;
 		}
 		else
-		{
 			mousePressed = false;
-			mousePosX = -1;
-			mousePosY = -1;
-		}
 
 		// Prepare map
 		GlStateManager.pushMatrix();
-		GlStateManager.translate((float)xOffset + X_OFFSET, (float)yOffset + Y_OFFSET, 0F);
+		GlStateManager.translate(xOffset + X_OFFSET, yOffset + Y_OFFSET, 0);
 		GlStateManager.scale(1.0F / this.scroll, 1.0F / this.scroll, 1.0F);
 
 		// Draw map
-		drawRect(0, 0, mapWidth, mapHeight, 0xFF8B8B8B);
-		
+		drawRect(0, 0, (int) mapWidth, (int) mapHeight, 0xFF8B8B8B);
+
+
 		GlStateManager.color(1F, 1F, 1F, 1F);
+		GlStateManager.translate(mapX, mapY, 0);
 		
 		cardGuiContainer.draw(this);
-		
-		/*RenderHelper.enableGUIStandardItemLighting();
-		GlStateManager.enableRescaleNormal();
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
-		for(GuiCard card : visibleCards)
-			card.drawItem();
-		GlStateManager.disableDepth();
-		RenderHelper.disableStandardItemLighting();
-		GlStateManager.color(1F, 1F, 1F, 1F);*/
 
 		// Finish map
 		GlStateManager.popMatrix();
@@ -166,16 +148,16 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		
 		if(isMouseInContainer(xcor, ycor))
 		{
-			int translX = (int) ((xcor - xOffset - X_OFFSET) * scroll);
-			int translY = (int) ((ycor - yOffset - Y_OFFSET) * scroll);
-			for(GuiCard card : visibleCards)
-				if(translX >= card.xPos + 2 - mapX && translX < card.xPos + 18 - mapX &&
-						translY >= card.yPos + 7 - mapY && translY < card.yPos + 23 - mapY)
-				{
-					if(!item.isEmpty())
-						gui.renderToolTip(item, mouseX, mouseY);
-					break;
-				}
+			float translX = (xcor - xOffset - X_OFFSET - mapX) * scroll;
+			float translY = (ycor - yOffset - Y_OFFSET - mapY) * scroll;
+			ArrayList<Integer> hitSlots = cardGuiContainer.hit(translX, translY);
+			if (hitSlots != null)
+			{
+				int[] slots = hitSlots.stream().mapToInt(Integer::intValue).toArray();
+				ICaptchalogueable object = sylladex.peek(slots, 0);
+				if (object != null)
+					renderToolTip((ItemStack) object.getObject(), xcor, ycor);
+			}
 		}
 	}
 	
@@ -184,10 +166,10 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	{
 		if(isMouseInContainer(xcor, ycor))
 		{
-			int xOffset = (width - GUI_WIDTH)/2;
-			int yOffset = (height - GUI_HEIGHT)/2;
-			int translX = (int) ((xcor - xOffset - X_OFFSET) * scroll);
-			int translY = (int) ((ycor - yOffset - Y_OFFSET) * scroll);
+			float xOffset = (width - GUI_WIDTH)/2f;
+			float yOffset = (height - GUI_HEIGHT)/2f;
+			float translX = (xcor - xOffset - X_OFFSET - mapX) * scroll;
+			float translY = (ycor - yOffset - Y_OFFSET - mapY) * scroll;
 			ArrayList<Integer> hitSlots = cardGuiContainer.hit(translX, translY);
 			if (hitSlots != null)
 			{
@@ -232,114 +214,29 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		return false;
 	}
 
-	protected boolean isMouseInContainer(int xcor, int ycor) {
-		int xOffset = (this.width - 256) / 2;
-		int yOffset = (this.height - 202) / 2;
+	private boolean isMouseInContainer(int xcor, int ycor) {
+		float xOffset = (this.width - 256) / 2f;
+		float yOffset = (this.height - 202) / 2f;
 		return xcor >= xOffset + 16 && xcor < xOffset + 16 + 224 && ycor >= yOffset + 17 && ycor < yOffset + 17 + 153;
 	}
 
-	public void updateContainers()
+	private void updateContainers()
 	{
 		cardGuiContainer.generateSubContainers();
+		this.cardsWidth = cardGuiContainer.width;
+		this.cardsHeight = cardGuiContainer.height;
+		this.mapX = MAP_WIDTH / 2f - cardsWidth / 2f;
+		this.mapY = MAP_HEIGHT / 2f - cardsHeight / 2f;
 	}
-	
-	public static class GuiCard
+
+	public void updateSylladex(ISylladex.Sylladex sylladex)
 	{
-		protected SylladexGuiHandler gui;
-		public ItemStack item;
-		public int index;
-		public int xPos, yPos;
-		public int textureIndex;
-		
-		protected GuiCard()
-		{
-			item = ItemStack.EMPTY;
-		}
-		
-		public GuiCard(ItemStack item, SylladexGuiHandler gui, int index, int xPos, int yPos, int textureIndex)
-		{
-			this.gui = gui;
-			this.item = item;
-			this.index = index;
-			this.xPos = xPos;
-			this.yPos = yPos;
-			this.textureIndex = textureIndex;
-		}
-		
-		public void onClick(int mouseButton)
-		{
-			int toSend = -1;
-			if(this.item.isEmpty() && mouseButton == 1)
-				toSend = SylladexUtils.EMPTY_CARD;
-			else if(this.index != -1 && (mouseButton == 0 || mouseButton == 1))
-				toSend = this.index;
-			
-			if(toSend != -1)
-			{
-				MinestuckPacket packet = MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.GET, toSend, mouseButton != 0);
-				MinestuckChannelHandler.sendToServer(packet);
-			}
-		}
-
-		protected void drawItemBackground()
-		{
-			gui.mc.getTextureManager().bindTexture(gui.getCardTexture(this));
-			int minX = 0, maxX = CARD_WIDTH, minY = 0, maxY = CARD_HEIGHT;
-			if(this.xPos + minX < gui.mapX)
-				minX += gui.mapX - (this.xPos + minX);
-			else if(this.xPos + maxX > gui.mapX + gui.mapWidth)
-				maxX -= (this.xPos + maxX) - (gui.mapX + gui.mapWidth);
-			if(this.yPos + minY < gui.mapY)
-				minY += gui.mapY - (this.yPos + minY);
-			else if(this.yPos + maxY > gui.mapY + gui.mapHeight)
-				maxY -= (this.yPos + maxY) - (gui.mapY + gui.mapHeight);
-			gui.drawTexturedModalRect(this.xPos + minX - gui.mapX, this.yPos + minY - gui.mapY,	//Gui pos
-					getCardTextureX() + minX, getCardTextureY() + minY,	//Texture pos
-					maxX - minX, maxY - minY);	//Size
-		}
-		
-		protected void drawItem()
-		{
-			GlStateManager.color(1F, 1F, 1F, 1F);
-			if(!this.item.isEmpty())
-			{
-				int x = this.xPos +2 - gui.mapX;
-				int y = this.yPos +7 - gui.mapY;
-				if(x >= gui.mapWidth || y >= gui.mapHeight || x + 16 < 0 || y + 16 < 0)
-					return;
-				gui.itemRender.renderItemAndEffectIntoGUI(item, x, y);
-				if(item.getCount() > 1)
-				{
-					String stackSize = String.valueOf(item.getCount());
-					GlStateManager.disableLighting();
-					GlStateManager.disableDepth();
-					GlStateManager.disableBlend();
-					gui.mc.fontRenderer.drawStringWithShadow(stackSize, x + 16 - gui.mc.fontRenderer.getStringWidth(stackSize), y + 8, 0xC6C6C6);
-					GlStateManager.enableLighting();
-					GlStateManager.enableDepth();
-					GlStateManager.enableBlend();
-				}
-				gui.itemRender.renderItemOverlayIntoGUI(gui.mc.fontRenderer, item, x, y, "");
-			}
-		}
-
-		public int getCardTextureX()
-		{
-			return textureIndex % 12 * 21;
-		}
-
-		public int getCardTextureY()
-		{
-			return textureIndex / 12 * 26;
-		}
-
-		public ResourceLocation getCardTexture()
-		{
-			return CARD_TEXTURE;
-		}
+		this.sylladex = sylladex;
+		this.cardGuiContainer = new ModusGuiContainer(sylladex);
+		updateContainers();
 	}
 	
-	public static class ModusSizeCard extends GuiCard
+	/*public static class ModusSizeCard extends GuiCard
 	{
 		public int size;
 		
@@ -372,6 +269,5 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 				GlStateManager.enableBlend();
 			}
 		}
-		
-	}
+	}*/
 }

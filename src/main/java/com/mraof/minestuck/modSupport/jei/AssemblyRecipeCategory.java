@@ -1,4 +1,4 @@
-package com.mraof.minestuck.jei;
+package com.mraof.minestuck.modSupport.jei;
 
 import com.mraof.minestuck.Minestuck;
 import mezz.jei.api.IGuiHelper;

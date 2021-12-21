@@ -419,17 +419,8 @@ public class TileEntityAlchemiter extends TileEntity
 			while(quantity > 0 && !newItem.isEmpty())
 			{
 				ItemStack stack = newItem.copy();
-				//TODO
-				if(false){//hasUpgrade(AlchemiterUpgrades.captchaCard)) { (asks for alc upgrade)
-					int stackCount =  Math.min(AlchemyUtils.getDecodedItem(stack).getMaxStackSize(), quantity);
-					
-					stack = AlchemyUtils.changeEncodeSize(stack, stackCount);
-					quantity -=  Math.min(AlchemyUtils.getDecodedItem(stack).getMaxStackSize(), quantity);
-				}
-				else{
-					stack.setCount(Math.min(stack.getMaxStackSize(), quantity));
-					quantity -= stack.getCount();
-				}
+				stack.setCount(Math.min(stack.getMaxStackSize(), quantity));
+				quantity -= stack.getCount();
 				EntityItem item = new EntityItem(world, spawnPos.getX(), spawnPos.getY() + 0.5, spawnPos.getZ(), stack);
 				world.spawnEntity(item);
 			}

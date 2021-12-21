@@ -95,7 +95,7 @@ public class ItemMinestuckCandy extends ItemFood
 	public void registerModel()
 	{
 		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy"), "inventory"));
-		List<Grist> grists = Grist.values();
+		List<Grist> grists = Grist.REGISTRY.getValues();
 		for (int i = 0; i < grists.size(); i++)
 			ModelLoader.setCustomModelResourceLocation(this, i + 1, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy_" + grists.get(i).getName()), "inventory"));
 	}

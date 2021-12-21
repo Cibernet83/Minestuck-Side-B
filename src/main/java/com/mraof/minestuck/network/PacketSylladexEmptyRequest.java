@@ -19,6 +19,8 @@ public class PacketSylladexEmptyRequest extends MinestuckPacket
 	public void execute(EntityPlayer player)
 	{
 		SylladexUtils.getSylladex(player).ejectAll(player, false, true);
+		MinestuckPacket packet = MinestuckPacket.makePacket(Type.SYLLADEX_DATA, SylladexUtils.getSylladex(player).writeToNBT());
+		MinestuckChannelHandler.sendToPlayer(packet, player);
 	}
 
 	@Override

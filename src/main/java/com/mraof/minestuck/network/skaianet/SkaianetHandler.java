@@ -430,7 +430,8 @@ public class SkaianetHandler {
 			NBTTagList list = nbt.getTagList("sessions", 10);
 			for(int i = 0; i < list.tagCount(); i++)
 			{
-				Session session = new Session().read(list.getCompoundTagAt(i));
+				Session session = new Session();
+				session.read(list.getCompoundTagAt(i));
 				SessionHandler.sessions.add(session);
 				if(session.isCustom())
 				{

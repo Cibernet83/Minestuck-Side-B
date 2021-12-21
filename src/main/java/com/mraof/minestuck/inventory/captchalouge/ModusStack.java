@@ -19,6 +19,7 @@ public class ModusStack extends Modus
 	{
 		ISylladex sylladex = sylladices.removeFirst();
 		sylladices.addLast(sylladex);
+		slots[i] = sylladices.size() - 1;
 		return sylladex.get(slots, i + 1, asCard);
 	}
 
@@ -44,13 +45,14 @@ public class ModusStack extends Modus
 		}
 		if (mostFreeSlots == 0)
 		{
-			eject(sylladices, player);
 			mostSylladex = sylladices.getLast();
+			mostSylladex.eject(player);
 		}
 
 		sylladices.remove(mostSylladex);
 		sylladices.addFirst(mostSylladex);
-		mostSylladex.put(object, player);
+		if (!mostSylladex.put(object, player))
+			throw new IllegalStateException("Attempted to put an item into a full container");
 
 		return true;
 	}
@@ -71,6 +73,8 @@ public class ModusStack extends Modus
 	@SideOnly(Side.CLIENT)
 	public ModusGuiContainer getGuiContainer(ISylladex sylladex)
 	{
-		return new ModusGuiContainer(sylladex);
+		ModusGuiContainer container = new ModusGuiContainer(sylladex);
+		container.generateSubContainers();
+		return container;
 	}
 }

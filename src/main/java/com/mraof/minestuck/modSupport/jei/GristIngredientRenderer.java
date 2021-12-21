@@ -1,4 +1,4 @@
-package com.mraof.minestuck.jei;
+package com.mraof.minestuck.modSupport.jei;
 
 import com.mraof.minestuck.alchemy.GristAmount;
 import mezz.jei.api.ingredients.IIngredientRenderer;

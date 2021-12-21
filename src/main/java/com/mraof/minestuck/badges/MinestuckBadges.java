@@ -45,7 +45,7 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckBadges
 {
-	public static IForgeRegistry<Badge> REGISTRY;
+	public static ForgeRegistry<Badge> REGISTRY;
 
 	public static final MasterBadge MASTER_BADGE_MIGHTY = new MasterBadge("masterBadgeMighty", 3, 80, 0.4f, 40);
 	public static final MasterBadge MASTER_BADGE_BRAVE = new MasterBadge("masterBadgeBrave", 3, 80, 0.2f, 40);
@@ -389,8 +389,12 @@ public class MinestuckBadges
 	}
 
 	@SubscribeEvent
-	public static void onRegistryNewRegistry(RegistryEvent.NewRegistry event)
+	public static void onNewRegistry(RegistryEvent.NewRegistry event) // TODO: move to Badge
 	{
-		REGISTRY = (ForgeRegistry)(new RegistryBuilder()).setName(new ResourceLocation(Minestuck.MODID, "god_tier_badges")).setDefaultKey(new ResourceLocation(Minestuck.MODID)).setType(Badge.class).create();
+		REGISTRY = (ForgeRegistry<Badge>) new RegistryBuilder<Badge>()
+												  .setName(new ResourceLocation(Minestuck.MODID, "god_tier_badges"))
+												  .setDefaultKey(new ResourceLocation(Minestuck.MODID))
+												  .setType(Badge.class)
+												  .create();
 	}
 }

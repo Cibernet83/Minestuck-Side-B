@@ -224,8 +224,11 @@ public class KindAbstratus extends IForgeRegistryEntry.Impl<KindAbstratus> imple
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event)
 	{
-		KindAbstratus.REGISTRY = (ForgeRegistry)(new RegistryBuilder()).setName(new ResourceLocation(Minestuck.MODID, "kind_abstrata"))
-				.setType(KindAbstratus.class).setDefaultKey(new ResourceLocation(Minestuck.MODID)).create();
+		REGISTRY = (ForgeRegistry<KindAbstratus>) new RegistryBuilder<KindAbstratus>()
+														  .setName(new ResourceLocation(Minestuck.MODID, "kind_abstrata"))
+														  .setType(KindAbstratus.class)
+														  .setDefaultKey(new ResourceLocation(Minestuck.MODID))
+														  .create();
 	}
 
 	public interface IAbstratusConditional

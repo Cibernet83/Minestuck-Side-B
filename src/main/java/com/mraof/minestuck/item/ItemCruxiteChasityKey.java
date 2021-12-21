@@ -1,8 +1,8 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +31,7 @@ public class ItemCruxiteChasityKey extends ItemCruxite
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
 		if(worldIn.isRemote)
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.CAPTCHALOUGE));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_CAPTCHALOGUE, Minecraft.getMinecraft().player.inventory.currentItem));
 		return new ActionResult(EnumActionResult.FAIL, playerIn.getHeldItem(handIn));
 	}
 	

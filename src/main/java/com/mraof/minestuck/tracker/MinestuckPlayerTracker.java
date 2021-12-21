@@ -6,11 +6,9 @@ import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.inventory.captchalouge.ISylladex;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
-import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
-import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.PacketPlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
@@ -66,19 +64,15 @@ public class MinestuckPlayerTracker
 		if(SylladexUtils.getSylladex(player) == null && MinestuckConfig.defaultModusTypes.length > 0 && !MinestuckPlayerData.getData(player).givenModus)
 		{
 			int index = player.world.rand.nextInt(MinestuckConfig.defaultModusTypes.length);
-			ISylladex.Sylladex sylladex = SylladexUtils.createInstance(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]), MinestuckConfig.initialModusSize);
-			if(sylladex != null)
-				SylladexUtils.setSylladex(player, sylladex);
+			Modus modus = Modus.REGISTRY.getValue(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]));
+			if(modus != null)
+				SylladexUtils.setSylladex(player, new ISylladex.Sylladex(MinestuckConfig.initialModusSize, modus));
 			else
 				Debug.warnf("Couldn't create a modus by the name %s.", MinestuckConfig.defaultModusTypes[index]);
 		}
 		
 		if(SylladexUtils.getSylladex(player) != null)
-		{
-			Modus modus = SylladexUtils.getSylladex(player);
-			modus.player = player;
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.DATA, SylladexUtils.writeToNBT(modus)), player);
-		}
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.SYLLADEX_DATA, SylladexUtils.getSylladex(player).writeToNBT()), player);
 		
 		updateGristCache(identifier);
 		updateTitle(player);
@@ -102,9 +96,6 @@ public class MinestuckPlayerTracker
 	public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event)
 	{
 		ServerEditHandler.onPlayerExit(event.player);
-		//ISylladex sylladex = SylladexUtils.getSylladex(event.player);
-		//if(sylladex != null)
-		//	sylladex.player = null; // TODO: I don't know what this does???
 		dataCheckerPermission.remove(event.player.getName());
 	}
 	
@@ -132,9 +123,6 @@ public class MinestuckPlayerTracker
 	public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event)
 	{
 		MinestuckPlayerData.getData(event.player).echeladder.updateEcheladderBonuses(event.player);
-		Modus modus = MinestuckPlayerData.getData(event.player).modus;
-		if(modus != null)
-			modus.player = event.player;
 	}
 	
 	public static Set<String> dataCheckerPermission = new HashSet<String>();

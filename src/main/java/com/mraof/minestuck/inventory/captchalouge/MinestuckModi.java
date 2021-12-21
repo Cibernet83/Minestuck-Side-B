@@ -1,17 +1,20 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
+import com.mraof.minestuck.Minestuck;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.ArrayList;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckModi
 {
 	public static final ArrayList<Modus> modi = new ArrayList<>();
 
 	public static final Modus stack = new ModusStack("stack");
-	public static final Modus queue = new QueueModus("queue");
+	/*public static final Modus queue = new QueueModus("queue");
 	public static final Modus tree = new TreeModus("tree");
 	public static final Modus hashmap = new HashmapModus("hashmap");
 	public static final Modus set = new SetModus("set");
@@ -39,7 +42,7 @@ public class MinestuckModi
 	public static final Modus monster = new MonsterModus("monster");
 	public static final Modus wallet = new WalletModus("wallet");
 	public static final Modus crystalBall = new CrystalBallModus("crystalBall");
-	public static final Modus sacrifice = new SacrificeModus("sacrifice");
+	public static final Modus sacrifice = new SacrificeModus("sacrifice");*/
 
 	/*
 	public static final Modus ouija = new OuijaModus("ouija");

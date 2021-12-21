@@ -1,10 +1,9 @@
-package com.mraof.minestuck.jei;
+package com.mraof.minestuck.modSupport.jei;
 
 import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.block.BlockSburbMachine;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.recipes.MachineChasisRecipes;

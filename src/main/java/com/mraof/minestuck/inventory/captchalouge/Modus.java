@@ -6,6 +6,7 @@ import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,6 +17,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.LinkedList;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements IRegistryObject<Modus>
 {
 	public static ForgeRegistry<Modus> REGISTRY;
@@ -26,6 +28,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	{
 		this.name = name;
 		this.regName = IRegistryObject.unlocToReg(name);
+		MinestuckModi.modi.add(this);
 	}
 
 	public abstract ICaptchalogueable get(LinkedList<ISylladex> sylladices, int[] slots, int i, boolean asCard);

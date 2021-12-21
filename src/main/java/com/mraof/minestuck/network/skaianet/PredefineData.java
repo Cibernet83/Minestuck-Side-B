@@ -14,7 +14,7 @@ class PredefineData
 	TerrainLandAspect landTerrain;
 	TitleLandAspect landTitle;
 	
-	PredefineData read(NBTTagCompound nbt)
+	public void read(NBTTagCompound nbt)
 	{
 		if(nbt.hasKey("titleAspect", 99))
 			title = new Title(EnumClass.values()[nbt.getByte("titleClass")], EnumAspect.values()[nbt.getByte("titleAspect")]);
@@ -22,11 +22,9 @@ class PredefineData
 			landTerrain = LandAspectRegistry.fromNameTerrain(nbt.getString("landTerrain"));
 		if(nbt.hasKey("landTitle", 8))
 			landTitle = LandAspectRegistry.fromNameTitle(nbt.getString("landTitle"));
-		
-
 	}
 	
-	NBTTagCompound write()
+	public NBTTagCompound write()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		if(title != null)

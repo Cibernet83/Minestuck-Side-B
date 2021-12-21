@@ -30,10 +30,16 @@ public class Session
 	int prospitId;
 	int derseId;
 	
+	public Session()
+	{
+		connections = new ArrayList<SburbConnection>();
+		predefinedPlayers = new HashMap<PlayerIdentifier, PredefineData>();
+	}
+
 	/**
 	 * Checks if the variable completed should be true or false.
 	 */
-	void checkIfCompleted()
+	public void checkIfCompleted()
 	{
 		if(connections.isEmpty() || SessionHandler.singleSession)
 		{
@@ -63,13 +69,7 @@ public class Session
 			return;
 		}
 	}
-	
-	Session()
-	{
-		connections = new ArrayList<SburbConnection>();
-		predefinedPlayers = new HashMap<PlayerIdentifier, PredefineData>();
-	}
-	
+
 	/**
 	 * Checks if a certain player is in the connection list.
 	 * @param player The username of the player.
@@ -109,7 +109,7 @@ public class Session
 	 * Note that this will only work as long as <code>SkaianetHandler.connections</code> remains unmodified.
 	 * @return An NBTTagCompound representing this session.
 	 */
-	NBTTagCompound write()
+	public NBTTagCompound write()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		
@@ -135,7 +135,7 @@ public class Session
 	 * @param nbt An NBTTagCompound to read from.
 	 * @return This.
 	 */
-	Session read(NBTTagCompound nbt)
+	public void read(NBTTagCompound nbt)
 	{
 		if(nbt.hasKey("name", 8))
 			name = nbt.getString("name");
@@ -143,7 +143,11 @@ public class Session
 		
 		NBTTagList list = nbt.getTagList("connections", 10);
 		for(int i = 0; i < list.tagCount(); i++)
-			connections.add(new SburbConnection().read(list.getCompoundTagAt(i)));
+		{
+			SburbConnection connection = new SburbConnection();
+			connection.read(list.getCompoundTagAt(i));
+			connections.add(connection);
+		}
 		
 		if(nbt.hasKey("predefinedPlayers", 9))	//If it is a tag list
 		{
@@ -151,7 +155,9 @@ public class Session
 			for(int i = 0; i < list.tagCount(); i++)
 			{
 				NBTTagCompound compound = list.getCompoundTagAt(i);
-				predefinedPlayers.put(IdentifierHandler.load(compound, "player"), new PredefineData().read(compound));
+				PredefineData predefineData = new PredefineData();
+				predefineData.read(compound);
+				predefinedPlayers.put(IdentifierHandler.load(compound, "player"), predefineData);
 			}
 		} else
 		{	//Support for saves from older minestuck versions
@@ -160,7 +166,9 @@ public class Session
 			{
 				NBTTagCompound compound = new NBTTagCompound();
 				compound.setString("player", player);
-				predefinedPlayers.put(IdentifierHandler.load(compound, "player"), new PredefineData().read(predefineTag.getCompoundTag(player)));
+				PredefineData predefineData = new PredefineData();
+				predefineData.read(predefineTag.getCompoundTag(player));
+				predefinedPlayers.put(IdentifierHandler.load(compound, "player"), predefineData);
 			}
 		}
 		
@@ -168,7 +176,6 @@ public class Session
 		locked = nbt.getBoolean("locked");
 		
 		checkIfCompleted();
-
 	}
 	
 	public boolean isCustom()

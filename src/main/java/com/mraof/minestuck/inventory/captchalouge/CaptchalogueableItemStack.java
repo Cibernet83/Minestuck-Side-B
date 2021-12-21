@@ -1,8 +1,11 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
-import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.SylladexUtils;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,6 +18,8 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	{
 		this.stack = stack;
 	}
+
+	public CaptchalogueableItemStack() {}
 
 	@Override
 	public void grow(ICaptchalogueable other)
@@ -48,7 +53,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	@Override
 	public void eject(ISylladex fromSylladex, EntityPlayer player)
 	{
-		if(fromSylladex != null && stack.getItem().equals(MinestuckItems.captchaCard) && !AlchemyUtils.containsItem(stack))
+		if(fromSylladex != null && AlchemyUtils.isAppendable(stack))
 			while (!stack.isEmpty())
 			{
 				fromSylladex.addCard(new CaptchalogueableItemStack(AlchemyUtils.getDecodedItem(stack)));
@@ -67,12 +72,31 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	@Override
 	public NBTTagCompound writeToNBT()
 	{
-		return AlchemyUtils.encodeTo(stack, null, true);
+		return stack.writeToNBT(new NBTTagCompound());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		stack = AlchemyUtils.decodeFrom(nbt);
+		stack = new ItemStack(nbt);
+	}
+
+	@Override
+	public void draw(SylladexGuiHandler gui)
+	{
+		if(!stack.isEmpty())
+		{
+			int x = 2;
+			int y = 7;
+
+			RenderHelper.enableGUIStandardItemLighting();
+			GlStateManager.enableRescaleNormal();
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+			gui.itemRender.renderItemAndEffectIntoGUI(stack, x, y);
+			gui.itemRender.renderItemOverlayIntoGUI(gui.mc.fontRenderer, stack, x, y, stack.getCount() == 1 ? "" : String.valueOf(stack.getCount()));
+			GlStateManager.disableDepth();
+			RenderHelper.disableStandardItemLighting();
+			GlStateManager.color(1F, 1F, 1F, 1F);
+		}
 	}
 }

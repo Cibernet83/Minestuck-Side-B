@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -14,11 +15,12 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.Collection;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class Grist extends IForgeRegistryEntry.Impl<Grist> implements Comparable<Grist>, IRegistryObject<Grist>
 {
 	public static ForgeRegistry<Grist> REGISTRY;
 
-	private final String regName;
+	private final String name, regName;
 	private final float rarity;
 	private final float value;
 	private ItemStack candyItem = ItemStack.EMPTY;
@@ -30,6 +32,7 @@ public class Grist extends IForgeRegistryEntry.Impl<Grist> implements Comparable
 
 	public Grist(String name, float rarity, float value)
 	{
+		this.name = name;
 		this.regName = IRegistryObject.unlocToReg(name);
 		this.rarity = rarity;
 		this.value = value;
@@ -53,6 +56,11 @@ public class Grist extends IForgeRegistryEntry.Impl<Grist> implements Comparable
 	public String getDisplayName()	//TODO Phase out serverside usage of this method
 	{
 		return I18n.translateToLocal("grist." + regName);
+	}
+
+	public String getUnlocalizedName()
+	{
+		return name;
 	}
 
 	/**

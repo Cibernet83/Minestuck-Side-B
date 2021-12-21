@@ -46,7 +46,7 @@ public class GuiConsortShop extends GuiContainer
 		this.mc.getTextureManager().bindTexture(GuiPlayerStats.icons);
 		this.drawTexturedModalRect(x + 5, y + 7, 238, 16, 18, 18);
 		
-		mc.fontRenderer.drawString(String.valueOf(MinestuckPlayerData.boondollars), x + 25, y + 12, 0x0094FF);
+		mc.fontRenderer.drawString(String.valueOf(MinestuckPlayerData.clientData.boondollars), x + 25, y + 12, 0x0094FF);
 		
 		for (int i = 0; i < 9; i++)
 		{

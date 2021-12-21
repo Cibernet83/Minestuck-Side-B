@@ -120,13 +120,13 @@ public class GuiManageBadges extends GuiScreen
 		mc.getTextureManager().bindTexture(TEXTURES);
 		setColor(0xFFFFFF);
 		//drawTexturedModalRect(xOffset+xSize/2 - 88, yOffset+15, 0, 223, 176, 33);
-		String gtTitle = data.getGodTierTitle(MinestuckPlayerData.title);
+		String gtTitle = data.getGodTierTitle(MinestuckPlayerData.clientData.title);
 		//fontRenderer.drawString(gtTitle, xOffset+xSize/2 - fontRenderer.getStringWidth(gtTitle)/2, yOffset+30, 0xFFFFFF);
 
 		yOffset = this.height / 2 - 22;
 		boolean isOverlord = data.isBadgeActive(MinestuckBadges.BADGE_OVERLORD);
 
-		EnumAspect aspect = MinestuckPlayerData.title.getHeroAspect();
+		EnumAspect aspect = MinestuckPlayerData.clientData.title.getHeroAspect();
 		int mainColor = aspect == EnumAspect.SPACE ? 0xFAFAFA : mainColors.getOrDefault(aspect, 0x80FF20);
 
 		//Sash

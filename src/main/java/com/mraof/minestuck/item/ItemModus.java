@@ -1,10 +1,20 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.inventory.captchalouge.Modus;
+
 public class ItemModus extends MSItemBase
 {
-	public ItemModus(String name)
+	private final Modus modus;
+
+	public ItemModus(Modus modus)
 	{
-		super(name, MinestuckTabs.minestuck, 1, false);
+		super(modus.getUnlocalizedName() + "Modus", MinestuckTabs.minestuck, 1, false);
+		this.modus = modus;
 		MinestuckItems.modi.add(this);
+	}
+
+	public Modus getModus()
+	{
+		return modus;
 	}
 }

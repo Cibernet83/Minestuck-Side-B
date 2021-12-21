@@ -2,11 +2,13 @@ package com.mraof.minestuck.alchemy;
 
 import com.mraof.minestuck.Minestuck;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.ArrayList;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckGrists
 {
 	public static final ArrayList<Grist> grists = new ArrayList<>();

@@ -1,6 +1,5 @@
 package com.mraof.minestuck.item.operandi;
 
-import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.item.IRegistryItem;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.MinestuckTabs;
@@ -43,7 +42,7 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem, ICruxiteAr
 		else
 		{
 			teleporter = null;
-			OperandiModus.itemPool.add(this);
+			//OperandiModus.itemPool.add(this);
 		}
 		MinestuckItems.items.add(this);
 	}

@@ -52,9 +52,9 @@ public class GuiGristCache extends GuiPlayerStats
 		this.drawTexturedModalRect(xOffset, yOffset, 0, 0, guiWidth, guiHeight);
 
 		String cacheMessage;
-		if (ClientEditHandler.isActive() || MinestuckPlayerData.title == null)
+		if (ClientEditHandler.isActive() || MinestuckPlayerData.clientData.title == null)
 			cacheMessage = I18n.format("gui.gristCache.name");
-		else cacheMessage = MinestuckPlayerData.title.getTitleName();
+		else cacheMessage = MinestuckPlayerData.clientData.title.getTitleName();
 		mc.fontRenderer.drawString(cacheMessage, (this.width / 2) - mc.fontRenderer.getStringWidth(cacheMessage) / 2, yOffset + 12, 0x404040);
 		super.drawScreen(xcor, ycor, par3);
 

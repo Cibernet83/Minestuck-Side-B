@@ -9,7 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
@@ -67,29 +66,13 @@ public class AlchemyUtils
 	}
 
 	@Nonnull
-	public static ItemStack getDecodedItem(ItemStack card, boolean useGhostSize)
+	public static ItemStack getDecodedItem(ItemStack card, boolean ignoreGhost)
 	{
 		if (!hasDecodedItem(card))
 			return ItemStack.EMPTY;
-		ItemStack stack = decodeFrom(card.getTagCompound());
-		if (stack.getCount() <= 0 && !useGhostSize)
+		ItemStack stack = new ItemStack(card.getTagCompound().getCompoundTag("content"));
+		if (isGhostCard(card) && !ignoreGhost)
 			stack.setCount(1);
-		return stack;
-	}
-
-	public static ItemStack decodeFrom(NBTTagCompound nbt)
-	{
-		Item item = Item.REGISTRY.getObject(new ResourceLocation(nbt.getString("contentID")));
-		if (item == null)
-			return ItemStack.EMPTY;
-		ItemStack stack = new ItemStack(item, 1, nbt.getInteger("contentMeta"));
-
-		if(nbt.hasKey("contentTags"))
-		{
-			stack.setTagCompound(nbt.getCompoundTag("contentTags"));
-			stack.setCount(nbt.getInteger("contentSize"));
-		}
-
 		return stack;
 	}
 
@@ -116,7 +99,9 @@ public class AlchemyUtils
 	@Nonnull
 	public static ItemStack createEncodedItem(ItemStack item, ItemStack card)
 	{
-		card.setTagCompound(encodeTo(item, card.getTagCompound(), false));
+		if (card.getTagCompound() == null)
+			card.setTagCompound(new NBTTagCompound());
+		card.getTagCompound().setTag("content", item.writeToNBT(new NBTTagCompound())); // TODO: nbt alchemy lol
 		return card;
 	}
 
@@ -126,30 +111,12 @@ public class AlchemyUtils
 		return createEncodedItem(item, new ItemStack(cardType));
 	}
 
-	public static NBTTagCompound encodeTo(ItemStack item, NBTTagCompound nbt, boolean allData)
-	{
-		if (item.isEmpty())
-			return nbt;
-
-		if (nbt == null)
-			nbt = new NBTTagCompound();
-
-		nbt.setString("contentID", item.getItem().getRegistryName().toString());
-		nbt.setInteger("contentMeta", item.getItemDamage());
-		if (allData)
-		{
-			nbt.setInteger("contentSize", item.getCount());
-			if (item.hasTagCompound())
-				nbt.setTag("contentTags", item.getTagCompound());
-		}
-		return nbt;
-	}
-
 	@Nonnull
 	public static ItemStack createCard(ItemStack item, boolean punched)
 	{
 		ItemStack card = new ItemStack(captchaCard);
-		card.setTagCompound(encodeTo(item, null, !punched));
+		card.setTagCompound(new NBTTagCompound());
+		card.getTagCompound().setTag("content", item.writeToNBT(new NBTTagCompound()));
 		card.getTagCompound().setBoolean("punched", punched);
 		return card;
 	}
@@ -157,14 +124,8 @@ public class AlchemyUtils
 	@Nonnull
 	public static ItemStack createGhostCard(ItemStack item)
 	{
-		ItemStack stack = createCard(item, false);
-		changeEncodeSize(stack, 0);
-		return stack;
-	}
-
-	public static ItemStack changeEncodeSize(ItemStack card, int size)
-	{
-		card.getTagCompound().setInteger("contentSize", size);
+		ItemStack card = createCard(item, false);
+		card.getTagCompound().setBoolean("ghost", true);
 		return card;
 	}
 
@@ -175,16 +136,26 @@ public class AlchemyUtils
 
 	public static boolean isGhostCard(ItemStack card)
 	{
-		return card.getItem() == captchaCard && card.hasTagCompound() && card.getTagCompound().hasKey("contentSize") && card.getTagCompound().getInteger("contentSize") == 0;
+		return card.getItem() == captchaCard && card.hasTagCompound() && card.getTagCompound().getBoolean("ghost");
 	}
 
 	public static boolean hasDecodedItem(ItemStack card)
 	{
-		return card.hasTagCompound() && card.getTagCompound().hasKey("contentID", 8);
+		return card.hasTagCompound() && card.getTagCompound().hasKey("content", 10);
 	}
 
 	public static boolean containsItem(ItemStack card)
 	{
-		return card.getItem() == captchaCard && card.hasTagCompound() && !card.getTagCompound().getBoolean("punched") && card.getTagCompound().getInteger("contentSize") > 0;
+		return card.getItem() == captchaCard && hasDecodedItem(card) && !card.getTagCompound().getBoolean("punched") && !card.getTagCompound().getBoolean("ghost");
+	}
+
+	public static boolean isEmptyCard(ItemStack card)
+	{
+		return card.getItem() == captchaCard && !hasDecodedItem(card);
+	}
+
+	public static boolean isAppendable(ItemStack card)
+	{
+		return isEmptyCard(card) || containsItem(card);
 	}
 }

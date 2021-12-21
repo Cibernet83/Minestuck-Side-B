@@ -1,21 +1,16 @@
 package com.mraof.minestuck.network;
 
-import io.netty.buffer.ByteBuf;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.EnumSet;
-
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.client.gui.playerStats.GuiDataChecker;
 import com.mraof.minestuck.network.skaianet.SessionHandler;
-
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
+
+import java.util.EnumSet;
 
 public class PacketDataChecker extends MinestuckPacket
 {
@@ -36,44 +31,15 @@ public class PacketDataChecker extends MinestuckPacket
 		else
 		{
 			data.writeByte((Integer) dat[0]);
-			
-			try
-			{
-				ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-				CompressedStreamTools.writeCompressed((NBTTagCompound)dat[1], bytes);
-				this.data.writeBytes(bytes.toByteArray());
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-				return null;
-			}
+			ByteBufUtils.writeTag(data, (NBTTagCompound)dat[1]);
 		}
-		
-
 	}
 	
 	@Override
 	public void consumePacket(ByteBuf data)
 	{
 		packetIndex = data.readByte();
-		
-		if(data.readableBytes() > 0)
-		{
-			byte[] bytes = new byte[data.readableBytes()];
-			data.readBytes(bytes);
-			try
-			{
-				this.nbtData = CompressedStreamTools.readCompressed(new ByteArrayInputStream(bytes));
-			}
-			catch(IOException e)
-			{
-				e.printStackTrace();
-				return null;
-			}
-		}
-		
-
+		nbtData = ByteBufUtils.readTag(data);
 	}
 	
 	@Override

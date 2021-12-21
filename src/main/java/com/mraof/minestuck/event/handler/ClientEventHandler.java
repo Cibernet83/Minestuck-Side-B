@@ -11,13 +11,12 @@ import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.inventory.ContainerConsortMerchant;
 import com.mraof.minestuck.inventory.ContainerEditmode;
-import com.mraof.minestuck.inventory.captchalouge.*;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.skaianet.SkaiaClient;
-import com.mraof.minestuck.util.*;
+import com.mraof.minestuck.util.ColorCollector;
+import com.mraof.minestuck.util.Debug;
+import com.mraof.minestuck.util.MinestuckPlayerData;
+import com.mraof.minestuck.util.ModusStorage;
 import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.state.IBlockState;
@@ -27,9 +26,6 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
@@ -41,12 +37,13 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -78,9 +75,7 @@ public class ClientEventHandler
 		GuiPlayerStats.normalTab = GuiPlayerStats.NormalGuiType.CAPTCHA_DECK;
 		GuiPlayerStats.editmodeTab = GuiPlayerStats.EditmodeGuiType.DEPLOY_LIST;
 		ContainerEditmode.clientScroll = 0;
-		SylladexUtils.clientSideModus = null;
-		MinestuckPlayerData.title = null;
-		MinestuckPlayerData.rung = -1;
+		MinestuckPlayerData.clientData = new MinestuckPlayerData.PlayerData();
 		ColorCollector.playerColor = -1;
 		ColorCollector.displaySelectionGui = false;
 		GuiDataChecker.activeComponent = null;
@@ -108,7 +103,7 @@ public class ClientEventHandler
 		if(player == null || event.phase != TickEvent.Phase.START)
 			return;
 
-		Modus modus = SylladexUtils.clientSideModus;
+		/*Modus modus = SylladexUtils.clientSideModus;
 
 		if(modus != null)
 		{
@@ -135,7 +130,7 @@ public class ClientEventHandler
 			}
 		}
 		if(modus instanceof CycloneModus)
-			((CycloneModus) modus).cycle();
+			((CycloneModus) modus).cycle();*/ // TODO: Weight and cyclone modi
 
 		if(prevSelectedSlot != player.inventory.currentItem)
 			shakeCooldown = 1;
@@ -250,7 +245,7 @@ public class ClientEventHandler
 		}, MinestuckBlocks.strawberryStem);
 	}
 
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public static void onClientSendChat(ClientChatEvent event)
 	{
 		EntityPlayer player = Minecraft.getMinecraft().player;
@@ -276,7 +271,7 @@ public class ClientEventHandler
 			if(SylladexUtils.clientSideModus instanceof WalletModus || SylladexUtils.clientSideModus instanceof CrystalBallModus)
 				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.WALLET_CAPTCHA, Minecraft.getMinecraft().objectMouseOver));
 		}
-	}
+	}*/ // TODO: more modi
 
 
 	@SubscribeEvent

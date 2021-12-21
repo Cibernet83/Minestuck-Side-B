@@ -1,9 +1,10 @@
-package com.mraof.minestuck.jei;
+package com.mraof.minestuck.modSupport.jei;
 
 import com.mraof.minestuck.alchemy.GristAmount;
-import com.mraof.minestuck.client.util.GuiUtil;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.alchemy.GristSet;
+import com.mraof.minestuck.client.util.GuiUtil;
+import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.util.AlchemyUtils;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
@@ -29,7 +30,7 @@ public class AlchemiterRecipeWrapper implements IRecipeWrapper
     @Override
     public void getIngredients(IIngredients ingredients)
     {
-        ingredients.setInput(ItemStack.class, AlchemyRecipes.createEncodedItem(stack, false));
+        ingredients.setInput(ItemStack.class, AlchemyUtils.createEncodedItem(stack, MinestuckItems.cruxiteDowel));
         ingredients.setInputs(GristAmount.class, grist.getArray());
         ingredients.setOutput(ItemStack.class, stack);
     }

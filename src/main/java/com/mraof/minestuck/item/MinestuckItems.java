@@ -11,7 +11,7 @@ import com.mraof.minestuck.enchantments.MinestuckEnchantments;
 import com.mraof.minestuck.entity.EntityEightBall;
 import com.mraof.minestuck.entity.item.EntityCrewPoster;
 import com.mraof.minestuck.entity.item.EntitySbahjPoster;
-import com.mraof.minestuck.inventory.captchalouge.PopTartModus;
+import com.mraof.minestuck.inventory.captchalouge.MinestuckModi;
 import com.mraof.minestuck.item.armor.*;
 import com.mraof.minestuck.item.block.ItemDowel;
 import com.mraof.minestuck.item.block.MSItemBlock;
@@ -214,8 +214,8 @@ public class MinestuckItems
 	public static final Item recordDanceStab = new ItemMinestuckRecord("danceStab", MinestuckSoundHandler.soundDanceStabDance).setUnlocalizedName("record");
 	public static final Item recordRetroBattle = new ItemMinestuckRecord("retroBattle", MinestuckSoundHandler.soundRetroBattleTheme).setUnlocalizedName("record");
 
-	public static final Item stackModus = new ItemModus("stackModus");
-	public static final Item queueModus = new ItemModus("queueModus");
+	public static final Item stackModus = new ItemModus(MinestuckModi.stack);
+	/*public static final Item queueModus = new ItemModus("queueModus");
 	public static final Item queueStackModus = new ItemModus("queueStackModus");
 	public static final Item treeModus = new ItemModus("treeModus");
 	public static final Item hashmapModus = new ItemModus("hashmapModus");
@@ -245,7 +245,7 @@ public class MinestuckItems
 	public static final Item walletModus = new ItemModus("walletModus");
 	public static final Item crystalBallModus = new ItemModus("crystalBallModus");
 	public static final Item hashchatModus = new ItemModus("hashchatModus");
-	public static final Item sacrificeModus = new ItemModus("sacrificeModus");
+	public static final Item sacrificeModus = new ItemModus("sacrificeModus");*/ // TODO: Do this automagically :flushed:
 	/*
 	public static final Item memoryModus = new ItemModus("memoryModus");
 	public static final Item recipeModus = new ItemModus("recipeModus");
@@ -258,9 +258,9 @@ public class MinestuckItems
 	public static final Item cipherModus = new ItemModus("cipherModus");
 	*/
 
-	public static final Item popTart = new ItemFood("popTart", 3, 0, false, PopTartModus.getConsumer());
+	//public static final Item popTart = new ItemFood("popTart", 3, 0, false, PopTartModus.getConsumer());
 	public static final Item eightBall = new ItemEightBall("eightBall", false);
-	public static final Item popBall = new ItemFood("magicPopBalls", 6, 0.4f, false, ItemFood.getPopBallConsumer());
+	//public static final Item popBall = new ItemFood("magicPopBalls", 6, 0.4f, false, ItemFood.getPopBallConsumer());
 	public static final Item floatStone = new MSItemBase("floatStone").setMaxStackSize(1);
 	public static final Item energyCell = new MSItemBase("energyCell");
 	public static final Item captchalogueBook = new ItemCruxiteCaptchaBook("captchalogueBook");

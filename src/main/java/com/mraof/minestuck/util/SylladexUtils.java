@@ -31,16 +31,6 @@ public class SylladexUtils
 		entity.setDefaultPickupDelay();
 		player.world.spawnEntity(entity);
 	}
-	
-	public static void activateModusSlot(EntityPlayerMP player)
-	{
-		/*
-		MinestuckCriteriaTriggers.CHANGE_MODUS.trigger(player, modus);
-
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CAPTCHA, PacketCaptchaDeck.DATA, writeToNBT(modus));
-		MinestuckChannelHandler.sendToPlayer(packet, player);
-		}*/
-	}
 
 	public static void captchalogue(ICaptchalogueable object, EntityPlayerMP player)
 	{
@@ -79,7 +69,7 @@ public class SylladexUtils
 
 	public static void fetch(EntityPlayerMP player, int[] slotStack, boolean asCard)
 	{
-		ISylladex sylladex = getSylladex(player);
+		Sylladex sylladex = getSylladex(player);
 		if(sylladex == null)
 			return;
 
@@ -101,24 +91,8 @@ public class SylladexUtils
 		ItemStack handStack = player.getHeldItemMainhand();
 		if(handStack.isEmpty())
 			player.setHeldItem(EnumHand.MAIN_HAND, stack);
-		else
-		{
-			moveItemStack(stack, handStack);
-
-			boolean dirty = false;
-			for(int i = 0; i < player.inventory.mainInventory.size() && !stack.isEmpty(); i++)
-				if (moveItemStack(stack, player.inventory.mainInventory.get(i)))
-					dirty = true;
-
-			if (dirty)
-			{
-				player.inventory.markDirty();
-				player.inventoryContainer.detectAndSendChanges();
-			}
-
-			if(!stack.isEmpty())
-				launchItem(player, stack);
-		}
+		else if (!player.addItemStackToInventory(stack))
+			launchItem(player, stack);
 
 		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, sylladex.writeToNBT());
 		MinestuckChannelHandler.sendToPlayer(packet, player);

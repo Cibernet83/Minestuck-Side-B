@@ -1,8 +1,7 @@
-package com.mraof.minestuck.jei;
+package com.mraof.minestuck.modSupport.jei;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.ColorCollector;
 import mezz.jei.api.IGuiHelper;
@@ -81,7 +80,7 @@ public class TotemLatheRecipeCategory implements IRecipeCategory<TotemLatheRecip
 		stackGroup.set(2, new ItemStack(MinestuckItems.cruxiteDowel, 1, ColorCollector.playerColor + 1));
 		
 		List<ItemStack> outputs = new ArrayList<>(ingredients.getOutputs(ItemStack.class).get(0));
-		ItemStack outputDowel = AlchemyRecipes.createEncodedItem(outputs.get(0), false);
+		ItemStack outputDowel = AlchemyUtils.createEncodedItem(outputs.get(0), MinestuckItems.cruxiteDowel);
 		outputDowel.setItemDamage(ColorCollector.playerColor + 1);
 		outputs.add(outputDowel);
 		stackGroup.set(3, outputs);

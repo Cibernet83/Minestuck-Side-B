@@ -22,6 +22,7 @@ public interface ISylladex
 {
 	ICaptchalogueable get(int[] slots, int i, boolean asCard);
 	boolean canGet(int[] slots, int i);
+	ICaptchalogueable peek(int[] slots, int i);
 	ICaptchalogueable tryGetEmptyCard(int[] slots, int i);
 	void addCard(ICaptchalogueable object);
 	boolean put(ICaptchalogueable object, EntityPlayer player);
@@ -49,6 +50,13 @@ public interface ISylladex
 			this.modi.addAll(Arrays.asList(modi));
 		}
 
+		public Sylladex(int cards, Modus... modi)
+		{
+			this(new LinkedList<>(), modi);
+			for (int i = 0; i < cards; i++)
+				sylladices.add(new CardSylladex(this));
+		}
+
 		public Sylladex(Sylladex settings)
 		{
 			this.sylladices = new LinkedList<>();
@@ -74,10 +82,8 @@ public interface ISylladex
 				if (!(asCard && getTotalSlots() == 1) && modus.canGet(sylladices, slots, i))
 				{
 					ICaptchalogueable rtn = modus.get(sylladices, slots, i, asCard);
-
 					if (asCard)
 						cleanUpMarkedCards(slots,  i); // TODO: the queuestack below an empty one would pop off into it
-
 					return rtn;
 				}
 			return null;
@@ -93,13 +99,19 @@ public interface ISylladex
 		}
 
 		@Override
+		public ICaptchalogueable peek(int[] slots, int i)
+		{
+			return sylladices.get(slots[i]).peek(slots, i + 1);
+		}
+
+		@Override
 		public ICaptchalogueable tryGetEmptyCard(int[] slots, int i)
 		{
 			if (getTotalSlots() == 1)
 				return null;
 
 			ICaptchalogueable object = sylladices.get(slots[i]).tryGetEmptyCard(slots, i + 1);
-			cleanUpMarkedCards(slots, i);
+			cleanUpMarkedCards(slots, i + 1);
 			return object;
 		}
 
@@ -115,7 +127,7 @@ public interface ISylladex
 		@Override
 		public void addCard(ICaptchalogueable object)
 		{
-			sylladices.add(new CardSylladex(this, object));
+			sylladices.addLast(new CardSylladex(this, object));
 		}
 
 		@Override
@@ -161,7 +173,7 @@ public interface ISylladex
 		{
 			int slots = 0;
 			for (ISylladex sylladex : sylladices)
-				slots += sylladex.getFreeSlots();
+				slots += sylladex.getTotalSlots();
 			return slots;
 		}
 
@@ -210,13 +222,11 @@ public interface ISylladex
 				sylladex.readFromNBT(sylladexTag);
 				this.sylladices.add(sylladex);
 			}
-
-			generateSubContainers();
 		}
 
 		public String getName()
 		{
-			return modi.get(0).getUnlocalizedName().toString();
+			return modi.get(0).getUnlocalizedName();
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -267,6 +277,13 @@ public interface ISylladex
 		}
 
 		@Override
+		public ICaptchalogueable peek(int[] slots, int i)
+		{
+			checkSlots(slots, i);
+			return object;
+		}
+
+		@Override
 		public ICaptchalogueable tryGetEmptyCard(int[] slots, int i)
 		{
 			checkSlots(slots, i);
@@ -293,13 +310,14 @@ public interface ISylladex
 		@Override
 		public void grow(ICaptchalogueable other)
 		{
-			this.object.grow(other);
+			if (object != null)
+				this.object.grow(other);
 		}
 
 		@Override
 		public void eject(EntityPlayer player)
 		{
-			ejectAll(player, false, false);
+			get(null, 0, false).eject(owner, player);
 		}
 
 		@Override
@@ -333,30 +351,43 @@ public interface ISylladex
 		public ArrayList<ModusGuiContainer> generateSubContainers()
 		{
 			containers.clear();
-			containers.add(new CardGuiContainer());
+			containers.add(new CardGuiContainer(object));
 			return containers;
 		}
 
 		@Override
 		public NBTTagCompound writeToNBT()
 		{
-			NBTTagCompound nbt = object.writeToNBT();
-			nbt.setString("class", object.getClass().getName());
-			return nbt;
+			if (object != null)
+			{
+				NBTTagCompound nbt = object.writeToNBT();
+				nbt.setString("class", object.getClass().getName());
+				return nbt;
+			}
+			else
+			{
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("class", "null");
+				return nbt;
+			}
 		}
 
 		@Override
 		public void readFromNBT(NBTTagCompound nbt)
 		{
-			try
+			String className = nbt.getString("class");
+			if (!className.equals("null"))
 			{
-				object = (ICaptchalogueable) Class.forName(nbt.getString("class")).newInstance();
+				try
+				{
+					object = (ICaptchalogueable) Class.forName(className).newInstance();
+				}
+				catch (ClassNotFoundException | InstantiationException | IllegalAccessException e)
+				{
+					throw new RuntimeException(e);
+				}
+				object.readFromNBT(nbt);
 			}
-			catch (ClassNotFoundException | InstantiationException | IllegalAccessException e)
-			{
-				throw new RuntimeException(e);
-			}
-			object.readFromNBT(nbt);
 		}
 	}
 }
