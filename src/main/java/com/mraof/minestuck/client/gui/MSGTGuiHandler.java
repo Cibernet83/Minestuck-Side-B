@@ -1,5 +1,6 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.inventory.ContainerItemVoid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -40,7 +41,17 @@ public class MSGTGuiHandler implements IGuiHandler
 			case ITEM_VOID:
 				return new GuiItemVoid(player);
 			case HOARD_SELECTOR:
-				return new GuiGristHoardSelector(player);
+				return new GuiGristSelector(new IGristSelectable() {
+					@Override
+					public void select(Grist grist) {
+
+					}
+
+					@Override
+					public void cancel() {
+
+					}
+				});
 		}
 		return null;
 	}

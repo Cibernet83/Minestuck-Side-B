@@ -1,5 +1,6 @@
 package com.mraof.minestuck.event.handler;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.armor.ItemPogoBoots;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
@@ -15,31 +16,34 @@ import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class ArmorEventHandler
-{@SubscribeEvent
-public static void onEntityHurt(LivingDamageEvent event)
 {
-	if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckItems.spikedHelmet))
+	@SubscribeEvent
+	public static void onEntityHurt(LivingDamageEvent event)
 	{
-		if(event.getEntityLiving().world.rand.nextInt(2) == 0 && event.getSource().getImmediateSource() != null)
-			event.getSource().getImmediateSource().attackEntityFrom(DamageSource.causeThornsDamage(event.getEntityLiving()), 4);
+		if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckItems.spikedHelmet))
+		{
+			if(event.getEntityLiving().world.rand.nextInt(2) == 0 && event.getSource().getImmediateSource() != null)
+				event.getSource().getImmediateSource().attackEntityFrom(DamageSource.causeThornsDamage(event.getEntityLiving()), 4);
+		}
+		if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckItems.wizardHat) && event.getSource().isMagicDamage())
+		{
+			event.setAmount(event.getAmount()*0.5f);
+			event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).damageItem(1, event.getEntityLiving());
+		}
+		if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckItems.archmageHat) && event.getSource().isMagicDamage())
+		{
+			event.setAmount(event.getAmount()*0.2f);
+			event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).damageItem(1, event.getEntityLiving());
+		}
 	}
-	if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckItems.wizardHat) && event.getSource().isMagicDamage())
-	{
-		event.setAmount(event.getAmount()*0.5f);
-		event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).damageItem(1, event.getEntityLiving());
-	}
-	if(event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(MinestuckItems.archmageHat) && event.getSource().isMagicDamage())
-	{
-		event.setAmount(event.getAmount()*0.2f);
-		event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD).damageItem(1, event.getEntityLiving());
-	}
-}
 
 	@SubscribeEvent
 	public static void onFall(LivingFallEvent event)

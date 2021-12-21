@@ -1,5 +1,6 @@
 package com.mraof.minestuck.event.handler;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.block.BlockHeroStone;
@@ -9,7 +10,6 @@ import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.capabilities.caps.GodTierData;
 import com.mraof.minestuck.damage.CritDamageSource;
 import com.mraof.minestuck.damage.EntityCritDamageSource;
-import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -20,6 +20,7 @@ import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
 import com.mraof.minestuck.world.gen.structure.StructureQuestBed;
 import com.mraof.minestuck.world.lands.LandAspectRegistry;
@@ -47,6 +48,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -56,6 +58,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class GodTierEventHandler
 {
 

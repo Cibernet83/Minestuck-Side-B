@@ -1,5 +1,6 @@
 package com.mraof.minestuck.badges.heroAspectUtil;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
@@ -23,11 +24,13 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeUtilBlood extends BadgeHeroAspectUtil
 {
 	public BadgeUtilBlood()

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.world.storage;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.event.CommonEventHandler;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.File;
@@ -19,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckSaveHandler 
 {
 	@SubscribeEvent

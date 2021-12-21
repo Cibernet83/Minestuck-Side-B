@@ -1,11 +1,12 @@
 package com.mraof.minestuck.item.properties;
 
-import com.mraof.minestuck.alchemy.MinestuckGrists;
-import com.mraof.minestuck.block.BlockGrist;
-import com.mraof.minestuck.item.IPropertyWeapon;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.EntityFrog;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
+import com.mraof.minestuck.item.IPropertyWeapon;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
@@ -15,9 +16,11 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PropertyGristSetter extends WeaponProperty
 {
 	public Grist grist;
@@ -42,7 +45,7 @@ public class PropertyGristSetter extends WeaponProperty
 		{
 			((WorldServer)target.world).spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, target.posX, target.posY + target.height/2f, target.posZ, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
 			((WorldServer)target.world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, target.posX, target.posY + target.height/2f, target.posZ, 5, 0.2D, 0.2D, 0.2D, 0.5D,
-					Block.getStateId(BlockGrist.BLOCKS.get(grist).getDefaultState()));
+					Block.getStateId(MinestuckBlocks.gristBlocks.get(grist).getDefaultState()));
 			target.playSound(SoundEvents.BLOCK_ANVIL_LAND, 0.7f, ((target.world.rand.nextFloat() - target.world.rand.nextFloat()) * 0.2F + 1.0F) * 0.8F);
 
 			NBTTagCompound nbt = target.writeToNBT(new NBTTagCompound());
@@ -53,7 +56,7 @@ public class PropertyGristSetter extends WeaponProperty
 		{
 			((WorldServer)target.world).spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, target.posX, target.posY + target.height/2f, target.posZ, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
 			((WorldServer)target.world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, target.posX, target.posY + target.height/2f, target.posZ, 5, target.width/2f, target.height/2f, target.width/2f, 0.5D,
-					Block.getStateId(BlockGrist.BLOCKS.get(grist).getDefaultState()));
+					Block.getStateId(MinestuckBlocks.gristBlocks.get(grist).getDefaultState()));
 			target.playSound(SoundEvents.BLOCK_ANVIL_LAND, 0.7f, ((target.world.rand.nextFloat() - target.world.rand.nextFloat()) * 0.2F + 1.0F) * 0.8F);
 
 			((EntityUnderling) target).applyGristType(grist, false);

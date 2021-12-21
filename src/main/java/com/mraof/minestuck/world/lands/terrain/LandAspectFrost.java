@@ -54,8 +54,8 @@ public class LandAspectFrost extends TerrainLandAspect
 		ArrayList<ILandDecorator> list = new ArrayList<ILandDecorator>();
 		list.add(new IceDecorator());
 		list.add(new LayeredBlockDecorator(Blocks.SNOW_LAYER, true));
-		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), MinestuckBiomes.mediumNormal));
-		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves1.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), MinestuckBiomes.mediumRough));
+		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), MinestuckBiomes.mediumNormal));
+		list.add(new SpruceTreeDecorator(MinestuckBlocks.log.getDefaultState().withProperty(MSBlockLogVariant.VARIANT, MSBlockLogVariant.BlockType.FROST), MinestuckBlocks.leaves.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.FROST).withProperty(MSBlockLeavesVariant.CHECK_DECAY, Boolean.valueOf(false)), MinestuckBiomes.mediumRough));
 
 		list.add(new SurfaceDecoratorVein(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT), 10, 32, MinestuckBiomes.mediumRough, MinestuckBiomes.mediumOcean));
 		list.add(new SurfaceDecoratorVein(Blocks.ICE.getDefaultState(), 5, 8, MinestuckBiomes.mediumRough));

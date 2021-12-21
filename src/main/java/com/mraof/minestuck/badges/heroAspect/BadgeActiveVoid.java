@@ -1,5 +1,6 @@
 package com.mraof.minestuck.badges.heroAspect;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
@@ -17,11 +18,13 @@ import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.world.GetCollisionBoxesEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeActiveVoid extends BadgeHeroAspect
 {
     public BadgeActiveVoid()

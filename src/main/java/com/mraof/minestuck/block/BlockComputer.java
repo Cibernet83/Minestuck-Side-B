@@ -5,6 +5,7 @@ import com.mraof.minestuck.client.gui.MSGuiHandler;
 import com.mraof.minestuck.network.skaianet.SkaiaClient;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.ComputerProgram;
+import com.mraof.minestuck.util.IdentifierHandler;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
@@ -161,6 +162,7 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 				return false;
 			if(!worldIn.isRemote)
 				worldIn.setBlockState(pos, state.withProperty(COMPUTER_STATE, EnumComputerState.ON), 2);
+			tileEntity.owner = IdentifierHandler.encode(playerIn);
 		}
 
 		int id = ComputerProgram.getProgramID(playerIn.getHeldItem(hand));

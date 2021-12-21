@@ -14,6 +14,7 @@ import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -50,7 +51,7 @@ public class Minestuck
 
 	public static long worldSeed = 0;	//TODO proper usage of seed when generating titles, land aspects, and land dimension data
 
-	public static final long startTime = System.currentTimeMillis(); // Yes I'm being very stupid, for render effects
+	public static final double startTime = System.currentTimeMillis()/1000d; // Yes I'm being very stupid, for render effects
 
 	public static boolean isMekanismLoaded;
 	public static boolean isCyclicLoaded;

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.capabilities.caps;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.badges.Badge;
@@ -26,11 +27,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.*;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class GodTierData implements IGodTierData
 {
 	private int staticKarma = 0;

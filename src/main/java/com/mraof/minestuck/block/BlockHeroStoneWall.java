@@ -1,5 +1,6 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -20,6 +21,7 @@ public class BlockHeroStoneWall extends MSBlockWall implements IGodTierBlock
     {
         super("heroStoneWall", heroStoneBlockState);
         this.aspect = ((IGodTierBlock) heroStoneBlockState.getBlock()).getAspect();
+        setCreativeTab(MinestuckTabs.godTier);
     }
 
     @Override

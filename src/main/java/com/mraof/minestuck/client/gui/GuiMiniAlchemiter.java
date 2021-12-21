@@ -1,13 +1,13 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.alchemy.GristAmount;
-import com.mraof.minestuck.alchemy.GristRegistry;
-import com.mraof.minestuck.alchemy.GristSet;
+import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.client.util.GuiUtil;
 import com.mraof.minestuck.inventory.miniMachines.ContainerMiniAlchemiter;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.tileentity.TileEntityMiniAlchemiter;
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.resources.I18n;
@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import java.io.IOException;
 import java.util.List;
 
-public class GuiMiniAlchemiter extends GuiMiniSburbMachine
+public class GuiMiniAlchemiter extends GuiMiniSburbMachine implements IGristSelectable
 {
 	public GuiMiniAlchemiter(InventoryPlayer inventoryPlayer, TileEntityMiniAlchemiter tileEntity) {
 		super("alchemiter", new ContainerMiniAlchemiter(inventoryPlayer, tileEntity), tileEntity);
@@ -82,5 +82,20 @@ public class GuiMiniAlchemiter extends GuiMiniSburbMachine
 			mc.currentScreen = new GuiGristSelector(this);
 			mc.currentScreen.setWorldAndResolution(mc, width, height);
 		}
+	}
+
+	@Override
+	public void select(Grist grist)
+	{
+		te.selectedGrist = grist;
+
+		mc.currentScreen = this;
+		MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.MACHINE_STATE, grist));
+	}
+
+	@Override
+	public void cancel()
+	{
+		mc.currentScreen = this;
 	}
 }

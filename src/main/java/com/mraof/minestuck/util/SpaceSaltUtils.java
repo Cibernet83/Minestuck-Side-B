@@ -82,7 +82,7 @@ public class SpaceSaltUtils
 						world.destroyBlock(mainPos.up(y), true);
 
 					targetPos = new BlockPos(targetPos.getX(), mainPos.getY(), targetPos.getZ());
-					world.setBlockState(targetPos, MinestuckBlocks.miniAlchemiter.getDefaultState().withProperty(BlockSburbMachine.FACING, mchnFacing.rotateY()));
+					world.setBlockState(targetPos, MinestuckBlocks.miniAlchemiter.getDefaultState().withProperty(MSFacingBase.FACING, mchnFacing.rotateY()));
 				}
 
 				return true;
@@ -120,7 +120,7 @@ public class SpaceSaltUtils
 
 					targetPos = new BlockPos(targetPos.getX(), mainPos.getY(), targetPos.getZ());
 
-					world.setBlockState(targetPos, MinestuckBlocks.miniTotemLathe.getDefaultState().withProperty(BlockSburbMachine.FACING, mchnFacing));
+					world.setBlockState(targetPos, MinestuckBlocks.miniTotemLathe.getDefaultState().withProperty(MSFacingBase.FACING, mchnFacing));
 				}
 				return true;
 			}else if(block instanceof BlockPunchDesignix)
@@ -141,7 +141,7 @@ public class SpaceSaltUtils
 
 					targetPos = new BlockPos(targetPos.getX(), mainPos.getY()-1, targetPos.getZ());
 
-					world.setBlockState(targetPos, MinestuckBlocks.miniPunchDesignix.getDefaultState().withProperty(BlockSburbMachine.FACING, mchnFacing));
+					world.setBlockState(targetPos, MinestuckBlocks.miniPunchDesignix.getDefaultState().withProperty(MSFacingBase.FACING, mchnFacing));
 				}
 				return true;
 			}else if(block instanceof BlockCruxtruder)
@@ -166,14 +166,14 @@ public class SpaceSaltUtils
 						world.destroyBlock(mainPos.up(), true);
 
 					targetPos = new BlockPos(targetPos.getX(), mainPos.getY()-1,targetPos.getZ());
-					world.setBlockState(targetPos, MinestuckBlocks.miniCruxtruder.getDefaultState().withProperty(BlockSburbMachine.FACING, mchnFacing.getOpposite()));
+					world.setBlockState(targetPos, MinestuckBlocks.miniCruxtruder.getDefaultState().withProperty(MSFacingBase.FACING, mchnFacing.getOpposite()));
 				}
 				return true;
 			}
 		}
-		else if(block instanceof BlockSburbMachine)
+		else if(block instanceof MSFacingBase)
 		{
-			mchnFacing = state.getValue(BlockSburbMachine.FACING);
+			mchnFacing = state.getValue(MSFacingBase.FACING);
 			boolean canPlace;
 			BlockPos placePos = targetPos;
 

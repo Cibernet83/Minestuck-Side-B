@@ -9,7 +9,6 @@ import com.google.gson.JsonSyntaxException;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.item.ItemKnittingNeedles;
 import com.mraof.minestuck.item.ItemMinestuckRecord;
-import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.TileEntityUraniumCooker;
 import net.minecraft.block.Block;
@@ -114,13 +113,10 @@ public class CraftingRecipes
 		OreDictionary.registerOre("treeSapling",endSapling);
 		OreDictionary.registerOre("treeSapling",rainbowSapling);
 		OreDictionary.registerOre("treeLeaves",	endLeaves);
-		OreDictionary.registerOre("treeLeaves",	new ItemStack(leaves1, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("treeLeaves",	new ItemStack(leaves, 1, OreDictionary.WILDCARD_VALUE));
 		
 		OreDictionary.registerOre("cropStrawberry", strawberry);
 		OreDictionary.registerOre("blockCactus", bloomingCactus);
-
-		for (ItemModus modus : modi)
-			OreDictionary.registerOre("modus", modus);
 
 		for (ItemMinestuckRecord record : records)
 			OreDictionary.registerOre("record", record);

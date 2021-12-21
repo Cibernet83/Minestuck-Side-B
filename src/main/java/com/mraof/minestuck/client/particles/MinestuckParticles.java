@@ -1,16 +1,24 @@
 package com.mraof.minestuck.client.particles;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckParticles
 {
+	private static Minecraft mc = Minecraft.getMinecraft();
+
 	@SideOnly(Side.CLIENT)
 	public static void spawnPowerParticle(World world, double xPos, double yPos, double zPos, double xVel, double yVel, double zVel, int maxAge, int hexColor)
 	{
@@ -129,6 +137,74 @@ public class MinestuckParticles
 				return false;
 			PowerParticleState state = (PowerParticleState) obj;
 			return this.type == state.type && this.aspect == state.aspect && this.clazz == state.clazz && this.count == state.count;
+		}
+	}
+
+	public static Particle spawnInkParticle(double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int color)
+	{
+		return spawnInkParticle(xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, color, 1);
+	}
+
+	public static Particle spawnInkParticle(double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int color, float size) {
+		if (mc != null && mc.getRenderViewEntity() != null && mc.effectRenderer != null) {
+			int partSetting = mc.gameSettings.particleSetting;
+
+			if (partSetting == 1 && mc.world.rand.nextInt(3) == 0) {
+				partSetting = 2;
+			}
+
+			double xCheck = mc.getRenderViewEntity().posX - xCoordIn;
+			double yCheck = mc.getRenderViewEntity().posY - yCoordIn;
+			double zCheck = mc.getRenderViewEntity().posZ - zCoordIn;
+			Particle particle = null;
+			double max = 16.0D;
+
+			if (xCheck * xCheck + yCheck * yCheck + zCheck * zCheck > max * max) {
+				return null;
+			} else if (partSetting > 1) {
+				return null;
+			} else {
+
+				particle = new ParticleInk(mc.world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, color, size);
+				mc.effectRenderer.addEffect(particle);
+				return particle;
+			}
+		}
+		return null;
+	}
+
+	public static class ParticleInk extends Particle
+	{
+		public int color;
+
+		public ParticleInk(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int color, float size) {
+			super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+			this.color = color;
+
+			double r = Math.floor(color / (256*256));
+			double g = Math.floor(color / 256) % 256;
+			double b = color % 256;
+
+			this.particleRed = Math.max(5/255f,(float) (r/255) - 5/255f);
+			this.particleGreen = Math.max(5/255f,(float) (g/255) - 5/255f);
+			this.particleBlue = Math.max(5/255f,(float) (b/255) - 5/255f);
+
+
+			this.particleScale = Math.min(1, Math.max(0, rand.nextFloat()))*5 * size;
+
+			this.particleGravity = 0.1f;
+		}
+
+		public void onUpdate()
+		{
+			super.onUpdate();
+			if(particleGravity > 0)
+				this.motionY -= 0.004D + 0.04D * (double)this.particleGravity;
+
+			if (this.world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ)).getMaterial() == Material.WATER)
+			{
+				this.setExpired();
+			}
 		}
 	}
 }

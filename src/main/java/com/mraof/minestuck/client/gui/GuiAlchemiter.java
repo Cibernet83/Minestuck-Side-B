@@ -1,27 +1,25 @@
 package com.mraof.minestuck.client.gui;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.client.util.GuiUtil;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
 import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
-import com.mraof.minestuck.alchemy.GristSet;
-
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiAlchemiter extends GuiScreen
+import java.io.IOException;
+import java.util.List;
+
+public class GuiAlchemiter extends GuiScreen implements IGristSelectable
 {
-	
-	
 	private static final ResourceLocation guiBackground = new ResourceLocation("minestuck", "textures/gui/large_alchemiter.png");
 	private static final int guiWidth = 159, guiHeight = 102;
 	private TileEntityAlchemiter alchemiter;
@@ -181,5 +179,19 @@ public class GuiAlchemiter extends GuiScreen
 			mc.currentScreen.setWorldAndResolution(mc, width, height);
 		}
 	}
-	
+
+	@Override
+	public void select(Grist grist)
+	{
+		getAlchemiter().setSelectedGrist(grist);
+
+		mc.currentScreen = this;
+		MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.MACHINE_STATE, grist));
+	}
+
+	@Override
+	public void cancel()
+	{
+		mc.currentScreen = this;
+	}
 }

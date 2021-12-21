@@ -1,5 +1,6 @@
 package com.mraof.minestuck.capabilities.caps;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.badges.heroAspect.*;
 import com.mraof.minestuck.badges.heroAspectUtil.*;
@@ -25,6 +26,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -34,6 +36,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeEffects implements IBadgeEffects
 {
 	// Serialized data

@@ -2,8 +2,11 @@ package com.mraof.minestuck.entity;
 
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.util.Debug;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
@@ -23,19 +27,23 @@ import net.minecraft.world.GameType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.lang.reflect.Constructor;
-import java.util.Set;
+import java.util.UUID;
 
 public class EntityDecoy extends EntityLiving {
 	
 	private static final DataParameter<String> USERNAME = EntityDataManager.createKey(EntityDecoy.class, DataSerializers.STRING);
+	private static final DataParameter<String> PLAYER_UUID = EntityDataManager.createKey(EntityDecoy.class, DataSerializers.STRING);
 	private static final DataParameter<Float> ROTATION_YAW_HEAD = EntityDataManager.createKey(EntityDecoy.class, DataSerializers.FLOAT);
 	private static final DataParameter<Boolean> FLYING = EntityDataManager.createKey(EntityDecoy.class, DataSerializers.BOOLEAN);
 	
 	public boolean isFlying;
 	public GameType gameType;
 	public String username;
+	public UUID uuid;
 	private FoodStats foodStats;
 	private NBTTagCompound foodStatsNBT;
 	public NBTTagCompound capabilities = new NBTTagCompound();
@@ -65,7 +73,7 @@ public class EntityDecoy extends EntityLiving {
 		this.setEntityBoundingBox(player.getEntityBoundingBox());
 		height = player.height;
 		this.player = new DecoyPlayer(world, this, player);
-		for(String key : (Set<String>) player.getEntityData().getKeySet())
+		for(String key : player.getEntityData().getKeySet())
 			this.player.getEntityData().setTag(key, player.getEntityData().getTag(key).copy());
 		this.posX = player.posX;
 		originX = posX;
@@ -81,6 +89,12 @@ public class EntityDecoy extends EntityLiving {
 		this.rotationYawHead = player.rotationYawHead;
 		this.renderYawOffset = player.renderYawOffset;
 		this.gameType = player.interactionManager.getGameType();
+
+		uuid = player.getUniqueID();
+
+		for(PotionEffect effect : player.getActivePotionEffects())
+			addPotionEffect(effect);
+
 		initInventory(player);
 		player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getModifiers().forEach(attributeModifier ->
 				this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(attributeModifier));
@@ -94,8 +108,14 @@ public class EntityDecoy extends EntityLiving {
 		player.getFoodStats().writeNBT(foodStatsNBT);
 		initFoodStats(player);
 		dataManager.set(USERNAME, username);
+		dataManager.set(PLAYER_UUID, uuid.toString());
 		dataManager.set(ROTATION_YAW_HEAD, this.rotationYawHead);	//Due to rotationYawHead didn't update correctly
 		dataManager.set(FLYING, isFlying);
+
+		if(player.isRiding())
+			startRiding(player.getRidingEntity());
+		for(Entity p : player.getPassengers())
+			p.startRiding(player);
 	}
 	
 	private void initInventory(EntityPlayerMP player)
@@ -162,16 +182,21 @@ public class EntityDecoy extends EntityLiving {
 	{
 		super.entityInit();
 		dataManager.register(USERNAME, "");
+		dataManager.register(PLAYER_UUID, "");
 		dataManager.register(ROTATION_YAW_HEAD, 0F);
 		dataManager.register(FLYING, false);
 	}
-	
-	protected void setupCustomSkin() {
-		if (this.world.isRemote && username != null && !username.isEmpty()){
-			locationSkin = AbstractClientPlayer.getLocationSkin(username);
-			//locationCape = AbstractClientPlayer.getLocationCape(username);
-			downloadImageSkin = AbstractClientPlayer.getDownloadImageSkin(locationSkin, username);
-			//downloadImageCape = AbstractClientPlayer.getDownloadImageCape(locationCape, username);
+
+	@SideOnly(Side.CLIENT)
+	protected void setupCustomSkin()
+	{
+		NetworkPlayerInfo info = Minecraft.getMinecraft().getConnection().getPlayerInfo(uuid);
+
+		if(uuid != null && world.getPlayerEntityByUUID(uuid) instanceof AbstractClientPlayer)
+		{
+			AbstractClientPlayer player = ((AbstractClientPlayer) world.getPlayerEntityByUUID(uuid));
+			locationSkin = player.getLocationSkin();
+			locationCape = player.getLocationCape();
 		}
 	}
 	
@@ -202,6 +227,7 @@ public class EntityDecoy extends EntityLiving {
 		super.onUpdate();
 		if(world.isRemote && !init ){
 			username = dataManager.get(USERNAME);
+			uuid = UUID.fromString(dataManager.get(PLAYER_UUID));
 			this.rotationYawHead = dataManager.get(ROTATION_YAW_HEAD);
 			prevRotationYawHead = rotationYawHead;
 			this.rotationYaw = rotationYawHead;	//I don't know how much of this that is necessary
@@ -290,6 +316,7 @@ public class EntityDecoy extends EntityLiving {
 		return false;
 	}
 	
+	@SuppressWarnings("EntityConstructor")
 	private static class DecoyPlayer extends FakePlayer	//Never spawned into the world. Only used for the InventoryPlayer and FoodStats.
 	{
 		

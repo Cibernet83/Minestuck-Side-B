@@ -1,6 +1,6 @@
 {
-    "parent": "minestuckgodtier:block/hero_stone_wall_side",
+    "parent": "minestuck:block/hero_stone_wall_side",
     "textures": {
-        "wall": "minestuckgodtier:blocks/secondary_hero_stone_hope"
+        "wall": "minestuck:blocks/secondary_hero_stone_hope"
     }
 }

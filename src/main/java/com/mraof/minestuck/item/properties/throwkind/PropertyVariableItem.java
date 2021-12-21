@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.properties.throwkind;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.entity.EntityMSUThrowable;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import com.mraof.minestuck.item.properties.WeaponProperty;
@@ -8,8 +9,10 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PropertyVariableItem extends WeaponProperty implements IPropertyThrowable
 {
 	int variations;

@@ -15,10 +15,6 @@ import java.util.TreeMap;
 
 public class ItemMinestuckCandy extends ItemFood
 {
-	public static final String[] NAMES = new String[]{"candy_corn", "amber_gummy_worm", "amethyst_hard_candy", "artifact_war_head", "build_gushers",
-			"caulk_pretzel", "chalk_candy_cigarette", "cobalt_gum", "diamond_mint", "garnet_twix", "gold_candy_ribbon",
-			"iodine_licorice", "marble_jawbreaker", "mercury_sixlets", "quartz_jelly_bean", "ruby_lollipop", "rust_gummy_eye",
-			"shale_peep", "sulfur_candy_apple", "tar_black_licorice", "uranium_gummy_bear", "zillium_skittles"};
 	TreeMap<Integer, Candy> candyMap;
 	Candy invalidCandy = new Candy(0, 0, "Invalid");
 
@@ -94,7 +90,7 @@ public class ItemMinestuckCandy extends ItemFood
 	@Override
 	public void registerModel()
 	{
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "candy_corn"), "inventory"));
 		List<Grist> grists = Grist.REGISTRY.getValues();
 		for (int i = 0; i < grists.size(); i++)
 			ModelLoader.setCustomModelResourceLocation(this, i + 1, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy_" + grists.get(i).getName()), "inventory"));

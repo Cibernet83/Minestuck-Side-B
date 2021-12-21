@@ -8,8 +8,14 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.client.gui.GuiGristSelector;
+import com.mraof.minestuck.client.gui.IGristSelectable;
 import com.mraof.minestuck.client.util.GuiUtil;
+import com.mraof.minestuck.inventory.captchalouge.AlchemyModus;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -30,7 +36,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-public class AlchemyGuiHandler extends BaseModusGuiHandler
+public class AlchemyGuiHandler extends BaseModusGuiHandler implements IGristSelectable
 {
 	protected GristButton guiButton;
 	
@@ -76,7 +82,7 @@ public class AlchemyGuiHandler extends BaseModusGuiHandler
 		super.actionPerformed(button);
 		if (button == this.guiButton)
 		{
-			mc.currentScreen = new GuiModusGristSelector(this);
+			mc.currentScreen = new GuiGristSelector(this);
 			mc.currentScreen.setWorldAndResolution(mc, width, height);
 		}
 		
@@ -86,7 +92,21 @@ public class AlchemyGuiHandler extends BaseModusGuiHandler
 	{
 		return (AlchemyModus) modus;
 	}
-	
+
+	@Override
+	public void select(GristType grist)
+	{
+		getModus().setWildcardGrist(grist);
+		MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.ALCHEM_WILDCARD, grist));
+		mc.currentScreen = this;
+	}
+
+	@Override
+	public void cancel()
+	{
+		mc.currentScreen = this;
+	}
+
 	public static class AlchemiterCard extends GuiCard
 	{
 		AlchemyGuiHandler gui;

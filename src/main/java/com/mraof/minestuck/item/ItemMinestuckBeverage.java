@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.Minestuck;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumAction;
@@ -81,6 +82,6 @@ public class ItemMinestuckBeverage extends ItemFood
 	public void registerModel()
 	{
 		for (int i = 0; i < NAMES.length; i++)
-			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(NAMES[i], "inventory"));
+			ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(Minestuck.MODID + ":" + NAMES[i], "inventory"));
 	}
 }

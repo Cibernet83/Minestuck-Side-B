@@ -1,5 +1,6 @@
 package com.mraof.minestuck.tracker;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrists;
@@ -25,6 +26,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -33,6 +35,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import java.util.HashSet;
 import java.util.Set;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckPlayerTracker
 {
 	@SubscribeEvent

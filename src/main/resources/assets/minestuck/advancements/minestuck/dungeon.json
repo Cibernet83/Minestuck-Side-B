@@ -1,8 +1,7 @@
 {
     "display": {
         "icon": {
-            "item": "minestuck:stone",
-            "data": 4
+            "item": "minestuck:shade_brick"
         },
         "title": {
             "translate": "advancements.minestuck.find_dungeon.title"

@@ -31,7 +31,8 @@ public class MSGuiHandler implements IGuiHandler
 		AUTO_CAPTCHA,
 		PORKHOLLOW_ATM,
 		BOONDOLLAR_REGISTER,
-		STRIFE_CARD
+		STRIFE_CARD,
+		MODUS_CONTROL_DECK,
 	}
 	
 	@Override
@@ -129,6 +130,8 @@ public class MSGuiHandler implements IGuiHandler
 				return new GuiBoondollarRegister(player, (TileEntityBoondollarRegister) tileEntity);
 			case STRIFE_CARD:
 				return new GuiStrifeCard(player);
+			case MODUS_CONTROL_DECK:
+				return new GuiModusControlDeck((TileEntityModusControlDeck) tileEntity);
 
 		}
 

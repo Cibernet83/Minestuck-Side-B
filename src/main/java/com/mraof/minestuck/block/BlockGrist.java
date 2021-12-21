@@ -27,15 +27,13 @@ public class BlockGrist extends MSBlockBase
 	public Grist type;
 	public int value;
 
-	public static final HashMap<Grist, BlockGrist> BLOCKS = new HashMap<>();
-
 	public BlockGrist(Grist type)
 	{
-		super(type.getName().toLowerCase() + "GristBlock", Material.GOURD, MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY);
+		super("gristBlock" + type.getName().toLowerCase().replaceFirst(type.getName().charAt(0)+"", (type.getName().charAt(0)+"").toUpperCase()), Material.GOURD, MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY);
 		this.type = type;
 		this.value = (type.getValue() >= 5.0F || !type.equals(MinestuckGrists.build)) ? 10 : 100;
 		
-		BLOCKS.put(type, this);
+		MinestuckBlocks.gristBlocks.put(type, this);
 
 		setHardness(0.4f);
 		setHarvestLevel("pickaxe", 0);

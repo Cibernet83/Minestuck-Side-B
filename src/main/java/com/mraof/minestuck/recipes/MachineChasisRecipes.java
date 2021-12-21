@@ -1,5 +1,6 @@
 package com.mraof.minestuck.recipes;
 
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.block.Block;
@@ -24,8 +25,8 @@ public class MachineChasisRecipes
 
     public static void registerRecipes()
     {
-        addRecipe(gristHopper, new ItemStack(Blocks.HOPPER), new ItemStack(gristBlockBuild),
-                new ItemStack(gristBlockUranium), new ItemStack(MinestuckBlocks.blockSburbComputer), new ItemStack(gristBlockUranium));
+        addRecipe(gristHopper, new ItemStack(Blocks.HOPPER), new ItemStack(gristBlocks.get(MinestuckGrists.build)),
+                new ItemStack(gristBlocks.get(MinestuckGrists.uranium)), new ItemStack(MinestuckBlocks.blockSburbComputer), new ItemStack(gristBlocks.get(MinestuckGrists.uranium)));
         addRecipe(autoWidget, new ItemStack(gristWidget), new ItemStack(MinestuckItems.boondollars),
                 new ItemStack(MinestuckItems.boondollars), new ItemStack(MinestuckItems.energyCore), new ItemStack(zillystoneShard));
         addRecipe(autoCaptcha, new ItemStack(Blocks.DISPENSER), new ItemStack(MinestuckItems.captchaCard),

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.potions;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
@@ -8,10 +9,12 @@ import net.minecraft.network.play.server.SPacketEntityMetadata;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PotionConceal extends MSPotionBase
 {
 	protected PotionConceal(String name, boolean isBadEffectIn, int liquidColorIn)

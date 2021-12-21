@@ -2,7 +2,6 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
-import com.mraof.minestuck.util.IRegistryObject;
 import com.mraof.minestuck.util.IUnlocSerializable;
 import com.mraof.minestuck.util.MinestuckRandom;
 import net.minecraft.block.Block;
@@ -81,10 +80,11 @@ public class MSBlockCustomOre extends MSBlockBase
 		END_STONE(Blocks.END_STONE),
 		PINK_STONE(MinestuckBlocks.pinkStoneSmooth);
 		private String name, regName;
+
 		BlockType(Block ground)
 		{
 			name = ground.getUnlocalizedName().substring(5);
-			regName = IRegistryObject.unlocToReg(name);
+			regName = toString().toLowerCase();
 		}
 		@Override
 		public String getName()

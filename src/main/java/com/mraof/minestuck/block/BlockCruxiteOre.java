@@ -14,7 +14,7 @@ public class BlockCruxiteOre extends MSBlockCustomOre
 {
 	public BlockCruxiteOre()
 	{
-		super("oreCruxite");
+		super("cruxiteOre");
 	}
 
 	@Override

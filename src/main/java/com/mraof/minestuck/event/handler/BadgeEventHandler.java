@@ -3,19 +3,15 @@ package com.mraof.minestuck.event.handler;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.badges.BadgeBuilder;
 import com.mraof.minestuck.badges.MinestuckBadges;
-import com.mraof.minestuck.badges.heroAspect.*;
-import com.mraof.minestuck.badges.heroAspectUtil.*;
-import com.mraof.minestuck.badges.heroClass.BadgeHeir;
-import com.mraof.minestuck.badges.heroClass.BadgeMuse;
-import com.mraof.minestuck.badges.heroClass.BadgeOverlord;
 import com.mraof.minestuck.block.BlockDungeonDoor;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IGodKeyStates;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
+import com.mraof.minestuck.entity.underling.EntityUnderling;
+import com.mraof.minestuck.event.UnderlingSpoilsEvent;
 import com.mraof.minestuck.event.WeaponAssignedEvent;
 import com.mraof.minestuck.modSupport.LocksSupport;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
@@ -46,12 +42,12 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -59,6 +55,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import java.util.Random;
 import java.util.TreeMap;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeEventHandler
 {
 
@@ -77,25 +74,6 @@ public class BadgeEventHandler
 		put(EnumAspect.TIME, new PotionEffect(MinestuckPotions.TIME_STOP, 100, 0));
 		put(EnumAspect.MIND, new PotionEffect(MinestuckPotions.MIND_CONFUSION, 300, 0));
 	}};
-
-	public static void registerBadgeHandlers()
-	{
-		MinecraftForge.EVENT_BUS.register(BadgeEventHandler.class);
-		MinecraftForge.EVENT_BUS.register(BadgeActiveBlood.class);
-		MinecraftForge.EVENT_BUS.register(BadgeActiveHeart.class);
-		MinecraftForge.EVENT_BUS.register(BadgeActiveMind.class);
-		MinecraftForge.EVENT_BUS.register(BadgeActiveTime.class);
-		MinecraftForge.EVENT_BUS.register(BadgeActiveVoid.class);
-		MinecraftForge.EVENT_BUS.register(BadgeUtilBlood.class);
-		MinecraftForge.EVENT_BUS.register(BadgeUtilBreath.class);
-		MinecraftForge.EVENT_BUS.register(BadgeUtilRage.class);
-		MinecraftForge.EVENT_BUS.register(BadgeUtilVoid.class);
-		MinecraftForge.EVENT_BUS.register(BadgeHeir.class);
-		MinecraftForge.EVENT_BUS.register(BadgeMuse.class);
-		MinecraftForge.EVENT_BUS.register(BadgeOverlord.class);
-		MinecraftForge.EVENT_BUS.register(BadgeUtilSpace.class);
-		MinecraftForge.EVENT_BUS.register(BadgeBuilder.class);
-	}
 
 	@SubscribeEvent
 	public static void canStrifeEvent(WeaponAssignedEvent event)
@@ -184,74 +162,36 @@ public class BadgeEventHandler
 		}
 	}
 
-	// TODO: Migrate to UnderlingSpoilsEvent @Cibernet
-	/*@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void onLivingDeath(LivingDeathEvent event)
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public static void onUnderlingSpoils(UnderlingSpoilsEvent event)
 	{
-		if (event.getEntity().world.isRemote)
-			return;
-
 		if(event.getSource().getTrueSource() instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
 			IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
 
-			if(event.getEntityLiving() instanceof EntityUnderling
-					&& data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE))
+			if(data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE))
 			{
-				EntityUnderling underling = (EntityUnderling) event.getEntityLiving();
+				EntityUnderling underling = event.getUnderling();
 
-				if (!underling.world.isRemote)
+				GristSet grist = event.getSpoils().scaleGrist(1 + MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player));
+
+				if((underling.world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
 				{
-					GristSet grist = underling.getGristSpoils().scaleGrist(1 + MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player));
-
-					if((event.getEntity().world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
-					{
-						grist = grist.scaleGrist(5);
-						MinestuckChannelHandler.sendToTracking(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MSGTParticles.ParticleType.AURA, 0x00D54E, 20, underling.posX, underling.posY, underling.posZ), underling);
-					}
-
-					if (grist == null) {
-						return;
-					}
-
-					if (underling.fromSpawner) {
-						grist.scaleGrist(0.5F);
-					}
-
-					Iterator var2;
-					GristAmount gristType;
-					if (!underling.dropCandy) {
-						var2 = grist.getArray().iterator();
-
-						while(var2.hasNext()) {
-							gristType = (GristAmount)var2.next();
-							underling.world.spawnEntity(new EntityGrist(underling.world, underling.posX + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), underling.posY,
-									underling.posZ + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), gristType));
-						}
-					} else {
-						var2 = grist.getArray().iterator();
-
-						while(var2.hasNext()) {
-							gristType = (GristAmount)var2.next();
-							int candy = (gristType.getAmount() + 2) / 4;
-							int gristAmount = gristType.getAmount() - candy * 2;
-							ItemStack candyItem = gristType.getType().getCandyItem();
-							candyItem.setCount(candy);
-							if (candy > 0) {
-								underling.world.spawnEntity(new EntityItem(underling.world, underling.posX + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), underling.posY,
-										underling.posZ + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), candyItem));
-							}
-
-							if (gristAmount > 0) {
-								underling.world.spawnEntity(new EntityGrist(underling.world, underling.posX + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), underling.posY,
-										underling.posZ + underling.getRNG().nextDouble() * (double)underling.width - (double)(underling.width / 2.0F), new GristAmount(gristType.getType(), gristAmount)));
-							}
-						}
-					}
+					grist = grist.scaleGrist(5);
+					MinestuckChannelHandler.sendToTracking(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x00D54E, 20, underling.posX, underling.posY, underling.posZ), underling);
 				}
+
+				event.setSpoils(grist);
 			}
 		}
+	}
+
+	// TODO: Migrate to UnderlingSpoilsEvent @Cibernet
+	/*@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void onLivingDeath(LivingDeathEvent event)
+	{
+
 	}*/
 
 	private static int blockCount = 0;

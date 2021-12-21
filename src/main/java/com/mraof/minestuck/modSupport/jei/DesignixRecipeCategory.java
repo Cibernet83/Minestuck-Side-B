@@ -43,7 +43,7 @@ public class DesignixRecipeCategory implements IRecipeCategory<DesignixRecipeWra
     @Override
     public String getTitle()
     {
-        return I18n.format("tile.sburbMachine.punchDesignix.name");
+        return I18n.format("tile.miniPunchDesignix.name");
     }
 
     @Override

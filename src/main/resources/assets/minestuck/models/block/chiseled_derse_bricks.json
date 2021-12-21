@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "minestuckgodtier:blocks/chiseled_derse_bricks"
+		"all": "minestuck:blocks/chiseled_derse_bricks"
 	}
 }

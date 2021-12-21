@@ -30,8 +30,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class BlockSburbMachine extends MSBlockContainer
 {
@@ -64,21 +62,7 @@ public abstract class BlockSburbMachine extends MSBlockContainer
 	{
 		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta/4));
 	}
-	
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-	{
-		return new ArrayList<ItemStack>();
-	}
-	
-	/*
-	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
-	{
-		for(int i = 0; i < 4; i++)
-			items.add(new ItemStack(this, 1, i));
-	}
-	*/
+
 
 	@Override
 	public boolean isFullCube(IBlockState state)

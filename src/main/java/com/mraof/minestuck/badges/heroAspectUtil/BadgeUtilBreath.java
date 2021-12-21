@@ -1,5 +1,6 @@
 package com.mraof.minestuck.badges.heroAspectUtil;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
@@ -20,6 +21,7 @@ import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.world.GetCollisionBoxesEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,6 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeUtilBreath extends BadgeHeroAspectUtil
 {
 

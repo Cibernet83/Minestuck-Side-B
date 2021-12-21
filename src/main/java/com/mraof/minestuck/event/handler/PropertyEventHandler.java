@@ -2,10 +2,9 @@ package com.mraof.minestuck.event.handler;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.IPropertyWeapon;
-import com.mraof.minestuck.item.properties.*;
-import com.mraof.minestuck.item.properties.throwkind.PropertyVariableItem;
-import com.mraof.minestuck.item.weapon.MSShieldBase;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.properties.WeaponProperty;
+import com.mraof.minestuck.item.weapon.MSShieldBase;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
@@ -23,11 +22,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,18 +34,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.HashMap;
 import java.util.List;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PropertyEventHandler
 {
-	public static void registerPropertyHandlers()
-	{
-		MinecraftForge.EVENT_BUS.register(PropertyEventHandler.class);
-		MinecraftForge.EVENT_BUS.register(PropertyGristSetter.class);
-		MinecraftForge.EVENT_BUS.register(PropertyTrueDamage.class);
-		MinecraftForge.EVENT_BUS.register(PropertyAutoSmelt.class);
-		MinecraftForge.EVENT_BUS.register(PropertyVariableItem.class);
-		MinecraftForge.EVENT_BUS.register(PropertyCandyWeapon.class);
-	}
-
 	@SubscribeEvent
 	public static void onCrit(CriticalHitEvent event)
 	{

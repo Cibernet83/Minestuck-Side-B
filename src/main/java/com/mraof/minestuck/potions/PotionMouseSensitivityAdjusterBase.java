@@ -1,13 +1,15 @@
 package com.mraof.minestuck.potions;
 
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.util.MSGTUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
@@ -16,6 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public abstract class PotionMouseSensitivityAdjusterBase extends MSPotionBase
 {
 	@SideOnly(Side.CLIENT)

@@ -39,7 +39,7 @@ public class AlchemiterRecipeCategory implements IRecipeCategory<AlchemiterRecip
     @Override
     public String getTitle()
     {
-        return I18n.format("tile.sburbMachine.alchemiter.name");
+        return I18n.format("tile.miniAlchemiter.name");
     }
 
     @Override

@@ -1,22 +1,30 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.item.block.ItemMiniSburbMachine;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityMiniPunchDesignix;
+import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import com.mraof.minestuck.util.SpaceSaltUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockMiniPunchDesignix extends BlockSburbMachine
+public class BlockMiniPunchDesignix extends MSFacingBase
 {
 	private static final AxisAlignedBB[] PUNCH_DESIGNIX_AABB = {new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 5/8D), new AxisAlignedBB(3/8D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 3/8D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 5/8D, 1.0D, 1.0D)};
 
@@ -81,6 +89,41 @@ public class BlockMiniPunchDesignix extends BlockSburbMachine
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
 
+		return true;
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemMiniSburbMachine(this);
+	}
+
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+	{
+		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
+
+		boolean b = super.removedByPlayer(state, world, pos, player, willHarvest);
+
+		if(!world.isRemote && willHarvest && te != null)
+		{
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1);
+			spawnAsEntity(world, pos, stack);
+		}
+
+		return b;
+	}
+
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		if (!(tileEntity instanceof TileEntityMiniSburbMachine) || playerIn.isSneaking())
+			return false;
+
+		if(!worldIn.isRemote)
+			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 }

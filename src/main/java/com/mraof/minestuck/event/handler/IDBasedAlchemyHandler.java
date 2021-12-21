@@ -1,15 +1,18 @@
 package com.mraof.minestuck.event.handler;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.event.AlchemyCombinationEvent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Iterator;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class IDBasedAlchemyHandler
 {
 	private static int MAX_ID;

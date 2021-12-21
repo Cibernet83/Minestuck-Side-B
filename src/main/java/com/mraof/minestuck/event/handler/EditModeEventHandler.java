@@ -1,5 +1,6 @@
 package com.mraof.minestuck.event.handler;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import net.minecraft.client.Minecraft;
@@ -7,10 +8,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.event.world.GetCollisionBoxesEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class EditModeEventHandler
 {
     @SubscribeEvent

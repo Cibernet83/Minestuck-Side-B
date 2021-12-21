@@ -74,7 +74,7 @@ public class ItemYarnBall extends MSThrowableBase
         super.registerModel();
         ResourceLocation[] variants = new ResourceLocation[EnumDyeColor.values().length];
         for(int i = 0; i < variants.length; i++)
-            variants[i] = new ResourceLocation(Minestuck.MODID, getRegistryName() + "_" + EnumDyeColor.byDyeDamage(i).getName());
+            variants[i] = new ResourceLocation(Minestuck.MODID, getRegistryName().getResourcePath() + "_" + EnumDyeColor.byDyeDamage(i).getName());
         ModelLoader.registerItemVariants(this, variants);
         ModelLoader.setCustomMeshDefinition(this, (ItemStack stack) -> new ModelResourceLocation(variants[stack.getItemDamage()], "inventory"));
     }

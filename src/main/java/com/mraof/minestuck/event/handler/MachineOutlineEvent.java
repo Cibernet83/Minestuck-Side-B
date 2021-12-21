@@ -2,6 +2,7 @@ package com.mraof.minestuck.event.handler;
 
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.block.BlockSburbMachine;
+import com.mraof.minestuck.block.MSFacingBase;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -30,13 +31,13 @@ public class MachineOutlineEvent
 
 
 			IBlockState state = mc.player.getEntityWorld().getBlockState(mc.objectMouseOver.getBlockPos());
-			if (mc.player.isSneaking() && mc.player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_UTIL_SPACE) && state.getBlock() instanceof BlockSburbMachine)
+			if (mc.player.isSneaking() && mc.player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_UTIL_SPACE) && state.getBlock() instanceof MSFacingBase)
 			{
-				EnumFacing facing = state.getValue(BlockSburbMachine.FACING);
+				EnumFacing facing = state.getValue(MSFacingBase.FACING);
 				//facing = mc.player.getHorizontalFacing().getOpposite();
 				ItemStack stack = mc.player.getHeldItemMainhand();
 
-				((BlockSburbMachine)state.getBlock()).renderCheckItem(mc.player, stack, event.getContext(), rayTraceResult, event.getPartialTicks(), facing);
+				((MSFacingBase)state.getBlock()).renderCheckItem(mc.player, stack, event.getContext(), rayTraceResult, event.getPartialTicks(), facing);
 			}
 		}
 	}

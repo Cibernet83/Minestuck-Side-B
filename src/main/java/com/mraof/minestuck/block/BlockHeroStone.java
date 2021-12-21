@@ -1,9 +1,10 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.client.gui.MSGTGuiHandler;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
+import com.mraof.minestuck.client.gui.MSGTGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -40,6 +41,7 @@ public class BlockHeroStone extends MSBlockBase implements IGodTierBlock
 		setHarvestLevel("pickaxe", 3);
 		setBlockUnbreakable();
 		setResistance(2000.0F);
+		setCreativeTab(MinestuckTabs.godTier);
 	}
 
 	@Override

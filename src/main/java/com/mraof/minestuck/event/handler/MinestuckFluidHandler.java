@@ -1,10 +1,10 @@
 package com.mraof.minestuck.event.handler;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.BlockFluidGrist;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.ItemMinestuckBucket;
 import com.mraof.minestuck.item.MinestuckItems;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -12,9 +12,11 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckFluidHandler
 {
 	@SubscribeEvent

@@ -1,11 +1,7 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.alchemy.Grist;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.MinestuckPacket.Type;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
@@ -20,23 +16,18 @@ import java.util.stream.Collectors;
 
 public class GuiGristSelector extends GuiScreenMinestuck
 {
-
 	private static final ResourceLocation guiGristcache = new ResourceLocation("minestuck", "textures/gui/grist_cache.png");
 
 	private static final int guiWidth = 226, guiHeight = 190;
 
-	private GuiScreen otherGui;
+	private final IGristSelectable owner;
 	private int page = 0;
 	private GuiButtonExt previousButton;
 	private GuiButtonExt nextButton;
 
-	protected GuiGristSelector(GuiMiniAlchemiter guiMachine)
+	public GuiGristSelector(IGristSelectable owner)
 	{
-		this.otherGui = guiMachine;
-	}
-
-	public GuiGristSelector(GuiAlchemiter guiAlchemiter) {
-		this.otherGui=guiAlchemiter;
+		this.owner = owner;
 	}
 
 	/**
@@ -111,16 +102,11 @@ public class GuiGristSelector extends GuiScreenMinestuck
 				int gristYOffset = yOffset + gristIconY + (gristDisplayYOffset * row - row);
 				if (isPointInRegion(gristXOffset, gristYOffset, 16, 16, xcor, ycor))
 				{
-					if(otherGui instanceof GuiMiniSburbMachine) {
-						((GuiMiniAlchemiter)otherGui).te.selectedGrist = type;
-					}else if(otherGui instanceof GuiAlchemiter) {
-						((GuiAlchemiter)otherGui).getAlchemiter().setSelectedGrist(type);
-					}
-					otherGui.width = this.width;
-					otherGui.height = this.height;
-					mc.currentScreen = otherGui;
-					MinestuckPacket packet = MinestuckPacket.makePacket(Type.MACHINE_STATE, type);
-					MinestuckChannelHandler.sendToServer(packet);
+					owner.select(type);
+
+					if(mc.currentScreen != this)
+						mc.currentScreen.setWorldAndResolution(mc, width, height);
+
 					break;
 				}
 				offset++;
@@ -131,7 +117,7 @@ public class GuiGristSelector extends GuiScreenMinestuck
 	@Override
 	public void onGuiClosed()
 	{
-		mc.currentScreen = otherGui;
+		owner.cancel();
 		mc.player.closeScreen();
 	}
 

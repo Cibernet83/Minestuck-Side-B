@@ -1,5 +1,6 @@
 package com.mraof.minestuck.badges.heroAspect;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
@@ -23,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -30,6 +32,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeActiveMind extends BadgeHeroAspect
 {
 	public BadgeActiveMind()

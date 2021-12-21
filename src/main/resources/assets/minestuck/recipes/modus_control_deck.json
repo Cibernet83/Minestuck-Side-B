@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "ici",
+        "CCC",
+        "#e#"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:iron_block"
+        },
+        "e": {
+            "item": "minestuck:energy_core"
+        },
+        "c": {
+            "item": "minestuck:raw_cruxite"
+        },
+        "C": {
+            "item": "minestuck:captcha_card"
+        },
+        "i": {
+            "item": "minecraft:iron_nugget"
+        }
+    },
+    "result": {
+        "item": "minestuck:modus_control_deck",
+        "count": 1
+    }
+}

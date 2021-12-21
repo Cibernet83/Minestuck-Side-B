@@ -47,31 +47,6 @@ public class AlchemyRecipes
 {
 	private static Map<ItemStack, GristSet> containerlessCosts = new HashMap<>();
 
-	public static final ArrayList<Block> gristBlocks = new ArrayList<Block>()
-	{{
-		add(gristBlockAmber);
-		add(gristBlockAmethyst);
-		add(gristBlockArtifact);
-		add(gristBlockCaulk);
-		add(gristBlockChalk);
-		add(gristBlockCobalt);
-		add(gristBlockBuild);
-		add(gristBlockDiamond);
-		add(gristBlockGarnet);
-		add(gristBlockGold);
-		add(gristBlockIodine);
-		add(gristBlockMarble);
-		add(gristBlockMercury);
-		add(gristBlockQuartz);
-		add(gristBlockRuby);
-		add(gristBlockRust);
-		add(gristBlockSulfur);
-		add(gristBlockShale);
-		add(gristBlockTar);
-		add(gristBlockUranium);
-		add(gristBlockZillium);
-	}};
-
 	private static final TreeMap<EnumDyeColor, GristSet> dyeGrist = new TreeMap<>();
 
 	public static void registerContainerlessCost(ItemStack stack, GristSet cost)
@@ -794,7 +769,7 @@ public class AlchemyRecipes
 		GristRegistry.addGristConversion(new ItemStack(floweryMossStone), new GristSet(new Grist[] {MinestuckGrists.amber, MinestuckGrists.build, MinestuckGrists.iodine}, new int[] {1, 7, 1}));
 		GristRegistry.addGristConversion(endLog, new GristSet(new Grist[] {MinestuckGrists.build}, new int[] {8}));
 		GristRegistry.addGristConversion(treatedPlanks, new GristSet(new Grist[] {MinestuckGrists.build}, new int[] {2}));
-		GristRegistry.addGristConversion(new ItemStack(leaves1), false, new GristSet(MinestuckGrists.build, 1));
+		GristRegistry.addGristConversion(new ItemStack(leaves), false, new GristSet(MinestuckGrists.build, 1));
 		GristRegistry.addGristConversion(new ItemStack(endLeaves), false, new GristSet(MinestuckGrists.build, 1));
 		GristRegistry.addGristConversion(rainbowSapling, new GristSet(MinestuckGrists.build, 16));
 		GristRegistry.addGristConversion(new ItemStack(sbahjPoster), new GristSet(new Grist[] {MinestuckGrists.build}, new int[] {4}));
@@ -821,7 +796,7 @@ public class AlchemyRecipes
 		GristRegistry.addGristConversion(new ItemStack(shopPoster, 1, 3), new GristSet(new GristType[] {GristType.build, GristType.rust, GristType.amber}, new int[] {7, 3, 2}));
 		GristRegistry.addGristConversion(new ItemStack(shopPoster, 1, 4), new GristSet(new GristType[] {GristType.build, GristType.iodine, GristType.chalk}, new int[] {9, 2, 1}));*/
 
-		GristRegistry.addGristConversion(new ItemStack(MinestuckItems.hardStone), new GristSet(new Grist[] {MinestuckGrists.build}, new int[] {4}));
+		GristRegistry.addGristConversion(new ItemStack(hardStone), new GristSet(new Grist[] {MinestuckGrists.build}, new int[] {4}));
 		GristRegistry.addGristConversion(new ItemStack(floatStone), new GristSet(new Grist[] {MinestuckGrists.build}, new int[] {400}));
 		GristRegistry.addGristConversion(new ItemStack(energyCell), new GristSet(new Grist[] {MinestuckGrists.gold, MinestuckGrists.rust, MinestuckGrists.uranium}, new int[] {20, 10, 10}));
 		//GristRegistry.addGristConversion(new ItemStack(popBall), new GristSet(new Grist[] {MinestuckGrists.iodine, MinestuckGrists.amber, MinestuckGrists.shale}, new int[] {8, 5, 2}));
@@ -1298,7 +1273,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination(new ItemStack(Blocks.PLANKS), new ItemStack(Blocks.CACTUS), MODE_OR, false, true, new ItemStack(woodenCactus));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.LOG), new ItemStack(Blocks.CACTUS), MODE_OR, false, true, new ItemStack(woodenCactus));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.LOG2), new ItemStack(Blocks.CACTUS), MODE_OR, false, true, new ItemStack(woodenCactus));
-		CombinationRegistry.addCombination(new ItemStack(leaves1, 1, 3), new ItemStack(log, 1, 3), MODE_OR, new ItemStack(rainbowSapling));
+		CombinationRegistry.addCombination(new ItemStack(leaves, 1, 3), new ItemStack(log, 1, 3), MODE_OR, new ItemStack(rainbowSapling));
 		CombinationRegistry.addCombination(new ItemStack(endLeaves), new ItemStack(endLog), MODE_OR, new ItemStack(endSapling));
 		CombinationRegistry.addCombination(new ItemStack(Blocks.STONE), new ItemStack(carvingTool), MODE_AND, false, true, new ItemStack(stoneTablet));
 		CombinationRegistry.addCombination(new ItemStack(Items.REDSTONE), new ItemStack(Items.GLOWSTONE_DUST), MODE_OR, new ItemStack(glowystoneDust));
@@ -1341,8 +1316,8 @@ public class AlchemyRecipes
 
 		CombinationRegistry.addCombination(new ItemStack(rawCruxite), new ItemStack(Items.EMERALD), MODE_OR, new ItemStack(boondollars));
 
-		CombinationRegistry.addCombination(new ItemStack(Blocks.STONE), new ItemStack(Blocks.OBSIDIAN), MODE_OR, new ItemStack(MinestuckItems.hardStone));
-		CombinationRegistry.addCombination(new ItemStack(Blocks.STONE), new ItemStack(Blocks.BEDROCK), MODE_AND, new ItemStack(MinestuckItems.hardStone));
+		CombinationRegistry.addCombination(new ItemStack(Blocks.STONE), new ItemStack(Blocks.OBSIDIAN), MODE_OR, new ItemStack(hardStone));
+		CombinationRegistry.addCombination(new ItemStack(Blocks.STONE), new ItemStack(Blocks.BEDROCK), MODE_AND, new ItemStack(hardStone));
 		CombinationRegistry.addCombination(new ItemStack(MinestuckBlocks.cruxiteBlock), new ItemStack(Items.FEATHER), MODE_AND, new ItemStack(floatStone));
 		CombinationRegistry.addCombination(new ItemStack(Items.ENDER_EYE), new ItemStack(Items.BOOK), MODE_OR, new ItemStack(eightBall));
 		//CombinationRegistry.addCombination(new ItemStack(eightBall), new ItemStack(popTart), MODE_AND, new ItemStack(popBall));
@@ -1453,7 +1428,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination(new ItemStack(wizardHat), new ItemStack(Blocks.STONE), MODE_OR, new ItemStack(wizardStatue));
 		CombinationRegistry.addCombination(new ItemStack(MinestuckItems.sbahjPoster), new ItemStack(Blocks.SAPLING), MODE_AND, new ItemStack(sbahjTree));
 		CombinationRegistry.addCombination(new ItemStack(moonstone), new ItemStack(Blocks.IRON_BLOCK), MODE_AND, new ItemStack(machineChasis));
-		CombinationRegistry.addCombination(new ItemStack(gristBlockBuild), new ItemStack(wizardStatue), MODE_AND, new ItemStack(magicBlock));
+		CombinationRegistry.addCombination(new ItemStack(gristBlocks.get(MinestuckGrists.build)), new ItemStack(wizardStatue), MODE_AND, new ItemStack(magicBlock));
 		CombinationRegistry.addCombination(new ItemStack(Items.STRING), new ItemStack(Items.LEATHER), MODE_AND, new ItemStack(whip));
 		CombinationRegistry.addCombination(new ItemStack(whip), new ItemStack(MinestuckItems.sbahjPoster), MODE_AND, new ItemStack(sbahjWhip));
 
@@ -1670,10 +1645,7 @@ public class AlchemyRecipes
 		CombinationRegistry.addCombination("chiseled_hero_stone", new ItemStack(MinestuckItems.knittingNeedles), false, CombinationRegistry.Mode.MODE_OR, new ItemStack(MinestuckItems.sashKit));
 		CombinationRegistry.addCombination("chiseled_hero_stone", new ItemStack(MinestuckItems.ironMedallion), false, CombinationRegistry.Mode.MODE_AND, new ItemStack(MinestuckItems.skillReseter));
 
-		if(Minestuck.isBotaniaLoaded)
-			gristBlocks.add(gristBlockMana);
-
-		for(Block block : gristBlocks)
+		for(Block block : gristBlocks.values())
 		{
 			GristRegistry.addGristConversion(new ItemStack(block), new GristSet(new Grist[] {((BlockGrist)block).type}, new int[] {((BlockGrist)block).value}));
 			CombinationRegistry.addCombination(new ItemStack(block), new ItemStack(Items.SUGAR),MODE_OR, ((BlockGrist) block).type.getCandyItem());
@@ -1992,8 +1964,6 @@ public class AlchemyRecipes
 
 	public static void registerThaumcraft()
 	{
-		gristBlocks.add(gristBlockVis);
-
 		//Grist Conversions
 		GristRegistry.addGristConversion(new ItemStack(ItemsTC.amber), new GristSet(MinestuckGrists.amber, 8));
 		GristRegistry.addGristConversion(new ItemStack(ItemsTC.quicksilver), new GristSet(MinestuckGrists.mercury, 9));
@@ -2139,7 +2109,7 @@ public class AlchemyRecipes
 
 		//Combination Recipes
 		CombinationRegistry.addCombination(new ItemStack(ModItems.manaBottle), new ItemStack(Items.SUGAR), MODE_OR, MinestuckGrists.mana.getCandyItem());
-		CombinationRegistry.addCombination(new ItemStack(gristBlockMana), new ItemStack(Items.GLASS_BOTTLE), MODE_OR, false, false, new ItemStack(ModItems.manaBottle));
+		CombinationRegistry.addCombination(new ItemStack(gristBlocks.get(MinestuckGrists.mana)), new ItemStack(Items.GLASS_BOTTLE), MODE_OR, false, false, new ItemStack(ModItems.manaBottle));
 		CombinationRegistry.addCombination(new ItemStack(ModItems.grassSeeds), new ItemStack(Blocks.DIRT), MODE_OR, true, false, new ItemStack(Blocks.GRASS));
 		CombinationRegistry.addCombination(new ItemStack(ModItems.grassSeeds, 1, 1), new ItemStack(Blocks.DIRT), MODE_OR, true, false, new ItemStack(Blocks.DIRT, 1, 2));
 		CombinationRegistry.addCombination(new ItemStack(ModItems.grassSeeds, 1, 2), new ItemStack(Blocks.DIRT), MODE_OR, true, false, new ItemStack(Blocks.MYCELIUM));

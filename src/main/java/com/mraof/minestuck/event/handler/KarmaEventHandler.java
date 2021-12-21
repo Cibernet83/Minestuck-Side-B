@@ -1,5 +1,6 @@
 package com.mraof.minestuck.event.handler;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
@@ -20,14 +21,17 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class KarmaEventHandler
 {
 	private static ArrayList<EntityPlayer> criticalKills = new ArrayList<>();
@@ -117,7 +121,7 @@ public class KarmaEventHandler
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onPlayerDamage(LivingDamageEvent event)
 	{
-		if(event.getEntityLiving() instanceof EntityPlayer && event.getSource().getTrueSource() instanceof EntityPlayer)
+		if(event.getEntityLiving() instanceof EntityPlayer && event.getSource().getTrueSource() instanceof EntityPlayer && !(event.getSource().getTrueSource() instanceof FakePlayer))
 		{
 			IdentifierHandler.PlayerIdentifier sourceIdentifier = IdentifierHandler.encode((EntityPlayer) event.getSource().getTrueSource());
 			SburbConnection sC = SkaianetHandler.getMainConnection(sourceIdentifier, true);

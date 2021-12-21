@@ -56,7 +56,6 @@ public class ItemDenizenTome extends MSItemBase
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 	{
-		super.addInformation(stack, worldIn, tooltip, flagIn);
 		if(stack.getMetadata() == 1 && Minecraft.getMinecraft().player != null)
 		{
 			IdentifierHandler.PlayerIdentifier pid = IdentifierHandler.encode(Minecraft.getMinecraft().player);
@@ -135,8 +134,8 @@ public class ItemDenizenTome extends MSItemBase
 	@Override
 	public void registerModel()
 	{
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID, "sealed_tome"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID, "server_sealed_tome"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(this, 2, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID, "tome_of_the_ancients"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "sealed_tome"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID  + ":" + "server_sealed_tome"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 2, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "tome_of_the_ancients"), "inventory"));
 	}
 }

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.badges.heroAspect;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
@@ -11,10 +12,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Queue;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeActiveTime extends BadgeHeroAspect
 {
 	private static final int ENERGY_USE = 5;

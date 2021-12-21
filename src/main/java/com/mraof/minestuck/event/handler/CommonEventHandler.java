@@ -51,6 +51,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -62,6 +63,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class CommonEventHandler
 {
 	public static final IAttribute COOLED_ATTACK_STRENGTH = new RangedAttribute(null, Minestuck.MODID + ".cooledAttackStrength", 0, 0, 1).setDescription("Cooled Attack Strength");

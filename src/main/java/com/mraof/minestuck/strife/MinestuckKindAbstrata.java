@@ -1,25 +1,27 @@
 package com.mraof.minestuck.strife;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.item.ItemCruxitePotion;
 import com.mraof.minestuck.item.MSThrowableBase;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.properties.PropertyBreakableItem;
 import com.mraof.minestuck.item.weapon.ItemDualClaw;
 import com.mraof.minestuck.item.weapon.ItemMechanicalCrossbow;
 import com.mraof.minestuck.item.weapon.MSBowBase;
 import com.mraof.minestuck.item.weapon.MSShieldBase;
-import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.item.ItemCruxitePotion;
-import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.ArrayList;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckKindAbstrata
 {
 	public static final ArrayList<KindAbstratus> kindAbstrata = new ArrayList<>();

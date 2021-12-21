@@ -1,9 +1,12 @@
 package com.mraof.minestuck.world.biome;
 
+import com.mraof.minestuck.Minestuck;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckBiomes extends Biome
 {
 	

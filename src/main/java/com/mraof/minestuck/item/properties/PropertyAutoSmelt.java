@@ -1,13 +1,16 @@
 package com.mraof.minestuck.item.properties;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ListIterator;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PropertyAutoSmelt extends WeaponProperty
 {
 	@SubscribeEvent

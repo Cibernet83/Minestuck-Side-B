@@ -1,5 +1,6 @@
 package com.mraof.minestuck.badges.heroClass;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
@@ -15,11 +16,13 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeMuse extends BadgeHeroClass
 {
 	public BadgeMuse() {

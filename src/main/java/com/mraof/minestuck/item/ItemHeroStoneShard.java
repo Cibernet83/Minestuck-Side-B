@@ -1,6 +1,5 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,6 +15,7 @@ public class ItemHeroStoneShard extends MSItemBase
     {
         super("heroStoneShard");
         this.aspect = aspect;
+        setCreativeTab(MinestuckTabs.godTier);
     }
 
     @SuppressWarnings("deprecation")
