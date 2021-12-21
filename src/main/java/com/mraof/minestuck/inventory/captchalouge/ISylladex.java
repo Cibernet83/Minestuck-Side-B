@@ -231,8 +231,9 @@ public interface ISylladex
 			for (int i  = 0; i < modi.size(); i++)
 				name.append(I18n.format("modus." + modi.get(i).getUnlocalizedName() + (i == 0 ? ".prefix" : ".suffix") + (plural && i == modi.size() - 1 ? ".plural" : ".singular")));
 			if (sylladices.getFirst() instanceof Sylladex)
-				name.append(" of " + ((Sylladex)sylladices.getFirst()).getName(true));
-			return name.toString();
+				return I18n.format("modus.nameCombob", name.toString(), ((Sylladex)sylladices.getFirst()).getName(true));
+			else
+				return name.toString();
 		}
 		
 		@SideOnly(Side.CLIENT)

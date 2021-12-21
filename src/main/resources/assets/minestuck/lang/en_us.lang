@@ -2669,6 +2669,7 @@ message.vault.full=This Boondollar Register is full!
 message.vault.notEnough=You need %s more Boondollars.
 message.medallion.error=The medallion does not seem to activate, perhaps something went wrong?
 
+modus.nameCombob=%s of %s
 modus.stack.prefix.singular=Stack
 modus.stack.prefix.plural=Stacks
 modus.stack.suffix.singular=stack
