@@ -49,27 +49,6 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 
 		AABBS = aabb;
 	}
-
-	public AxisAlignedBB modifyAABBForDirection(EnumFacing facing, AxisAlignedBB bb)
-	{
-		AxisAlignedBB out = null;
-		switch(facing.ordinal())
-		{
-		case 2:	//North
-			out = new AxisAlignedBB(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
-			break;
-		case 3:	//South
-			out = new AxisAlignedBB(1-bb.maxX, bb.minY, 1-bb.maxZ, 1-bb.minX, bb.maxY, 1-bb.minZ);
-			break;
-		case 4:	//West
-			out = new AxisAlignedBB(bb.minZ, bb.minY, 1-bb.maxX, bb.maxZ, bb.maxY, 1-bb.minX);
-			break;
-		case 5:	//East
-			out = new AxisAlignedBB(1-bb.maxZ, bb.minY, bb.minX, 1-bb.minZ, bb.maxY, bb.maxX);
-			break;
-		}
-		return out;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state)
@@ -120,7 +99,7 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
-		return modifyAABBForDirection(state.getValue(DIRECTION), AABBS[0]);
+		return BlockDecor.modifyAABBForDirection(state.getValue(DIRECTION), AABBS[0]);
 	}
 	
 	@Override
@@ -128,7 +107,7 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 	{
 		for(AxisAlignedBB bb : AABBS)
 		{
-			bb = modifyAABBForDirection(state.getValue(DIRECTION), bb).offset(pos);
+			bb = BlockDecor.modifyAABBForDirection(state.getValue(DIRECTION), bb).offset(pos);
 			if(entityBox.intersects(bb))
 				collidingBoxes.add(bb);
 		}

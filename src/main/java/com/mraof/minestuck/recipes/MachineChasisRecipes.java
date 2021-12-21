@@ -30,9 +30,9 @@ public class MachineChasisRecipes
                 new ItemStack(MinestuckItems.boondollars), new ItemStack(MinestuckItems.energyCore), new ItemStack(zillystoneShard));
         addRecipe(autoCaptcha, new ItemStack(Blocks.DISPENSER), new ItemStack(MinestuckItems.captchaCard),
                 new ItemStack(moonstone), ItemStack.EMPTY, new ItemStack(MinestuckItems.energyCore));
-        addRecipe(porkhollowAtm, new ItemStack(MinestuckBlocks.blockSburbComputer), new ItemStack(MinestuckItems.boondollars),
+        addRecipe(ceramicPorkhollow, new ItemStack(MinestuckBlocks.blockSburbComputer), new ItemStack(MinestuckItems.boondollars),
                 new ItemStack(MinestuckItems.boondollars), new ItemStack(Items.PORKCHOP), new ItemStack(MinestuckItems.boondollars));
-        addRecipe(boondollarRegister, new ItemStack(porkhollowAtm), new ItemStack(Blocks.HOPPER), new ItemStack(Items.COMPARATOR),
+        addRecipe(boondollarRegister, new ItemStack(ceramicPorkhollow), new ItemStack(Blocks.HOPPER), new ItemStack(Items.COMPARATOR),
                 new ItemStack(Blocks.CHEST), new ItemStack(Items.REDSTONE));
     }
     

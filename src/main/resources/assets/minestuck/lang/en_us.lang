@@ -3036,7 +3036,7 @@ tile.gristHopper.name=Grist Hopper
 tile.autoWidget.name=Grist-o-Matic 50000
 tile.autoCaptcha.name=Captchaloguifier
 tile.autoCaptcha.tooltip=Automatically captchalogues items.
-tile.porkhollowATM.name=Porkhollow ATM
+tile.ceramicPorkhollow.name=Ceramic Porkhollow
 tile.boondollarRegister.name=Boondollar Register
 tile.boondollarRegister.machineOwner=Owner: %s
 

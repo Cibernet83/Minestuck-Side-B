@@ -76,7 +76,7 @@ public class MinestuckBlocks
 	public static final BlockGristHopper gristHopper = new BlockGristHopper();
 	public static final BlockAutoWidget autoWidget = new BlockAutoWidget();
 	public static final BlockAutoCaptcha autoCaptcha = new BlockAutoCaptcha();
-	public static final BlockPorkhollowAtm porkhollowAtm = new BlockPorkhollowAtm();
+	public static final BlockCeramicPorkhollow ceramicPorkhollow = new BlockCeramicPorkhollow();
 	public static final BlockBoondollarRegister boondollarRegister = new BlockBoondollarRegister();
 
 	//Transportalizers
@@ -117,10 +117,10 @@ public class MinestuckBlocks
 	public static final MSBlockBase zillyStone = (MSBlockBase) new MSBlockBase("zillystone", Material.ROCK).setResistance(999F).setHardness(5.5F);
 
 	//Decor
-	public static final Block blender = new BlockDecor("blender", SoundType.METAL);
-	public static final Block chessboard = new BlockDecor("chessboard");
-	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica");
-	public static final BlockDecor wizardStatue = new BlockDecor("wizardStatue");
+	public static final Block blender = new BlockDecor("blender", SoundType.METAL, new AxisAlignedBB(3/16D,0D,3/16D,13/16D,1.0D,13/16D));
+	public static final Block chessboard = new BlockDecor("chessboard", new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/16D, 1.0D));
+	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica", new AxisAlignedBB(1/32D,0.0D,3/32D,31/32D,15/16D,29/32D));
+	public static final BlockDecor wizardStatue = new BlockDecor("wizardStatue", new AxisAlignedBB(3/16D, 0.0D, 3/16D, 13/16D, 1D, 12/16D));
 	public static final MSBlockBase netherReactorCore = (MSBlockBase) new MSBlockBase("netherReactorCore", Material.ROCK).setHardness(30.0F).setResistance(6);
 	public static final MSBlockBase sbahjTree = new BlockSbahjTree("kringlefucker");
 	public static final BlockLayered layeredSand = new BlockLayered("layeredSand", Blocks.SAND.getDefaultState());
