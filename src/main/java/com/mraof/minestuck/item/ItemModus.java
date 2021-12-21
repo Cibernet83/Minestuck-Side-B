@@ -10,7 +10,7 @@ public class ItemModus extends MSItemBase
 	{
 		super(modus.getUnlocalizedName() + "Modus", MinestuckTabs.minestuck, 1, false);
 		this.modus = modus;
-		MinestuckItems.modi.add(this);
+		MinestuckItems.modi.put(modus, this);
 	}
 
 	public Modus getModus()

@@ -26,7 +26,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	public static ForgeRegistry<Modus> REGISTRY;
 
 	@SideOnly(Side.CLIENT)
-	private CardGuiContainer.CardTextureIndex cardTextureIndex;
+	protected CardGuiContainer.CardTextureIndex cardTextureIndex;
 
 	private final String name, regName;
 
@@ -37,17 +37,71 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 		MinestuckModi.modi.add(this);
 	}
 
-	public abstract ICaptchalogueable get(LinkedList<ISylladex> sylladices, int[] slots, int i, boolean asCard);
-	public abstract boolean canGet(LinkedList<ISylladex> sylladicies, int[] slots, int i);
+	/**
+	 * Fetch an object from the slots[i]th sylladex and perform some rearranging of sylladices if required. Modus#canGet
+	 * has already been confirmed by this point. Make sure to update slots[i] if rearranging is needed.
+	 */
+	public ICaptchalogueable get(LinkedList<ISylladex> sylladices, int[] slots, int i, boolean asCard)
+	{
+		return sylladices.get(slots[i]).get(slots, i + 1, asCard);
+	}
 
-	public abstract boolean put(LinkedList<ISylladex> sylladices, ICaptchalogueable object, EntityPlayer player);
+	/**
+	 * Return whether a card is valid to be retrieved from.
+	 */
+	public boolean canGet(LinkedList<ISylladex> sylladices, int[] slots, int i)
+	{
+		return sylladices.get(slots[i]).canGet(slots, i + 1);
+	}
+
+	/**
+	 * Put an object into a default card and perform some rearranging of sylladices if required. Modus#grow has already
+	 * been called by this point.
+	 * @param mostFreeSlotsSylladex The sylladex in sylladices that has the most free slots
+	 */
+	public void put(LinkedList<ISylladex> sylladices, ISylladex mostFreeSlotsSylladex, ICaptchalogueable object, EntityPlayer player)
+	{
+		mostFreeSlotsSylladex.put(object, player);
+	}
+
+	public void put(LinkedList<ISylladex> sylladices, ICaptchalogueable object, EntityPlayer player)
+	{
+		int mostFreeSlots = 0;
+		ISylladex mostFreeSlotsSylladex = null;
+		for (ISylladex sylladex : sylladices)
+		{
+			int slots = sylladex.getFreeSlots();
+			if (slots > mostFreeSlots)
+			{
+				mostFreeSlots = slots;
+				mostFreeSlotsSylladex = sylladex;
+			}
+		}
+		if (mostFreeSlots == 0)
+		{
+			mostFreeSlotsSylladex = sylladices.getLast();
+			mostFreeSlotsSylladex.eject(player);
+		}
+
+		put(sylladices, mostFreeSlotsSylladex, object, player);
+	}
 
 	/** Try to fill a default card with as much of other as possible */
-	public abstract void grow(LinkedList<ISylladex> sylladices, ICaptchalogueable other);
+	public void grow(LinkedList<ISylladex> sylladices, ICaptchalogueable other)
+	{
+		for (int i = 0; i < sylladices.size() && !other.isEmpty(); i++)
+			sylladices.get(i).grow(other);
+	}
 
 	/** Eject the contents of a default card */
-	public abstract void eject(LinkedList<ISylladex> sylladices, EntityPlayer player);
+	public void eject(LinkedList<ISylladex> sylladices, EntityPlayer player)
+	{
+		sylladices.getLast().eject(player);
+	}
 
+	/**
+	 * Return whether this modus should perform autobalancing after each operation. // TODO
+	 */
 	protected boolean doesAutobalance()
 	{
 		return false;
@@ -65,14 +119,23 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 		registry.register(this);
 	}
 
+	/**
+	 * Get a new ModusGuiContainer or a subtype with funky animations or whatever.
+	 */
 	@SideOnly(Side.CLIENT)
-	public abstract ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex);
+	public ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
+	{
+		return new ModusGuiContainer(textureIndices, sylladex);
+	}
 
+	/**
+	 * Get the index of the card texture that should be used by this modus.
+	 */
 	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex getCardTextureIndex()
 	{
 		if (cardTextureIndex == null)
-			cardTextureIndex = new CardGuiContainer.CardTextureIndex(SylladexGuiHandler.CARD_TEXTURE, 53);
+			cardTextureIndex = new CardGuiContainer.CardTextureIndex(SylladexGuiHandler.CARD_TEXTURE, 42);
 		return cardTextureIndex;
 	}
 

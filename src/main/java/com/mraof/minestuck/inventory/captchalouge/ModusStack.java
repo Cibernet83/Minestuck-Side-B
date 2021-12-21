@@ -2,6 +2,7 @@ package com.mraof.minestuck.inventory.captchalouge;
 
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -28,35 +29,15 @@ public class ModusStack extends Modus
 	@Override
 	public boolean canGet(LinkedList<ISylladex> sylladices, int[] slots, int i)
 	{
-		return slots[i] == 0 && sylladices.getFirst().canGet(slots, i);
+		return slots[i] == 0 && sylladices.getFirst().canGet(slots, i + 1);
 	}
 
 	@Override
-	public boolean put(LinkedList<ISylladex> sylladices, ICaptchalogueable object, EntityPlayer player)
+	public void put(LinkedList<ISylladex> sylladices, ISylladex mostFreeSlotsSylladex, ICaptchalogueable object, EntityPlayer player)
 	{
-		int mostFreeSlots = 0;
-		ISylladex mostSylladex = null;
-		for (ISylladex sylladex : sylladices)
-		{
-			int slots = sylladex.getFreeSlots();
-			if (slots > mostFreeSlots)
-			{
-				mostFreeSlots = slots;
-				mostSylladex = sylladex;
-			}
-		}
-		if (mostFreeSlots == 0)
-		{
-			mostSylladex = sylladices.getLast();
-			mostSylladex.eject(player);
-		}
-
-		sylladices.remove(mostSylladex);
-		sylladices.addFirst(mostSylladex);
-		if (!mostSylladex.put(object, player))
-			throw new IllegalStateException("Attempted to put an item into a full container");
-
-		return true;
+		sylladices.remove(mostFreeSlotsSylladex);
+		sylladices.addFirst(mostFreeSlotsSylladex);
+		mostFreeSlotsSylladex.put(object, player);
 	}
 
 	@Override
@@ -66,15 +47,18 @@ public class ModusStack extends Modus
 	}
 
 	@Override
-	public void eject(LinkedList<ISylladex> sylladices, EntityPlayer player)
-	{
-		sylladices.getLast().eject(player);
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
 	{
 		return new ModusGuiContainer(textureIndices, sylladex);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public CardGuiContainer.CardTextureIndex getCardTextureIndex()
+	{
+		if (cardTextureIndex == null)
+			cardTextureIndex = new CardGuiContainer.CardTextureIndex(SylladexGuiHandler.CARD_TEXTURE, 53);
+		return cardTextureIndex;
 	}
 }

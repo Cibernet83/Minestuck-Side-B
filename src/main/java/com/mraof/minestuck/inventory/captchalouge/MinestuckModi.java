@@ -14,41 +14,41 @@ public class MinestuckModi
 	public static final ArrayList<Modus> modi = new ArrayList<>();
 
 	public static final Modus stack = new ModusStack("stack");
-	/*public static final Modus queue = new QueueModus("queue");
-	public static final Modus tree = new TreeModus("tree");
-	public static final Modus hashmap = new HashmapModus("hashmap");
-	public static final Modus set = new SetModus("set");
-	public static final Modus array = new ArrayModus("array");
-	public static final Modus hashtable = new HashtableModus("hashtable");
-	public static final Modus cyclone = new CycloneModus("cyclone");
-	public static final Modus wildMagic = new WildMagicModus("wildMagic");
-	public static final Modus capitalist = new CapitalistModus("capitalist");
-	public static final Modus modUs = new CommunistModus("modUs");
-	public static final Modus deck = new DeckModus("deck");
-	public static final Modus popTart = new PopTartModus("popTart");
-	public static final Modus hue = new HueModus("hue");
-	public static final Modus chat = new ChatModus("chat");
-	public static final Modus onion = new OnionModus("onion");
-	public static final Modus slime = new SlimeModus("slime");
-	public static final Modus scratchAndSniff = new ScratchAndSniffModus("scratchAndSniff");
-	public static final Modus eightBall = new EightBallModus("eightBall");
-	public static final Modus juju = new JujuModus("juju");
-	public static final Modus alchemodus = new AlchemyModus("alchemodus");
-	public static final Modus operandi = new OperandiModus("operandi");
-	public static final Modus weight = new WeightModus("weight");
-	public static final Modus book = new BookModus("book");
-	public static final Modus energy = new EnergyModus("energy");
-	public static final Modus chasity = new ChasityModus("chasity");
-	public static final Modus monster = new MonsterModus("monster");
-	public static final Modus wallet = new WalletModus("wallet");
-	public static final Modus crystalBall = new CrystalBallModus("crystalBall");
-	public static final Modus sacrifice = new SacrificeModus("sacrifice");*/
+	public static final Modus array = new ModusArray("array");
+	/*public static final Modus queue = new ModusQueue("queue");
+	public static final Modus tree = new ModusTree("tree");
+	public static final Modus hashmap = new ModusHashmap("hashmap");
+	public static final Modus set = new ModusSet("set");
+	public static final Modus hashtable = new ModusHashtable("hashtable");
+	public static final Modus cyclone = new ModusCyclone("cyclone");
+	public static final Modus wildMagic = new ModusWildMagic("wildMagic");
+	public static final Modus capitalist = new ModusCapitalist("capitalist");
+	public static final Modus modUs = new ModusCommunist("modUs");
+	public static final Modus deck = new ModusDeck("deck");
+	public static final Modus popTart = new ModusPopTart("popTart");
+	public static final Modus hue = new ModusHue("hue");
+	public static final Modus chat = new ModusChat("chat");
+	public static final Modus onion = new ModusOnion("onion");
+	public static final Modus slime = new ModusSlime("slime");
+	public static final Modus scratchAndSniff = new ModusScratchAndSniff("scratchAndSniff");
+	public static final Modus eightBall = new ModusEightBall("eightBall");
+	public static final Modus juju = new ModusJuju("juju");
+	public static final Modus alchemodus = new ModusAlchemy("alchemodus");
+	public static final Modus operandi = new ModusOperandi("operandi");
+	public static final Modus weight = new ModusWeight("weight");
+	public static final Modus book = new ModusBook("book");
+	public static final Modus energy = new ModusEnergy("energy");
+	public static final Modus chasity = new ModusChasity("chasity");
+	public static final Modus monster = new ModusMonster("monster");
+	public static final Modus wallet = new ModusWallet("wallet");
+	public static final Modus crystalBall = new ModusCrystalBall("crystalBall");
+	public static final Modus sacrifice = new ModusSacrifice("sacrifice");*/
 
 	/*
-	public static final Modus ouija = new OuijaModus("ouija");
-	public static final Modus cipher = new CipherModus("cipher");
-	public static final Modus memory = new MemoryModus("memory");
-	public static final Modus puzzle = new MemoryModus("puzzle");
+	public static final Modus ouija = new ModusOuija("ouija");
+	public static final Modus cipher = new ModusCipher("cipher");
+	public static final Modus memory = new ModusMemory("memory");
+	public static final Modus puzzle = new ModusMemory("puzzle");
 	*/
 
 	@SubscribeEvent

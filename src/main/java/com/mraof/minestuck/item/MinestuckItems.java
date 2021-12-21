@@ -12,6 +12,7 @@ import com.mraof.minestuck.entity.EntityEightBall;
 import com.mraof.minestuck.entity.item.EntityCrewPoster;
 import com.mraof.minestuck.entity.item.EntitySbahjPoster;
 import com.mraof.minestuck.inventory.captchalouge.MinestuckModi;
+import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.item.armor.*;
 import com.mraof.minestuck.item.block.ItemDowel;
 import com.mraof.minestuck.item.block.MSItemBlock;
@@ -65,7 +66,7 @@ import static com.mraof.minestuck.util.ModusStorage.getStoredItem;
 public class MinestuckItems
 {
 	public static final ArrayList<IRegistryItem> items = new ArrayList<>();
-	public static final ArrayList<ItemModus> modi = new ArrayList<>();
+	public static final HashMap<Modus, ItemModus> modi = new HashMap<>();
 	public static final ArrayList<ItemMinestuckRecord> records = new ArrayList<>();
 
 	private static final PropertySoundOnHit.Value PITCH_NOTE = ((stack, target, player) -> (-player.rotationPitch + 90) / 90f);
@@ -213,50 +214,6 @@ public class MinestuckItems
 	public static final Item recordEmissaryOfDance = new ItemMinestuckRecord("emissary", MinestuckSoundHandler.soundEmissaryOfDance).setUnlocalizedName("record");
 	public static final Item recordDanceStab = new ItemMinestuckRecord("danceStab", MinestuckSoundHandler.soundDanceStabDance).setUnlocalizedName("record");
 	public static final Item recordRetroBattle = new ItemMinestuckRecord("retroBattle", MinestuckSoundHandler.soundRetroBattleTheme).setUnlocalizedName("record");
-
-	public static final Item stackModus = new ItemModus(MinestuckModi.stack);
-	/*public static final Item queueModus = new ItemModus("queueModus");
-	public static final Item queueStackModus = new ItemModus("queueStackModus");
-	public static final Item treeModus = new ItemModus("treeModus");
-	public static final Item hashmapModus = new ItemModus("hashmapModus");
-	public static final Item setModus = new ItemModus("setModus");
-	public static final Item wildMagicModus = new ItemModus("wildMagicModus");
-	public static final Item weightModus = new ItemModus("weightModus");
-	public static final Item bookModus = new ItemModus("bookModus");
-	public static final Item capitalistModus = new ItemModus("capitalistModus");
-	public static final Item modUs = new ItemModus("modUs");
-	public static final Item operandiModus = new ItemModus("operandiModus");
-	public static final Item onionModus = new ItemModus("onionModus");
-	public static final Item slimeModus = new ItemModus("slimeModus");
-	public static final Item popTartModus = new ItemModus("popTartModus");
-	public static final Item deckModus = new ItemModus("deckModus");
-	public static final Item hueModus = new ItemModus("hueModus");
-	public static final Item hueStackModus = new ItemModus("hueStackModus");
-	public static final Item chatModus = new ItemModus("chatModus");
-	public static final Item cycloneModus = new ItemModus("cycloneModus");
-	public static final Item energyModus = new ItemModus("energyModus");
-	public static final Item scratchAndSniffModus = new ItemModus("scratchAndSniffModus");
-	public static final Item eightBallModus = new ItemModus("eightBallModus");
-	public static final Item chasityModus = new ItemModus("chasityModus");
-	public static final Item jujuModus = new ItemModus("jujuModus");
-	public static final Item alcheModus = new ItemModus("alchemodus");
-	public static final Item arrayModus = new ItemModus("arrayModus");
-	public static final Item monsterModus = new ItemModus("monsterModus");
-	public static final Item walletModus = new ItemModus("walletModus");
-	public static final Item crystalBallModus = new ItemModus("crystalBallModus");
-	public static final Item hashchatModus = new ItemModus("hashchatModus");
-	public static final Item sacrificeModus = new ItemModus("sacrificeModus");*/ // TODO: Do this automagically :flushed:
-	/*
-	public static final Item memoryModus = new ItemModus("memoryModus");
-	public static final Item recipeModus = new ItemModus("recipeModus");
-	public static final Item bottledMsgModus = new ItemModus("messageInABottleModus");
-	public static final Item techHopModus = new ItemModus("techHopModus");
-	public static final Item encryptionModus = new ItemModus("encryptionModus");
-	public static final Item ouijaModus = new ItemModus("ouijaModus");
-	public static final Item bundleModus = new ItemModus("bundleModus");
-	public static final Item cakeModus = new ItemModus("cakeModus");
-	public static final Item cipherModus = new ItemModus("cipherModus");
-	*/
 
 	//public static final Item popTart = new ItemFood("popTart", 3, 0, false, PopTartModus.getConsumer());
 	public static final Item eightBall = new ItemEightBall("eightBall", false);
@@ -753,7 +710,7 @@ public class MinestuckItems
 			if (entry.key.getResourcePath().equals("crocker_spork"))
 				entry.remap(crockerSpoon);
 			else if (entry.key.getResourcePath().equals("modus_card"))
-				entry.remap(stackModus);
+				entry.remap(modi.get(MinestuckModi.stack));
 			else
 			{
 				if (Item.REGISTRY.getObject(new ResourceLocation(Minestuck.MODID, entry.key.getResourcePath())) != null)
@@ -787,6 +744,9 @@ public class MinestuckItems
 			splatcraftCruxiteFilter = new ItemFilter("cruxiteFilter", "cruxite_filter", false).setCreativeTab(MinestuckTabs.minestuck);
 			registry.register(splatcraftCruxiteFilter);
 		}
+
+		for (Modus modus : Modus.REGISTRY)
+			new ItemModus(modus); // sure lol
 
 		for (IRegistryBlock block : blocks)
 		{

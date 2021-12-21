@@ -26,7 +26,7 @@ public interface ISylladex
 	ICaptchalogueable peek(int[] slots, int i);
 	ICaptchalogueable tryGetEmptyCard(int[] slots, int i);
 	void addCard(ICaptchalogueable object);
-	boolean put(ICaptchalogueable object, EntityPlayer player);
+	void put(ICaptchalogueable object, EntityPlayer player);
 	void grow(ICaptchalogueable object);
 	void eject(EntityPlayer player);
 	void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull);
@@ -127,9 +127,9 @@ public interface ISylladex
 		}
 
 		@Override
-		public boolean put(ICaptchalogueable object, EntityPlayer player)
+		public void put(ICaptchalogueable object, EntityPlayer player)
 		{
-			return modi.get(0).put(sylladices, object, player);
+			modi.get(0).put(sylladices, object, player);
 		}
 
 		@Override
@@ -318,12 +318,11 @@ public interface ISylladex
 		}
 
 		@Override
-		public boolean put(ICaptchalogueable object, EntityPlayer player)
+		public void put(ICaptchalogueable object, EntityPlayer player)
 		{
 			if (this.object != null || markedForDeletion)
-				return false;
+				throw new IllegalStateException("Attempted to put an item into a full card");
 			this.object = object;
-			return true;
 		}
 
 		@Override
