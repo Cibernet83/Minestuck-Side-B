@@ -1458,6 +1458,7 @@ gui.ejectByChat.on=Quick Eject Active
 gui.ejectByChat.off=Quick Eject Inactive
 gui.selectTitle=Choose Your Title
 gui.selectTitle.used=%s is already used
+gui.sync=SYNC
 
 gui.capitalistBuyAll=Buy All
 gui.jujuLink=Find Link

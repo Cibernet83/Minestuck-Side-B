@@ -15,7 +15,7 @@ import net.minecraft.util.NonNullList;
 public class TileEntityModusControlDeck extends TileEntity
 {
 	protected NonNullList<ItemStack> inventory = NonNullList.withSize(6, ItemStack.EMPTY);
-
+	public int length = 5;
 
 	public boolean handleInsert(EntityPlayer player, EnumHand hand)
 	{
@@ -72,12 +72,14 @@ public class TileEntityModusControlDeck extends TileEntity
 
 		inventory.clear();
 		ItemStackHelper.loadAllItems(compound.getCompoundTag("Inventory"), inventory);
+		length = compound.getInteger("Length");
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
 		compound.setTag("Inventory", ItemStackHelper.saveAllItems(new NBTTagCompound(), inventory));
+		compound.setInteger("Length", length);
 		return super.writeToNBT(compound);
 	}
 
