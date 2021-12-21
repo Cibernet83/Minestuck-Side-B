@@ -15,15 +15,21 @@ public class ModusGuiContainer
 
 	protected float x, y, width, height;
 
-	public ModusGuiContainer(ISylladex sylladex)
+	public ModusGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
 	{
 		this.sylladex = sylladex;
+		generateSubContainers(textureIndices);
 	}
 
-	public ArrayList<ModusGuiContainer> generateSubContainers()
+	public ModusGuiContainer(ISylladex sylladex)
+	{
+		this(new ArrayList<>(), sylladex);
+	}
+
+	protected void generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
 	{
 		containers.clear();
-		containers.addAll(sylladex.generateSubContainers());
+		containers.addAll(sylladex.generateSubContainers(textureIndices));
 
 		width = height = 0;
 		for (int i = 0; i < containers.size(); i++)
@@ -35,8 +41,6 @@ public class ModusGuiContainer
 			height = Math.max(height, container.height);
 		}
 		width -= 5;
-
-		return containers;
 	}
 
 	public void draw(SylladexGuiHandler gui)

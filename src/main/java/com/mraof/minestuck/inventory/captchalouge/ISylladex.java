@@ -31,9 +31,9 @@ public interface ISylladex
 	void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull);
 	int getFreeSlots();
 	int getTotalSlots();
-	ArrayList<ModusGuiContainer> generateSubContainers();
 	NBTTagCompound writeToNBT();
-	void readFromNBT(NBTTagCompound nbt);
+	@SideOnly(Side.CLIENT)
+	ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices);
 
 	class Sylladex implements ISylladex
 	{
@@ -54,7 +54,7 @@ public interface ISylladex
 		{
 			this(new LinkedList<>(), modi);
 			for (int i = 0; i < cards; i++)
-				sylladices.add(new CardSylladex(this));
+				addCard(null);
 		}
 
 		public Sylladex(Sylladex settings)
@@ -64,14 +64,9 @@ public interface ISylladex
 			this.sylladices.add(settings.sylladices.get(0) instanceof Sylladex ? new Sylladex((Sylladex)settings.sylladices.get(0)) : new CardSylladex(this));
 		}
 
-		private Sylladex()
-		{
-			this.sylladices = new LinkedList<>();
-		}
-
 		public Sylladex(NBTTagCompound nbt)
 		{
-			this();
+			this.sylladices = new LinkedList<>();
 			readFromNBT(nbt);
 		}
 
@@ -178,15 +173,6 @@ public interface ISylladex
 		}
 
 		@Override
-		public ArrayList<ModusGuiContainer> generateSubContainers()
-		{
-			containers.clear();
-			for (ISylladex sylladex : sylladices)
-				containers.add(modi.get(0).getGuiContainer(sylladex));
-			return containers;
-		}
-
-		@Override
 		public NBTTagCompound writeToNBT()
 		{
 			NBTTagCompound nbt = new NBTTagCompound();
@@ -204,7 +190,6 @@ public interface ISylladex
 			return nbt;
 		}
 
-		@Override
 		public void readFromNBT(NBTTagCompound nbt)
 		{
 			modi.clear();
@@ -218,13 +203,28 @@ public interface ISylladex
 			for (NBTBase sylladexTagBase : sylladices)
 			{
 				NBTTagCompound sylladexTag = (NBTTagCompound) sylladexTagBase;
-				ISylladex sylladex = sylladexTag.hasKey("modusTypes") ? new Sylladex() : new CardSylladex(this);
-				sylladex.readFromNBT(sylladexTag);
-				this.sylladices.add(sylladex);
+				this.sylladices.add(sylladexTag.hasKey("modusTypes") ? new Sylladex(sylladexTag) : new CardSylladex(this, sylladexTag));
 			}
 		}
 
-		public String getName()
+		@Override
+		@SideOnly(Side.CLIENT)
+		public ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
+		{
+			containers.clear();
+
+			CardGuiContainer.CardTextureIndex[] thisIndices = new CardGuiContainer.CardTextureIndex[modi.size()];
+			for (int i = 0; i < thisIndices.length; i++)
+				thisIndices[i] = modi.get(i).getCardTextureIndex();
+			textureIndices.add(thisIndices);
+
+			for (ISylladex sylladex : sylladices)
+				containers.add(modi.get(0).getGuiContainer(textureIndices, sylladex));
+			return containers;
+		}
+
+		@SideOnly(Side.CLIENT)
+		public String getName() // TODO: Wacky custom names :P
 		{
 			return modi.get(0).getUnlocalizedName();
 		}
@@ -253,7 +253,13 @@ public interface ISylladex
 
 		public CardSylladex(Sylladex owner)
 		{
-			this(owner, null);
+			this(owner, (ICaptchalogueable) null);
+		}
+
+		public CardSylladex(Sylladex owner, NBTTagCompound nbt)
+		{
+			this(owner);
+			readFromNBT(nbt);
 		}
 
 		@Override
@@ -348,14 +354,6 @@ public interface ISylladex
 		}
 
 		@Override
-		public ArrayList<ModusGuiContainer> generateSubContainers()
-		{
-			containers.clear();
-			containers.add(new CardGuiContainer(object));
-			return containers;
-		}
-
-		@Override
 		public NBTTagCompound writeToNBT()
 		{
 			if (object != null)
@@ -372,7 +370,6 @@ public interface ISylladex
 			}
 		}
 
-		@Override
 		public void readFromNBT(NBTTagCompound nbt)
 		{
 			String className = nbt.getString("class");
@@ -388,6 +385,15 @@ public interface ISylladex
 				}
 				object.readFromNBT(nbt);
 			}
+		}
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
+		{
+			containers.clear();
+			containers.add(new CardGuiContainer(textureIndices.get(Math.min(owner.sylladices.indexOf(this), textureIndices.size() - 1)), object));
+			return containers;
 		}
 	}
 }

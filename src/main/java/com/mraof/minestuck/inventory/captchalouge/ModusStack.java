@@ -1,10 +1,12 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
+import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class ModusStack extends Modus
@@ -71,10 +73,8 @@ public class ModusStack extends Modus
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ModusGuiContainer getGuiContainer(ISylladex sylladex)
+	public ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
 	{
-		ModusGuiContainer container = new ModusGuiContainer(sylladex);
-		container.generateSubContainers();
-		return container;
+		return new ModusGuiContainer(textureIndices, sylladex);
 	}
 }

@@ -1,7 +1,9 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
 import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -15,12 +17,16 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements IRegistryObject<Modus>
 {
 	public static ForgeRegistry<Modus> REGISTRY;
+
+	@SideOnly(Side.CLIENT)
+	private CardGuiContainer.CardTextureIndex cardTextureIndex;
 
 	private final String name, regName;
 
@@ -60,7 +66,15 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	@SideOnly(Side.CLIENT)
-	public abstract ModusGuiContainer getGuiContainer(ISylladex sylladex);
+	public abstract ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex);
+
+	@SideOnly(Side.CLIENT)
+	public CardGuiContainer.CardTextureIndex getCardTextureIndex()
+	{
+		if (cardTextureIndex == null)
+			cardTextureIndex = new CardGuiContainer.CardTextureIndex(SylladexGuiHandler.CARD_TEXTURE, 53);
+		return cardTextureIndex;
+	}
 
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event)

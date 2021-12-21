@@ -34,7 +34,6 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	private static final int GUI_WIDTH = 256, GUI_HEIGHT = 202;
 	private static final int MAP_WIDTH = 224, MAP_HEIGHT = 153;
 	private static final int X_OFFSET = 16, Y_OFFSET = 17;
-	private static final int CARD_WIDTH = 21, CARD_HEIGHT = 26;
 
 	public RenderItem itemRender;
 	private ISylladex.Sylladex sylladex;
@@ -107,10 +106,10 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		{
 			if (mousePressed)
 			{
-				//mapX = MathHelper.clamp(mapX - (mousePosX - xcor) * scroll, 0, mapWidth - cardsWidth);
-				//mapY = MathHelper.clamp(mapY - (mousePosY - ycor) * scroll, 0, mapHeight - cardsHeight);
-				mapX = mapX - (mousePosX - xcor) * scroll;
-				mapY = mapY - (mousePosY - ycor) * scroll;
+				mapX = MathHelper.clamp(mapX - (mousePosX - xcor) * scroll, 0, mapWidth - cardsWidth);
+				mapY = MathHelper.clamp(mapY - (mousePosY - ycor) * scroll, 0, mapHeight - cardsHeight);
+				//mapX = mapX - (mousePosX - xcor) * scroll; // TODO: Figure out a way to cull things offscreen
+				//mapY = mapY - (mousePosY - ycor) * scroll;
 			}
 			mousePosX = xcor;
 			mousePosY = ycor;
@@ -222,18 +221,17 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 
 	private void updateContainers()
 	{
-		cardGuiContainer.generateSubContainers();
-		this.cardsWidth = cardGuiContainer.width;
-		this.cardsHeight = cardGuiContainer.height;
-		this.mapX = MAP_WIDTH / 2f - cardsWidth / 2f;
-		this.mapY = MAP_HEIGHT / 2f - cardsHeight / 2f;
+
 	}
 
 	public void updateSylladex(ISylladex.Sylladex sylladex)
 	{
 		this.sylladex = sylladex;
-		this.cardGuiContainer = new ModusGuiContainer(sylladex);
-		updateContainers();
+		this.cardGuiContainer = new ModusGuiContainer(sylladex); // TODO: better bounding boxes
+		this.cardsWidth = cardGuiContainer.width;
+		this.cardsHeight = cardGuiContainer.height;
+		this.mapX = MAP_WIDTH / 2f - cardsWidth / 2f;
+		this.mapY = MAP_HEIGHT / 2f - cardsHeight / 2f;
 	}
 	
 	/*public static class ModusSizeCard extends GuiCard
