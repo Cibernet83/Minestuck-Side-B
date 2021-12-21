@@ -10,7 +10,7 @@
             "translate": "advancements.minestuck.french_fry.description"
         }
     },
-    "parent": "minestuck:minestuck/alchemy",
+    "parent": "minestuck:minestuck/commune",
     "criteria": {
         "french_fry": {
             "trigger": "minecraft:consume_item",

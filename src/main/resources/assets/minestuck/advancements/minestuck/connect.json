@@ -1,7 +1,7 @@
 {
     "display": {
         "icon": {
-            "item": "minestuck:computer_disk"
+            "item": "minestuck:disk"
         },
         "title": {
             "translate": "advancements.minestuck.setup_connection.title"

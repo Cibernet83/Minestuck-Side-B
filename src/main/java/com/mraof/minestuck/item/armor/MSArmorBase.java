@@ -5,7 +5,6 @@ import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -13,15 +12,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class MSArmorBase extends ItemArmor implements IRegistryItem
 {
@@ -50,15 +46,6 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem
     public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot)
     {
         this(name, material, equipmentSlot, material.getDurability(equipmentSlot));
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
-        String key = getUnlocalizedName()+".tooltip";
-        if(!I18n.translateToLocal(key).equals(key))
-            tooltip.add(I18n.translateToLocal(key));
-        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
     public void setArmorModel(ModelBiped model)
