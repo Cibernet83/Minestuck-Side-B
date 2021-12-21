@@ -4,6 +4,7 @@ import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -224,9 +225,20 @@ public interface ISylladex
 		}
 
 		@SideOnly(Side.CLIENT)
-		public String getName() // TODO: Wacky custom names :P
+		public String getName(boolean plural)
 		{
-			return modi.get(0).getUnlocalizedName();
+			StringBuilder name = new StringBuilder();
+			for (int i  = 0; i < modi.size(); i++)
+				name.append(I18n.format("modus." + modi.get(i).getUnlocalizedName() + (i == 0 ? ".prefix" : ".suffix") + (plural && i == modi.size() - 1 ? ".plural" : ".singular")));
+			if (sylladices.getFirst() instanceof Sylladex)
+				name.append(" of " + ((Sylladex)sylladices.getFirst()).getName(true));
+			return name.toString();
+		}
+		
+		@SideOnly(Side.CLIENT)
+		public String getName()
+		{
+			return getName(false);
 		}
 
 		@SideOnly(Side.CLIENT)
