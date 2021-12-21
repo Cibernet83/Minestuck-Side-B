@@ -46,7 +46,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -209,11 +208,6 @@ public class ClientEventHandler
 				else event.getToolTip().add(stack.getDisplayName());
 				if(I18n.hasKey(tooltip))
 					event.getToolTip().add(I18n.format(tooltip, arg1));
-			} else if(stack.getItem().getRegistryName().getResourceDomain().equals(Minestuck.class.getAnnotation(Mod.class).modid()))
-			{
-				String name = stack.getUnlocalizedName() + ".tooltip";
-				if(I18n.hasKey(name))
-					event.getToolTip().add(1, I18n.format(name));
 			}
 		}
 	}
