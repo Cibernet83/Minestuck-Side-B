@@ -4,7 +4,7 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IStrifeData;
 import com.mraof.minestuck.capabilities.caps.StrifeData;
-import com.mraof.minestuck.event.handlers.StrifeEventHandler;
+import com.mraof.minestuck.event.handler.StrifeEventHandler;
 import com.mraof.minestuck.item.ItemStrifeCard;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;

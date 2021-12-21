@@ -1,9 +1,9 @@
 package com.mraof.minestuck.item.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -53,7 +53,7 @@ public class ItemDowel extends MSItemBlock
 			
 			if (contentID != null && contentMeta != null && Item.REGISTRY.containsKey(new ResourceLocation(contentID.getString())))
 			{
-				tooltip.add("(" + (AlchemyRecipes.getDecodedItem(stack)).getDisplayName() + ")");
+				tooltip.add("(" + (AlchemyUtils.getDecodedItem(stack)).getDisplayName() + ")");
 				return;
 			}
 			else

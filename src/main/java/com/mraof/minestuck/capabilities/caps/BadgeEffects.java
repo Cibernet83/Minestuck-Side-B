@@ -1,5 +1,6 @@
 package com.mraof.minestuck.capabilities.caps;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.badges.heroAspect.*;
 import com.mraof.minestuck.badges.heroAspectUtil.*;
@@ -7,7 +8,7 @@ import com.mraof.minestuck.capabilities.IBadgeEffect;
 import com.mraof.minestuck.capabilities.IBadgeEffect.*;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.ai.EntityAIMindflayerTarget;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -25,6 +26,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -34,6 +36,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeEffects implements IBadgeEffects
 {
 	// Serialized data
@@ -70,7 +73,7 @@ public class BadgeEffects implements IBadgeEffects
 	private Vec3d prevPos;
 
 	// Metadata
-	private final Map<Class, MSGTParticles.PowerParticleState> particleMap = new HashMap<>();
+	private final Map<Class, MinestuckParticles.PowerParticleState> particleMap = new HashMap<>();
 
 	private EntityLivingBase owner;
 
@@ -398,13 +401,13 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	@Override
-	public Map<Class, MSGTParticles.PowerParticleState> getPowerParticles()
+	public Map<Class, MinestuckParticles.PowerParticleState> getPowerParticles()
 	{
 		return particleMap;
 	}
 
 	@Override
-	public void startPowerParticles(Class badge, MSGTParticles.PowerParticleState state)
+	public void startPowerParticles(Class badge, MinestuckParticles.PowerParticleState state)
 	{
 		if (!(particleMap.containsKey(badge) && particleMap.get(badge).equals(state)))
 		{
@@ -428,7 +431,7 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	@Override
-	public void oneshotPowerParticles(MSGTParticles.PowerParticleState state)
+	public void oneshotPowerParticles(MinestuckParticles.PowerParticleState state)
 	{
 		if (!owner.world.isRemote)
 			MinestuckChannelHandler.sendToTrackingAndSelf(MinestuckPacket.makePacket(MinestuckPacket.Type.SEND_POWER_PARTICLES, owner, state), owner);
@@ -437,13 +440,13 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	@SideOnly(Side.CLIENT)
-	private static void spawnClientParticles(EntityLivingBase entity, MSGTParticles.PowerParticleState state)
+	private static void spawnClientParticles(EntityLivingBase entity, MinestuckParticles.PowerParticleState state)
 	{
 		int[] colors;
 		if (state.aspect != null)
-			colors = MSGTParticles.getAspectParticleColors(state.aspect);
+			colors = MinestuckParticles.getAspectParticleColors(state.aspect);
 		else
-			colors = MSGTParticles.getClassParticleColors(state.clazz);
+			colors = MinestuckParticles.getClassParticleColors(state.clazz);
 
 		int[] counts = new int[colors.length];
 		for (int i = 0; i < state.count; i++)
@@ -453,10 +456,10 @@ public class BadgeEffects implements IBadgeEffects
 			switch (state.type)
 			{
 				case AURA:
-					MSGTParticles.spawnAuraParticles(entity, colors[i], counts[i]);
+					MinestuckParticles.spawnAuraParticles(entity, colors[i], counts[i]);
 					break;
 				case BURST:
-					MSGTParticles.spawnBurstParticles(entity, colors[i], counts[i]);
+					MinestuckParticles.spawnBurstParticles(entity, colors[i], counts[i]);
 					break;
 			}
 	}
@@ -483,7 +486,7 @@ public class BadgeEffects implements IBadgeEffects
 			effects.appendTag(tag);
 		}
 
-		for (Map.Entry<Class, MSGTParticles.PowerParticleState> entry : particleMap.entrySet())
+		for (Map.Entry<Class, MinestuckParticles.PowerParticleState> entry : particleMap.entrySet())
 		{
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setString("Badge", entry.getKey().getName());
@@ -526,14 +529,14 @@ public class BadgeEffects implements IBadgeEffects
 			{
 				NBTTagCompound tag = (NBTTagCompound) tagBase;
 				if(tag.hasKey("Aspect"))
-				particleMap.put(Class.forName(tag.getString("Badge")), new MSGTParticles.PowerParticleState(
-						MSGTParticles.ParticleType.values()[tag.getByte("Type")],
+				particleMap.put(Class.forName(tag.getString("Badge")), new MinestuckParticles.PowerParticleState(
+						MinestuckParticles.ParticleType.values()[tag.getByte("Type")],
 						 EnumAspect.values()[tag.getByte("Aspect")],
 						tag.getByte("Count")
 						));
 				else
-				particleMap.put(Class.forName(tag.getString("Badge")), new MSGTParticles.PowerParticleState(
-								MSGTParticles.ParticleType.values()[tag.getByte("Type")],
+				particleMap.put(Class.forName(tag.getString("Badge")), new MinestuckParticles.PowerParticleState(
+								MinestuckParticles.ParticleType.values()[tag.getByte("Type")],
 								EnumClass.values()[tag.getByte("Class")],
 						tag.getByte("Count")
 				));
@@ -663,7 +666,7 @@ public class BadgeEffects implements IBadgeEffects
 	@SideOnly(Side.CLIENT)
 	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
 	{
-		for (MSGTParticles.PowerParticleState state : event.getEntityLiving().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getPowerParticles().values())
+		for (MinestuckParticles.PowerParticleState state : event.getEntityLiving().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getPowerParticles().values())
 			if (state.count != 0)
 				spawnClientParticles(event.getEntityLiving(), state);
 	}

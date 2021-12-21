@@ -1,5 +1,6 @@
 package com.mraof.minestuck.capabilities.caps;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.Badge;
 import com.mraof.minestuck.badges.heroAspect.BadgeHeroAspect;
 import com.mraof.minestuck.badges.heroAspectUtil.BadgeHeroAspectUtil;
@@ -10,11 +11,13 @@ import com.mraof.minestuck.capabilities.api.IGodKeyStates;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.List;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class GodKeyStates implements IGodKeyStates
 {
 	private KeyState[] keyStates;

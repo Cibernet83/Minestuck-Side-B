@@ -2,8 +2,9 @@ package com.mraof.minestuck.modSupport;
 
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,9 +19,9 @@ public class NeverSayNetherSupport extends ModSupport
 		Item quartz = ((Item) (Class.forName("com.debbie.nsn.items.ModItems").getField("daedalean_quartzItem").get(null)));
 		Block ore = ((Block) (Class.forName("com.debbie.nsn.blocks.ModBlocks").getField("daedalean_oreBlock").get(null)));
 		
-		GristRegistry.addGristConversion(new ItemStack(dust), new GristSet(GristType.Build, 1));
-		GristRegistry.addGristConversion(new ItemStack(quartz), new GristSet(new GristType[]{GristType.Build, GristType.Quartz}, new int[]{1, 1}));
-		GristRegistry.addGristConversion(ore, new GristSet(GristType.Build, 5));
+		GristRegistry.addGristConversion(new ItemStack(dust), new GristSet(MinestuckGrists.build, 1));
+		GristRegistry.addGristConversion(new ItemStack(quartz), new GristSet(new Grist[]{MinestuckGrists.build, MinestuckGrists.quartz}, new int[]{1, 1}));
+		GristRegistry.addGristConversion(ore, new GristSet(MinestuckGrists.build, 5));
 	}
 	
 }

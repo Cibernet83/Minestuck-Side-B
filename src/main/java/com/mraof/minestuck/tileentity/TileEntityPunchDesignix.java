@@ -4,8 +4,8 @@ import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.block.BlockPunchDesignix;
 import com.mraof.minestuck.block.BlockPunchDesignix.EnumParts;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.alchemy.CombinationRegistry;
+import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.Debug;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -85,26 +85,26 @@ public class TileEntityPunchDesignix extends TileEntity
 				if (!card.isEmpty() && card.getItem() == MinestuckItems.captchaCard &&
 						heldStack.hasTagCompound() && heldStack.getTagCompound().hasKey("contentID"))
 				{
-					ItemStack output = AlchemyRecipes.getDecodedItem(heldStack);
+					ItemStack output = AlchemyUtils.getDecodedItem(heldStack);
 					if (!output.isEmpty())
 					{
 						if(output.getItem().isDamageable())
 							output.setItemDamage(0);
 						
-						if(AlchemyRecipes.isPunchedCard(card))
+						if(AlchemyUtils.isPunchedCard(card))
 						{    //|| combination
-							output = CombinationRegistry.getCombination(output, AlchemyRecipes.getDecodedItem(card), CombinationRegistry.Mode.MODE_OR);
+							output = CombinationRegistry.getCombination(output, AlchemyUtils.getDecodedItem(card), CombinationRegistry.Mode.MODE_OR);
 							if(!output.isEmpty())
 							{
-								MinestuckCriteriaTriggers.PUNCH_DESIGNIX.trigger(player, AlchemyRecipes.getDecodedItem(heldStack), AlchemyRecipes.getDecodedItem(card), output);
-								setCard(AlchemyRecipes.createCard(output, true));
+								MinestuckCriteriaTriggers.PUNCH_DESIGNIX.trigger(player, AlchemyUtils.getDecodedItem(heldStack), AlchemyUtils.getDecodedItem(card), output);
+								setCard(AlchemyUtils.createCard(output, true));
 								effects(true);
 								return;
 							}
 						} else    //Just punch the card regularly
 						{
 							MinestuckCriteriaTriggers.PUNCH_DESIGNIX.trigger(player, output, ItemStack.EMPTY, output);
-							setCard(AlchemyRecipes.createCard(output, true));
+							setCard(AlchemyUtils.createCard(output, true));
 							effects(true);
 							
 							return;

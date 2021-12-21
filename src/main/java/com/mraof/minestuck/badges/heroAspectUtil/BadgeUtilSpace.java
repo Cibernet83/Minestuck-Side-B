@@ -1,9 +1,10 @@
 package com.mraof.minestuck.badges.heroAspectUtil;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.item.ItemManipulatedMatter;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.EnumAspect;
@@ -21,10 +22,12 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeUtilSpace extends BadgeHeroAspectUtil
 {
 	public BadgeUtilSpace()
@@ -93,10 +96,10 @@ public class BadgeUtilSpace extends BadgeHeroAspectUtil
 				player.sendStatusMessage(new TextComponentTranslation("item.manipulatedMatter.cantEdit"), true);
 
 			if (time >= 20)
-				badgeEffects.startPowerParticles(BadgeUtilSpace.class, MSGTParticles.ParticleType.BURST, EnumAspect.SPACE, 10);
-			else badgeEffects.startPowerParticles(BadgeUtilSpace.class, MSGTParticles.ParticleType.AURA, EnumAspect.SPACE, 5);
+				badgeEffects.startPowerParticles(BadgeUtilSpace.class, MinestuckParticles.ParticleType.BURST, EnumAspect.SPACE, 10);
+			else badgeEffects.startPowerParticles(BadgeUtilSpace.class, MinestuckParticles.ParticleType.AURA, EnumAspect.SPACE, 5);
 		}
-		else badgeEffects.startPowerParticles(BadgeUtilSpace.class, MSGTParticles.ParticleType.AURA, EnumAspect.SPACE, (time >= 20 && pos1 != null && pos2 != null) ? 6 : 1);
+		else badgeEffects.startPowerParticles(BadgeUtilSpace.class, MinestuckParticles.ParticleType.AURA, EnumAspect.SPACE, (time >= 20 && pos1 != null && pos2 != null) ? 6 : 1);
 
 		return true;
 	}

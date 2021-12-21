@@ -1,7 +1,8 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.alchemy.GristAmount;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.entity.item.EntityGrist;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -23,18 +24,16 @@ import java.util.*;
 
 public class BlockGrist extends MSBlockBase
 {
-	public GristType type;
+	public Grist type;
 	public int value;
 
-	public static final HashMap<GristType, BlockGrist> BLOCKS = new HashMap<>();
-
-	public BlockGrist(GristType type)
+	public BlockGrist(Grist type)
 	{
 		super("gristBlock" + type.getName().toLowerCase().replaceFirst(type.getName().charAt(0)+"", (type.getName().charAt(0)+"").toUpperCase()), Material.GOURD, MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY);
 		this.type = type;
-		this.value = (type.getValue() >= 5.0F || !type.equals(GristType.Build)) ? 10 : 100;
+		this.value = (type.getValue() >= 5.0F || !type.equals(MinestuckGrists.build)) ? 10 : 100;
 		
-		BLOCKS.put(type, this);
+		MinestuckBlocks.gristBlocks.put(type, this);
 
 		setHardness(0.4f);
 		setHarvestLevel("pickaxe", 0);

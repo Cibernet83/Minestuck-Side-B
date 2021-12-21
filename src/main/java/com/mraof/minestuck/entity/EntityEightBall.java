@@ -1,7 +1,7 @@
 package com.mraof.minestuck.entity;
 
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.particle.MinestuckParticles;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;

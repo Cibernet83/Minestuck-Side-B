@@ -1,7 +1,7 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
 import io.netty.buffer.ByteBuf;
@@ -16,10 +16,10 @@ public class PacketSendPowerParticlesState extends MinestuckPacket
 {
 	private int entityId;
 	private Class badge;
-	private MSGTParticles.PowerParticleState state;
+	private MinestuckParticles.PowerParticleState state;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeInt(((EntityLivingBase)args[0]).getEntityId());
 
@@ -39,8 +39,8 @@ public class PacketSendPowerParticlesState extends MinestuckPacket
 		if (args.length > stateIndex)
 		{
 			data.writeBoolean(true);
-			MSGTParticles.PowerParticleState state = (MSGTParticles.PowerParticleState) args[stateIndex];
-			data.writeBoolean(state.type == MSGTParticles.ParticleType.AURA);
+			MinestuckParticles.PowerParticleState state = (MinestuckParticles.PowerParticleState) args[stateIndex];
+			data.writeBoolean(state.type == MinestuckParticles.ParticleType.AURA);
 			if (state.aspect != null)
 				data.writeByte(state.aspect.ordinal());
 			else
@@ -50,11 +50,11 @@ public class PacketSendPowerParticlesState extends MinestuckPacket
 		else
 			data.writeBoolean(false);
 
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		entityId = data.readInt();
 
@@ -75,20 +75,20 @@ public class PacketSendPowerParticlesState extends MinestuckPacket
 			int count = data.readByte();
 
 			if (classpect < EnumAspect.values().length)
-				state = new MSGTParticles.PowerParticleState(
-						aura ? MSGTParticles.ParticleType.AURA : MSGTParticles.ParticleType.BURST,
+				state = new MinestuckParticles.PowerParticleState(
+						aura ? MinestuckParticles.ParticleType.AURA : MinestuckParticles.ParticleType.BURST,
 						EnumAspect.values()[classpect],
 						count
 				);
 			else
-				state = new MSGTParticles.PowerParticleState(
-						aura ? MSGTParticles.ParticleType.AURA : MSGTParticles.ParticleType.BURST,
+				state = new MinestuckParticles.PowerParticleState(
+						aura ? MinestuckParticles.ParticleType.AURA : MinestuckParticles.ParticleType.BURST,
 						EnumClass.values()[classpect - EnumAspect.values().length],
 						count
 					);
 		}
 
-		return this;
+
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package com.mraof.minestuck.world.lands.terrain;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.gen.feature.WorldGenEndTree;
 import com.mraof.minestuck.world.lands.decorator.ILandDecorator;
 import com.mraof.minestuck.world.lands.decorator.UndergroundDecoratorVein;
@@ -63,8 +63,8 @@ public class LandAspectEnd extends TerrainLandAspect
 	public List<ILandDecorator> getDecorators()
 	{
 		ArrayList<ILandDecorator> list = new ArrayList<ILandDecorator>();
-		list.add(new WorldgenTreeDecorator(2, new WorldGenEndTree(false), BiomeMinestuck.mediumRough));
-		list.add(new WorldgenTreeDecorator(3, new WorldGenEndTree(false), BiomeMinestuck.mediumNormal));
+		list.add(new WorldgenTreeDecorator(2, new WorldGenEndTree(false), MinestuckBiomes.mediumRough));
+		list.add(new WorldgenTreeDecorator(3, new WorldGenEndTree(false), MinestuckBiomes.mediumNormal));
 		
 		list.add(new UndergroundDecoratorVein(Blocks.GRAVEL.getDefaultState(), 8, 33, 256));
 		list.add(new UndergroundDecoratorVein(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT), 8, 16, 128));

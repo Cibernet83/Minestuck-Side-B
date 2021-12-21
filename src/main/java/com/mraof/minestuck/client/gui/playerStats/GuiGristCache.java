@@ -1,7 +1,7 @@
 package com.mraof.minestuck.client.gui.playerStats;
 
 import com.mraof.minestuck.editmode.ClientEditHandler;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -33,7 +33,7 @@ public class GuiGristCache extends GuiPlayerStats
 		super.initGui();
 		this.previousButton = new GuiButtonExt(1, this.xOffset + 8, this.yOffset + 8, 16, 16, "<");
 		this.nextButton = new GuiButtonExt(2, this.xOffset + guiWidth - 24, this.yOffset + 8, 16, 16, ">");
-		if(GristType.REGISTRY.getValues().size() > rows * columns)
+		if(Grist.REGISTRY.getValues().size() > rows * columns)
 		{
 			this.buttonList.add(this.nextButton);
 		}
@@ -52,9 +52,9 @@ public class GuiGristCache extends GuiPlayerStats
 		this.drawTexturedModalRect(xOffset, yOffset, 0, 0, guiWidth, guiHeight);
 
 		String cacheMessage;
-		if (ClientEditHandler.isActive() || MinestuckPlayerData.title == null)
+		if (ClientEditHandler.isActive() || MinestuckPlayerData.clientData.title == null)
 			cacheMessage = I18n.format("gui.gristCache.name");
-		else cacheMessage = MinestuckPlayerData.title.getTitleName();
+		else cacheMessage = MinestuckPlayerData.clientData.title.getTitleName();
 		mc.fontRenderer.drawString(cacheMessage, (this.width / 2) - mc.fontRenderer.getStringWidth(cacheMessage) / 2, yOffset + 12, 0x404040);
 		super.drawScreen(xcor, ycor, par3);
 
@@ -72,7 +72,7 @@ public class GuiGristCache extends GuiPlayerStats
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
-		int maxPage = (GristType.REGISTRY.getValues().size() - 1) / (rows * columns);
+		int maxPage = (Grist.REGISTRY.getValues().size() - 1) / (rows * columns);
 		if (button == previousButton && page > 0)
 		{
 			page--;

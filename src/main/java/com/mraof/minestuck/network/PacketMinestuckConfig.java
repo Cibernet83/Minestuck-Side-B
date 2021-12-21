@@ -1,43 +1,40 @@
 package com.mraof.minestuck.network;
 
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.editmode.DeployList;
+import com.mraof.minestuck.inventory.ContainerHandler;
 import io.netty.buffer.ByteBuf;
-
-import java.util.EnumSet;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.editmode.DeployList;
-import com.mraof.minestuck.inventory.ContainerHandler;
+import java.util.EnumSet;
 
 public class PacketMinestuckConfig extends MinestuckPacket
 {
 	
-	boolean mode;
-	
-	int overWorldEditRange;
-	int landEditRange;
-	int cardCost;
-	int alchemiterStacks;
-	int windowIdStart;
-	int oreMultiplier;
-	byte treeModusSetting;
-	byte hashmapModusSetting;
-	
-	boolean giveItems;
-	boolean disableGristWidget;
-	boolean dataChecker;
-	boolean preEntryEcheladder;
-	boolean hardMode;
-	boolean[] deployValues;
+	private boolean mode;
+
+	private int overWorldEditRange;
+	private int landEditRange;
+	private int cardCost;
+	private int alchemiterStacks;
+	private int windowIdStart;
+	private int oreMultiplier;
+	private byte treeModusSetting;
+
+	private boolean giveItems;
+	private boolean disableGristWidget;
+	private boolean dataChecker;
+	private boolean preEntryEcheladder;
+	private boolean hardMode;
+	private boolean[] deployValues;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		boolean mode = (Boolean) dat[0];
 		data.writeBoolean(mode);
@@ -58,16 +55,15 @@ public class PacketMinestuckConfig extends MinestuckPacket
 			data.writeInt(MinestuckConfig.alchemiterMaxStacks);
 			data.writeBoolean(MinestuckConfig.disableGristWidget);
 			data.writeByte(MinestuckConfig.treeModusSetting);
-			data.writeByte(MinestuckConfig.hashmapChatModusSetting);
 			data.writeBoolean((Boolean) dat[1]);
 			data.writeBoolean(MinestuckConfig.preEntryRungLimit <= 0);
 		}
 		
-		return this;
+
 	}
 	
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		mode = data.readBoolean();
 		
@@ -89,12 +85,11 @@ public class PacketMinestuckConfig extends MinestuckPacket
 			alchemiterStacks = data.readInt();
 			disableGristWidget = data.readBoolean();
 			treeModusSetting = data.readByte();
-			hashmapModusSetting = data.readByte();
 			dataChecker = data.readBoolean();
 			preEntryEcheladder = data.readBoolean();
 		}
 		
-		return this;
+
 	}
 
 	@Override
@@ -121,7 +116,6 @@ public class PacketMinestuckConfig extends MinestuckPacket
 			MinestuckConfig.clientAlchemiterStacks = alchemiterStacks;
 			MinestuckConfig.clientDisableGristWidget = disableGristWidget;
 			MinestuckConfig.clientTreeAutobalance = treeModusSetting;
-			MinestuckConfig.clientHashmapChat = hashmapModusSetting;
 			MinestuckConfig.dataCheckerAccess = dataChecker;
 			MinestuckConfig.preEntryEcheladder = preEntryEcheladder;
 		}

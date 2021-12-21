@@ -3,7 +3,7 @@ package com.mraof.minestuck.world.lands.structure;
 import com.mraof.minestuck.block.BlockGate;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.util.Debug;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.WeightedRandom;
@@ -30,8 +30,8 @@ public class MapGenLandStructure extends MapGenStructure
 	
 	public static void registerStructures()
 	{
-		genericStructures.add(new StructureEntry(SmallRuinStart.class, 3, BiomeMinestuck.mediumNormal));
-		genericStructures.add(new StructureEntry(ImpDungeonStart.class, 2, BiomeMinestuck.mediumNormal, BiomeMinestuck.mediumRough));
+		genericStructures.add(new StructureEntry(SmallRuinStart.class, 3, MinestuckBiomes.mediumNormal));
+		genericStructures.add(new StructureEntry(ImpDungeonStart.class, 2, MinestuckBiomes.mediumNormal, MinestuckBiomes.mediumRough));
 		MapGenStructureIO.registerStructure(SmallRuinStart.class, "MinestuckSmallRuin");
 		MapGenStructureIO.registerStructureComponent(SmallRuinStart.SmallRuin.class, "MinestuckSmallRuinCompo");
 		MapGenStructureIO.registerStructure(ImpDungeonStart.class, "MinestuckImpDungeon");
@@ -178,7 +178,7 @@ public class MapGenLandStructure extends MapGenStructure
 				{
 					BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(xPos + (i % 2), 0, zPos + i/2));
 					IBlockState block = world.getBlockState(pos);
-					if(block.getMaterial().isLiquid() || world.getBiomeForCoordsBody(pos) == BiomeMinestuck.mediumOcean)
+					if(block.getMaterial().isLiquid() || world.getBiomeForCoordsBody(pos) == MinestuckBiomes.mediumOcean)
 						return;
 					if(pos.getY() > maxY)
 						maxY = pos.getY();

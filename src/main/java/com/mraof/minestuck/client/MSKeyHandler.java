@@ -2,7 +2,7 @@ package com.mraof.minestuck.client;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.client.gui.GuiStrifeSwitcher;
-import com.mraof.minestuck.event.handlers.StrifeEventHandler;
+import com.mraof.minestuck.event.handler.StrifeEventHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import net.minecraft.client.Minecraft;

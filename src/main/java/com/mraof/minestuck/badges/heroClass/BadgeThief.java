@@ -3,8 +3,8 @@ package com.mraof.minestuck.badges.heroClass;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
-import com.mraof.minestuck.event.handlers.GodTierEventHandler;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
+import com.mraof.minestuck.event.handler.GodTierEventHandler;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.potions.MinestuckPotions;
@@ -42,7 +42,7 @@ public class BadgeThief extends BadgeHeroClass
 
 		if (state != GodKeyStates.KeyState.RELEASED)
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumClass.THIEF, time > 20 ? 5 : 1);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.THIEF, time > 20 ? 5 : 1);
 			return true;
 		}
 
@@ -54,8 +54,8 @@ public class BadgeThief extends BadgeHeroClass
 		if (!(target instanceof EntityPlayer))
 			return false;
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumClass.THIEF, 20);
-		target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.THIEF, 20);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.THIEF, 20);
+		target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.THIEF, 20);
 		PotionEffect effect = new PotionEffect(MinestuckPotions.GOD_TIER_LOCK, 2400, 0);
 		effect.setCurativeItems(Collections.emptyList());
 		target.addPotionEffect(effect);

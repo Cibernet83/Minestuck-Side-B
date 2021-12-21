@@ -1,6 +1,7 @@
 package com.mraof.minestuck.item.properties;
 
-import com.mraof.minestuck.event.handlers.CommonEventHandler;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.event.handler.CommonEventHandler;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import com.mraof.minestuck.item.weapon.MSWeaponBase;
 import net.minecraft.enchantment.Enchantment;
@@ -10,8 +11,10 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PropertyTrueDamage extends WeaponProperty implements IEnchantableProperty
 {
 	@SubscribeEvent

@@ -19,24 +19,24 @@ public class PacketSelection extends MinestuckPacket
 	public int color;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... data)
+	public void generatePacket(Object... data)
 	{
 		byte type = (Byte) data[0];
 		this.data.writeByte(type);
 		if(type == COLOR)
 			this.data.writeInt((Integer) data[1]);
 		
-		return this;
+
 	}
 	
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		this.type = data.readByte();
 		if(this.type == COLOR)
 			this.color = data.readInt();
 		
-		return this;
+
 	}
 	
 	@Override

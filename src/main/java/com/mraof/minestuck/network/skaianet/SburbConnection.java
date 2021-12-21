@@ -1,17 +1,16 @@
 package com.mraof.minestuck.network.skaianet;
 
 import com.mraof.minestuck.editmode.DeployList;
-import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -105,12 +104,12 @@ public class SburbConnection
 			data.writeBoolean(enteredGame);
 		}
 		data.writeInt(getClientIdentifier().getId());
-		MinestuckPacket.writeString(data, getClientIdentifier().getUsername()+"\n");
+		ByteBufUtils.writeUTF8String(data, getClientIdentifier().getUsername());
 		data.writeInt(getServerIdentifier().getId());
-		MinestuckPacket.writeString(data, getServerIdentifier().getUsername()+"\n");
+		ByteBufUtils.writeUTF8String(data, getServerIdentifier().getUsername());
 	}
 
-	NBTTagCompound write()
+	public NBTTagCompound write()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setBoolean("isMain", isMain);
@@ -148,8 +147,8 @@ public class SburbConnection
 		nbt.setInteger("artifact", artifactType);
 		return nbt;
 	}
-	
-	SburbConnection read(NBTTagCompound nbt)
+
+	public void read(NBTTagCompound nbt)
 	{
 		isMain = nbt.getBoolean("isMain");
 		if(nbt.hasKey("inventory"))
@@ -173,8 +172,10 @@ public class SburbConnection
 		}
 		if(isActive)
 		{
-			client = new ComputerData().read(nbt.getCompoundTag("client"));
-			server = new ComputerData().read(nbt.getCompoundTag("server"));
+			client = new ComputerData();
+			client.read(nbt.getCompoundTag("client"));
+			server = new ComputerData();
+			server.read(nbt.getCompoundTag("server"));
 		}
 		else
 		{
@@ -203,8 +204,6 @@ public class SburbConnection
 			}
 		}
 		artifactType = nbt.getInteger("artifact");
-		
-		return this;
 	}
 	
 }

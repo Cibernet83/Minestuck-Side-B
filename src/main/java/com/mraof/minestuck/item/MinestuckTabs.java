@@ -2,6 +2,7 @@ package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.inventory.captchalouge.MinestuckModi;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import com.mraof.minestuck.util.Title;
@@ -56,7 +57,7 @@ public class MinestuckTabs
 		public ItemStack getIconItemStack()
 		{
 			if(Minecraft.getMinecraft().player == null)
-				return  getTabIconItem();
+				return getTabIconItem();
 
 			NonNullList<ItemStack> modi = OreDictionary.getOres("modus");
 			return modi.get((int) ((System.currentTimeMillis()/1000d - Minestuck.startTime) % modi.size()));
@@ -64,7 +65,7 @@ public class MinestuckTabs
 
 		@Override
 		public ItemStack getTabIconItem() {
-			return new ItemStack(MinestuckItems.stackModus);
+			return new ItemStack(MinestuckItems.modi.get(MinestuckModi.stack));
 		}
 	};
 }

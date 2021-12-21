@@ -1,6 +1,7 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
 import net.minecraft.block.state.IBlockState;
@@ -13,7 +14,7 @@ import net.minecraft.world.World;
 public abstract class TileEntityMiniSburbMachine extends TileEntityMachine
 {
 	public PlayerIdentifier owner;
-	public GristType selectedGrist = GristType.Build;
+	public Grist selectedGrist = MinestuckGrists.build;
 	public int color = -1;
 	protected int ticks_since_update = 0;
 
@@ -36,10 +37,10 @@ public abstract class TileEntityMiniSburbMachine extends TileEntityMachine
 
 		if(tagCompound.hasKey("gristType"))
 		{
-			this.selectedGrist = GristType.getTypeFromString(tagCompound.getString("gristType"));
+			this.selectedGrist = Grist.getTypeFromString(tagCompound.getString("gristType"));
 			if(this.selectedGrist == null)
 			{
-				this.selectedGrist = GristType.Build;
+				this.selectedGrist = MinestuckGrists.build;
 			}
 		}
 

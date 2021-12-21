@@ -19,21 +19,21 @@ public class PacketToggleBadge extends MinestuckPacket
     boolean sendMessage;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
         ByteBufUtils.writeUTF8String(data, ((Badge)args[0]).getRegistryName().toString());
 
         data.writeBoolean(args.length > 1 && (Boolean) args[1]);
 
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
         badge = MinestuckBadges.REGISTRY.getValue(new ResourceLocation(ByteBufUtils.readUTF8String(data)));
         sendMessage = data.readBoolean();
-        return this;
+
     }
 
     @Override

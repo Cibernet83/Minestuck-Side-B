@@ -1,6 +1,8 @@
 package com.mraof.minestuck.capabilities.caps;
 
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.badges.Badge;
 import com.mraof.minestuck.badges.MasterBadge;
 import com.mraof.minestuck.badges.MinestuckBadges;
@@ -25,11 +27,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.*;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class GodTierData implements IGodTierData
 {
 	private int staticKarma = 0;
@@ -54,7 +58,7 @@ public class GodTierData implements IGodTierData
 
 	private EnumLunarSway lunarSway;
 	private EnumConsort consortType;
-	private GristType gristHoard = GristType.Build;
+	private Grist gristHoard = MinestuckGrists.build;
 
 	private boolean reset = false;
 
@@ -268,7 +272,7 @@ public class GodTierData implements IGodTierData
 	{
 		Title title = MinestuckPlayerData.getTitle(IdentifierHandler.encode(owner));
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
-			title = MinestuckPlayerData.title;
+			title = MinestuckPlayerData.clientData.title;
 
 		if(title == null)
 			return 50;
@@ -355,13 +359,13 @@ public class GodTierData implements IGodTierData
 	}
 
 	@Override
-	public GristType getGristHoard()
+	public Grist getGristHoard()
 	{
 		return gristHoard;
 	}
 
 	@Override
-	public void setGristHoard(GristType gristHoard)
+	public void setGristHoard(Grist gristHoard)
 	{
 		this.gristHoard = gristHoard;
 	}
@@ -439,7 +443,7 @@ public class GodTierData implements IGodTierData
 			climbedTheSpire = nbt.getBoolean("ClimbedTheSpire");
 
 		if(nbt.hasKey("GristHoardType"))
-			gristHoard = GristType.getTypeFromString(nbt.getString("GristHoardType"));
+			gristHoard = Grist.getTypeFromString(nbt.getString("GristHoardType"));
 
 		if(nbt.getInteger("ConsortType") != -1)
 			consortType = EnumConsort.values()[nbt.getInteger("ConsortType")];

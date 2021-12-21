@@ -1,11 +1,12 @@
 package com.mraof.minestuck.badges.heroAspect;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.damage.CritDamageSource;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
@@ -14,8 +15,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeActiveHeart extends BadgeHeroAspect
 {
 	public static final DamageSource DAMAGE_SOURCE = new CritDamageSource("perseveringSpirit").setGodproof().setDamageBypassesArmor();
@@ -47,7 +50,7 @@ public class BadgeActiveHeart extends BadgeHeroAspect
 		if(!player.isCreative() && time % 30 == 0)
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 1);
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.HEART, 4);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.HEART, 4);
 
 		return true;
 	}
@@ -64,7 +67,7 @@ public class BadgeActiveHeart extends BadgeHeroAspect
 		if (targetPlayer != null && targetData.isBadgeActive(MinestuckBadges.BADGE_ACTIVE_HEART) && targetPlayer.getCapability(MinestuckCapabilities.GOD_KEY_STATES, null).getKeyState(GodKeyStates.Key.ASPECT) == GodKeyStates.KeyState.HELD && targetPlayer.getCapability(MinestuckCapabilities.GOD_KEY_STATES, null).getKeyTime(GodKeyStates.Key.ASPECT) <= 200) {
 			if (targetPlayer.getFoodStats().getFoodLevel() > event.getAmount())
 			{
-				targetPlayer.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.HEART, (int) event.getAmount());
+				targetPlayer.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.HEART, (int) event.getAmount());
 
 				targetPlayer.heal(event.getAmount());
 				targetPlayer.getFoodStats().setFoodLevel(targetPlayer.getFoodStats().getFoodLevel() - (int)event.getAmount());
@@ -72,7 +75,7 @@ public class BadgeActiveHeart extends BadgeHeroAspect
 			}
 			else if (targetPlayer.getFoodStats().getFoodLevel() > 1)
 			{
-				targetPlayer.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.HEART, targetPlayer.getFoodStats().getFoodLevel());
+				targetPlayer.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.HEART, targetPlayer.getFoodStats().getFoodLevel());
 
 				targetPlayer.heal(targetPlayer.getFoodStats().getFoodLevel());
 				targetPlayer.getFoodStats().setFoodLevel(0);

@@ -1,23 +1,17 @@
 package com.mraof.minestuck.network;
 
+import com.mraof.minestuck.client.gui.GuiTitleSelector;
+import com.mraof.minestuck.client.gui.playerStats.GuiEcheladder;
+import com.mraof.minestuck.network.skaianet.SburbHandler;
+import com.mraof.minestuck.util.*;
 import io.netty.buffer.ByteBuf;
-
-import java.util.EnumSet;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.mraof.minestuck.client.gui.GuiTitleSelector;
-import com.mraof.minestuck.client.gui.playerStats.GuiEcheladder;
-import com.mraof.minestuck.network.skaianet.SburbHandler;
-import com.mraof.minestuck.util.ColorCollector;
-import com.mraof.minestuck.util.EnumAspect;
-import com.mraof.minestuck.util.EnumClass;
-import com.mraof.minestuck.util.MinestuckPlayerData;
-import com.mraof.minestuck.util.Title;
+import java.util.EnumSet;
 
 public class PacketPlayerData extends MinestuckPacket
 {
@@ -31,7 +25,7 @@ public class PacketPlayerData extends MinestuckPacket
 	public boolean b;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat) 
+	public void generatePacket(Object... dat)
 	{
 		byte type = (Byte) dat[0];
 		data.writeByte(type);
@@ -39,19 +33,23 @@ public class PacketPlayerData extends MinestuckPacket
 		{
 			if(dat.length > 1)
 				data.writeInt((Integer) dat[1]);
-		} else if(type == TITLE)
+		}
+		else if(type == TITLE)
 		{
 			data.writeInt(EnumClass.getIntFromClass((EnumClass) dat[1]));
 			data.writeInt(EnumAspect.getIntFromAspect((EnumAspect) dat[2]));
-		} else if(type == ECHELADDER)
+		}
+		else if(type == ECHELADDER)
 		{
 			data.writeInt((Integer) dat[1]);
 			data.writeFloat((Float) dat[2]);
 			data.writeBoolean((Boolean) dat[3]);
-		} else if(type == BOONDOLLAR)
+		}
+		else if(type == BOONDOLLAR)
 		{
 			data.writeLong((Long) dat[1]);
-		} else if(type == TITLE_SELECT)
+		}
+		else if(type == TITLE_SELECT)
 		{
 			if(dat.length > 1)
 			{
@@ -60,11 +58,11 @@ public class PacketPlayerData extends MinestuckPacket
 			}
 		}
 		
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data) 
+	public void consumePacket(ByteBuf data)
 	{
 		type = data.readByte();
 		if(type == COLOR)
@@ -94,8 +92,8 @@ public class PacketPlayerData extends MinestuckPacket
 			} else i1 = -1;
 		}
 		
-		return this;
-	}
+
+	} // TODO: kill
 	
 	@Override
 	public void execute(EntityPlayer player)
@@ -108,14 +106,17 @@ public class PacketPlayerData extends MinestuckPacket
 				ColorCollector.displaySelectionGui = true;
 			}
 			else ColorCollector.playerColor = i1;
-		} else if(type == TITLE)
+		}
+		else if(type == TITLE)
 		{
-			MinestuckPlayerData.title = new Title(EnumClass.getClassFromInt(i1), EnumAspect.getAspectFromInt(i2));
-		} else if(type == ECHELADDER)
+			MinestuckPlayerData.clientData.title = new Title(EnumClass.getClassFromInt(i1), EnumAspect.getAspectFromInt(i2));
+		}
+		else if(type == ECHELADDER)
 		{
-			int prev = MinestuckPlayerData.rung;
-			MinestuckPlayerData.rung = i1;
-			MinestuckPlayerData.rungProgress = f;
+			if (MinestuckPlayerData.clientData.echeladder == null)
+				MinestuckPlayerData.clientData.echeladder = new Echeladder(IdentifierHandler.encode(player));
+			int prev = MinestuckPlayerData.clientData.echeladder.getRung();
+			MinestuckPlayerData.clientData.echeladder.setProgress(i1, f);
 			if(!b)
 				for(prev++; prev <= i1; prev++)
 				{
@@ -123,10 +124,12 @@ public class PacketPlayerData extends MinestuckPacket
 					player.sendMessage(new TextComponentString("You reached rung "+s+'!'));
 				}
 			else GuiEcheladder.animatedRung = GuiEcheladder.lastRung = i1;
-		} else if(type == BOONDOLLAR)
+		}
+		else if(type == BOONDOLLAR)
 		{
-			MinestuckPlayerData.boondollars = l;
-		} else if(type == TITLE_SELECT)
+			MinestuckPlayerData.clientData.boondollars = l;
+		}
+		else if(type == TITLE_SELECT)
 		{
 			Title title;
 			if(i1 >= 0 && i1 < 12 && i2 >= 0 && i2 < 12)

@@ -16,21 +16,21 @@ public class PacketUpdateBeamData extends MinestuckPacket
 	NBTTagCompound nbt;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeInt(((World)args[0]).provider.getDimension());
 		ByteBufUtils.writeTag(data, ((World)args[0]).getCapability(MinestuckCapabilities.BEAM_DATA, null).writeToNBT());
 
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		worldId = data.readInt();
 		nbt = ByteBufUtils.readTag(data);
 
-		return this;
+
 	}
 
 	@Override

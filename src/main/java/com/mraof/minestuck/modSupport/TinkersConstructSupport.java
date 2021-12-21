@@ -1,9 +1,6 @@
 package com.mraof.minestuck.modSupport;
 
-import com.mraof.minestuck.alchemy.CombinationRegistry;
-import com.mraof.minestuck.alchemy.GristRegistry;
-import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -22,9 +19,9 @@ public class TinkersConstructSupport extends ModSupport
 		Item edible = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tconstruct", "edible"));
 		Block grout = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("tconstruct", "soil"));
 		
-		GristRegistry.addGristConversion(new ItemStack(edible, 1, 1), true, new GristSet(new GristType[] {GristType.Caulk, GristType.Amethyst}, new int[] {4, 4}));
-		GristRegistry.addGristConversion(new ItemStack(edible, 1, 2), true, new GristSet(new GristType[] {GristType.Caulk, GristType.Amethyst, GristType.Garnet}, new int[] {4, 2, 2}));
-		GristRegistry.addGristConversion(new ItemStack(edible, 1, 4), true, new GristSet(new GristType[] {GristType.Caulk, GristType.Amber, GristType.Garnet}, new int[] {4, 2, 2}));
+		GristRegistry.addGristConversion(new ItemStack(edible, 1, 1), true, new GristSet(new Grist[] {MinestuckGrists.caulk, MinestuckGrists.amethyst}, new int[] {4, 4}));
+		GristRegistry.addGristConversion(new ItemStack(edible, 1, 2), true, new GristSet(new Grist[] {MinestuckGrists.caulk, MinestuckGrists.amethyst, MinestuckGrists.garnet}, new int[] {4, 2, 2}));
+		GristRegistry.addGristConversion(new ItemStack(edible, 1, 4), true, new GristSet(new Grist[] {MinestuckGrists.caulk, MinestuckGrists.amber, MinestuckGrists.garnet}, new int[] {4, 2, 2}));
 		
 		
 		CombinationRegistry.addCombination(new ItemStack(Items.DYE, 1, 4), new ItemStack(Items.SLIME_BALL), CombinationRegistry.Mode.MODE_OR, true, false, new ItemStack(edible, 1, 1));

@@ -16,17 +16,17 @@ public class PacketUpdateGTDataFromClient extends MinestuckPacket
     NBTTagCompound nbt;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
         ByteBufUtils.writeTag(data, Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).writeToNBT());
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
         nbt = ByteBufUtils.readTag(data);
-        return this;
+
     }
 
     @Override

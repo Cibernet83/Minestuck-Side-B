@@ -1,6 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
@@ -25,6 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -32,21 +34,23 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.*;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckBlocks
 {
-	public static final ArrayList<IRegistryBlock> blocks = new ArrayList<>();
-	public static final TreeMap<EnumDyeColor, BlockWoolTransportalizer> sleevedTransportalizers = new TreeMap<>();
+	public static final List<IRegistryBlock> blocks = new ArrayList<>();
 	public static final List<IBlockState> fluids = new ArrayList<>();
+	public static final Map<EnumDyeColor, BlockWoolTransportalizer> sleevedTransportalizers = new HashMap<>();
 	public static final Map<Block, MSBlockStairs> stairs = new HashMap<>();
 	public static final Map<Block, MSBlockSlab> slabs = new HashMap<>();
 	public static final Map<Block, MSBlockWall> walls = new HashMap<>();
-	public static final Map<EnumAspect, BlockHeroStone> heroStones = new TreeMap<>();
-	public static final Map<EnumAspect, BlockHeroStone> chiseledHeroStones = new TreeMap<>();
-	public static final Map<EnumAspect, BlockHeroStoneWall> heroStoneWalls = new TreeMap<>();
-	public static final Map<EnumAspect, BlockSpectralHeroStone> spectralHeroStones = new TreeMap<>();
-	public static final Map<EnumAspect, Block> aspectLogs = new TreeMap<>();
-	public static final Map<EnumAspect, Block> aspectPlanks = new TreeMap<>();
-	public static final Map<EnumAspect, Block> aspectSaplings = new TreeMap<>();
+	public static final Map<Grist, BlockGrist> gristBlocks = new HashMap<>();
+	public static final Map<EnumAspect, BlockHeroStone> heroStones = new HashMap<>();
+	public static final Map<EnumAspect, BlockHeroStone> chiseledHeroStones = new HashMap<>();
+	public static final Map<EnumAspect, BlockHeroStoneWall> heroStoneWalls = new HashMap<>();
+	public static final Map<EnumAspect, BlockSpectralHeroStone> spectralHeroStones = new HashMap<>();
+	public static final Map<EnumAspect, Block> aspectLogs = new HashMap<>();
+	public static final Map<EnumAspect, Block> aspectPlanks = new HashMap<>();
+	public static final Map<EnumAspect, Block> aspectSaplings = new HashMap<>();
 
 	//Alchemy
 	public static final Block punchDesignix = new BlockPunchDesignix();
@@ -246,31 +250,6 @@ public class MinestuckBlocks
 	public static final MSBlockBase dungeonDoor = new BlockDungeonDoor("dungeonDoor");
 	public static final MSBlockBase dungeonDoorKeyhole = new BlockDungeonDoor("dungeonDoorKeyhole");
 
-	//Grist Blocks
-	public static final MSBlockBase gristBlockAmber = new BlockGrist(GristType.Amber);
-	public static final MSBlockBase gristBlockAmethyst = new BlockGrist(GristType.Amethyst);
-	public static final MSBlockBase gristBlockArtifact = new BlockGrist(GristType.Artifact);
-	public static final MSBlockBase gristBlockBuild = new BlockGrist(GristType.Build);
-	public static final MSBlockBase gristBlockCaulk = new BlockGrist(GristType.Caulk);
-	public static final MSBlockBase gristBlockChalk = new BlockGrist(GristType.Chalk);
-	public static final MSBlockBase gristBlockCobalt = new BlockGrist(GristType.Cobalt);
-	public static final MSBlockBase gristBlockDiamond = new BlockGrist(GristType.Diamond);
-	public static final MSBlockBase gristBlockGarnet = new BlockGrist(GristType.Garnet);
-	public static final MSBlockBase gristBlockGold = new BlockGrist(GristType.Gold);
-	public static final MSBlockBase gristBlockIodine = new BlockGrist(GristType.Iodine);
-	public static final MSBlockBase gristBlockMarble = new BlockGrist(GristType.Marble);
-	public static final MSBlockBase gristBlockMercury = new BlockGrist(GristType.Mercury);
-	public static final MSBlockBase gristBlockQuartz = new BlockGrist(GristType.Quartz);
-	public static final MSBlockBase gristBlockRuby = new BlockGrist(GristType.Ruby);
-	public static final MSBlockBase gristBlockRust = new BlockGrist(GristType.Rust);
-	public static final MSBlockBase gristBlockShale = new BlockGrist(GristType.Shale);
-	public static final MSBlockBase gristBlockSulfur = new BlockGrist(GristType.Sulfur);
-	public static final MSBlockBase gristBlockTar = new BlockGrist(GristType.Tar);
-	public static final MSBlockBase gristBlockUranium = new BlockGrist(GristType.Uranium);
-	public static final MSBlockBase gristBlockZillium = new BlockGrist(GristType.Zillium);
-	public static final MSBlockBase gristBlockVis = new BlockGrist(GristType.Vis);
-	public static final MSBlockBase gristBlockMana = new BlockGrist(GristType.Mana);
-
 	//Effect Beacons
 	public static final MSBlockBase dungeonShield = new BlockEffectBeacon("dungeonShield", MapColor.ADOBE, new PotionEffect(MinestuckPotions.CREATIVE_SHOCK, 40, 0));
 	public static final MSBlockBase flightBeacon = new BlockEffectBeacon("flightBeacon", MapColor.ADOBE, new PotionEffect(MinestuckPotions.SKYHBOUND, 40, 0));
@@ -383,8 +362,11 @@ public class MinestuckBlocks
 		slabs(Blocks.BEDROCK);
 		stairs(Blocks.BEDROCK);
 
-		for(EnumAspect aspect : EnumAspect.values())
+		for (EnumAspect aspect : EnumAspect.values())
 			generateHeroStones(aspect);
+
+		for (Grist grist : Grist.REGISTRY)
+			new BlockGrist(grist);
 
 		IForgeRegistry<Block> registry = event.getRegistry();
 		for (IRegistryObject<Block> block : blocks)

@@ -76,7 +76,7 @@ public abstract class BadgeHeroAspectUtil extends BadgeLevel
 		EnumAspect playerAspect;
 
 		if(world.isRemote)
-			playerAspect = MinestuckPlayerData.title.getHeroAspect();
+			playerAspect = MinestuckPlayerData.clientData.title.getHeroAspect();
 		else
 			playerAspect = MinestuckPlayerData.getData(player).title.getHeroAspect();
 

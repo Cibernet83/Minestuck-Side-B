@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspectUtil;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.MSGTUtils;
 import net.minecraft.block.IGrowable;
@@ -50,7 +50,7 @@ public class BadgeUtilLife extends BadgeHeroAspectUtil
 					if(!world.isRemote)
 						world.playEvent(2005, targetPos, 0);
 
-					badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.LIFE, 4);
+					badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 4);
 					if (!player.isCreative() && !world.isRemote)
 						player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 4);
 				}
@@ -64,15 +64,15 @@ public class BadgeUtilLife extends BadgeHeroAspectUtil
 		}
 
 		if(time > 10)
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.BURST, EnumAspect.LIFE, 20);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.LIFE, 20);
         else
-        	badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.LIFE, 6);
+        	badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 6);
 
 		if(time >= 15)
 		{
 			for(EntityAnimal target : world.getEntitiesWithinAABB(EntityAnimal.class, player.getEntityBoundingBox().grow(RADIUS)))
 			{
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.LIFE, 3);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 3);
 
 				target.setInLove(player);
 			}

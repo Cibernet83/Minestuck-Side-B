@@ -6,7 +6,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.inventory.captchalouge.ISylladex;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
@@ -69,7 +69,7 @@ public class CaptchalogueTrigger implements ICriterionTrigger<CaptchalogueTrigge
 		if(json.has("modus"))
 		{
 			modus = json.get("modus").getAsString();
-			if(!CaptchaDeckHandler.isInRegistry(new ResourceLocation(modus)))
+			if(Modus.REGISTRY.getValue(new ResourceLocation(modus)) != null)
 				throw new IllegalArgumentException("Invalid modus "+modus);
 		}
 		ItemPredicate item = null;
@@ -79,11 +79,11 @@ public class CaptchalogueTrigger implements ICriterionTrigger<CaptchalogueTrigge
 		return new Instance(modus, item, count);
 	}
 	
-	public void trigger(EntityPlayerMP player, Modus modus, ItemStack item)
+	public void trigger(EntityPlayerMP player, ISylladex sylladex, ItemStack item)
 	{
 		Listeners listeners = listenersMap.get(player.getAdvancements());
-		if(listeners != null)
-			listeners.trigger(CaptchaDeckHandler.getType(modus.getClass()).toString(), item, modus.getNonEmptyCards());
+		//if(listeners != null)
+			//listeners.trigger(SylladexUtils.getType(modus.getClass()).toString(), item, modus.getNonEmptyCards());
 	}
 	
 	public static class Instance extends AbstractCriterionInstance

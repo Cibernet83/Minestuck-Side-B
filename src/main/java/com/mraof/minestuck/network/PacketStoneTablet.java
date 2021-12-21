@@ -14,22 +14,22 @@ public class PacketStoneTablet extends MinestuckPacket
 	public String text;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		if(dat.length > 0)
 			data.writeBytes(((String) dat[0]).getBytes());
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		int size = data.readableBytes();
 		byte[] destBytes = new byte[size];
 		for(int i = 0; i < size; i++)
 			destBytes[i] = data.readByte();
 		text = new String(destBytes);
-		return this;
+
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IStrifeData;
-import com.mraof.minestuck.event.handlers.StrifeEventHandler;
+import com.mraof.minestuck.event.handler.StrifeEventHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,19 +17,19 @@ public class PacketSetActiveStrife extends MinestuckPacket
 	int index;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeInt((int) args[0]);
 		data.writeBoolean((boolean) args[1]);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		index = data.readInt();
 		isSpecibus = data.readBoolean();
-		return this;
+
 	}
 
 	@Override

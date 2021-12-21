@@ -1,7 +1,8 @@
 package com.mraof.minestuck.potions;
 
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
+import com.mraof.minestuck.util.MSGTUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,12 +13,14 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PotionTimeStop extends PotionMouseSensitivityAdjusterBase
 {
 	private static final Random rand = new Random(); // used to keep spawning particles

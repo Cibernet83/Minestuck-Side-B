@@ -1,12 +1,9 @@
 package com.mraof.minestuck.event;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
-import com.mraof.minestuck.inventory.captchalouge.CommunistModus;
-import com.mraof.minestuck.inventory.captchalouge.CycloneModus;
-import com.mraof.minestuck.inventory.captchalouge.JujuModus;
-import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.operandi.ItemCruxiteArmor;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
@@ -31,10 +28,10 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -44,6 +41,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class CommonEventHandler
 {
 	public static long lastDay;
@@ -174,7 +172,7 @@ public class CommonEventHandler
 			event.setBurnTime(50);	//Do not set this number to 0.
 	}
 
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public static void onPlayerLogIn(PlayerEvent.PlayerLoggedInEvent event)
 	{
 		if(!event.player.world.isRemote && MinestuckPlayerData.getData(IdentifierHandler.encode(event.player)) != null)
@@ -203,7 +201,7 @@ public class CommonEventHandler
 			if(modus instanceof JujuModus)
 				((JujuModus) modus).checkUnlink(event.player);
 		}
-	}
+	}*/ // TODO: modi
 
 	@SubscribeEvent
 	public static void onEntityTick(TickEvent.WorldTickEvent event)

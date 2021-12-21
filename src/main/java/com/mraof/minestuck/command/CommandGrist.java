@@ -3,7 +3,7 @@ package com.mraof.minestuck.command;
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.*;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
@@ -23,11 +23,11 @@ public class CommandGrist extends CommandBase
 		GristAmount[] grist = new GristAmount[(args.length - startOffset) / 2];
 		for (int i = startOffset; i < args.length - 1; i += 2)
 		{
-			GristType type = GristType.getTypeFromString(args[i].toLowerCase());
+			Grist type = Grist.getTypeFromString(args[i].toLowerCase());
 			int numIndex = 1;
 			if (type == null)
 			{    //Support both orders
-				type = GristType.getTypeFromString(args[i + 1].toLowerCase());
+				type = Grist.getTypeFromString(args[i + 1].toLowerCase());
 				numIndex = 0;
 
 				if (type == null)
@@ -123,7 +123,7 @@ public class CommandGrist extends CommandBase
 		}
 		else if (args.length > 2 && (args.length % 2 == 0))
 		{
-			return getListOfStringsMatchingLastWord(args, GristType.REGISTRY.getKeys());
+			return getListOfStringsMatchingLastWord(args, Grist.REGISTRY.getKeys());
 		}
 		else
 		{

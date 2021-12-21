@@ -2,7 +2,7 @@ package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.client.util.GuiUtil;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -29,15 +29,15 @@ public abstract class GuiScreenMinestuck extends GuiScreen
 	{
 		//Show the name of the grist instead of the count if displaying a tooltip
 		boolean showName = false;
-		GristType tooltipType = null;
+		Grist tooltipType = null;
 		GristSet clientGrist = MinestuckPlayerData.getClientGrist();
 
-		List<GristType> types = new ArrayList<>(GristType.REGISTRY.getValues());
+		List<Grist> types = new ArrayList<>(Grist.REGISTRY.getValues());
 		Collections.sort(types);
 		types = types.stream().skip(page * rows * columns).limit(rows * columns).collect(Collectors.toList());
 
 		int offset = 0;
-		for (GristType type : types)
+		for (Grist type : types)
 		{
 			int column = offset % columns;
 			int row = offset / columns;

@@ -22,9 +22,9 @@ public class TileEntityGristWidget extends TileEntityMachine
 	
 	public GristSet getGristWidgetResult()
 	{
-		ItemStack item = AlchemyRecipes.getDecodedItem(inv.get(0), true);
+		ItemStack item = AlchemyUtils.getDecodedItem(inv.get(0), true);
 		GristSet gristSet = GristRegistry.getGristConversion(item);
-		if(inv.get(0).getItem() != MinestuckItems.captchaCard || AlchemyRecipes.isPunchedCard(inv.get(0))
+		if(inv.get(0).getItem() != MinestuckItems.captchaCard || AlchemyUtils.isPunchedCard(inv.get(0))
 				|| item.getItem() == MinestuckItems.captchaCard || gristSet == null)
 			return null;
 		
@@ -73,7 +73,7 @@ public class TileEntityGristWidget extends TileEntityMachine
 			return false;
 
 		return (!itemstack.getTagCompound().getBoolean("punched") && itemstack.getTagCompound().getInteger("contentSize") > 0
-			&& AlchemyRecipes.getDecodedItem(itemstack).getItem() != MinestuckItems.captchaCard);
+			&& AlchemyUtils.getDecodedItem(itemstack).getItem() != MinestuckItems.captchaCard);
 	}
 	
 	@Override
@@ -110,7 +110,7 @@ public class TileEntityGristWidget extends TileEntityMachine
 			return;
 		}
 
-		for (Entry<GristType, Integer> entry : gristSet.getMap().entrySet())
+		for (Entry<Grist, Integer> entry : gristSet.getMap().entrySet())
 		{
 			int grist = entry.getValue();
 			while(true)

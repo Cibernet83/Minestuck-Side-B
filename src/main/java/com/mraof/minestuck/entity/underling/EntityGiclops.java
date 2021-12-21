@@ -1,10 +1,9 @@
 package com.mraof.minestuck.entity.underling;
 
-import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.entity.EntityBigPart;
 import com.mraof.minestuck.entity.IBigEntity;
 import com.mraof.minestuck.entity.PartGroup;
@@ -23,8 +22,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayer;
-
-import javax.annotation.Nullable;
 
 public class EntityGiclops extends EntityUnderling implements IBigEntity
 {
@@ -104,7 +101,7 @@ public class EntityGiclops extends EntityUnderling implements IBigEntity
 	}
 	
 	@Override
-	public void applyGristType(GristType type, boolean fullHeal)
+	public void applyGristType(Grist type, boolean fullHeal)
 	{
 		super.applyGristType(type, fullHeal);
 		this.experienceValue = (int) (7 * type.getPower() + 5);

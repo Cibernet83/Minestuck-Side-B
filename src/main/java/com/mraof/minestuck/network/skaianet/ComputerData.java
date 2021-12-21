@@ -39,21 +39,20 @@ public class ComputerData
 		this.z = z;
 		this.dimension = dimension;
 	}
-	
-	ComputerData()
+
+	public ComputerData()
 	{}
 	
-	ComputerData read(NBTTagCompound nbt)
+	public void read(NBTTagCompound nbt)
 	{
 		owner = IdentifierHandler.load(nbt, "name");
 		x = nbt.getInteger("x");
 		y = nbt.getInteger("y");
 		z = nbt.getInteger("z");
 		dimension = nbt.getInteger("dim");
-		return this;
 	}
-	
-	NBTTagCompound write()
+
+	public NBTTagCompound write()
 	{
 		NBTTagCompound c = new NBTTagCompound();
 		owner.saveToNBT(c, "name");

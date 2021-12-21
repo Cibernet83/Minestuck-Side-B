@@ -9,15 +9,15 @@ import java.util.EnumSet;
 public class PacketResetCooldown extends MinestuckPacket
 {
 	@Override
-	public MinestuckPacket generatePacket(Object... var1)
+	public void generatePacket(Object... var1)
 	{
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf var1)
+	public void consumePacket(ByteBuf var1)
 	{
-		return this;
+
 	}
 
 	@Override

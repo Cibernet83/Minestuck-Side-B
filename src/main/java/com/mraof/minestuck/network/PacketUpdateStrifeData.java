@@ -2,7 +2,7 @@ package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IStrifeData;
-import com.mraof.minestuck.event.handlers.StrifeEventHandler;
+import com.mraof.minestuck.event.handler.StrifeEventHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +20,7 @@ public class PacketUpdateStrifeData extends MinestuckPacket
 	private NBTTagCompound nbtData;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		EntityLivingBase entity = (EntityLivingBase) args[0];
 		NBTTagCompound nbt;
@@ -45,14 +45,14 @@ public class PacketUpdateStrifeData extends MinestuckPacket
 		}
 		nbt.setUniqueId("TargetUUID", entity.getUniqueID());
 		ByteBufUtils.writeTag(data, nbt);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		nbtData = ByteBufUtils.readTag(data);
-		return this;
+
 	}
 
 	@Override

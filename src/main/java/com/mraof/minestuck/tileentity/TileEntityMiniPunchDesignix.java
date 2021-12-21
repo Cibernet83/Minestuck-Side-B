@@ -1,8 +1,8 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
@@ -59,15 +59,15 @@ public class TileEntityMiniPunchDesignix extends TileEntityMiniSburbMachine
 			return;
 		}
 
-		ItemStack outputItem = AlchemyRecipes.getDecodedItemDesignix(inv.get(0));
+		ItemStack outputItem = AlchemyUtils.getDecodedItemDesignix(inv.get(0));
 
 		if (inv.get(1).hasTagCompound() && inv.get(1).getTagCompound().getBoolean("punched"))
-			outputItem = CombinationRegistry.getCombination(outputItem, AlchemyRecipes.getDecodedItem(inv.get(1)), CombinationRegistry.Mode.MODE_OR);
+			outputItem = CombinationRegistry.getCombination(outputItem, AlchemyUtils.getDecodedItem(inv.get(1)), CombinationRegistry.Mode.MODE_OR);
 		if (outputItem.getItem().isDamageable())
 			outputItem.setItemDamage(0);
 
 		//Create card
-		outputItem = AlchemyRecipes.createCard(outputItem, true);
+		outputItem = AlchemyUtils.createCard(outputItem, true);
 
 		setInventorySlotContents(2, outputItem);
 		if (!(inv.get(0).hasTagCompound() && inv.get(0).getTagCompound().hasKey("contentID")))
@@ -80,17 +80,17 @@ public class TileEntityMiniPunchDesignix extends TileEntityMiniSburbMachine
 	{
 		if (!this.inv.get(0).isEmpty() && !inv.get(1).isEmpty())
 		{
-			ItemStack output = AlchemyRecipes.getDecodedItemDesignix(inv.get(0));
+			ItemStack output = AlchemyUtils.getDecodedItemDesignix(inv.get(0));
 			if (inv.get(1).hasTagCompound() && inv.get(1).getTagCompound().getBoolean("punched"))
 			{
 				output = CombinationRegistry.getCombination(output,
-															AlchemyRecipes.getDecodedItem(inv.get(1)), CombinationRegistry.Mode.MODE_OR);
+															AlchemyUtils.getDecodedItem(inv.get(1)), CombinationRegistry.Mode.MODE_OR);
 			}
 			if (output.isEmpty())
 				return false;
 			if (output.getItem().isDamageable())
 				output.setItemDamage(0);
-			output = AlchemyRecipes.createCard(output, true);
+			output = AlchemyUtils.createCard(output, true);
 			return (inv.get(2).isEmpty() || inv.get(2).getCount() < 16 && ItemStack.areItemStackTagsEqual(inv.get(2), output));
 		}
 		else

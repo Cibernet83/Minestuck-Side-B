@@ -1,10 +1,31 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.inventory.captchalouge.Modus;
+import net.minecraft.item.Item;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistry;
+
 public class ItemModus extends MSItemBase
 {
-	public ItemModus(String name)
+	private final Modus modus;
+
+	public ItemModus(Modus modus)
 	{
-		super(name, MinestuckTabs.fetchModi, 1, false);
-		MinestuckItems.modi.add(this);
+		super(modus.getUnlocalizedName() + "Modus", MinestuckTabs.fetchModi, 1, false);
+		this.modus = modus;
+		System.out.println("Registering modus " + modus);
+		MinestuckItems.modi.put(modus, this);
+	}
+
+	public Modus getModus()
+	{
+		return modus;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Item> registry)
+	{
+		super.register(registry);
+		OreDictionary.registerOre("modus", this); // OreDict gets *really* mad when you register the item as an ore before the item itself :flushed:
 	}
 }

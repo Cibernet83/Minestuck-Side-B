@@ -3,6 +3,7 @@ package com.mraof.minestuck.modSupport;
 import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -17,10 +18,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.mraof.minestuck.block.MinestuckBlocks.gristBlockMana;
 import static com.mraof.minestuck.alchemy.CombinationRegistry.Mode.MODE_AND;
 import static com.mraof.minestuck.alchemy.CombinationRegistry.Mode.MODE_OR;
-import static com.mraof.minestuck.alchemy.GristType.Build;
+import static com.mraof.minestuck.alchemy.MinestuckGrists.build;
 
 public class BotaniaSupport
 {
@@ -43,7 +43,7 @@ public class BotaniaSupport
 
             if(out.getItem() != ModItems.manaBottle && out.getItem() != Item.getItemFromBlock(MinestuckBlocks.magicBlock))
             {
-                CombinationRegistry.addCombination(in, new ItemStack(gristBlockMana), CombinationRegistry.Mode.MODE_AND, false, false, out);
+                CombinationRegistry.addCombination(in, new ItemStack(MinestuckBlocks.gristBlocks.get(MinestuckGrists.mana)), CombinationRegistry.Mode.MODE_AND, false, false, out);
                 CombinationRegistry.addCombination(in, new ItemStack(ModItems.manaBottle), CombinationRegistry.Mode.MODE_OR, false, false, out);
             }
         }
@@ -52,7 +52,7 @@ public class BotaniaSupport
         {
             ItemStack seeds = new ItemStack(ModItems.grassSeeds, 1, i+3);
             ItemStack grass = new ItemStack(ModBlocks.altGrass, 1, i);
-            GristRegistry.addGristConversion(grass, true, new GristSet(Build, 2).addGrist(GristRegistry.getGristConversion(seeds)));
+            GristRegistry.addGristConversion(grass, true, new GristSet(build, 2).addGrist(GristRegistry.getGristConversion(seeds)));
             CombinationRegistry.addCombination(new ItemStack(Blocks.DIRT), seeds, MODE_OR, false, true, grass);
             CombinationRegistry.addCombination(new ItemStack(Blocks.GRASS), seeds, MODE_AND, false, true, grass);
         }

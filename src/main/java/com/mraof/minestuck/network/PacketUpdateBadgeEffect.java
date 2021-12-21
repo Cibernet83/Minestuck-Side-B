@@ -17,7 +17,7 @@ public class PacketUpdateBadgeEffect extends MinestuckPacket
 	IBadgeEffect value;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeInt(((Entity) args[0]).getEntityId());
 		ByteBufUtils.writeUTF8String(data, args[1].toString());
@@ -28,17 +28,17 @@ public class PacketUpdateBadgeEffect extends MinestuckPacket
 			data.writeBoolean(true);
 			((IBadgeEffect) args[2]).serialize(data);
 		}
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		entityId = data.readInt();
 		key = ByteBufUtils.readUTF8String(data);
 		if (data.readBoolean())
 			value = IBadgeEffect.deserialize(data);
-		return this;
+
 	}
 
 	@Override

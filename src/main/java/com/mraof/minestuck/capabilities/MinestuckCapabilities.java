@@ -13,18 +13,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckCapabilities
 {
 	@CapabilityInject(IStrifeData.class)
@@ -42,11 +43,6 @@ public class MinestuckCapabilities
 
 	public static void registerCapabilities()
 	{
-		MinecraftForge.EVENT_BUS.register(MinestuckCapabilities.class);
-		MinecraftForge.EVENT_BUS.register(BadgeEffects.class);
-		MinecraftForge.EVENT_BUS.register(GodKeyStates.class);
-		MinecraftForge.EVENT_BUS.register(GodTierData.class);
-
 		CapabilityManager.INSTANCE.register(IStrifeData.class, new MinestuckCapabilityProvider.Storage<>(), StrifeData::new);
 		CapabilityManager.INSTANCE.register(IBeamData.class, new MinestuckCapabilityProvider.Storage<>(), BeamData::new);
 		CapabilityManager.INSTANCE.register(IGameData.class, new MinestuckCapabilityProvider.Storage<>(), GameData::new);

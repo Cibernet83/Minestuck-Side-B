@@ -1,6 +1,5 @@
 package com.mraof.minestuck.item.operandi;
 
-import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
 import com.mraof.minestuck.entity.EntityAbstractOperandiThrowable;
 import com.mraof.minestuck.entity.EntityOperandiEightBall;
 import com.mraof.minestuck.entity.EntityOperandiSplashPotion;
@@ -27,7 +26,7 @@ public class ItemOperandiThrowable extends MSItemBase //TODO cruxite artifact th
 		super(name);
 		setCreativeTab(MinestuckTabs.minestuck);
 		setMaxStackSize(1);
-		OperandiModus.itemPool.add(this);
+		//OperandiModus.itemPool.add(this);
 		
 		this.projectileSpeed = projSpeed;
 		this.pitchOffset = pitchOffset;

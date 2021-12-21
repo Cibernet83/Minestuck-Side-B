@@ -12,13 +12,13 @@ import java.util.EnumSet;
 public class PacketRocketBoots extends MinestuckPacket
 {
 	@Override
-	public MinestuckPacket generatePacket(Object... args) {
-		return this;
+	public void generatePacket(Object... args) {
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data) {
-		return this;
+	public void consumePacket(ByteBuf data) {
+
 	}
 
 	@Override

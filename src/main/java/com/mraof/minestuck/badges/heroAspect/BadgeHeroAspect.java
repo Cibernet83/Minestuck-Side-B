@@ -119,8 +119,8 @@ public abstract class BadgeHeroAspect extends BadgeLevel
 
 		if(world.isRemote)
 		{
-			playerAspect = MinestuckPlayerData.title.getHeroAspect();
-			playerRole = EnumRole.getRoleFromClass(MinestuckPlayerData.title.getHeroClass());
+			playerAspect = MinestuckPlayerData.clientData.title.getHeroAspect();
+			playerRole = EnumRole.getRoleFromClass(MinestuckPlayerData.clientData.title.getHeroClass());
 		}
 		else
 		{

@@ -3,7 +3,7 @@ package com.mraof.minestuck.entity;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IStrifeData;
-import com.mraof.minestuck.strife.MSUKindAbstrata;
+import com.mraof.minestuck.strife.MinestuckKindAbstrata;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
@@ -223,7 +223,7 @@ public class EntityRock extends EntityLivingBase
 			EntityPlayer entityplayer = (EntityPlayer)entity;
 			IStrifeData cap = entity.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 
-			return entityplayer.isSprinting() && cap.getSelectedSpecibusIndex() >= 0 && cap.getPortfolio()[cap.getSelectedSpecibusIndex()] != null && cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getKindAbstratus() == MSUKindAbstrata.rockkind;
+			return entityplayer.isSprinting() && cap.getSelectedSpecibusIndex() >= 0 && cap.getPortfolio()[cap.getSelectedSpecibusIndex()] != null && cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getKindAbstratus() == MinestuckKindAbstrata.rockkind;
 		}
 	}
 }

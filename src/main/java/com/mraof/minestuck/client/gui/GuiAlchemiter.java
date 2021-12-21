@@ -1,15 +1,15 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
 import com.mraof.minestuck.client.util.GuiUtil;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
 import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,8 +20,6 @@ import java.util.List;
 
 public class GuiAlchemiter extends GuiScreen implements IGristSelectable
 {
-	
-	
 	private static final ResourceLocation guiBackground = new ResourceLocation("minestuck", "textures/gui/large_alchemiter.png");
 	private static final int guiWidth = 159, guiHeight = 102;
 	private TileEntityAlchemiter alchemiter;
@@ -99,7 +97,7 @@ public class GuiAlchemiter extends GuiScreen implements IGristSelectable
 			GristSet set;
 			set = alchemiter.getGristCost(itemQuantity);
 			//draw the grist board
-			GuiUtil.drawGristBoard(set, AlchemyRecipes.getDecodedItem(alchemiter.getDowel()).getItem() == MinestuckItems.captchaCard ? GuiUtil.GristboardMode.LARGE_ALCHEMITER_SELECT : GuiUtil.GristboardMode.LARGE_ALCHEMITER, (width-guiWidth)/2+88,(height-guiHeight)/2+13, fontRenderer);
+			GuiUtil.drawGristBoard(set, AlchemyUtils.getDecodedItem(alchemiter.getDowel()).getItem() == MinestuckItems.captchaCard ? GuiUtil.GristboardMode.LARGE_ALCHEMITER_SELECT : GuiUtil.GristboardMode.LARGE_ALCHEMITER, (width-guiWidth)/2+88,(height-guiHeight)/2+13, fontRenderer);
 			//draw the grist
 			List<String> tooltip = GuiUtil.getGristboardTooltip(set, mouseX , mouseY , 9, 45, fontRenderer);
 			if (tooltip != null)
@@ -174,7 +172,7 @@ public class GuiAlchemiter extends GuiScreen implements IGristSelectable
 			}
 		}
 		else if ( par3 == 0 && mc.player.inventory.getItemStack().isEmpty()
-				&& alchemiter.getDowel() != null && AlchemyRecipes.getDecodedItem(alchemiter.getDowel()).getItem() == MinestuckItems.captchaCard
+				&& alchemiter.getDowel() != null && AlchemyUtils.getDecodedItem(alchemiter.getDowel()).getItem() == MinestuckItems.captchaCard
 				&& par1 >= (width-guiWidth)/2 +80  && par1 < (width-guiWidth)/2 + 150 && par2 >= (height-guiHeight)/2 + 8 && par2 < (height-guiHeight)/2 + 93)
 		{
 			mc.currentScreen = new GuiGristSelector(this);
@@ -183,7 +181,7 @@ public class GuiAlchemiter extends GuiScreen implements IGristSelectable
 	}
 
 	@Override
-	public void select(GristType grist)
+	public void select(Grist grist)
 	{
 		getAlchemiter().setSelectedGrist(grist);
 

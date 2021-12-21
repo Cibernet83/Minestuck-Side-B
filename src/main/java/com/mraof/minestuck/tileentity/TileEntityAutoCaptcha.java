@@ -1,7 +1,7 @@
 package com.mraof.minestuck.tileentity;
 
+import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.MSUUtils;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -175,7 +175,7 @@ public class TileEntityAutoCaptcha extends TileEntity implements ITickable, ISid
 	public boolean canProcess()
 	{
 		ItemStack in = inventory.get(0);
-		ItemStack out = AlchemyRecipes.createCard(in, false);
+		ItemStack out = AlchemyUtils.createCard(in, false);
 		return (MSUUtils.compareCards(out, inventory.get(2), false) || inventory.get(2).isEmpty()) && !inventory.get(1).isEmpty() && !in.isEmpty();
 	}
 	
@@ -184,7 +184,7 @@ public class TileEntityAutoCaptcha extends TileEntity implements ITickable, ISid
 		timer = totalTime;
 		ItemStackHelper.getAndSplit(this.inventory, 1, 1);
 		ItemStack in = ItemStackHelper.getAndSplit(this.inventory, 0, 64);
-		ItemStack out = AlchemyRecipes.createCard(in, false);
+		ItemStack out = AlchemyUtils.createCard(in, false);
 		
 		if(MSUUtils.compareCards(out, inventory.get(2), false))
 			inventory.get(2).grow(1);

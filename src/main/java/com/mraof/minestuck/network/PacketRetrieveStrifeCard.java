@@ -15,21 +15,21 @@ public class PacketRetrieveStrifeCard extends MinestuckPacket
 	EnumHand hand;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeInt((int) args[0]);
 		data.writeBoolean(args.length <= 1 || (boolean)args[1]);
 		data.writeBoolean(args.length <= 2 || args[2] == EnumHand.MAIN_HAND);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		index = data.readInt();
 		isCard = data.readBoolean();
 		hand = data.readBoolean() ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
-		return this;
+
 	}
 
 	@Override

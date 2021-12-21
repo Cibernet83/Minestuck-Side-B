@@ -1,5 +1,6 @@
 package com.mraof.minestuck.network;
 
+import com.mraof.minestuck.util.AlchemyUtils;
 import io.netty.buffer.ByteBuf;
 
 import java.util.EnumSet;
@@ -15,7 +16,6 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.editmode.ServerEditHandler;
@@ -27,24 +27,24 @@ public class PacketClientEdit extends MinestuckPacket
 	int target;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		if(dat.length > 0)
 		{
 			data.writeInt((Integer) dat[0]);
 			data.writeInt((Integer) dat[1]);
 		}
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		if(data.readableBytes() == 0)
-			return this;
+
 		username = data.readInt();
 		target = data.readInt();
-		return this;
+
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class PacketClientEdit extends MinestuckPacket
 				{
 					if(c.enteredGame())
 						continue;
-					ItemStack card = AlchemyRecipes.createCard(SburbHandler.getEntryItem(c.getClientIdentifier()), true);
+					ItemStack card = AlchemyUtils.createCard(SburbHandler.getEntryItem(c.getClientIdentifier()), true);
 					if(!playerMP.inventory.hasItemStack(card))
 						c.givenItems()[i] = playerMP.inventory.addItemStackToInventory(card) || c.givenItems()[i];
 				} else

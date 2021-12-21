@@ -1,6 +1,6 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,20 +11,20 @@ import java.util.EnumSet;
 
 public class PacketSendGristHoard extends MinestuckPacket
 {
-    GristType type;
+    Grist type;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
-        ByteBufUtils.writeUTF8String(data, ((GristType)args[0]).getRegistryName().toString());
-        return this;
+        ByteBufUtils.writeUTF8String(data, ((Grist)args[0]).getRegistryName().toString());
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
-        type = GristType.getTypeFromString(ByteBufUtils.readUTF8String(data));
-        return this;
+        type = Grist.getTypeFromString(ByteBufUtils.readUTF8String(data));
+
     }
 
     @Override

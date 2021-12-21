@@ -15,19 +15,19 @@ public class PacketSetMouseSensitivity extends MinestuckPacket
 	private NBTTagCompound received;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setInteger("Potion", (int) args[0]);
 		ByteBufUtils.writeTag(data, nbt);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		received = ByteBufUtils.readTag(data);
-		return this;
+
 	}
 
 	@Override

@@ -1,11 +1,10 @@
 package com.mraof.minestuck.item.operandi;
 
-import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
+import com.google.common.collect.Multimap;
 import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.MinestuckSounds;
-import com.google.common.collect.Multimap;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,7 +13,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -46,7 +45,7 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 		else
 		{
 			teleporter = null;
-			OperandiModus.itemPool.add(this);
+			//OperandiModus.itemPool.add(this);
 		}
 
 		this.efficiency = 4.0F;

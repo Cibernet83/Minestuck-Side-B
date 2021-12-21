@@ -4,8 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
-
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -60,7 +59,7 @@ public class ItemShunt extends Item {
 			
 			if (contentID != null && contentMeta != null && Item.REGISTRY.containsKey(new ResourceLocation(contentID.getString())))
 			{
-				tooltip.add("(" + (AlchemyRecipes.getDecodedItem(stack)).getDisplayName() + ")");
+				tooltip.add("(" + (AlchemyUtils.getDecodedItem(stack)).getDisplayName() + ")");
 				return;
 			}
 			else {

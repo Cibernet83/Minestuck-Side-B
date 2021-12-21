@@ -1,14 +1,14 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.particle.MinestuckParticles;
-import com.mraof.minestuck.tileentity.TileEntityMiniCruxtruder;
-import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.block.BlockCruxtiteDowel;
 import com.mraof.minestuck.block.BlockCruxtruder;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.tileentity.TileEntityCruxtruder;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
+import com.mraof.minestuck.tileentity.TileEntityMiniCruxtruder;
 import com.mraof.minestuck.tileentity.TileEntityMiniSburbMachine;
 import com.mraof.minestuck.util.ColorCollector;
+import com.mraof.minestuck.util.MinestuckSounds;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

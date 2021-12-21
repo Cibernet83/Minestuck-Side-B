@@ -14,20 +14,20 @@ public class PacketMachineChassis extends MinestuckPacket
     public BlockPos pos;
 
     @Override
-    public MinestuckPacket generatePacket(Object... dat)
+    public void generatePacket(Object... dat)
     {
         TileEntity te = (TileEntity)dat[0];
         this.data.writeInt(te.getPos().getX());
         this.data.writeInt(te.getPos().getY());
         this.data.writeInt(te.getPos().getZ());
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
         this.pos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
-        return this;
+
     }
 
     @Override

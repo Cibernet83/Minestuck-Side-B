@@ -1,8 +1,8 @@
 package com.mraof.minestuck.inventory;
 
 import com.mraof.minestuck.tileentity.TileEntityAutoCaptcha;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -86,7 +86,7 @@ public class ContainerAutoCaptcha extends Container
 			else if (index != 1 && index != 0)
 			{
 				
-				if (itemstack1.getItem() == MinestuckItems.captchaCard && !AlchemyRecipes.hasDecodedItem(itemstack1) && (captchaStack.isEmpty() || itemstack1.isItemEqual(captchaStack)))
+				if (itemstack1.getItem() == MinestuckItems.captchaCard && !AlchemyUtils.hasDecodedItem(itemstack1) && (captchaStack.isEmpty() || itemstack1.isItemEqual(captchaStack)))
 				{
 					if (!this.mergeItemStack(itemstack1, 1, 2, false))
 					{

@@ -4,7 +4,7 @@ import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.MSGTUtils;
 import net.minecraft.entity.EntityLivingBase;
@@ -50,12 +50,12 @@ public class BadgeUtilMind extends BadgeHeroAspectUtil
 				if (time % (tickMod * 2) == 0)
 					player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 1);
 
-				badgeEffects.oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumAspect.MIND, 4);
+				badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.MIND, 4);
 			}
 
 		}
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.MIND, 2);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.MIND, 2);
 
 		return true;
 	}

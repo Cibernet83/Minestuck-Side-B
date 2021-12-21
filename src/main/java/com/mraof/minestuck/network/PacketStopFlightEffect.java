@@ -11,17 +11,17 @@ public class PacketStopFlightEffect extends MinestuckPacket
     boolean isBadEffect;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
         data.writeBoolean((Boolean) args[0]);
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
         isBadEffect = data.readBoolean();
-        return this;
+
     }
 
     @Override

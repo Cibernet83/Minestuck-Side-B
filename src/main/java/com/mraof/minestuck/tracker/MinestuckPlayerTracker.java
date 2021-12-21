@@ -1,12 +1,12 @@
 package com.mraof.minestuck.tracker;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.editmode.ServerEditHandler;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.inventory.captchalouge.ISylladex;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
-import com.mraof.minestuck.network.PacketCaptchaDeck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
@@ -26,22 +26,20 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckPlayerTracker
 {
-	
-	public static MinestuckPlayerTracker instance = new MinestuckPlayerTracker();
-	
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) 
+	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
 	{
 		EntityPlayerMP player = (EntityPlayerMP) event.player;
 		Debug.debug(player.getName()+" joined the game. Sending packets.");
@@ -60,30 +58,24 @@ public class MinestuckPlayerTracker
 		if(MinestuckPlayerData.getGristSet(identifier) == null)
 		{
 			Debug.debugf("Grist set is null for player %s. Handling it as first time in this world.", player.getName());
-			MinestuckPlayerData.setGrist(identifier, new GristSet(GristType.Build, 20));
+			MinestuckPlayerData.setGrist(identifier, new GristSet(MinestuckGrists.build, 20));
 			firstTime = true;
 		}
 		
 		MinestuckPlayerData.getData(identifier).echeladder.updateEcheladderBonuses(player);
 		
-		if(CaptchaDeckHandler.getModus(player) == null && MinestuckConfig.defaultModusTypes.length > 0 && !MinestuckPlayerData.getData(player).givenModus)
+		if(SylladexUtils.getSylladex(player) == null && MinestuckConfig.defaultModusTypes.length > 0 && !MinestuckPlayerData.getData(player).givenModus)
 		{
 			int index = player.world.rand.nextInt(MinestuckConfig.defaultModusTypes.length);
-			Modus modus = CaptchaDeckHandler.createInstance(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]), Side.SERVER);
+			Modus modus = Modus.REGISTRY.getValue(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]));
 			if(modus != null)
-			{
-				modus.player = player;
-				modus.initModus(null, MinestuckConfig.initialModusSize);
-				CaptchaDeckHandler.setModus(player, modus);
-			} else Debug.warnf("Couldn't create a modus by the name %s.", MinestuckConfig.defaultModusTypes[index]);
+				SylladexUtils.setSylladex(player, new ISylladex.Sylladex(MinestuckConfig.initialModusSize, modus));
+			else
+				Debug.warnf("Couldn't create a modus by the name %s.", MinestuckConfig.defaultModusTypes[index]);
 		}
 		
-		if(CaptchaDeckHandler.getModus(player) != null)
-		{
-			Modus modus = CaptchaDeckHandler.getModus(player);
-			modus.player = player;
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.DATA, CaptchaDeckHandler.writeToNBT(modus)), player);
-		}
+		if(SylladexUtils.getSylladex(player) != null)
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.SYLLADEX_DATA, SylladexUtils.getSylladex(player).writeToNBT()), player);
 		
 		updateGristCache(identifier);
 		updateTitle(player);
@@ -104,28 +96,23 @@ public class MinestuckPlayerTracker
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGH)	//Editmode players need to be reset before nei handles the event
-	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event)
+	public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event)
 	{
 		ServerEditHandler.onPlayerExit(event.player);
-		Modus modus = CaptchaDeckHandler.getModus(event.player);
-		if(modus != null)
-			modus.player = null;
 		dataCheckerPermission.remove(event.player.getName());
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-	public void onPlayerDrops(PlayerDropsEvent event)
+	public static void onPlayerDrops(PlayerDropsEvent event)
 	{
 		if(!event.getEntityPlayer().world.isRemote)
 		{
-			CaptchaDeckHandler.dropSylladex(event.getEntityPlayer());
-			
+			SylladexUtils.dropSylladexOnDeath(event.getEntityPlayer());
 		}
-		
 	}
 	
 	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event)
+	public static void onPlayerTick(TickEvent.PlayerTickEvent event)
 	{
 		if(event.side.isServer() && event.phase == TickEvent.Phase.END && event.player instanceof EntityPlayerMP)
 		{
@@ -136,12 +123,9 @@ public class MinestuckPlayerTracker
 	}
 	
 	@SubscribeEvent
-	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) 
+	public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event)
 	{
 		MinestuckPlayerData.getData(event.player).echeladder.updateEcheladderBonuses(event.player);
-		Modus modus = MinestuckPlayerData.getData(event.player).modus;
-		if(modus != null)
-			modus.player = event.player;
 	}
 	
 	public static Set<String> dataCheckerPermission = new HashSet<String>();

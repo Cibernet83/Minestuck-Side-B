@@ -11,17 +11,17 @@ public class PacketSetCurrentItem extends MinestuckPacket
 	private int currentItem;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		data.writeInt((int) args[0]);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		currentItem = data.readInt();
-		return this;
+
 	}
 
 	@Override

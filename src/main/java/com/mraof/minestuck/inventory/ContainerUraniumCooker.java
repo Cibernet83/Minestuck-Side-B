@@ -65,7 +65,7 @@ public class ContainerUraniumCooker extends Container
 			itemstack = itemstackOrig.copy();
 			boolean result = false;
 
-			if (slotNumber == 0)	//Shift-clicking from the Uranium input
+			if (slotNumber == 0)	//Shift-clicking from the uranium input
 			{
 				result = mergeItemStack(itemstackOrig,3,allSlots,false);	//Send into the inventory
 			} else if (slotNumber == 1)	//Shift-clicking from the item input

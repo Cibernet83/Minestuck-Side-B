@@ -16,10 +16,10 @@ public class PacketEffectToggle extends MinestuckPacket
 {
 
 	@Override
-	public MinestuckPacket generatePacket(Object... data) {return this;}
+	public void generatePacket(Object... data) {}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data) {return this;}
+	public void consumePacket(ByteBuf data) {}
 
 	@Override
 	public void execute(EntityPlayer player) 

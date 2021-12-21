@@ -1,10 +1,11 @@
 package com.mraof.minestuck.badges.heroAspectUtil;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.EntityListFilter;
 import com.mraof.minestuck.entity.ai.EntityAIFollowReformer;
 import com.mraof.minestuck.entity.ai.EntityAINearestNonReformer;
@@ -23,11 +24,13 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeUtilBlood extends BadgeHeroAspectUtil
 {
 	public BadgeUtilBlood()
@@ -49,7 +52,7 @@ public class BadgeUtilBlood extends BadgeHeroAspectUtil
 
 		badgeEffects.setReforming(!badgeEffects.isReforming());
 		player.sendStatusMessage(new TextComponentTranslation(badgeEffects.isReforming() ? "status.badgeEnabled" : "status.badgeDisabled", getDisplayComponent()), true);
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.BLOOD, 6);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.BLOOD, 6);
 
 		if (badgeEffects.isReforming())
 			for (EntityCreature entity : world.getEntities(EntityCreature.class, (e) -> player.equals(e.getAttackTarget())))

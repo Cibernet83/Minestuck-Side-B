@@ -3,7 +3,7 @@ package com.mraof.minestuck.world.lands.terrain;
 import com.mraof.minestuck.block.BlockColoredDirt;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.decorator.ILandDecorator;
 import com.mraof.minestuck.world.lands.decorator.LeaflessTreeDecorator;
 import com.mraof.minestuck.world.lands.decorator.SurfaceMushroomGenerator;
@@ -59,10 +59,10 @@ public class LandAspectShade extends TerrainLandAspect
 	public List<ILandDecorator> getDecorators()
 	{
 		ArrayList<ILandDecorator> list = new ArrayList<ILandDecorator>();
-		list.add(new SurfaceMushroomGenerator(10, 64, BiomeMinestuck.mediumNormal));
-		list.add(new SurfaceMushroomGenerator(5, 32, BiomeMinestuck.mediumRough));
-		list.add(new LeaflessTreeDecorator(MinestuckBlocks.glowingLog.getDefaultState(), 0.5F, BiomeMinestuck.mediumNormal));
-		list.add(new LeaflessTreeDecorator(MinestuckBlocks.glowingLog.getDefaultState(), 2, BiomeMinestuck.mediumRough));
+		list.add(new SurfaceMushroomGenerator(10, 64, MinestuckBiomes.mediumNormal));
+		list.add(new SurfaceMushroomGenerator(5, 32, MinestuckBiomes.mediumRough));
+		list.add(new LeaflessTreeDecorator(MinestuckBlocks.glowingLog.getDefaultState(), 0.5F, MinestuckBiomes.mediumNormal));
+		list.add(new LeaflessTreeDecorator(MinestuckBlocks.glowingLog.getDefaultState(), 2, MinestuckBiomes.mediumRough));
 		
 		list.add(new UndergroundDecoratorVein(Blocks.GRAVEL.getDefaultState(), 8, 33, 256));
 		list.add(new UndergroundDecoratorVein(Blocks.IRON_ORE.getDefaultState(), 24, 9, 64));

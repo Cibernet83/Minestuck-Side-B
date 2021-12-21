@@ -5,6 +5,7 @@ import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.item.EntityGrist;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -74,9 +75,9 @@ public class TileEntityAutoWidget extends TileEntity implements ITickable, ISide
 	
 	public GristSet getGristWidgetResult()
 	{
-		ItemStack item = AlchemyRecipes.getDecodedItem((ItemStack)this.inventory.get(0), true);
+		ItemStack item = AlchemyUtils.getDecodedItem((ItemStack)this.inventory.get(0), true);
 		GristSet gristSet = GristRegistry.getGristConversion(item);
-		if ((this.inventory.get(0)).getItem() == MinestuckItems.captchaCard && !AlchemyRecipes.isPunchedCard(this.inventory.get(0)) && item.getItem() != MinestuckItems.captchaCard && gristSet != null) {
+		if ((this.inventory.get(0)).getItem() == MinestuckItems.captchaCard && !AlchemyUtils.isPunchedCard(this.inventory.get(0)) && item.getItem() != MinestuckItems.captchaCard && gristSet != null) {
 			if (item.getCount() != 1) {
 				gristSet.scaleGrist((float)item.getCount());
 			}
@@ -108,7 +109,7 @@ public class TileEntityAutoWidget extends TileEntity implements ITickable, ISide
 			Iterator var2 = set.getMap().entrySet().iterator();
 			while(var2.hasNext() && !world.isRemote)
 			{
-				Map.Entry<GristType, Integer> entry = (Map.Entry) var2.next();
+				Map.Entry<Grist, Integer> entry = (Map.Entry) var2.next();
 				for(int grist = entry.getValue(); grist != 0; grist -= gristAmount.getAmount())
 				{
 					gristAmount = new GristAmount(entry.getKey(), grist <= 3 ? grist : this.world.rand.nextInt(grist) + 1);
@@ -207,7 +208,7 @@ public class TileEntityAutoWidget extends TileEntity implements ITickable, ISide
 	public boolean isItemValidForSlot(int index, ItemStack stack)
 	{
 		if (stack.getItem() == MinestuckItems.captchaCard && isEmpty() && stack.hasTagCompound())
-			return !stack.getTagCompound().getBoolean("punched") && stack.getTagCompound().getInteger("contentSize") > 0 && GristRegistry.getGristConversion(AlchemyRecipes.getDecodedItem(stack)) != null;
+			return !stack.getTagCompound().getBoolean("punched") && stack.getTagCompound().getInteger("contentSize") > 0 && GristRegistry.getGristConversion(AlchemyUtils.getDecodedItem(stack)) != null;
 	 	else
 	 		return false;
 	}

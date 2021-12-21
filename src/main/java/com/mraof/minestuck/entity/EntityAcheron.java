@@ -2,25 +2,17 @@ package com.mraof.minestuck.entity;
 
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.entity.ai.EntityAIAttackOnCollideWithRate;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
-import com.mraof.minestuck.item.ItemBoondollars;
-import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.Echeladder;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class EntityAcheron extends EntityUnderling
 {
@@ -100,7 +92,7 @@ public class EntityAcheron extends EntityUnderling
 	}
 
 	@Override
-	public void applyGristType(GristType type, boolean fullHeal)
+	public void applyGristType(Grist type, boolean fullHeal)
 	{
 		super.applyGristType(type, fullHeal);
 		this.experienceValue = (int) (4000 * type.getPower() + 700);

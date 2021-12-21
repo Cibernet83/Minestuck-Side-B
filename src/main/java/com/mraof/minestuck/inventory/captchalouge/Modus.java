@@ -1,67 +1,150 @@
 package com.mraof.minestuck.inventory.captchalouge;
 
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.ForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.RegistryBuilder;
 
-import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
-public abstract class Modus
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
+public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements IRegistryObject<Modus>
 {
-	
-	public EntityPlayer player;	//TODO remove this and replace this by adding the player as argument in methods next version shift
-	//This change will break addons that add their own modus
-	public Side side;
-	
+	public static ForgeRegistry<Modus> REGISTRY;
+
+	@SideOnly(Side.CLIENT)
+	protected CardGuiContainer.CardTextureIndex cardTextureIndex;
+
+	private final String name, regName;
+
+	protected Modus(String name)
+	{
+		this.name = name;
+		this.regName = IRegistryObject.unlocToReg(name);
+		MinestuckModi.modi.add(this);
+	}
+
 	/**
-	 * This is called when the modus is created without calling readFromNBT(nbt).
-	 * Note that this method is used to clear the inventory/size after dropping stuff on death without creating a new instance.
+	 * Fetch an object from the slots[i]th sylladex and perform some rearranging of sylladices if required. Modus#canGet
+	 * has already been confirmed by this point. Make sure to update slots[i] if rearranging is needed.
 	 */
-	public abstract void initModus(NonNullList<ItemStack> prev, int size);
-	
-	public abstract void readFromNBT(NBTTagCompound nbt);
-	
-	public abstract NBTTagCompound writeToNBT(NBTTagCompound nbt);
-	
-	public abstract boolean putItemStack(ItemStack item);
-	
-	public abstract NonNullList<ItemStack> getItems();
-	
-	public int getNonEmptyCards()
+	public ICaptchalogueable get(LinkedList<ISylladex> sylladices, int[] slots, int i, boolean asCard)
 	{
-		int count = 0;
-		for(ItemStack stack : getItems())
-			if(!stack.isEmpty())
-				count++;
-		return count;
+		return sylladices.get(slots[i]).get(slots, i + 1, asCard);
 	}
-	
-	public abstract boolean increaseSize();
-	
-	@Nonnull
-	public abstract ItemStack getItem(int id, boolean asCard);
-	
-	public abstract boolean canSwitchFrom(Modus modus);
-	
-	public abstract int getSize();
-	
-	public void setValue(byte type, int value) {}
-	
-	@SideOnly(Side.CLIENT)
-	public abstract SylladexGuiHandler getGuiHandler();
-	
-	@SideOnly(Side.CLIENT)
-	public String getName()
+
+	/**
+	 * Return whether a card is valid to be retrieved from.
+	 */
+	public boolean canGet(LinkedList<ISylladex> sylladices, int[] slots, int i)
 	{
-		ResourceLocation type = CaptchaDeckHandler.getType(this.getClass());
-		if(type == null)
-			return "";
-		else return CaptchaDeckHandler.getItem(type).getDisplayName();
+		return sylladices.get(slots[i]).canGet(slots, i + 1);
 	}
-	
+
+	/**
+	 * Put an object into a default card and perform some rearranging of sylladices if required. Modus#grow has already
+	 * been called by this point.
+	 * @param mostFreeSlotsSylladex The sylladex in sylladices that has the most free slots
+	 */
+	public void put(LinkedList<ISylladex> sylladices, ISylladex mostFreeSlotsSylladex, ICaptchalogueable object, EntityPlayer player)
+	{
+		mostFreeSlotsSylladex.put(object, player);
+	}
+
+	public void put(LinkedList<ISylladex> sylladices, ICaptchalogueable object, EntityPlayer player)
+	{
+		int mostFreeSlots = 0;
+		ISylladex mostFreeSlotsSylladex = null;
+		for (ISylladex sylladex : sylladices)
+		{
+			int slots = sylladex.getFreeSlots();
+			if (slots > mostFreeSlots)
+			{
+				mostFreeSlots = slots;
+				mostFreeSlotsSylladex = sylladex;
+			}
+		}
+		if (mostFreeSlots == 0)
+		{
+			mostFreeSlotsSylladex = sylladices.getLast();
+			mostFreeSlotsSylladex.eject(player);
+		}
+
+		put(sylladices, mostFreeSlotsSylladex, object, player);
+	}
+
+	/** Try to fill a default card with as much of other as possible */
+	public void grow(LinkedList<ISylladex> sylladices, ICaptchalogueable other)
+	{
+		for (int i = 0; i < sylladices.size() && !other.isEmpty(); i++)
+			sylladices.get(i).grow(other);
+	}
+
+	/** Eject the contents of a default card */
+	public void eject(LinkedList<ISylladex> sylladices, EntityPlayer player)
+	{
+		sylladices.getLast().eject(player);
+	}
+
+	/**
+	 * Return whether this modus should perform autobalancing after each operation. // TODO
+	 */
+	protected boolean doesAutobalance()
+	{
+		return false;
+	}
+
+	public String getUnlocalizedName()
+	{
+		return name;
+	}
+
+	@Override
+	public void register(IForgeRegistry<Modus> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
+
+	/**
+	 * Get a new ModusGuiContainer or a subtype with funky animations or whatever.
+	 */
+	@SideOnly(Side.CLIENT)
+	public ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
+	{
+		return new ModusGuiContainer(textureIndices, sylladex);
+	}
+
+	/**
+	 * Get the index of the card texture that should be used by this modus.
+	 */
+	@SideOnly(Side.CLIENT)
+	public CardGuiContainer.CardTextureIndex getCardTextureIndex()
+	{
+		if (cardTextureIndex == null)
+			cardTextureIndex = new CardGuiContainer.CardTextureIndex(SylladexGuiHandler.CARD_TEXTURE, 42);
+		return cardTextureIndex;
+	}
+
+	@SubscribeEvent
+	public static void onNewRegistry(RegistryEvent.NewRegistry event)
+	{
+		REGISTRY = (ForgeRegistry<Modus>) new RegistryBuilder<Modus>()
+												  .setName(new ResourceLocation(Minestuck.MODID, "modus"))
+												  .setType(Modus.class)
+												  .create();
+	}
 }

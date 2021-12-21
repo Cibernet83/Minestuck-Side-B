@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspect;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,7 +36,7 @@ public class BadgePassiveHope extends BadgeHeroAspect
 
 		if(time == 20)
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.BURST, EnumAspect.HOPE, 10);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.HOPE, 10);
 
 			List<Potion> potionPoolPos = new ArrayList<>();
 			List<Potion> potionPoolNeg = new ArrayList<>();
@@ -51,7 +51,7 @@ public class BadgePassiveHope extends BadgeHeroAspect
 			Potion positiveEffect = potionPoolPos.get(world.rand.nextInt(potionPoolPos.size()));
 
 			for (EntityPlayer target : world.getEntitiesWithinAABB(EntityPlayer.class, player.getEntityBoundingBox().grow(RADIUS), target -> target != player)) {
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.HOPE, 10);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, 10);
 
 				Potion potion = Math.signum(target.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getTotalKarma()) == Math.signum(player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getTotalKarma()) ? positiveEffect : negativeEffect;
 				target.addPotionEffect(new PotionEffect(potion, potion.isInstant() ? 0 : 300, 2));
@@ -69,7 +69,7 @@ public class BadgePassiveHope extends BadgeHeroAspect
 			}
 		}
 		if(time < 40)
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.HOPE, time < 20 ? 2 : 6);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, time < 20 ? 2 : 6);
 		else
 		{
 			List<Potion> potionPoolPos = new ArrayList<>();

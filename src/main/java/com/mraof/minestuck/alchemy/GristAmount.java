@@ -5,16 +5,16 @@ package com.mraof.minestuck.alchemy;
  */
 public class GristAmount
 {
-	private GristType type;
+	private Grist type;
 	private int amount;
 
-	public GristAmount(GristType type, int amount)
+	public GristAmount(Grist type, int amount)
 	{
 		this.type = type;
 		this.amount = amount;
 	}
 	
-	public GristType getType()
+	public Grist getType()
 	{
 		return type;
 	}

@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspectUtil;
 import com.mraof.minestuck.badges.Badge;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.MSGTUtils;
@@ -54,7 +54,7 @@ public class BadgeUtilTime extends BadgeHeroAspectUtil
 		BlockPos target = MSGTUtils.getTargetBlock(player);
 		if (target == null)
 		{
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.TIME, 2);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.TIME, 2);
 			return true;
 		}
 
@@ -68,7 +68,7 @@ public class BadgeUtilTime extends BadgeHeroAspectUtil
 		if (time % 20 == 0 && !player.isCreative())
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 1);
 
-		badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.TIME, 2);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.TIME, 2);
 
 		return true;
 	}

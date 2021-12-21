@@ -1,6 +1,6 @@
 package com.mraof.minestuck.strife;
 
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -136,7 +136,7 @@ public class StrifeSpecibus
 			{
 				getContents().remove(getContents().indexOf(stack));
 				if(player != null)
-					CaptchaDeckHandler.launchAnyItem(player, stack);
+					SylladexUtils.launchItem(player, stack);
 			}
 	}
 

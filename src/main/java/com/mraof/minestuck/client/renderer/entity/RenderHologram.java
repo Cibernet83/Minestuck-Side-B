@@ -1,11 +1,10 @@
 package com.mraof.minestuck.client.renderer.entity;
 
 import com.mraof.minestuck.tileentity.TileEntityHolopad;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 
@@ -16,7 +15,7 @@ public class RenderHologram extends TileEntitySpecialRenderer<TileEntityHolopad>
 	{
 		
 		super.render(te, x, y, z, partialTicks, destroyStage, alpha);
-		ItemStack item = AlchemyRecipes.getDecodedItem(te.getCard());
+		ItemStack item = AlchemyUtils.getDecodedItem(te.getCard());
 		float f = (float)te.innerRotation + partialTicks;
 		float scale = 0.8F;
 		GlStateManager.color(0.0F, 1.0F, 1.0F, 0.5F);

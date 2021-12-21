@@ -16,20 +16,20 @@ public class PacketUpdateAllBadgeEffects extends MinestuckPacket
 	private NBTTagCompound received;
 
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
 		EntityLivingBase entity = (EntityLivingBase) args[0];
 		NBTTagCompound nbt = entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).writeToNBT();
 		nbt.setUniqueId("UUID", entity.getUniqueID());
 		ByteBufUtils.writeTag(data, nbt);
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		received = ByteBufUtils.readTag(data);
-		return this;
+
 	}
 
 	@Override

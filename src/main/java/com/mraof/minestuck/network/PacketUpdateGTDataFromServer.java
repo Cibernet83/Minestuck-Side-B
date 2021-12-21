@@ -17,19 +17,19 @@ public class PacketUpdateGTDataFromServer extends MinestuckPacket
     UUID uuid;
 
     @Override
-    public MinestuckPacket generatePacket(Object... args)
+    public void generatePacket(Object... args)
     {
         ByteBufUtils.writeTag(data, ((EntityPlayer) args[0]).getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).writeToNBT());
         ByteBufUtils.writeUTF8String(data, ((EntityPlayer) args[0]).getUniqueID().toString());
-        return this;
+
     }
 
     @Override
-    public MinestuckPacket consumePacket(ByteBuf data)
+    public void consumePacket(ByteBuf data)
     {
         nbt = ByteBufUtils.readTag(data);
         uuid = UUID.fromString(ByteBufUtils.readUTF8String(data));
-        return this;
+
     }
 
     @Override

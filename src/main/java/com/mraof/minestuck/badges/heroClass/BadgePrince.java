@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroClass;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.damage.EntityCritDamageSource;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.MSGTUtils;
@@ -39,7 +39,7 @@ public class BadgePrince extends BadgeHeroClass
 
 			if(target != null)
 			{
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.PRINCE, 20);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.PRINCE, 20);
 				target.attackEntityFrom(new EntityCritDamageSource("princeDmg", player).setCrit(), dmg);
 				if (!player.isCreative())
 					player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 9);
@@ -47,7 +47,7 @@ public class BadgePrince extends BadgeHeroClass
 
 		}
 		else if((int) (time % (120f / Math.max(time, 1f))) == 0)
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumClass.PRINCE, 2);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.PRINCE, 2);
 
 		return true;
 	}

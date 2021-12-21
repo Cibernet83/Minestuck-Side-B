@@ -7,7 +7,7 @@ import com.mraof.minestuck.command.*;
 import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.event.CommonEventHandler;
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.modSupport.crafttweaker.CraftTweakerSupport;
 import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
@@ -154,7 +154,7 @@ public class Minestuck
 		
 		worldSeed = event.getServer().worlds[0].getSeed();
 		CommonEventHandler.lastDay = event.getServer().worlds[0].getWorldTime() / 24000L;
-		CaptchaDeckHandler.rand = new Random();
+		SylladexUtils.rand = new Random();
 	}
 
 	@EventHandler

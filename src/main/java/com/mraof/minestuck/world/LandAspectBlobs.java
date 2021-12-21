@@ -2,7 +2,7 @@ package com.mraof.minestuck.world;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.decorator.BlockBlobDecorator;
 import com.mraof.minestuck.world.lands.decorator.ILandDecorator;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
@@ -15,7 +15,6 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.biome.Biome;
-import thaumcraft.api.blocks.BlocksTC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +49,8 @@ public class LandAspectBlobs extends TerrainLandAspect
     public List<ILandDecorator> getDecorators()
     {
         ArrayList<ILandDecorator> list = new ArrayList();
-        list.add(new BlockBlobDecorator(Blocks.STONE.getDefaultState(), 8, 5, new Biome[]{BiomeMinestuck.mediumRough}));
-        list.add(new BlockBlobDecorator(Blocks.CLAY.getDefaultState(), 8, 5, new Biome[]{BiomeMinestuck.mediumNormal}));
+        list.add(new BlockBlobDecorator(Blocks.STONE.getDefaultState(), 8, 5, new Biome[]{MinestuckBiomes.mediumRough}));
+        list.add(new BlockBlobDecorator(Blocks.CLAY.getDefaultState(), 8, 5, new Biome[]{MinestuckBiomes.mediumNormal}));
         return list;
     }
 

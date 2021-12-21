@@ -22,7 +22,7 @@ public class PacketInventoryChanged extends MinestuckPacket
 	public ArrayList<ItemStack> inventory;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... data)
+	public void generatePacket(Object... data)
 	{
 		this.data.writeByte((Integer) data[0]);
 		if(data[1] instanceof ArrayList)
@@ -34,11 +34,11 @@ public class PacketInventoryChanged extends MinestuckPacket
 				ByteBufUtils.writeItemStack(this.data, stack);
 		} else this.data.writeBoolean((Boolean) data[1]);
 		
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		this.type = data.readByte();
 		
@@ -54,7 +54,7 @@ public class PacketInventoryChanged extends MinestuckPacket
 				inventory.add(ByteBufUtils.readItemStack(data));
 			}
 		}
-		return this;
+
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -44,7 +44,7 @@ public class ItemCaptchaCard extends MSItemBase
 		if(this.isInCreativeTab(tab))
 		{
 			items.add(new ItemStack(this));
-			items.add(AlchemyRecipes.createCard(new ItemStack(MinestuckItems.cruxiteApple), true));
+			items.add(AlchemyUtils.createCard(new ItemStack(MinestuckItems.cruxiteApple), true));
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class ItemCaptchaCard extends MSItemBase
 		NBTTagCompound nbt = playerIn.getHeldItem(handIn).getTagCompound();
 		ItemStack stack = playerIn.getHeldItem(handIn);
 		
-		if(playerIn.isSneaking() && stack.hasTagCompound() && ((nbt.getInteger("contentSize") <= 0 && !nbt.getBoolean("punched") && AlchemyRecipes.getDecodedItem(stack) != ItemStack.EMPTY) || nbt.getTag("contentID") == null || nbt.getTag("contentMeta") == null))
+		if(playerIn.isSneaking() && stack.hasTagCompound() && ((nbt.getInteger("contentSize") <= 0 && !nbt.getBoolean("punched") && AlchemyUtils.getDecodedItem(stack) != ItemStack.EMPTY) || nbt.getTag("contentID") == null || nbt.getTag("contentMeta") == null))
 		{
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(playerIn.getHeldItem(handIn).getItem(), playerIn.getHeldItem(handIn).getCount()));
 		}
@@ -74,7 +74,7 @@ public class ItemCaptchaCard extends MSItemBase
 			if (contentID != null && contentMeta != null && Item.REGISTRY.containsKey(new ResourceLocation(contentID.getString())))
 			{
 				String stackSize = (nbttagcompound.getBoolean("punched") || nbttagcompound.getInteger("contentSize") <= 0) ? "" : nbttagcompound.getInteger("contentSize") + "x";
-				tooltip.add("(" + stackSize + (AlchemyRecipes.getDecodedItem(stack)).getDisplayName() + ")");
+				tooltip.add("(" + stackSize + (AlchemyUtils.getDecodedItem(stack)).getDisplayName() + ")");
 				if(nbttagcompound.getBoolean("punched"))
 					tooltip.add("("+I18n.translateToLocal("item.captchaCard.punched")+")");
 				else if(nbttagcompound.getInteger("contentSize") <= 0)

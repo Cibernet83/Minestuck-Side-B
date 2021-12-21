@@ -138,7 +138,7 @@ public class GuiGodTierMeditation extends GuiScreen
 		float generalXp = data.getSkillXp(GodTierData.SkillType.GENERAL);
 		float generalFilled = generalXp/data.getXpToNextLevel(GodTierData.SkillType.GENERAL);
 
-		EnumAspect aspect = MinestuckPlayerData.title.getHeroAspect();
+		EnumAspect aspect = MinestuckPlayerData.clientData.title.getHeroAspect();
 		int mainColor = aspect == EnumAspect.SPACE ? 0xFAFAFA : mainColors.getOrDefault(aspect, 0x80FF20);
 
 		setColor(mainColor);
@@ -151,7 +151,7 @@ public class GuiGodTierMeditation extends GuiScreen
 		mc.getTextureManager().bindTexture(TEXTURES);
 		setColor(0xFFFFFF);
 		drawTexturedModalRect(xOffset+40, yOffset+15, 0, 223, 176, 33);
-		String gtTitle = data.getGodTierTitle(MinestuckPlayerData.title);
+		String gtTitle = data.getGodTierTitle(MinestuckPlayerData.clientData.title);
 		fontRenderer.drawString(gtTitle, xOffset+xSize/2 - fontRenderer.getStringWidth(gtTitle)/2, yOffset+30, 0xFFFFFF);
 
 		//Badges

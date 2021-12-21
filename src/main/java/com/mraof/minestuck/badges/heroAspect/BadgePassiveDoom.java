@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges.heroAspect;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
@@ -36,9 +36,9 @@ public class BadgePassiveDoom extends BadgeHeroAspect
 		}
 
 		if(time > 20)
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.BURST, EnumAspect.DOOM, 20);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.DOOM, 20);
 		else
-			badgeEffects.startPowerParticles(getClass(), MSGTParticles.ParticleType.AURA, EnumAspect.DOOM, 10);
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.DOOM, 10);
 
 		if(time >= 25)
 		{
@@ -47,7 +47,7 @@ public class BadgePassiveDoom extends BadgeHeroAspect
 				if(!(target instanceof EntityPlayer || target instanceof IMob))
 					continue;
 
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.DOOM, 10);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.DOOM, 10);
 
 				PotionEffect effect = new PotionEffect(MinestuckPotions.DECAY, player.isOnSameTeam(target) ? 180 : 400, 1);
 				target.addPotionEffect(effect);

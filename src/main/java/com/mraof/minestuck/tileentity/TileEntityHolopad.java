@@ -1,9 +1,9 @@
 package com.mraof.minestuck.tileentity;
 
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.block.BlockHolopad;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
@@ -45,12 +45,12 @@ public class TileEntityHolopad extends TileEntity implements ITickable
 			//this.destroyHologram(this.pos);
 		} else {
 			ItemStack heldStack = player.getHeldItemMainhand();
-			if (this.card.isEmpty() && !heldStack.isEmpty() && AlchemyRecipes.isPunchedCard(heldStack)) {
+			if (this.card.isEmpty() && !heldStack.isEmpty() && AlchemyUtils.isPunchedCard(heldStack)) {
 				this.setCard(heldStack.splitStack(1));
 				ItemStack in = this.getCard();
 				ItemStack item = new ItemStack(MinestuckBlocks.genericObject);
 				if (in.hasTagCompound() && in.getTagCompound().hasKey("contentID")) {
-					item = AlchemyRecipes.getDecodedItem(in);
+					item = AlchemyUtils.getDecodedItem(in);
 				}
 				
 				//this.spawnHologram(this.pos, item);

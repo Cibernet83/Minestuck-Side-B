@@ -1,10 +1,10 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.item.block.ItemTotemLathe;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
 import com.mraof.minestuck.tileentity.TileEntityTotemLathe;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
@@ -208,7 +208,7 @@ public class BlockTotemLathe extends BlockLargeMachine
 		} else if(part.isRodRight())
 		{
 			TileEntity te = worldIn.getTileEntity(pos);
-			if(te instanceof TileEntityItemStack && AlchemyRecipes.hasDecodedItem(((TileEntityItemStack) te).getStack()))
+			if(te instanceof TileEntityItemStack && AlchemyUtils.hasDecodedItem(((TileEntityItemStack) te).getStack()))
 				return state.withProperty(PART, EnumParts.ROD_RIGHT_CARVED);
 		}
 		

@@ -2,7 +2,7 @@ package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.event.WeaponAssignedEvent;
-import com.mraof.minestuck.event.handlers.StrifeEventHandler;
+import com.mraof.minestuck.event.handler.StrifeEventHandler;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import io.netty.buffer.ByteBuf;
@@ -17,15 +17,15 @@ import java.util.List;
 public class PacketLeftClickEmpty extends MinestuckPacket
 {
 	@Override
-	public MinestuckPacket generatePacket(Object... args)
+	public void generatePacket(Object... args)
 	{
-		return this;
+
 	}
 
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
-		return this;
+
 	}
 
 	@Override

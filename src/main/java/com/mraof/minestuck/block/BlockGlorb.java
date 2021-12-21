@@ -1,6 +1,6 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -62,7 +62,7 @@ public class BlockGlorb extends MSBlockBase
     @Override
     public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager)
     {
-        MSGTParticles.spawnAuraParticles(world, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0xFFFDDE, 8);
+        MinestuckParticles.spawnAuraParticles(world, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0xFFFDDE, 8);
         return true;
     }
 
@@ -101,7 +101,7 @@ public class BlockGlorb extends MSBlockBase
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {
         if(rand.nextInt(4) == 0)
-            MSGTParticles.spawnAuraParticles(worldIn, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0xFFFDDE, Math.max(1, rand.nextInt(6)-3));
+            MinestuckParticles.spawnAuraParticles(worldIn, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0xFFFDDE, Math.max(1, rand.nextInt(6)-3));
     }
 
     @Override

@@ -1,24 +1,15 @@
 package com.mraof.minestuck.client.gui.playerStats;
 
-import com.mraof.minestuck.inventory.captchalouge.CaptchaDeckHandler;
 import com.mraof.minestuck.inventory.captchalouge.ContainerCaptchaDeck;
-import com.mraof.minestuck.inventory.captchalouge.Modus;
-import com.mraof.minestuck.item.ItemCaptchaCard;
-import com.mraof.minestuck.network.PacketCaptchaDeck;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.MinestuckPacket.Type;
+import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCloseWindow;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoCallback
 {
@@ -44,14 +35,14 @@ public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 		sylladexMap = new GuiButtonExt(1, xOffset + 6, yOffset + 31, 60, 18, I18n.format("gui.sylladex"));
 		buttonList.add(modusButton);
 		buttonList.add(sylladexMap);
-		sylladexMap.enabled = CaptchaDeckHandler.clientSideModus != null;
+		sylladexMap.enabled = MinestuckPlayerData.clientData.sylladex != null;
 		modusButton.enabled = !container.inventory.getStackInSlot(0).isEmpty();
 	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int xcor, int ycor)
 	{
-		sylladexMap.enabled = CaptchaDeckHandler.clientSideModus != null;
+		sylladexMap.enabled = MinestuckPlayerData.clientData.sylladex != null;
 		modusButton.enabled = !container.inventory.getStackInSlot(0).isEmpty();
 		
 		drawTabs();
@@ -76,13 +67,13 @@ public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		if(button == this.modusButton && !container.inventory.getStackInSlot(0).isEmpty())
+		/*if(button == this.modusButton && !container.inventory.getStackInSlot(0).isEmpty())
 		{
 			ItemStack stack = container.inventory.getStackInSlot(0);
 			if(!(stack.getItem() instanceof ItemCaptchaCard))
 			{
-				Modus newModus = CaptchaDeckHandler.createInstance(CaptchaDeckHandler.getType(stack), Side.CLIENT);
-				if(newModus != null && CaptchaDeckHandler.clientSideModus != null && newModus.getClass() != CaptchaDeckHandler.clientSideModus.getClass() && !newModus.canSwitchFrom(CaptchaDeckHandler.clientSideModus))
+				ISylladex.Sylladex newSylladex = SylladexUtils.createInstance(SylladexUtils.getType(stack), Side.CLIENT);
+				if(newSylladex != null && SylladexUtils.clientSideModus != null && newSylladex.getClass() != SylladexUtils.clientSideModus.getClass() && !newSylladex.canSwitchFrom(SylladexUtils.clientSideModus))
 				{
 					mc.currentScreen = new GuiYesNo(this, I18n.format("gui.emptySylladex1"), I18n.format("gui.emptySylladex2"), 0)
 					{
@@ -99,11 +90,11 @@ public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 			}
 			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.MODUS));
 		}
-		else if(button == this.sylladexMap && CaptchaDeckHandler.clientSideModus != null)
+		else*/ if(button == this.sylladexMap && MinestuckPlayerData.clientData.sylladex != null)
 		{
 			mc.player.connection.sendPacket(new CPacketCloseWindow(mc.player.openContainer.windowId));
 			mc.player.inventory.setItemStack(ItemStack.EMPTY);
-			mc.displayGuiScreen(CaptchaDeckHandler.clientSideModus.getGuiHandler());
+			mc.displayGuiScreen(MinestuckPlayerData.clientData.sylladex.getGuiHandler());
 			mc.player.openContainer = mc.player.inventoryContainer;
 		}
 	}
@@ -111,8 +102,8 @@ public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 	@Override
 	public void confirmClicked(boolean result, int id)
 	{
-		if(result && !container.inventory.getStackInSlot(0).isEmpty())
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.MODUS));
+		//if(result && !container.inventory.getStackInSlot(0).isEmpty())
+		//	MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.MODUS));
 		mc.currentScreen = this;
 	}
 	

@@ -1,10 +1,9 @@
 package com.mraof.minestuck.item.operandi;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.inventory.captchalouge.OperandiModus;
-import com.mraof.minestuck.item.armor.MSArmorBase;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.armor.MSArmorBase;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -34,7 +33,7 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 		else
 		{
 			teleporter = null;
-			OperandiModus.itemPool.add(this);
+			//OperandiModus.itemPool.add(this);
 		}
 	}
 	

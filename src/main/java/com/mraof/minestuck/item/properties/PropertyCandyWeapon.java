@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.properties;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.entity.EntityMSUArrow;
@@ -11,8 +12,10 @@ import com.mraof.minestuck.item.properties.throwkind.IPropertyThrowable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PropertyCandyWeapon extends WeaponProperty implements IPropertyArrow, IPropertyThrowable
 {
 	@SubscribeEvent

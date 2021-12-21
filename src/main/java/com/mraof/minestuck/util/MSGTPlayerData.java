@@ -1,5 +1,6 @@
 package com.mraof.minestuck.util;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -9,6 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -19,8 +21,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 @Deprecated
-public class MSGTPlayerData
+public class MSGTPlayerData // TODO: caps ugh
 {
 	private static Map<IdentifierHandler.PlayerIdentifier, NBTTagCompound> dataMap = new HashMap<>();
 

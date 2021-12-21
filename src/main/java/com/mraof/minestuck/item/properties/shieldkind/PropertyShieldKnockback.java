@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item.properties.shieldkind;
 
-import com.mraof.minestuck.event.handlers.CommonEventHandler;
+import com.mraof.minestuck.event.handler.CommonEventHandler;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

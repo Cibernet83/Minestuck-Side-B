@@ -11,6 +11,7 @@ import com.mraof.minestuck.tileentity.TileEntityComputer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -144,9 +145,9 @@ public class SkaiaClient
 			c.enteredGame = data.readBoolean();
 		}
 		c.clientId = data.readInt();
-		c.clientName = MinestuckPacket.readLine(data);
+		c.clientName = ByteBufUtils.readUTF8String(data);
 		c.serverId = data.readInt();
-		c.serverName = MinestuckPacket.readLine(data);
+		c.serverName = ByteBufUtils.readUTF8String(data);
 		
 		return c;
 	}

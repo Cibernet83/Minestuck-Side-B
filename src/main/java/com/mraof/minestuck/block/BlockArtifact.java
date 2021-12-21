@@ -1,5 +1,6 @@
 package com.mraof.minestuck.block;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.event.AlchemizeItemAlchemiterEvent;
 import com.mraof.minestuck.event.AlchemizeItemEvent;
 import com.mraof.minestuck.event.AlchemizeItemMinichemiterEvent;
@@ -16,11 +17,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BlockArtifact extends MSBlockBase
 {
 	public BlockArtifact(String name, Material fire, MapColor purple) {

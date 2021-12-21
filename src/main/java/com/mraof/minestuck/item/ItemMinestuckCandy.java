@@ -1,7 +1,8 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -30,11 +31,11 @@ public class ItemMinestuckCandy extends ItemFood
 	
 	public void updateCandy()
 	{
-		for (GristType type : GristType.REGISTRY.getValues())
+		for (Grist type : Grist.REGISTRY.getValues())
 		{
 			if(type.getCandyItem().isEmpty())
 			{
-				float saturationModifier = type == GristType.Build ? 0.0F : 0.6F - type.getRarity(); //Perhaps change build to 0.1 or 0.05
+				float saturationModifier = type == MinestuckGrists.build ? 0.0F : 0.6F - type.getRarity(); //Perhaps change build to 0.1 or 0.05
 				String name = type.getName();
 				candyMap.put(type.getId() + 1, new Candy(2, saturationModifier, name.substring(0, 1).toUpperCase() + name.substring(1)));
 				type.setCandyItem(new ItemStack(this, 1, type.getId() + 1));
@@ -90,8 +91,8 @@ public class ItemMinestuckCandy extends ItemFood
 	public void registerModel()
 	{
 		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "candy_corn"), "inventory"));
-		List<GristType> gristTypes = GristType.values();
-		for (int i = 0; i < gristTypes.size(); i++)
-			ModelLoader.setCustomModelResourceLocation(this, i + 1, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy_" + gristTypes.get(i).getName()), "inventory"));
+		List<Grist> grists = Grist.REGISTRY.getValues();
+		for (int i = 0; i < grists.size(); i++)
+			ModelLoader.setCustomModelResourceLocation(this, i + 1, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy_" + grists.get(i).getName()), "inventory"));
 	}
 }

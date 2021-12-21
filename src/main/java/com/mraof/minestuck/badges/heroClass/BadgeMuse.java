@@ -1,11 +1,12 @@
 package com.mraof.minestuck.badges.heroClass;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
-import com.mraof.minestuck.event.handlers.GodTierEventHandler;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
+import com.mraof.minestuck.event.handler.GodTierEventHandler;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -15,11 +16,13 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeMuse extends BadgeHeroClass
 {
 	public BadgeMuse() {
@@ -43,7 +46,7 @@ public class BadgeMuse extends BadgeHeroClass
 		if(title == null)
 			return;
 
-		player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumClass.MUSE, 30);
+		player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumClass.MUSE, 30);
 
 		for(EntityPlayer target : player.world.getMinecraftServer().getPlayerList().getPlayers())
 		{
@@ -56,7 +59,7 @@ public class BadgeMuse extends BadgeHeroClass
 			for(PotionEffect p : effects)
 				target.addPotionEffect(new PotionEffect(p.getPotion(), 1200, 9));
 
-			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumClass.MUSE, 10);
+			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.MUSE, 10);
 		}
 	}
 }

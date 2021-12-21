@@ -4,9 +4,11 @@ import com.mraof.minestuck.Minestuck;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckSounds
 {
 	public static SoundEvent chatModusPing = new SoundEvent(new ResourceLocation(Minestuck.MODID, "chat_ping"));

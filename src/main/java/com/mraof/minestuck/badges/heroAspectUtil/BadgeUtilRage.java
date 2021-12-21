@@ -1,9 +1,10 @@
 package com.mraof.minestuck.badges.heroAspectUtil;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.client.particles.MSGTParticles;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.ai.EntityAIAttackRageShifted;
 import com.mraof.minestuck.entity.ai.EntityAINearestAttackableTargetWithHeight;
 import com.mraof.minestuck.util.EnumAspect;
@@ -21,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -30,6 +32,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.UUID;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeUtilRage extends BadgeHeroAspectUtil
 {
 	protected static final int RADIUS = 16;
@@ -61,7 +64,7 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 				return false;
 
 			toggleRageShift((EntityCreature) target);
-			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
+			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
 			if(!player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-3);
 		}
@@ -76,7 +79,7 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 					break;
 
 				toggleRageShift((EntityCreature) target);
-				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MSGTParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
+				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
 				count++;
 
 				if(!player.isCreative())
@@ -84,7 +87,7 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 			}
 
 			if(count > 0 || list.isEmpty())
-				badgeEffects.oneshotPowerParticles(MSGTParticles.ParticleType.BURST, EnumAspect.RAGE, list.isEmpty() ? 1 : 4);
+				badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.RAGE, list.isEmpty() ? 1 : 4);
 			else
 			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);

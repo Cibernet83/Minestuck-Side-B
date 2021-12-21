@@ -6,7 +6,7 @@ import java.util.List;
 import com.mraof.minestuck.block.MSBlockLogVariant;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
-import com.mraof.minestuck.world.biome.BiomeMinestuck;
+import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.LandAspectRegistry;
 import com.mraof.minestuck.world.lands.decorator.*;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
@@ -93,23 +93,23 @@ public class LandAspectForest extends TerrainLandAspect
 	{
 		ArrayList<ILandDecorator> list = new ArrayList<>();
 		if(type == Variant.FOREST) {
-			list.add(new BasicTreeDecorator(5, BiomeMinestuck.mediumNormal));
-			list.add(new BasicTreeDecorator(8, BiomeMinestuck.mediumRough));
-			list.add(new WorldGenDecorator(new WorldGenBigTree(false), 15, 0.6F, BiomeMinestuck.mediumNormal));
-			list.add(new WorldGenDecorator(new WorldGenBigTree(false), 25, 0.6F, BiomeMinestuck.mediumRough));
+			list.add(new BasicTreeDecorator(5, MinestuckBiomes.mediumNormal));
+			list.add(new BasicTreeDecorator(8, MinestuckBiomes.mediumRough));
+			list.add(new WorldGenDecorator(new WorldGenBigTree(false), 15, 0.6F, MinestuckBiomes.mediumNormal));
+			list.add(new WorldGenDecorator(new WorldGenBigTree(false), 25, 0.6F, MinestuckBiomes.mediumRough));
 		} else {
-			list.add(new SpruceTreeDecorator(Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockLeaves.CHECK_DECAY, false), BiomeMinestuck.mediumNormal));
-			list.add(new SpruceTreeDecorator(Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockLeaves.CHECK_DECAY, false), BiomeMinestuck.mediumRough));
-			list.add(new SurfaceDecoratorVein(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL), 25, 40, BiomeMinestuck.mediumNormal, BiomeMinestuck.mediumRough));
+			list.add(new SpruceTreeDecorator(Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockLeaves.CHECK_DECAY, false), MinestuckBiomes.mediumNormal));
+			list.add(new SpruceTreeDecorator(Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockLeaves.CHECK_DECAY, false), MinestuckBiomes.mediumRough));
+			list.add(new SurfaceDecoratorVein(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL), 25, 40, MinestuckBiomes.mediumNormal, MinestuckBiomes.mediumRough));
 		}
-		list.add(new TallGrassDecorator(0.3F, BiomeMinestuck.mediumNormal));
-		list.add(new TallGrassDecorator(0.5F, 0.2F, BiomeMinestuck.mediumRough));
+		list.add(new TallGrassDecorator(0.3F, MinestuckBiomes.mediumNormal));
+		list.add(new TallGrassDecorator(0.5F, 0.2F, MinestuckBiomes.mediumRough));
 		
 		list.add(new UndergroundDecoratorVein(Blocks.DIRT.getDefaultState(), 3, 33, 64));	//Have 64 be the highest value because stone is used as a building material for structures right now
 		list.add(new UndergroundDecoratorVein(Blocks.GRAVEL.getDefaultState(), 2, 28, 64));
 		list.add(new UndergroundDecoratorVein(Blocks.COAL_ORE.getDefaultState(), 13, 17, 64));
 		list.add(new UndergroundDecoratorVein(Blocks.EMERALD_ORE.getDefaultState(), 8, 3, 32));
-		list.add(new SurfaceDecoratorVein(Blocks.CLAY.getDefaultState(), 15, 10, BiomeMinestuck.mediumOcean));
+		list.add(new SurfaceDecoratorVein(Blocks.CLAY.getDefaultState(), 15, 10, MinestuckBiomes.mediumOcean));
 		return list;
 	}
 	

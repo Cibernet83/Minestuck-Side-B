@@ -2,7 +2,7 @@ package com.mraof.minestuck.command;
 
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SessionHandler;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
@@ -71,7 +71,7 @@ public class CommandGristSend extends CommandBase
 			
 			StringBuilder costStr = new StringBuilder();
 			boolean first = true;
-			for(GristType type : GristType.values())
+			for(Grist type : Grist.values())
 			{
 				int i = Math.max(0, Math.min(playerGrist.getGrist(type), set.getGrist(type)));
 				
@@ -132,7 +132,7 @@ public class CommandGristSend extends CommandBase
 		}
 		else if ((args.length > 1) && ((args.length % 2) == 1))
 		{
-			return getListOfStringsMatchingLastWord(args, GristType.REGISTRY.getKeys());
+			return getListOfStringsMatchingLastWord(args, Grist.REGISTRY.getKeys());
 		}
 		else
 		{

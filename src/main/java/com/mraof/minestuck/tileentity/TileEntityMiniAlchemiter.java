@@ -7,6 +7,7 @@ import com.mraof.minestuck.event.AlchemizeItemEvent;
 import com.mraof.minestuck.event.AlchemizeItemMinichemiterEvent;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
+import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -55,7 +56,7 @@ public class TileEntityMiniAlchemiter extends TileEntityMiniSburbMachine
 	{
 		if (getStackInSlot(0) != null && owner != null)
 		{
-			ItemStack newItem = AlchemyRecipes.getDecodedItem(getStackInSlot(0));
+			ItemStack newItem = AlchemyUtils.getDecodedItem(getStackInSlot(0));
 			if (newItem.isEmpty())
 				if (!getStackInSlot(0).hasTagCompound() || !getStackInSlot(0).getTagCompound().hasKey("contentID"))
 					newItem = new ItemStack(MinestuckBlocks.genericObject);
@@ -111,7 +112,7 @@ public class TileEntityMiniAlchemiter extends TileEntityMiniSburbMachine
 	@Override
 	public void processContents()
 	{
-		ItemStack newItem = AlchemyRecipes.getDecodedItem(this.inv.get(0));
+		ItemStack newItem = AlchemyUtils.getDecodedItem(this.inv.get(0));
 
 		if (newItem.isEmpty())
 			newItem = new ItemStack(MinestuckBlocks.genericObject);
@@ -133,7 +134,7 @@ public class TileEntityMiniAlchemiter extends TileEntityMiniSburbMachine
 
 		EntityPlayerMP player = owner.getPlayer();
 		if (player != null)
-			AlchemyRecipes.giveAlchemyExperience(newItem, player);
+			AlchemyUtils.giveAlchemyExperience(newItem, player);
 
 		if (newItem.getItem() == MinestuckItems.captchaCard)
 			cost = new GristSet(selectedGrist, MinestuckConfig.cardCost);
@@ -170,7 +171,7 @@ public class TileEntityMiniAlchemiter extends TileEntityMiniSburbMachine
 		if (!world.isBlockPowered(this.getPos()) && !this.inv.get(0).isEmpty() && this.owner != null)
 		{
 			//Check owner's cache: Do they have everything they need?
-			ItemStack newItem = AlchemyRecipes.getDecodedItem(this.inv.get(0));
+			ItemStack newItem = AlchemyUtils.getDecodedItem(this.inv.get(0));
 			if (newItem.isEmpty())
 				if (!inv.get(0).hasTagCompound() || !inv.get(0).getTagCompound().hasKey("contentID"))
 					newItem = new ItemStack(MinestuckBlocks.genericObject);

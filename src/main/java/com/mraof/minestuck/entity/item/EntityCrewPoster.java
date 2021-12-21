@@ -44,7 +44,7 @@ public class EntityCrewPoster extends EntityHangingArt<EntityCrewPoster.Midnight
 	public static enum MidnightCrewArt implements EntityHangingArt.IArt
 	{
 		SPADE("Spade", 16, 16, 0, 0),
-		DIAMOND("Diamond", 16, 16, 16, 0),
+		DIAMOND("diamond", 16, 16, 16, 0),
 		CLUB("Club", 16, 16, 32, 0),
 		HEART("Heart", 16, 16, 48, 0),
 		CREW_MEDIUM("CrewMedium", 32, 32, 0, 128),

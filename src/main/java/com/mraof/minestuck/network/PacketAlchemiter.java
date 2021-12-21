@@ -16,7 +16,7 @@ public class PacketAlchemiter extends MinestuckPacket
 	public int quantity;
 	
 	@Override
-	public MinestuckPacket generatePacket(Object... dat)
+	public void generatePacket(Object... dat)
 	{
 		TileEntity te = ((TileEntity) dat[0]);
 		data.writeInt(te.getPos().getX());
@@ -24,17 +24,17 @@ public class PacketAlchemiter extends MinestuckPacket
 		data.writeInt(te.getPos().getZ());
 		data.writeInt((int) dat[1]);
 		
-		return this;
+
 	}
 	
 	@Override
-	public MinestuckPacket consumePacket(ByteBuf data)
+	public void consumePacket(ByteBuf data)
 	{
 		tePos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
 		
 		quantity = data.readInt();
 		
-		return this;
+
 	}
 	
 	@Override

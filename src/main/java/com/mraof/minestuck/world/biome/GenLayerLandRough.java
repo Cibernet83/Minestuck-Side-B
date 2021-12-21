@@ -29,8 +29,8 @@ public class GenLayerLandRough extends GenLayer
 		for(int i = 0; i < biomeGen.length; i++)
 		{
 			initChunkSeed(areaX + i%areaWidth, areaY + i/areaWidth);
-			if(biomeGen[i] == Biome.getIdForBiome(BiomeMinestuck.mediumNormal) && nextInt(Integer.MAX_VALUE) < roughChance)
-				biomeGen[i] = Biome.getIdForBiome(BiomeMinestuck.mediumRough);
+			if(biomeGen[i] == Biome.getIdForBiome(MinestuckBiomes.mediumNormal) && nextInt(Integer.MAX_VALUE) < roughChance)
+				biomeGen[i] = Biome.getIdForBiome(MinestuckBiomes.mediumRough);
 		}
 		
 		//No generation by ocean

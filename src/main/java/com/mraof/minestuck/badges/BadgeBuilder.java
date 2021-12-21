@@ -1,8 +1,9 @@
 package com.mraof.minestuck.badges;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.GristType;
+import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.editmode.ClientEditHandler;
@@ -26,11 +27,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeBuilder extends BadgeLevel
 {
 	public BadgeBuilder() {
@@ -40,7 +43,7 @@ public class BadgeBuilder extends BadgeLevel
 	@Override
 	public boolean canUnlock(World world, EntityPlayer player)
 	{
-		GristSet cost = new GristSet(GristType.Build, 20000);
+		GristSet cost = new GristSet(MinestuckGrists.build, 20000);
 		if(Badge.findItem(player, new ItemStack(MinestuckItems.battlepickOfZillydew, 1), false) && GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost))
 		{
 			Badge.findItem(player, new ItemStack(MinestuckItems.battlepickOfZillydew, 1), true);

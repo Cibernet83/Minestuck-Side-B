@@ -1,14 +1,17 @@
 package com.mraof.minestuck.potions;
 
+import com.mraof.minestuck.Minestuck;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.UUID;
 
+@Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PotionComeback extends MSPotionBase
 {
 
