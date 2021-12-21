@@ -7,15 +7,11 @@ import com.mraof.minestuck.alchemy.GristType;
 import com.mraof.minestuck.badges.heroAspect.*;
 import com.mraof.minestuck.badges.heroAspectUtil.*;
 import com.mraof.minestuck.badges.heroClass.*;
-import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.entity.EntityFrog;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -31,8 +27,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -105,57 +99,7 @@ public class MinestuckBadges
 		}
 	};
 
-	public static final Badge HOARD_OF_THE_ALCHEMIZER = new BadgeLevel("hoardOfTheAlchemizer", 4)
-	{
-		@Override
-		public boolean canUnlock(World world, EntityPlayer player)
-		{
-			for(GristType type : GristType.REGISTRY.getValuesCollection())
-				if(!GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), new GristSet(type, 5000)))
-					return false;
-
-			IdentifierHandler.PlayerIdentifier pid = IdentifierHandler.encode(player);
-			for(GristType type : GristType.REGISTRY.getValuesCollection())
-				GristHelper.decrease(pid, new GristSet(type, 1000));
-			MinestuckPlayerTracker.updateGristCache(pid);
-			return true;
-
-		}
-
-		@Override
-		public void onBadgeUnlocked(World world, EntityPlayer player)
-		{
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.REQUEST_GRIST_HOARD), player);
-		}
-
-		@Override
-		public String getDisplayTooltip()
-		{
-			String str = new TextComponentTranslation(getUnlocalizedName()+".tooltip.any").getFormattedText();
-
-			try
-			{
-				return new TextComponentTranslation(getUnlocalizedName()+".tooltip", hasBadge() ? new TextComponentTranslation("grist.format", getGristHoard().getDisplayName()).getFormattedText() : str).getFormattedText();
-			} catch (NoClassDefFoundError error)
-			{
-
-				return new TextComponentTranslation(getUnlocalizedName()+".tooltip", str).getFormattedText();
-			}
-
-		}
-
-		@SideOnly(Side.CLIENT)
-		private boolean hasBadge()
-		{
-			return Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).hasBadge(this);
-		}
-		@SideOnly(Side.CLIENT)
-		private GristType getGristHoard()
-		{
-			return Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getGristHoard();
-		}
-	};
-
+	public static final Badge HOARD_OF_THE_ALCHEMIZER = new BadgeGristHoard();
 	public static final Badge BUILDER_BADGE = new BadgeBuilder();
 	public static final Badge STRIFE_BADGE = new BadgeLevel("strifeBadge", 7)
 	{
