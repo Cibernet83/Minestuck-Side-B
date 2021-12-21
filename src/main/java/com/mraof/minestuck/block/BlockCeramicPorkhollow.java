@@ -2,9 +2,12 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.item.ItemBoondollars;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
+import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -34,7 +37,7 @@ import java.util.List;
 
 public class BlockCeramicPorkhollow extends MSBlockContainer
 {
-	private static final AxisAlignedBB AABB = new AxisAlignedBB(4/16d, 0, 2/16d, 12/16d, 12/16d, 14/16d);
+	private static final AxisAlignedBB AABB = new AxisAlignedBB(4/16d, 0, 2/16d, 12/16d, 10/16d, 14/16d);
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	protected BlockCeramicPorkhollow()
 	{
@@ -107,21 +110,56 @@ public class BlockCeramicPorkhollow extends MSBlockContainer
 	}
 
 	@Override
+	protected ItemStack getSilkTouchDrop(IBlockState state)
+	{
+		return super.getSilkTouchDrop(state);
+	}
+
+	@Override
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
 	{
 		player.addStat(StatList.getBlockStats(this));
 		player.addExhaustion(0.005F);
 
-		if(te instanceof TileEntityItemStack)
+		if((this.canSilkHarvest(worldIn, pos, state, player) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0))
 		{
-			int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
-			List<ItemStack> items = new ArrayList<>();
-			items.add(((TileEntityItemStack) te).getStack());
-			net.minecraftforge.event.ForgeEventFactory.fireBlockHarvesting(items, worldIn, pos, state, fortune, 1.0f, false, harvesters.get());
-
-			for (ItemStack item : items)
+			if(te instanceof TileEntityItemStack)
 			{
-				spawnAsEntity(worldIn, pos, item);
+				int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
+				List<ItemStack> items = new ArrayList<>();
+				items.add(((TileEntityItemStack) te).getStack());
+				net.minecraftforge.event.ForgeEventFactory.fireBlockHarvesting(items, worldIn, pos, state, fortune, 1.0f, false, harvesters.get());
+
+				for (ItemStack item : items)
+				{
+					spawnAsEntity(worldIn, pos, item);
+				}
+			}
+		}
+		else
+		{
+			MinestuckPlayerData.PlayerData playerData = MinestuckPlayerData.getData(player);
+
+			if(playerData.boondollars > 0)
+			{
+				int drops = (int) Math.min(playerData.boondollars, 10000);
+				MinestuckPlayerData.addBoondollars(player, -drops);
+
+				for(int i = 0; i < player.getRNG().nextInt(5) + 4; i++)
+				{
+					if(drops/6 <= 0)
+						break;
+
+					int value = player.getRNG().nextInt(drops/6);
+					if(value > 0)
+					{
+						spawnAsEntity(worldIn, pos, ItemBoondollars.setCount(new ItemStack(MinestuckItems.boondollars), value));
+						drops -= value;
+					}
+				}
+
+				if(drops > 0)
+					spawnAsEntity(worldIn, pos, ItemBoondollars.setCount(new ItemStack(MinestuckItems.boondollars), drops));
 			}
 		}
 	}

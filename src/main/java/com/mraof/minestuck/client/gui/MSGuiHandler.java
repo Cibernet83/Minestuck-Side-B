@@ -125,7 +125,7 @@ public class MSGuiHandler implements IGuiHandler
 			case AUTO_CAPTCHA:
 				return new GuiAutoCaptcha(player.inventory, (TileEntityAutoCaptcha) tileEntity);
 			case PORKHOLLOW_ATM:
-				return new GuiPorkhollowAtm(player);
+				return new GuiCeramicPorkhollow(player);
 			case BOONDOLLAR_REGISTER:
 				return new GuiBoondollarRegister(player, (TileEntityBoondollarRegister) tileEntity);
 			case STRIFE_CARD:

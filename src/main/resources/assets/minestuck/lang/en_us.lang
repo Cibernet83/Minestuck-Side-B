@@ -1467,10 +1467,9 @@ gui.alchemyClear=Clear Sylladex
 gui.alchemyWildcard=Wildcard: %s
 gui.bookPublish=Publish
 
-gui.atm.withdraw=Withdraw
 gui.atm.go=Accept
-gui.atm.amountLabel=Value per Boondollar:
-gui.atm.nLabel=Boondollars to withdraw:
+gui.atm.amountLabel=Value:
+gui.atm.nLabel=# of Boons:
 gui.vault.amountLabel=Stored Boondollars: %s
 gui.vault.amountLabelShort=Stored Boons: %s
 gui.vault.mavLabel=Minimum Accepted Value:
