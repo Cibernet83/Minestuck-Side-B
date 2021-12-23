@@ -97,7 +97,7 @@ public class BlockModusControlDeck extends MSBlockContainer
 
 		if(facing == EnumFacing.UP && !playerIn.isSneaking() && te.handleInsert(playerIn, hand))
 			return true;
-		else if(facing == EnumFacing.UP == playerIn.isSneaking())
+		else if(facing == EnumFacing.UP == playerIn.isSneaking() && te.getCartridgeCount() > 0)
 		{
 			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.MODUS_CONTROL_DECK.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 			return true;

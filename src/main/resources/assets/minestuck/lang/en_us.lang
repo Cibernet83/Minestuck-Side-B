@@ -2681,6 +2681,10 @@ modus.stack.prefix.singular=Stack
 modus.stack.prefix.plural=Stacks
 modus.stack.suffix.singular=stack
 modus.stack.suffix.plural=stacks
+modus.array.prefix.singular=Array
+modus.array.prefix.plural=Arrays
+modus.array.suffix.singular=array
+modus.array.suffix.plural=arrays
 
 property.item.broken=Broken %s
 
