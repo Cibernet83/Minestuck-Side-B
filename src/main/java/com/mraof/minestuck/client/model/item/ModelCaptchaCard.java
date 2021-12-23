@@ -113,7 +113,7 @@ public final class ModelCaptchaCard implements IModel
 			//card contents
 
 			TextureAtlasSprite sprite = bakedTextureGetter.apply(contentLocation);
-			builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_CONTENT, sprite, EnumFacing.NORTH, 0xFFFFFFFF, 2));
+			//builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_CONTENT, sprite, EnumFacing.NORTH, 0xFFFFFFFF, 2));
 			builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_CONTENT, sprite, EnumFacing.SOUTH, 0xFFFFFFFF, 2));
 		}
 		if(punched)
