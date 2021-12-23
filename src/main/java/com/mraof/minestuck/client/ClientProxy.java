@@ -193,7 +193,6 @@ public class ClientProxy extends CommonProxy
 	@SubscribeEvent
 	public static void handleModelRegistry(ModelRegistryEvent event)
 	{
-		//ModelLoaderRegistry.registerLoader(ModelCaptchaCard.LoaderCaptchaCard.INSTANCE);
 		ModelLoaderRegistry.registerLoader(ModelCaptchaCard.LoaderCaptchaCard.INSTANCE);
 
 		for (IRegistryItem item : MinestuckItems.items)
