@@ -1,8 +1,7 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.client.model.item.ModelCaptchaCard;
 import com.mraof.minestuck.util.AlchemyUtils;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,9 +17,6 @@ import net.minecraftforge.client.model.ModelLoader;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static com.mraof.minestuck.block.MinestuckBlocks.genericObject;
-import static com.mraof.minestuck.item.MinestuckItems.captchaCard;
 
 public class ItemCaptchaCard extends MSItemBase
 {
@@ -90,10 +86,12 @@ public class ItemCaptchaCard extends MSItemBase
 		
 	}
 
-
 	@Override
 	public void registerModel()
 	{
+		ModelLoader.setCustomMeshDefinition(this, stack -> ModelCaptchaCard.LOCATION);
+
+		/*
 		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation(Minestuck.MODID, "card_empty"), new ResourceLocation(Minestuck.MODID, "card_full"), new ResourceLocation(Minestuck.MODID, "card_punched"), new ResourceLocation(Minestuck.MODID, "card_ghost"));
 		ModelLoader.setCustomMeshDefinition(captchaCard, (ItemStack stack) ->
 		{
@@ -110,5 +108,6 @@ public class ItemCaptchaCard extends MSItemBase
 				str = "card_empty";
 			return new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, str), "inventory");
 		});
+		*/
 	}
 }

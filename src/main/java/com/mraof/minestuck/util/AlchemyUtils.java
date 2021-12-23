@@ -4,14 +4,19 @@ import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.item.ItemCruxiteArtifact;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import java.util.ArrayList;
 
 import static com.mraof.minestuck.item.MinestuckItems.captchaCard;
 
@@ -127,6 +132,30 @@ public class AlchemyUtils
 		ItemStack card = createCard(item, false);
 		card.getTagCompound().setBoolean("ghost", true);
 		return card;
+	}
+
+	@Nullable
+	public static Modus getCardModus(ItemStack stack)
+	{
+		return stack.hasTagCompound() ? Modus.REGISTRY.getValue(new ResourceLocation(stack.getTagCompound().getString("Modus"))) : null;
+	}
+
+	public static ItemStack setCardModus(ItemStack card, Modus modus)
+	{
+		if(!card.hasTagCompound())
+			card.setTagCompound(new NBTTagCompound());
+		card.getTagCompound().setString("Modus", modus.getRegistryName().toString());
+		return card;
+	}
+
+	public static ItemStack setCardModus(ItemStack card, ArrayList<Modus> modi)
+	{
+		return modi.isEmpty() ? card : setCardModus(card, modi.get(0)); //TODO modus combo cards
+	}
+
+	public static boolean cardBelongsToModus(ItemStack stack)
+	{
+		return getCardModus(stack) != null;
 	}
 
 	public static boolean isPunchedCard(ItemStack card)
