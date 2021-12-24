@@ -27,13 +27,10 @@ import net.minecraftforge.client.model.*;
 import net.minecraftforge.client.model.pipeline.IVertexConsumer;
 import net.minecraftforge.client.model.pipeline.TRSRTransformer;
 import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
-import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.model.IModelPart;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
-import net.minecraftforge.fml.common.FMLLog;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
@@ -118,7 +115,7 @@ public final class ModelCaptchaCard implements IModel
 			for(int i = modi.size()-1; i >= 0 ; i--)
 			{
 				Modus modus = modi.get(i);
-				ResourceLocation loc = getResource(new ResourceLocation(modus.getRegistryName().getResourceDomain(), "textures/items/captchalogue/"+modus.getRegistryName().getResourcePath()+".png")) != null ?
+				ResourceLocation loc = modus != null && getResource(new ResourceLocation(modus.getRegistryName().getResourceDomain(), "textures/items/captchalogue/"+modus.getRegistryName().getResourcePath()+".png")) != null ?
 						new ResourceLocation(modus.getRegistryName().getResourceDomain(), "items/captchalogue/"+modus.getRegistryName().getResourcePath()) :
 						new ResourceLocation(Minestuck.MODID, "items/captchalogue/card_default");
 				TextureAtlasSprite sprite = bakedTextureGetter.apply(loc);
@@ -137,9 +134,6 @@ public final class ModelCaptchaCard implements IModel
 		if(contentLocation != null)
 		{
 			//card contents
-
-			System.out.println(contentLocation);
-
 			TextureAtlasSprite sprite = bakedTextureGetter.apply(contentLocation);
 			//builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_CONTENT, sprite, EnumFacing.NORTH, 0xFFFFFFFF, 2));
 			builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_CONTENT, sprite, EnumFacing.SOUTH, 0xFFFFFFFF, 2));
@@ -192,7 +186,7 @@ public final class ModelCaptchaCard implements IModel
 			{
 				if(!first)
 					modusKey += "/";
-				modusKey += modus.getRegistryName();
+				modusKey += modus == null ? "Null" : modus.getRegistryName();
 				first = false;
 			}
 		}
@@ -200,36 +194,28 @@ public final class ModelCaptchaCard implements IModel
 		return modusKey;
 	}
 
-	protected static List<Modus> getModifromKey(String key)
+	protected static List<Modus> getModiFromKey(String key)
 	{
 		List<Modus> modi = new ArrayList<>();
 
-		for(String str : key.split("/"))
-			modi.add(Modus.REGISTRY.getValue(new ResourceLocation(str)));
-		modi.removeIf(modus -> modus == null);
+		if(!key.isEmpty())
+			for(String str : key.split("/"))
+				modi.add(Modus.REGISTRY.getValue(new ResourceLocation(str)));
+		//modi.removeIf(modus -> modus == null);
 
 		return modi;
 	}
 
-	/*
-	 * Sets the fluid in the model.
-	 * "fluid" - Name of the fluid in the fluid registry.
-	 * "flipGas" - If "true" the model will be flipped upside down if the fluid is lighter than air. If "false" it won't.
-	 * "applyTint" - If "true" the model will tint the fluid quads according to the fluid's base color.
-	 * <p/>
-	 * If the fluid can't be found, water is used.
-	 *
-	*/
 	@Override
 	public ModelCaptchaCard process(ImmutableMap<String, String> customData)
 	{
 		List<Modus> modi = this.modi;
 
 		if(customData.containsKey("modi"))
-			modi = getModifromKey(customData.get("modi"));
+			modi = getModiFromKey(customData.get("modi"));
 
 		ResourceLocation contentLocation = this.contentLocation;
-		if(customData.containsKey("contents") && !customData.get("contents").equals("empty"))
+		if(customData.containsKey("contents"))
 			contentLocation = new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_"+customData.get("contents"));
 
 		boolean punched = this.punched;
@@ -282,7 +268,7 @@ public final class ModelCaptchaCard implements IModel
 		@Override
 		public boolean accepts(ResourceLocation modelLocation)
 		{
-			return modelLocation.getResourceDomain().equals(Minestuck.MODID) && modelLocation.getResourcePath().contains("captcha_card");
+			return modelLocation.getResourceDomain().equals(Minestuck.MODID) && modelLocation.getResourcePath().contains("captchalogue_card");
 		}
 
 		@Override
@@ -344,6 +330,7 @@ public final class ModelCaptchaCard implements IModel
 			}
 
 			//registerTextures contents automagically
+			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_empty"));
 			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_item"));
 			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_ghost"));
 			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_red"));
@@ -362,109 +349,6 @@ public final class ModelCaptchaCard implements IModel
 			{
 				return null;
 			}
-		}
-	}
-
-	/**
-	 * Creates a bucket cover sprite from the vanilla resource.
-	 */
-	private static final class CaptchaBaseSprite extends TextureAtlasSprite
-	{
-		private final ResourceLocation bucket = new ResourceLocation("items/bucket_empty");
-		private final ResourceLocation bucketCoverMask = new ResourceLocation(ForgeVersion.MOD_ID, "items/vanilla_bucket_cover_mask");
-		private final ImmutableList<ResourceLocation> dependencies = ImmutableList.of(bucket, bucketCoverMask);
-
-		private CaptchaBaseSprite(ResourceLocation resourceLocation)
-		{
-			super(resourceLocation.toString());
-		}
-
-		@Override
-		public boolean hasCustomLoader(@Nonnull IResourceManager manager, @Nonnull ResourceLocation location)
-		{
-			return true;
-		}
-
-		@Override
-		public Collection<ResourceLocation> getDependencies()
-		{
-			return dependencies;
-		}
-
-		@Override
-		public boolean load(@Nonnull IResourceManager manager, @Nonnull ResourceLocation location, @Nonnull Function<ResourceLocation, TextureAtlasSprite> textureGetter)
-		{
-			final TextureAtlasSprite sprite = textureGetter.apply(bucket);
-			final TextureAtlasSprite alphaMask = textureGetter.apply(bucketCoverMask);
-			width = sprite.getIconWidth();
-			height = sprite.getIconHeight();
-			final int[][] pixels = new int[Minecraft.getMinecraft().gameSettings.mipmapLevels + 1][];
-			pixels[0] = new int[width * height];
-
-			try (
-					IResource empty = getResource(new ResourceLocation("textures/items/bucket_empty.png"));
-					IResource mask = getResource(new ResourceLocation(ForgeVersion.MOD_ID, "textures/items/vanilla_bucket_cover_mask.png"))
-			) {
-				// use the alpha mask if it fits, otherwise leave the cover texture blank
-				if (empty != null && mask != null && Objects.equals(empty.getResourcePackName(), mask.getResourcePackName()) &&
-						alphaMask.getIconWidth() == width && alphaMask.getIconHeight() == height)
-				{
-					final int[][] oldPixels = sprite.getFrameTextureData(0);
-					final int[][] alphaPixels = alphaMask.getFrameTextureData(0);
-
-					for (int p = 0; p < width * height; p++)
-					{
-						final int alphaMultiplier = alphaPixels[0][p] >>> 24;
-						final int oldPixel = oldPixels[0][p];
-						final int oldPixelAlpha = oldPixel >>> 24;
-						final int newAlpha = oldPixelAlpha * alphaMultiplier / 0xFF;
-						pixels[0][p] = (oldPixel & 0xFFFFFF) + (newAlpha << 24);
-					}
-				}
-			}
-			catch (IOException e)
-			{
-				FMLLog.log.error("Failed to close resource", e);
-			}
-
-			this.clearFramesTextureData();
-			this.framesTextureData.add(pixels);
-			return false;
-		}
-	}
-
-	private static final class CaptchaContentSprite extends TextureAtlasSprite
-	{
-		private final ResourceLocation bucket = new ResourceLocation("items/bucket_empty");
-		private final ImmutableList<ResourceLocation> dependencies = ImmutableList.of(bucket);
-
-		private CaptchaContentSprite(ResourceLocation resourceLocation)
-		{
-			super(resourceLocation.toString());
-		}
-
-		@Override
-		public boolean hasCustomLoader(@Nonnull IResourceManager manager, @Nonnull ResourceLocation location)
-		{
-			return true;
-		}
-
-		@Override
-		public Collection<ResourceLocation> getDependencies()
-		{
-			return dependencies;
-		}
-
-		@Override
-		public boolean load(@Nonnull IResourceManager manager, @Nonnull ResourceLocation location, @Nonnull Function<ResourceLocation, TextureAtlasSprite> textureGetter)
-		{
-			final TextureAtlasSprite sprite = textureGetter.apply(bucket);
-			width = sprite.getIconWidth();
-			height = sprite.getIconHeight();
-			final int[][] pixels = sprite.getFrameTextureData(0);
-			this.clearFramesTextureData();
-			this.framesTextureData.add(pixels);
-			return false;
 		}
 	}
 
@@ -531,26 +415,26 @@ public final class ModelCaptchaCard implements IModel
 	{
 		ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
 
-		int uMin = (int) Math.round(sprite.getIconWidth()*minU);
-		int vMin = (int) Math.round(sprite.getIconWidth()*minV);
-		int uMax = (int) Math.ceil(sprite.getIconWidth()*maxU);
-		int vMax = (int) Math.ceil(sprite.getIconHeight()*maxV);
+		int uMin = (int) (sprite.getIconWidth()*minU);
+		int vMin = (int) (sprite.getIconHeight()*minV);
+		int uMax = (int) (sprite.getIconWidth()*maxU);
+		int vMax = (int) (sprite.getIconHeight()*maxV);
 
-		FaceData faceData = new FaceData(uMax, vMax);
+		FaceData faceData = new FaceData(sprite.getIconWidth(), sprite.getIconHeight());
 		boolean translucent = false;
 
 		for(int f = 0; f < sprite.getFrameCount(); f++)
 		{
 			int[] pixels = sprite.getFrameTextureData(f)[0];
 			boolean ptu;
-			boolean[] ptv = new boolean[uMax];
+			boolean[] ptv = new boolean[sprite.getIconWidth()];
 			Arrays.fill(ptv, true);
-			for(int v = vMin; v < vMax; v++)
+			for(int v = 0; v < sprite.getIconHeight(); v++)
 			{
 				ptu = true;
-				for(int u = uMin; u < uMax; u++)
+				for(int u = 0; u < sprite.getIconWidth(); u++)
 				{
-					int alpha = getAlpha(pixels, uMax, vMax, u, v);
+					int alpha = getAlpha(pixels, sprite.getIconWidth(), sprite.getIconHeight(), u, v);
 					boolean t = alpha / 255f <= 0.1f;
 
 					if (!t && alpha < 255)

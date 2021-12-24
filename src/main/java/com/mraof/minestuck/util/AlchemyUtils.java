@@ -157,7 +157,7 @@ public class AlchemyUtils
 	@Nullable
 	public static List<Modus> getCardModi(ItemStack stack)
 	{
-		if(!stack.hasTagCompound())
+		if(!stack.hasTagCompound() || !stack.getTagCompound().hasKey("Modus", 10))
 			return Collections.EMPTY_LIST;
 
 		ArrayList<Modus> modi = new ArrayList<>();

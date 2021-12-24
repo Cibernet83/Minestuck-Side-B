@@ -1,17 +1,18 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.client.model.item.ModelCaptchaCard;
+import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -64,26 +65,13 @@ public class ItemCaptchaCard extends MSItemBase
 	{
 		if(stack.hasTagCompound())
 		{
-			NBTTagCompound nbttagcompound = stack.getTagCompound();
-			NBTTagString contentID = (NBTTagString)nbttagcompound.getTag("contentID");
-			NBTTagInt contentMeta = (NBTTagInt)nbttagcompound.getTag("contentMeta");
-			
-			if (contentID != null && contentMeta != null && Item.REGISTRY.containsKey(new ResourceLocation(contentID.getString())))
-			{
-				String stackSize = (nbttagcompound.getBoolean("punched") || nbttagcompound.getInteger("contentSize") <= 0) ? "" : nbttagcompound.getInteger("contentSize") + "x";
-				tooltip.add("(" + stackSize + (AlchemyUtils.getDecodedItem(stack)).getDisplayName() + ")");
-				if(nbttagcompound.getBoolean("punched"))
-					tooltip.add("("+I18n.translateToLocal("item.captchaCard.punched")+")");
-				else if(nbttagcompound.getInteger("contentSize") <= 0)
-					tooltip.add("("+I18n.translateToLocal("item.captchaCard.ghost")+")");
-				return;
-			}
-			else {
-				tooltip.add("("+I18n.translateToLocal("item.captchaCard.invalid")+")");
-			}
-		} else {
+			ICaptchalogueable content = AlchemyUtils.getCardContents(stack);
+			tooltip.add("(" + (content == null ? net.minecraft.client.resources.I18n.format("item.captchaCard.empty") : content.getDisplayName()) + ")");
+
+			if(AlchemyUtils.isPunchedCard(stack))
+				tooltip.add("("+I18n.translateToLocal("item.captchaCard.punched")+")");
+		} else
 			tooltip.add("("+I18n.translateToLocal("item.captchaCard.empty")+")");
-		}
 		
 	}
 

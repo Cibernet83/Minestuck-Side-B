@@ -25,4 +25,7 @@ public interface ICaptchalogueable
 	{
 		return "item"; //TODO @Jade, use this to determine what content texture to use (ghost, item, abstract, etc.)
 	}
+
+	@SideOnly(Side.CLIENT)
+	String getDisplayName();
 }

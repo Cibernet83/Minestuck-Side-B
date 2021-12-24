@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "variants": {
     "inventory": {
-      "model": "minestuck:captcha_card",
+      "model": "minestuck:captchalogue_card",
       "textures": {
         "card": "minestuck:items/captcha_card_base",
         "contents": "minestuck:items/captcha_card_contents",
