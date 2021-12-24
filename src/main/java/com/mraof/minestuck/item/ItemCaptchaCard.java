@@ -2,6 +2,7 @@ package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.client.model.item.ModelCaptchaCard;
 import com.mraof.minestuck.util.AlchemyUtils;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -90,6 +91,7 @@ public class ItemCaptchaCard extends MSItemBase
 	public void registerModel()
 	{
 		ModelLoader.setCustomMeshDefinition(this, stack -> ModelCaptchaCard.LOCATION);
+		ModelBakery.registerItemVariants(this, ModelCaptchaCard.LOCATION);
 
 		/*
 		ModelLoader.registerItemVariants(captchaCard, new ResourceLocation(Minestuck.MODID, "card_empty"), new ResourceLocation(Minestuck.MODID, "card_full"), new ResourceLocation(Minestuck.MODID, "card_punched"), new ResourceLocation(Minestuck.MODID, "card_ghost"));

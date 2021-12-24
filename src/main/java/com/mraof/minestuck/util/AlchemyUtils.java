@@ -4,19 +4,26 @@ import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.inventory.captchalouge.CaptchalogueableItemStack;
+import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
 import com.mraof.minestuck.inventory.captchalouge.Modus;
 import com.mraof.minestuck.item.ItemCruxiteArtifact;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 import static com.mraof.minestuck.item.MinestuckItems.captchaCard;
 
@@ -134,28 +141,53 @@ public class AlchemyUtils
 		return card;
 	}
 
-	@Nullable
-	public static Modus getCardModus(ItemStack stack)
+	public static ICaptchalogueable getCardContents(ItemStack card)
 	{
-		return stack.hasTagCompound() ? Modus.REGISTRY.getValue(new ResourceLocation(stack.getTagCompound().getString("Modus"))) : null;
+		ItemStack decode = getDecodedItem(card);
+		if(decode.isEmpty())
+			return null;
+		return new CaptchalogueableItemStack(decode);
 	}
 
-	public static ItemStack setCardModus(ItemStack card, Modus modus)
+	public static boolean hasCardContents(ItemStack card)
+	{
+		return getCardContents(card) != null;
+	}
+
+	@Nullable
+	public static List<Modus> getCardModi(ItemStack stack)
+	{
+		if(!stack.hasTagCompound())
+			return Collections.EMPTY_LIST;
+
+		ArrayList<Modus> modi = new ArrayList<>();
+		Iterator<NBTBase> iter = stack.getTagCompound().getTagList("Modus", 8).iterator();
+
+		while(iter.hasNext())
+			modi.add(Modus.REGISTRY.getValue(new ResourceLocation(((NBTTagString)iter.next()).getString())));
+
+		return modi;
+	}
+
+
+	public static ItemStack setCardModi(ItemStack card, List<Modus> modi)
 	{
 		if(!card.hasTagCompound())
 			card.setTagCompound(new NBTTagCompound());
-		card.getTagCompound().setString("Modus", modus.getRegistryName().toString());
-		return card;
-	}
 
-	public static ItemStack setCardModus(ItemStack card, ArrayList<Modus> modi)
-	{
-		return modi.isEmpty() ? card : setCardModus(card, modi.get(0)); //TODO modus combo cards
+		NBTTagList nbt = new NBTTagList();
+
+		for(Modus modus : modi)
+			nbt.appendTag(new NBTTagString(modus.getRegistryName().toString()));
+
+		card.getTagCompound().setTag("Modus", nbt);
+
+		return card;
 	}
 
 	public static boolean cardBelongsToModus(ItemStack stack)
 	{
-		return getCardModus(stack) != null;
+		return !getCardModi(stack).isEmpty();
 	}
 
 	public static boolean isPunchedCard(ItemStack card)

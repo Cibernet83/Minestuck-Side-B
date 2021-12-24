@@ -281,7 +281,7 @@ public interface ISylladex
 		{
 			checkSlots(slots, i);
 			ICaptchalogueable object = asCard ?
-											   new CaptchalogueableItemStack(AlchemyUtils.setCardModus(this.object.captchalogueIntoCardItem(), owner.modi)) : // Shouldn't ever ask for empty cards
+											   new CaptchalogueableItemStack(AlchemyUtils.setCardModi(this.object.captchalogueIntoCardItem(), owner.modi)) : // Shouldn't ever ask for empty cards
 											   this.object == null ? new CaptchalogueableItemStack(ItemStack.EMPTY) : this.object;
 			this.object = null;
 			if (asCard)
@@ -309,7 +309,7 @@ public interface ISylladex
 			checkSlots(slots, i);
 			if (object == null)
 				markedForDeletion = true;
-			return object == null ? new CaptchalogueableItemStack(AlchemyUtils.setCardModus(new ItemStack(MinestuckItems.captchaCard), owner.modi)) : null;
+			return object == null ? new CaptchalogueableItemStack(AlchemyUtils.setCardModi(new ItemStack(MinestuckItems.captchaCard), owner.modi)) : null;
 		}
 
 		@Override
