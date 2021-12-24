@@ -201,7 +201,7 @@ public final class ModelCaptchaCard implements IModel
 		if(!key.isEmpty())
 			for(String str : key.split("/"))
 				modi.add(Modus.REGISTRY.getValue(new ResourceLocation(str)));
-		//modi.removeIf(modus -> modus == null);
+		modi.removeIf(modus -> modus == null);
 
 		return modi;
 	}
