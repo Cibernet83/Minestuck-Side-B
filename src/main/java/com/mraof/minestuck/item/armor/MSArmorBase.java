@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.armor;
 
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.IRegistryItem;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.MinestuckTabs;
@@ -38,9 +39,10 @@ public class MSArmorBase extends ItemArmor implements IRegistryItem
         MinestuckItems.items.add(this);
     }
 
+    //@ Ciber on the side b discord if you're coding an addon and this is giving you a pain in the backside
     public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses)
     {
-        this(name, material, equipmentSlot, maxUses, new ResourceLocation(IRegistryObject.unlocToReg(name)));
+        this(name, material, equipmentSlot, maxUses, new ResourceLocation(Minestuck.MODID, IRegistryObject.unlocToReg(name)));
     }
 
     public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot)

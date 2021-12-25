@@ -5,6 +5,7 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.client.gui.GuiStrifeSwitcher;
 import com.mraof.minestuck.client.model.*;
+import com.mraof.minestuck.client.model.item.ModelCaptchaCard;
 import com.mraof.minestuck.client.renderer.BlockColorCruxite;
 import com.mraof.minestuck.client.renderer.CruxiteSlimeRenderer;
 import com.mraof.minestuck.client.renderer.RenderMachineOutline;
@@ -27,6 +28,7 @@ import com.mraof.minestuck.entity.consort.EntityTurtle;
 import com.mraof.minestuck.entity.item.*;
 import com.mraof.minestuck.entity.underling.*;
 import com.mraof.minestuck.event.handler.ClientEventHandler;
+import com.mraof.minestuck.event.handler.ItemModelEventHandler;
 import com.mraof.minestuck.item.*;
 import com.mraof.minestuck.item.weapon.ItemBeamBlade;
 import com.mraof.minestuck.tileentity.TileEntityGate;
@@ -43,6 +45,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -78,11 +81,11 @@ public class ClientProxy extends CommonProxy
 		mc.getItemColors().registerItemColorHandler((stack, tintIndex) ->
 				BlockColorCruxite.handleColorTint(ColorCollector.getColorFromNBT(stack), tintIndex), cruxiteItems);
 
-		mc.getBlockColors().registerBlockColorHandler(new BlockColorCruxite(), MinestuckBlocks.alchemiter[0], MinestuckBlocks.totemlathe[1], MinestuckBlocks.blockCruxiteDowel);
+		mc.getBlockColors().registerBlockColorHandler(new BlockColorCruxite(), MinestuckBlocks.alchemiter[0], MinestuckBlocks.totemlathe[1], MinestuckBlocks.blockCruxiteDowel, MinestuckBlocks.ceramicPorkhollow);
 
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) ->
 						BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? 0x99D9EA : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex),
-				new Item[]{MinestuckItems.cruxiteDowel, MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey});
+				new Item[]{MinestuckItems.cruxiteDowel, MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey, Item.getItemFromBlock(MinestuckBlocks.ceramicPorkhollow)});
 
 		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
 			ItemFrog item = ((ItemFrog)stack.getItem());
@@ -165,6 +168,7 @@ public class ClientProxy extends CommonProxy
 
 		MinecraftForge.EVENT_BUS.register(MinestuckKeyHandler.instance);
 		MinecraftForge.EVENT_BUS.register(ClientEventHandler.class);
+		MinecraftForge.EVENT_BUS.register(ItemModelEventHandler.class);
 		MinecraftForge.EVENT_BUS.register(MSURenderMachineOutline.class);
 		MinecraftForge.EVENT_BUS.register(RenderBeams.class);
 		MinecraftForge.EVENT_BUS.register(GuiStrifeSwitcher.class);
@@ -187,8 +191,10 @@ public class ClientProxy extends CommonProxy
 	}
 
 	@SubscribeEvent
-	public static void handleModelRegistry(ModelRegistryEvent event) // FIXME: candy models borked
+	public static void handleModelRegistry(ModelRegistryEvent event)
 	{
+		ModelLoaderRegistry.registerLoader(ModelCaptchaCard.LoaderCaptchaCard.INSTANCE);
+
 		for (IRegistryItem item : MinestuckItems.items)
 			item.registerModel();
 

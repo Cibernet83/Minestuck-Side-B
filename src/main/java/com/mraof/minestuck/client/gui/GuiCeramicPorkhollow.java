@@ -1,10 +1,9 @@
 package com.mraof.minestuck.client.gui;
 
+import com.google.common.collect.Lists;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.PacketPorkhollowAtm;
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,9 +17,9 @@ import org.lwjgl.input.Keyboard;
 import java.io.IOException;
 import java.util.List;
 
-public class GuiPorkhollowAtm extends GuiScreen
+public class GuiCeramicPorkhollow extends GuiScreen
 {
-	public static final ResourceLocation TEXTURES = new ResourceLocation(Minestuck.MODID, "textures/gui/porkhollow_atm.png");
+	public static final ResourceLocation TEXTURES = new ResourceLocation(Minestuck.MODID, "textures/gui/ceramic_porkhollow.png");
 	public EntityPlayer player;
 	public Minecraft mc;
 	
@@ -28,17 +27,15 @@ public class GuiPorkhollowAtm extends GuiScreen
 	public int ySize = 166;
 	public int guiLeft;
 	public int guiTop;
-	public int tab = 0;
 	public GuiTextField selectedTextField;
-	
-	public GuiButton withdrawButton;
+
 	public GuiButton goButton;
 	public GuiTextField amountTextField;
 	public GuiTextField nTextField;
 	
 	protected List<GuiTextField> textboxList = Lists.newArrayList();
 	
-	public GuiPorkhollowAtm(EntityPlayer player)
+	public GuiCeramicPorkhollow(EntityPlayer player)
 	{
 		this.player = player;
 		this.mc = Minecraft.getMinecraft();
@@ -60,19 +57,14 @@ public class GuiPorkhollowAtm extends GuiScreen
 		
 		xOffset = (this.width - 176) / 2;
 		yOffset = (this.height - 166) / 2;
-		
-		switch(tab)
-		{
-			case 1:
-				this.fontRenderer.drawString(I18n.translateToLocal("gui.atm.amountLabel"),  xOffset+ 15,  yOffset+ 45, 4210752);
-				this.fontRenderer.drawString(I18n.translateToLocal("gui.atm.nLabel"),  xOffset+ 15,  yOffset+ 80, 4210752);
-			break;
-		}
+
+		this.fontRenderer.drawString(I18n.translateToLocal("gui.atm.amountLabel"),  xOffset+ 11,  yOffset+ 113, 0xEEEEEE);
+		this.fontRenderer.drawString(I18n.translateToLocal("gui.atm.nLabel"),  xOffset+ 87,  yOffset+ 113, 0xEEEEEE);
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		
-		for(GuiTextField field : textboxList)
-			field.drawTextBox();
+
+		amountTextField.drawTextBox();
+		nTextField.drawTextBox();
 	}
 	
 	@Override
@@ -82,14 +74,16 @@ public class GuiPorkhollowAtm extends GuiScreen
 		super.initGui();
 		int yOffset = this.height / 2 - 83;
 		int xOffset = this.width / 2 - 88;
-		withdrawButton = new GuiButton(0,xOffset+9,yOffset+38,158,20, I18n.translateToLocal("gui.atm.withdraw"));
-		goButton = new GuiButton(0,xOffset+9,yOffset+138,158,20, I18n.translateToLocal("gui.atm.go"));
-		amountTextField = new GuiTextField(1, fontRenderer,xOffset+9, yOffset+55, 158, 20);
+		goButton = new GuiButton(0,xOffset+47,yOffset+143,74,20, I18n.translateToLocal("gui.atm.go"));
+		amountTextField = new GuiTextField(1, fontRenderer,xOffset+9, yOffset+124, 74, 17);
 		amountTextField.setText("0");
-		nTextField = new GuiTextField(1, fontRenderer,xOffset+9, yOffset+89, 158, 20);
+		nTextField = new GuiTextField(1, fontRenderer,xOffset+85, yOffset+124, 74, 17);
 		nTextField.setMaxStringLength(2);
 		nTextField.setText("1");
-		updateButtons();
+
+		buttonList.add(goButton);
+		textboxList.add(amountTextField);
+		textboxList.add(nTextField);
 	}
 
 
@@ -98,33 +92,7 @@ public class GuiPorkhollowAtm extends GuiScreen
 		super.onGuiClosed();
 		Keyboard.enableRepeatEvents(false);
 	}
-	
-	public void updateButtons()
-	{
-		buttonList.clear();
-		textboxList.clear();
-		
-		switch(tab)
-		{
-			case 0:
-				buttonList.add(withdrawButton);
-			break;
-			case 1:
-				buttonList.add(goButton);
-				textboxList.add(amountTextField);
-				textboxList.add(nTextField);
-			break;
-			
-		}
-		
-	}
-	
-	public void switchTab(int tab)
-	{
-		this.tab = tab;
-		updateButtons();
-	}
-	
+
 	public boolean doesGuiPauseGame() {
 		return false;
 	}
@@ -156,17 +124,12 @@ public class GuiPorkhollowAtm extends GuiScreen
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		
-		switch(tab)
-		{
-			case 1:
-				if(amountTextField.mouseClicked(mouseX, mouseY, mouseButton))
-					setSelectedTextField(amountTextField);
-				else if(nTextField.mouseClicked(mouseX, mouseY, mouseButton))
-					setSelectedTextField(nTextField);
-				else setSelectedTextField(null);
-			break;
-		}
+
+		if(amountTextField.mouseClicked(mouseX, mouseY, mouseButton))
+			setSelectedTextField(amountTextField);
+		else if(nTextField.mouseClicked(mouseX, mouseY, mouseButton))
+			setSelectedTextField(nTextField);
+		else setSelectedTextField(null);
 	}
 	
 	protected static int getInt(GuiTextField field)
@@ -190,17 +153,13 @@ public class GuiPorkhollowAtm extends GuiScreen
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
 		super.actionPerformed(button);
-		
-		
-		if(button == withdrawButton)
-			switchTab(1);
-		
+
 		if(button == goButton)
 		{
 			int amount = getInt(amountTextField);
 			int n = getInt(nTextField);
 			amount *= n;
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.ATM, tab == 1 ? PacketPorkhollowAtm.Type.TAKE : PacketPorkhollowAtm.Type.SEND, player, amount, n));
+			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.PORKHOLLOW_WITHDRAW, player, amount, n));
 			this.mc.displayGuiScreen(null);
 			if (this.mc.currentScreen == null)
 				this.mc.setIngameFocus();

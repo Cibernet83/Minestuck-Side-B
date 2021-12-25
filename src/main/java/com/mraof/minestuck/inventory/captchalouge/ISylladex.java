@@ -5,6 +5,7 @@ import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.SylladexUtils;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -411,7 +412,7 @@ public interface ISylladex
 		{
 			checkSlots(slots, i);
 			ICaptchalogueable object = asCard ?
-											   new CaptchalogueableItemStack(this.object.captchalogueIntoCardItem()) : // Shouldn't ever ask for empty cards
+											   new CaptchalogueableItemStack(AlchemyUtils.setCardModi(this.object.captchalogueIntoCardItem(), owner.modi)) : // Shouldn't ever ask for empty cards
 											   this.object == null ? new CaptchalogueableItemStack(ItemStack.EMPTY) : this.object;
 			this.object = null;
 			if (asCard)
@@ -439,7 +440,7 @@ public interface ISylladex
 			checkSlots(slots, i);
 			if (object == null)
 				markedForDeletion = true;
-			return object == null ? new CaptchalogueableItemStack(new ItemStack(MinestuckItems.captchaCard)) : null;
+			return object == null ? new CaptchalogueableItemStack(AlchemyUtils.setCardModi(new ItemStack(MinestuckItems.captchaCard), owner.modi)) : null;
 		}
 
 		@Override

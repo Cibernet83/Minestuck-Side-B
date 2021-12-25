@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north":    { "model": "minestuck:porkhollow_atm" },
-        "facing=east":     { "model": "minestuck:porkhollow_atm", "y": 90 },
-        "facing=south":    { "model": "minestuck:porkhollow_atm", "y": 180 },
-        "facing=west":     { "model": "minestuck:porkhollow_atm", "y": 270 }
-    }
-}

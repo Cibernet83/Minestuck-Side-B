@@ -102,4 +102,9 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 			GlStateManager.color(1F, 1F, 1F, 1F);
 		}
 	}
+
+	@Override
+	public String getDisplayName() {
+		return (stack.getCount() <= 1 ? "" : (stack.getCount() + "x ")) + stack.getDisplayName();
+	}
 }

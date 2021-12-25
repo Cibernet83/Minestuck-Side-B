@@ -911,7 +911,7 @@ public class AlchemyRecipes
 		GristRegistry.addGristConversion(new ItemStack(gristHopper), new GristSet(new Grist[] {MinestuckGrists.build, MinestuckGrists.rust, MinestuckGrists.uranium}, new int[] {250, 55, 10}));
 		GristRegistry.addGristConversion(new ItemStack(autoWidget), new GristSet(new Grist[] {MinestuckGrists.build, MinestuckGrists.rust, MinestuckGrists.uranium, MinestuckGrists.garnet, MinestuckGrists.zillium}, new int[] {550, 34, 24, 35, 1}));
 		GristRegistry.addGristConversion(new ItemStack(autoCaptcha), new GristSet(new Grist[] {MinestuckGrists.build, MinestuckGrists.rust, MinestuckGrists.uranium, MinestuckGrists.cobalt, MinestuckGrists.ruby, MinestuckGrists.quartz}, new int[] {140, 36, 22, 16, 12, 1}));
-		GristRegistry.addGristConversion(new ItemStack(porkhollowAtm), new GristSet(new Grist[] {MinestuckGrists.build, MinestuckGrists.rust, MinestuckGrists.uranium, MinestuckGrists.iodine, MinestuckGrists.diamond}, new int[] {180, 35, 16, 18, 4}));
+		GristRegistry.addGristConversion(new ItemStack(ceramicPorkhollow), new GristSet(new Grist[] {MinestuckGrists.build, MinestuckGrists.rust, MinestuckGrists.uranium, MinestuckGrists.iodine, MinestuckGrists.diamond}, new int[] {180, 35, 16, 18, 4}));
 		GristRegistry.addGristConversion(new ItemStack(boondollarRegister), new GristSet(new Grist[] {MinestuckGrists.build, MinestuckGrists.rust, MinestuckGrists.uranium, MinestuckGrists.garnet, MinestuckGrists.iodine, MinestuckGrists.quartz}, new int[] {280, 35, 20, 25, 16, 8}));
 
 		GristRegistry.addGristConversion(new ItemStack(rubyRedTransportalizer), new GristSet(new Grist[] {MinestuckGrists.build, MinestuckGrists.ruby, MinestuckGrists.rust, MinestuckGrists.uranium}, new int[] {450, 100, 36, 24}));

@@ -1,0 +1,18 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "inventory": {
+      "model": "minestuck:captchalogue_card",
+      "textures": {
+        "card": "minestuck:items/captcha_card_base",
+        "contents": "minestuck:items/captcha_card_contents",
+        "punched": "minestuck:items/captchalogue/punched_overlay"
+      },
+      "transform": "forge:default-item",
+      "custom": {
+        "contents": "empty",
+        "punched": false
+      }
+    }
+  }
+}

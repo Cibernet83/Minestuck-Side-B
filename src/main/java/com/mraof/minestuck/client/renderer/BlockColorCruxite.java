@@ -1,7 +1,6 @@
 package com.mraof.minestuck.client.renderer;
 
 import com.mraof.minestuck.block.BlockAlchemiter;
-import com.mraof.minestuck.block.BlockTotemLathe;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
@@ -24,12 +23,7 @@ public class BlockColorCruxite implements IBlockColor
 			TileEntity tileEntity = worldIn.getTileEntity(pos);
 			if(state.getValue(BlockAlchemiter.PART1).isTotemPad() && tileEntity instanceof TileEntityAlchemiter)
 				dowel = ((TileEntityAlchemiter) tileEntity).getDowel();
-		} else if(state.getBlock() == MinestuckBlocks.totemlathe[1] && state.getValue(BlockTotemLathe.PART2).isRodRight())
-		{
-			TileEntity tileEntity = worldIn.getTileEntity(pos);
-			if(tileEntity instanceof TileEntityItemStack)
-				dowel = ((TileEntityItemStack) tileEntity).getStack();
-		} else if(state.getBlock() == MinestuckBlocks.blockCruxiteDowel)
+		} else
 		{
 			TileEntity tileEntity = worldIn.getTileEntity(pos);
 			if(tileEntity instanceof TileEntityItemStack)

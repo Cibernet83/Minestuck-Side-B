@@ -10,9 +10,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class PacketPorkhollowAtm extends MinestuckPacket
+public class PacketPorkhollowWithdraw extends MinestuckPacket
 {
-	Type type;
 	EntityPlayer reciever;
 	int amount;
 	int n;
@@ -20,13 +19,12 @@ public class PacketPorkhollowAtm extends MinestuckPacket
 	@Override
 	public void generatePacket(Object... dat)
 	{
-		IdentifierHandler.PlayerIdentifier identifier = IdentifierHandler.encode((EntityPlayer) dat[1]);
+		IdentifierHandler.PlayerIdentifier identifier = IdentifierHandler.encode((EntityPlayer) dat[0]);
 		int n = 1;
-		this.data.writeInt(((Type)dat[0]).ordinal());
 		this.data.writeInt(identifier.getId());
-		this.data.writeInt((int)dat[2]);
+		this.data.writeInt((int)dat[1]);
 		if(dat.length > 3)
-			n = Math.max(0,(int)dat[3]);
+			n = Math.max(0,(int)dat[2]);
 		this.data.writeInt(n);
 
 	}
@@ -34,7 +32,6 @@ public class PacketPorkhollowAtm extends MinestuckPacket
 	@Override
 	public void consumePacket(ByteBuf data)
 	{
-		type = Type.values()[data.readInt()];
 		reciever = IdentifierHandler.getById(data.readInt()).getPlayer();
 		amount = data.readInt();
 		n = data.readInt();
@@ -45,22 +42,15 @@ public class PacketPorkhollowAtm extends MinestuckPacket
 	public void execute(EntityPlayer sender)
 	{
 		if(MinestuckPlayerData.addBoondollars(sender, -amount))
-		switch(type)
 		{
-			case SEND:
-				MinestuckPlayerData.addBoondollars(reciever, amount);
-				sender.sendMessage(new TextComponentTranslation("message.atm.sendSuccess", amount, reciever));
-			break;
-			case TAKE:
-				int split = 0;
-				if(n > 0)
-					split = (int) Math.floor(amount/n);
-				for(int i = 0; i < n; i++)
-					MSUUtils.giveBoonItem(sender, split);
-				if(split*n != amount)
-					MSUUtils.giveBoonItem(sender, amount-split*n);
-				sender.sendMessage(new TextComponentTranslation("message.atm.withdrawSuccess", amount));
-			break;
+			int split = 0;
+			if(n > 0)
+				split = (int) Math.floor(amount/n);
+			for(int i = 0; i < n; i++)
+				MSUUtils.giveBoonItem(sender, split);
+			if(split*n != amount)
+				MSUUtils.giveBoonItem(sender, amount-split*n);
+			//sender.sendMessage(new TextComponentTranslation("message.atm.withdrawSuccess", amount));
 		} else sender.sendMessage(new TextComponentTranslation("commands.porkhollow.notEnough"));
 	}
 	

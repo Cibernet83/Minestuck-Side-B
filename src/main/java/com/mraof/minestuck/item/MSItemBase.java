@@ -108,6 +108,8 @@ public class MSItemBase extends Item implements IRegistryItem
 	{
 		if(hasCustomModel)
 			return;
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+		if(getHasSubtypes())
+			ModelLoader.setCustomMeshDefinition(this, (stack -> new ModelResourceLocation(getRegistryName(), "inventory")));
+		else ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
 }

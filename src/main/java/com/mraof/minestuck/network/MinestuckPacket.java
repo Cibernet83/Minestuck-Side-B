@@ -40,7 +40,7 @@ public abstract class MinestuckPacket
 		//WALLET_CAPTCHA(PacketWalletCaptchalogue.class),
 		STONE_TABLET(PacketStoneTablet.class),
 		MACHINE_CHASSIS(PacketMachineChassis.class),
-		ATM(PacketPorkhollowAtm.class),
+		PORKHOLLOW_WITHDRAW(PacketPorkhollowWithdraw.class),
 		VAULT(PacketBoondollarRegister.class),
 		FLIGHT_EFFECT(PacketStopFlightEffect.class),
 		BUILD_INHIBIT_EFFECT(PacketStopBuildInhibitEffect.class),
