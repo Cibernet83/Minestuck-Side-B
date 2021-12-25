@@ -150,19 +150,6 @@ public final class ModelCaptchaCard implements IModel
 		return new BakedCaptchaCard(this, builder.build(), particleSprite, format, Maps.immutableEnumMap(transformMap), Maps.newHashMap(), transform.isIdentity());
 	}
 
-	/*
-	public ModelCaptchaCard process(ItemStack stack)
-	{
-		cardLocation = AlchemyUtils.cardBelongsToModus(stack) ? cardLocations.get(AlchemyUtils.getCardModus(stack)) : UNASSIGNED_CARD_LOCATION;
-
-		ICaptchalogueable contents = AlchemyUtils.hasDecodedItem(stack) ? new CaptchalogueableItemStack() : null;
-		contentLocation = contents == null ? null : new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_"+contents.getTextureKey());
-		punched = AlchemyUtils.isPunchedCard(stack);
-
-		return this;
-	}
-	*/
-
 	protected static String getCachedKey(ItemStack stack)
 	{
 		return getModusKey(AlchemyUtils.getCardModi(stack)) + "~" + getContentsKey(stack) + (AlchemyUtils.isPunchedCard(stack) ? "~punched" : "");
@@ -198,10 +185,10 @@ public final class ModelCaptchaCard implements IModel
 	{
 		List<Modus> modi = new ArrayList<>();
 
-		if(!key.isEmpty())
+		if(!key.isEmpty() && !key.equals("Unassigned"))
 			for(String str : key.split("/"))
 				modi.add(Modus.REGISTRY.getValue(new ResourceLocation(str)));
-		modi.removeIf(modus -> modus == null);
+		//modi.removeIf(modus -> modus == null);
 
 		return modi;
 	}
@@ -233,16 +220,6 @@ public final class ModelCaptchaCard implements IModel
 		// create new model with correct liquid
 		return new ModelCaptchaCard(cardLocation, contentLocation, punchedLocation, punched, modi);
 	}
-
-	/**
-	 * Allows to use different textures for the model.
-	 * There are 3 layers:
-	 * base - The empty bucket/container
-	 * fluid - A texture representing the liquid portion. Non-transparent = liquid
-	 * cover - An overlay that's put over the liquid (optional)
-	 * <p/>
-	 * If no liquid is given a hardcoded variant for the bucket is used.
-	 */
 
 	@Override //for some reason this isn't getting called :\ so i'm just defining tex locs from the constructor
 	public ModelCaptchaCard retexture(ImmutableMap<String, String> textures)
@@ -285,30 +262,6 @@ public final class ModelCaptchaCard implements IModel
 
 		public void registerTextures(TextureMap map)
 		{
-			// only create these textures if they are not added by a resource pack
-			/*
-			try (IResource base = getResource(new ResourceLocation(Minestuck.MODID, "textures/items/captcha_card_base.png"));
-			     IResource contents = getResource(new ResourceLocation(Minestuck.MODID, "textures/items/captcha_card_contents.png")))
-			{
-				if (base == null)
-				{
-					ResourceLocation cardBase = new ResourceLocation(Minestuck.MODID, "items/captcha_card_base");
-					CaptchaBaseSprite sprite = new CaptchaBaseSprite(cardBase);
-					map.setTextureEntry(sprite);
-				}
-				if(contents == null)
-				{
-					ResourceLocation cardBase = new ResourceLocation(Minestuck.MODID, "items/captcha_card_contents");
-					CaptchaContentSprite sprite = new CaptchaContentSprite(cardBase);
-					map.setTextureEntry(sprite);
-				}
-			}
-			catch (IOException e)
-			{
-				FMLLog.log.error("Failed to close resource", e);
-			}
-			*/
-
 			map.registerSprite(UNASSIGNED_CARD_LOCATION);
 			map.registerSprite(PUNCHED_LOCATION);
 
