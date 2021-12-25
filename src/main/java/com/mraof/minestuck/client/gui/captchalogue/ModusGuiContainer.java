@@ -13,7 +13,9 @@ public class ModusGuiContainer
 	protected final ISylladex sylladex;
 	protected final ArrayList<ModusGuiContainer> containers = new ArrayList<>();
 
-	protected float x, y, width, height;
+	protected float x, y;
+	// Relative to x, y
+	protected float left, right, top, bottom;
 
 	public ModusGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
 	{
@@ -31,16 +33,28 @@ public class ModusGuiContainer
 		containers.clear();
 		containers.addAll(sylladex.generateSubContainers(textureIndices));
 
-		width = height = 0;
+		right = -containers.get(0).left;
 		for (int i = 0; i < containers.size(); i++)
 		{
 			ModusGuiContainer container = containers.get(i);
-			container.setX(width);
+			container.setX(right);
 			container.setY(0);
-			width += container.width + 5;
-			height = Math.max(height, container.height);
+			right += container.getWidth() + 5;
 		}
-		width -= 5;
+
+		resetBoundingBox();
+	}
+
+	protected void resetBoundingBox()
+	{
+		left = right = top = bottom = 0;
+		for (ModusGuiContainer container : containers)
+		{
+			left = Math.min(left, container.getLeft());
+			right = Math.max(right, container.getRight());
+			top = Math.min(top, container.getTop());
+			bottom = Math.max(bottom, container.getBottom());
+		}
 	}
 
 	public void draw(SylladexGuiHandler gui)
@@ -53,11 +67,11 @@ public class ModusGuiContainer
 
 	public ArrayList<Integer> hit(float x, float y)
 	{
-		if (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.height)
-			return null;
+		x -= this.x;
+		y -= this.y;
 
-		x += this.x;
-		y += this.y;
+		if (x < left || x > right || y < top || y > bottom)
+			return null;
 
 		for (int i = 0; i < containers.size(); i++)
 		{
@@ -91,13 +105,33 @@ public class ModusGuiContainer
 		this.y = y;
 	}
 
+	public float getLeft()
+	{
+		return x - left;
+	}
+
+	public float getRight()
+	{
+		return x + right;
+	}
+
+	public float getTop()
+	{
+		return y - top;
+	}
+
+	public float getBottom()
+	{
+		return y + bottom;
+	}
+
 	public float getWidth()
 	{
-		return width;
+		return left + right;
 	}
 
 	public float getHeight()
 	{
-		return height;
+		return top + bottom;
 	}
 }

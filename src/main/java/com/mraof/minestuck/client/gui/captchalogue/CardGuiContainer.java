@@ -19,8 +19,8 @@ public class CardGuiContainer extends ModusGuiContainer
 		super(null);
 		this.textureIndices = textureIndices;
 		this.object = object;
-		width = 21;
-		height = 26;
+		right = 21;
+		bottom = 26;
 	}
 
 	@Override

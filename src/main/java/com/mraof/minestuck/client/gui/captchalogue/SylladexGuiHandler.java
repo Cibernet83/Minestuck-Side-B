@@ -229,9 +229,9 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	public void updateSylladex(ISylladex.Sylladex sylladex)
 	{
 		this.sylladex = sylladex;
-		this.cardGuiContainer = new ModusGuiContainer(sylladex); // TODO: better bounding boxes
-		this.cardsWidth = cardGuiContainer.width;
-		this.cardsHeight = cardGuiContainer.height;
+		this.cardGuiContainer = new ModusGuiContainer(sylladex);
+		this.cardsWidth = cardGuiContainer.getWidth();
+		this.cardsHeight = cardGuiContainer.getHeight();
 	}
 	
 	/*public static class ModusSizeCard extends GuiCard
