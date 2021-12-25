@@ -14,9 +14,9 @@ public class MinestuckModi
 	public static final ArrayList<Modus> modi = new ArrayList<>();
 
 	public static final Modus stack = new ModusStack("stack");
+	public static final Modus queue = new ModusQueue("queue");
 	public static final Modus array = new ModusArray("array");
-	/*public static final Modus queue = new ModusQueue("queue");
-	public static final Modus tree = new ModusTree("tree");
+	/*public static final Modus tree = new ModusTree("tree");
 	public static final Modus hashmap = new ModusHashmap("hashmap");
 	public static final Modus set = new ModusSet("set");
 	public static final Modus hashtable = new ModusHashtable("hashtable");

@@ -4,6 +4,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import com.mraof.minestuck.util.IRegistryObject;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -56,14 +57,13 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	/**
 	 * Put an object into a default card and perform some rearranging of sylladices if required. Modus#grow has already
 	 * been called by this point.
-	 * @param mostFreeSlotsSylladex The sylladex in sylladices that has the most free slots
 	 */
-	public void put(LinkedList<ISylladex> sylladices, ISylladex mostFreeSlotsSylladex, ICaptchalogueable object, EntityPlayer player)
+	public void put(LinkedList<ISylladex> sylladices, ICaptchalogueable object, EntityPlayer player)
 	{
-		mostFreeSlotsSylladex.put(object, player);
+		getSylladexWithMostFreeSlots(sylladices, player).put(object, player);
 	}
 
-	public void put(LinkedList<ISylladex> sylladices, ICaptchalogueable object, EntityPlayer player)
+	protected ISylladex getSylladexWithMostFreeSlots(LinkedList<ISylladex> sylladices, EntityPlayer player)
 	{
 		int mostFreeSlots = 0;
 		ISylladex mostFreeSlotsSylladex = null;
@@ -82,7 +82,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 			mostFreeSlotsSylladex.eject(player);
 		}
 
-		put(sylladices, mostFreeSlotsSylladex, object, player);
+		return mostFreeSlotsSylladex;
 	}
 
 	/** Try to fill a default card with as much of other as possible */
@@ -132,6 +132,29 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 */
 	@SideOnly(Side.CLIENT)
 	public abstract CardGuiContainer.CardTextureIndex getCardTextureIndex();
+
+	@SideOnly(Side.CLIENT)
+	public String getName(boolean alone, boolean prefix, boolean plural)
+	{
+		if (alone)
+			if (plural)
+				return getIfKeyExists("modus." + name + ".alone.plural", I18n.format("modus.pluralize", getName(true, false,  false)));
+			else
+				return I18n.format("modus." + name + ".alone.singular");
+		else if (prefix)
+			return getIfKeyExists("modus." + name + ".prefix", getName(true, false, false));
+		else
+			if (plural)
+				return getIfKeyExists("modus." + name + ".suffix.plural", getName(true, false, true).toLowerCase());
+			else
+				return getIfKeyExists("modus." + name + ".suffix.singular", getName(true, false,  false).toLowerCase());
+	}
+
+	@SideOnly(Side.CLIENT)
+	private static String getIfKeyExists(String key, String defaultString)
+	{
+		return I18n.hasKey(key) ? I18n.format(key) : defaultString;
+	}
 
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event)

@@ -26,7 +26,7 @@ public interface ISylladex
 	boolean canGet(int[] slots, int i);
 	ICaptchalogueable peek(int[] slots, int i);
 	ICaptchalogueable tryGetEmptyCard(int[] slots, int i);
-	void addCard(ICaptchalogueable object, EntityPlayer player);
+	void addCard(int index, ICaptchalogueable object, EntityPlayer player);
 	void put(ICaptchalogueable object, EntityPlayer player);
 	void grow(ICaptchalogueable object);
 	void eject(EntityPlayer player);
@@ -106,7 +106,7 @@ public interface ISylladex
 		}
 
 		@Override
-		public void addCard(ICaptchalogueable object, EntityPlayer player)
+		public void addCard(int index, ICaptchalogueable object, EntityPlayer player)
 		{
 			int leastSlots = 0;
 			ISylladex leastSlotsSylladex = null;
@@ -122,13 +122,13 @@ public interface ISylladex
 			if (leastSlots == 256)
 				SylladexUtils.launchItem(player, (ItemStack) object.getObject());
 			else
-				leastSlotsSylladex.addCard(object, player);
+				leastSlotsSylladex.addCard(index, object, player);
 		}
 
-		public void addCards(int cards, EntityPlayer player)
+		public void addCards(int cards, EntityPlayer player) // Sylladex will always be empty
 		{
 			for (int i = 0; i < cards; i++)
-				addCard(null, player);
+				addCard(0, null, player);
 		}
 
 		@Override
@@ -251,13 +251,21 @@ public interface ISylladex
 		@SideOnly(Side.CLIENT)
 		public String getName(boolean plural)
 		{
-			StringBuilder name = new StringBuilder();
-			for (int i  = 0; i < modi.size(); i++)
-				name.append(I18n.format("modus." + modi.get(i).getUnlocalizedName() + (i == 0 ? ".prefix" : ".suffix") + (plural && i == modi.size() - 1 ? ".plural" : ".singular")));
-			if (sylladices.getFirst() instanceof Sylladex)
-				return I18n.format("modus.nameCombob", name.toString(), ((Sylladex)sylladices.getFirst()).getName(true));
+			String name;
+			if (modi.size() == 1)
+				name = modi.get(0).getName(true, false, plural);
 			else
-				return name.toString();
+			{
+				StringBuilder nameBuilder = new StringBuilder();
+				for (int i = 0; i < modi.size(); i++)
+					nameBuilder.append(modi.get(i).getName(false, i == 0, plural && i == modi.size() - 1));
+				name = nameBuilder.toString();
+			}
+
+			if (sylladices.getFirst() instanceof Sylladex)
+				return I18n.format("modus.nameCombob", name, ((Sylladex)sylladices.getFirst()).getName(true));
+			else
+				return name;
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -338,9 +346,9 @@ public interface ISylladex
 		}
 
 		@Override
-		public void addCard(ICaptchalogueable object, EntityPlayer player)
+		public void addCard(int index, ICaptchalogueable object, EntityPlayer player)
 		{
-			sylladices.add(new CardSylladex(this, object));
+			sylladices.add(index, new CardSylladex(this, object));
 		}
 
 		@Override
@@ -380,7 +388,7 @@ public interface ISylladex
 		}
 	}
 
-	class CardSylladex implements ISylladex
+	class CardSylladex implements ISylladex // TODO: Rework this so BottomSylladex is a list of ICaptchaloguables
 	{
 		private final BottomSylladex owner;
 		private ICaptchalogueable object;
@@ -395,7 +403,7 @@ public interface ISylladex
 
 		private CardSylladex(BottomSylladex owner)
 		{
-			this(owner, (ICaptchalogueable) null);
+			this(owner, null);
 		}
 
 		@Override
@@ -435,7 +443,7 @@ public interface ISylladex
 		}
 
 		@Override
-		public void addCard(ICaptchalogueable object, EntityPlayer player)
+		public void addCard(int index, ICaptchalogueable object, EntityPlayer player)
 		{
 			throw new ClassCastException("Attempted to add a card to a card");
 		}
@@ -458,14 +466,14 @@ public interface ISylladex
 		@Override
 		public void eject(EntityPlayer player)
 		{
-			get(null, 0, false).eject(owner, player);
+			get(null, 0, false).eject(owner, owner.sylladices.indexOf(this), player);
 		}
 
 		@Override
 		public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
 		{
 			if (!onlyFull || object != null)
-				get(null, 0, asCards).eject(null, player);
+				get(null, -1, asCards).eject(null, -1, player);
 		}
 
 		@Override

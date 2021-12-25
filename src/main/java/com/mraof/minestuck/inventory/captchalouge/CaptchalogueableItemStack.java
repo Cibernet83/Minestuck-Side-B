@@ -10,16 +10,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import javax.annotation.Nonnull;
+
 public class CaptchalogueableItemStack implements ICaptchalogueable
 {
 	private ItemStack stack; // Should be final but readFromNBT
 
-	public CaptchalogueableItemStack(ItemStack stack)
+	public CaptchalogueableItemStack(@Nonnull ItemStack stack)
 	{
 		this.stack = stack;
 	}
 
-	public CaptchalogueableItemStack() {}
+	public CaptchalogueableItemStack() { } // Needed for instantiation
 
 	@Override
 	public void grow(ICaptchalogueable other)
@@ -51,13 +53,13 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public void eject(ISylladex.BottomSylladex fromSylladex, EntityPlayer player)
+	public void eject(ISylladex.BottomSylladex fromSylladex, int cardIndex, EntityPlayer player)
 	{
 		if(fromSylladex != null && AlchemyUtils.isAppendable(stack))
 			while (!stack.isEmpty()) // FIXME: Make these move up a stack when popping over the 256 card limit
 			{
 				ItemStack contents = AlchemyUtils.getDecodedItem(stack);
-				(fromSylladex.autoBalanceNewCards ? SylladexUtils.getSylladex(player) : fromSylladex).addCard(new CaptchalogueableItemStack(contents.isEmpty() ? null : contents), player);
+				(fromSylladex.autoBalanceNewCards ? SylladexUtils.getSylladex(player) : fromSylladex).addCard(cardIndex + 1, contents.isEmpty() ? null : new CaptchalogueableItemStack(contents), player);
 				stack.shrink(1);
 			}
 		if(!stack.isEmpty())
