@@ -19,13 +19,12 @@ public interface ICaptchalogueable
 	void readFromNBT(NBTTagCompound nbt);
 	@SideOnly(Side.CLIENT)
 	void draw(SylladexGuiHandler gui);
-
-	@SideOnly(Side.CLIENT)
-	default String getTextureKey()
-	{
-		return "item"; //TODO @Jade, use this to determine what content texture to use (ghost, item, abstract, etc.)
-	}
-
 	@SideOnly(Side.CLIENT)
 	String getDisplayName();
+
+	/**
+	 * Determines what content texture is used (ghost, item, abstract, etc.)
+	 */
+	@SideOnly(Side.CLIENT)
+	String getTextureKey();
 }

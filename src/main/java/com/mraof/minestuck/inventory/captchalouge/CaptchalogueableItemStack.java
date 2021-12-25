@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
@@ -58,8 +60,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 		if(fromSylladex != null && AlchemyUtils.isAppendable(stack))
 			while (!stack.isEmpty()) // FIXME: Make these move up a stack when popping over the 256 card limit
 			{
-				ItemStack contents = AlchemyUtils.getDecodedItem(stack);
-				(fromSylladex.autoBalanceNewCards ? SylladexUtils.getSylladex(player) : fromSylladex).addCard(cardIndex + 1, contents.isEmpty() ? null : new CaptchalogueableItemStack(contents), player);
+				(fromSylladex.autoBalanceNewCards ? SylladexUtils.getSylladex(player) : fromSylladex).addCard(cardIndex + 1, AlchemyUtils.getCardContents(stack), player);
 				stack.shrink(1);
 			}
 		if(!stack.isEmpty())
@@ -101,6 +102,12 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 			RenderHelper.disableStandardItemLighting();
 			GlStateManager.color(1F, 1F, 1F, 1F);
 		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public String getTextureKey()
+	{
+		return "item";
 	}
 
 	@Override
