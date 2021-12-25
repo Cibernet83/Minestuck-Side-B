@@ -1,6 +1,8 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.gui.GuiButton;
@@ -87,7 +89,7 @@ public class GuiModusControlDeck extends GuiScreen
 					try
 					{
 						int value = lengthField.getText().isEmpty() ? 0 : Integer.parseInt(lengthField.getText());
-						int clampedValue = MathHelper.clamp(value, 1, 255);
+						int clampedValue = MathHelper.clamp(value, 1, 256);
 						if (value != clampedValue)
 							lengthField.setText(String.valueOf(clampedValue));
 						recalculateBottomLength();
@@ -115,6 +117,12 @@ public class GuiModusControlDeck extends GuiScreen
 		{
 			//TODO @Jade
 			this.mc.displayGuiScreen(null);
+
+			int[] lengths = new int[lengthFields.length];
+			for (int i = 0; i < lengths.length; i++)
+				lengths[i] = Integer.parseInt(lengthFields[i].getText());
+			MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CONTROL_DECK_SYNC, te.getPos(), lengths);
+			MinestuckChannelHandler.sendToServer(packet);
 		}
 	}
 

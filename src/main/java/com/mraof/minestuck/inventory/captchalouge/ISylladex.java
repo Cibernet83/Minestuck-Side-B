@@ -4,6 +4,7 @@ import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,9 +15,9 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public interface ISylladex
@@ -25,7 +26,7 @@ public interface ISylladex
 	boolean canGet(int[] slots, int i);
 	ICaptchalogueable peek(int[] slots, int i);
 	ICaptchalogueable tryGetEmptyCard(int[] slots, int i);
-	void addCard(ICaptchalogueable object);
+	void addCard(ICaptchalogueable object, EntityPlayer player);
 	void put(ICaptchalogueable object, EntityPlayer player);
 	void grow(ICaptchalogueable object);
 	void eject(EntityPlayer player);
@@ -36,38 +37,41 @@ public interface ISylladex
 	@SideOnly(Side.CLIENT)
 	ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices);
 
+	static Sylladex readFromNBT(NBTTagCompound nbt)
+	{
+		return nbt.getBoolean("isBottom") ? new BottomSylladex(nbt) : new Sylladex(nbt);
+	}
+
+	static Sylladex newSylladex(int[] lengths, Modus[][] modi)
+	{
+		return lengths.length == 0 ? new ISylladex.BottomSylladex(modi[0]) : new ISylladex.Sylladex(lengths, modi, 0);
+	}
+
 	class Sylladex implements ISylladex
 	{
-		private final LinkedList<ISylladex> sylladices; // Keep these as LL instead of array because we have to add/remove cards :/
-		private final ArrayList<Modus> modi = new ArrayList<>();
-		private final ArrayList<ModusGuiContainer> containers = new ArrayList<>();
+		protected final LinkedList<ISylladex> sylladices = new LinkedList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
+		protected final ArrayList<Modus> modi = new ArrayList<>();
+		protected final ArrayList<ModusGuiContainer> guiContainers = new ArrayList<>();
+		public boolean autoBalanceNewCards = false;
 
 		@SideOnly(Side.CLIENT)
 		private SylladexGuiHandler gui;
 
-		public Sylladex(LinkedList<ISylladex> sylladices, Modus... modi)
+		private Sylladex(Modus[] modi)
 		{
-			this.sylladices = sylladices;
-			this.modi.addAll(Arrays.asList(modi));
+			Collections.addAll(this.modi, modi);
 		}
 
-		public Sylladex(int cards, Modus... modi)
+		private Sylladex(int[] lengths, Modus[][] modi, int index)
 		{
-			this(new LinkedList<>(), modi);
-			for (int i = 0; i < cards; i++)
-				addCard(null);
+			this(modi[index]);
+			int length = lengths[index] & 0xff;
+			for (int i = 0; i < length; i++)
+				this.sylladices.add(index == lengths.length - 1 ? new BottomSylladex(modi[index + 1]) : new Sylladex(lengths, modi, index + 1));
 		}
 
-		public Sylladex(Sylladex settings)
+		private Sylladex(NBTTagCompound nbt)
 		{
-			this.sylladices = new LinkedList<>();
-			this.modi.addAll(settings.modi);
-			this.sylladices.add(settings.sylladices.get(0) instanceof Sylladex ? new Sylladex((Sylladex)settings.sylladices.get(0)) : new CardSylladex(this));
-		}
-
-		public Sylladex(NBTTagCompound nbt)
-		{
-			this.sylladices = new LinkedList<>();
 			readFromNBT(nbt);
 		}
 
@@ -75,13 +79,8 @@ public interface ISylladex
 		public ICaptchalogueable get(int[] slots, int i, boolean asCard)
 		{
 			for (Modus modus : modi)
-				if (!(asCard && getTotalSlots() == 1) && modus.canGet(sylladices, slots, i))
-				{
-					ICaptchalogueable rtn = modus.get(sylladices, slots, i, asCard);
-					if (asCard)
-						cleanUpMarkedCards(slots,  i); // TODO: the queuestack below an empty one would pop off into it
-					return rtn;
-				}
+				if (modus.canGet(sylladices, slots, i))
+					return modus.get(sylladices, slots, i, asCard);
 			return null;
 		}
 
@@ -103,27 +102,33 @@ public interface ISylladex
 		@Override
 		public ICaptchalogueable tryGetEmptyCard(int[] slots, int i)
 		{
-			if (getTotalSlots() == 1)
-				return null;
-
-			ICaptchalogueable object = sylladices.get(slots[i]).tryGetEmptyCard(slots, i + 1);
-			cleanUpMarkedCards(slots, i + 1);
-			return object;
-		}
-
-		private void cleanUpMarkedCards(int[] slots, int i)
-		{
-			if (sylladices.get(slots[i]).getTotalSlots() == 0)
-			{
-				sylladices.remove(slots[i]);
-				slots[i] = -1;
-			}
+			return sylladices.get(slots[i]).tryGetEmptyCard(slots, i + 1);
 		}
 
 		@Override
-		public void addCard(ICaptchalogueable object)
+		public void addCard(ICaptchalogueable object, EntityPlayer player)
 		{
-			sylladices.addLast(new CardSylladex(this, object));
+			int leastSlots = 0;
+			ISylladex leastSlotsSylladex = null;
+			for (ISylladex sylladex : sylladices)
+			{
+				int slots = sylladex.getTotalSlots();
+				if (slots < leastSlots || leastSlotsSylladex == null)
+				{
+					leastSlots = slots;
+					leastSlotsSylladex = sylladex;
+				}
+			}
+			if (leastSlots == 256)
+				SylladexUtils.launchItem(player, (ItemStack) object.getObject());
+			else
+				leastSlotsSylladex.addCard(object, player);
+		}
+
+		public void addCards(int cards, EntityPlayer player)
+		{
+			for (int i = 0; i < cards; i++)
+				addCard(null, player);
 		}
 
 		@Override
@@ -147,12 +152,8 @@ public interface ISylladex
 		@Override
 		public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
 		{
-			for (int i =  0; i < sylladices.size(); i++)
-			{
-				sylladices.get(i).ejectAll(player, asCards, onlyFull);
-				if (sylladices.get(i).getTotalSlots() == 0)
-					sylladices.remove(i--);
-			}
+			for (ISylladex sylladex : sylladices)
+				sylladex.ejectAll(player, asCards, onlyFull);
 		}
 
 		@Override
@@ -171,6 +172,32 @@ public interface ISylladex
 			for (ISylladex sylladex : sylladices)
 				slots += sylladex.getTotalSlots();
 			return slots;
+		}
+
+		public Modus[][] getModi()
+		{
+			ArrayList<Modus[]> modi = new ArrayList<>();
+			getModi(modi);
+			return modi.toArray(new Modus[0][]);
+		}
+
+		protected void getModi(ArrayList<Modus[]> modi)
+		{
+			modi.add(this.modi.toArray(new Modus[0]));
+			((Sylladex) sylladices.get(0)).getModi(modi);
+		}
+
+		public int[] getLengths()
+		{
+			ArrayList<Integer> lengths = new ArrayList<>();
+			getLengths(lengths);
+			return lengths.stream().mapToInt(Integer::intValue).toArray();
+		}
+
+		protected void getLengths(ArrayList<Integer> lengths)
+		{
+			lengths.add(this.sylladices.size());
+			((Sylladex) sylladices.get(0)).getLengths(lengths);
 		}
 
 		@Override
@@ -202,17 +229,14 @@ public interface ISylladex
 
 			NBTTagList sylladices = nbt.getTagList("sylladices", 10);
 			for (NBTBase sylladexTagBase : sylladices)
-			{
-				NBTTagCompound sylladexTag = (NBTTagCompound) sylladexTagBase;
-				this.sylladices.add(sylladexTag.hasKey("modusTypes") ? new Sylladex(sylladexTag) : new CardSylladex(this, sylladexTag));
-			}
+				this.sylladices.add(ISylladex.readFromNBT((NBTTagCompound) sylladexTagBase));
 		}
 
 		@Override
 		@SideOnly(Side.CLIENT)
 		public ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
 		{
-			containers.clear();
+			guiContainers.clear();
 
 			CardGuiContainer.CardTextureIndex[] thisIndices = new CardGuiContainer.CardTextureIndex[modi.size()];
 			for (int i = 0; i < thisIndices.length; i++)
@@ -220,8 +244,8 @@ public interface ISylladex
 			textureIndices.add(thisIndices);
 
 			for (ISylladex sylladex : sylladices)
-				containers.add(modi.get(0).getGuiContainer(textureIndices, sylladex));
-			return containers;
+				guiContainers.add(modi.get(0).getGuiContainer(textureIndices, sylladex));
+			return guiContainers;
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -251,28 +275,127 @@ public interface ISylladex
 		}
 	}
 
+	class BottomSylladex extends Sylladex
+	{
+		private BottomSylladex(Modus[] modi)
+		{
+			super(modi);
+		}
+
+		private BottomSylladex(NBTTagCompound nbt)
+		{
+			super(nbt);
+		}
+
+		@Override
+		public ICaptchalogueable get(int[] slots, int i, boolean asCard)
+		{
+			for (Modus modus : modi)
+				if (modus.canGet(sylladices, slots, i))
+				{
+					ICaptchalogueable rtn = modus.get(sylladices, slots, i, asCard);
+					if (asCard)
+						cleanUpMarkedCards(slots,  i);
+					return rtn;
+				}
+			return null;
+		}
+
+		@Override
+		public ICaptchalogueable tryGetEmptyCard(int[] slots, int i)
+		{
+			ICaptchalogueable rtn = sylladices.get(slots[i]).tryGetEmptyCard(slots, i + 1);
+			cleanUpMarkedCards(slots, i);
+			return rtn;
+		}
+
+		@Override
+		public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
+		{
+			for (int i = 0; i < sylladices.size(); i++)
+			{
+				sylladices.get(i).ejectAll(player, asCards, onlyFull);
+				if (asCards)
+					cleanUpMarkedCards(i);
+			}
+		}
+
+		private void cleanUpMarkedCards(int[] slots, int i)
+		{
+			if (cleanUpMarkedCards(slots[i]))
+				slots[i] = -1;
+		}
+
+		private boolean cleanUpMarkedCards(int i)
+		{
+			if (sylladices.get(i).getTotalSlots() == 0)
+			{
+				sylladices.remove(i);
+				return true;
+			}
+			else
+				return false;
+		}
+
+		@Override
+		public void addCard(ICaptchalogueable object, EntityPlayer player)
+		{
+			sylladices.add(new CardSylladex(this, object));
+		}
+
+		@Override
+		protected void getModi(ArrayList<Modus[]> modi)
+		{
+			modi.add(this.modi.toArray(new Modus[0]));
+		}
+
+		@Override
+		protected void getLengths(ArrayList<Integer> lengths) { }
+
+		@Override
+		public NBTTagCompound writeToNBT()
+		{
+			NBTTagCompound nbt = super.writeToNBT();
+			nbt.setBoolean("isBottom", true);
+			return nbt;
+		}
+
+		@Override
+		public void readFromNBT(NBTTagCompound nbt)
+		{
+			modi.clear();
+			sylladices.clear();
+
+			NBTTagList modusTypes = nbt.getTagList("modusTypes", 8);
+			for (NBTBase modusType : modusTypes)
+				modi.add(Modus.REGISTRY.getValue(new ResourceLocation(((NBTTagString)modusType).getString())));
+
+			NBTTagList sylladices = nbt.getTagList("sylladices", 10);
+			for (NBTBase sylladexTagBase : sylladices)
+			{
+				CardSylladex card = new CardSylladex(this);
+				card.readFromNBT((NBTTagCompound) sylladexTagBase);
+				this.sylladices.add(card);
+			}
+		}
+	}
+
 	class CardSylladex implements ISylladex
 	{
-		private final Sylladex owner;
+		private final BottomSylladex owner;
 		private ICaptchalogueable object;
 		private final ArrayList<ModusGuiContainer> containers = new ArrayList<>();
 		private boolean markedForDeletion = false;
 
-		public CardSylladex(Sylladex owner, ICaptchalogueable object)
+		private CardSylladex(BottomSylladex owner, ICaptchalogueable object)
 		{
 			this.owner = owner;
 			this.object = object;
 		}
 
-		public CardSylladex(Sylladex owner)
+		private CardSylladex(BottomSylladex owner)
 		{
 			this(owner, (ICaptchalogueable) null);
-		}
-
-		public CardSylladex(Sylladex owner, NBTTagCompound nbt)
-		{
-			this(owner);
-			readFromNBT(nbt);
 		}
 
 		@Override
@@ -312,7 +435,7 @@ public interface ISylladex
 		}
 
 		@Override
-		public void addCard(ICaptchalogueable object)
+		public void addCard(ICaptchalogueable object, EntityPlayer player)
 		{
 			throw new ClassCastException("Attempted to add a card to a card");
 		}

@@ -75,7 +75,7 @@ public class TileEntityAutoWidget extends TileEntity implements ITickable, ISide
 	
 	public GristSet getGristWidgetResult()
 	{
-		ItemStack item = AlchemyUtils.getDecodedItem((ItemStack)this.inventory.get(0), true);
+		ItemStack item = AlchemyUtils.getDecodedItem(this.inventory.get(0), true);
 		GristSet gristSet = GristRegistry.getGristConversion(item);
 		if ((this.inventory.get(0)).getItem() == MinestuckItems.captchaCard && !AlchemyUtils.isPunchedCard(this.inventory.get(0)) && item.getItem() != MinestuckItems.captchaCard && gristSet != null) {
 			if (item.getCount() != 1) {

@@ -90,7 +90,7 @@ public class MSGuiHandler implements IGuiHandler
 					return new GuiUraniumCooker(player.inventory, (TileEntityUraniumCooker) tileEntity);
 				break;
 			case COMPUTER:
-				return new GuiComputer(Minecraft.getMinecraft(),(TileEntityComputer) tileEntity);
+				return new GuiComputer(Minecraft.getMinecraft(), (TileEntityComputer) tileEntity);
 			case TRANSPORTALIZER:
 				return new GuiTransportalizer(Minecraft.getMinecraft(), (TileEntityTransportalizer) tileEntity);
 			case COLOR:

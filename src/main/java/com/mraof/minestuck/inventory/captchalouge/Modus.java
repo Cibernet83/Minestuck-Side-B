@@ -3,7 +3,6 @@ package com.mraof.minestuck.inventory.captchalouge;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -100,7 +99,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	/**
-	 * Return whether this modus should perform autobalancing after each operation. // TODO
+	 * Return whether this modus should perform autobalancing after each operation. // TODO: modus autobalance
 	 */
 	protected boolean doesAutobalance()
 	{
@@ -132,12 +131,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Get the index of the card texture that should be used by this modus.
 	 */
 	@SideOnly(Side.CLIENT)
-	public CardGuiContainer.CardTextureIndex getCardTextureIndex()
-	{
-		if (cardTextureIndex == null)
-			cardTextureIndex = new CardGuiContainer.CardTextureIndex(SylladexGuiHandler.CARD_TEXTURE, 42);
-		return cardTextureIndex;
-	}
+	public abstract CardGuiContainer.CardTextureIndex getCardTextureIndex();
 
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event)

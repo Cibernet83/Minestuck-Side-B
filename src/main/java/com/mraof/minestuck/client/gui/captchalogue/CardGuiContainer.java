@@ -32,8 +32,8 @@ public class CardGuiContainer extends ModusGuiContainer
 		for (int i = 0; i < textureIndices.length; i++)
 		{
 			Minecraft.getMinecraft().getTextureManager().bindTexture(textureIndices[i].texture);
-			gui.drawTexturedModalRect(x, y,
-					textureIndices[i].index % 12 * width + i / textureIndices.length, textureIndices[i].index / 12 * height,
+			gui.drawTexturedModalRect(x  + i * width / textureIndices.length, y,
+					textureIndices[i].index % 12 * width + i * width / textureIndices.length, textureIndices[i].index / 12 * height,
 					width / textureIndices.length, height);
 		}
 

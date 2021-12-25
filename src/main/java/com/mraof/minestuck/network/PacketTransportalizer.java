@@ -1,31 +1,28 @@
 package com.mraof.minestuck.network;
 
+import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
+import com.mraof.minestuck.util.Debug;
 import io.netty.buffer.ByteBuf;
-
-import java.util.EnumSet;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
-import com.mraof.minestuck.util.Debug;
+import java.util.EnumSet;
 
 public class PacketTransportalizer extends MinestuckPacket
 {
 	int x;
 	int y;
 	int z;
-	int dim;
 	String destId;
 	
 	@Override
 	public void generatePacket(Object... dat)
 	{
-		data.writeInt((Integer) dat[0]);
-		data.writeInt((Integer) dat[1]);
-		data.writeInt((Integer) dat[2]);
-		if(dat.length > 0)
+		data.writeInt((int) dat[0]);
+		data.writeInt((int) dat[1]);
+		data.writeInt((int) dat[2]);
+		if(dat.length > 2)
 			data.writeBytes(((String) dat[3]).getBytes());
 
 	}

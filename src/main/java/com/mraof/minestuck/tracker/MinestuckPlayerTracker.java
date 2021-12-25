@@ -69,11 +69,15 @@ public class MinestuckPlayerTracker
 			int index = player.world.rand.nextInt(MinestuckConfig.defaultModusTypes.length);
 			Modus modus = Modus.REGISTRY.getValue(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]));
 			if(modus != null)
-				SylladexUtils.setSylladex(player, new ISylladex.Sylladex(MinestuckConfig.initialModusSize, modus));
+			{
+				ISylladex.Sylladex newSylladex = ISylladex.newSylladex(new int[]{}, new Modus[][]{new Modus[]{modus}});
+				newSylladex.addCards(MinestuckConfig.initialModusSize, player);
+				SylladexUtils.setSylladex(player, newSylladex);
+			}
 			else
 				Debug.warnf("Couldn't create a modus by the name %s.", MinestuckConfig.defaultModusTypes[index]);
 		}
-		
+
 		if(SylladexUtils.getSylladex(player) != null)
 			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.SYLLADEX_DATA, SylladexUtils.getSylladex(player).writeToNBT()), player);
 		

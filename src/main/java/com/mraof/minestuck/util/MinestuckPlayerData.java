@@ -219,7 +219,7 @@ public class MinestuckPlayerData
 				this.title = new Title(EnumClass.getClassFromInt(nbt.getByte("titleClass")), EnumAspect.getAspectFromInt(nbt.getByte("titleAspect")));
 			if (nbt.hasKey("sylladex"))
 			{
-				this.sylladex = new ISylladex.Sylladex(nbt.getCompoundTag("sylladex"));
+				this.sylladex = ISylladex.readFromNBT(nbt.getCompoundTag("sylladex"));
 				givenModus = true;
 			}
 			else givenModus = nbt.getBoolean("givenModus");

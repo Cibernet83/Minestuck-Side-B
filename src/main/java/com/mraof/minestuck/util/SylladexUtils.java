@@ -141,10 +141,7 @@ public class SylladexUtils
 			launchItem(player, new ItemStack(MinestuckItems.captchaCard, toDrop)); // TODO: Drop these and the other items softly, with the rest of the death loot
 		}
 
-		setSylladex(player, new Sylladex(sylladex));
-
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, getSylladex(player).writeToNBT());
-		MinestuckChannelHandler.sendToPlayer(packet, player);
+		setSylladex(player, ISylladex.newSylladex(sylladex.getLengths(), sylladex.getModi()));
 	}
 	
 	public static Sylladex getSylladex(EntityPlayer player)
@@ -157,5 +154,8 @@ public class SylladexUtils
 		MinestuckPlayerData.getData(player).sylladex = sylladex;
 		if(sylladex != null)
 			MinestuckPlayerData.getData(player).givenModus = true;
+
+		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, getSylladex(player).writeToNBT());
+		MinestuckChannelHandler.sendToPlayer(packet, player);
 	}
 }

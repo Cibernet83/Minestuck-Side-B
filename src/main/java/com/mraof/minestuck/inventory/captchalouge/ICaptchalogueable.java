@@ -13,7 +13,7 @@ public interface ICaptchalogueable
 	boolean isEmpty();
 	boolean isCompatibleWith(ICaptchalogueable other);
 	Object getObject();
-	void eject(ISylladex from, EntityPlayer player);
+	void eject(ISylladex.BottomSylladex from, EntityPlayer player);
 	ItemStack captchalogueIntoCardItem();
 	NBTTagCompound writeToNBT();
 	void readFromNBT(NBTTagCompound nbt);

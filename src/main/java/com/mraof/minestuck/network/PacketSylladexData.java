@@ -33,7 +33,7 @@ public class PacketSylladexData extends MinestuckPacket
 	{
 		if (nbt != null)
 		{
-			ISylladex.Sylladex sylladex = new ISylladex.Sylladex(nbt);
+			ISylladex.Sylladex sylladex = ISylladex.readFromNBT(nbt);
 			MinestuckPlayerData.clientData.sylladex = sylladex;
 			if (Minecraft.getMinecraft().currentScreen instanceof SylladexGuiHandler)
 				((SylladexGuiHandler)Minecraft.getMinecraft().currentScreen).updateSylladex(sylladex);

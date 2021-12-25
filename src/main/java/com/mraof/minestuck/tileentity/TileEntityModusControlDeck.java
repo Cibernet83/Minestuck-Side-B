@@ -41,7 +41,7 @@ public class TileEntityModusControlDeck extends TileEntity
 				else
 					player.inventoryContainer.detectAndSendChanges();
 
-				while (lengths.size() + 1 > MathHelper.ceil((float) getCartridgeCount() / (float) WIDTH) && !lengths.isEmpty())
+				while (lengths.size() + 1 > getLayerCount() && !lengths.isEmpty())
 					lengths.remove(lengths.size() - 1);
 
 				return true;
@@ -54,7 +54,7 @@ public class TileEntityModusControlDeck extends TileEntity
 			stack.shrink(1);
 			inventory.set(index+1, modus);
 
-			while (lengths.size() + 1 < MathHelper.ceil((float) getCartridgeCount() / (float) WIDTH))
+			while (lengths.size() + 1 < getLayerCount())
 				lengths.add(4);
 
 			return true;
@@ -70,6 +70,11 @@ public class TileEntityModusControlDeck extends TileEntity
 			if(canInsertStack(stack))
 				result++;
 		return result;
+	}
+
+	public int getLayerCount()
+	{
+		return MathHelper.ceil((float) getCartridgeCount() / (float) WIDTH);
 	}
 
 	public boolean canInsertStack(ItemStack stack)

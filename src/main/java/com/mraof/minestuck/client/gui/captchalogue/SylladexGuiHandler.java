@@ -60,6 +60,8 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		updateSylladex(sylladex);
 		this.mc = Minecraft.getMinecraft();
 		this.itemRender = mc.getRenderItem();
+		this.mapX = cardsWidth < MAP_WIDTH ? MAP_WIDTH / 2f - cardsWidth / 2f : MAP_WIDTH / 2f - 20;
+		this.mapY = cardsHeight < MAP_HEIGHT ? MAP_HEIGHT / 2f - cardsHeight / 2f : MAP_HEIGHT / 2f - 20;
 	}
 	
 	@Override
@@ -88,28 +90,29 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		
 		if(prevScroll != scroll)
 		{
-			float i1 = mapX + mapWidth/2; // TODO: Make scrolling revolve around the mouse pos
-			float i2 = mapY + mapHeight/2;
+			float i1 = mapX + mapWidth / 2; // TODO: Make scrolling revolve around the mouse pos
+			float i2 = mapY + mapHeight / 2;
 			mapWidth = Math.round(MAP_WIDTH*scroll);
 			mapHeight = Math.round(MAP_HEIGHT*scroll);
 			mapX = i1 - mapWidth/2;
 			mapY = i2 - mapHeight/2;
 
-			mapX = MathHelper.clamp(mapX, 0, mapWidth - cardsWidth);
-			mapY = MathHelper.clamp(mapY, 0, mapHeight - cardsHeight);
+			//mapX = MathHelper.clamp(mapX, 0, mapWidth - cardsWidth);
+			//mapY = MathHelper.clamp(mapY, 0, mapHeight - cardsHeight);
 		}
-		
-		int xOffset = (width - GUI_WIDTH)/2;
-		int yOffset = (height - GUI_HEIGHT)/2;
+
+		// Upper-left corner of the gui in pixels
+		int guiX = (width - GUI_WIDTH) / 2;
+		int guiY = (height - GUI_HEIGHT) / 2;
 		
 		if(Mouse.isButtonDown(0))
 		{
 			if (mousePressed)
 			{
-				mapX = MathHelper.clamp(mapX - (mousePosX - xcor) * scroll, 0, mapWidth - cardsWidth);
-				mapY = MathHelper.clamp(mapY - (mousePosY - ycor) * scroll, 0, mapHeight - cardsHeight);
-				//mapX = mapX - (mousePosX - xcor) * scroll; // TODO: Figure out a way to cull things offscreen
-				//mapY = mapY - (mousePosY - ycor) * scroll;
+				//mapX = MathHelper.clamp(mapX - (mousePosX - xcor) * scroll, 0, mapWidth - cardsWidth);
+				//mapY = MathHelper.clamp(mapY - (mousePosY - ycor) * scroll, 0, mapHeight - cardsHeight);
+				mapX -= (mousePosX - xcor) * scroll; // TODO: Figure out a way to cull things offscreen
+				mapY -= (mousePosY - ycor) * scroll;
 			}
 			mousePosX = xcor;
 			mousePosY = ycor;
@@ -118,14 +121,16 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		else
 			mousePressed = false;
 
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(guiX, guiY, 0);
+
 		// Prepare map
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(xOffset + X_OFFSET, yOffset + Y_OFFSET, 0);
+		GlStateManager.translate(X_OFFSET, Y_OFFSET, 0);
 		GlStateManager.scale(1.0F / this.scroll, 1.0F / this.scroll, 1.0F);
 
 		// Draw map
 		drawRect(0, 0, (int) mapWidth, (int) mapHeight, 0xFF8B8B8B);
-
 
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.translate(mapX, mapY, 0);
@@ -136,19 +141,21 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		GlStateManager.popMatrix();
 		
 		mc.getTextureManager().bindTexture(SYLLADEX_FRAME);
-		drawTexturedModalRect(xOffset, yOffset, 0, 0, GUI_WIDTH, GUI_HEIGHT);
+		drawTexturedModalRect(0, 0, 0, 0, GUI_WIDTH, GUI_HEIGHT);
 		
-		mc.fontRenderer.drawString(I18n.format("gui.sylladex"), xOffset + 15, yOffset + 5, 0x404040);
+		mc.fontRenderer.drawString(I18n.format("gui.sylladex"), 15, 5, 0x404040);
 		
 		String str = sylladex.getName();
-		mc.fontRenderer.drawString(str, xOffset + GUI_WIDTH - mc.fontRenderer.getStringWidth(str) - 16, yOffset + 5, 0x404040);
-		
+		mc.fontRenderer.drawString(str, GUI_WIDTH - mc.fontRenderer.getStringWidth(str) - 16, 5, 0x404040);
+
+		GlStateManager.popMatrix();
+
 		super.drawScreen(xcor, ycor, f);
 		
 		if(isMouseInContainer(xcor, ycor))
 		{
-			float translX = (xcor - xOffset - X_OFFSET - mapX) * scroll;
-			float translY = (ycor - yOffset - Y_OFFSET - mapY) * scroll;
+			float translX = (xcor - guiX - X_OFFSET) * scroll - mapX;
+			float translY = (ycor - guiY - Y_OFFSET) * scroll - mapY;
 			ArrayList<Integer> hitSlots = cardGuiContainer.hit(translX, translY);
 			if (hitSlots != null)
 			{
@@ -157,7 +164,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 				if (object != null)
 					renderToolTip((ItemStack) object.getObject(), xcor, ycor);
 			}
-		}
+		} // FIXME: fetchdeck inventory only saving on sync
 	}
 	
 	@Override
@@ -165,10 +172,10 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	{
 		if(isMouseInContainer(xcor, ycor))
 		{
-			float xOffset = (width - GUI_WIDTH)/2f;
-			float yOffset = (height - GUI_HEIGHT)/2f;
-			float translX = (xcor - xOffset - X_OFFSET - mapX) * scroll;
-			float translY = (ycor - yOffset - Y_OFFSET - mapY) * scroll;
+			float guiX = (width - GUI_WIDTH)/2f;
+			float guiY = (height - GUI_HEIGHT)/2f;
+			float translX = (xcor - guiX - X_OFFSET) * scroll - mapX;
+			float translY = (ycor - guiY - Y_OFFSET) * scroll - mapY;
 			ArrayList<Integer> hitSlots = cardGuiContainer.hit(translX, translY);
 			if (hitSlots != null)
 			{
@@ -219,19 +226,12 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		return xcor >= xOffset + 16 && xcor < xOffset + 16 + 224 && ycor >= yOffset + 17 && ycor < yOffset + 17 + 153;
 	}
 
-	private void updateContainers()
-	{
-
-	}
-
 	public void updateSylladex(ISylladex.Sylladex sylladex)
 	{
 		this.sylladex = sylladex;
 		this.cardGuiContainer = new ModusGuiContainer(sylladex); // TODO: better bounding boxes
 		this.cardsWidth = cardGuiContainer.width;
 		this.cardsHeight = cardGuiContainer.height;
-		this.mapX = MAP_WIDTH / 2f - cardsWidth / 2f;
-		this.mapY = MAP_HEIGHT / 2f - cardsHeight / 2f;
 	}
 	
 	/*public static class ModusSizeCard extends GuiCard

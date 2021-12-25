@@ -51,12 +51,13 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public void eject(ISylladex fromSylladex, EntityPlayer player)
+	public void eject(ISylladex.BottomSylladex fromSylladex, EntityPlayer player)
 	{
 		if(fromSylladex != null && AlchemyUtils.isAppendable(stack))
-			while (!stack.isEmpty())
+			while (!stack.isEmpty()) // FIXME: Make these move up a stack when popping over the 256 card limit
 			{
-				fromSylladex.addCard(new CaptchalogueableItemStack(AlchemyUtils.getDecodedItem(stack)));
+				ItemStack contents = AlchemyUtils.getDecodedItem(stack);
+				(fromSylladex.autoBalanceNewCards ? SylladexUtils.getSylladex(player) : fromSylladex).addCard(new CaptchalogueableItemStack(contents.isEmpty() ? null : contents), player);
 				stack.shrink(1);
 			}
 		if(!stack.isEmpty())

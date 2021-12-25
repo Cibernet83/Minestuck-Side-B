@@ -35,8 +35,6 @@ public class MinestuckConfig
 	@SideOnly(Side.CLIENT)
 	public static byte clientTreeAutobalance;
 	@SideOnly(Side.CLIENT)
-	public static byte clientHashmapChat;
-	@SideOnly(Side.CLIENT)
 	public static byte echeladderAnimation;
 	@SideOnly(Side.CLIENT)
 	public static boolean clientGiveItems;
