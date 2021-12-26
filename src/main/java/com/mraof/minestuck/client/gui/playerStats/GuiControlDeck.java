@@ -1,6 +1,6 @@
 package com.mraof.minestuck.client.gui.playerStats;
 
-import com.mraof.minestuck.inventory.captchalouge.ContainerCaptchaDeck;
+import com.mraof.minestuck.inventory.ContainerControlDeck;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -11,18 +11,18 @@ import net.minecraft.network.play.client.CPacketCloseWindow;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
-public class GuiCaptchaDeck extends GuiPlayerStatsContainer implements GuiYesNoCallback
+public class GuiControlDeck extends GuiPlayerStatsContainer implements GuiYesNoCallback
 {
 	
 	private static final ResourceLocation guiCaptchaDeck = new ResourceLocation("minestuck", "textures/gui/captcha_deck.png");
 	
 	private GuiButton modusButton, sylladexMap;
-	private ContainerCaptchaDeck container;
+	private ContainerControlDeck container;
 	
-	public GuiCaptchaDeck()
+	public GuiControlDeck()
 	{
-		super(new ContainerCaptchaDeck(Minecraft.getMinecraft().player));
-		container = (ContainerCaptchaDeck) inventorySlots;
+		super(new ContainerControlDeck(Minecraft.getMinecraft().player));
+		container = (ContainerControlDeck) inventorySlots;
 		guiWidth = 178;
 		guiHeight= 145;
 	}

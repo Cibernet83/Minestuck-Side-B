@@ -2,8 +2,8 @@ package com.mraof.minestuck.client.gui.captchalogue;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
-import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
-import com.mraof.minestuck.inventory.captchalouge.ISylladex;
+import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.sylladex.MultiSylladex;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
@@ -36,7 +36,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	private static final int X_OFFSET = 16, Y_OFFSET = 17;
 
 	public RenderItem itemRender;
-	private ISylladex.Sylladex sylladex;
+	private MultiSylladex sylladex;
 	private ModusGuiContainer cardGuiContainer;
 	
 	/**
@@ -55,7 +55,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 
 	private GuiButton emptySylladex;
 	
-	public SylladexGuiHandler(ISylladex.Sylladex sylladex)
+	public SylladexGuiHandler(MultiSylladex sylladex)
 	{
 		updateSylladex(sylladex);
 		this.mc = Minecraft.getMinecraft();
@@ -226,7 +226,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		return xcor >= xOffset + 16 && xcor < xOffset + 16 + 224 && ycor >= yOffset + 17 && ycor < yOffset + 17 + 153;
 	}
 
-	public void updateSylladex(ISylladex.Sylladex sylladex)
+	public void updateSylladex(MultiSylladex sylladex)
 	{
 		this.sylladex = sylladex;
 		this.cardGuiContainer = new ModusGuiContainer(sylladex);

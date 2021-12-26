@@ -5,14 +5,15 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrists;
 import com.mraof.minestuck.editmode.ServerEditHandler;
-import com.mraof.minestuck.inventory.captchalouge.ISylladex;
-import com.mraof.minestuck.inventory.captchalouge.Modus;
+import com.mraof.minestuck.modus.Modus;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
 import com.mraof.minestuck.network.PacketPlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
+import com.mraof.minestuck.sylladex.ISylladex;
+import com.mraof.minestuck.sylladex.MultiSylladex;
 import com.mraof.minestuck.util.*;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
@@ -70,7 +71,7 @@ public class MinestuckPlayerTracker
 			Modus modus = Modus.REGISTRY.getValue(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]));
 			if(modus != null)
 			{
-				ISylladex.Sylladex newSylladex = ISylladex.newSylladex(new int[]{}, new Modus[][]{new Modus[]{modus}});
+				MultiSylladex newSylladex = ISylladex.newSylladex(new int[]{}, new Modus[][]{new Modus[]{modus}});
 				newSylladex.addCards(MinestuckConfig.initialModusSize, player);
 				SylladexUtils.setSylladex(player, newSylladex);
 			}

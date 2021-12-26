@@ -1,7 +1,9 @@
-package com.mraof.minestuck.inventory.captchalouge;
+package com.mraof.minestuck.modus;
 
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.sylladex.ISylladex;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,31 +18,31 @@ public class ModusStack extends Modus
 	}
 
 	@Override
-	public ICaptchalogueable get(LinkedList<ISylladex> sylladices, int[] slots, int i, boolean asCard)
+	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, int[] slots, int i, boolean asCard)
 	{
-		ISylladex sylladex = sylladices.removeFirst();
+		SYLLADEX sylladex = sylladices.removeFirst();
 		sylladices.addLast(sylladex);
 		slots[i] = sylladices.size() - 1;
 		return sylladex.get(slots, i + 1, asCard);
 	}
 
 	@Override
-	public boolean canGet(LinkedList<ISylladex> sylladices, int[] slots, int i)
+	public <SYLLADEX extends ISylladex> boolean canGet(LinkedList<SYLLADEX> sylladices, int[] slots, int i)
 	{
 		return slots[i] == 0 && sylladices.getFirst().canGet(slots, i + 1);
 	}
 
 	@Override
-	public void put(LinkedList<ISylladex> sylladices, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(LinkedList<SYLLADEX> sylladices, ICaptchalogueable object, EntityPlayer player)
 	{
-		ISylladex mostFreeSlotsSylladex = getSylladexWithMostFreeSlots(sylladices, player);
+		SYLLADEX mostFreeSlotsSylladex = getSylladexWithMostFreeSlots(sylladices, player);
 		sylladices.remove(mostFreeSlotsSylladex);
 		sylladices.addFirst(mostFreeSlotsSylladex);
 		mostFreeSlotsSylladex.put(object, player);
 	}
 
 	@Override
-	public void grow(LinkedList<ISylladex> sylladices, ICaptchalogueable other)
+	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladices, ICaptchalogueable other)
 	{
 		sylladices.getFirst().grow(other);
 	}

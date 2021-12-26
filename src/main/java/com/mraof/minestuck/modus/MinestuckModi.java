@@ -1,4 +1,4 @@
-package com.mraof.minestuck.inventory.captchalouge;
+package com.mraof.minestuck.modus;
 
 import com.mraof.minestuck.Minestuck;
 import net.minecraftforge.event.RegistryEvent;

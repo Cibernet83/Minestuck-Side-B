@@ -1,7 +1,9 @@
-package com.mraof.minestuck.inventory.captchalouge;
+package com.mraof.minestuck.modus;
 
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.sylladex.ISylladex;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,32 +18,31 @@ public class ModusQueue extends Modus
 	}
 
 	@Override
-	public ICaptchalogueable get(LinkedList<ISylladex> sylladices, int[] slots, int i, boolean asCard)
+	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, int[] slots, int i, boolean asCard)
 	{
-		ISylladex sylladex = sylladices.removeLast();
+		SYLLADEX sylladex = sylladices.removeLast();
 		sylladices.addFirst(sylladex);
 		slots[i] = 0;
 		return sylladex.get(slots, i + 1, asCard);
 	}
 
 	@Override
-	public boolean canGet(LinkedList<ISylladex> sylladices, int[] slots, int i)
+	public <SYLLADEX extends ISylladex> boolean canGet(LinkedList<SYLLADEX> sylladices, int[] slots, int i)
 	{
 		return slots[i] + 1 == sylladices.size() && sylladices.getLast().canGet(slots, i + 1);
 	}
 
 	@Override
-	public void put(LinkedList<ISylladex> sylladices, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(LinkedList<SYLLADEX> sylladices, ICaptchalogueable object, EntityPlayer player)
 	{
-		ISylladex mostFreeSlotsSylladex = getSylladexWithMostFreeSlots(sylladices, player);
-		mostFreeSlotsSylladex.put(object, player);
+		getSylladexWithMostFreeSlots(sylladices, player).put(object, player);
 	}
 
 	@Override
-	protected ISylladex getSylladexWithMostFreeSlots(LinkedList<ISylladex> sylladices, EntityPlayer player)
+	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexWithMostFreeSlots(LinkedList<SYLLADEX> sylladices, EntityPlayer player)
 	{
 		int mostFreeSlots = 0;
-		ISylladex mostFreeSlotsSylladex = null;
+		SYLLADEX mostFreeSlotsSylladex = null;
 		for (int i = sylladices.size() - 1; i >= 0; i--)
 		{
 			int slots = sylladices.get(i).getFreeSlots();
@@ -67,7 +68,7 @@ public class ModusQueue extends Modus
 	}
 
 	@Override
-	public void grow(LinkedList<ISylladex> sylladices, ICaptchalogueable other)
+	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladices, ICaptchalogueable other)
 	{
 		sylladices.getLast().grow(other);
 	}

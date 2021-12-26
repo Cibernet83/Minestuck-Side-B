@@ -1,6 +1,7 @@
-package com.mraof.minestuck.inventory.captchalouge;
+package com.mraof.minestuck.captchalogueable;
 
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.sylladex.BottomSylladex;
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.renderer.GlStateManager;
@@ -55,12 +56,12 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public void eject(ISylladex.BottomSylladex fromSylladex, int cardIndex, EntityPlayer player)
+	public void eject(BottomSylladex fromSylladex, int cardIndex, EntityPlayer player)
 	{
 		if(fromSylladex != null && AlchemyUtils.isAppendable(stack))
 			while (!stack.isEmpty()) // FIXME: Make these move up a stack when popping over the 256 card limit
 			{
-				(fromSylladex.autoBalanceNewCards ? SylladexUtils.getSylladex(player) : fromSylladex).addCard(cardIndex + 1, AlchemyUtils.getCardContents(stack), player);
+				(fromSylladex.autoBalanceNewCards ? SylladexUtils.getSylladex(player) : fromSylladex).addCard(AlchemyUtils.getCardContents(stack), player);
 				stack.shrink(1);
 			}
 		if(!stack.isEmpty())

@@ -1,4 +1,4 @@
-package com.mraof.minestuck.inventory.captchalouge;
+package com.mraof.minestuck.inventory;
 
 import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.item.MinestuckItems;
@@ -10,12 +10,11 @@ import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerCaptchaDeck extends Container
+public class ContainerControlDeck extends Container
 {
-	
 	public InventoryBasic inventory = new InventoryBasic("ModusInventory", false, 1);
 	
-	public ContainerCaptchaDeck(EntityPlayer player)
+	public ContainerControlDeck(EntityPlayer player)
 	{
 		addSlots(player);
 	}

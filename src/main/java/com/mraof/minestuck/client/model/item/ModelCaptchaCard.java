@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.inventory.captchalouge.Modus;
+import com.mraof.minestuck.modus.Modus;
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;

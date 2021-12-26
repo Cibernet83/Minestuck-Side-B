@@ -1,6 +1,6 @@
 package com.mraof.minestuck.client.gui.captchalogue;
 
-import com.mraof.minestuck.inventory.captchalouge.ISylladex;
+import com.mraof.minestuck.sylladex.ISylladex;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

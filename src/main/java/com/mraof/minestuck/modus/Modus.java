@@ -1,8 +1,10 @@
-package com.mraof.minestuck.inventory.captchalouge;
+package com.mraof.minestuck.modus;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.sylladex.ISylladex;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,7 +43,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Fetch an object from the slots[i]th sylladex and perform some rearranging of sylladices if required. Modus#canGet
 	 * has already been confirmed by this point. Make sure to update slots[i] if rearranging is needed.
 	 */
-	public ICaptchalogueable get(LinkedList<ISylladex> sylladices, int[] slots, int i, boolean asCard)
+	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, int[] slots, int i, boolean asCard)
 	{
 		return sylladices.get(slots[i]).get(slots, i + 1, asCard);
 	}
@@ -49,7 +51,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	/**
 	 * Return whether a card is valid to be retrieved from.
 	 */
-	public boolean canGet(LinkedList<ISylladex> sylladices, int[] slots, int i)
+	public <SYLLADEX extends ISylladex> boolean canGet(LinkedList<SYLLADEX> sylladices, int[] slots, int i)
 	{
 		return sylladices.get(slots[i]).canGet(slots, i + 1);
 	}
@@ -58,16 +60,16 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Put an object into a default card and perform some rearranging of sylladices if required. Modus#grow has already
 	 * been called by this point.
 	 */
-	public void put(LinkedList<ISylladex> sylladices, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(LinkedList<SYLLADEX> sylladices, ICaptchalogueable object, EntityPlayer player)
 	{
 		getSylladexWithMostFreeSlots(sylladices, player).put(object, player);
 	}
 
-	protected ISylladex getSylladexWithMostFreeSlots(LinkedList<ISylladex> sylladices, EntityPlayer player)
+	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexWithMostFreeSlots(LinkedList<SYLLADEX> sylladices, EntityPlayer player)
 	{
 		int mostFreeSlots = 0;
-		ISylladex mostFreeSlotsSylladex = null;
-		for (ISylladex sylladex : sylladices)
+		SYLLADEX mostFreeSlotsSylladex = null;
+		for (SYLLADEX sylladex : sylladices)
 		{
 			int slots = sylladex.getFreeSlots();
 			if (slots > mostFreeSlots)
@@ -86,14 +88,14 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	/** Try to fill a default card with as much of other as possible */
-	public void grow(LinkedList<ISylladex> sylladices, ICaptchalogueable other)
+	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladices, ICaptchalogueable other)
 	{
 		for (int i = 0; i < sylladices.size() && !other.isEmpty(); i++)
 			sylladices.get(i).grow(other);
 	}
 
 	/** Eject the contents of a default card */
-	public void eject(LinkedList<ISylladex> sylladices, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void eject(LinkedList<SYLLADEX> sylladices, EntityPlayer player)
 	{
 		sylladices.getLast().eject(player);
 	}

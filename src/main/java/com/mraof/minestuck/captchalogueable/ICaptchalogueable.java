@@ -1,6 +1,7 @@
-package com.mraof.minestuck.inventory.captchalouge;
+package com.mraof.minestuck.captchalogueable;
 
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.sylladex.BottomSylladex;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,7 +14,7 @@ public interface ICaptchalogueable
 	boolean isEmpty();
 	boolean isCompatibleWith(ICaptchalogueable other);
 	Object getObject();
-	void eject(ISylladex.BottomSylladex fromSylladex, int cardIndex, EntityPlayer player);
+	void eject(BottomSylladex fromSylladex, int cardIndex, EntityPlayer player);
 	ItemStack captchalogueIntoCardItem();
 	NBTTagCompound writeToNBT();
 	void readFromNBT(NBTTagCompound nbt);

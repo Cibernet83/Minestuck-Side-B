@@ -1,7 +1,5 @@
 package com.mraof.minestuck.inventory;
 
-import com.mraof.minestuck.inventory.captchalouge.ContainerCaptchaDeck;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,7 +17,7 @@ public class ContainerHandler
 		if(!editmode)
 			switch(id)
 			{
-			case 0: return new ContainerCaptchaDeck(player);
+			case 0: return new ContainerControlDeck(player);
 			default: return null;
 			}
 		else

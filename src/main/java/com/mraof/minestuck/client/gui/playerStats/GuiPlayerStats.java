@@ -33,7 +33,7 @@ public abstract class GuiPlayerStats extends GuiScreenMinestuck
 	public enum NormalGuiType
 	{
 		
-		CAPTCHA_DECK(GuiCaptchaDeck.class, "gui.captchaDeck.name", true, false),
+		CAPTCHA_DECK(GuiControlDeck.class, "gui.captchaDeck.name", true, false),
 		STRIFE_SPECIBUS(GuiStrifeSpecibus.class, "gui.strifeSpecibus.name", false, false),
 		ECHELADDER(GuiEcheladder.class, "gui.echeladder.name", false, true),
 		GRIST_CACHE(GuiGristCache.class, "gui.gristCache.name", false, true);

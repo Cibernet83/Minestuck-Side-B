@@ -1,6 +1,6 @@
 package com.mraof.minestuck.client.gui.captchalogue;
 
-import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
+import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;

@@ -2,13 +2,13 @@ package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
-import com.mraof.minestuck.inventory.captchalouge.CaptchalogueableItemStack;
-import com.mraof.minestuck.inventory.captchalouge.ICaptchalogueable;
-import com.mraof.minestuck.inventory.captchalouge.ISylladex;
-import com.mraof.minestuck.inventory.captchalouge.ISylladex.Sylladex;
+import com.mraof.minestuck.captchalogueable.CaptchalogueableItemStack;
+import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.sylladex.ISylladex;
+import com.mraof.minestuck.sylladex.MultiSylladex;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -69,7 +69,7 @@ public class SylladexUtils
 
 	public static void fetch(EntityPlayerMP player, int[] slotStack, boolean asCard)
 	{
-		Sylladex sylladex = getSylladex(player);
+		MultiSylladex sylladex = getSylladex(player);
 		if(sylladex == null)
 			return;
 
@@ -124,7 +124,7 @@ public class SylladexUtils
 	
 	public static void dropSylladexOnDeath(EntityPlayer player)
 	{
-		Sylladex sylladex = getSylladex(player);
+		MultiSylladex sylladex = getSylladex(player);
 		if(sylladex == null)
 			return;
 
@@ -144,12 +144,12 @@ public class SylladexUtils
 		setSylladex(player, ISylladex.newSylladex(sylladex.getLengths(), sylladex.getModi()));
 	}
 	
-	public static Sylladex getSylladex(EntityPlayer player)
+	public static MultiSylladex getSylladex(EntityPlayer player)
 	{
 		return MinestuckPlayerData.getData(player).sylladex;
 	}
 	
-	public static void setSylladex(EntityPlayer player, Sylladex sylladex)
+	public static void setSylladex(EntityPlayer player, MultiSylladex sylladex)
 	{
 		MinestuckPlayerData.getData(player).sylladex = sylladex;
 		if(sylladex != null)
