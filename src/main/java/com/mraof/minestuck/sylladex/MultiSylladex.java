@@ -1,9 +1,9 @@
 package com.mraof.minestuck.sylladex;
 
+import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
-import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.modus.Modus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,8 +12,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 
 public abstract class MultiSylladex implements ISylladex
 {
@@ -142,13 +141,16 @@ public abstract class MultiSylladex implements ISylladex
 	@SideOnly(Side.CLIENT)
 	public String getNameForLayer(boolean plural)
 	{
-		if (modi.size() == 1)
-			return modi.get(0).getName(true, false, plural);
+		LinkedHashSet<Modus> distinctModi = new LinkedHashSet<>(modi);
+
+		if (distinctModi.size() == 1)
+			return distinctModi.iterator().next().getName(true, false, plural);
 		else
 		{
 			StringBuilder nameBuilder = new StringBuilder();
-			for (int i = 0; i < modi.size(); i++)
-				nameBuilder.append(modi.get(i).getName(false, i == 0, plural && i == modi.size() - 1));
+			Iterator<Modus> iterator = distinctModi.iterator();
+			for (int i = 0; iterator.hasNext(); i++)
+				nameBuilder.append(iterator.next().getName(false, i == 0, plural && i == distinctModi.size() - 1));
 			return nameBuilder.toString();
 		}
 	}
