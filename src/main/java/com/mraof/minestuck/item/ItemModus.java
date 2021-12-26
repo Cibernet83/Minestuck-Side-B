@@ -13,7 +13,6 @@ public class ItemModus extends MSItemBase
 	{
 		super(modus.getUnlocalizedName() + "Modus", MinestuckTabs.fetchModi, 1, false);
 		this.modus = modus;
-		System.out.println("Registering modus " + modus);
 		MinestuckItems.modi.put(modus, this);
 	}
 
