@@ -64,13 +64,13 @@ dependencies {
     runtime "mezz.jei:jei_1.12.2:4.15.0.268"
 
     runtime "curse.maven:baubles-227083:2518667"
-    deobfCompile "curse.maven:botania-225643:3330934"
-    deobfCompile "curse.maven:carryon-274259:3498879"
-    deobfCompile "curse.maven:locks-253456:3020518"
-    deobfCompile "curse.maven:refinedstorage-243076:2940914"
-    deobfCompile "curse.maven:splatcraft-367816:2998820"
-    deobfCompile "curse.maven:thaumcraft-223628:2629023"
-    deobfCompile "curse.maven:trophyslots-226077:2507560"
+    compile "curse.maven:botania-225643:3330934"
+    compile "curse.maven:carryon-274259:3498879"
+    compile "curse.maven:locks-253456:3020518"
+    compile "curse.maven:refinedstorage-243076:2940914"
+    compile "curse.maven:splatcraft-367816:2998820"
+    compile "curse.maven:thaumcraft-223628:2629023"
+    compile "curse.maven:trophyslots-226077:2507560"
 }
 
 processResources {
