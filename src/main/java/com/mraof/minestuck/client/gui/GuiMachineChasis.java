@@ -4,7 +4,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.inventory.ContainerMachineChasis;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.tileentity.TileEntityMachineChasis;
+import com.mraof.minestuck.tileentity.TileEntityMachineChassis;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,10 +17,10 @@ public class GuiMachineChasis extends GuiContainer
 {
     private static final ResourceLocation TEXTURES = new ResourceLocation(Minestuck.MODID, "textures/gui/machine_chassis.png");
     private final InventoryPlayer player;
-    private final TileEntityMachineChasis tileEntity;
+    private final TileEntityMachineChassis tileEntity;
     private GuiButton goButton;
 
-    public GuiMachineChasis(InventoryPlayer player, TileEntityMachineChasis tileEntity)
+    public GuiMachineChasis(InventoryPlayer player, TileEntityMachineChassis tileEntity)
     {
         super(new ContainerMachineChasis(player, tileEntity));
         this.player = player;

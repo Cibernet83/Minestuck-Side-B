@@ -177,7 +177,7 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
 	{
 		ArrayList<ItemStack> list = new ArrayList<ItemStack>();
-		list.add(new ItemStack(MinestuckBlocks.blockSburbComputer));
+		list.add(new ItemStack(MinestuckBlocks.sburbComputer));
 
 		return list;
 	}

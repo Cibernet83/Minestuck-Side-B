@@ -14,9 +14,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemCruxiteChasityKey extends ItemCruxite
+public class ItemCruxiteChastityKey extends ItemCruxite
 {
-	public ItemCruxiteChasityKey(String name)
+	public ItemCruxiteChastityKey(String name)
 	{
 		super(name);
 		setMaxStackSize(1);

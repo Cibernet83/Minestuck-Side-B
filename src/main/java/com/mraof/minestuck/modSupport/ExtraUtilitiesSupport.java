@@ -17,7 +17,7 @@ public class ExtraUtilitiesSupport extends ModSupport
 		
 		if(enderLily != null)
 		{
-			GristRegistry.addGristConversion(new ItemStack(enderLily), new GristSet(new Grist[]{MinestuckGrists.uranium, MinestuckGrists.iodine}, new int[]{24, 6}));
+			GristRegistry.addGristConversion(new ItemStack(enderLily), new GristSet(new Grist[]{MinestuckGrist.uranium, MinestuckGrist.iodine}, new int[]{24, 6}));
 			CombinationRegistry.addCombination(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.ENDER_PEARL), CombinationRegistry.Mode.MODE_OR,  new ItemStack(enderLily));
 			CombinationRegistry.addCombination(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.ENDER_EYE), CombinationRegistry.Mode.MODE_OR,  new ItemStack(enderLily));	//Might as well do this too
 		}

@@ -2,7 +2,7 @@ package com.mraof.minestuck.capabilities.caps;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.Grist;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.badges.Badge;
 import com.mraof.minestuck.badges.MasterBadge;
 import com.mraof.minestuck.badges.MinestuckBadges;
@@ -58,7 +58,7 @@ public class GodTierData implements IGodTierData
 
 	private EnumLunarSway lunarSway;
 	private EnumConsort consortType;
-	private Grist gristHoard = MinestuckGrists.build;
+	private Grist gristHoard = MinestuckGrist.build;
 
 	private boolean reset = false;
 

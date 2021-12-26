@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.Grist;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.entity.item.EntityGrist;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -31,7 +31,7 @@ public class BlockGrist extends MSBlockBase
 	{
 		super("gristBlock" + type.getName().toLowerCase().replaceFirst(type.getName().charAt(0)+"", (type.getName().charAt(0)+"").toUpperCase()), Material.GOURD, MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY);
 		this.type = type;
-		this.value = (type.getValue() >= 5.0F || !type.equals(MinestuckGrists.build)) ? 10 : 100;
+		this.value = (type.getValue() >= 5.0F || !type.equals(MinestuckGrist.build)) ? 10 : 100;
 		
 		MinestuckBlocks.gristBlocks.put(type, this);
 

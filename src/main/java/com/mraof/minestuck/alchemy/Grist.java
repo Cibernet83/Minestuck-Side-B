@@ -36,7 +36,7 @@ public class Grist extends IForgeRegistryEntry.Impl<Grist> implements Comparable
 		this.regName = IRegistryObject.unlocToReg(name);
 		this.rarity = rarity;
 		this.value = value;
-		MinestuckGrists.grists.add(this);
+		MinestuckGrist.grists.add(this);
 	}
 
 	public static Grist getTypeFromString(String string)

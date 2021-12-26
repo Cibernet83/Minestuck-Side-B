@@ -1,4 +1,4 @@
-package com.mraof.minestuck.modus;
+package com.mraof.minestuck.captchalogue.modus;
 
 import com.mraof.minestuck.Minestuck;
 import net.minecraftforge.event.RegistryEvent;
@@ -38,17 +38,24 @@ public class MinestuckModi
 	public static final Modus weight = new ModusWeight("weight");
 	public static final Modus book = new ModusBook("book");
 	public static final Modus energy = new ModusEnergy("energy");
-	public static final Modus chasity = new ModusChasity("chasity");
+	public static final Modus chastity = new ModusChastity("chastity");
 	public static final Modus monster = new ModusMonster("monster");
 	public static final Modus wallet = new ModusWallet("wallet");
 	public static final Modus crystalBall = new ModusCrystalBall("crystalBall");
 	public static final Modus sacrifice = new ModusSacrifice("sacrifice");*/
 
-	/*
+	/* 2.0 modi
 	public static final Modus ouija = new ModusOuija("ouija");
 	public static final Modus cipher = new ModusCipher("cipher");
 	public static final Modus memory = new ModusMemory("memory");
 	public static final Modus puzzle = new ModusMemory("puzzle");
+	public static final Modus msgInABottle = new ModusMemory("messageInABottle");
+	public static final Modus techHop = new ModusMemory("techHop");
+	public static final Modus recipe = new ModusMemory("recipe");
+	public static final Modus bundle = new ModusMemory("bundle");
+	public static final Modus cake = new ModusMemory("cake");
+	public static final Modus frost = new ModusMemory("frost");
+	public static final Modus fetch = new ModusMemory("fetch");
 	*/
 
 	@SubscribeEvent

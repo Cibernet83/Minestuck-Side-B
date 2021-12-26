@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.client.model.item.ModelCaptchaCard;
-import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.util.ITooltipFlag;

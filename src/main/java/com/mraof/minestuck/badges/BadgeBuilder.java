@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.editmode.ClientEditHandler;
@@ -43,7 +43,7 @@ public class BadgeBuilder extends BadgeLevel
 	@Override
 	public boolean canUnlock(World world, EntityPlayer player)
 	{
-		GristSet cost = new GristSet(MinestuckGrists.build, 20000);
+		GristSet cost = new GristSet(MinestuckGrist.build, 20000);
 		if(Badge.findItem(player, new ItemStack(MinestuckItems.battlepickOfZillydew, 1), false) && GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost))
 		{
 			Badge.findItem(player, new ItemStack(MinestuckItems.battlepickOfZillydew, 1), true);

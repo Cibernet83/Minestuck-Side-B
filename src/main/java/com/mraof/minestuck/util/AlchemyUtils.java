@@ -3,10 +3,10 @@ package com.mraof.minestuck.util;
 import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
-import com.mraof.minestuck.captchalogueable.CaptchalogueableItemStack;
-import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.modus.Modus;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
+import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.item.ItemCruxiteArtifact;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -44,7 +44,7 @@ public class AlchemyUtils
 			for(Grist type : Grist.values())
 			{
 				int v = set.getGrist(type);
-				float f = type == MinestuckGrists.build || type == MinestuckGrists.artifact ? 0.5F : type == MinestuckGrists.zillium ? 20 : type.getPower();
+				float f = type == MinestuckGrist.build || type == MinestuckGrist.artifact ? 0.5F : type == MinestuckGrist.zillium ? 20 : type.getPower();
 				if(v > 0)
 					value += f*v/2;
 			}

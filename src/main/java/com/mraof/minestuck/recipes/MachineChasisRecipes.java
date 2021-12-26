@@ -1,9 +1,10 @@
 package com.mraof.minestuck.recipes;
 
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -20,43 +21,54 @@ import static com.mraof.minestuck.item.MinestuckItems.zillystoneShard;
 
 public class MachineChasisRecipes
 {
-    protected static Hashtable<String, Block> recipes = new Hashtable<>();
+    protected static Hashtable<String, Output> recipes = new Hashtable<>();
     protected static int inputLimit = 5;
 
     public static void registerRecipes()
     {
-        addRecipe(gristHopper, new ItemStack(Blocks.HOPPER), new ItemStack(gristBlocks.get(MinestuckGrists.build)),
-                new ItemStack(gristBlocks.get(MinestuckGrists.uranium)), new ItemStack(MinestuckBlocks.blockSburbComputer), new ItemStack(gristBlocks.get(MinestuckGrists.uranium)));
+        addRecipe(gristHopper, new ItemStack(Blocks.HOPPER), new ItemStack(gristBlocks.get(MinestuckGrist.uranium)),
+                new ItemStack(gristBlocks.get(MinestuckGrist.uranium)), new ItemStack(sburbComputer), new ItemStack(gristBlocks.get(MinestuckGrist.uranium)));
         addRecipe(autoWidget, new ItemStack(gristWidget), new ItemStack(MinestuckItems.boondollars),
                 new ItemStack(MinestuckItems.boondollars), new ItemStack(MinestuckItems.energyCore), new ItemStack(zillystoneShard));
         addRecipe(autoCaptcha, new ItemStack(Blocks.DISPENSER), new ItemStack(MinestuckItems.captchaCard),
                 new ItemStack(moonstone), ItemStack.EMPTY, new ItemStack(MinestuckItems.energyCore));
-        addRecipe(ceramicPorkhollow, new ItemStack(MinestuckBlocks.blockSburbComputer), new ItemStack(MinestuckItems.boondollars),
+        addRecipe(ceramicPorkhollow, new ItemStack(sburbComputer), new ItemStack(MinestuckItems.boondollars),
                 new ItemStack(MinestuckItems.boondollars), new ItemStack(Items.PORKCHOP), new ItemStack(MinestuckItems.boondollars));
         addRecipe(boondollarRegister, new ItemStack(ceramicPorkhollow), new ItemStack(Blocks.HOPPER), new ItemStack(Items.COMPARATOR),
                 new ItemStack(Blocks.CHEST), new ItemStack(Items.REDSTONE));
     }
-    
-    public static Hashtable<String, Block> getRecipes() {return recipes;}
-    
+
+    public static Hashtable<String, Output> getRecipes() {return recipes;}
+
     public static boolean addRecipe(Block output, ItemStack... input)
     {
         String key = toKey(input);
         if(recipes.containsKey(key) || key.isEmpty() || key == null)
             return false;
-        recipes.put(key, output);
+        recipes.put(key, new Output(output));
 
 
         return true;
     }
 
-    public static Block getOutput(ItemStack... input)
+    public static boolean addRecipe(ItemStack output, ItemStack... input)
+    {
+        String key = toKey(input);
+        if(recipes.containsKey(key) || key.isEmpty() || key == null)
+            return false;
+        recipes.put(key, new Output(output));
+
+
+        return true;
+    }
+
+    public static Output getOutput(ItemStack... input)
     {
         String key = toKey(input);
 
         if(recipes.containsKey(key))
             return recipes.get(key);
-        return Blocks.AIR;
+        return null;
     }
 
     public static boolean recipeExists(ItemStack... input)
@@ -77,7 +89,7 @@ public class MachineChasisRecipes
         }
         return key;
     }
-    
+
     public static List<List<ItemStack>> getIngredientList(String key)
     {
         key = key.substring(0,key.length()-1);
@@ -93,5 +105,35 @@ public class MachineChasisRecipes
         }
         return out;
     }
-    
+
+
+    public static class Output
+    {
+        Object out;
+
+        public Output(ItemStack stack)
+        {
+            out = stack;
+        }
+
+        public Output(Block block)
+        {
+            out = block;
+        }
+
+        public boolean isStack()
+        {
+            return out instanceof ItemStack;
+        }
+
+        public ItemStack getStack()
+        {
+            return isStack() ? (ItemStack) out : new ItemStack(((Block)out));
+        }
+
+        public IBlockState getBlockState()
+        {
+            return !isStack() ? ((Block)out).getDefaultState() : Blocks.AIR.getDefaultState();
+        }
+    }
 }

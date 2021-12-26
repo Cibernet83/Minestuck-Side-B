@@ -1,24 +1,15 @@
 package com.mraof.minestuck.entity;
 
-import java.util.Random;
-
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.EntityJumpHelper;
-import net.minecraft.entity.ai.EntityMoveHelper;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -37,7 +28,9 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityFrog extends EntityMinestuck
+import java.util.Random;
+
+public class EntityFrog extends EntityMinestuck implements IWearsCosmetics
 {
 	
 	private int jumpTicks;
@@ -54,8 +47,11 @@ public class EntityFrog extends EntityMinestuck
     private static final DataParameter<Integer> EYE_TYPE = EntityDataManager.<Integer>createKey(EntityFrog.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> BELLY_TYPE = EntityDataManager.<Integer>createKey(EntityFrog.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(EntityFrog.class, DataSerializers.VARINT);
-    
-    public EntityFrog(World world, int type)
+
+	private static final DataParameter<ItemStack> HAT = EntityDataManager.createKey(EntityFrog.class, DataSerializers.ITEM_STACK);
+	private int cosmeticPickupTimer = 0;
+
+	public EntityFrog(World world, int type)
 	{
 		super(world);
 		this.jumpHelper = new EntityFrog.FrogJumpHelper(this);
@@ -84,6 +80,7 @@ public class EntityFrog extends EntityMinestuck
         this.dataManager.register(BELLY_COLOR, random(16777215));
         this.dataManager.register(EYE_TYPE, random(maxEyes()));
         this.dataManager.register(BELLY_TYPE, random(maxBelly()));
+        this.dataManager.register(HAT, ItemStack.EMPTY);
         
         
         this.canDespawn = true;
@@ -404,6 +401,38 @@ public class EntityFrog extends EntityMinestuck
             this.jumpDuration = 0;
             this.setJumping(false);
         }
+
+        if(world.isRemote)
+        	return;
+
+	    if(getCosmeticPickupDelay() <= 0)
+		    for (EntityItem entityitem : world.getEntitiesWithinAABB(EntityItem.class, getEntityBoundingBox().grow(1.0D, 0.0D, 1.0D)))
+		    {
+			    if (!entityitem.isDead && !entityitem.getItem().isEmpty() && !entityitem.cannotPickup())
+			    {
+				    ItemStack stack = entityitem.getItem();
+				    if(EntityLiving.getSlotForItemStack(stack) == EntityEquipmentSlot.HEAD && !ItemStack.areItemStacksEqual(stack, getHeadStack()))
+				    {
+					    if(!getHeadStack().isEmpty())
+						    world.spawnEntity(new EntityItem(world, posX, posY+height, posZ, getHeadStack()));
+
+					    ItemStack pickedUp = stack.copy();
+					    pickedUp.setCount(1);
+					    setHeadStack(pickedUp);
+					    stack.shrink(1);
+					    onItemPickup(entityitem, 1);
+					    entityitem.setDead();
+
+					    if(!stack.isEmpty())
+						    world.spawnEntity(new EntityItem(world, posX, posY+height, posZ, stack));
+
+					    setCosmeticPickupDelay(200);
+
+					    break;
+				    }
+			    }
+		    }
+	    shrinkPickupDelay();
     }
     
     
@@ -453,6 +482,11 @@ public class EntityFrog extends EntityMinestuck
         compound.setInteger("bellyType", this.getBellyType());
         compound.setBoolean("wasOnGround", this.wasOnGround);
         compound.setBoolean("canDespawn", canDespawn);
+
+	    NBTTagCompound stackNbt = new NBTTagCompound();
+	    getHeadStack().writeToNBT(stackNbt);
+	    compound.setTag("Hat", stackNbt);
+	    compound.setInteger("CosmeticPickupDelay", getCosmeticPickupDelay());
     }
 
     public void readEntityFromNBT(NBTTagCompound compound)
@@ -519,6 +553,9 @@ public class EntityFrog extends EntityMinestuck
         this.wasOnGround = compound.getBoolean("wasOnGround");
         if(compound.hasKey("canDespawn"))this.canDespawn = compound.getBoolean("canDespawn");
         else this.canDespawn = true;
+
+	    setHeadStack(new ItemStack(compound.getCompoundTag("Hat")));
+	    setCosmeticPickupDelay(compound.getInteger("CosmeticPickupDelay"));
     }
 	
 	public void notifyDataManagerChange(DataParameter<?> key)
@@ -526,7 +563,7 @@ public class EntityFrog extends EntityMinestuck
         if (FROG_SIZE.equals(key))
         {
             float i = this.getFrogSize();
-            this.setSize(0.51000005F * (float)i, 0.51000005F * (float)i);
+            this.setSize(0.51000005F * (float)i, 0.51000005F * i);
             this.rotationYaw = this.rotationYawHead;
             this.renderYawOffset = this.rotationYawHead;
 
@@ -757,5 +794,35 @@ public class EntityFrog extends EntityMinestuck
 	protected boolean canDespawn() 
 	{
 		return canDespawn;
+	}
+
+	@Override
+	public void setHeadStack(ItemStack stack)
+	{
+		dataManager.set(HAT, stack);
+	}
+
+	@Override
+	public ItemStack getHeadStack()
+	{
+		return dataManager.get(HAT);
+	}
+
+	@Override
+	public void setCosmeticPickupDelay(int i)
+	{
+		cosmeticPickupTimer = i;
+	}
+
+	@Override
+	public int getCosmeticPickupDelay()
+	{
+		return cosmeticPickupTimer;
+	}
+
+	@Override
+	public int shrinkPickupDelay()
+	{
+		return cosmeticPickupTimer = Math.max(0, cosmeticPickupTimer-1);
 	}
 }

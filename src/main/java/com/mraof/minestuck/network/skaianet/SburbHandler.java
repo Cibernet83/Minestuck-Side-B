@@ -21,7 +21,7 @@ import java.util.Set;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.entity.underling.EntityBasilisk;
 import com.mraof.minestuck.entity.underling.EntityGiclops;
 import com.mraof.minestuck.entity.underling.EntityImp;
@@ -543,7 +543,7 @@ public class SburbHandler
 	public static Grist getPrimaryGristType(PlayerIdentifier player)
 	{
 		
-		return MinestuckGrists.shale;
+		return MinestuckGrist.shale;
 	}
 	
 	public static int getColorForDimension(int dim)

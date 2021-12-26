@@ -1,9 +1,9 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.item.ItemModus;
-import com.mraof.minestuck.modus.Modus;
-import com.mraof.minestuck.sylladex.ISylladex;
-import com.mraof.minestuck.sylladex.MultiSylladex;
+import com.mraof.minestuck.captchalogue.modus.Modus;
+import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
 import com.mraof.minestuck.util.SylladexUtils;
 import io.netty.buffer.ByteBuf;

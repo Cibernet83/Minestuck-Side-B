@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.MSGuiHandler;
-import com.mraof.minestuck.tileentity.TileEntityMachineChasis;
+import com.mraof.minestuck.tileentity.TileEntityMachineChassis;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
@@ -20,11 +20,11 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockMachineChasis extends MSBlockBase implements ITileEntityProvider
+public class BlockMachineChassis extends MSBlockBase implements ITileEntityProvider
 {
 
 
-    public BlockMachineChasis()
+    public BlockMachineChassis()
     {
         super("machineChassis", Material.IRON, MapColor.IRON);
         setHarvestLevel("pickaxe", 0);
@@ -50,7 +50,7 @@ public class BlockMachineChasis extends MSBlockBase implements ITileEntityProvid
     @Nullable
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityMachineChasis();
+        return new TileEntityMachineChassis();
     }
 
     @Override
@@ -63,7 +63,7 @@ public class BlockMachineChasis extends MSBlockBase implements ITileEntityProvid
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
-        TileEntityMachineChasis te = (TileEntityMachineChasis)worldIn.getTileEntity(pos);
+        TileEntityMachineChassis te = (TileEntityMachineChassis)worldIn.getTileEntity(pos);
         if(te != null)
             InventoryHelper.dropInventoryItems(worldIn, pos, te);
         super.breakBlock(worldIn, pos, state);
@@ -88,9 +88,9 @@ public class BlockMachineChasis extends MSBlockBase implements ITileEntityProvid
 
     private void checkPowered(World worldIn, BlockPos pos)
     {
-        if(worldIn.isBlockPowered(pos) && worldIn.getTileEntity(pos) instanceof TileEntityMachineChasis)
+        if(worldIn.isBlockPowered(pos) && worldIn.getTileEntity(pos) instanceof TileEntityMachineChassis)
         {
-            TileEntityMachineChasis te = (TileEntityMachineChasis) worldIn.getTileEntity(pos);
+            TileEntityMachineChassis te = (TileEntityMachineChassis) worldIn.getTileEntity(pos);
             te.assemble();
         }
     }

@@ -2,7 +2,7 @@ package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -10,8 +10,8 @@ import com.mraof.minestuck.network.PacketGristCache;
 import com.mraof.minestuck.network.PacketPlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
-import com.mraof.minestuck.sylladex.ISylladex;
-import com.mraof.minestuck.sylladex.MultiSylladex;
+import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -182,27 +182,27 @@ public class MinestuckPlayerData
 				{
 					int[] array = nbt.getIntArray("grist");
 					this.gristCache = new GristSet()
-							.addGrist(MinestuckGrists.amber, array[0])
-							.addGrist(MinestuckGrists.amethyst, array[1])
-							.addGrist(MinestuckGrists.artifact, array[2])
-							.addGrist(MinestuckGrists.build, array[3])
-							.addGrist(MinestuckGrists.caulk, array[4])
-							.addGrist(MinestuckGrists.chalk, array[5])
-							.addGrist(MinestuckGrists.cobalt, array[6])
-							.addGrist(MinestuckGrists.diamond, array[7])
-							.addGrist(MinestuckGrists.garnet, array[8])
-							.addGrist(MinestuckGrists.gold, array[9])
-							.addGrist(MinestuckGrists.iodine, array[10])
-							.addGrist(MinestuckGrists.marble, array[11])
-							.addGrist(MinestuckGrists.mercury, array[12])
-							.addGrist(MinestuckGrists.quartz, array[13])
-							.addGrist(MinestuckGrists.ruby, array[14])
-							.addGrist(MinestuckGrists.rust, array[15])
-							.addGrist(MinestuckGrists.shale, array[16])
-							.addGrist(MinestuckGrists.sulfur, array[17])
-							.addGrist(MinestuckGrists.tar, array[18])
-							.addGrist(MinestuckGrists.uranium, array[19])
-							.addGrist(MinestuckGrists.zillium, array[20]);
+							.addGrist(MinestuckGrist.amber, array[0])
+							.addGrist(MinestuckGrist.amethyst, array[1])
+							.addGrist(MinestuckGrist.artifact, array[2])
+							.addGrist(MinestuckGrist.build, array[3])
+							.addGrist(MinestuckGrist.caulk, array[4])
+							.addGrist(MinestuckGrist.chalk, array[5])
+							.addGrist(MinestuckGrist.cobalt, array[6])
+							.addGrist(MinestuckGrist.diamond, array[7])
+							.addGrist(MinestuckGrist.garnet, array[8])
+							.addGrist(MinestuckGrist.gold, array[9])
+							.addGrist(MinestuckGrist.iodine, array[10])
+							.addGrist(MinestuckGrist.marble, array[11])
+							.addGrist(MinestuckGrist.mercury, array[12])
+							.addGrist(MinestuckGrist.quartz, array[13])
+							.addGrist(MinestuckGrist.ruby, array[14])
+							.addGrist(MinestuckGrist.rust, array[15])
+							.addGrist(MinestuckGrist.shale, array[16])
+							.addGrist(MinestuckGrist.sulfur, array[17])
+							.addGrist(MinestuckGrist.tar, array[18])
+							.addGrist(MinestuckGrist.uranium, array[19])
+							.addGrist(MinestuckGrist.zillium, array[20]);
 				}
 				else
 				{

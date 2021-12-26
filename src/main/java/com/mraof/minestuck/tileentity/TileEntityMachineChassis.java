@@ -3,6 +3,7 @@ package com.mraof.minestuck.tileentity;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.recipes.MachineChasisRecipes;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -17,7 +18,7 @@ import net.minecraft.util.text.translation.I18n;
 
 import javax.annotation.Nullable;
 
-public class TileEntityMachineChasis extends TileEntity implements IInventory, ITickable
+public class TileEntityMachineChassis extends TileEntity implements IInventory, ITickable
 {
 
     private NonNullList<ItemStack> inventory = NonNullList.withSize(5, ItemStack.EMPTY);
@@ -84,13 +85,13 @@ public class TileEntityMachineChasis extends TileEntity implements IInventory, I
     public ItemStack[] invToArray()
     {
         return new ItemStack[]
-        {
-            inventory.get(0),
-            inventory.get(1),
-            inventory.get(2),
-            inventory.get(3),
-            inventory.get(4),
-        };
+                {
+                        inventory.get(0),
+                        inventory.get(1),
+                        inventory.get(2),
+                        inventory.get(3),
+                        inventory.get(4),
+                };
 
     }
 
@@ -101,12 +102,23 @@ public class TileEntityMachineChasis extends TileEntity implements IInventory, I
 
     public void assemble()
     {
-        if(canAssemble() /*&& !world.isRemote*/)
+        if(canAssemble())
         {
-            IBlockState output = MachineChasisRecipes.getOutput(invToArray()).getDefaultState();
+            MachineChasisRecipes.Output output = MachineChasisRecipes.getOutput(invToArray());
+
             clear();
             world.destroyBlock(pos, false);
-            world.setBlockState(pos, output);
+
+            if(output.isStack())
+            {
+                if(!world.isRemote)
+                {
+                    EntityItem item = new EntityItem(world, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, output.getStack());
+                    item.setDefaultPickupDelay();
+                    world.spawnEntity(item);
+                }
+            }
+            else world.setBlockState(pos, output.getBlockState());
         }
     }
 

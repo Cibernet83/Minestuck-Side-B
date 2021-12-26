@@ -3,7 +3,7 @@ package com.mraof.minestuck.entity.underling;
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.Grist;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.entity.EntityListFilter;
 import com.mraof.minestuck.entity.EntityMinestuck;
 import com.mraof.minestuck.entity.ai.EntityAIHurtByTargetAllied;
@@ -64,7 +64,7 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		dataManager.register(GRIST_TYPE, MinestuckGrists.artifact.getRegistryName().toString());
+		dataManager.register(GRIST_TYPE, MinestuckGrist.artifact.getRegistryName().toString());
 	}
 
 	@Override
@@ -272,7 +272,7 @@ public abstract class EntityUnderling extends EntityMinestuck implements IEntity
 
 		if(!(livingData instanceof UnderlingData))
 		{
-			if(this.getGristType() == MinestuckGrists.artifact)
+			if(this.getGristType() == MinestuckGrist.artifact)
 				applyGristType(SburbHandler.getUnderlingType(this), true);
 			livingData = new UnderlingData(this.getGristType());
 		} else

@@ -224,7 +224,7 @@ public class ClientEditHandler {
 		{
 			IBlockState block = event.getWorld().getBlockState(event.getPos());
 			if(block.getBlockHardness(event.getWorld(), event.getPos()) < 0 || block.getMaterial() == Material.PORTAL
-					|| MinestuckPlayerData.getClientGrist().getGrist(MinestuckGrists.build) <= 0)
+					|| MinestuckPlayerData.getClientGrist().getGrist(MinestuckGrist.build) <= 0)
 				event.setCanceled(true);
 		}
 	}

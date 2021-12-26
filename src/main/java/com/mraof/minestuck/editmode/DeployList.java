@@ -2,7 +2,7 @@ package com.mraof.minestuck.editmode;
 
 import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.item.ItemGTKit;
 import com.mraof.minestuck.item.MinestuckItems;
@@ -35,18 +35,18 @@ public class DeployList
 	
 	public static void registerItems()
 	{
-		registerItem("cruxtruder", new ItemStack(MinestuckBlocks.cruxtruder, 1, 0), new GristSet(), new GristSet(MinestuckGrists.build, 100), 0);
-		registerItem("totem_lathe", new ItemStack(MinestuckBlocks.totemlathe[0], 1, 0), new GristSet(), new GristSet(MinestuckGrists.build, 100), 0);
+		registerItem("cruxtruder", new ItemStack(MinestuckBlocks.cruxtruder, 1, 0), new GristSet(), new GristSet(MinestuckGrist.build, 100), 0);
+		registerItem("totem_lathe", new ItemStack(MinestuckBlocks.totemlathe[0], 1, 0), new GristSet(), new GristSet(MinestuckGrist.build, 100), 0);
 		registerItem("artifact_card", new GristSet(), null, 0, connection -> !connection.enteredGame(),
 				connection -> AlchemyUtils.createCard(SburbHandler.getEntryItem(connection.getClientIdentifier()), true));
-		registerItem("alchemiter", new ItemStack(MinestuckBlocks.alchemiter[0], 1, 0), new GristSet(), new GristSet(MinestuckGrists.build, 100), 0);
+		registerItem("alchemiter", new ItemStack(MinestuckBlocks.alchemiter[0], 1, 0), new GristSet(), new GristSet(MinestuckGrist.build, 100), 0);
 		registerItem("punch_designix", 0,null, connection -> new ItemStack(MinestuckBlocks.punchDesignix, 1, 0),
 				(isPrimary, connection) -> new GristSet(SburbHandler.getPrimaryGristType(connection.getClientIdentifier()), 4));
 		/*registerItem("jumper_block_extension", new ItemStack(MinestuckBlocks.jumperBlockExtension[0]), new GristSet(GristType.build, 1000), 1);
 		registerItem("punch_card_shunt", new ItemStack(MinestuckItems.shunt), new GristSet(GristType.build, 100), 1);
 		registerItem("holopad", new ItemStack(MinestuckBlocks.holopad), new GristSet(GristType.build, 10000), 2);*/
-		registerItem("holopad", new ItemStack(MinestuckBlocks.holopad), new GristSet(MinestuckGrists.build, 1000), 2);
-		registerItem("gt_kit", new GristSet(MinestuckGrists.zillium, 50), 0, ItemGTKit::isAvailable, ItemGTKit::generateKit);
+		registerItem("holopad", new ItemStack(MinestuckBlocks.holopad), new GristSet(MinestuckGrist.build, 1000), 2);
+		registerItem("gt_kit", new GristSet(MinestuckGrist.zillium, 50), 0, ItemGTKit::isAvailable, ItemGTKit::generateKit);
 	}
 	
 	public static void registerItem(String name, ItemStack stack, GristSet cost, int tier)
@@ -165,18 +165,18 @@ public class DeployList
 		if(booleans[0] != containsEntry("card_punched_card"))
 		{
 			if(booleans[0])
-				registerItem("card_punched_card", AlchemyUtils.createCard(new ItemStack(MinestuckItems.captchaCard), true), new GristSet(MinestuckGrists.build, 25), null, 0);
+				registerItem("card_punched_card", AlchemyUtils.createCard(new ItemStack(MinestuckItems.captchaCard), true), new GristSet(MinestuckGrist.build, 25), null, 0);
 			else removeEntry("card_punched_card");
 		}
 		if(booleans[1] != containsEntry("portable_cruxtruder"))
 		{
 			if(booleans[1])
 			{
-				registerItem("portable_cruxtruder", new GristSet(MinestuckGrists.build, 200), 1, null,
+				registerItem("portable_cruxtruder", new GristSet(MinestuckGrist.build, 200), 1, null,
 						connection -> ItemMiniSburbMachine.getCruxtruderWithColor(MinestuckPlayerData.getData(connection.getClientIdentifier()).color));
-				registerItem("portable_punch_designix", new ItemStack(MinestuckBlocks.miniPunchDesignix, 1, 1), new GristSet(MinestuckGrists.build, 200), 1);
-				registerItem("portable_totem_lathe", new ItemStack(MinestuckBlocks.miniTotemLathe, 1, 2), new GristSet(MinestuckGrists.build, 200), 1);
-				registerItem("portable_alchemiter", new ItemStack(MinestuckBlocks.miniAlchemiter, 1, 3), new GristSet(MinestuckGrists.build, 300), 1);
+				registerItem("portable_punch_designix", new ItemStack(MinestuckBlocks.miniPunchDesignix, 1, 1), new GristSet(MinestuckGrist.build, 200), 1);
+				registerItem("portable_totem_lathe", new ItemStack(MinestuckBlocks.miniTotemLathe, 1, 2), new GristSet(MinestuckGrist.build, 200), 1);
+				registerItem("portable_alchemiter", new ItemStack(MinestuckBlocks.miniAlchemiter, 1, 3), new GristSet(MinestuckGrist.build, 300), 1);
 			} else
 			{
 				removeEntry("portable_cruxtruder");

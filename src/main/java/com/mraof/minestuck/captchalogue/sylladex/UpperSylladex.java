@@ -1,7 +1,7 @@
-package com.mraof.minestuck.sylladex;
+package com.mraof.minestuck.captchalogue.sylladex;
 
-import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.modus.Modus;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;

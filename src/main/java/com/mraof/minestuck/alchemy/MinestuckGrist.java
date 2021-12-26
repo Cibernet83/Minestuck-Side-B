@@ -9,7 +9,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
-public class MinestuckGrists
+public class MinestuckGrist
 {
 	public static final ArrayList<Grist> grists = new ArrayList<>();
 

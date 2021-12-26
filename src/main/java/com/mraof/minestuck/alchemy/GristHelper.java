@@ -31,40 +31,40 @@ public class GristHelper {
 		secondaryGristMap = new HashMap<>();
 		for(Grist type : Grist.values())
 			secondaryGristMap.put(type, new ArrayList<>());
-		secondaryGristMap.get(MinestuckGrists.amber).add(MinestuckGrists.rust);
-		secondaryGristMap.get(MinestuckGrists.amber).add(MinestuckGrists.sulfur);
-		secondaryGristMap.get(MinestuckGrists.amethyst).add(MinestuckGrists.quartz);
-		secondaryGristMap.get(MinestuckGrists.amethyst).add(MinestuckGrists.garnet);
-		secondaryGristMap.get(MinestuckGrists.caulk).add(MinestuckGrists.iodine);
-		secondaryGristMap.get(MinestuckGrists.caulk).add(MinestuckGrists.chalk);
-		secondaryGristMap.get(MinestuckGrists.chalk).add(MinestuckGrists.shale);
-		secondaryGristMap.get(MinestuckGrists.chalk).add(MinestuckGrists.marble);
-		secondaryGristMap.get(MinestuckGrists.cobalt).add(MinestuckGrists.ruby);
-		secondaryGristMap.get(MinestuckGrists.cobalt).add(MinestuckGrists.amethyst);
-		secondaryGristMap.get(MinestuckGrists.garnet).add(MinestuckGrists.ruby);
-		secondaryGristMap.get(MinestuckGrists.garnet).add(MinestuckGrists.gold);
-		secondaryGristMap.get(MinestuckGrists.iodine).add(MinestuckGrists.amber);
-		secondaryGristMap.get(MinestuckGrists.iodine).add(MinestuckGrists.chalk);
-		secondaryGristMap.get(MinestuckGrists.marble).add(MinestuckGrists.caulk);
-		secondaryGristMap.get(MinestuckGrists.marble).add(MinestuckGrists.amethyst);
-		secondaryGristMap.get(MinestuckGrists.mercury).add(MinestuckGrists.cobalt);
-		secondaryGristMap.get(MinestuckGrists.mercury).add(MinestuckGrists.rust);
-		secondaryGristMap.get(MinestuckGrists.quartz).add(MinestuckGrists.marble);
-		secondaryGristMap.get(MinestuckGrists.quartz).add(MinestuckGrists.uranium);
-		secondaryGristMap.get(MinestuckGrists.ruby).add(MinestuckGrists.quartz);
-		secondaryGristMap.get(MinestuckGrists.ruby).add(MinestuckGrists.diamond);
-		secondaryGristMap.get(MinestuckGrists.rust).add(MinestuckGrists.shale);
-		secondaryGristMap.get(MinestuckGrists.rust).add(MinestuckGrists.garnet);
-		secondaryGristMap.get(MinestuckGrists.shale).add(MinestuckGrists.mercury);
-		secondaryGristMap.get(MinestuckGrists.shale).add(MinestuckGrists.tar);
-		secondaryGristMap.get(MinestuckGrists.sulfur).add(MinestuckGrists.iodine);
-		secondaryGristMap.get(MinestuckGrists.sulfur).add(MinestuckGrists.tar);
-		secondaryGristMap.get(MinestuckGrists.tar).add(MinestuckGrists.amber);
-		secondaryGristMap.get(MinestuckGrists.tar).add(MinestuckGrists.cobalt);
+		secondaryGristMap.get(MinestuckGrist.amber).add(MinestuckGrist.rust);
+		secondaryGristMap.get(MinestuckGrist.amber).add(MinestuckGrist.sulfur);
+		secondaryGristMap.get(MinestuckGrist.amethyst).add(MinestuckGrist.quartz);
+		secondaryGristMap.get(MinestuckGrist.amethyst).add(MinestuckGrist.garnet);
+		secondaryGristMap.get(MinestuckGrist.caulk).add(MinestuckGrist.iodine);
+		secondaryGristMap.get(MinestuckGrist.caulk).add(MinestuckGrist.chalk);
+		secondaryGristMap.get(MinestuckGrist.chalk).add(MinestuckGrist.shale);
+		secondaryGristMap.get(MinestuckGrist.chalk).add(MinestuckGrist.marble);
+		secondaryGristMap.get(MinestuckGrist.cobalt).add(MinestuckGrist.ruby);
+		secondaryGristMap.get(MinestuckGrist.cobalt).add(MinestuckGrist.amethyst);
+		secondaryGristMap.get(MinestuckGrist.garnet).add(MinestuckGrist.ruby);
+		secondaryGristMap.get(MinestuckGrist.garnet).add(MinestuckGrist.gold);
+		secondaryGristMap.get(MinestuckGrist.iodine).add(MinestuckGrist.amber);
+		secondaryGristMap.get(MinestuckGrist.iodine).add(MinestuckGrist.chalk);
+		secondaryGristMap.get(MinestuckGrist.marble).add(MinestuckGrist.caulk);
+		secondaryGristMap.get(MinestuckGrist.marble).add(MinestuckGrist.amethyst);
+		secondaryGristMap.get(MinestuckGrist.mercury).add(MinestuckGrist.cobalt);
+		secondaryGristMap.get(MinestuckGrist.mercury).add(MinestuckGrist.rust);
+		secondaryGristMap.get(MinestuckGrist.quartz).add(MinestuckGrist.marble);
+		secondaryGristMap.get(MinestuckGrist.quartz).add(MinestuckGrist.uranium);
+		secondaryGristMap.get(MinestuckGrist.ruby).add(MinestuckGrist.quartz);
+		secondaryGristMap.get(MinestuckGrist.ruby).add(MinestuckGrist.diamond);
+		secondaryGristMap.get(MinestuckGrist.rust).add(MinestuckGrist.shale);
+		secondaryGristMap.get(MinestuckGrist.rust).add(MinestuckGrist.garnet);
+		secondaryGristMap.get(MinestuckGrist.shale).add(MinestuckGrist.mercury);
+		secondaryGristMap.get(MinestuckGrist.shale).add(MinestuckGrist.tar);
+		secondaryGristMap.get(MinestuckGrist.sulfur).add(MinestuckGrist.iodine);
+		secondaryGristMap.get(MinestuckGrist.sulfur).add(MinestuckGrist.tar);
+		secondaryGristMap.get(MinestuckGrist.tar).add(MinestuckGrist.amber);
+		secondaryGristMap.get(MinestuckGrist.tar).add(MinestuckGrist.cobalt);
 		
-		secondaryGristMap.get(MinestuckGrists.uranium).add(MinestuckGrists.diamond);
-		secondaryGristMap.get(MinestuckGrists.diamond).add(MinestuckGrists.gold);
-		secondaryGristMap.get(MinestuckGrists.gold).add(MinestuckGrists.uranium);
+		secondaryGristMap.get(MinestuckGrist.uranium).add(MinestuckGrist.diamond);
+		secondaryGristMap.get(MinestuckGrist.diamond).add(MinestuckGrist.gold);
+		secondaryGristMap.get(MinestuckGrist.gold).add(MinestuckGrist.uranium);
 	}
 
 	
@@ -77,7 +77,7 @@ public class GristHelper {
 		{
 			Grist[] grists = Grist.REGISTRY.getValuesCollection().toArray(new Grist[0]);
 			Grist randGrist = grists[random.nextInt(grists.length)];
-			if (randGrist.getRarity() > random.nextFloat() && randGrist != MinestuckGrists.artifact)
+			if (randGrist.getRarity() > random.nextFloat() && randGrist != MinestuckGrist.artifact)
 				return randGrist;
 		}
 	}
@@ -105,7 +105,7 @@ public class GristHelper {
 		}
 		
 		GristSet set = new GristSet();
-		set.addGrist(MinestuckGrists.build, (int)(2*multiplier + random.nextDouble()*18*multiplier));
+		set.addGrist(MinestuckGrist.build, (int)(2*multiplier + random.nextDouble()*18*multiplier));
 		set.addGrist(primary, (int)(1*multiplier + random.nextDouble()*9*multiplier));
 		set.addGrist(getSecondaryGrist(primary), (int)(0.5*multiplier + random.nextDouble()*4*multiplier));
 		return set;
@@ -170,7 +170,7 @@ public class GristHelper {
 	public static int getGristValue(GristSet set) {
 		int i = 0;
 		for(Grist type : Grist.values()) {
-			if(type.equals(MinestuckGrists.build))
+			if(type.equals(MinestuckGrist.build))
 				i += set.getGrist(type);
 			else if(type.getRarity() == 0.0F)
 				i += set.getGrist(type)*15;

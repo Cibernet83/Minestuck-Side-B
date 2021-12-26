@@ -1,10 +1,10 @@
-package com.mraof.minestuck.sylladex;
+package com.mraof.minestuck.captchalogue.sylladex;
 
-import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
-import com.mraof.minestuck.modus.Modus;
+import com.mraof.minestuck.captchalogue.modus.Modus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

@@ -127,10 +127,10 @@ public class ClientProxy extends CommonProxy
 	{
 		super.preInit();
 		RenderingRegistry.registerEntityRenderingHandler(EntityFrog.class, manager -> new RenderFrog(manager, new ModelBiped(), 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityNakagator.class, RenderEntityMinestuck.getFactory(new ModelNakagator(), 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySalamander.class, RenderEntityMinestuck.getFactory(new ModelSalamander(), 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityIguana.class, RenderEntityMinestuck.getFactory(new ModelIguana(), 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTurtle.class, RenderEntityMinestuck.getFactory(new ModelTurtle(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityNakagator.class, manager -> new RenderConsort(manager, new ModelNakagator(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySalamander.class, manager -> new RenderConsort(manager, new ModelSalamander(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityIguana.class, manager -> new RenderConsort(manager, new ModelIguana(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityTurtle.class, manager -> new RenderConsort(manager, new ModelTurtle(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityImp.class, RenderEntityMinestuck.getFactory(new ModelImp(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityOgre.class, RenderEntityMinestuck.getFactory(new ModelOgre(), 2.8F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBasilisk.class, RenderEntityMinestuck.getFactory(new ModelBasilisk(), 2.8F));

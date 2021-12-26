@@ -1,4 +1,4 @@
-/*package com.mraof.minestuck.nei;
+/*package com.mraof.minestuck.modSupport.nei;
 
 import static codechicken.lib.gui.GuiDraw.changeTexture;
 

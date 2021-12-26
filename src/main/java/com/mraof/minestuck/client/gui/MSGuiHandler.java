@@ -59,7 +59,7 @@ public class MSGuiHandler implements IGuiHandler
 			case MERCHANT:
 				return new ContainerConsortMerchant(player);
 			case MACHINE_CHASSIS:
-				return new ContainerMachineChasis(player.inventory, (TileEntityMachineChasis) tileEntity);
+				return new ContainerMachineChasis(player.inventory, (TileEntityMachineChassis) tileEntity);
 			case AUTO_CAPTCHA:
 				return new ContainerAutoCaptcha(player.inventory, (TileEntityAutoCaptcha) tileEntity);
 		}
@@ -121,7 +121,7 @@ public class MSGuiHandler implements IGuiHandler
 
 
 			case MACHINE_CHASSIS:
-				return new GuiMachineChasis(player.inventory, (TileEntityMachineChasis) tileEntity);
+				return new GuiMachineChasis(player.inventory, (TileEntityMachineChassis) tileEntity);
 			case AUTO_CAPTCHA:
 				return new GuiAutoCaptcha(player.inventory, (TileEntityAutoCaptcha) tileEntity);
 			case PORKHOLLOW_ATM:

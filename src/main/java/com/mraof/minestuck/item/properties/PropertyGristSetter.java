@@ -2,7 +2,7 @@ package com.mraof.minestuck.item.properties;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.Grist;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.EntityFrog;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
@@ -34,11 +34,11 @@ public class PropertyGristSetter extends WeaponProperty
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
 		int frogType = -1;
-		if(grist == MinestuckGrists.gold)
+		if(grist == MinestuckGrist.gold)
 			frogType = 5;
-		if(grist == MinestuckGrists.ruby)
+		if(grist == MinestuckGrist.ruby)
 			frogType = 2;
-		if(grist == MinestuckGrists.artifact)
+		if(grist == MinestuckGrist.artifact)
 			frogType = target.world.rand.nextInt(100) == 0 ? 6 : 4;
 
 		if(frogType != -1 && target instanceof EntityFrog && ((EntityFrog) target).getType() != frogType && ((EntityFrog) target).getType() != 4)
@@ -76,11 +76,11 @@ public class PropertyGristSetter extends WeaponProperty
 			{
 				Grist grist = ((PropertyGristSetter) ((IPropertyWeapon) stack.getItem()).getProperty(PropertyGristSetter.class, stack)).grist;
 				int frogType = -1;
-				if(grist == MinestuckGrists.gold)
+				if(grist == MinestuckGrist.gold)
 					frogType = 5;
-				if(grist == MinestuckGrists.ruby)
+				if(grist == MinestuckGrist.ruby)
 					frogType = 2;
-				if(grist == MinestuckGrists.artifact)
+				if(grist == MinestuckGrist.artifact)
 					frogType = 6;
 
 				if(event.getEntityLiving() instanceof EntityFrog && (((EntityFrog) event.getEntityLiving()).getType() != frogType || ((EntityFrog) event.getEntityLiving()).getType() == 4))

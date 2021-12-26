@@ -2,7 +2,7 @@ package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.Grist;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -35,7 +35,7 @@ public class ItemMinestuckCandy extends ItemFood
 		{
 			if(type.getCandyItem().isEmpty())
 			{
-				float saturationModifier = type == MinestuckGrists.build ? 0.0F : 0.6F - type.getRarity(); //Perhaps change build to 0.1 or 0.05
+				float saturationModifier = type == MinestuckGrist.build ? 0.0F : 0.6F - type.getRarity(); //Perhaps change build to 0.1 or 0.05
 				String name = type.getName();
 				candyMap.put(type.getId() + 1, new Candy(2, saturationModifier, name.substring(0, 1).toUpperCase() + name.substring(1)));
 				type.setCandyItem(new ItemStack(this, 1, type.getId() + 1));

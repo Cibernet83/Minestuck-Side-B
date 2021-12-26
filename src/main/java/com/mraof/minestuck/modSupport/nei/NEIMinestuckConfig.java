@@ -1,4 +1,4 @@
-/*package com.mraof.minestuck.nei;
+/*package com.mraof.minestuck.modSupport.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;

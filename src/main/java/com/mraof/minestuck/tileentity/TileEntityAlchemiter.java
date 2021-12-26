@@ -31,7 +31,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityAlchemiter extends TileEntity
 {
-	protected Grist selectedGrist = MinestuckGrists.build;
+	protected Grist selectedGrist = MinestuckGrist.build;
 	protected boolean broken = false;
 	protected ItemStack dowel = ItemStack.EMPTY;
 	protected ItemStack upgradeItem[] = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY,ItemStack.EMPTY,ItemStack.EMPTY};
@@ -266,7 +266,7 @@ public class TileEntityAlchemiter extends TileEntity
 			this.selectedGrist = Grist.getTypeFromString(tagCompound.getString("gristType"));
 		if(this.selectedGrist == null)
 		{
-			this.selectedGrist = MinestuckGrists.build;
+			this.selectedGrist = MinestuckGrist.build;
 		}
 		
 		this.upgraded = tagCompound.getBoolean("upgraded");

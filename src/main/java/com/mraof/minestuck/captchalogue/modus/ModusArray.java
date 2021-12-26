@@ -1,4 +1,4 @@
-package com.mraof.minestuck.modus;
+package com.mraof.minestuck.captchalogue.modus;
 
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;

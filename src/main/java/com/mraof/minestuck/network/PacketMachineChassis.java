@@ -1,6 +1,6 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.tileentity.TileEntityMachineChasis;
+import com.mraof.minestuck.tileentity.TileEntityMachineChassis;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -35,7 +35,7 @@ public class PacketMachineChassis extends MinestuckPacket
     {
         if (player.getEntityWorld().isBlockLoaded(this.pos))
         {
-            TileEntityMachineChasis te = (TileEntityMachineChasis) player.getEntityWorld().getTileEntity(pos);
+            TileEntityMachineChassis te = (TileEntityMachineChassis) player.getEntityWorld().getTileEntity(pos);
             if(te != null)
                 te.assemble();
         }

@@ -3,7 +3,7 @@ package com.mraof.minestuck.badges;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.badges.heroAspect.*;
 import com.mraof.minestuck.badges.heroAspectUtil.*;
 import com.mraof.minestuck.badges.heroClass.*;
@@ -53,7 +53,7 @@ public class MinestuckBadges
 			List<Entity> entityList = world.getEntitiesWithinAABB(EntitySkeleton.class, new AxisAlignedBB(player.getPosition()).grow(10));
 
 			boolean canUnlock = !entityList.isEmpty();
-			GristSet cost = new GristSet(MinestuckGrists.sulfur, 6000);
+			GristSet cost = new GristSet(MinestuckGrist.sulfur, 6000);
 
 			canUnlock = canUnlock && Badge.findItem(player, new ItemStack(Item.REGISTRY.getObject(new ResourceLocation("fetchmodiplus:chasity_key")), 16), false);
 
@@ -80,7 +80,7 @@ public class MinestuckBadges
 		@Override
 		public boolean canUnlock(World world, EntityPlayer player)
 		{
-			GristSet cost = new GristSet(MinestuckGrists.shale, 5000);
+			GristSet cost = new GristSet(MinestuckGrist.shale, 5000);
 			if(Badge.findItem(player, new ItemStack(MinestuckItems.captchaCard, 256), false) && GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost))
 			{
 				Badge.findItem(player, new ItemStack(MinestuckItems.captchaCard, 256), true);
@@ -147,7 +147,7 @@ public class MinestuckBadges
 		@Override
 		public boolean canUnlock(World world, EntityPlayer player)
 		{
-			GristSet cost = new GristSet(MinestuckGrists.diamond, 10000);
+			GristSet cost = new GristSet(MinestuckGrist.diamond, 10000);
 			List<Entity> entityList = world.getEntitiesWithinAABB(EntityCreeper.class, new AxisAlignedBB(player.getPosition()).grow(10));
 
 			if(GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost) && !entityList.isEmpty())
@@ -170,7 +170,7 @@ public class MinestuckBadges
 		@Override
 		public boolean canUnlock(World world, EntityPlayer player)
 		{
-			GristSet cost = new GristSet(MinestuckGrists.quartz, 5000);
+			GristSet cost = new GristSet(MinestuckGrist.quartz, 5000);
 			List<EntityFrog> entityList = world.getEntitiesWithinAABB(EntityFrog.class, new AxisAlignedBB(player.getPosition()).grow(10), (fog) -> fog.getType() == 6);
 
 			if(GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost) && entityList.size() >= 5)
@@ -195,7 +195,7 @@ public class MinestuckBadges
 		@Override
 		public boolean canUnlock(World world, EntityPlayer player)
 		{
-			GristSet cost = new GristSet(MinestuckGrists.gold, 8000);
+			GristSet cost = new GristSet(MinestuckGrist.gold, 8000);
 			if(Badge.findItem(player, new ItemStack(MinestuckItems.moonstone, 128), false) && GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), cost))
 			{
 				Badge.findItem(player, new ItemStack(MinestuckItems.moonstone, 128), true);

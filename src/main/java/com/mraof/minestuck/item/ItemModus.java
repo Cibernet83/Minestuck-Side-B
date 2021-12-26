@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.modus.Modus;
+import com.mraof.minestuck.captchalogue.modus.Modus;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;

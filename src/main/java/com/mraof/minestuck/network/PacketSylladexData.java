@@ -1,8 +1,8 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
-import com.mraof.minestuck.sylladex.ISylladex;
-import com.mraof.minestuck.sylladex.MultiSylladex;
+import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

@@ -2,7 +2,7 @@ package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.modus.MinestuckModi;
+import com.mraof.minestuck.captchalogue.modus.MinestuckModi;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import com.mraof.minestuck.util.Title;

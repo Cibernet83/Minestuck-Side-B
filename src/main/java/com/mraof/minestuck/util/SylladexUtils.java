@@ -2,13 +2,13 @@ package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
-import com.mraof.minestuck.captchalogueable.CaptchalogueableItemStack;
-import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.sylladex.ISylladex;
-import com.mraof.minestuck.sylladex.MultiSylladex;
+import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

@@ -2,8 +2,8 @@ package com.mraof.minestuck.client.gui.captchalogue;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
-import com.mraof.minestuck.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.sylladex.MultiSylladex;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;

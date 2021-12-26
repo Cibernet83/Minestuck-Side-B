@@ -356,7 +356,7 @@ public class ServerEditHandler
 			EditData data = getData(event.getEntityPlayer());
 			IBlockState block = event.getWorld().getBlockState(event.getPos());
 			if(block.getBlockHardness(event.getWorld(), event.getPos()) < 0 || block.getMaterial() == Material.PORTAL
-					|| (GristHelper.getGrist(data.connection.getClientIdentifier(), MinestuckGrists.build) <= 0 && !MinestuckConfig.gristRefund))
+					|| (GristHelper.getGrist(data.connection.getClientIdentifier(), MinestuckGrist.build) <= 0 && !MinestuckConfig.gristRefund))
 				event.setCanceled(true);
 		}
 	}
@@ -377,7 +377,7 @@ public class ServerEditHandler
 		{
 			EditData data = getData(event.getEntityPlayer());
 			if(!MinestuckConfig.gristRefund)
-				GristHelper.decrease(data.connection.getClientIdentifier(), new GristSet(MinestuckGrists.build,1));
+				GristHelper.decrease(data.connection.getClientIdentifier(), new GristSet(MinestuckGrist.build,1));
 			else
 			{
 				IBlockState block = event.getWorld().getBlockState(event.getPos());

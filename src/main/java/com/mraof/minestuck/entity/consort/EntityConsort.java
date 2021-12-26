@@ -1,29 +1,38 @@
 package com.mraof.minestuck.entity.consort;
 
-import java.util.Iterator;
-
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.entity.EntityMinestuck;
+import com.mraof.minestuck.entity.IWearsCosmetics;
 import com.mraof.minestuck.entity.consort.MessageType.SingleMessage;
 import com.mraof.minestuck.inventory.InventoryConsortMerchant;
-import com.mraof.minestuck.util.Debug;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
-public abstract class EntityConsort extends EntityMinestuck
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public abstract class EntityConsort extends EntityMinestuck implements IWearsCosmetics
 {
 	
 	ConsortDialogue.DialogueWrapper message;
@@ -37,7 +46,10 @@ public abstract class EntityConsort extends EntityMinestuck
 	private int eventTimer = -1;
 	private float explosionRadius = 2.0f;
 	static private SingleMessage explosionMessage = new SingleMessage("immortalityHerb.3");
-	
+
+	private static final DataParameter<ItemStack> HAT = EntityDataManager.createKey(EntityConsort.class, DataSerializers.ITEM_STACK);
+	private int cosmeticPickupTimer = 0;
+
 	public EntityConsort(World world)
 	{
 		super(world);
@@ -54,7 +66,14 @@ public abstract class EntityConsort extends EntityMinestuck
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(7, new EntityAILookIdle(this));
 	}
-	
+
+	@Override
+	protected void entityInit()
+	{
+		super.entityInit();
+		dataManager.register(HAT, ItemStack.EMPTY);
+	}
+
 	protected void applyAdditionalAITasks()
 	{
 		if(!hasHome() || getMaximumHomeDistance() > 1)
@@ -66,7 +85,7 @@ public abstract class EntityConsort extends EntityMinestuck
 	{
 		return 10;
 	}
-	
+
 	@Override
 	protected boolean processInteract(EntityPlayer player, EnumHand hand)
 	{
@@ -132,7 +151,36 @@ public abstract class EntityConsort extends EntityMinestuck
 		
 		if(MinestuckDimensionHandler.isSkaia(dimension))
 			visitedSkaia = true;
-		
+
+		if(getCosmeticPickupDelay() <= 0)
+			for (EntityItem entityitem : world.getEntitiesWithinAABB(EntityItem.class, getEntityBoundingBox().grow(1.0D, 0.0D, 1.0D)))
+			{
+				if (!entityitem.isDead && !entityitem.getItem().isEmpty() && !entityitem.cannotPickup())
+				{
+					ItemStack stack = entityitem.getItem();
+					if(EntityLiving.getSlotForItemStack(stack) == EntityEquipmentSlot.HEAD && !ItemStack.areItemStacksEqual(stack, getHeadStack()))
+					{
+						if(!getHeadStack().isEmpty())
+							world.spawnEntity(new EntityItem(world, posX, posY+height, posZ, getHeadStack()));
+
+						ItemStack pickedUp = stack.copy();
+						pickedUp.setCount(1);
+						setHeadStack(pickedUp);
+						stack.shrink(1);
+						onItemPickup(entityitem, 1);
+						entityitem.setDead();
+
+						if(!stack.isEmpty())
+							world.spawnEntity(new EntityItem(world, posX, posY+height, posZ, stack));
+
+						setCosmeticPickupDelay(200);
+
+						break;
+					}
+				}
+			}
+		shrinkPickupDelay();
+
 		if(eventTimer > 0)
 		{
 			eventTimer--;
@@ -185,7 +233,7 @@ public abstract class EntityConsort extends EntityMinestuck
 			return l >= this.rand.nextInt(8);
 		}
 	}
-	
+
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound)
 	{
@@ -216,8 +264,13 @@ public abstract class EntityConsort extends EntityMinestuck
 		}
 		
 		compound.setBoolean("skaia", visitedSkaia);
+
+		NBTTagCompound stackNbt = new NBTTagCompound();
+		getHeadStack().writeToNBT(stackNbt);
+		compound.setTag("Hat", stackNbt);
+		compound.setInteger("CosmeticPickupDelay", getCosmeticPickupDelay());
 	}
-	
+
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound)
 	{
@@ -251,10 +304,23 @@ public abstract class EntityConsort extends EntityMinestuck
 		}
 		
 		visitedSkaia = compound.getBoolean("skaia");
-		
+
+		setHeadStack(new ItemStack(compound.getCompoundTag("Hat")));
+		setCosmeticPickupDelay(compound.getInteger("CosmeticPickupDelay"));
+
 		applyAdditionalAITasks();
 	}
-	
+
+	public static final ArrayList<ItemStack> HAT_SPAWN_POOL = new ArrayList<ItemStack>()
+	{{
+		add(new ItemStack(MinestuckItems.crumplyHat));
+		add(new ItemStack(MinestuckItems.wizardHat));
+		add(new ItemStack(MinestuckItems.frogHat));
+		add(new ItemStack(Items.LEATHER_HELMET));
+		add(new ItemStack(Items.CHAINMAIL_HELMET));
+	}};
+
+
 	@Override
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata)
 	{
@@ -269,6 +335,9 @@ public abstract class EntityConsort extends EntityMinestuck
 		visitedSkaia = rand.nextFloat() < 0.1F;
 		
 		applyAdditionalAITasks();
+
+		if(rand.nextFloat() < 0.05f)
+			setHeadStack(HAT_SPAWN_POOL.get(rand.nextInt(HAT_SPAWN_POOL.size())).copy());
 		
 		return super.onInitialSpawn(difficulty, livingdata);
 	}
@@ -309,5 +378,35 @@ public abstract class EntityConsort extends EntityMinestuck
 		if(!messageData.hasKey(player.getCachedUniqueIdString(), 10))
 			messageData.setTag(player.getCachedUniqueIdString(), new NBTTagCompound());
 		return messageData.getCompoundTag(player.getCachedUniqueIdString());
+	}
+
+	@Override
+	public void setHeadStack(ItemStack stack)
+	{
+		dataManager.set(HAT, stack);
+	}
+
+	@Override
+	public ItemStack getHeadStack()
+	{
+		return dataManager.get(HAT);
+	}
+
+	@Override
+	public void setCosmeticPickupDelay(int i)
+	{
+		cosmeticPickupTimer = i;
+	}
+
+	@Override
+	public int getCosmeticPickupDelay()
+	{
+		return cosmeticPickupTimer;
+	}
+
+	@Override
+	public int shrinkPickupDelay()
+	{
+		return cosmeticPickupTimer = Math.max(0, cosmeticPickupTimer-1);
 	}
 }

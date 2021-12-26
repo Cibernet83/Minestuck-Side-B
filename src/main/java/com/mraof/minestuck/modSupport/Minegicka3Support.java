@@ -26,7 +26,7 @@ public class Minegicka3Support extends ModSupport
 		Item stick2 = ((Item) (Class.forName("com.williameze.minegicka3.ModBase").getField("stickGood").get(null)));
 		Item stick3 = ((Item) (Class.forName("com.williameze.minegicka3.ModBase").getField("stickSuper").get(null)));
 		
-		GristRegistry.addGristConversion(new ItemStack(thingy), false, new GristSet(new Grist[]{MinestuckGrists.rust, MinestuckGrists.gold}, new int[]{16, 16}));
+		GristRegistry.addGristConversion(new ItemStack(thingy), false, new GristSet(new Grist[]{MinestuckGrist.rust, MinestuckGrist.gold}, new int[]{16, 16}));
 		
 		CombinationRegistry.addCombination(new ItemStack(thingy), new ItemStack(Items.STICK), CombinationRegistry.Mode.MODE_AND, new ItemStack(stick));
 		CombinationRegistry.addCombination(new ItemStack(thingy2), new ItemStack(Items.STICK), CombinationRegistry.Mode.MODE_AND, new ItemStack(stick2));

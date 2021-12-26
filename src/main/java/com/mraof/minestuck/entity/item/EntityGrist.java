@@ -31,7 +31,7 @@ public class EntityGrist extends Entity implements IEntityAdditionalSpawnData
 
 	private int gristHealth = 5;
 	//Type of grist
-	private Grist grist = MinestuckGrists.build;
+	private Grist grist = MinestuckGrist.build;
 	private int gristValue = 1;
 
 	private EntityPlayer closestPlayer;

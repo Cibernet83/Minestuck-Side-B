@@ -1,7 +1,7 @@
-package com.mraof.minestuck.captchalogueable;
+package com.mraof.minestuck.captchalogue.captchalogueable;
 
 import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
-import com.mraof.minestuck.sylladex.BottomSylladex;
+import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

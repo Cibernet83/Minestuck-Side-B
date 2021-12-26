@@ -1,6 +1,6 @@
 package com.mraof.minestuck.inventory;
 
-import com.mraof.minestuck.tileentity.TileEntityMachineChasis;
+import com.mraof.minestuck.tileentity.TileEntityMachineChassis;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -11,11 +11,11 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerMachineChasis extends Container
 {
-    private final TileEntityMachineChasis tileEntity;
+    private final TileEntityMachineChassis tileEntity;
 
     private boolean assembling;
 
-    public ContainerMachineChasis(InventoryPlayer player, TileEntityMachineChasis tileEntity)
+    public ContainerMachineChasis(InventoryPlayer player, TileEntityMachineChassis tileEntity)
     {
         super();
         this.tileEntity = tileEntity;

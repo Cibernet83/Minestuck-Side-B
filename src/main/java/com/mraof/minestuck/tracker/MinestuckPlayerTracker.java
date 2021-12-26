@@ -3,17 +3,17 @@ package com.mraof.minestuck.tracker;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.editmode.ServerEditHandler;
-import com.mraof.minestuck.modus.Modus;
+import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
 import com.mraof.minestuck.network.PacketPlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
-import com.mraof.minestuck.sylladex.ISylladex;
-import com.mraof.minestuck.sylladex.MultiSylladex;
+import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.util.*;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
@@ -59,7 +59,7 @@ public class MinestuckPlayerTracker
 		if(MinestuckPlayerData.getGristSet(identifier) == null)
 		{
 			Debug.debugf("Grist set is null for player %s. Handling it as first time in this world.", player.getName());
-			MinestuckPlayerData.setGrist(identifier, new GristSet(MinestuckGrists.build, 20));
+			MinestuckPlayerData.setGrist(identifier, new GristSet(MinestuckGrist.build, 20));
 			firstTime = true;
 		}
 		

@@ -66,7 +66,7 @@ public class MinestuckBlocks
 	public static final Block miniCruxtruder = new BlockMiniCruxtruder();
 
 	//Computers
-	public static final Block blockSburbComputer = new BlockComputer("sburbComputer", new AxisAlignedBB(1/16D, 0.0D, 1/16D, 15/16D, 3/16D, 15/16D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
+	public static final Block sburbComputer = new BlockComputer("sburbComputer", new AxisAlignedBB(1/16D, 0.0D, 1/16D, 15/16D, 3/16D, 15/16D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
 	public static final Block blockLaptop = new BlockComputer("laptop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
 	public static final Block blockHubtop = new BlockComputer("hubtop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
 	public static final Block blockCrockertop = new BlockComputer("crockertop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
@@ -76,7 +76,7 @@ public class MinestuckBlocks
 	public static final Block modusControlDeck = new BlockModusControlDeck();
 	public static final Block uraniumCooker = new BlockUraniumCooker();
 	public static final Block gristWidget = new BlockGristWidget();
-	public static final BlockMachineChasis machineChasis = new BlockMachineChasis();
+	public static final BlockMachineChassis machineChasis = new BlockMachineChassis();
 	public static final BlockGristHopper gristHopper = new BlockGristHopper();
 	public static final BlockAutoWidget autoWidget = new BlockAutoWidget();
 	public static final BlockAutoCaptcha autoCaptcha = new BlockAutoCaptcha();

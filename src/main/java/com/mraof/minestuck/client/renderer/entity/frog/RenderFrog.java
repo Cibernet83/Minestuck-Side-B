@@ -1,9 +1,8 @@
 package com.mraof.minestuck.client.renderer.entity.frog;
 
+import com.mraof.minestuck.client.layers.LayerConsortCosmetics;
 import com.mraof.minestuck.client.model.ModelFrog;
 import com.mraof.minestuck.entity.EntityFrog;
-import com.mraof.minestuck.entity.EntityMinestuck;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
@@ -19,6 +18,7 @@ public class RenderFrog extends RenderLivingBase<EntityFrog>
 		this.addLayer(new LayerFrogSkin(this));
 		this.addLayer(new LayerFrogEyes(this));
 		this.addLayer(new LayerFrogBelly(this));
+		addLayer(new LayerConsortCosmetics(this));
 		
 	}
 
@@ -31,7 +31,7 @@ public class RenderFrog extends RenderLivingBase<EntityFrog>
 	
 	@Override
 	protected ResourceLocation getEntityTexture(EntityFrog entity) {
-		return ((EntityMinestuck) entity).getTextureResource();
+		return entity.getTextureResource();
 	}
 	
 	protected boolean canRenderName(EntityFrog entity)

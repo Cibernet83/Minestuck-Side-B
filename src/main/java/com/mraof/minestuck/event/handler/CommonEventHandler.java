@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.MinestuckGrists;
+import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.enchantments.MinestuckEnchantments;
 import com.mraof.minestuck.event.AlchemizeItemEvent;
 import com.mraof.minestuck.event.UnderlingSpoilsEvent;
@@ -431,6 +431,6 @@ public class CommonEventHandler
 		event.getSpoils().scaleGrist((float) MinestuckConfig.gristDropsMultiplier);
 
 		if(event.getUnderling().getRNG().nextFloat() <= 0.001f)
-			event.getSpoils().addGrist(new GristSet(MinestuckGrists.zillium, 1));
+			event.getSpoils().addGrist(new GristSet(MinestuckGrist.zillium, 1));
 	}
 }

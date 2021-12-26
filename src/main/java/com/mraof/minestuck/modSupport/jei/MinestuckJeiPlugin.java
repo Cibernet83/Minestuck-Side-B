@@ -95,12 +95,12 @@ public class MinestuckJeiPlugin implements IModPlugin
 		registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.miniTotemLathe, 1), totemLatheCategory.getUid());
 		registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.miniPunchDesignix, 1), designixCategory.getUid());
 
-		ArrayList<AssemblyRecipeWrapper> assemblyRecipes = new ArrayList<>();
-		for(Map.Entry<String, Block> entry : MachineChasisRecipes.getRecipes().entrySet())
-			assemblyRecipes.add(new AssemblyRecipeWrapper(MachineChasisRecipes.getIngredientList(entry.getKey()), new ItemStack(entry.getValue())));
+	    ArrayList<AssemblyRecipeWrapper> assemblyRecipes = new ArrayList<>();
+	    for(Map.Entry<String, MachineChasisRecipes.Output> entry : MachineChasisRecipes.getRecipes().entrySet())
+		    assemblyRecipes.add(new AssemblyRecipeWrapper(MachineChasisRecipes.getIngredientList(entry.getKey()), entry.getValue().getStack()));
 
-		registry.addRecipes(assemblyRecipes, assemblyRecipeCategory.getUid());
-		registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.machineChasis), assemblyRecipeCategory.getUid()); // FIXME: machine chasis is air for some reason
+	    registry.addRecipes(assemblyRecipes, assemblyRecipeCategory.getUid());
+		registry.addRecipeCatalyst(new ItemStack(MinestuckBlocks.machineChasis), assemblyRecipeCategory.getUid()); // FIXME: machine chassis is air for some reason
     }
 
     private List<ItemStack> getItemStacks(Object item, int metadata)
