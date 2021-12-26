@@ -1,7 +1,7 @@
 buildscript {
     repositories {
+        maven { url = "http://maven.minecraftforge.net/" }
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
@@ -11,9 +11,9 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "${mod_version}"
-group = "${mod_group}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "${mod_archives_base_name}"
+version = "2.0.0"
+group = "com.mraof.minestuck" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "Minestuck"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
@@ -21,7 +21,7 @@ compileJava {
 }
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
+    version = "1.12.2-14.23.5.2847"
     runDir = "run"
 
     // the mappings can be changed at any time, and must be in the following format.
@@ -29,42 +29,48 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "${mappings_version}"
+    mappings = "snapshot_20171003"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
 
     replace "@VERSION@", project.version
-    replaceIn "${mod_main_file}"
+    replaceIn "com/mraof/minestuck/Minestuck.java"
 }
 
 repositories {
     maven {
-        name = "chickenbones"
-        url = "http://chickenbones.net/maven/"
+        url = "https://www.cursemaven.com"
     }
     maven {
+        // CraftTweaker
+        url = "http://maven.blamejared.com"
+    }
+    maven {
+        // JEI
         name = "Progwml6 maven"
         url = "http://dvs1.progwml6.com/files/maven/"
     }
     maven {
-        url = "http://maven.blamejared.com"
-    }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
+        // JEI fallback
         name = "ModMaven"
         url = "modmaven.k-4u.nl"
-    }
-    maven {
-        url = "https://www.cursemaven.com"
     }
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
-    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
-    deobfCompile "CraftTweaker2:CraftTweaker2-API:${crafttweaker_version}"
+    compile "CraftTweaker2:CraftTweaker2-API:4.1.6.467:deobf"
 
-    //deobfCompile "curse.maven:obfuscate-289380:2912288"
+    compile "mezz.jei:jei_1.12.2:4.15.0.268:api"
+    runtime "mezz.jei:jei_1.12.2:4.15.0.268"
+
+    runtime "curse.maven:baubles-227083:2518667"
+    deobfCompile "curse.maven:botania-225643:3330934"
+    deobfCompile "curse.maven:carryon-274259:3498879"
+    deobfCompile "curse.maven:locks-253456:3020518"
+    deobfCompile "curse.maven:refinedstorage-243076:2940914"
+    deobfCompile "curse.maven:splatcraft-367816:2998820"
+    deobfCompile "curse.maven:thaumcraft-223628:2629023"
+    deobfCompile "curse.maven:trophyslots-226077:2507560"
 }
 
 processResources {
