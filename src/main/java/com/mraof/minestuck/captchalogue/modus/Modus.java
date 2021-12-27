@@ -1,13 +1,16 @@
 package com.mraof.minestuck.captchalogue.modus;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.GuiFetchModus;
+import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
 import com.mraof.minestuck.util.IRegistryObject;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -122,33 +125,57 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 		return new ModusGuiContainer(textureIndices, sylladex);
 	}
 
-	/**
-	 * Get the index of the card texture that should be used by this modus.
-	 */
 	@SideOnly(Side.CLIENT)
-	public abstract CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings);
+	public GuiFetchModus getSettingsGui(ItemStack modusStack)
+	{
+		return new GuiFetchModus(modusStack);
+	}
 
 	@SideOnly(Side.CLIENT)
 	public String getName(boolean alone, boolean prefix, boolean plural)
 	{
 		if (alone)
 			if (plural)
-				return getIfKeyExists("modus." + name + ".alone.plural", I18n.format("modus.pluralize", getName(true, false,  false)));
+				return getIfKeyExists("modus." + name + ".alone.plural", I18n.format("modus.pluralize", getName()));
 			else
 				return I18n.format("modus." + name + ".alone.singular");
 		else if (prefix)
-			return getIfKeyExists("modus." + name + ".prefix", getName(true, false, false));
+			return getIfKeyExists("modus." + name + ".prefix", getName());
 		else
 			if (plural)
-				return getIfKeyExists("modus." + name + ".suffix.plural", getName(true, false, true).toLowerCase());
+				return getIfKeyExists("modus." + name + ".suffix.plural", getName(true).toLowerCase());
 			else
-				return getIfKeyExists("modus." + name + ".suffix.singular", getName(true, false,  false).toLowerCase());
+				return getIfKeyExists("modus." + name + ".suffix.singular", getName().toLowerCase());
+	}
+
+	@SideOnly(Side.CLIENT)
+	public String getName(boolean plural)
+	{
+		return getName(true, false, plural);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public String getName()
+	{
+		return getName(false);
 	}
 
 	@SideOnly(Side.CLIENT)
 	private static String getIfKeyExists(String key, String defaultString)
 	{
 		return I18n.hasKey(key) ? I18n.format(key) : defaultString;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getDarkerColor()
+	{
+		return MinestuckUtils.multiply(getPrimaryColor(), 0.85f);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getLighterColor()
+	{
+		return MinestuckUtils.add(getPrimaryColor(), 20);
 	}
 
 	@SubscribeEvent
@@ -159,4 +186,15 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 												  .setType(Modus.class)
 												  .create();
 	}
+
+	/**
+	 * Get the index of the card texture that should be used by this modus.
+	 */
+	@SideOnly(Side.CLIENT)
+	public abstract CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings);
+
+	@SideOnly(Side.CLIENT)
+	public abstract int getPrimaryColor();
+	@SideOnly(Side.CLIENT)
+	public abstract int getTextColor();
 }

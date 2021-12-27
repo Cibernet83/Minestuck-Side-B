@@ -4,7 +4,7 @@ import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.GuiSylladex;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -21,7 +21,7 @@ public abstract class MultiSylladex implements ISylladex
 	public boolean autoBalanceNewCards = false;
 
 	@SideOnly(Side.CLIENT)
-	private SylladexGuiHandler gui;
+	private GuiSylladex gui;
 
 	protected MultiSylladex(ModusLayer modi)
 	{
@@ -116,10 +116,10 @@ public abstract class MultiSylladex implements ISylladex
 	}
 
 	@SideOnly(Side.CLIENT)
-	public SylladexGuiHandler getGuiHandler()
+	public GuiSylladex getGuiHandler()
 	{
 		if (gui == null)
-			gui = new SylladexGuiHandler(this);
+			gui = new GuiSylladex(this);
 		return gui;
 	}
 

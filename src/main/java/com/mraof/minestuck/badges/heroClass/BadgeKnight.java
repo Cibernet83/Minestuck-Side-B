@@ -3,8 +3,8 @@ package com.mraof.minestuck.badges.heroClass;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
-import com.mraof.minestuck.util.MSGTUtils;
 import com.mraof.minestuck.util.EnumClass;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -47,7 +47,7 @@ public class BadgeKnight extends BadgeHeroClass
 		if(time > 36)
 			badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumClass.KNIGHT, 20);
 
-		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 		if(time <= 40)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.KNIGHT, target == null ? 1 : 5);
 

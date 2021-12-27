@@ -1,6 +1,6 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.GuiSylladex;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -36,13 +36,13 @@ public class PacketSylladexData extends MinestuckPacket
 		{
 			MultiSylladex sylladex = ISylladex.readFromNBT(nbt);
 			MinestuckPlayerData.clientData.sylladex = sylladex;
-			if (Minecraft.getMinecraft().currentScreen instanceof SylladexGuiHandler)
-				((SylladexGuiHandler)Minecraft.getMinecraft().currentScreen).updateSylladex(sylladex);
+			if (Minecraft.getMinecraft().currentScreen instanceof GuiSylladex)
+				((GuiSylladex)Minecraft.getMinecraft().currentScreen).updateSylladex(sylladex);
 		}
 		else
 		{
 			MinestuckPlayerData.clientData.sylladex = null;
-			if (Minecraft.getMinecraft().currentScreen instanceof SylladexGuiHandler)
+			if (Minecraft.getMinecraft().currentScreen instanceof GuiSylladex)
 				Minecraft.getMinecraft().currentScreen = null;
 		}
 	}

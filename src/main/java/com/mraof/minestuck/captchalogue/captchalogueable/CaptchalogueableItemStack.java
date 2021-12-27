@@ -1,7 +1,7 @@
 package com.mraof.minestuck.captchalogue.captchalogueable;
 
 import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
-import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.GuiSylladex;
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.renderer.GlStateManager;
@@ -101,7 +101,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void draw(SylladexGuiHandler gui)
+	public void draw(GuiSylladex gui)
 	{
 		if(!stack.isEmpty())
 		{
@@ -126,7 +126,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void renderTooltip(SylladexGuiHandler gui, int x, int y)
+	public void renderTooltip(GuiSylladex gui, int x, int y)
 	{
 		gui.renderToolTip(stack, x, y);
 	}

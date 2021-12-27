@@ -66,7 +66,7 @@ public class BadgeMaid extends BadgeHeroClass
 		}
 
 
-		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 		if(time <= 36)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.MAID, target == null ? 1 : 5);
 		else

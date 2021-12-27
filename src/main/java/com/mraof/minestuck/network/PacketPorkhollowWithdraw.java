@@ -1,6 +1,6 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.util.MSUUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import io.netty.buffer.ByteBuf;
@@ -47,9 +47,9 @@ public class PacketPorkhollowWithdraw extends MinestuckPacket
 			if(n > 0)
 				split = (int) Math.floor(amount/n);
 			for(int i = 0; i < n; i++)
-				MSUUtils.giveBoonItem(sender, split);
+				MinestuckUtils.giveBoonItem(sender, split);
 			if(split*n != amount)
-				MSUUtils.giveBoonItem(sender, amount-split*n);
+				MinestuckUtils.giveBoonItem(sender, amount-split*n);
 			//sender.sendMessage(new TextComponentTranslation("message.atm.withdrawSuccess", amount));
 		} else sender.sendMessage(new TextComponentTranslation("commands.porkhollow.notEnough"));
 	}

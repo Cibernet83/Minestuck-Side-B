@@ -187,7 +187,7 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(RenderMachineOutline.class);
 
 		MSKeyHandler.register();
-		MSUFontRenderer.registerFonts();
+		MinestuckFontRenderer.registerFonts();
 	}
 
 	@SubscribeEvent

@@ -3,7 +3,7 @@ package com.mraof.minestuck.client.gui;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.client.MSUFontRenderer;
+import com.mraof.minestuck.client.MinestuckFontRenderer;
 import com.mraof.minestuck.client.gui.playerStats.GuiPlayerStats;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -42,7 +42,7 @@ public class GuiStrifePortfolio extends GuiPlayerStats
 	private int mouseX;
 	private int mouseY;
 	private boolean mousePressed;
-	private final FontRenderer font = MSUFontRenderer.fontSpecibus;
+	private final FontRenderer font = MinestuckFontRenderer.lucidaConsoleSmall;
 
 	private StrifeSpecibus[] portfolio;
 	private int activeSpecibus = -1;

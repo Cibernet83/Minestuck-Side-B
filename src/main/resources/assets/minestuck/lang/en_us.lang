@@ -1452,6 +1452,7 @@ gui.selectColor=Select Color
 gui.emptySylladex1=Are you sure you want to continue?
 gui.emptySylladex2=This will empty your sylladex.
 gui.emptySylladexButton=Empty Sylladex
+gui.ejectModusButton=EJECT
 gui.autobalance.on=Auto-balance Active
 gui.autobalance.off=Auto-balance Inactive
 gui.ejectByChat.on=Quick Eject Active

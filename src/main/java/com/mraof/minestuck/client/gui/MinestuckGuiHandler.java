@@ -1,10 +1,12 @@
 package com.mraof.minestuck.client.gui;
 
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.inventory.*;
 import com.mraof.minestuck.inventory.miniMachines.ContainerMiniAlchemiter;
 import com.mraof.minestuck.inventory.miniMachines.ContainerMiniCruxtruder;
 import com.mraof.minestuck.inventory.miniMachines.ContainerMiniPunchDesignix;
 import com.mraof.minestuck.inventory.miniMachines.ContainerMiniTotemLathe;
+import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.tileentity.*;
 import net.minecraft.client.Minecraft;
@@ -16,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
-public class MSGuiHandler implements IGuiHandler
+public class MinestuckGuiHandler implements IGuiHandler
 {
 	public enum GuiId
 	{
@@ -33,6 +35,11 @@ public class MSGuiHandler implements IGuiHandler
 		BOONDOLLAR_REGISTER,
 		STRIFE_CARD,
 		MODUS_CONTROL_DECK,
+		FETCH_MODUS,
+		MEDITATE,
+		ITEM_VOID,
+		HOARD_SELECTOR,
+		SASH,
 	}
 	
 	@Override
@@ -62,6 +69,9 @@ public class MSGuiHandler implements IGuiHandler
 				return new ContainerMachineChasis(player.inventory, (TileEntityMachineChassis) tileEntity);
 			case AUTO_CAPTCHA:
 				return new ContainerAutoCaptcha(player.inventory, (TileEntityAutoCaptcha) tileEntity);
+
+			case ITEM_VOID:
+				return new ContainerItemVoid(player);
 		}
 		return null;
 	}
@@ -132,7 +142,25 @@ public class MSGuiHandler implements IGuiHandler
 				return new GuiStrifeCard(player);
 			case MODUS_CONTROL_DECK:
 				return new GuiModusControlDeck((TileEntityModusControlDeck) tileEntity);
+			case FETCH_MODUS:
+				ItemStack modusStack = player.getHeldItemMainhand();
+				if (modusStack.isEmpty() || !(modusStack.getItem() instanceof ItemModus))
+					return null;
+				return ((ItemModus)modusStack.getItem()).getModus().getSettingsGui(modusStack);
 
+			case MEDITATE:
+				return new GuiGodTierMeditation(player);
+			case SASH:
+				return new GuiManageBadges(player);
+			case ITEM_VOID:
+				return new GuiItemVoid(player);
+			case HOARD_SELECTOR:
+				return new GuiGristSelector(new IGristSelectable() {
+					@Override
+					public void select(Grist grist) { }
+					@Override
+					public void cancel() { }
+				});
 		}
 
 

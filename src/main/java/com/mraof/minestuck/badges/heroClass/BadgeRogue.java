@@ -5,7 +5,7 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumClass;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
@@ -56,7 +56,7 @@ public class BadgeRogue extends BadgeHeroClass
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 8);
 		}
 
-		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 		if(time < 57)
 			badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.ROGUE, target != null ? 5 : 1);
 		else

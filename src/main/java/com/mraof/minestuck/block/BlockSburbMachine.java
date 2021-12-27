@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.ItemMiniSburbMachine;
 import com.mraof.minestuck.item.block.MSItemBlock;
@@ -91,7 +91,7 @@ public abstract class BlockSburbMachine extends MSBlockContainer
 			return false;
 		
 		if(!worldIn.isRemote)
-			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 	

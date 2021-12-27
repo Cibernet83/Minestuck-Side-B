@@ -1,12 +1,13 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.MSUFontRenderer;
+import com.mraof.minestuck.client.MinestuckFontRenderer;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.StrifeSpecibus;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
@@ -30,7 +31,7 @@ public class GuiStrifeCard extends GuiScreen
 	private float scale = 1;
 	private static final int columnWidth = 50,columns = 2;
 	private static EntityPlayer player;
-	private static final FontRenderer font = MSUFontRenderer.fontSpecibus;
+	private static final FontRenderer font = MinestuckFontRenderer.lucidaConsoleSmall;
 
 	private final ArrayList<KindAbstratus> abstrataList;
 	private static int size = 26;
@@ -106,7 +107,7 @@ public class GuiStrifeCard extends GuiScreen
 			int txPos = (sxPos + columnWidth - font.getStringWidth(typeName))+ (int)(10/scale);
 			int tyPos = syPos + (int)(3/scale);
 
-			if(isPointInRegion(xPos, yPos, columnWidth, font.FONT_HEIGHT, mouseX, mouseY))
+			if(MinestuckUtils.isPointInRegion(xPos, yPos, columnWidth, font.FONT_HEIGHT, mouseX, mouseY))
 			{
 				drawRect(xPos, yPos, xPos+columnWidth, yPos+font.FONT_HEIGHT, 0xFFAFAFAF);
 				color = 0x000000;
@@ -157,7 +158,7 @@ public class GuiStrifeCard extends GuiScreen
 
 		float sp = scrollPos;
 		if(s != 0) sp += 1.0F/maxScroll * -Math.signum(s);
-		if(isPointInRegion(xOffset+128, yOffset+23, 12, 155, i, j) && Mouse.isButtonDown(0))
+		if(MinestuckUtils.isPointInRegion(xOffset+128, yOffset+23, 12, 155, i, j) && Mouse.isButtonDown(0))
 			sp = (j-23-yOffset)/140.0F;
 
 		if(maxScroll <= 0) return;
@@ -165,7 +166,6 @@ public class GuiStrifeCard extends GuiScreen
 
 		extraLines = (int) Math.min(4, scrollPos*maxScroll);
 		size = 26 + extraLines*2;
-
 	}
 
 	public void setScale(float percentage)
@@ -178,11 +178,5 @@ public class GuiStrifeCard extends GuiScreen
 	public void updateScalePos()
 	{
 
-	}
-
-
-	protected static boolean isPointInRegion(int regionX, int regionY, int regionWidth, int regionHeight, int pointX, int pointY)
-	{
-		return pointX >= regionX && pointX < regionX + regionWidth && pointY >= regionY && pointY < regionY + regionHeight;
 	}
 }

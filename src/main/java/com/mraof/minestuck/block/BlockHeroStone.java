@@ -2,7 +2,7 @@ package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.client.gui.MSGTGuiHandler;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.util.EnumAspect;
@@ -110,7 +110,7 @@ public class BlockHeroStone extends MSBlockBase implements IGodTierBlock
 			if(!playerIn.isSneaking() && playerIn.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isGodTier() && (aspect == null || aspect == title.getHeroAspect()) && facing == EnumFacing.UP)
 			{
 				if(worldIn.isRemote)
-					playerIn.openGui(Minestuck.instance, MSGTGuiHandler.MEDITATE, worldIn, pos.getX(), pos.getY(), pos.getZ());
+					playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MEDITATE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 				return true;
 			}
 		}

@@ -7,7 +7,7 @@ import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -33,7 +33,7 @@ public class BadgePassiveHeart extends BadgeHeroAspect
 		if (time % 10 != 0) // for damage cooldown
 			return false;
 
-		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 		if (target != null)
 		{
 			player.attackEntityFrom(DAMAGE_SOURCE, 8);

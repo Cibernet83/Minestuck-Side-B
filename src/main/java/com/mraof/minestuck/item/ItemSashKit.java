@@ -2,7 +2,7 @@ package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.client.gui.MSGTGuiHandler;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -26,7 +26,7 @@ public class ItemSashKit extends MSItemBase
 		{
 			BlockPos pos = playerIn.getPosition();
 			if(worldIn.isRemote)
-				playerIn.openGui(Minestuck.instance, MSGTGuiHandler.SASH, worldIn, pos.getX(), pos.getY(), pos.getZ());
+				playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.SASH.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 		}
 		return super.onItemRightClick(worldIn, playerIn, handIn);

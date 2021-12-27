@@ -1,7 +1,7 @@
 package com.mraof.minestuck.captchalogue.modus;
 
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.GuiSylladex;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,7 +53,35 @@ public class ModusStack extends Modus
 	public CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings)
 	{
 		if (cardTextureIndex == null)
-			cardTextureIndex = new CardGuiContainer.CardTextureIndex(SylladexGuiHandler.CARD_TEXTURE, 53);
+			cardTextureIndex = new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 53);
 		return cardTextureIndex;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getPrimaryColor()
+	{
+		return 0xFF067C;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getDarkerColor()
+	{
+		return 0x9A2547;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getLighterColor()
+	{
+		return 0xFF5D99;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getTextColor()
+	{
+		return 0xB7FFFD;
 	}
 }

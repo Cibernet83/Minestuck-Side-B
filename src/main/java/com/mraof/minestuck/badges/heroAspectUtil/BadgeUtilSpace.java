@@ -8,7 +8,7 @@ import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.item.ItemManipulatedMatter;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.EnumAspect;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
@@ -46,7 +46,7 @@ public class BadgeUtilSpace extends BadgeHeroAspectUtil
 		{
 			if (time < 20 || pos1 == null || pos2 == null)
 			{
-				BlockPos pos = MSGTUtils.getTargetBlock(player);
+				BlockPos pos = MinestuckUtils.getTargetBlock(player);
 
 				if(pos == null || player.isSneaking())
 				{

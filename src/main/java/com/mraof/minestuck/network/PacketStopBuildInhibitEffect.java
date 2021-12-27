@@ -1,6 +1,6 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.util.MSUUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,7 +26,7 @@ public class PacketStopBuildInhibitEffect extends MinestuckPacket
     public void execute(EntityPlayer player)
     {
         if(!player.isCreative())
-            player.capabilities.allowEdit = !MSUUtils.getPlayerGameType(player).hasLimitedInteractions();
+            player.capabilities.allowEdit = !MinestuckUtils.getPlayerGameType(player).hasLimitedInteractions();
     }
 
     @Override

@@ -60,7 +60,7 @@ public class ModusGuiContainer
 		}
 	}
 
-	public void draw(SylladexGuiHandler gui)
+	public void draw(GuiSylladex gui)
 	{
 		GlStateManager.translate(x, y, 0);
 		for (ModusGuiContainer container : containers)

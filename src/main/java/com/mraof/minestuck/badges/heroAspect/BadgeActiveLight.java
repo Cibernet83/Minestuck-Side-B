@@ -7,7 +7,7 @@ import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.damage.EntityCritDamageSource;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -34,7 +34,7 @@ public class BadgeActiveLight extends BadgeHeroAspect
 	{
 		if(state.equals(GodKeyStates.KeyState.PRESS))
 		{
-			EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+			EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 			if(target != null)
 			{
 				PotionEffect effect = new PotionEffect(MobEffects.GLOWING, 1200, 0);

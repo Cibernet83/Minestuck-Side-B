@@ -24,7 +24,7 @@ public class CardGuiContainer extends ModusGuiContainer
 	}
 
 	@Override
-	public void draw(SylladexGuiHandler gui) // TODO: Darken unusable cards
+	public void draw(GuiSylladex gui) // TODO: Darken unusable cards
 	{
 		int width = (int) getWidth();
 		int height = (int) getHeight();

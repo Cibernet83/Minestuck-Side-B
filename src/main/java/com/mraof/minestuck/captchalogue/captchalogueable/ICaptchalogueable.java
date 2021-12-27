@@ -1,7 +1,7 @@
 package com.mraof.minestuck.captchalogue.captchalogueable;
 
 import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
-import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.GuiSylladex;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,11 +19,11 @@ public interface ICaptchalogueable
 	ItemStack captchalogueIntoCardItem();
 	NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)
-	void draw(SylladexGuiHandler gui);
+	void draw(GuiSylladex gui);
 	@SideOnly(Side.CLIENT)
 	String getDisplayName();
 	@SideOnly(Side.CLIENT)
-	void renderTooltip(SylladexGuiHandler gui, int x, int y);
+	void renderTooltip(GuiSylladex gui, int x, int y);
 
 	/**
 	 * Determines what content texture is used (ghost, item, abstract, etc.)

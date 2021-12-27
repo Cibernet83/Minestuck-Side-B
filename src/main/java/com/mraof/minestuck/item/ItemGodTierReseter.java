@@ -1,6 +1,6 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -41,7 +41,7 @@ public class ItemGodTierReseter extends MSItemBase
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
     {
-        if(entityLiving instanceof EntityPlayer && MSGTUtils.resetGodTier((EntityPlayer)entityLiving))
+        if(entityLiving instanceof EntityPlayer && MinestuckUtils.resetGodTier((EntityPlayer)entityLiving))
         {
             stack.shrink(1);
             return stack;

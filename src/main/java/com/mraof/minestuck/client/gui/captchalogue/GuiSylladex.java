@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
-public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
+public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 {
 	public static final ResourceLocation SYLLADEX_FRAME = new ResourceLocation("minestuck", "textures/gui/sylladex_frame.png");
 	public static final ResourceLocation CARD_TEXTURE = new ResourceLocation("minestuck", "textures/gui/captcha_cards.png");
@@ -55,7 +55,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 
 	private GuiButton emptySylladex;
 	
-	public SylladexGuiHandler(MultiSylladex sylladex)
+	public GuiSylladex(MultiSylladex sylladex)
 	{
 		updateSylladex(sylladex);
 		this.mc = Minecraft.getMinecraft();
@@ -72,7 +72,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	}
 	
 	@Override
-	public void drawScreen(int xcor, int ycor, float f)
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
 		this.drawDefaultBackground();
 		
@@ -109,13 +109,13 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		{
 			if (mousePressed)
 			{
-				//mapX = MathHelper.clamp(mapX - (mousePosX - xcor) * scroll, 0, mapWidth - cardsWidth);
-				//mapY = MathHelper.clamp(mapY - (mousePosY - ycor) * scroll, 0, mapHeight - cardsHeight);
-				mapX -= (mousePosX - xcor) * scroll; // TODO: Figure out a way to cull things offscreen
-				mapY -= (mousePosY - ycor) * scroll;
+				//mapX = MathHelper.clamp(mapX - (mousePosX - mouseX) * scroll, 0, mapWidth - cardsWidth);
+				//mapY = MathHelper.clamp(mapY - (mousePosY - mouseY) * scroll, 0, mapHeight - cardsHeight);
+				mapX -= (mousePosX - mouseX) * scroll; // TODO: Figure out a way to cull things offscreen
+				mapY -= (mousePosY - mouseY) * scroll;
 			}
-			mousePosX = xcor;
-			mousePosY = ycor;
+			mousePosX = mouseX;
+			mousePosY = mouseY;
 			mousePressed = true;
 		}
 		else
@@ -150,19 +150,19 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 
 		GlStateManager.popMatrix();
 
-		super.drawScreen(xcor, ycor, f);
+		super.drawScreen(mouseX, mouseY, partialTicks);
 		
-		if(isMouseInContainer(xcor, ycor))
+		if(isMouseInContainer(mouseX, mouseY))
 		{
-			float translX = (xcor - guiX - X_OFFSET) * scroll - mapX;
-			float translY = (ycor - guiY - Y_OFFSET) * scroll - mapY;
+			float translX = (mouseX - guiX - X_OFFSET) * scroll - mapX;
+			float translY = (mouseY - guiY - Y_OFFSET) * scroll - mapY;
 			ArrayList<Integer> hitSlots = cardGuiContainer.hit(translX, translY);
 			if (hitSlots != null)
 			{
 				int[] slots = hitSlots.stream().mapToInt(Integer::intValue).toArray();
 				ICaptchalogueable object = sylladex.peek(slots, 0);
 				if (object != null)
-					object.renderTooltip(this, xcor, ycor);
+					object.renderTooltip(this, mouseX, mouseY);
 			}
 		} // FIXME: fetchdeck inventory only saving on sync
 	}
@@ -189,6 +189,14 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	}
 	
 	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException
+	{
+		super.keyTyped(typedChar, keyCode);
+		if(MinestuckKeyHandler.instance.sylladexKey.isActiveAndMatches(keyCode))
+			mc.displayGuiScreen(null);
+	}
+
+	@Override
 	protected void actionPerformed(GuiButton button)
 	{
 		if(button == emptySylladex)
@@ -199,19 +207,12 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	}
 	
 	@Override
-	protected void keyTyped(char typedChar, int keyCode) throws IOException
-	{
-		super.keyTyped(typedChar, keyCode);
-		if(MinestuckKeyHandler.instance.sylladexKey.isActiveAndMatches(keyCode))
-			mc.displayGuiScreen(null);
-	}
-	
-	@Override
 	public void confirmClicked(boolean result, int id)
 	{
 		if(result)
 			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.SYLLADEX_EMPTY_REQUEST));
 		mc.currentScreen = this;
+		mousePressed = false;
 	}
 	
 	@Override

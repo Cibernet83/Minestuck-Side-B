@@ -3,7 +3,7 @@ package com.mraof.minestuck.captchalogue.modus;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
+import com.mraof.minestuck.client.gui.captchalogue.GuiSylladex;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -79,7 +79,35 @@ public class ModusQueue extends Modus
 	public CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings)
 	{
 		if (cardTextureIndex == null)
-			cardTextureIndex = new CardGuiContainer.CardTextureIndex(SylladexGuiHandler.CARD_TEXTURE, 54);
+			cardTextureIndex = new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 54);
 		return cardTextureIndex;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getPrimaryColor()
+	{
+		return 0xFF6000;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getDarkerColor()
+	{
+		return 0xCF560C;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getLighterColor()
+	{
+		return 0xFF8135;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getTextColor()
+	{
+		return 0x00F5A1;
 	}
 }

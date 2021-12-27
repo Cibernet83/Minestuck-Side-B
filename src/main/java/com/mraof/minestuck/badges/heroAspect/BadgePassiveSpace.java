@@ -6,10 +6,7 @@ import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.util.EnumAspect;
-import com.mraof.minestuck.util.EnumRole;
-import com.mraof.minestuck.util.MSGTUtils;
-import com.mraof.minestuck.util.Teleport;
+import com.mraof.minestuck.util.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
@@ -58,7 +55,7 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 				return false;
 			}
 
-			EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+			EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 			if (target != null)
 			{
 				if (!badgeEffects.hasWarpPoint())
