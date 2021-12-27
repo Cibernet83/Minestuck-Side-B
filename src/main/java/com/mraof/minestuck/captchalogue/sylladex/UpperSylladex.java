@@ -1,58 +1,43 @@
 package com.mraof.minestuck.captchalogue.sylladex;
 
+import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.captchalogue.modus.Modus;
-import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 public class UpperSylladex extends MultiSylladex
 {
 	private final LinkedList<MultiSylladex> sylladices = new LinkedList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
 
-	public UpperSylladex(Modus[] modi)
+	UpperSylladex(ModusLayer[] modusLayers, int index)
 	{
-		Collections.addAll(this.modi, modi);
+		//super(new ModusLayer(lengths[index] & 0xff, modi[index]));
+		super(modusLayers[index]);
+		for (int i = 0; i < this.modi.getLength(); i++)
+			sylladices.add(index == modusLayers.length - 1 ? new BottomSylladex(modusLayers[index + 1]) : new UpperSylladex(modusLayers, index + 1));
 	}
 
-	public UpperSylladex(int[] lengths, Modus[][] modi, int index)
+	UpperSylladex(NBTTagCompound nbt)
 	{
-		this(modi[index]);
-		int length = lengths[index] & 0xff;
-		for (int i = 0; i < length; i++)
-			this.sylladices.add(index == lengths.length - 1 ? new BottomSylladex(modi[index + 1]) : new UpperSylladex(lengths, modi, index + 1));
-	}
+		super(new ModusLayer(nbt.getCompoundTag("Modus")));
 
-	public UpperSylladex(NBTTagCompound nbt)
-	{
-		readFromNBT(nbt);
-	}
-
-	@Override
-	public ICaptchalogueable get(int[] slots, int i, boolean asCard)
-	{
-		for (Modus modus : modi)
-			if (modus.canGet(sylladices, slots, i))
-				return modus.get(sylladices, slots, i, asCard);
-		return null;
+		NBTTagList sylladices = nbt.getTagList("sylladices", 10);
+		for (NBTBase sylladexTagBase : sylladices)
+			this.sylladices.add(ISylladex.readFromNBT((NBTTagCompound) sylladexTagBase));
 	}
 
 	@Override
-	public ICaptchalogueable tryGetEmptyCard(int[] slots, int i)
+	public ICaptchalogueable tryGetEmptyCard(int[] slots, int index)
 	{
-		return sylladices.get(slots[i]).tryGetEmptyCard(slots, i + 1);
+		return sylladices.get(slots[index]).tryGetEmptyCard(slots, index + 1);
 	}
 
 	@Override
@@ -70,7 +55,7 @@ public class UpperSylladex extends MultiSylladex
 			}
 		}
 		if (leastSlots == 256)
-			SylladexUtils.launchItem(player, (ItemStack) object.getObject());
+			object.eject(player);
 		else
 			leastSlotsSylladex.addCard(object, player);
 	}
@@ -83,43 +68,37 @@ public class UpperSylladex extends MultiSylladex
 	}
 
 	@Override
-	protected void getModi(ArrayList<Modus[]> modi)
+	protected void getModusLayers(List<ModusLayer> modusLayers)
 	{
-		super.getModi(modi);
-		sylladices.get(0).getModi(modi);
+		modusLayers.add(modi);
+		sylladices.get(0).getModusLayers(modusLayers);
 	}
 
 	@Override
-	protected void getLengths(ArrayList<Integer> lengths)
-	{
-		super.getLengths(lengths);
-		sylladices.get(0).getLengths(lengths);
-	}
-
-	@Override
-	public LinkedList<MultiSylladex> getSylladices()
+	protected LinkedList<MultiSylladex> getSylladices()
 	{
 		return sylladices;
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+
+		nbt.setTag("Modus", modi.writeToNBT());
+
+		NBTTagList sylladicesTag = new NBTTagList();
+		for (MultiSylladex sylladex : sylladices)
+			sylladicesTag.appendTag(sylladex.writeToNBT());
+		nbt.setTag("Sylladices", sylladicesTag);
+
+		return nbt;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getName(boolean plural)
 	{
-		return I18n.format("modus.nameCombob", getNameForLayer(plural), sylladices.getFirst().getName(true));
-	}
-
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		modi.clear();
-		sylladices.clear();
-
-		NBTTagList modusTypes = nbt.getTagList("modusTypes", 8);
-		for (NBTBase modusType : modusTypes)
-			modi.add(Modus.REGISTRY.getValue(new ResourceLocation(((NBTTagString)modusType).getString())));
-
-		NBTTagList sylladices = nbt.getTagList("sylladices", 10);
-		for (NBTBase sylladexTagBase : sylladices)
-			this.sylladices.add(ISylladex.readFromNBT((NBTTagCompound) sylladexTagBase));
+		return I18n.format("modus.nameCombob", modi.getName(plural), sylladices.getFirst().getName(true));
 	}
 }

@@ -8,6 +8,7 @@ import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -43,7 +44,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Fetch an object from the slots[i]th sylladex and perform some rearranging of sylladices if required. Modus#canGet
 	 * has already been confirmed by this point. Make sure to update slots[i] if rearranging is needed.
 	 */
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, int[] slots, int i, boolean asCard)
+	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
 	{
 		return sylladices.get(slots[i]).get(slots, i + 1, asCard);
 	}
@@ -51,7 +52,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	/**
 	 * Return whether a card is valid to be retrieved from.
 	 */
-	public <SYLLADEX extends ISylladex> boolean canGet(LinkedList<SYLLADEX> sylladices, int[] slots, int i)
+	public <SYLLADEX extends ISylladex> boolean canGet(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i)
 	{
 		return sylladices.get(slots[i]).canGet(slots, i + 1);
 	}
@@ -60,12 +61,12 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Put an object into a default card and perform some rearranging of sylladices if required. Modus#grow has already
 	 * been called by this point.
 	 */
-	public <SYLLADEX extends ISylladex> void put(LinkedList<SYLLADEX> sylladices, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object, EntityPlayer player)
 	{
-		getSylladexWithMostFreeSlots(sylladices, player).put(object, player);
+		getSylladexWithMostFreeSlots(sylladices, settings, player).put(object, player);
 	}
 
-	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexWithMostFreeSlots(LinkedList<SYLLADEX> sylladices, EntityPlayer player)
+	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexWithMostFreeSlots(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
 	{
 		int mostFreeSlots = 0;
 		SYLLADEX mostFreeSlotsSylladex = null;
@@ -88,24 +89,16 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	/** Try to fill a default card with as much of other as possible */
-	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladices, ICaptchalogueable other)
+	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
 	{
 		for (int i = 0; i < sylladices.size() && !other.isEmpty(); i++)
 			sylladices.get(i).grow(other);
 	}
 
 	/** Eject the contents of a default card */
-	public <SYLLADEX extends ISylladex> void eject(LinkedList<SYLLADEX> sylladices, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void eject(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
 	{
 		sylladices.getLast().eject(player);
-	}
-
-	/**
-	 * Return whether this modus should perform autobalancing after each operation. // TODO: modus autobalance
-	 */
-	protected boolean doesAutobalance()
-	{
-		return false;
 	}
 
 	public String getUnlocalizedName()
@@ -124,7 +117,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Get a new ModusGuiContainer or a subtype with funky animations or whatever.
 	 */
 	@SideOnly(Side.CLIENT)
-	public ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
+	public ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex, NBTTagCompound settings)
 	{
 		return new ModusGuiContainer(textureIndices, sylladex);
 	}
@@ -133,7 +126,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Get the index of the card texture that should be used by this modus.
 	 */
 	@SideOnly(Side.CLIENT)
-	public abstract CardGuiContainer.CardTextureIndex getCardTextureIndex();
+	public abstract CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings);
 
 	@SideOnly(Side.CLIENT)
 	public String getName(boolean alone, boolean prefix, boolean plural)

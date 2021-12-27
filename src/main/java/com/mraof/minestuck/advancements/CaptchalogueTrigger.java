@@ -6,20 +6,20 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.ModusLayer;
+import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CaptchalogueTrigger implements ICriterionTrigger<CaptchalogueTrigger.Instance>
 {
@@ -79,11 +79,16 @@ public class CaptchalogueTrigger implements ICriterionTrigger<CaptchalogueTrigge
 		return new Instance(modus, item, count);
 	}
 	
-	public void trigger(EntityPlayerMP player, ISylladex sylladex, ItemStack item)
+	public void trigger(EntityPlayerMP player, MultiSylladex sylladex, ICaptchalogueable object)
 	{
 		Listeners listeners = listenersMap.get(player.getAdvancements());
-		//if(listeners != null)
-			//listeners.trigger(SylladexUtils.getType(modus.getClass()).toString(), item, modus.getNonEmptyCards());
+		if(listeners != null)
+		{
+			Set<Modus> modusSet = new HashSet<>();
+			for (ModusLayer modi : sylladex.getModusLayers())
+				Collections.addAll(modusSet, modi.getModi());
+			listeners.trigger(modusSet.toArray(new Modus[0]), object, sylladex.getTotalSlots() - sylladex.getFreeSlots());
+		}
 	}
 	
 	public static class Instance extends AbstractCriterionInstance
@@ -99,9 +104,9 @@ public class CaptchalogueTrigger implements ICriterionTrigger<CaptchalogueTrigge
 			this.count = count;
 		}
 		
-		public boolean test(String modus, ItemStack item, int count)
+		public boolean test(Modus[] modi, ICaptchalogueable object, int count)
 		{
-			return (this.modus == null || this.modus.equals(modus)) && (this.item == null || this.item.test(item)) && this.count.test(count);
+			return (this.modus == null || Arrays.stream(modi).anyMatch(modus -> modus.getRegistryName().toString().equals(this.modus))) && (this.item == null || (object instanceof CaptchalogueableItemStack && this.item.test(((CaptchalogueableItemStack)object).getStack()))) && this.count.test(count);
 		}
 	}
 	
@@ -130,11 +135,11 @@ public class CaptchalogueTrigger implements ICriterionTrigger<CaptchalogueTrigge
 			this.listeners.remove(listener);
 		}
 		
-		public void trigger(String modus, ItemStack item, int count)
+		public void trigger(Modus[] modi, ICaptchalogueable object, int count)
 		{
 			List<Listener<Instance>> list = Lists.newArrayList();
 			for(Listener<Instance> listener : listeners)
-				if(listener.getCriterionInstance().test(modus, item, count))
+				if(listener.getCriterionInstance().test(modi, object, count))
 					list.add(listener);
 			
 			list.forEach((listener) -> listener.grantCriterion(playerAdvancements));

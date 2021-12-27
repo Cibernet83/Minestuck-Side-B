@@ -33,13 +33,16 @@ public class ModusGuiContainer
 		containers.clear();
 		containers.addAll(sylladex.generateSubContainers(textureIndices));
 
-		right = -containers.get(0).left;
-		for (int i = 0; i < containers.size(); i++)
+		if (!containers.isEmpty())
 		{
-			ModusGuiContainer container = containers.get(i);
-			container.setX(right);
-			container.setY(0);
-			right += container.getWidth() + 5;
+			right = -containers.get(0).left;
+			for (int i = 0; i < containers.size(); i++)
+			{
+				ModusGuiContainer container = containers.get(i);
+				container.setX(right);
+				container.setY(0);
+				right += container.getWidth() + 5;
+			}
 		}
 
 		resetBoundingBox();

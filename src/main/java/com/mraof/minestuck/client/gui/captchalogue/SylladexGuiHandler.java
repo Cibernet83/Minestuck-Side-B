@@ -1,9 +1,9 @@
 package com.mraof.minestuck.client.gui.captchalogue;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
+import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
@@ -162,7 +162,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 				int[] slots = hitSlots.stream().mapToInt(Integer::intValue).toArray();
 				ICaptchalogueable object = sylladex.peek(slots, 0);
 				if (object != null)
-					renderToolTip((ItemStack) object.getObject(), xcor, ycor);
+					object.renderTooltip(this, xcor, ycor);
 			}
 		} // FIXME: fetchdeck inventory only saving on sync
 	}
@@ -218,6 +218,12 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	public boolean doesGuiPauseGame()
 	{
 		return false;
+	}
+
+	@Override
+	public void renderToolTip(ItemStack stack, int x, int y)
+	{
+		super.renderToolTip(stack, x, y);
 	}
 
 	private boolean isMouseInContainer(int xcor, int ycor) {
