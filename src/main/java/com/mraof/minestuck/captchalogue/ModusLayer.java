@@ -3,8 +3,8 @@ package com.mraof.minestuck.captchalogue;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -121,7 +121,7 @@ public class ModusLayer
 	}
 
 	@SideOnly(Side.CLIENT)
-	public ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
+	public SylladexGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
 	{
 		return modi[0].getGuiContainer(textureIndices, sylladex);
 	}

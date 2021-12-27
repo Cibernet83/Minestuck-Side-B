@@ -1,8 +1,12 @@
 package com.mraof.minestuck.captchalogue.modus;
 
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.GuiSylladex;
+import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -14,11 +18,15 @@ public class ModusArray extends Modus
 	}
 
 	@SideOnly(Side.CLIENT)
-	public CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings)
+	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{
-		if (cardTextureIndex == null)
-			cardTextureIndex = new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 42);
-		return cardTextureIndex;
+		return new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 42);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	{
+		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/array_modus.png"));
 	}
 
 	@Override
@@ -28,12 +36,12 @@ public class ModusArray extends Modus
 		return 0x06B6FF;
 	}
 
-	/*@Override
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getDarkerColor()
 	{
 		return 0x1093D8;
-	}*/
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)

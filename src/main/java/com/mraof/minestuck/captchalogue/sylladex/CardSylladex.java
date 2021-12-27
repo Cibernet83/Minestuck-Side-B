@@ -1,7 +1,7 @@
 package com.mraof.minestuck.captchalogue.sylladex;
 
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MinestuckItems;
@@ -19,7 +19,7 @@ public class CardSylladex implements ISylladex
 {
 	private final BottomSylladex owner;
 	private ICaptchalogueable object;
-	private final ArrayList<ModusGuiContainer> containers = new ArrayList<>();
+	private final ArrayList<SylladexGuiContainer> containers = new ArrayList<>();
 	private boolean markedForDeletion = false;
 
 	public CardSylladex(BottomSylladex owner, ICaptchalogueable object)
@@ -153,7 +153,7 @@ public class CardSylladex implements ISylladex
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
+	public ArrayList<SylladexGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
 	{
 		containers.clear();
 		containers.add(new CardGuiContainer(textureIndices.get(Math.min(owner.getSylladices().indexOf(this), textureIndices.size() - 1)), object));

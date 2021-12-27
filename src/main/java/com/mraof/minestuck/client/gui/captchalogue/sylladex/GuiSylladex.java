@@ -1,8 +1,9 @@
-package com.mraof.minestuck.client.gui.captchalogue;
+package com.mraof.minestuck.client.gui.captchalogue.sylladex;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
+import com.mraof.minestuck.client.MinestuckFontRenderer;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
@@ -37,7 +38,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 
 	public RenderItem itemRender;
 	private MultiSylladex sylladex;
-	private ModusGuiContainer cardGuiContainer;
+	private SylladexGuiContainer cardGuiContainer;
 	
 	/**
 	 * Position of the map (the actual gui viewport)
@@ -142,11 +143,12 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 		
 		mc.getTextureManager().bindTexture(SYLLADEX_FRAME);
 		drawTexturedModalRect(0, 0, 0, 0, GUI_WIDTH, GUI_HEIGHT);
+
+		MinestuckFontRenderer fontRenderer = MinestuckFontRenderer.lucidaConsoleSmall;
+		fontRenderer.drawString(I18n.format("gui.sylladex"), 15, 5, 0x404040);
 		
-		mc.fontRenderer.drawString(I18n.format("gui.sylladex"), 15, 5, 0x404040);
-		
-		String str = sylladex.getName();
-		mc.fontRenderer.drawString(str, GUI_WIDTH - mc.fontRenderer.getStringWidth(str) - 16, 5, 0x404040);
+		String sylladexName = sylladex.getName().toLowerCase();
+		fontRenderer.drawString(sylladexName, GUI_WIDTH - fontRenderer.getStringWidth(sylladexName) - 16, 5, 0x404040);
 
 		GlStateManager.popMatrix();
 
@@ -236,7 +238,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	public void updateSylladex(MultiSylladex sylladex)
 	{
 		this.sylladex = sylladex;
-		this.cardGuiContainer = new ModusGuiContainer(sylladex);
+		this.cardGuiContainer = new SylladexGuiContainer(sylladex);
 		this.cardsWidth = cardGuiContainer.getWidth();
 		this.cardsHeight = cardGuiContainer.getHeight();
 	}

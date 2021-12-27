@@ -12,59 +12,78 @@ public class MinestuckFontRenderer extends FontRenderer
 {
 	public static MinestuckFontRenderer lucidaConsoleSmall;
 
-	private int width;
-	private int height;
+	private int width, height;
+	private float textureSize;
 
-	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn,
-								 boolean unicode, int charWidth, int charHeight)
+	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, int charWidth, int charHeight, int textureSize)
 	{
-		super(gameSettingsIn, location, textureManagerIn, unicode);
-		width = charWidth;
-		height = charHeight;
+		super(gameSettingsIn, location, textureManagerIn, false);
+		this.width = charWidth;
+		this.height = charHeight;
+		this.textureSize = textureSize;
 	}
 
-	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn,
-								 boolean unicode)
+	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, int charWidth, int charHeight)
 	{
-		this(gameSettingsIn, location, textureManagerIn, unicode, 8, 8);
+		this(gameSettingsIn, location, textureManagerIn, charWidth, charHeight, 128);
+	}
+
+	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn)
+	{
+		this(gameSettingsIn, location, textureManagerIn, 8, 8);
 	}
 
 	public static void registerFonts()
 	{
 		Minecraft mc = Minecraft.getMinecraft();
-		lucidaConsoleSmall = new MinestuckFontRenderer(mc.gameSettings, new ResourceLocation(Minestuck.MODID, "textures/font/lucida_console_small.png"), mc.renderEngine, true, 4, 8);
+		lucidaConsoleSmall = new MinestuckFontRenderer(mc.gameSettings, new ResourceLocation(Minestuck.MODID, "textures/font/lucida_console_small.png"), mc.renderEngine, 4, 7);
 	}
 
 	@Override
-	protected float renderUnicodeChar(char ch, boolean italic)
+	protected float renderDefaultChar(int ch, boolean italic)
 	{
-		int i = glyphWidth[ch] & 255;
+		float texX = ch % 16 * width / textureSize;
+		float texY = ch / 16 * height / textureSize;
+		float texWidth = (width - 0.01F) / textureSize;
+		float texHeight = (height - 0.01F) / textureSize;
+		float italicShift = italic ? 1 : 0;
 
-		if (i == 0)
-			return 0.0F;
-		else
-		{
-			int height = this.height * 2;
-			int width = this.width * 2;
-			bindTexture(locationFontTexture);
-			int k = i >>> 4;
-			int l = i & 15;
-			float f1 = l + 1;
-			float f2 = ch % 16 * width + k;
-			float f3 = (ch & 255) / height * height;
-			float f4 = f1 - k - 0.02F;
-			float f5 = italic ? 1.0F : 0.0F;
-			GlStateManager.glBegin(5);
-			GlStateManager.glTexCoord2f(f2 / 256.0F, f3 / 256.0F);
-			GlStateManager.glVertex3f(posX + f5, posY, 0.0F);
-			GlStateManager.glTexCoord2f(f2 / 256.0F, (f3 + 15.98F) / 256.0F);
-			GlStateManager.glVertex3f(posX - f5, posY + 7.99F, 0.0F);
-			GlStateManager.glTexCoord2f((f2 + f4) / 256.0F, f3 / 256.0F);
-			GlStateManager.glVertex3f(posX + f4 / 2.0F + f5, posY, 0.0F);
-			GlStateManager.glTexCoord2f((f2 + f4) / 256.0F, (f3 + 15.98F) / 256.0F);
-			GlStateManager.glVertex3f(posX + f4 / 2.0F - f5, posY + 7.99F, 0.0F);
-			GlStateManager.glEnd();
-			return (f1 - k) / 2.0F + 1.0F;
-		}
+		bindTexture(locationFontTexture);
+		GlStateManager.glBegin(5);
+
+		GlStateManager.glTexCoord2f(texX, texY);
+		GlStateManager.glVertex3f(posX + italicShift, posY, 0.0F);
+
+		GlStateManager.glTexCoord2f(texX, texY + texHeight);
+		GlStateManager.glVertex3f(posX - italicShift, posY + height, 0.0F);
+
+		GlStateManager.glTexCoord2f(texX + texWidth, texY);
+		GlStateManager.glVertex3f(posX + width + italicShift, posY, 0.0F);
+
+		GlStateManager.glTexCoord2f(texX + texWidth, texY + texHeight);
+		GlStateManager.glVertex3f(posX + width - italicShift, posY + height, 0.0F);
+
+		GlStateManager.glEnd();
+
+		return width;
+	}
+
+	@Override
+	public int getCharWidth(char character)
+	{
+		if (character == 160) return 4; // forge: display nbsp as space. MC-2595
+		if (character == 167) return -1;
+		else if (character == ' ') return 4;
+		else return width;
+	}
+
+	public int getCharWidth()
+	{
+		return width;
+	}
+
+	public int getCharHeight()
+	{
+		return height;
 	}
 }

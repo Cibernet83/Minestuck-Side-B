@@ -10,7 +10,6 @@ import com.mraof.minestuck.util.SylladexUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -68,7 +67,7 @@ public class PacketControlDeckSync extends MinestuckPacket
 			for (int j = 0; j < modiInLayer; j++)
 			{
 				ItemStack modusStack = te.getInventory().get((layerCount - i - 1) * TileEntityModusControlDeck.WIDTH + j);
-				modi[j] = new ModusSettings(((ItemModus) modusStack.getItem()).getModus(), modusStack.hasTagCompound() ? modusStack.getTagCompound().getCompoundTag("ModusSettings") : new NBTTagCompound());
+				modi[j] = new ModusSettings(((ItemModus) modusStack.getItem()).getModus(), SylladexUtils.getModusSettings(modusStack));
 			}
 
 			modusLayers[i] = new ModusLayer(isBottom ? -1 : lengths[i], modi);

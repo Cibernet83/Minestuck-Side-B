@@ -1,4 +1,4 @@
-package com.mraof.minestuck.client.gui.captchalogue;
+package com.mraof.minestuck.client.gui.captchalogue.sylladex;
 
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import net.minecraft.client.Minecraft;
@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
-public class CardGuiContainer extends ModusGuiContainer
+public class CardGuiContainer extends SylladexGuiContainer
 {
 	private final ICaptchalogueable object;
 	private final CardTextureIndex[] textureIndices;

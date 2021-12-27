@@ -2,8 +2,8 @@ package com.mraof.minestuck.captchalogue.sylladex;
 
 import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,7 +26,7 @@ public interface ISylladex
 	int getTotalSlots();
 	NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)
-	ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices);
+	ArrayList<SylladexGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices);
 
 	@Nonnull
 	static MultiSylladex readFromNBT(@Nonnull NBTTagCompound nbt)

@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.Random;
 
@@ -155,5 +156,15 @@ public class SylladexUtils
 
 		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, getSylladex(player).writeToNBT());
 		MinestuckChannelHandler.sendToPlayer(packet, player);
+	}
+
+	public static NBTTagCompound getModusSettings(ItemStack stack)
+	{
+		NBTTagCompound stackTag = stack.getTagCompound();
+		if (stackTag == null)
+			stack.setTagCompound(stackTag = new NBTTagCompound());
+		if (!stackTag.hasKey("ModusSettings"))
+			stackTag.setTag("ModusSettings", new NBTTagCompound());
+		return stackTag.getCompoundTag("ModusSettings");
 	}
 }

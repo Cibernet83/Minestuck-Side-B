@@ -3,9 +3,9 @@ package com.mraof.minestuck.captchalogue.modus;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.GuiFetchModus;
-import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import com.mraof.minestuck.util.IRegistryObject;
 import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.resources.I18n;
@@ -32,7 +32,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	public static ForgeRegistry<Modus> REGISTRY;
 
 	@SideOnly(Side.CLIENT)
-	protected CardGuiContainer.CardTextureIndex cardTextureIndex;
+	private CardGuiContainer.CardTextureIndex cardTextureIndex;
 
 	private final String name, regName;
 
@@ -120,15 +120,9 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Get a new ModusGuiContainer or a subtype with funky animations or whatever.
 	 */
 	@SideOnly(Side.CLIENT)
-	public ModusGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex, NBTTagCompound settings)
+	public SylladexGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex, NBTTagCompound settings)
 	{
-		return new ModusGuiContainer(textureIndices, sylladex);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public GuiFetchModus getSettingsGui(ItemStack modusStack)
-	{
-		return new GuiFetchModus(modusStack);
+		return new SylladexGuiContainer(textureIndices, sylladex);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -167,6 +161,14 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	@SideOnly(Side.CLIENT)
+	public CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings)
+	{
+		if (cardTextureIndex == null)
+			cardTextureIndex = getNewCardTextureIndex(settings);
+		return cardTextureIndex;
+	}
+
+	@SideOnly(Side.CLIENT)
 	public int getDarkerColor()
 	{
 		return MinestuckUtils.multiply(getPrimaryColor(), 0.85f);
@@ -191,8 +193,9 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Get the index of the card texture that should be used by this modus.
 	 */
 	@SideOnly(Side.CLIENT)
-	public abstract CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings);
-
+	public abstract CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings);
+	@SideOnly(Side.CLIENT)
+	public abstract GuiModusSettings getSettingsGui(ItemStack modusStack);
 	@SideOnly(Side.CLIENT)
 	public abstract int getPrimaryColor();
 	@SideOnly(Side.CLIENT)

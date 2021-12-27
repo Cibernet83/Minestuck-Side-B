@@ -1,4 +1,4 @@
-package com.mraof.minestuck.client.gui.captchalogue;
+package com.mraof.minestuck.client.gui.captchalogue.sylladex;
 
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import net.minecraft.client.renderer.GlStateManager;
@@ -8,22 +8,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
-public class ModusGuiContainer
+public class SylladexGuiContainer
 {
 	protected final ISylladex sylladex;
-	protected final ArrayList<ModusGuiContainer> containers = new ArrayList<>();
+	protected final ArrayList<SylladexGuiContainer> containers = new ArrayList<>();
 
 	protected float x, y;
 	// Relative to x, y
 	protected float left, right, top, bottom;
 
-	public ModusGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
+	public SylladexGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
 	{
 		this.sylladex = sylladex;
 		generateSubContainers(textureIndices);
 	}
 
-	public ModusGuiContainer(ISylladex sylladex)
+	public SylladexGuiContainer(ISylladex sylladex)
 	{
 		this(new ArrayList<>(), sylladex);
 	}
@@ -38,7 +38,7 @@ public class ModusGuiContainer
 			right = -containers.get(0).left;
 			for (int i = 0; i < containers.size(); i++)
 			{
-				ModusGuiContainer container = containers.get(i);
+				SylladexGuiContainer container = containers.get(i);
 				container.setX(right);
 				container.setY(0);
 				right += container.getWidth() + 5;
@@ -51,7 +51,7 @@ public class ModusGuiContainer
 	protected void resetBoundingBox()
 	{
 		left = right = top = bottom = 0;
-		for (ModusGuiContainer container : containers)
+		for (SylladexGuiContainer container : containers)
 		{
 			left = Math.min(left, container.getLeft());
 			right = Math.max(right, container.getRight());
@@ -63,7 +63,7 @@ public class ModusGuiContainer
 	public void draw(GuiSylladex gui)
 	{
 		GlStateManager.translate(x, y, 0);
-		for (ModusGuiContainer container : containers)
+		for (SylladexGuiContainer container : containers)
 			container.draw(gui);
 		GlStateManager.translate(-x, -y, 0);
 	}

@@ -2,9 +2,9 @@ package com.mraof.minestuck.captchalogue.sylladex;
 
 import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.GuiSylladex;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,7 +17,7 @@ import java.util.List;
 public abstract class MultiSylladex implements ISylladex
 {
 	protected final ModusLayer modi;
-	private final ArrayList<ModusGuiContainer> guiContainers = new ArrayList<>();
+	private final ArrayList<SylladexGuiContainer> guiContainers = new ArrayList<>();
 	public boolean autoBalanceNewCards = false;
 
 	@SideOnly(Side.CLIENT)
@@ -97,7 +97,7 @@ public abstract class MultiSylladex implements ISylladex
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
+	public ArrayList<SylladexGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
 	{
 		guiContainers.clear();
 

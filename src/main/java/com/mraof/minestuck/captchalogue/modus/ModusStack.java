@@ -1,11 +1,16 @@
 package com.mraof.minestuck.captchalogue.modus;
 
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.GuiSylladex;
+import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
+import com.mraof.minestuck.client.gui.captchalogue.modus.GuiStackModusSettings;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,11 +55,15 @@ public class ModusStack extends Modus
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings)
+	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{
-		if (cardTextureIndex == null)
-			cardTextureIndex = new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 53);
-		return cardTextureIndex;
+		return new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 53);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	{
+		return new GuiStackModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/stack_modus.png"), true);
 	}
 
 	@Override
