@@ -91,14 +91,18 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 		return mostFreeSlotsSylladex;
 	}
 
-	/** Try to fill a default card with as much of other as possible */
+	/**
+	 * Try to fill a default card with as much of other as possible.
+	 */
 	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
 	{
 		for (int i = 0; i < sylladices.size() && !other.isEmpty(); i++)
 			sylladices.get(i).grow(other);
 	}
 
-	/** Eject the contents of a default card */
+	/**
+	 * Eject the contents of a default card.
+	 */
 	public <SYLLADEX extends ISylladex> void eject(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
 	{
 		sylladices.getLast().eject(player);
@@ -117,7 +121,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	/**
-	 * Get a new ModusGuiContainer or a subtype with funky animations or whatever.
+	 * Get a new SylladexGuiContainer or a subtype with different positions or animations.
 	 */
 	@SideOnly(Side.CLIENT)
 	public SylladexGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex, NBTTagCompound settings)
