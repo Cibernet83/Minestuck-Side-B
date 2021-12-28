@@ -381,6 +381,12 @@ public abstract class EntityConsort extends EntityMinestuck implements IWearsCos
 	}
 
 	@Override
+	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn)
+	{
+		return slotIn == EntityEquipmentSlot.HEAD ? getHeadStack() : super.getItemStackFromSlot(slotIn);
+	}
+
+	@Override
 	public void setHeadStack(ItemStack stack)
 	{
 		dataManager.set(HAT, stack);

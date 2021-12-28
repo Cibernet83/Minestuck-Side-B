@@ -7,18 +7,19 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderFrog extends RenderLivingBase<EntityFrog>
 {
-
-	public RenderFrog(RenderManager manager, ModelBase par1ModelBase, float par2) 
+	public RenderFrog(RenderManager manager, ModelFrog model, float par2)
 	{
-		super(manager, new ModelFrog(), par2);
+		super(manager, model, par2);
 		this.addLayer(new LayerFrogSkin(this));
 		this.addLayer(new LayerFrogEyes(this));
 		this.addLayer(new LayerFrogBelly(this));
-		addLayer(new LayerConsortCosmetics(this));
+		addLayer(new LayerConsortCosmetics(this, model.head));
+		//addLayer(new LayerCustomHead(model.head));
 		
 	}
 

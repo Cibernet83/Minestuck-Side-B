@@ -5,19 +5,13 @@
 // - ZeuX
 package com.mraof.minestuck.client.model;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelTurtle extends ModelBase
+public class ModelTurtle extends ModelConsort
 {
-	// fields
-	ModelRenderer head;
-	ModelRenderer leftLeg;
-	ModelRenderer rightLeg;
 	ModelRenderer tail;
-	ModelRenderer body;
 	ModelRenderer shell;
 	ModelRenderer shellRim;
 	ModelRenderer nose;

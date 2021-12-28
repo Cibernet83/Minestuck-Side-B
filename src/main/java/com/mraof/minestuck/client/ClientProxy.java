@@ -126,7 +126,7 @@ public class ClientProxy extends CommonProxy
 	public void preInit()
 	{
 		super.preInit();
-		RenderingRegistry.registerEntityRenderingHandler(EntityFrog.class, manager -> new RenderFrog(manager, new ModelBiped(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityFrog.class, manager -> new RenderFrog(manager, new ModelFrog(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityNakagator.class, manager -> new RenderConsort(manager, new ModelNakagator(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySalamander.class, manager -> new RenderConsort(manager, new ModelSalamander(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityIguana.class, manager -> new RenderConsort(manager, new ModelIguana(), 0.5F));

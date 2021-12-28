@@ -1,18 +1,12 @@
 package com.mraof.minestuck.client.model;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-public class ModelNakagator extends ModelBase 
+public class ModelNakagator extends ModelConsort
 {
-	public boolean hasArms;
-	ModelRenderer body;
-	ModelRenderer rightLeg;
-	ModelRenderer leftLeg;
-	ModelRenderer head;
 	ModelRenderer upperTail;
 	ModelRenderer lowerTail;
 	ModelRenderer upperJaw;

@@ -6,6 +6,7 @@ import com.mraof.minestuck.entity.IWearsCosmetics;
 import com.mraof.minestuck.entity.consort.EntityNakagator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
@@ -17,18 +18,23 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Mod;
 import vazkii.botania.client.model.armor.ModelArmor;
 
 import java.util.Map;
 
-public class LayerConsortCosmetics implements LayerRenderer<EntityLivingBase> {
+public class LayerConsortCosmetics implements LayerRenderer<EntityLivingBase>
+{
 
 	private static final ModelBiped _DEFAULT = new ModelBiped();
 	private final RenderLivingBase<? extends EntityLivingBase> renderer;
 
-	public LayerConsortCosmetics(RenderLivingBase<? extends EntityLivingBase> renderer)
+	private final ModelRenderer head;
+
+	public LayerConsortCosmetics(RenderLivingBase<? extends EntityLivingBase> renderer, ModelRenderer head)
 	{
 		this.renderer = renderer;
+		this.head = head;
 	}
 
 	@Override
@@ -41,39 +47,18 @@ public class LayerConsortCosmetics implements LayerRenderer<EntityLivingBase> {
 		ItemStack stack = ((IWearsCosmetics)entitylivingbaseIn).getHeadStack().copy();
 		boolean hasColor = stack.getItem() instanceof ItemArmor;// && ((ItemArmor) stack.getItem()).hasColor(stack);
 
-		if(stack.isEmpty())
+		if(!(stack.getItem() instanceof ItemArmor))
 			return;
 
 		ModelBiped armorModel = stack.getItem().getArmorModel(entitylivingbaseIn, stack, EntityEquipmentSlot.HEAD, base);
 		ResourceLocation texture = getArmorResource(entitylivingbaseIn, stack, EntityEquipmentSlot.HEAD, null);
 
-		if(armorModel == null && stack.getItem() instanceof ItemArmor)
+		if(armorModel == null)
 		{
 			armorModel = new ModelArmor(EntityEquipmentSlot.HEAD);
 			armorModel.setVisible(false);
 			armorModel.bipedHead.showModel = true;
 			armorModel.bipedHeadwear.showModel = true;
-
-			GlStateManager.scale(entitylivingbaseIn instanceof EntityFrog ? 1.25 : 1.1, 1, 1.1);
-			GlStateManager.translate(0, 0, 0.025);
-		}
-
-		if(armorModel == null || texture == null)
-		{
-			double headScale = entitylivingbaseIn instanceof EntityFrog ? 0.6 : 0.8;
-			GlStateManager.scale(-headScale, -headScale, (stack.getItem().equals(Item.getItemFromBlock(Blocks.PUMPKIN)) ? 1 : -1) * headScale);
-
-			if(entitylivingbaseIn instanceof EntityNakagator)
-				GlStateManager.translate(0, -0.45, 0.04);
-			else if(entitylivingbaseIn instanceof EntityFrog)
-				GlStateManager.translate(0, -1.35, 0);
-			else GlStateManager.translate(0, -0.5, 0.04);
-
-			GlStateManager.rotate((stack.getItem().equals(Item.getItemFromBlock(Blocks.PUMPKIN)) ? -1 : 1) * netHeadYaw, 0, 1, 0);
-			GlStateManager.rotate((stack.getItem().equals(Item.getItemFromBlock(Blocks.PUMPKIN)) ? -1 : 1) * headPitch, 1, 0, 0);
-
-			Minecraft.getMinecraft().getItemRenderer().renderItem(entitylivingbaseIn, stack, ItemCameraTransforms.TransformType.HEAD);
-			return;
 		}
 
 		renderer.bindTexture(texture);
@@ -87,25 +72,34 @@ public class LayerConsortCosmetics implements LayerRenderer<EntityLivingBase> {
 			GlStateManager.color(r, g, b);
 		}
 		else GlStateManager.color(1, 1, 1);
-		armorModel.setModelAttributes(base);
-		armorModel.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
-		armorModel.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, 1.0F, entitylivingbaseIn);
+		head.postRender(scale);
 
-		if(entitylivingbaseIn instanceof EntityNakagator)
-			GlStateManager.translate(0, 0.05, 0);
-		else if(entitylivingbaseIn instanceof EntityFrog)
-			GlStateManager.translate(0, 0.4, 0);
-		else GlStateManager.translate(0, 0.1, 0);
+		//armorModel.setModelAttributes(base);
+		//armorModel.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
+		//armorModel.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, 1.0F, entitylivingbaseIn);
 
-		armorModel.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+		armorModel.bipedHead.render(scale);
+
+		//armorModel.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
 		texture = getArmorResource(entitylivingbaseIn, stack, EntityEquipmentSlot.HEAD, "overlay");
 		if(texture != null && (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).hasOverlay(stack)))
 		{
 			renderer.bindTexture(texture);
 			GlStateManager.color(1,1,1);
-			armorModel.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+			armorModel.bipedHead.render(scale);
+			//armorModel.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 		}
+	}
+
+	public static void copyValues(ModelRenderer from, ModelRenderer to)
+	{
+		to.rotateAngleX = from.rotateAngleX;
+		to.rotateAngleY = from.rotateAngleY;
+		to.rotateAngleZ = from.rotateAngleZ;
+		to.rotationPointX = from.rotationPointX;
+		to.rotationPointY = from.rotationPointY;
+		to.rotationPointZ = from.rotationPointZ;
 	}
 
 	@Override

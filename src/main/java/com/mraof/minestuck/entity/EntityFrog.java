@@ -803,6 +803,12 @@ public class EntityFrog extends EntityMinestuck implements IWearsCosmetics
 	}
 
 	@Override
+	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn)
+	{
+		return slotIn == EntityEquipmentSlot.HEAD ? getHeadStack() : super.getItemStackFromSlot(slotIn);
+	}
+
+	@Override
 	public ItemStack getHeadStack()
 	{
 		return dataManager.get(HAT);

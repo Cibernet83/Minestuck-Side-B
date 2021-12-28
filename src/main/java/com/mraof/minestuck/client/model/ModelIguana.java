@@ -6,18 +6,13 @@
 
 package com.mraof.minestuck.client.model;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelIguana extends ModelBase
+public class ModelIguana extends ModelConsort
 {
 	//fields
-	ModelRenderer body;
-	ModelRenderer rightLeg;
-	ModelRenderer leftLeg;
-	ModelRenderer head;
 	ModelRenderer upperTail;
 	ModelRenderer lowerTail;
 	ModelRenderer upperJaw;
