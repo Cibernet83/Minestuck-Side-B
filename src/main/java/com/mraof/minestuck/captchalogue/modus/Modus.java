@@ -3,8 +3,8 @@ package com.mraof.minestuck.captchalogue.modus;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import com.mraof.minestuck.util.IRegistryObject;
 import com.mraof.minestuck.util.MinestuckUtils;
@@ -23,7 +23,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
@@ -124,7 +123,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Get a new SylladexGuiContainer or a subtype with different positions or animations.
 	 */
 	@SideOnly(Side.CLIENT)
-	public SylladexGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex, NBTTagCompound settings)
+	public SylladexGuiContainer getGuiContainer(CardGuiContainer.CardTextureIndex[] textureIndices, ISylladex sylladex, NBTTagCompound settings)
 	{
 		return new SylladexGuiContainer(textureIndices, sylladex);
 	}

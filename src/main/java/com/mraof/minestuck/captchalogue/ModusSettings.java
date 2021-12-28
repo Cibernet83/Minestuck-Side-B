@@ -70,7 +70,7 @@ public class ModusSettings
 	}
 
 	@SideOnly(Side.CLIENT)
-	public SylladexGuiContainer getGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
+	public SylladexGuiContainer getGuiContainer(CardGuiContainer.CardTextureIndex[] textureIndices, ISylladex sylladex)
 	{
 		return modus.getGuiContainer(textureIndices, sylladex, settings);
 	}

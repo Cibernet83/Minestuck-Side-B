@@ -153,10 +153,10 @@ public class CardSylladex implements ISylladex
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ArrayList<SylladexGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
+	public ArrayList<SylladexGuiContainer> generateSubContainers(CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
 		containers.clear();
-		containers.add(new CardGuiContainer(textureIndices.get(Math.min(owner.getSylladices().indexOf(this), textureIndices.size() - 1)), object));
+		containers.add(new CardGuiContainer(textureIndices, object));
 		return containers;
 	}
 }

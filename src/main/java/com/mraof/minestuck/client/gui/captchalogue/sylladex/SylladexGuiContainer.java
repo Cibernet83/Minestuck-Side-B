@@ -14,21 +14,20 @@ public class SylladexGuiContainer
 	protected final ArrayList<SylladexGuiContainer> containers = new ArrayList<>();
 
 	protected float x, y;
-	// Relative to x, y
-	protected float left, right, top, bottom;
+	protected float left, right, top, bottom; // Relative to x, y
 
-	public SylladexGuiContainer(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices, ISylladex sylladex)
+	public SylladexGuiContainer(CardGuiContainer.CardTextureIndex[] textureIndices, ISylladex sylladex)
 	{
 		this.sylladex = sylladex;
 		generateSubContainers(textureIndices);
 	}
 
-	public SylladexGuiContainer(ISylladex sylladex)
+	protected SylladexGuiContainer(ISylladex sylladex)
 	{
-		this(new ArrayList<>(), sylladex);
+		this.sylladex = sylladex;
 	}
 
-	protected void generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
+	protected void generateSubContainers(CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
 		containers.clear();
 		containers.addAll(sylladex.generateSubContainers(textureIndices));

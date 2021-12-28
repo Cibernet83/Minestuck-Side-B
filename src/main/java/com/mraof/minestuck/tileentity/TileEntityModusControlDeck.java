@@ -13,14 +13,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.ArrayList;
-
 public class TileEntityModusControlDeck extends TileEntity
 {
 	public static final int WIDTH = 2;
 
 	protected NonNullList<ItemStack> inventory = NonNullList.withSize(6, ItemStack.EMPTY);
-	public ArrayList<Integer> lengths = new ArrayList<>();
 
 	public boolean handleInsert(EntityPlayer player, EnumHand hand)
 	{
@@ -41,9 +38,6 @@ public class TileEntityModusControlDeck extends TileEntity
 				else
 					player.inventoryContainer.detectAndSendChanges();
 
-				while (lengths.size() + 1 > getLayerCount() && !lengths.isEmpty())
-					lengths.remove(lengths.size() - 1);
-
 				return true;
 			}
 		}
@@ -53,9 +47,6 @@ public class TileEntityModusControlDeck extends TileEntity
 			modus.setCount(1);
 			stack.shrink(1);
 			inventory.set(index+1, modus);
-
-			while (lengths.size() + 1 < getLayerCount())
-				lengths.add(4);
 
 			return true;
 		}
@@ -88,23 +79,14 @@ public class TileEntityModusControlDeck extends TileEntity
 		super.readFromNBT(compound);
 
 		inventory.clear();
-		lengths.clear();
 
 		ItemStackHelper.loadAllItems(compound.getCompoundTag("Inventory"), inventory);
-
-		for (byte len : compound.getByteArray("Lengths"))
-			lengths.add(len & 0xff);
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
 		compound.setTag("Inventory", ItemStackHelper.saveAllItems(new NBTTagCompound(), inventory));
-
-		byte[] lens = new byte[lengths.size()];
-		for (int i = 0; i < lengths.size(); i++)
-			lens[i] = lengths.get(i).byteValue();
-		compound.setByteArray("Lengths", lens);
 
 		return super.writeToNBT(compound);
 	}

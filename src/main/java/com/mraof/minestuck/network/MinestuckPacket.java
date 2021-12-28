@@ -74,7 +74,7 @@ public abstract class MinestuckPacket
 		SYLLADEX_FETCH(PacketSylladexFetch.class),
 		SYLLADEX_CAPTCHALOGUE(PacketSylladexCaptchalogue.class),
 		SYLLADEX_EMPTY_REQUEST(PacketSylladexEmptyRequest.class),
-		CONTROL_DECK_SYNC(PacketControlDeckSync.class),
+		CONTROL_DECK_SYNC(PacketModusControlDeckSync.class),
 		;
 		
 		Class<? extends MinestuckPacket> packetType;
