@@ -1,17 +1,8 @@
 package com.mraof.minestuck.util;
 
-import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class ModusStorage
 {

@@ -98,7 +98,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT()
+	public NBTTagCompound writeData()
 	{
 		return stack.writeToNBT(new NBTTagCompound());
 	}

@@ -73,7 +73,7 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT()
+	public NBTTagCompound writeData()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setTag("Parent", ICaptchalogueable.writeToNBT(parent));

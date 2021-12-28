@@ -56,7 +56,7 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT() {
+	public NBTTagCompound writeData() {
 		return new NBTTagCompound();
 	}
 
