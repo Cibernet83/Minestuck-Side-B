@@ -24,7 +24,7 @@ public class CardGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
-	public void draw(GuiSylladex gui) // TODO: Darken unusable cards
+	public void draw(GuiSylladex gui, int mouseX, int mouseY) // TODO: Darken unusable cards
 	{
 		int width = (int) getWidth();
 		int height = (int) getHeight();
@@ -38,7 +38,7 @@ public class CardGuiContainer extends SylladexGuiContainer
 		}
 
 		if (object != null)
-			object.draw(gui);
+			object.draw(gui, mouseX, mouseY);
 	}
 
 	@Override

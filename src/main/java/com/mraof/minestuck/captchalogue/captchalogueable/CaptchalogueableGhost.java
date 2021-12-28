@@ -49,7 +49,7 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
-	public void fetch(EntityPlayer player, boolean shrinkHand)
+	public void fetch(EntityPlayer player)
 	{
 
 	}
@@ -81,10 +81,10 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
-	public void draw(GuiSylladex gui)
+	public void draw(GuiSylladex gui, int mouseX, int mouseY)
 	{
 		//TODO grayscale would be neat
-		parent.draw(gui);
+		parent.draw(gui, 20, 20);
 	}
 
 	@Override

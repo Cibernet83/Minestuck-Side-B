@@ -27,7 +27,7 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 
 	@Override
 	public boolean isEmpty() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	}
 
 	@Override
-	public void fetch(EntityPlayer player, boolean shrinkHand) {
+	public void fetch(EntityPlayer player) {
 
 	}
 
@@ -61,13 +61,14 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	}
 
 	@Override
-	public void draw(GuiSylladex gui)
+	public void draw(GuiSylladex gui, int mouseX, int mouseY)
 	{
 		gui.drawTexturedModalRect(0, 0, 0, 0, 16, 16);
 	}
 
 	@Override
-	public String getDisplayName() {
+	public String getDisplayName()
+	{
 		return "INVALID";
 	}
 

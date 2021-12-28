@@ -337,76 +337,12 @@ public class CommonEventHandler
 	}
 
 	@SubscribeEvent
-	public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event)
-	{
-		if(event.getItemStack().getItem() instanceof ItemCaptcharoidCamera)
-		{
-			EntityPlayer player = event.getEntityPlayer();
-			World world = player.world;
-
-			Block block = world.getBlockState(event.getPos()).getBlock();
-			if(ItemGhost.containsKey(block))
-			{
-				player.inventory.addItemStackToInventory(AlchemyUtils.createCaptcharoidCard(new CaptchalogueableItemStack(new ItemStack(ItemGhost.get(block)))));
-				event.getItemStack().damageItem(1, player);
-				event.setCancellationResult(EnumActionResult.SUCCESS);
-				event.setCanceled(true);
-			}
-		}
-	}
-
-	@SubscribeEvent
 	public static void onRightClickEmpty(PlayerInteractEvent.RightClickItem event)
 	{
 		if(event.getItemStack().getItem() == Items.PAPER && event.getItemStack().getCount() == 1)
 		{
 			event.getEntityPlayer().setHeldItem(event.getHand(), new ItemStack(MinestuckItems.rolledUpPaper));
 			event.getEntityPlayer().swingArm(event.getHand());
-		}
-
-		if(event.getItemStack().getItem() instanceof ItemCaptcharoidCamera)
-		{
-			EntityPlayer player = event.getEntityPlayer();
-			World world = player.world;
-
-			ItemStack stack = ItemStack.EMPTY;
-
-			if(MinestuckDimensionHandler.isLandDimension(world.provider.getDimension()) && player.rotationPitch < -75)
-				stack = new ItemStack(MinestuckItems.skaia);
-			else if(world.provider.getDimension() == 0)
-			{
-				Vec3d playerPosVec = new Vec3d(player.posX, player.posY, player.posZ);
-				Vec3d playerLookVec = player.getLookVec();
-
-				RayTraceResult rayTrace = world.rayTraceBlocks(playerPosVec, playerPosVec.add(playerLookVec.scale(200)), true, true, false);
-
-				if(rayTrace != null)
-					return;
-
-				for(Entity weatherEffect : world.weatherEffects)
-					if(weatherEffect instanceof EntityLightningBolt)
-						stack = new ItemStack(MinestuckItems.lightning);
-
-				if(stack.isEmpty() && !world.isThundering())
-				{
-					playerLookVec = getVecFromRotation(-player.rotationPitch, player.rotationYaw);
-					float celestialAngle = (world.getCelestialAngle(0)*360f + 90f) % 360f;
-					Vec3d sunVec = getVecFromRotation(celestialAngle, -90);
-					Vec3d moonVec = getVecFromRotation((celestialAngle+180f) % 360f, -90);
-
-					if(playerLookVec.squareDistanceTo(sunVec) < 0.07f)
-						stack = new ItemStack(MinestuckItems.sun);
-					else if(playerLookVec.distanceTo(moonVec) < 0.07f)
-						stack = new ItemStack(MinestuckItems.moon);
-				}
-
-			}
-
-
-			player.inventory.addItemStackToInventory(stack.isEmpty() ? new ItemStack(MinestuckItems.captchaCard) : AlchemyUtils.createCaptcharoidCard(new CaptchalogueableItemStack(stack)));
-			event.getItemStack().damageItem(1, player);
-			event.setCancellationResult(EnumActionResult.SUCCESS);
-			event.setCanceled(true);
 		}
 	}
 

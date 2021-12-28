@@ -59,11 +59,11 @@ public class SylladexGuiContainer
 		}
 	}
 
-	public void draw(GuiSylladex gui)
+	public void draw(GuiSylladex gui, int mouseX, int mouseY)
 	{
 		GlStateManager.translate(x, y, 0);
 		for (SylladexGuiContainer container : containers)
-			container.draw(gui);
+			container.draw(gui, (int) (mouseX-x), (int) (mouseY-y));
 		GlStateManager.translate(-x, -y, 0);
 	}
 

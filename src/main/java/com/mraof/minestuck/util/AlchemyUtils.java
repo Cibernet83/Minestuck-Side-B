@@ -13,7 +13,6 @@ import com.mraof.minestuck.captchalogue.modus.MinestuckModi;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.item.ItemCruxiteArtifact;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -144,13 +143,6 @@ public class AlchemyUtils
 	public static ItemStack createCard(ItemStack stack, boolean punched)
 	{
 		return createCard(new CaptchalogueableItemStack(stack), punched);
-	}
-
-	@Nonnull
-	public static ItemStack createCaptcharoidCard(ICaptchalogueable item)
-	{
-		ModusLayer layer = new ModusLayer(-1, new ModusSettings(MinestuckModi.hashtable, new NBTTagCompound()), new ModusSettings(MinestuckModi.queue, new NBTTagCompound()));
-		return setCardModi(createCard(new CaptchalogueableGhost(item), false), layer);
 	}
 
 	public static ICaptchalogueable getCardContents(ItemStack card)

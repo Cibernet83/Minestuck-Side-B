@@ -3,6 +3,7 @@ package com.mraof.minestuck.captchalogue.captchalogueable;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
+import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,22 +24,22 @@ public interface ICaptchalogueable
 	{{
 		put(new ResourceLocation(Minestuck.MODID, "itemstack"), CaptchalogueableItemStack.class);
 		put(new ResourceLocation(Minestuck.MODID, "ghost"), CaptchalogueableGhost.class);
+		put(new ResourceLocation(Minestuck.MODID, "entity"), CaptchalogueableEntity.class);
 	}};
 
 	void grow(ICaptchalogueable other);
 	boolean isEmpty();
 	boolean isCompatibleWith(ICaptchalogueable other);
-	void fetch(EntityPlayer player, boolean shrinkHand);
-	default void fetch(EntityPlayer player)
-	{
-		fetch(player, false);
-	}
+	void fetch(EntityPlayer player);
 	void eject(BottomSylladex fromSylladex, EntityPlayer player);
 	void eject(EntityPlayer player);
-	ItemStack captchalogueIntoCardItem();
+	default ItemStack captchalogueIntoCardItem()
+	{
+		return AlchemyUtils.createCard(this, false);
+	}
 	NBTTagCompound writeData();
 	@SideOnly(Side.CLIENT)
-	void draw(GuiSylladex gui);
+	void draw(GuiSylladex gui, int mouseX, int mouseY);
 	@SideOnly(Side.CLIENT)
 	String getDisplayName();
 	@SideOnly(Side.CLIENT)

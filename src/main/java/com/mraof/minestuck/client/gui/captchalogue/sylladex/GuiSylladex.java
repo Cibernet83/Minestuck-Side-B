@@ -9,10 +9,7 @@ import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiYesNo;
-import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.resources.I18n;
@@ -25,6 +22,7 @@ import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
@@ -136,7 +134,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.translate(mapX, mapY, 0);
 		
-		cardGuiContainer.draw(this);
+		cardGuiContainer.draw(this, (int) (mouseX-mapX-guiX), (int) (mouseY-mapY-guiY));
 
 		// Finish map
 		GlStateManager.popMatrix();
@@ -227,6 +225,10 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	public void renderToolTip(ItemStack stack, int x, int y)
 	{
 		super.renderToolTip(stack, x, y);
+	}
+
+	public void drawHoveringText(List<String> textLines, int x, int y) {
+		super.drawHoveringText(textLines, x, y, fontRenderer);
 	}
 
 	private boolean isMouseInContainer(int xcor, int ycor) {

@@ -62,7 +62,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public void fetch(EntityPlayer player, boolean shrinkHand)
+	public void fetch(EntityPlayer player)
 	{
 		ItemStack handStack = player.getHeldItemMainhand().copy();
 
@@ -105,7 +105,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void draw(GuiSylladex gui)
+	public void draw(GuiSylladex gui, int mouseX, int mouseY)
 	{
 		if(!stack.isEmpty())
 		{
