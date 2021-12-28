@@ -22,15 +22,15 @@ public class UpperSylladex extends MultiSylladex
 		//super(new ModusLayer(lengths[index] & 0xff, modi[index]));
 		super(modusLayers[index]);
 		for (int i = 0; i < this.modi.getLength(); i++)
-			sylladices.add(index == modusLayers.length - 1 ? new BottomSylladex(modusLayers[index + 1]) : new UpperSylladex(modusLayers, index + 1));
+			sylladices.add(index + 2 == modusLayers.length ? new BottomSylladex(modusLayers[index + 1]) : new UpperSylladex(modusLayers, index + 1));
 	}
 
 	UpperSylladex(NBTTagCompound nbt)
 	{
 		super(new ModusLayer(nbt.getCompoundTag("Modus")));
 
-		NBTTagList sylladices = nbt.getTagList("sylladices", 10);
-		for (NBTBase sylladexTagBase : sylladices)
+		NBTTagList sylladicesTag = nbt.getTagList("Sylladices", 10);
+		for (NBTBase sylladexTagBase : sylladicesTag)
 			this.sylladices.add(ISylladex.readFromNBT((NBTTagCompound) sylladexTagBase));
 	}
 
@@ -43,12 +43,12 @@ public class UpperSylladex extends MultiSylladex
 	@Override
 	public void addCard(ICaptchalogueable object, EntityPlayer player)
 	{
-		int leastSlots = 0;
+		int leastSlots = 257;
 		MultiSylladex leastSlotsSylladex = null;
 		for (MultiSylladex sylladex : sylladices)
 		{
 			int slots = sylladex.getTotalSlots();
-			if (slots < leastSlots || leastSlotsSylladex == null)
+			if (slots < leastSlots)
 			{
 				leastSlots = slots;
 				leastSlotsSylladex = sylladex;

@@ -60,8 +60,7 @@ public class PacketControlDeckSync extends MinestuckPacket
 		ModusLayer[] modusLayers = new ModusLayer[layerCount];
 		for (int i = 0; i < layerCount; i++)
 		{
-			boolean isBottom = i + 1 == layerCount;
-			int modiInLayer = isBottom ? te.getCartridgeCount() - (te.getLayerCount() - 1) * TileEntityModusControlDeck.WIDTH : TileEntityModusControlDeck.WIDTH;
+			int modiInLayer = i == 0 ? te.getCartridgeCount() - (layerCount - 1) * TileEntityModusControlDeck.WIDTH : TileEntityModusControlDeck.WIDTH;
 
 			ModusSettings[] modi = new ModusSettings[modiInLayer];
 			for (int j = 0; j < modiInLayer; j++)
@@ -70,7 +69,7 @@ public class PacketControlDeckSync extends MinestuckPacket
 				modi[j] = new ModusSettings(((ItemModus) modusStack.getItem()).getModus(), SylladexUtils.getModusSettings(modusStack));
 			}
 
-			modusLayers[i] = new ModusLayer(isBottom ? -1 : lengths[i], modi);
+			modusLayers[i] = new ModusLayer(i + 1 == layerCount ? -1 : lengths[i], modi);
 		}
 
 		// Eject previous sylladex
