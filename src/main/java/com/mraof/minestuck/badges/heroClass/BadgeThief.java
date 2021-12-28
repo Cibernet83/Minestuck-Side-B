@@ -10,7 +10,7 @@ import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.IdentifierHandler;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
@@ -49,7 +49,7 @@ public class BadgeThief extends BadgeHeroClass
 		if (time < 20)
 			return false;
 
-		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 
 		if (!(target instanceof EntityPlayer))
 			return false;

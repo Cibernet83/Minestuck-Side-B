@@ -1,9 +1,10 @@
-package com.mraof.minestuck.client.gui.captchalogue;
+package com.mraof.minestuck.client.gui.captchalogue.sylladex;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
+import com.mraof.minestuck.client.MinestuckFontRenderer;
+import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
@@ -26,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
-public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
+public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 {
 	public static final ResourceLocation SYLLADEX_FRAME = new ResourceLocation("minestuck", "textures/gui/sylladex_frame.png");
 	public static final ResourceLocation CARD_TEXTURE = new ResourceLocation("minestuck", "textures/gui/captcha_cards.png");
@@ -37,7 +38,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 
 	public RenderItem itemRender;
 	private MultiSylladex sylladex;
-	private ModusGuiContainer cardGuiContainer;
+	private SylladexGuiContainer cardGuiContainer;
 	
 	/**
 	 * Position of the map (the actual gui viewport)
@@ -55,7 +56,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 
 	private GuiButton emptySylladex;
 	
-	public SylladexGuiHandler(MultiSylladex sylladex)
+	public GuiSylladex(MultiSylladex sylladex)
 	{
 		updateSylladex(sylladex);
 		this.mc = Minecraft.getMinecraft();
@@ -72,7 +73,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	}
 	
 	@Override
-	public void drawScreen(int xcor, int ycor, float f)
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
 		this.drawDefaultBackground();
 		
@@ -109,13 +110,13 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		{
 			if (mousePressed)
 			{
-				//mapX = MathHelper.clamp(mapX - (mousePosX - xcor) * scroll, 0, mapWidth - cardsWidth);
-				//mapY = MathHelper.clamp(mapY - (mousePosY - ycor) * scroll, 0, mapHeight - cardsHeight);
-				mapX -= (mousePosX - xcor) * scroll; // TODO: Figure out a way to cull things offscreen
-				mapY -= (mousePosY - ycor) * scroll;
+				//mapX = MathHelper.clamp(mapX - (mousePosX - mouseX) * scroll, 0, mapWidth - cardsWidth);
+				//mapY = MathHelper.clamp(mapY - (mousePosY - mouseY) * scroll, 0, mapHeight - cardsHeight);
+				mapX -= (mousePosX - mouseX) * scroll; // TODO: Figure out a way to cull things offscreen
+				mapY -= (mousePosY - mouseY) * scroll;
 			}
-			mousePosX = xcor;
-			mousePosY = ycor;
+			mousePosX = mouseX;
+			mousePosY = mouseY;
 			mousePressed = true;
 		}
 		else
@@ -142,27 +143,28 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 		
 		mc.getTextureManager().bindTexture(SYLLADEX_FRAME);
 		drawTexturedModalRect(0, 0, 0, 0, GUI_WIDTH, GUI_HEIGHT);
+
+		MinestuckFontRenderer fontRenderer = MinestuckFontRenderer.lucidaConsoleSmall;
+		fontRenderer.drawString(I18n.format("gui.sylladex"), 15, 5, 0x404040);
 		
-		mc.fontRenderer.drawString(I18n.format("gui.sylladex"), 15, 5, 0x404040);
-		
-		String str = sylladex.getName();
-		mc.fontRenderer.drawString(str, GUI_WIDTH - mc.fontRenderer.getStringWidth(str) - 16, 5, 0x404040);
+		String sylladexName = sylladex.getName().toLowerCase();
+		fontRenderer.drawString(sylladexName, GUI_WIDTH - fontRenderer.getStringWidth(sylladexName) - 16, 5, 0x404040);
 
 		GlStateManager.popMatrix();
 
-		super.drawScreen(xcor, ycor, f);
+		super.drawScreen(mouseX, mouseY, partialTicks);
 		
-		if(isMouseInContainer(xcor, ycor))
+		if(isMouseInContainer(mouseX, mouseY))
 		{
-			float translX = (xcor - guiX - X_OFFSET) * scroll - mapX;
-			float translY = (ycor - guiY - Y_OFFSET) * scroll - mapY;
+			float translX = (mouseX - guiX - X_OFFSET) * scroll - mapX;
+			float translY = (mouseY - guiY - Y_OFFSET) * scroll - mapY;
 			ArrayList<Integer> hitSlots = cardGuiContainer.hit(translX, translY);
 			if (hitSlots != null)
 			{
 				int[] slots = hitSlots.stream().mapToInt(Integer::intValue).toArray();
 				ICaptchalogueable object = sylladex.peek(slots, 0);
 				if (object != null)
-					renderToolTip((ItemStack) object.getObject(), xcor, ycor);
+					object.renderTooltip(this, mouseX, mouseY);
 			}
 		} // FIXME: fetchdeck inventory only saving on sync
 	}
@@ -189,6 +191,14 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	}
 	
 	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException
+	{
+		super.keyTyped(typedChar, keyCode);
+		if(MinestuckKeyHandler.instance.sylladexKey.isActiveAndMatches(keyCode))
+			mc.displayGuiScreen(null);
+	}
+
+	@Override
 	protected void actionPerformed(GuiButton button)
 	{
 		if(button == emptySylladex)
@@ -199,25 +209,24 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	}
 	
 	@Override
-	protected void keyTyped(char typedChar, int keyCode) throws IOException
-	{
-		super.keyTyped(typedChar, keyCode);
-		if(MinestuckKeyHandler.instance.sylladexKey.isActiveAndMatches(keyCode))
-			mc.displayGuiScreen(null);
-	}
-	
-	@Override
 	public void confirmClicked(boolean result, int id)
 	{
 		if(result)
 			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.SYLLADEX_EMPTY_REQUEST));
 		mc.currentScreen = this;
+		mousePressed = false;
 	}
 	
 	@Override
 	public boolean doesGuiPauseGame()
 	{
 		return false;
+	}
+
+	@Override
+	public void renderToolTip(ItemStack stack, int x, int y)
+	{
+		super.renderToolTip(stack, x, y);
 	}
 
 	private boolean isMouseInContainer(int xcor, int ycor) {
@@ -229,7 +238,7 @@ public class SylladexGuiHandler extends GuiScreen implements GuiYesNoCallback
 	public void updateSylladex(MultiSylladex sylladex)
 	{
 		this.sylladex = sylladex;
-		this.cardGuiContainer = new ModusGuiContainer(sylladex);
+		this.cardGuiContainer = new SylladexGuiContainer(sylladex);
 		this.cardsWidth = cardGuiContainer.getWidth();
 		this.cardsHeight = cardGuiContainer.getHeight();
 	}

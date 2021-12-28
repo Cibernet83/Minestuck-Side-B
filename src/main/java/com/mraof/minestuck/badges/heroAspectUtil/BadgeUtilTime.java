@@ -6,7 +6,7 @@ import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.EnumAspect;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -51,7 +51,7 @@ public class BadgeUtilTime extends BadgeHeroAspectUtil
 			return false;
 		}
 
-		BlockPos target = MSGTUtils.getTargetBlock(player);
+		BlockPos target = MinestuckUtils.getTargetBlock(player);
 		if (target == null)
 		{
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.TIME, 2);

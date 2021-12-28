@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.strife.StrifePortfolioHandler;
 import com.mraof.minestuck.strife.StrifeSpecibus;
 import net.minecraft.client.util.ITooltipFlag;
@@ -77,7 +77,7 @@ public class ItemStrifeCard extends MSItemBase
 				StrifePortfolioHandler.assignStrife(playerIn, handIn);
 			else injectStrifeSpecibus(StrifeSpecibus.empty(), stack);
 		}
-		else playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.STRIFE_CARD.ordinal(), worldIn, (int)playerIn.posX, (int)playerIn.posY, (int)playerIn.posZ);
+		else playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.STRIFE_CARD.ordinal(), worldIn, (int)playerIn.posX, (int)playerIn.posY, (int)playerIn.posZ);
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}

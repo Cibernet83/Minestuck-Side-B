@@ -2,7 +2,7 @@ package com.mraof.minestuck.network.skaianet;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiComputer;
-import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
@@ -185,7 +185,7 @@ public class SkaiaClient
 		else if(te != null && te.ownerId == data.playerId)
 		{
 			if(!Minecraft.getMinecraft().player.isSneaking())
-				Minecraft.getMinecraft().player.openGui(Minestuck.instance, MSGuiHandler.GuiId.COMPUTER.ordinal(), te.getWorld(), te.getPos().getX(), te.getPos().getY(), te.getPos().getZ());
+				Minecraft.getMinecraft().player.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.COMPUTER.ordinal(), te.getWorld(), te.getPos().getX(), te.getPos().getY(), te.getPos().getZ());
 			te = null;
 		}
 	}

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,7 +38,7 @@ public class PacketUpdateGTDataFromServer extends MinestuckPacket
         if(nbt.hasKey("Reset"))
         {
             nbt.removeTag("Reset");
-            MSGTUtils.onResetGodTier(player);
+            MinestuckUtils.onResetGodTier(player);
         }
         player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).readFromNBT(nbt);
     }

@@ -18,7 +18,7 @@ import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.AlchemyUtils;
-import com.mraof.minestuck.util.MSUUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -178,7 +178,7 @@ public class CommonEventHandler
 			int duration = player.getActivePotionEffect(MinestuckPotions.CREATIVE_SHOCK).getDuration();
 			if(duration >= 5)
 				player.capabilities.allowEdit = false;
-			else player.capabilities.allowEdit = !MSUUtils.getPlayerGameType(player).hasLimitedInteractions();
+			else player.capabilities.allowEdit = !MinestuckUtils.getPlayerGameType(player).hasLimitedInteractions();
 		}
 
 
@@ -291,7 +291,7 @@ public class CommonEventHandler
 			}
 			if(!player.isCreative() && potion == MinestuckPotions.CREATIVE_SHOCK)
 			{
-				player.capabilities.allowEdit = !MSUUtils.getPlayerGameType(player).hasLimitedInteractions();
+				player.capabilities.allowEdit = !MinestuckUtils.getPlayerGameType(player).hasLimitedInteractions();
 				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.BUILD_INHIBIT_EFFECT), player);
 			}
 		}

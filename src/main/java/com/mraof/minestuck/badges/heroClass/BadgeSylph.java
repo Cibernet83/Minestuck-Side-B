@@ -3,8 +3,8 @@ package com.mraof.minestuck.badges.heroClass;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
-import com.mraof.minestuck.util.MSGTUtils;
 import com.mraof.minestuck.util.EnumClass;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
@@ -30,7 +30,7 @@ public class BadgeSylph extends BadgeHeroClass
 		if(!state.equals(GodKeyStates.KeyState.HELD))
 			return false;
 
-		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 
 		if(target == null || !(target.getHealth() < target.getMaxHealth() || (target instanceof EntityPlayer && ((EntityPlayer) target).getFoodStats().needFood())))
 			return false;

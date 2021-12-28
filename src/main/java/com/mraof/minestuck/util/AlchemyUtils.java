@@ -4,6 +4,7 @@ import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
+import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
@@ -82,7 +83,7 @@ public class AlchemyUtils
 	{
 		if (!hasDecodedItem(card))
 			return ItemStack.EMPTY;
-		ItemStack stack = new ItemStack(card.getTagCompound().getCompoundTag("content"));
+		ItemStack stack = new ItemStack(card.getTagCompound().getCompoundTag("Content"));
 		if (isGhostCard(card) && !ignoreGhost)
 			stack.setCount(1);
 		return stack;
@@ -99,7 +100,7 @@ public class AlchemyUtils
 		if (card.isEmpty())
 			return ItemStack.EMPTY;
 
-		if (card.getItem().equals(captchaCard) && card.hasTagCompound() && card.getTagCompound().hasKey("contentID"))
+		if (card.getItem().equals(captchaCard) && card.hasTagCompound() && card.getTagCompound().hasKey("ContentID"))
 			return getDecodedItem(card);
 		else
 			return card.copy();
@@ -113,7 +114,7 @@ public class AlchemyUtils
 	{
 		if (card.getTagCompound() == null)
 			card.setTagCompound(new NBTTagCompound());
-		card.getTagCompound().setTag("content", item.writeToNBT(new NBTTagCompound())); // TODO: nbt alchemy lol
+		card.getTagCompound().setTag("Content", item.writeToNBT(new NBTTagCompound())); // TODO: nbt alchemy lol
 		return card;
 	}
 
@@ -128,8 +129,8 @@ public class AlchemyUtils
 	{
 		ItemStack card = new ItemStack(captchaCard);
 		card.setTagCompound(new NBTTagCompound());
-		card.getTagCompound().setTag("content", item.writeToNBT(new NBTTagCompound()));
-		card.getTagCompound().setBoolean("punched", punched);
+		card.getTagCompound().setTag("Content", item.writeToNBT(new NBTTagCompound()));
+		card.getTagCompound().setBoolean("Punched", punched);
 		return card;
 	}
 
@@ -137,7 +138,7 @@ public class AlchemyUtils
 	public static ItemStack createGhostCard(ItemStack item)
 	{
 		ItemStack card = createCard(item, false);
-		card.getTagCompound().setBoolean("ghost", true);
+		card.getTagCompound().setBoolean("Ghost", true);
 		return card;
 	}
 
@@ -170,14 +171,14 @@ public class AlchemyUtils
 	}
 
 
-	public static ItemStack setCardModi(ItemStack card, List<Modus> modi)
+	public static ItemStack setCardModi(ItemStack card, ModusLayer modi)
 	{
 		if(!card.hasTagCompound())
 			card.setTagCompound(new NBTTagCompound());
 
 		NBTTagList nbt = new NBTTagList();
 
-		for(Modus modus : modi)
+		for(Modus modus : modi.getModi())
 			nbt.appendTag(new NBTTagString(modus.getRegistryName().toString()));
 
 		card.getTagCompound().setTag("Modus", nbt);
@@ -192,22 +193,22 @@ public class AlchemyUtils
 
 	public static boolean isPunchedCard(ItemStack card)
 	{
-		return card.getItem() == captchaCard && card.hasTagCompound() && card.getTagCompound().getBoolean("punched");
+		return card.getItem() == captchaCard && card.hasTagCompound() && card.getTagCompound().getBoolean("Punched");
 	}
 
 	public static boolean isGhostCard(ItemStack card)
 	{
-		return card.getItem() == captchaCard && card.hasTagCompound() && card.getTagCompound().getBoolean("ghost");
+		return card.getItem() == captchaCard && card.hasTagCompound() && card.getTagCompound().getBoolean("Ghost");
 	}
 
 	public static boolean hasDecodedItem(ItemStack card)
 	{
-		return card.hasTagCompound() && card.getTagCompound().hasKey("content", 10);
+		return card.hasTagCompound() && card.getTagCompound().hasKey("Content", 10);
 	}
 
 	public static boolean containsItem(ItemStack card)
 	{
-		return card.getItem() == captchaCard && hasDecodedItem(card) && !card.getTagCompound().getBoolean("punched") && !card.getTagCompound().getBoolean("ghost");
+		return card.getItem() == captchaCard && hasDecodedItem(card) && !card.getTagCompound().getBoolean("Punched") && !card.getTagCompound().getBoolean("Ghost");
 	}
 
 	public static boolean isEmptyCard(ItemStack card)

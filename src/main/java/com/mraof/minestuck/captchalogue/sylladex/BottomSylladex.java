@@ -1,54 +1,66 @@
 package com.mraof.minestuck.captchalogue.sylladex;
 
+import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.captchalogue.modus.Modus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 public class BottomSylladex extends MultiSylladex
 {
 	private final LinkedList<CardSylladex> cards = new LinkedList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
 
-	public BottomSylladex(Modus[] modi)
+	BottomSylladex(ModusLayer modi)
 	{
-		Collections.addAll(this.modi, modi);
+		super(modi);
 	}
 
-	public BottomSylladex(NBTTagCompound nbt)
+	BottomSylladex(NBTTagCompound nbt)
 	{
-		readFromNBT(nbt);
-	}
+		super(new ModusLayer(nbt.getCompoundTag("Modus")));
 
-	@Override
-	public ICaptchalogueable get(int[] slots, int i, boolean asCard)
-	{
-		for (Modus modus : modi)
-			if (modus.canGet(cards, slots, i))
-			{
-				ICaptchalogueable rtn = modus.get(cards, slots, i, asCard);
-				if (asCard)
-					cleanUpMarkedCards(slots,  i);
-				return rtn;
-			}
-		return null;
+		NBTTagList cardsTag = nbt.getTagList("Cards", 10);
+		for (NBTBase cardTagBase : cardsTag)
+			cards.add(new CardSylladex(this, (NBTTagCompound) cardTagBase));
 	}
 
 	@Override
-	public ICaptchalogueable tryGetEmptyCard(int[] slots, int i)
+	public ICaptchalogueable get(int[] slots, int index, boolean asCard)
 	{
-		ICaptchalogueable rtn = cards.get(slots[i]).tryGetEmptyCard(slots, i + 1);
-		cleanUpMarkedCards(slots, i);
+		ICaptchalogueable rtn = super.get(slots, index, asCard);
+		if (rtn != null && asCard)
+			cleanUpMarkedCards(slots, index);
 		return rtn;
+	}
+
+	@Override
+	public ICaptchalogueable tryGetEmptyCard(int[] slots, int index)
+	{
+		ICaptchalogueable rtn = cards.get(slots[index]).tryGetEmptyCard(slots, index + 1);
+		cleanUpMarkedCards(slots, index);
+		return rtn;
+	}
+
+	@Override
+	public void put(ICaptchalogueable object, EntityPlayer player)
+	{
+		if (cards.size() > 0)
+			modi.put(getSylladices(), object, player);
+		else
+			object.eject(this, player);
+	}
+
+	@Override
+	public void grow(ICaptchalogueable object)
+	{
+		if (cards.size() > 0)
+			super.grow(object);
 	}
 
 	@Override
@@ -86,40 +98,38 @@ public class BottomSylladex extends MultiSylladex
 	}
 
 	@Override
-	protected void getLengths(ArrayList<Integer> lengths) { } // Don't want this one to set lengths
+	protected void getModusLayers(List<ModusLayer> modusLayers)
+	{
+		modusLayers.add(modi);
+	}
 
 	@Override
-	public LinkedList<CardSylladex> getSylladices()
+	protected LinkedList<CardSylladex> getSylladices()
 	{
 		return cards;
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+
+		nbt.setTag("Modus", modi.writeToNBT());
+
+		NBTTagList cardsTag = new NBTTagList();
+		for (CardSylladex card : cards)
+			cardsTag.appendTag(card.writeToNBT());
+		nbt.setTag("Cards", cardsTag);
+
+		nbt.setBoolean("IsBottom", true);
+
+		return nbt;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getName(boolean plural)
 	{
-		return getNameForLayer(plural);
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT()
-	{
-		NBTTagCompound nbt = super.writeToNBT();
-		nbt.setBoolean("isBottom", true);
-		return nbt;
-	}
-
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		modi.clear();
-		cards.clear();
-
-		NBTTagList modusTypes = nbt.getTagList("modusTypes", 8);
-		for (NBTBase modusType : modusTypes)
-			modi.add(Modus.REGISTRY.getValue(new ResourceLocation(((NBTTagString)modusType).getString())));
-
-		NBTTagList sylladices = nbt.getTagList("sylladices", 10);
-		for (NBTBase sylladexTagBase : sylladices)
-			this.cards.add(new CardSylladex(this, (NBTTagCompound) sylladexTagBase));
+		return modi.getName(plural);
 	}
 }

@@ -11,7 +11,7 @@ import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -77,7 +77,7 @@ public class BadgeActiveMind extends BadgeHeroAspect
 
 	private static EntityLivingBase setTarget(EntityPlayer player)
 	{
-		EntityLivingBase mfTarget = MSGTUtils.getTargetEntity(player);
+		EntityLivingBase mfTarget = MinestuckUtils.getTargetEntity(player);
 
 		if(mfTarget == null || mfTarget.isPotionActive(MinestuckPotions.MIND_FORTITUDE))
 			return null;

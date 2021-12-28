@@ -3,8 +3,8 @@ package com.mraof.minestuck.badges.heroAspectUtil;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
-import com.mraof.minestuck.util.MSGTUtils;
 import com.mraof.minestuck.util.EnumAspect;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -33,7 +33,7 @@ public class BadgeUtilHope extends BadgeHeroAspectUtil
 			return false;
 		}
 
-		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 
 		if(target == null || target.getActivePotionMap().isEmpty())
 			target = player;

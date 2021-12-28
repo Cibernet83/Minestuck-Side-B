@@ -3,7 +3,7 @@ package com.mraof.minestuck;
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.entity.MinestuckEntities;
 import com.mraof.minestuck.entity.consort.ConsortDialogue;
@@ -61,7 +61,7 @@ public class CommonProxy
 		GameRegistry.registerWorldGenerator(oreHandler, 0);
 
 		//register GUI handler
-		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new MSGuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(Minestuck.instance, new MinestuckGuiHandler());
 		
 		MinestuckEntities.registerEntities();
 		//register Tile Entities

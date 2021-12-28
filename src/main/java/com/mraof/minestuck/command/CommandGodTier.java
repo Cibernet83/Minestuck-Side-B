@@ -1,11 +1,8 @@
 package com.mraof.minestuck.command;
 
-import com.mraof.minestuck.util.EnumLunarSway;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.*;
 import com.mraof.minestuck.world.gen.structure.StructureQuestBed;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.util.EnumAspect;
-import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -98,14 +95,14 @@ public class CommandGodTier extends CommandBase
 					throw new WrongUsageException("commands.sburbSession.notAspect", aspectStr);
 				}
 
-				MSGTUtils.changeTitle(target, titleClass, titleAspect);
+				MinestuckUtils.changeTitle(target, titleClass, titleAspect);
 				notifyCommandListener(sender, this, 0, "commands.godtier.title.success", new Object[] {target.getDisplayName(), titleClass.asTextComponent(), titleAspect.asTextComponent()});
 
 				break;
 			case "reset":
 
 				target = (args.length >= 2) ? getPlayer(server, sender, args[1]) : getCommandSenderAsPlayer(sender);
-				MSGTUtils.resetGodTier(target);
+				MinestuckUtils.resetGodTier(target);
 				notifyCommandListener(sender, this, 0, "commands.godtier.reset.success", new Object[] {target.getDisplayName()});
 				break;
 			case "mastercontrol":

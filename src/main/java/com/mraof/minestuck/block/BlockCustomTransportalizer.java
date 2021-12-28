@@ -6,7 +6,7 @@ package com.mraof.minestuck.block;//
 
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.MSGuiHandler.GuiId;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler.GuiId;
 import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;

@@ -5,7 +5,7 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +38,7 @@ public class BadgeUtilLife extends BadgeHeroAspectUtil
 
 		if(time % 10 == 1)
 		{
-			BlockPos targetPos = MSGTUtils.getTargetBlock(player);
+			BlockPos targetPos = MinestuckUtils.getTargetBlock(player);
 
 			if(targetPos != null && world.getBlockState(targetPos).getBlock() instanceof IGrowable)
 			{

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.captchalogue.sylladex;
 
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MinestuckItems;
@@ -12,13 +12,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class CardSylladex implements ISylladex
 {
 	private final BottomSylladex owner;
 	private ICaptchalogueable object;
-	private final ArrayList<ModusGuiContainer> containers = new ArrayList<>();
+	private final ArrayList<SylladexGuiContainer> containers = new ArrayList<>();
 	private boolean markedForDeletion = false;
 
 	public CardSylladex(BottomSylladex owner, ICaptchalogueable object)
@@ -34,9 +35,9 @@ public class CardSylladex implements ISylladex
 	}
 
 	@Override
-	public ICaptchalogueable get(int[] slots, int i, boolean asCard)
+	public ICaptchalogueable get(int[] slots, int index, boolean asCard)
 	{
-		checkSlots(slots, i);
+		checkSlots(slots, index);
 		ICaptchalogueable object = asCard ?
 										   new CaptchalogueableItemStack(AlchemyUtils.setCardModi(this.object.captchalogueIntoCardItem(), owner.modi)) : // Shouldn't ever ask for empty cards
 										   this.object == null ? new CaptchalogueableItemStack(ItemStack.EMPTY) : this.object;
@@ -47,23 +48,23 @@ public class CardSylladex implements ISylladex
 	}
 
 	@Override
-	public boolean canGet(int[] slots, int i)
+	public boolean canGet(int[] slots, int index)
 	{
-		checkSlots(slots, i);
-		return true;
+		checkSlots(slots, index);
+		return true; // Leave this true instead of !isEmpty because there may be gaps in places that make objects irretrievable
 	}
 
 	@Override
-	public ICaptchalogueable peek(int[] slots, int i)
+	public ICaptchalogueable peek(int[] slots, int index)
 	{
-		checkSlots(slots, i);
+		checkSlots(slots, index);
 		return object;
 	}
 
 	@Override
-	public ICaptchalogueable tryGetEmptyCard(int[] slots, int i)
+	public ICaptchalogueable tryGetEmptyCard(int[] slots, int index)
 	{
-		checkSlots(slots, i);
+		checkSlots(slots, index);
 		if (object == null)
 			markedForDeletion = true;
 		return object == null ? new CaptchalogueableItemStack(AlchemyUtils.setCardModi(new ItemStack(MinestuckItems.captchaCard), owner.modi)) : null;
@@ -87,14 +88,14 @@ public class CardSylladex implements ISylladex
 	@Override
 	public void eject(EntityPlayer player)
 	{
-		get(null, 0, false).eject(owner, owner.getSylladices().indexOf(this), player);
+		get(null, 0, false).eject(owner, player);
 	}
 
 	@Override
 	public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
 	{
 		if (!onlyFull || object != null)
-			get(null, -1, asCards).eject(null, -1, player);
+			get(null, -1, asCards).eject(null, player);
 	}
 
 	@Override
@@ -141,19 +142,18 @@ public class CardSylladex implements ISylladex
 		{
 			try
 			{
-				object = (ICaptchalogueable) Class.forName(className).newInstance();
+				object = (ICaptchalogueable) Class.forName(className).getConstructor(NBTTagCompound.class).newInstance(nbt);
 			}
-			catch (ClassNotFoundException | InstantiationException | IllegalAccessException e)
+			catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
 			{
 				throw new RuntimeException(e);
 			}
-			object.readFromNBT(nbt);
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
+	public ArrayList<SylladexGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
 	{
 		containers.clear();
 		containers.add(new CardGuiContainer(textureIndices.get(Math.min(owner.getSylladices().indexOf(this), textureIndices.size() - 1)), object));

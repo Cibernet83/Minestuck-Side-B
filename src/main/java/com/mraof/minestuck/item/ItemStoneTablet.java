@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -33,18 +33,19 @@ public class ItemStoneTablet extends MSItemBase
 		setMaxStackSize(1);
 	}
 
-
+	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 		BlockPos pos = playerIn.getPosition();
-		playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.STONE_TABLET.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+		playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.STONE_TABLET.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
 	}
 
 	/**
 	 * allows items to add custom lines of information to the mouseover description
 	 */
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 	{

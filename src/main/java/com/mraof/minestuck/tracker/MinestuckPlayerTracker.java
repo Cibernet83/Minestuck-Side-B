@@ -4,6 +4,8 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
+import com.mraof.minestuck.captchalogue.ModusLayer;
+import com.mraof.minestuck.captchalogue.ModusSettings;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
@@ -21,6 +23,7 @@ import com.mraof.minestuck.world.lands.LandAspectRegistry;
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -71,7 +74,7 @@ public class MinestuckPlayerTracker
 			Modus modus = Modus.REGISTRY.getValue(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]));
 			if(modus != null)
 			{
-				MultiSylladex newSylladex = ISylladex.newSylladex(new int[]{}, new Modus[][]{new Modus[]{modus}});
+				MultiSylladex newSylladex = ISylladex.newSylladex(new ModusLayer(-1, new ModusSettings(modus, new NBTTagCompound())));
 				newSylladex.addCards(MinestuckConfig.initialModusSize, player);
 				SylladexUtils.setSylladex(player, newSylladex);
 			}

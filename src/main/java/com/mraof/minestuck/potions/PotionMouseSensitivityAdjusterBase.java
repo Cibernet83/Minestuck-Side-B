@@ -3,7 +3,7 @@ package com.mraof.minestuck.potions;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
@@ -45,7 +45,7 @@ public abstract class PotionMouseSensitivityAdjusterBase extends MSPotionBase
 	public void setMouseSensitivity(EntityLivingBase entityLivingBase)
 	{
 		if (entityLivingBase.world.isRemote)
-			if (MSGTUtils.isClientPlayer(entityLivingBase))
+			if (MinestuckUtils.isClientPlayer(entityLivingBase))
 				Minecraft.getMinecraft().gameSettings.mouseSensitivity = getNewMouseSensitivity(prevMouseSensitivity);
 			else;
 		else
@@ -56,7 +56,7 @@ public abstract class PotionMouseSensitivityAdjusterBase extends MSPotionBase
 	public static void resetMouseSensitivity(EntityLivingBase entityLivingBase)
 	{
 		if (entityLivingBase.world.isRemote)
-			if (MSGTUtils.isClientPlayer(entityLivingBase))
+			if (MinestuckUtils.isClientPlayer(entityLivingBase))
 				Minecraft.getMinecraft().gameSettings.mouseSensitivity = prevMouseSensitivity;
 			else;
 		else

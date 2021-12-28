@@ -2,7 +2,7 @@ package com.mraof.minestuck.potions;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.entity.EntityLivingBase;
@@ -57,7 +57,7 @@ public class PotionTimeStop extends PotionMouseSensitivityAdjusterBase
 				entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isTimeStopped() :
 				entity.isPotionActive(MinestuckPotions.TIME_STOP)) // Usually I would use capabilities, but we need this instead to update it
 		{
-			if (!entity.world.isRemote || MSGTUtils.isClientPlayer(entity))
+			if (!entity.world.isRemote || MinestuckUtils.isClientPlayer(entity))
 				event.setCanceled(true);
 
 			if (entity.hurtTime > 0)
@@ -77,7 +77,7 @@ public class PotionTimeStop extends PotionMouseSensitivityAdjusterBase
 				}
 			}
 			
-			if (!entity.world.isRemote || (MSGTUtils.isClientPlayer(entity) && entity.isPotionActive(MinestuckPotions.TIME_STOP)))
+			if (!entity.world.isRemote || (MinestuckUtils.isClientPlayer(entity) && entity.isPotionActive(MinestuckPotions.TIME_STOP)))
 			{
 				PotionEffect potionEffect = entity.getActivePotionEffect(MinestuckPotions.TIME_STOP);
 				if (!potionEffect.onUpdate(entity) && !entity.world.isRemote)

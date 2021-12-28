@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
 import net.minecraft.block.material.MapColor;
@@ -99,7 +99,7 @@ public class BlockModusControlDeck extends MSBlockContainer
 			return true;
 		else if(facing == EnumFacing.UP == playerIn.isSneaking() && te.getCartridgeCount() > 0)
 		{
-			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.MODUS_CONTROL_DECK.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MODUS_CONTROL_DECK.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		}
 		return false;

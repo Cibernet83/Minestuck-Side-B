@@ -1,9 +1,9 @@
 package com.mraof.minestuck.captchalogue.sylladex;
 
-import com.mraof.minestuck.client.gui.captchalogue.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.ModusGuiContainer;
+import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.captchalogue.modus.Modus;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -14,10 +14,10 @@ import java.util.ArrayList;
 
 public interface ISylladex
 {
-	ICaptchalogueable get(int[] slots, int i, boolean asCard);
-	boolean canGet(int[] slots, int i);
-	ICaptchalogueable peek(int[] slots, int i);
-	ICaptchalogueable tryGetEmptyCard(int[] slots, int i);
+	ICaptchalogueable get(int[] slots, int index, boolean asCard);
+	boolean canGet(int[] slots, int index);
+	ICaptchalogueable peek(int[] slots, int index);
+	ICaptchalogueable tryGetEmptyCard(int[] slots, int index);
 	void put(ICaptchalogueable object, EntityPlayer player);
 	void grow(ICaptchalogueable object);
 	void eject(EntityPlayer player);
@@ -26,17 +26,17 @@ public interface ISylladex
 	int getTotalSlots();
 	NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)
-	ArrayList<ModusGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices);
+	ArrayList<SylladexGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices);
 
 	@Nonnull
 	static MultiSylladex readFromNBT(@Nonnull NBTTagCompound nbt)
 	{
-		return nbt.getBoolean("isBottom") ? new BottomSylladex(nbt) : new UpperSylladex(nbt);
+		return nbt.getBoolean("IsBottom") ? new BottomSylladex(nbt) : new UpperSylladex(nbt);
 	}
 
 	@Nonnull
-	static MultiSylladex newSylladex(@Nonnull int[] lengths, @Nonnull Modus[][] modi)
+	static MultiSylladex newSylladex(@Nonnull ModusLayer... modusLayers)
 	{
-		return lengths.length == 0 ? new BottomSylladex(modi[0]) : new UpperSylladex(lengths, modi, 0);
+		return modusLayers[0].getLength() < 0 ? new BottomSylladex(modusLayers[0]) : new UpperSylladex(modusLayers, 0);
 	}
 }

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.captchalogue.captchalogueable;
 
-import com.mraof.minestuck.client.gui.captchalogue.SylladexGuiHandler;
 import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -17,21 +18,29 @@ import javax.annotation.Nonnull;
 
 public class CaptchalogueableItemStack implements ICaptchalogueable
 {
-	private ItemStack stack; // Should be final but readFromNBT
+	private final ItemStack stack;
 
 	public CaptchalogueableItemStack(@Nonnull ItemStack stack)
 	{
 		this.stack = stack;
 	}
 
-	public CaptchalogueableItemStack() { } // Needed for instantiation
+	public CaptchalogueableItemStack(NBTTagCompound nbt)
+	{
+		stack = new ItemStack(nbt);
+	}
+
+	public ItemStack getStack()
+	{
+		return stack;
+	}
 
 	@Override
 	public void grow(ICaptchalogueable other)
 	{
 		if (!isCompatibleWith(other))
 			return;
-		SylladexUtils.moveItemStack((ItemStack)other.getObject(), stack);
+		SylladexUtils.moveItemStack(((CaptchalogueableItemStack)other).getStack(), stack);
 	}
 
 	@Override
@@ -43,20 +52,24 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	@Override
 	public boolean isCompatibleWith(ICaptchalogueable other)
 	{
-		if (!(other.getObject() instanceof ItemStack))
+		if (!(other instanceof CaptchalogueableItemStack))
 			return false;
-		ItemStack otherStack = (ItemStack)other.getObject();
+		ItemStack otherStack = ((CaptchalogueableItemStack)other).getStack();
 		return SylladexUtils.areItemStacksCompatible(stack, otherStack);
 	}
 
 	@Override
-	public Object getObject()
+	public void fetch(EntityPlayer player)
 	{
-		return stack;
+		ItemStack handStack = player.getHeldItemMainhand();
+		if(handStack.isEmpty())
+			player.setHeldItem(EnumHand.MAIN_HAND, stack);
+		else if (!player.addItemStackToInventory(stack))
+			SylladexUtils.launchItem(player, stack);
 	}
 
 	@Override
-	public void eject(BottomSylladex fromSylladex, int cardIndex, EntityPlayer player)
+	public void eject(BottomSylladex fromSylladex, EntityPlayer player)
 	{
 		if(fromSylladex != null && AlchemyUtils.isAppendable(stack))
 			while (!stack.isEmpty()) // FIXME: Make these move up a stack when popping over the 256 card limit
@@ -65,7 +78,13 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 				stack.shrink(1);
 			}
 		if(!stack.isEmpty())
-			SylladexUtils.launchItem(player, stack);
+			eject(player);
+	}
+
+	@Override
+	public void eject(EntityPlayer player)
+	{
+		SylladexUtils.launchItem(player, stack);
 	}
 
 	@Override
@@ -81,13 +100,8 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		stack = new ItemStack(nbt);
-	}
-
-	@Override
-	public void draw(SylladexGuiHandler gui)
+	@SideOnly(Side.CLIENT)
+	public void draw(GuiSylladex gui)
 	{
 		if(!stack.isEmpty())
 		{
@@ -105,14 +119,22 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 		}
 	}
 
+	@Override
+	public String getDisplayName() {
+		return (stack.getCount() <= 1 ? "" : (stack.getCount() + "x ")) + stack.getDisplayName();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void renderTooltip(GuiSylladex gui, int x, int y)
+	{
+		gui.renderToolTip(stack, x, y);
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public String getTextureKey()
 	{
 		return "item";
-	}
-
-	@Override
-	public String getDisplayName() {
-		return (stack.getCount() <= 1 ? "" : (stack.getCount() + "x ")) + stack.getDisplayName();
 	}
 }

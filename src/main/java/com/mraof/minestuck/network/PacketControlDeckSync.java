@@ -1,13 +1,15 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.item.ItemModus;
-import com.mraof.minestuck.captchalogue.modus.Modus;
+import com.mraof.minestuck.captchalogue.ModusLayer;
+import com.mraof.minestuck.captchalogue.ModusSettings;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
+import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
 import com.mraof.minestuck.util.SylladexUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -49,24 +51,35 @@ public class PacketControlDeckSync extends MinestuckPacket
 		if (te.getCartridgeCount() == 0)
 			return;
 
+		// Save fetchdeck lengths
 		for (int i = 0; i < Math.min(lengths.length, te.lengths.size()); i++)
 			te.lengths.set(i, lengths[i]);
 
-		Modus[][] modi = new Modus[te.getLayerCount()][];
-		for (int i = 0; i < te.getLayerCount(); i++)
+		// Get modus layers
+		int layerCount = te.getLayerCount();
+		ModusLayer[] modusLayers = new ModusLayer[layerCount];
+		for (int i = 0; i < layerCount; i++)
 		{
-			int modiInLayer = i + 1 == te.getLayerCount() ? te.getCartridgeCount() - (te.getLayerCount() - 1) * TileEntityModusControlDeck.WIDTH : TileEntityModusControlDeck.WIDTH;
-			Modus[] layer = new Modus[modiInLayer];
+			boolean isBottom = i + 1 == layerCount;
+			int modiInLayer = isBottom ? te.getCartridgeCount() - (te.getLayerCount() - 1) * TileEntityModusControlDeck.WIDTH : TileEntityModusControlDeck.WIDTH;
+
+			ModusSettings[] modi = new ModusSettings[modiInLayer];
 			for (int j = 0; j < modiInLayer; j++)
-				layer[j] = ((ItemModus) te.getInventory().get(i * TileEntityModusControlDeck.WIDTH + j).getItem()).getModus();
-			modi[te.getLayerCount() - i - 1] = layer;
+			{
+				ItemStack modusStack = te.getInventory().get((layerCount - i - 1) * TileEntityModusControlDeck.WIDTH + j);
+				modi[j] = new ModusSettings(((ItemModus) modusStack.getItem()).getModus(), SylladexUtils.getModusSettings(modusStack));
+			}
+
+			modusLayers[i] = new ModusLayer(isBottom ? -1 : lengths[i], modi);
 		}
 
+		// Eject previous sylladex
 		MultiSylladex sylladex = SylladexUtils.getSylladex(player);
 		sylladex.ejectAll(player, false, true);
 		int cards = sylladex.getTotalSlots();
 
-		sylladex = ISylladex.newSylladex(lengths, modi);
+		// Make new sylladex
+		sylladex = ISylladex.newSylladex(modusLayers);
 		sylladex.addCards(cards, player);
 		SylladexUtils.setSylladex(player, sylladex);
 	}

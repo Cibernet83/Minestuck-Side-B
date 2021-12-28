@@ -4,18 +4,18 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
-import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.Random;
 
@@ -36,7 +36,7 @@ public class SylladexUtils
 	{
 		if (object.isEmpty())
 			return;
-		ISylladex sylladex = getSylladex(player);
+		MultiSylladex sylladex = getSylladex(player);
 		if (sylladex == null)
 			return;
 
@@ -44,7 +44,7 @@ public class SylladexUtils
 		if (!object.isEmpty())
 			sylladex.put(object, player);
 
-		MinestuckCriteriaTriggers.CAPTCHALOGUE.trigger(player, sylladex, (ItemStack)object.getObject()); // FIXME: unsafe once we start getting other captcha types lol
+		MinestuckCriteriaTriggers.CAPTCHALOGUE.trigger(player, sylladex, object);
 
 		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, sylladex.writeToNBT());
 		MinestuckChannelHandler.sendToPlayer(packet, player);
@@ -73,29 +73,28 @@ public class SylladexUtils
 		if(sylladex == null)
 			return;
 
-		// Pull from sylladex
-		ItemStack stack = null;
+		boolean fetched = false;
 		if (asCard)
 		{
 			ICaptchalogueable card = sylladex.tryGetEmptyCard(slotStack, 0);
 			if (card != null)
-				stack = (ItemStack) card.getObject();
+			{
+				card.fetch(player);
+				fetched = true;
+			}
 		}
-		if (stack == null)
+		if (!fetched)
 			if (sylladex.canGet(slotStack, 0))
-				stack = (ItemStack) sylladex.get(slotStack, 0, asCard).getObject();
-			else
-				return;
+			{
+				sylladex.get(slotStack, 0, asCard).fetch(player);
+				fetched = true;
+			}
 
-		// Put into inventory
-		ItemStack handStack = player.getHeldItemMainhand();
-		if(handStack.isEmpty())
-			player.setHeldItem(EnumHand.MAIN_HAND, stack);
-		else if (!player.addItemStackToInventory(stack))
-			launchItem(player, stack);
-
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, sylladex.writeToNBT());
-		MinestuckChannelHandler.sendToPlayer(packet, player);
+		if (fetched)
+		{
+			MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, sylladex.writeToNBT());
+			MinestuckChannelHandler.sendToPlayer(packet, player);
+		}
 	}
 
 	public static boolean areItemStacksCompatible(ItemStack stackA, ItemStack stackB)
@@ -141,7 +140,7 @@ public class SylladexUtils
 			launchItem(player, new ItemStack(MinestuckItems.captchaCard, toDrop)); // TODO: Drop these and the other items softly, with the rest of the death loot
 		}
 
-		setSylladex(player, ISylladex.newSylladex(sylladex.getLengths(), sylladex.getModi()));
+		setSylladex(player, ISylladex.newSylladex(sylladex.getModusLayers()));
 	}
 	
 	public static MultiSylladex getSylladex(EntityPlayer player)
@@ -157,5 +156,15 @@ public class SylladexUtils
 
 		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, getSylladex(player).writeToNBT());
 		MinestuckChannelHandler.sendToPlayer(packet, player);
+	}
+
+	public static NBTTagCompound getModusSettings(ItemStack stack)
+	{
+		NBTTagCompound stackTag = stack.getTagCompound();
+		if (stackTag == null)
+			stack.setTagCompound(stackTag = new NBTTagCompound());
+		if (!stackTag.hasKey("ModusSettings"))
+			stackTag.setTag("ModusSettings", new NBTTagCompound());
+		return stackTag.getCompoundTag("ModusSettings");
 	}
 }

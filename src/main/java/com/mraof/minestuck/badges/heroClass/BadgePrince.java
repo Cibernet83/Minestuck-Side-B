@@ -6,7 +6,7 @@ import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.damage.EntityCritDamageSource;
 import com.mraof.minestuck.util.EnumClass;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -34,7 +34,7 @@ public class BadgePrince extends BadgeHeroClass
 
 		if(state.equals(GodKeyStates.KeyState.RELEASED))
 		{
-			EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+			EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 			float dmg = 10 * Math.min(3.0f, Math.max(1.0f, time/40f));
 
 			if(target != null)

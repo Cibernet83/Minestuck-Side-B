@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.MSGuiHandler;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.tileentity.TileEntityGristWidget;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
 import com.mraof.minestuck.util.IdentifierHandler;
@@ -87,7 +87,7 @@ public class BlockGristWidget extends MSBlockContainer
 		if (!worldIn.isRemote)
 		{
 			((TileEntityGristWidget) tileEntity).owner = IdentifierHandler.encode(playerIn);
-			playerIn.openGui(Minestuck.instance, MSGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

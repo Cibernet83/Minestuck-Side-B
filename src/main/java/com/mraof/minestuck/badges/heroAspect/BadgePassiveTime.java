@@ -7,7 +7,7 @@ import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
@@ -35,7 +35,7 @@ public class BadgePassiveTime extends BadgeHeroAspect
 			return false;
 		}
 
-		EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.TIME, target != null ? 5 : 2);
 
 		if(target != null)

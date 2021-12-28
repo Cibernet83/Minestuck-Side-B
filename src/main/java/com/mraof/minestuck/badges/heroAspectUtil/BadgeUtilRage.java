@@ -8,7 +8,7 @@ import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.ai.EntityAIAttackRageShifted;
 import com.mraof.minestuck.entity.ai.EntityAINearestAttackableTargetWithHeight;
 import com.mraof.minestuck.util.EnumAspect;
-import com.mraof.minestuck.util.MSGTUtils;
+import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -58,7 +58,7 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 
 		if(time == 1)
 		{
-			EntityLivingBase target = MSGTUtils.getTargetEntity(player);
+			EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 
 			if(!(target instanceof EntityCreature))
 				return false;
