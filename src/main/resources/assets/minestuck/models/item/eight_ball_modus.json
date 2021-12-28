@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
+    "parent": "minestuck:item/fetch_modus",
     "textures": {
-        "layer0": "minestuck:items/eight_ball_modus"
+        "texture": "minestuck:items/fetch_modi/eight_ball_modus"
     }
 }
