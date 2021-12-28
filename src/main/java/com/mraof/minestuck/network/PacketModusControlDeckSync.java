@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class PacketControlDeckSync extends MinestuckPacket
+public class PacketModusControlDeckSync extends MinestuckPacket
 {
 	private BlockPos pos;
 	private int[] lengths;
@@ -50,10 +50,6 @@ public class PacketControlDeckSync extends MinestuckPacket
 		TileEntityModusControlDeck te = (TileEntityModusControlDeck) player.world.getTileEntity(pos);
 		if (te.getCartridgeCount() == 0)
 			return;
-
-		// Save fetchdeck lengths
-		for (int i = 0; i < Math.min(lengths.length, te.lengths.size()); i++)
-			te.lengths.set(i, lengths[i]);
 
 		// Get modus layers
 		int layerCount = te.getLayerCount();

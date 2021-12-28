@@ -48,7 +48,7 @@ public class CardGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
-	protected void generateSubContainers(ArrayList<CardTextureIndex[]> textureIndices) {}
+	protected void generateSubContainers(CardTextureIndex[] textureIndices) {}
 
 	public static class CardTextureIndex
 	{

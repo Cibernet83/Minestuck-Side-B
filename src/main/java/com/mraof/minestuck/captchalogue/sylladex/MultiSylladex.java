@@ -97,14 +97,13 @@ public abstract class MultiSylladex implements ISylladex
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ArrayList<SylladexGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices)
+	public ArrayList<SylladexGuiContainer> generateSubContainers(CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
 		guiContainers.clear();
 
-		textureIndices.add(modi.getTextureIndices());
-
+		CardGuiContainer.CardTextureIndex[] lowerTextureIndices = modi.getTextureIndices();
 		for (ISylladex sylladex : getSylladices())
-			guiContainers.add(modi.getGuiContainer(textureIndices, sylladex));
+			guiContainers.add(modi.getGuiContainer(sylladex == getSylladices().get(0) && textureIndices != null ? textureIndices : lowerTextureIndices, sylladex));
 
 		return guiContainers;
 	}

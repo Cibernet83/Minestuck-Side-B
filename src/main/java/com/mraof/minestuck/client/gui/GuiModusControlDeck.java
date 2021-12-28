@@ -1,6 +1,7 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
@@ -39,13 +40,17 @@ public class GuiModusControlDeck extends GuiScreen
 	{
 		int yOffset = (height / 2) - (guiHeight / 2);
 
-		lengthFields = new GuiTextField[te.lengths.size()];
-		for (int i = 0; i < te.lengths.size(); i++)
+		int lengthCount = te.getLayerCount() - 1;
+		ModusLayer[] currentLayers = MinestuckPlayerData.clientData.sylladex.getModusLayers();
+		int currentLengthCount = currentLayers.length - 1;
+
+		lengthFields = new GuiTextField[lengthCount];
+		for (int i = 0; i < lengthCount; i++)
 		{
-			GuiTextField lengthField = new GuiTextField(0, fontRenderer, width / 2 - 20, yOffset + 25 + (lengthFields.length - 1 - i) * 30, 40, 20);
+			GuiTextField lengthField = new GuiTextField(0, fontRenderer, width / 2 - 20, yOffset + 25 + i * 30, 40, 20);
 			lengthField.setMaxStringLength(4);
 			lengthField.setFocused(false);
-			lengthField.setText(String.valueOf(te.lengths.get(i)));
+			lengthField.setText(String.valueOf(currentLayers.length > lengthCount ? currentLayers[i + currentLengthCount - lengthCount].getLength() : i < lengthCount - currentLengthCount ? 4 : currentLayers[i - (lengthCount - currentLengthCount)].getLength()));
 			lengthFields[i] = lengthField;
 		}
 
@@ -65,7 +70,7 @@ public class GuiModusControlDeck extends GuiScreen
 		int yOffset = (this.height / 2) - (guiHeight / 2);
 		this.drawTexturedModalRect((this.width / 2) - (guiWidth / 2), yOffset, 0, 0, guiWidth, guiHeight);
 
-		String str = I18n.format("gui.modus_control_deck.name");
+		String str = I18n.format("gui.modusControlDeck.name");
 		fontRenderer.drawString(str, (this.width / 2) - fontRenderer.getStringWidth(str) / 2, yOffset + 10, 0x404040);
 		fontRenderer.drawString(String.valueOf(bottomLength), (this.width / 2) - fontRenderer.getStringWidth(String.valueOf(bottomLength)) / 2, yOffset + 30 + lengthFields.length * 30, 0x404040);
 		for (GuiTextField lengthField : lengthFields)

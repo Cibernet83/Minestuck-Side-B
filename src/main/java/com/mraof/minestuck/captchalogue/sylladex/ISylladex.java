@@ -26,7 +26,7 @@ public interface ISylladex
 	int getTotalSlots();
 	NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)
-	ArrayList<SylladexGuiContainer> generateSubContainers(ArrayList<CardGuiContainer.CardTextureIndex[]> textureIndices);
+	ArrayList<SylladexGuiContainer> generateSubContainers(CardGuiContainer.CardTextureIndex[] textureIndices);
 
 	@Nonnull
 	static MultiSylladex readFromNBT(@Nonnull NBTTagCompound nbt)
