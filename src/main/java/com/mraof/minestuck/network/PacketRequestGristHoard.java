@@ -1,13 +1,12 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
-
-import static com.mraof.minestuck.client.gui.MSGTGuiHandler.HOARD_SELECTOR;
 
 public class PacketRequestGristHoard extends MinestuckPacket
 {
@@ -26,7 +25,7 @@ public class PacketRequestGristHoard extends MinestuckPacket
     @Override
     public void execute(EntityPlayer player)
     {
-        player.openGui(Minestuck.instance, HOARD_SELECTOR, player.world, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
+        player.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.HOARD_SELECTOR.ordinal(), player.world, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
     }
 
     @Override
