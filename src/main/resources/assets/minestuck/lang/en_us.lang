@@ -2704,6 +2704,16 @@ modus.alchemodus.prefix=Alche
 modus.alchemodus.suffix.singular=chemodus
 modus.alchemodus.suffix.plural=chemodi
 
+modus.eightBall.alone.singular=8-Ball
+modus.eightBall.alone.plural=64-Ball
+modus.eightBall.prefix=8-
+modus.eightBall.prefix.plural=64-
+modus.eightBall.suffix.singular=Ball
+
+modus.popTart.alone.singular=Pop Tart
+modus.popTart.prefix=Pop
+modus.popTart.suffix.singular=Tart
+
 property.item.broken=Broken %s
 
 status.wildMagicRoll=You rolled a %s!
@@ -3199,3 +3209,5 @@ title.rage=Rage
 title.space=Space
 title.time=Time
 title.void=Void
+
+captchalogueable.ghost=§8§o%s§r

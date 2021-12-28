@@ -6,6 +6,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
+import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.enchantments.MinestuckEnchantments;
 import com.mraof.minestuck.event.AlchemizeItemEvent;
 import com.mraof.minestuck.event.UnderlingSpoilsEvent;
@@ -346,7 +347,7 @@ public class CommonEventHandler
 			Block block = world.getBlockState(event.getPos()).getBlock();
 			if(ItemGhost.containsKey(block))
 			{
-				player.inventory.addItemStackToInventory(AlchemyUtils.createGhostCard(new ItemStack(ItemGhost.get(block))));
+				player.inventory.addItemStackToInventory(AlchemyUtils.createCaptcharoidCard(new CaptchalogueableItemStack(new ItemStack(ItemGhost.get(block)))));
 				event.getItemStack().damageItem(1, player);
 				event.setCancellationResult(EnumActionResult.SUCCESS);
 				event.setCanceled(true);
@@ -402,7 +403,7 @@ public class CommonEventHandler
 			}
 
 
-			player.inventory.addItemStackToInventory(stack.isEmpty() ? new ItemStack(MinestuckItems.captchaCard) : AlchemyUtils.createGhostCard(stack));
+			player.inventory.addItemStackToInventory(stack.isEmpty() ? new ItemStack(MinestuckItems.captchaCard) : AlchemyUtils.createCaptcharoidCard(new CaptchalogueableItemStack(stack)));
 			event.getItemStack().damageItem(1, player);
 			event.setCancellationResult(EnumActionResult.SUCCESS);
 			event.setCanceled(true);

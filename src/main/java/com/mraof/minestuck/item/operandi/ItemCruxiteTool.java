@@ -1,6 +1,7 @@
 package com.mraof.minestuck.item.operandi;
 
 import com.google.common.collect.Multimap;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MSItemBase;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.MinestuckTabs;
@@ -95,7 +96,7 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 		{
 			if(state.getBlock().isToolEffective(toolClass, state))
 			{
-				ItemStack storedStack = ModusStorage.getStoredItem(stack);
+				ICaptchalogueable storedStack = ModusStorage.getStoredItem(stack);
 				
 				if(!worldIn.isRemote)
 					stack.damageItem(1, entityLiving);
@@ -108,9 +109,10 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 					}
 
 					worldIn.playSound(null, entityLiving.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
-					
-					if((entityLiving instanceof EntityPlayer) && !((EntityPlayer)entityLiving).addItemStackToInventory(storedStack))
-						((EntityPlayer) entityLiving).dropItem(storedStack, true);
+
+					if(entityLiving instanceof EntityPlayer)
+						storedStack.fetch((EntityPlayer) entityLiving);
+					else storedStack.drop(entityLiving);
 				}
 			}
 			else if(!worldIn.isRemote) stack.damageItem(getMaxDamage(stack)+1, entityLiving);

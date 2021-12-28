@@ -1,12 +1,13 @@
 package com.mraof.minestuck.entity;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -16,25 +17,27 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.awt.color.ICC_ColorSpace;
+
 public class EntityCrystalEightBall extends EntityThrowable
 {
-	protected ItemStack storedStack = ItemStack.EMPTY;
+	protected ICaptchalogueable storedItem;
 
 	public EntityCrystalEightBall(World worldIn)
 	{
 		super(worldIn);
 	}
 
-	public EntityCrystalEightBall(World worldIn, EntityLivingBase throwerIn, ItemStack stack)
+	public EntityCrystalEightBall(World worldIn, EntityLivingBase throwerIn, ICaptchalogueable stored)
 	{
 		super(worldIn, throwerIn);
-		storedStack = stack;
+		storedItem = stored;
 	}
 
-	public EntityCrystalEightBall(World worldIn, double x, double y, double z, ItemStack stack)
+	public EntityCrystalEightBall(World worldIn, double x, double y, double z, ICaptchalogueable stored)
 	{
 		super(worldIn, x, y, z);
-		storedStack = stack;
+		storedItem = stored;
 	}
 	
 	public static void registerFixes(DataFixer fixer)
@@ -83,17 +86,25 @@ public class EntityCrystalEightBall extends EntityThrowable
 				t.printStackTrace();
 			}
 
-			spawnItem();
+			storedItem.drop(this);
 			this.world.setEntityState(this, (byte)3);
 			this.setDead();
 		}
 	}
-	
-	protected void spawnItem()
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound)
 	{
-		EntityItem item = new EntityItem(world, posX, posY, posZ, storedStack);
-		item.motionY = (rand.nextGaussian() * 0.05000000074505806D + 0.20000000298023224D)/2.0;
-		item.setDefaultPickupDelay();
-		world.spawnEntity(item);
+		super.writeEntityToNBT(compound);
+
+		compound.setTag("StoredItem", ICaptchalogueable.writeToNBT(storedItem));
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound)
+	{
+		super.readEntityFromNBT(compound);
+
+		storedItem = ICaptchalogueable.readFromNBT(compound.getCompoundTag("StoredItem"));
 	}
 }

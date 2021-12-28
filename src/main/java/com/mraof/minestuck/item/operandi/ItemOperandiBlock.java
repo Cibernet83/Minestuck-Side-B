@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.operandi;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MinestuckTabs;
 import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.tileentity.TileEntityItemStack;
@@ -32,8 +33,8 @@ public class ItemOperandiBlock extends MSItemBlock //TODO turn into cruxite arti
 		if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState))
 		{
 			TileEntityItemStack te = (TileEntityItemStack)world.getTileEntity(pos);
-			ItemStack newStack = ModusStorage.getStoredItem(stack);
-			te.setStack(newStack);
+			ICaptchalogueable newStack = ModusStorage.getStoredItem(stack);
+			//te.setStack(newStack); TODO TileEntityCaptchaStorage
 			return true;
 		} else return false;
 	}

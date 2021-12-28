@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.client.model.item.ModelCaptchaCard;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.util.AlchemyUtils;
@@ -42,7 +43,7 @@ public class ItemCaptchaCard extends MSItemBase
 		if(this.isInCreativeTab(tab))
 		{
 			items.add(new ItemStack(this));
-			items.add(AlchemyUtils.createCard(new ItemStack(MinestuckItems.cruxiteApple), true));
+			items.add(AlchemyUtils.createCard(new CaptchalogueableItemStack(new ItemStack(MinestuckItems.cruxiteApple)), true));
 		}
 	}
 	

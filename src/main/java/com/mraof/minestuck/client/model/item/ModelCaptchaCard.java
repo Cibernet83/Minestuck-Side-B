@@ -286,7 +286,7 @@ public final class ModelCaptchaCard implements IModel
 			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_empty"));
 			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_item"));
 			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_ghost"));
-			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_red"));
+			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_entity"));
 			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_abstract"));
 			map.registerSprite(new ResourceLocation(Minestuck.MODID, "items/captchalogue/content_invalid"));
 		}

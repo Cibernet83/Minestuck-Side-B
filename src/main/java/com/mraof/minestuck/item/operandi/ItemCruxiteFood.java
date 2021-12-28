@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.operandi;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.ItemFood;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.MinestuckSounds;
@@ -63,16 +64,13 @@ public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 				return result;
 			}
 
-			ItemStack storedStack = ModusStorage.getStoredItem(stack);
+			ICaptchalogueable storedStack = ModusStorage.getStoredItem(stack);
 			if(storedStack.isEmpty())
 				return null;
 			
 			worldIn.playSound(null, player.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
-			
-			if(stack.getCount() <= 1)
-				return storedStack;
-			else if(!player.addItemStackToInventory(storedStack))
-				player.dropItem(storedStack, true);
+
+			storedStack.fetch(player);
 			return null;
 		});
 	}

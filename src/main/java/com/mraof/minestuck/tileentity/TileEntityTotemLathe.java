@@ -333,7 +333,7 @@ public class TileEntityTotemLathe extends TileEntity
 			
 			if(!output.isEmpty())
 			{
-				ItemStack outputDowel = output.getItem().equals(Item.getItemFromBlock(MinestuckBlocks.genericObject)) ? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyUtils.createEncodedItem(output, MinestuckItems.cruxiteDowel);
+				ItemStack outputDowel = output.getItem().equals(Item.getItemFromBlock(MinestuckBlocks.genericObject)) ? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyUtils.createEncodedItem(output, new ItemStack(MinestuckItems.cruxiteDowel));
 				outputDowel.setItemDamage(dowel.getItemDamage());
 				
 				setDowel(outputDowel);

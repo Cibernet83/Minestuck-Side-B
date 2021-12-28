@@ -6,6 +6,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.block.IRegistryBlock;
 import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.captchalogue.modus.ModusPopTart;
 import com.mraof.minestuck.client.model.armor.*;
 import com.mraof.minestuck.enchantments.MinestuckEnchantments;
 import com.mraof.minestuck.entity.EntityEightBall;
@@ -248,7 +249,7 @@ public class MinestuckItems
 	public static final Item recordRetroBattle = new ItemMinestuckRecord("retroBattle", MinestuckSoundHandler.soundRetroBattleTheme).setUnlocalizedName("record");
 
 	//Fetch Modi Containers
-	//public static final Item popTart = new ItemFood("popTart", 3, 0, false, PopTartModus.getConsumer());
+	public static final Item popTart = new ItemFood("popTart", 3, 0, false, ModusPopTart.getConsumer());
 	public static final Item eightBall = new ItemEightBall("eightBall", false);
 	//public static final Item popBall = new ItemFood("magicPopBalls", 6, 0.4f, false, ItemFood.getPopBallConsumer());
 	public static final Item floatStone = new MSItemBase("floatStone").setMaxStackSize(1);

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item.operandi;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.block.Block;
@@ -39,7 +40,7 @@ public class ItemCruxiteWeapon extends ItemCruxiteTool
 	
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
 	{
-		ItemStack storedStack = ModusStorage.getStoredItem(stack);
+		ICaptchalogueable storedStack = ModusStorage.getStoredItem(stack);
 		stack.damageItem(1, attacker);
 		
 		if(stack.isEmpty())
@@ -52,8 +53,9 @@ public class ItemCruxiteWeapon extends ItemCruxiteTool
 
 			attacker.world.playSound(null, attacker.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 			
-			if((attacker instanceof EntityPlayer) && !((EntityPlayer)attacker).addItemStackToInventory(storedStack))
-				((EntityPlayer) attacker).dropItem(storedStack, true);
+			if((attacker instanceof EntityPlayer))
+				storedStack.fetch((EntityPlayer) attacker);
+			else storedStack.drop(attacker);
 		}
 		
 		return true;

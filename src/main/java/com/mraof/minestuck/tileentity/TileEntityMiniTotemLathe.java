@@ -60,7 +60,7 @@ public class TileEntityMiniTotemLathe extends TileEntityMiniSburbMachine
 		}
 
 		ItemStack outputDowel = output.getItem().equals(Item.getItemFromBlock(MinestuckBlocks.genericObject))
-								? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyUtils.createEncodedItem(output, MinestuckItems.cruxiteDowel);
+								? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyUtils.createEncodedItem(output, new ItemStack(MinestuckItems.cruxiteDowel));
 		outputDowel.setItemDamage(inv.get(2).getItemDamage());
 
 		setInventorySlotContents(3, outputDowel);

@@ -1,5 +1,6 @@
 package com.mraof.minestuck.entity;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -16,15 +17,11 @@ public class EntityOperandiEightBall extends EntityAbstractOperandiThrowable
 		super(worldIn);
 	}
 	
-	public EntityOperandiEightBall(World worldIn, EntityLivingBase throwerIn, ItemStack stack)
+	public EntityOperandiEightBall(World worldIn, EntityLivingBase throwerIn, ICaptchalogueable stack)
 	{
 		super(worldIn, throwerIn, stack);
 	}
-	
-	public EntityOperandiEightBall(World worldIn, double x, double y, double z, ItemStack stack)
-	{
-		super(worldIn, x, y, z, stack);
-	}
+
 	
 	/**
 	 * Handler for {@link World#setEntityState}

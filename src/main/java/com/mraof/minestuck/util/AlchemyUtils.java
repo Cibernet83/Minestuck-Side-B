@@ -5,8 +5,11 @@ import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.captchalogue.ModusLayer;
+import com.mraof.minestuck.captchalogue.ModusSettings;
+import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableGhost;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.captchalogue.modus.MinestuckModi;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.item.ItemCruxiteArtifact;
 import net.minecraft.entity.player.EntityPlayer;
@@ -73,12 +76,14 @@ public class AlchemyUtils
 	 * @return An item, or null if the data was invalid.
 	 */
 	@Nonnull
+	@Deprecated //use getCardContents instead
 	public static ItemStack getDecodedItem(ItemStack card)
 	{
 		return getDecodedItem(card, false);
 	}
 
 	@Nonnull
+	@Deprecated //use getCardContents instead
 	public static ItemStack getDecodedItem(ItemStack card, boolean ignoreGhost)
 	{
 		if (!hasDecodedItem(card))
@@ -110,44 +115,49 @@ public class AlchemyUtils
 	 * Encodes the registry id and the meta of an itemstack onto a card or dowel, but not its nbt.
 	 */
 	@Nonnull
+	@Deprecated //aaaaaaaaaaaaaaaa
 	public static ItemStack createEncodedItem(ItemStack item, ItemStack card)
+	{
+		return createEncodedItem(new CaptchalogueableItemStack(item), card);
+	}
+	@Nonnull
+	public static ItemStack createEncodedItem(ICaptchalogueable item, ItemStack card)
 	{
 		if (card.getTagCompound() == null)
 			card.setTagCompound(new NBTTagCompound());
-		card.getTagCompound().setTag("Content", item.writeToNBT(new NBTTagCompound())); // TODO: nbt alchemy lol
+		card.getTagCompound().setTag("Content", ICaptchalogueable.writeToNBT(item)); // TODO: nbt alchemy lol
 		return card;
 	}
 
 	@Nonnull
-	public static ItemStack createEncodedItem(ItemStack item, Item cardType)
-	{
-		return createEncodedItem(item, new ItemStack(cardType));
-	}
-
-	@Nonnull
-	public static ItemStack createCard(ItemStack item, boolean punched)
+	public static ItemStack createCard(ICaptchalogueable item, boolean punched)
 	{
 		ItemStack card = new ItemStack(captchaCard);
 		card.setTagCompound(new NBTTagCompound());
-		card.getTagCompound().setTag("Content", item.writeToNBT(new NBTTagCompound()));
+		createEncodedItem(item, card);
 		card.getTagCompound().setBoolean("Punched", punched);
 		return card;
 	}
 
 	@Nonnull
-	public static ItemStack createGhostCard(ItemStack item)
+	@Deprecated //delete this once we rework alchemy to use captchalogueables, use createCard(ICaptchalogueable, boolean) instead
+	public static ItemStack createCard(ItemStack stack, boolean punched)
 	{
-		ItemStack card = createCard(item, false);
-		card.getTagCompound().setBoolean("Ghost", true);
-		return card;
+		return createCard(new CaptchalogueableItemStack(stack), punched);
+	}
+
+	@Nonnull
+	public static ItemStack createCaptcharoidCard(ICaptchalogueable item)
+	{
+		ModusLayer layer = new ModusLayer(-1, new ModusSettings(MinestuckModi.hashtable, new NBTTagCompound()), new ModusSettings(MinestuckModi.queue, new NBTTagCompound()));
+		return setCardModi(createCard(new CaptchalogueableGhost(item), false), layer);
 	}
 
 	public static ICaptchalogueable getCardContents(ItemStack card)
 	{
-		ItemStack decode = getDecodedItem(card);
-		if(decode.isEmpty())
+		if(!card.hasTagCompound() || !card.getTagCompound().hasKey("Content"))
 			return null;
-		return new CaptchalogueableItemStack(decode);
+		return ICaptchalogueable.readFromNBT(card.getTagCompound().getCompoundTag("Content"));
 	}
 
 	public static boolean hasCardContents(ItemStack card)

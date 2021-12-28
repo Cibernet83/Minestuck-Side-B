@@ -1,5 +1,6 @@
 package com.mraof.minestuck.entity;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
@@ -19,16 +20,11 @@ public class EntityOperandiSplashPotion extends EntityAbstractOperandiThrowable
 		super(worldIn);
 	}
 	
-	public EntityOperandiSplashPotion(World worldIn, EntityLivingBase throwerIn, ItemStack stack)
+	public EntityOperandiSplashPotion(World worldIn, EntityLivingBase throwerIn, ICaptchalogueable stack)
 	{
 		super(worldIn, throwerIn, stack);
 	}
-	
-	public EntityOperandiSplashPotion(World worldIn, double x, double y, double z, ItemStack stack)
-	{
-		super(worldIn, x, y, z, stack);
-	}
-	
+
 	@Override
 	protected void onImpact(RayTraceResult result)
 	{

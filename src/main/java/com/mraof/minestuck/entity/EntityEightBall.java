@@ -1,5 +1,6 @@
 package com.mraof.minestuck.entity;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,6 +10,7 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -23,20 +25,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityEightBall extends EntityThrowable
 {
-	protected ItemStack storedStack = ItemStack.EMPTY;
+	protected ICaptchalogueable storedStack;
 	
 	public EntityEightBall(World worldIn)
 	{
 		super(worldIn);
 	}
 	
-	public EntityEightBall(World worldIn, EntityLivingBase throwerIn, ItemStack stack)
+	public EntityEightBall(World worldIn, EntityLivingBase throwerIn, ICaptchalogueable stack)
 	{
 		super(worldIn, throwerIn);
 		storedStack = stack;
 	}
 	
-	public EntityEightBall(World worldIn, double x, double y, double z, ItemStack stack)
+	public EntityEightBall(World worldIn, double x, double y, double z, ICaptchalogueable stack)
 	{
 		super(worldIn, x, y, z);
 		storedStack = stack;
@@ -101,18 +103,36 @@ public class EntityEightBall extends EntityThrowable
 				}
 			}
 
-			spawnItem();
+			storedStack.drop(this);
 			this.world.setEntityState(this, (byte)3);
 			this.setDead();
 
 		}
 	}
-	
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound)
+	{
+		super.writeEntityToNBT(compound);
+
+		compound.setTag("StoredItem", ICaptchalogueable.writeToNBT(storedStack));
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound)
+	{
+		super.readEntityFromNBT(compound);
+
+		storedStack = ICaptchalogueable.readFromNBT(compound.getCompoundTag("StoredItem"));
+	}
+
+	/*
 	protected void spawnItem()
 	{
-		EntityItem item = new EntityItem(world, posX, posY, posZ, storedStack);
+		EntityItem item = new EntityItem(world, posX, posY, posZ, storedItem);
 		item.motionY = (rand.nextGaussian() * 0.05000000074505806D + 0.20000000298023224D)/2.0;
 		item.setDefaultPickupDelay();
 		world.spawnEntity(item);
 	}
+	*/
 }

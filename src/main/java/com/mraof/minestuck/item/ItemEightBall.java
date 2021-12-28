@@ -1,5 +1,6 @@
 package com.mraof.minestuck.item;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.entity.EntityCrystalEightBall;
 import com.mraof.minestuck.entity.EntityEightBall;
 import com.mraof.minestuck.util.MinestuckSounds;
@@ -36,13 +37,10 @@ public class ItemEightBall extends MSItemBase
 
 		if (isCrystal && stack.hasTagCompound())
 		{
-			ItemStack storedStack = getStoredItem(stack);
+			ICaptchalogueable storedItem = getStoredItem(stack);
 
-			if(!storedStack.isEmpty())
-			{
-				String stackSize = storedStack.getCount() > 0 ? storedStack.getCount() + "x" : "";
-				tooltip.add("(" + stackSize + getStoredItem(stack).getDisplayName() + ")");
-			}
+			if(storedItem != null)
+				tooltip.add("(" + getStoredItem(stack).getDisplayName() + ")");
 		}
 	}
 

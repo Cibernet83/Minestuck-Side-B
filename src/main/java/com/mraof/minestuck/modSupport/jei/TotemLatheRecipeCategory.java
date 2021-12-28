@@ -80,7 +80,7 @@ public class TotemLatheRecipeCategory implements IRecipeCategory<TotemLatheRecip
 		stackGroup.set(2, new ItemStack(MinestuckItems.cruxiteDowel, 1, ColorCollector.playerColor + 1));
 		
 		List<ItemStack> outputs = new ArrayList<>(ingredients.getOutputs(ItemStack.class).get(0));
-		ItemStack outputDowel = AlchemyUtils.createEncodedItem(outputs.get(0), MinestuckItems.cruxiteDowel);
+		ItemStack outputDowel = AlchemyUtils.createEncodedItem(outputs.get(0), new ItemStack(MinestuckItems.cruxiteDowel));
 		outputDowel.setItemDamage(ColorCollector.playerColor + 1);
 		outputs.add(outputDowel);
 		stackGroup.set(3, outputs);

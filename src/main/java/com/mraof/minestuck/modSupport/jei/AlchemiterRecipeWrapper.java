@@ -30,7 +30,7 @@ public class AlchemiterRecipeWrapper implements IRecipeWrapper
     @Override
     public void getIngredients(IIngredients ingredients)
     {
-        ingredients.setInput(ItemStack.class, AlchemyUtils.createEncodedItem(stack, MinestuckItems.cruxiteDowel));
+        ingredients.setInput(ItemStack.class, AlchemyUtils.createEncodedItem(stack, new ItemStack(MinestuckItems.cruxiteDowel)));
         ingredients.setInputs(GristAmount.class, grist.getArray());
         ingredients.setOutput(ItemStack.class, stack);
     }

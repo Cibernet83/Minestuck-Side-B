@@ -3,6 +3,7 @@ package com.mraof.minestuck.event.handler;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.client.gui.GuiColorSelector;
 import com.mraof.minestuck.client.gui.playerStats.GuiDataChecker;
 import com.mraof.minestuck.client.gui.playerStats.GuiEcheladder;
@@ -156,8 +157,8 @@ public class ClientEventHandler
 				if(eightBallMessage == -1)
 					eightBallMessage = player.world.rand.nextInt(maxEightBallMsgs);
 				ITextComponent msg = new TextComponentTranslation("status.eightBallMessage." + eightBallMessage).setStyle(new Style().setColor(TextFormatting.BLUE));
-				ItemStack storedStack = ModusStorage.getStoredItem(player.getHeldItemMainhand());
-				player.sendStatusMessage(storedStack.isEmpty() ? msg : storedStack.getTextComponent().setStyle(new Style().setColor(TextFormatting.BLUE)), true);
+				ICaptchalogueable storedStack = ModusStorage.getStoredItem(player.getHeldItemMainhand());
+				player.sendStatusMessage(storedStack == null ? msg : storedStack.getTextComponent().setStyle(new Style().setColor(TextFormatting.BLUE)), true);
 			}
 		}
 		else if(player.getHeldItemOffhand().getItem().equals(MinestuckItems.eightBall))
@@ -167,8 +168,8 @@ public class ClientEventHandler
 				if(eightBallMessage == -1)
 					eightBallMessage = player.world.rand.nextInt(maxEightBallMsgs);
 				ITextComponent msg = new TextComponentTranslation("status.eightBallMessage."+eightBallMessage).setStyle(new Style().setColor(TextFormatting.BLUE));
-				ItemStack storedStack = ModusStorage.getStoredItem(player.getHeldItemOffhand());
-				player.sendStatusMessage(storedStack.isEmpty() ? msg : storedStack.getTextComponent().setStyle(new Style().setColor(TextFormatting.BLUE)), true);
+				ICaptchalogueable storedStack = ModusStorage.getStoredItem(player.getHeldItemOffhand());
+				player.sendStatusMessage(storedStack == null ? msg : storedStack.getTextComponent().setStyle(new Style().setColor(TextFormatting.BLUE)), true);
 			}
 		}
 		else if( shakeCooldown > 0) shakeCooldown = 0;

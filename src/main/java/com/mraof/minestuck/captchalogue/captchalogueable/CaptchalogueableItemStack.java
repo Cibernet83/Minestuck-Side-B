@@ -7,10 +7,13 @@ import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -59,9 +62,10 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public void fetch(EntityPlayer player)
+	public void fetch(EntityPlayer player, boolean shrinkHand)
 	{
-		ItemStack handStack = player.getHeldItemMainhand();
+		ItemStack handStack = player.getHeldItemMainhand().copy();
+
 		if(handStack.isEmpty())
 			player.setHeldItem(EnumHand.MAIN_HAND, stack);
 		else if (!player.addItemStackToInventory(stack))
@@ -90,7 +94,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	@Override
 	public ItemStack captchalogueIntoCardItem()
 	{
-		return AlchemyUtils.createCard(stack, false);
+		return AlchemyUtils.createCard(this, false);
 	}
 
 	@Override
@@ -125,6 +129,11 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
+	public ITextComponent getTextComponent() {
+		return stack.getTextComponent();
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(GuiSylladex gui, int x, int y)
 	{
@@ -136,5 +145,15 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	public String getTextureKey()
 	{
 		return "item";
+	}
+
+	@Override
+	public void drop(World world, double posX, double posY, double posZ)
+	{
+
+		EntityItem item = new EntityItem(world, posX, posY, posZ, stack);
+		item.motionY = (world.rand.nextGaussian() * 0.05000000074505806D + 0.20000000298023224D)/2.0;
+		item.setDefaultPickupDelay();
+		world.spawnEntity(item);
 	}
 }

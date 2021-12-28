@@ -1,5 +1,7 @@
 package com.mraof.minestuck.util;
 
+import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.text.translation.I18n;
@@ -13,21 +15,18 @@ import java.util.List;
 
 public class ModusStorage
 {
-	public static ItemStack getStoredItem(ItemStack stack)
+	public static ICaptchalogueable getStoredItem(ItemStack stack)
 	{
 		NBTTagCompound nbt = getOrCreateTag(stack);
 		if(!nbt.hasKey("StoredItem") || !(nbt.getTag("StoredItem") instanceof NBTTagCompound))
-			return ItemStack.EMPTY;
+			return null;
 		
-		return new ItemStack((NBTTagCompound) nbt.getTag("StoredItem"));
+		return ICaptchalogueable.readFromNBT(nbt.getCompoundTag("StoredItem"));
 	}
 	
-	public static ItemStack storeItem(ItemStack stack, ItemStack store)
+	public static ItemStack storeItem(ItemStack stack, ICaptchalogueable store)
 	{
-		NBTTagCompound itemNbt = new NBTTagCompound();
-		store.writeToNBT(itemNbt);
-		getOrCreateTag(stack).setTag("StoredItem", itemNbt);
-		
+		getOrCreateTag(stack).setTag("StoredItem", ICaptchalogueable.writeToNBT(store));
 		return stack;
 	}
 	

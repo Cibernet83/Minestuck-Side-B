@@ -3,6 +3,7 @@ package com.mraof.minestuck.event;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.entity.underling.EntityUnderling;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.operandi.ItemCruxiteArmor;
@@ -253,7 +254,7 @@ public class CommonEventHandler
 		if(!operandiArmor.isEmpty())
 		{
 			ItemCruxiteArmor item = ((ItemCruxiteArmor) operandiArmor.getItem());
-			ItemStack storedStack = ModusStorage.getStoredItem(operandiArmor);
+			ICaptchalogueable storedStack = ModusStorage.getStoredItem(operandiArmor);
 			operandiArmor.damageItem(operandiArmor.getMaxDamage()+1, event.getEntityLiving());
 
 			if(event.getAmount() < event.getEntityLiving().getHealth())
@@ -264,8 +265,9 @@ public class CommonEventHandler
 				{
 					event.getEntityLiving().world.playSound(null, event.getEntityLiving().getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-					if((event.getEntityLiving() instanceof EntityPlayer) && !((EntityPlayer) event.getEntityLiving()).addItemStackToInventory(storedStack))
-						((EntityPlayer) event.getEntityLiving()).dropItem(storedStack, true);
+					if((event.getEntityLiving() instanceof EntityPlayer))
+						storedStack.fetch((EntityPlayer) event.getEntityLiving());
+					else storedStack.drop(event.getEntity());
 				}
 			}
 		}
