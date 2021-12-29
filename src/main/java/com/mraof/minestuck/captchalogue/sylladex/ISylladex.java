@@ -9,35 +9,30 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-
 public interface ISylladex
 {
 	ICaptchalogueable get(int[] slots, int index, boolean asCard);
 	boolean canGet(int[] slots, int index);
 	ICaptchalogueable peek(int[] slots, int index);
 	ICaptchalogueable tryGetEmptyCard(int[] slots, int index);
-	void put(ICaptchalogueable object, EntityPlayer player);
+	void put(ICaptchalogueable object);
 	void grow(ICaptchalogueable object);
-	void eject(EntityPlayer player);
-	void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull);
-	boolean tryEjectCard(EntityPlayer player);
+	void eject();
+	void ejectAll(boolean asCards, boolean onlyFull);
+	boolean tryEjectCard();
 	int getFreeSlots();
 	int getTotalSlots();
 	NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)
-	ArrayList<SylladexGuiContainer> generateSubContainers(CardGuiContainer.CardTextureIndex[] textureIndices);
+	SylladexGuiContainer generateSubContainer(CardGuiContainer.CardTextureIndex[] textureIndices);
 
-	@Nonnull
-	static MultiSylladex readFromNBT(@Nonnull NBTTagCompound nbt)
+	static MultiSylladex readFromNBT(EntityPlayer player, NBTTagCompound nbt)
 	{
-		return nbt.getBoolean("IsBottom") ? new BottomSylladex(nbt) : new UpperSylladex(nbt);
+		return nbt.getBoolean("IsBottom") ? new BottomSylladex(player, nbt) : new UpperSylladex(player, nbt);
 	}
 
-	@Nonnull
-	static MultiSylladex newSylladex(@Nonnull ModusLayer... modusLayers)
+	static MultiSylladex newSylladex(EntityPlayer player, ModusLayer... modusLayers)
 	{
-		return modusLayers[0].getLength() < 0 ? new BottomSylladex(modusLayers[0]) : new UpperSylladex(modusLayers, 0);
+		return modusLayers[0].getLength() < 0 ? new BottomSylladex(player, modusLayers[0]) : new UpperSylladex(player, modusLayers, 0);
 	}
 }

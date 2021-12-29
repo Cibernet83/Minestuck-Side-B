@@ -74,16 +74,15 @@ public class MinestuckPlayerTracker
 			Modus modus = Modus.REGISTRY.getValue(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]));
 			if(modus != null)
 			{
-				MultiSylladex newSylladex = ISylladex.newSylladex(new ModusLayer(-1, new ModusSettings(modus, new NBTTagCompound())));
-				newSylladex.addCards(MinestuckConfig.initialModusSize, player);
+				MultiSylladex newSylladex = ISylladex.newSylladex(player, new ModusLayer(-1, new ModusSettings(modus, new NBTTagCompound())));
+				newSylladex.addCards(MinestuckConfig.initialModusSize);
 				SylladexUtils.setSylladex(player, newSylladex);
 			}
 			else
 				Debug.warnf("Couldn't create a modus by the name %s.", MinestuckConfig.defaultModusTypes[index]);
 		}
-
-		if(SylladexUtils.getSylladex(player) != null)
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.SYLLADEX_DATA, SylladexUtils.getSylladex(player).writeToNBT()), player);
+		else if(SylladexUtils.getSylladex(player) != null)
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.UPDATE_SYLLADEX, player), player);
 		
 		updateGristCache(identifier);
 		updateTitle(player);

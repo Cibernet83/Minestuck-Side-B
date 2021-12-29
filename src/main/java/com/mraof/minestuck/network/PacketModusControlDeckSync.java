@@ -70,12 +70,12 @@ public class PacketModusControlDeckSync extends MinestuckPacket
 
 		// Eject previous sylladex
 		MultiSylladex sylladex = SylladexUtils.getSylladex(player);
-		sylladex.ejectAll(player, false, true);
+		sylladex.ejectAll(false, true);
 		int cards = sylladex.getTotalSlots();
 
 		// Make new sylladex
-		sylladex = ISylladex.newSylladex(modusLayers);
-		sylladex.addCards(cards, player);
+		sylladex = ISylladex.newSylladex(player, modusLayers);
+		sylladex.addCards(cards);
 		SylladexUtils.setSylladex(player, sylladex);
 	}
 

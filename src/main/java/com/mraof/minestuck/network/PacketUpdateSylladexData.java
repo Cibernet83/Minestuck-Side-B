@@ -1,9 +1,9 @@
 package com.mraof.minestuck.network;
 
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
-import com.mraof.minestuck.util.MinestuckPlayerData;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
+import com.mraof.minestuck.util.SylladexUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,14 +13,14 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
-public class PacketSylladexData extends MinestuckPacket
+public class PacketUpdateSylladexData extends MinestuckPacket
 {
 	private NBTTagCompound nbt;
 
 	@Override
 	public void generatePacket(Object... args)
 	{
-		ByteBufUtils.writeTag(data, (NBTTagCompound)args[0]);
+		ByteBufUtils.writeTag(data, SylladexUtils.getSylladex((EntityPlayer)args[0]).writeToNBT());
 	}
 
 	@Override
@@ -34,14 +34,14 @@ public class PacketSylladexData extends MinestuckPacket
 	{
 		if (nbt != null)
 		{
-			MultiSylladex sylladex = ISylladex.readFromNBT(nbt);
-			MinestuckPlayerData.clientData.sylladex = sylladex;
+			MultiSylladex sylladex = ISylladex.readFromNBT(player, nbt);
+			SylladexUtils.setSylladex(Minecraft.getMinecraft().player, sylladex);
 			if (Minecraft.getMinecraft().currentScreen instanceof GuiSylladex)
 				((GuiSylladex)Minecraft.getMinecraft().currentScreen).updateSylladex(sylladex);
 		}
 		else
 		{
-			MinestuckPlayerData.clientData.sylladex = null;
+			SylladexUtils.setSylladex(Minecraft.getMinecraft().player, null);
 			if (Minecraft.getMinecraft().currentScreen instanceof GuiSylladex)
 				Minecraft.getMinecraft().currentScreen = null;
 		}

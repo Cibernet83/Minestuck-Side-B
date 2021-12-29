@@ -1,7 +1,7 @@
 package com.mraof.minestuck.client.gui.playerStats;
 
 import com.mraof.minestuck.inventory.ContainerControlDeck;
-import com.mraof.minestuck.util.MinestuckPlayerData;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiYesNoCallback;
@@ -35,14 +35,14 @@ public class GuiControlDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 		sylladexMap = new GuiButtonExt(1, xOffset + 6, yOffset + 31, 60, 18, I18n.format("gui.sylladex"));
 		buttonList.add(modusButton);
 		buttonList.add(sylladexMap);
-		sylladexMap.enabled = MinestuckPlayerData.clientData.sylladex != null;
+		sylladexMap.enabled = SylladexUtils.getSylladex(mc.player) != null;
 		modusButton.enabled = !container.inventory.getStackInSlot(0).isEmpty();
 	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int xcor, int ycor)
 	{
-		sylladexMap.enabled = MinestuckPlayerData.clientData.sylladex != null;
+		sylladexMap.enabled = SylladexUtils.getSylladex(mc.player) != null;
 		modusButton.enabled = !container.inventory.getStackInSlot(0).isEmpty();
 		
 		drawTabs();
@@ -90,11 +90,11 @@ public class GuiControlDeck extends GuiPlayerStatsContainer implements GuiYesNoC
 			}
 			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CAPTCHA, PacketCaptchaDeck.MODUS));
 		}
-		else*/ if(button == this.sylladexMap && MinestuckPlayerData.clientData.sylladex != null)
+		else*/ if(button == this.sylladexMap && SylladexUtils.getSylladex(mc.player) != null)
 		{
 			mc.player.connection.sendPacket(new CPacketCloseWindow(mc.player.openContainer.windowId));
 			mc.player.inventory.setItemStack(ItemStack.EMPTY);
-			mc.displayGuiScreen(MinestuckPlayerData.clientData.sylladex.getGuiHandler());
+			mc.displayGuiScreen(SylladexUtils.getSylladex(mc.player).getGuiHandler());
 			mc.player.openContainer = mc.player.inventoryContainer;
 		}
 	}

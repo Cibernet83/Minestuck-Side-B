@@ -20,7 +20,7 @@ public class ModusArray extends Modus
 	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{
-		return new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 42);
+		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 42);
 	}
 
 	@SideOnly(Side.CLIENT)

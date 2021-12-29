@@ -34,7 +34,7 @@ public class ModusEightBall extends Modus
 
 	@Override
 	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings) {
-		return new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 15);
+		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 15);
 	}
 
 	@Override

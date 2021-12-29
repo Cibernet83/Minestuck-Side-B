@@ -9,7 +9,6 @@ import com.mraof.minestuck.client.gui.captchalogue.modus.GuiStackModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.util.MinestuckUtils;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -40,13 +39,13 @@ public class ModusQueue extends Modus
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object)
 	{
-		getSylladexToPutInto(sylladices, settings, player).put(object, player);
+		getSylladexToPutInto(sylladices, settings).put(object);
 	}
 
 	@Override
-	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
+	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
 	{
 		SYLLADEX freeSylladex = getMostFreeSlotsSylladex(sylladices, settings);
 
@@ -56,7 +55,7 @@ public class ModusQueue extends Modus
 			freeSylladex = sylladices.getLastWithSlots();
 			sylladices.remove(freeSylladex);
 			sylladices.addFirst(freeSylladex);
-			freeSylladex.eject(player);
+			freeSylladex.eject();
 			int newSize = sylladices.size();
 			sylladices.remove(freeSylladex);
 			sylladices.add(newSize - oldSize, freeSylladex);
@@ -88,15 +87,13 @@ public class ModusQueue extends Modus
 		SYLLADEX first = sylladices.getFirstWithObject();
 		if (first != null)
 			first.grow(other);
-		else
-			sylladices.getFirstWithSlots().grow(other); // Is this needed? Better play it safe and leave it :P
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{
-		return new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 54);
+		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 54);
 	}
 
 	@SideOnly(Side.CLIENT)

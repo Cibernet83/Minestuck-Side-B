@@ -5,8 +5,7 @@ import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.relauncher.Side;
@@ -58,9 +57,9 @@ public class ModusLayer
 		return false;
 	}
 
-	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
 	{
-		modi[0].put(sylladexes, object, player);
+		modi[0].put(sylladexes, object);
 	}
 
 	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
@@ -68,9 +67,9 @@ public class ModusLayer
 		modi[0].grow(sylladexes, object);
 	}
 
-	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladexes, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladexes)
 	{
-		modi[0].eject(sylladexes, player);
+		modi[0].eject(sylladexes);
 	}
 
 	public NBTTagCompound writeToNBT()
@@ -124,8 +123,8 @@ public class ModusLayer
 	}
 
 	@SideOnly(Side.CLIENT)
-	public SylladexGuiContainer getGuiContainer(CardGuiContainer.CardTextureIndex[] textureIndices, ISylladex sylladex)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
-		return modi[0].getGuiContainer(textureIndices, sylladex);
+		return modi[0].getGuiContainer(sylladices, textureIndices, getTextureIndices());
 	}
 }

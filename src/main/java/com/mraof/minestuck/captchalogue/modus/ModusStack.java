@@ -8,7 +8,6 @@ import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiStackModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -39,23 +38,23 @@ public class ModusStack extends Modus
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object)
 	{
-		SYLLADEX sylladex = getSylladexToPutInto(sylladices, settings, player);
+		SYLLADEX sylladex = getSylladexToPutInto(sylladices, settings);
 		sylladices.remove(sylladex);
 		sylladices.addFirst(sylladex);
-		sylladex.put(object, player);
+		sylladex.put(object);
 	}
 
 	@Override
-	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
+	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
 	{
 		SYLLADEX freeSylladex = getMostFreeSlotsSylladex(sylladices, settings);
 
 		if (freeSylladex == null)
 		{
 			freeSylladex = sylladices.getLastWithSlots();
-			freeSylladex.eject(player);
+			freeSylladex.eject();
 		}
 
 		return freeSylladex;
@@ -64,14 +63,16 @@ public class ModusStack extends Modus
 	@Override
 	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
 	{
-		sylladices.getFirstWithSlots().grow(other);
+		SYLLADEX first = sylladices.getFirstWithSlots();
+		if (first != null)
+			first.grow(other);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{
-		return new CardGuiContainer.CardTextureIndex(GuiSylladex.CARD_TEXTURE, 53);
+		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 53);
 	}
 
 	@SideOnly(Side.CLIENT)

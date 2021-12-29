@@ -10,8 +10,6 @@ import com.mraof.minestuck.network.PacketGristCache;
 import com.mraof.minestuck.network.PacketPlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
-import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -165,7 +163,6 @@ public class MinestuckPlayerData
 		public PlayerIdentifier player;
 		public Title title;
 		public GristSet gristCache;
-		public MultiSylladex sylladex;
 		public boolean givenModus;
 		public int color = -1;
 		public long boondollars;
@@ -218,12 +215,7 @@ public class MinestuckPlayerData
 			}
 			if (nbt.hasKey("titleClass"))
 				this.title = new Title(EnumClass.getClassFromInt(nbt.getByte("titleClass")), EnumAspect.getAspectFromInt(nbt.getByte("titleAspect")));
-			if (nbt.hasKey("sylladex"))
-			{
-				this.sylladex = ISylladex.readFromNBT(nbt.getCompoundTag("sylladex"));
-				givenModus = true;
-			}
-			else givenModus = nbt.getBoolean("givenModus");
+			givenModus = nbt.getBoolean("givenModus");
 			if (nbt.hasKey("color"))
 				this.color = nbt.getInteger("color");
 			boondollars = nbt.getLong("boondollars");
@@ -254,9 +246,7 @@ public class MinestuckPlayerData
 				nbt.setByte("titleClass", (byte) this.title.getHeroClass().ordinal());
 				nbt.setByte("titleAspect", (byte) this.title.getHeroAspect().ordinal());
 			}
-			if (this.sylladex != null)
-				nbt.setTag("sylladex", sylladex.writeToNBT());
-			else nbt.setBoolean("givenModus", givenModus);
+			nbt.setBoolean("givenModus", givenModus);
 			nbt.setInteger("color", this.color);
 			nbt.setLong("boondollars", boondollars);
 			nbt.setBoolean("effectToggle", effectToggle);

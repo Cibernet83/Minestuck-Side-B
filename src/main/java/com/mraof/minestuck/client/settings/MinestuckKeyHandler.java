@@ -5,7 +5,7 @@ import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.network.MinestuckPacket.Type;
-import com.mraof.minestuck.util.MinestuckPlayerData;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
@@ -62,8 +62,8 @@ public class MinestuckKeyHandler
 			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.EFFECT_TOGGLE));
 		
 		while(sylladexKey.isPressed())
-			if(MinestuckPlayerData.clientData.sylladex != null)
-				Minecraft.getMinecraft().displayGuiScreen(MinestuckPlayerData.clientData.sylladex.getGuiHandler());
+			if(SylladexUtils.getSylladex(Minecraft.getMinecraft().player) != null)
+				Minecraft.getMinecraft().displayGuiScreen(SylladexUtils.getSylladex(Minecraft.getMinecraft().player).getGuiHandler());
 	}
 	
 	@SubscribeEvent

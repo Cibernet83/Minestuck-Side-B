@@ -15,14 +15,14 @@ public class BottomSylladex extends MultiSylladex
 {
 	private final SylladexList<CardSylladex> cards = new SylladexList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
 
-	BottomSylladex(ModusLayer modi)
+	BottomSylladex(EntityPlayer player, ModusLayer modi)
 	{
-		super(modi);
+		super(player, modi);
 	}
 
-	BottomSylladex(NBTTagCompound nbt)
+	BottomSylladex(EntityPlayer player, NBTTagCompound nbt)
 	{
-		super(new ModusLayer(nbt.getCompoundTag("Modus")));
+		super(player, new ModusLayer(nbt.getCompoundTag("Modus")));
 
 		NBTTagList cardsTag = nbt.getTagList("Cards", 10);
 		for (NBTBase cardTagBase : cardsTag)
@@ -47,27 +47,17 @@ public class BottomSylladex extends MultiSylladex
 	}
 
 	@Override
-	public void put(ICaptchalogueable object, EntityPlayer player)
+	public void put(ICaptchalogueable object)
 	{
-		if (cards.size() > 0)
-			modi.put(cards, object, player);
-		else // Empty sylladex
-			object.eject(this, 0, player);
+		modi.put(cards, object);
 	}
 
 	@Override
-	public void grow(ICaptchalogueable object)
-	{
-		if (cards.size() > 0)
-			super.grow(object);
-	}
-
-	@Override
-	public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
+	public void ejectAll(boolean asCards, boolean onlyFull)
 	{
 		for (int i = 0; i < cards.size(); i++)
 		{
-			cards.get(i).ejectAll(player, asCards, onlyFull);
+			cards.get(i).ejectAll(asCards, onlyFull);
 			if (asCards)
 				cleanUpMarkedCards(i);
 		}
@@ -91,7 +81,7 @@ public class BottomSylladex extends MultiSylladex
 	}
 
 	@Override
-	public void addCard(ICaptchalogueable object, EntityPlayer player)
+	public void addCard(ICaptchalogueable object)
 	{
 		cards.add(new CardSylladex(this, object));
 	}
@@ -111,6 +101,12 @@ public class BottomSylladex extends MultiSylladex
 	protected SylladexList<CardSylladex> getSylladices()
 	{
 		return cards;
+	}
+
+	@Override
+	public BottomSylladex getFirstBottomSylladex()
+	{
+		return this;
 	}
 
 	@Override

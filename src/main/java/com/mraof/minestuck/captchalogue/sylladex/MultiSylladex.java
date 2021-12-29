@@ -4,9 +4,8 @@ import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -15,15 +14,16 @@ import java.util.List;
 
 public abstract class MultiSylladex implements ISylladex
 {
+	public final EntityPlayer player;
 	protected final ModusLayer modi;
-	private final ArrayList<SylladexGuiContainer> guiContainers = new ArrayList<>();
 	public boolean autoBalanceNewCards = false;
 
 	@SideOnly(Side.CLIENT)
 	private GuiSylladex gui;
 
-	protected MultiSylladex(ModusLayer modi)
+	protected MultiSylladex(EntityPlayer player, ModusLayer modi)
 	{
+		this.player = player;
 		this.modi = modi;
 	}
 
@@ -46,9 +46,9 @@ public abstract class MultiSylladex implements ISylladex
 	}
 
 	@Override
-	public void put(ICaptchalogueable object, EntityPlayer player)
+	public void put(ICaptchalogueable object)
 	{
-		modi.put(getSylladices(), object, player);
+		modi.put(getSylladices(), object);
 	}
 
 	@Override
@@ -58,24 +58,24 @@ public abstract class MultiSylladex implements ISylladex
 	}
 
 	@Override
-	public void eject(EntityPlayer player)
+	public void eject()
 	{
-		modi.eject(getSylladices(), player);
+		modi.eject(getSylladices());
 	}
 
 	@Override
-	public boolean tryEjectCard(EntityPlayer player)
+	public boolean tryEjectCard()
 	{
 		for (ISylladex sylladex : getSylladices())
-			if (sylladex.tryEjectCard(player))
+			if (sylladex.tryEjectCard())
 				return true;
 		return false;
 	}
 
-	public void addCards(int cards, EntityPlayer player)
+	public void addCards(int cards)
 	{
 		for (int i = 0; i < cards; i++)
-			addCard(null, player);
+			addCard(null);
 	}
 
 	public ModusLayer[] getModusLayers()
@@ -83,6 +83,16 @@ public abstract class MultiSylladex implements ISylladex
 		ArrayList<ModusLayer> modi = new ArrayList<>();
 		getModusLayers(modi);
 		return modi.toArray(new ModusLayer[0]);
+	}
+
+	public boolean isFirstVisibleCard(int[] slots, int index, int startIndex)
+	{
+		// Remember, get(slots[index]) is known to have slots
+		if (index >= startIndex)
+			for (int i = 0; i < slots[index]; i++)
+				if(getSylladices().get(i).getTotalSlots() > 0)
+					return false;
+		return index + 1 == slots.length || ((MultiSylladex)getSylladices().get(slots[index])).isFirstVisibleCard(slots, index + 1, startIndex);
 	}
 
 	@Override
@@ -105,15 +115,9 @@ public abstract class MultiSylladex implements ISylladex
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ArrayList<SylladexGuiContainer> generateSubContainers(CardGuiContainer.CardTextureIndex[] textureIndices)
+	public MultiSylladexGuiContainer generateSubContainer(CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
-		guiContainers.clear();
-
-		CardGuiContainer.CardTextureIndex[] lowerTextureIndices = modi.getTextureIndices();
-		for (ISylladex sylladex : getSylladices())
-			guiContainers.add(modi.getGuiContainer(sylladex == getSylladices().get(0) && textureIndices != null ? textureIndices : lowerTextureIndices, sylladex));
-
-		return guiContainers;
+		return modi.getGuiContainer(getSylladices(), textureIndices);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -130,10 +134,10 @@ public abstract class MultiSylladex implements ISylladex
 		return gui;
 	}
 
-	public abstract void addCard(ICaptchalogueable object, EntityPlayer player);
+	public abstract void addCard(ICaptchalogueable object);
 	protected abstract void getModusLayers(List<ModusLayer> modusLayers);
 	protected abstract SylladexList<? extends ISylladex> getSylladices();
-	public abstract NBTTagCompound writeToNBT();
+	public abstract BottomSylladex getFirstBottomSylladex();
 	@SideOnly(Side.CLIENT)
 	public abstract String getName(boolean plural);
 }

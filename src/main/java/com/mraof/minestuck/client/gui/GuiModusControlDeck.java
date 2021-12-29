@@ -2,10 +2,11 @@ package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.ModusLayer;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.network.MinestuckChannelHandler;
 import com.mraof.minestuck.network.MinestuckPacket;
 import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
-import com.mraof.minestuck.util.MinestuckPlayerData;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -38,10 +39,11 @@ public class GuiModusControlDeck extends GuiScreen
 	@Override
 	public void initGui()
 	{
+		MultiSylladex sylladex = SylladexUtils.getSylladex(mc.player);
 		int yOffset = (height / 2) - (guiHeight / 2);
 
 		int lengthCount = te.getLayerCount() - 1;
-		ModusLayer[] currentLayers = MinestuckPlayerData.clientData.sylladex.getModusLayers();
+		ModusLayer[] currentLayers = sylladex.getModusLayers();
 		int currentLengthCount = currentLayers.length - 1;
 
 		lengthFields = new GuiTextField[lengthCount];
@@ -57,7 +59,7 @@ public class GuiModusControlDeck extends GuiScreen
 		syncButton = new GuiButton(0, width / 2 - 20, yOffset + 50 + lengthFields.length * 30, 40, 20, I18n.format("gui.sync"));
 		buttonList.add(syncButton);
 
-		totalCards = MinestuckPlayerData.clientData.sylladex.getTotalSlots();
+		totalCards = sylladex.getTotalSlots();
 		recalculateBottomLength();
 	}
 

@@ -2,8 +2,11 @@ package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
+import com.mraof.minestuck.capabilities.MinestuckCapabilities;
+import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.item.MinestuckItems;
@@ -40,14 +43,18 @@ public class SylladexUtils
 		if (sylladex == null)
 			return;
 
-		sylladex.grow(object);
-		if (!object.isEmpty())
-			sylladex.put(object, player);
+		if (sylladex.getTotalSlots() > 0)
+		{
+			sylladex.grow(object);
+			if (!object.isEmpty())
+				sylladex.put(object);
+		}
+		else
+			object.eject(sylladex.getFirstBottomSylladex(), 0, player);
 
 		MinestuckCriteriaTriggers.CAPTCHALOGUE.trigger(player, sylladex, object);
 
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, sylladex.writeToNBT());
-		MinestuckChannelHandler.sendToPlayer(packet, player);
+		MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_SYLLADEX, player), player);
 	}
 	
 	public static void captchalouge(int slotIndex, EntityPlayerMP player) {
@@ -91,10 +98,7 @@ public class SylladexUtils
 			}
 
 		if (fetched)
-		{
-			MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, sylladex.writeToNBT());
-			MinestuckChannelHandler.sendToPlayer(packet, player);
-		}
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_SYLLADEX, player), player);
 	}
 
 	public static boolean areItemStacksCompatible(ItemStack stackA, ItemStack stackB)
@@ -128,7 +132,7 @@ public class SylladexUtils
 			return;
 
 		boolean asCards = MinestuckConfig.dropItemsInCards && MinestuckConfig.sylladexDropMode != 0;
-		sylladex.ejectAll(player, asCards, true);
+		sylladex.ejectAll(asCards, true);
 
 		int emptyCardsLeft = sylladex.getTotalSlots();
 		int emptyCardsToKeep = MinestuckConfig.sylladexDropMode == 2 ? 0 : MinestuckConfig.initialModusSize;
@@ -140,22 +144,22 @@ public class SylladexUtils
 			launchItem(player, new ItemStack(MinestuckItems.captchaCard, toDrop)); // TODO: Drop these and the other items softly, with the rest of the death loot
 		}
 
-		setSylladex(player, ISylladex.newSylladex(sylladex.getModusLayers()));
+		setSylladex(player, ISylladex.newSylladex(player, sylladex.getModusLayers()));
 	}
 	
 	public static MultiSylladex getSylladex(EntityPlayer player)
 	{
-		return MinestuckPlayerData.getData(player).sylladex;
+		return player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).getSylladex();
 	}
 	
 	public static void setSylladex(EntityPlayer player, MultiSylladex sylladex)
 	{
-		MinestuckPlayerData.getData(player).sylladex = sylladex;
+		player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).setSylladex(sylladex);
 		if(sylladex != null)
 			MinestuckPlayerData.getData(player).givenModus = true;
 
-		MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_DATA, getSylladex(player).writeToNBT());
-		MinestuckChannelHandler.sendToPlayer(packet, player);
+		if (player instanceof EntityPlayerMP)
+			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_SYLLADEX, player), player);
 	}
 
 	public static NBTTagCompound getModusSettings(ItemStack stack)
@@ -166,5 +170,20 @@ public class SylladexUtils
 		if (!stackTag.hasKey("ModusSettings"))
 			stackTag.setTag("ModusSettings", new NBTTagCompound());
 		return stackTag.getCompoundTag("ModusSettings");
+	}
+
+	public static Modus[] getTextureModi(int[] slots, EntityPlayer player)
+	{
+		MultiSylladex sylladex = getSylladex(player);
+		ModusLayer[] layers = sylladex.getModusLayers();
+		outer:
+		for (int i = 0; i < layers.length; i++)
+		{
+			for (int j = i + 1; j < layers.length; j++)
+				if (!sylladex.isFirstVisibleCard(slots, 0, j))
+					continue outer;
+			return layers[i].getModi();
+		}
+		return null;
 	}
 }

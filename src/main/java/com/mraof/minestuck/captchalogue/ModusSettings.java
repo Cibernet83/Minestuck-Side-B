@@ -5,8 +5,7 @@ import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -44,9 +43,9 @@ public class ModusSettings
 		return modus.canGet(sylladices, settings, slots, index);
 	}
 
-	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
 	{
-		modus.put(sylladexes, settings, object, player);
+		modus.put(sylladexes, settings, object);
 	}
 
 	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
@@ -54,9 +53,9 @@ public class ModusSettings
 		modus.grow(sylladexes, settings, object);
 	}
 
-	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladexes, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladexes)
 	{
-		modus.eject(sylladexes, settings, player);
+		modus.eject(sylladexes, settings);
 	}
 
 	public NBTTagCompound writeToNBT()
@@ -68,9 +67,9 @@ public class ModusSettings
 	}
 
 	@SideOnly(Side.CLIENT)
-	public SylladexGuiContainer getGuiContainer(CardGuiContainer.CardTextureIndex[] textureIndices, ISylladex sylladex)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
 	{
-		return modus.getGuiContainer(textureIndices, sylladex, settings);
+		return modus.getGuiContainer(sylladices, firstTextureIndices, lowerTextureIndices, settings);
 	}
 
 	@SideOnly(Side.CLIENT)

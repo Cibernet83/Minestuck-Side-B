@@ -16,21 +16,20 @@ public class UpperSylladex extends MultiSylladex
 {
 	private final SylladexList<MultiSylladex> sylladices = new SylladexList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
 
-	UpperSylladex(ModusLayer[] modusLayers, int index)
+	UpperSylladex(EntityPlayer player, ModusLayer[] modusLayers, int index)
 	{
-		//super(new ModusLayer(lengths[index] & 0xff, modi[index]));
-		super(modusLayers[index]);
+		super(player, modusLayers[index]);
 		for (int i = 0; i < this.modi.getLength(); i++)
-			sylladices.add(index + 2 == modusLayers.length ? new BottomSylladex(modusLayers[index + 1]) : new UpperSylladex(modusLayers, index + 1));
+			sylladices.add(index + 2 == modusLayers.length ? new BottomSylladex(player, modusLayers[index + 1]) : new UpperSylladex(player, modusLayers, index + 1));
 	}
 
-	UpperSylladex(NBTTagCompound nbt)
+	UpperSylladex(EntityPlayer player, NBTTagCompound nbt)
 	{
-		super(new ModusLayer(nbt.getCompoundTag("Modus")));
+		super(player, new ModusLayer(nbt.getCompoundTag("Modus")));
 
 		NBTTagList sylladicesTag = nbt.getTagList("Sylladices", 10);
 		for (NBTBase sylladexTagBase : sylladicesTag)
-			this.sylladices.add(ISylladex.readFromNBT((NBTTagCompound) sylladexTagBase));
+			this.sylladices.add(ISylladex.readFromNBT(player, (NBTTagCompound) sylladexTagBase));
 	}
 
 	@Override
@@ -40,7 +39,7 @@ public class UpperSylladex extends MultiSylladex
 	}
 
 	@Override
-	public void addCard(ICaptchalogueable object, EntityPlayer player)
+	public void addCard(ICaptchalogueable object)
 	{
 		int leastSlots = 257;
 		MultiSylladex leastSlotsSylladex = null;
@@ -56,14 +55,14 @@ public class UpperSylladex extends MultiSylladex
 		if (leastSlots == 256)
 			object.eject(player);
 		else
-			leastSlotsSylladex.addCard(object, player);
+			leastSlotsSylladex.addCard(object);
 	}
 
 	@Override
-	public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
+	public void ejectAll(boolean asCards, boolean onlyFull)
 	{
 		for (ISylladex sylladex : sylladices)
-			sylladex.ejectAll(player, asCards, onlyFull);
+			sylladex.ejectAll(asCards, onlyFull);
 	}
 
 	@Override
@@ -77,6 +76,12 @@ public class UpperSylladex extends MultiSylladex
 	protected SylladexList<MultiSylladex> getSylladices()
 	{
 		return sylladices;
+	}
+
+	@Override
+	public BottomSylladex getFirstBottomSylladex()
+	{
+		return sylladices.getFirst().getFirstBottomSylladex();
 	}
 
 	@Override

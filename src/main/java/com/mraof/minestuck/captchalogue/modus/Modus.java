@@ -6,11 +6,10 @@ import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainer;
 import com.mraof.minestuck.util.IRegistryObject;
 import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -62,15 +61,16 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Put an object into a default card and perform some rearranging of sylladices if required. Modus#grow has already
 	 * been called by this point. There is known to be an existing card.
 	 */
-	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object)
 	{
-		getSylladexToPutInto(sylladices, settings, player).put(object, player);
+		getSylladexToPutInto(sylladices, settings).put(object);
 	}
 
 	/**
-	 * Find a sylladex to put something into, and if there isn't one available, make one available. There is known to be an existing card.
+	 * Find a sylladex to put something into, and if there isn't one available, make one available. There is known to be
+	 * an existing card.
 	 */
-	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
+	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
 	{
 		SYLLADEX freeSylladex = getMostFreeSlotsSylladex(sylladices, settings);
 
@@ -79,12 +79,12 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 			for (SYLLADEX sylladex : sylladices)
 				if (sylladex.getTotalSlots() > 0)
 				{
-					if (sylladex.tryEjectCard(player))
+					if (sylladex.tryEjectCard())
 						return sylladex;
 					else
 						freeSylladex = sylladex;
 				}
-			freeSylladex.eject(player); // Known to exist by this point
+			freeSylladex.eject(); // Known to exist by this point
 		}
 
 		return freeSylladex;
@@ -110,20 +110,23 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	/**
-	 * Try to fill a default card with as much of other as possible.
+	 * Try to fill one (or more) cards with as much of other as possible. Check that cards exist in the sylladex.
 	 */
 	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
 	{
 		for (int i = 0; i < sylladices.size() && !other.isEmpty(); i++)
-			sylladices.get(i).grow(other);
+			if (sylladices.get(i).getTotalSlots() > 0)
+				sylladices.get(i).grow(other);
 	}
 
 	/**
-	 * Eject the contents of a default card.
+	 * Eject the contents of a default card. Check that cards exist in the sylladex.
 	 */
-	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
 	{
-		sylladices.getLast().eject(player);
+		SYLLADEX last = sylladices.getLastWithObject();
+		if (last != null)
+			last.eject();
 	}
 
 	public String getUnlocalizedName()
@@ -139,12 +142,12 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	/**
-	 * Get a new SylladexGuiContainer or a subtype with different positions or animations.
+	 * Get a new MultiSylladexGuiContainer or a subtype that draws different positions or animations.
 	 */
 	@SideOnly(Side.CLIENT)
-	public SylladexGuiContainer getGuiContainer(CardGuiContainer.CardTextureIndex[] textureIndices, ISylladex sylladex, NBTTagCompound settings)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices, NBTTagCompound settings)
 	{
-		return new SylladexGuiContainer(textureIndices, sylladex);
+		return new MultiSylladexGuiContainer(sylladices, firstTextureIndices, lowerTextureIndices);
 	}
 
 	@SideOnly(Side.CLIENT)

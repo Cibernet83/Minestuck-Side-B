@@ -70,7 +70,7 @@ public abstract class MinestuckPacket
 		MINDFLAYER_MOVEMENT_INPUT(PacketMindflayerMovementInput.class),
 		SET_CURRENT_ITEM(PacketSetCurrentItem.class),
 		EDIT_FILL_BLOCKS(PacketPlaceBlockArea.class),
-		SYLLADEX_DATA(PacketSylladexData.class),
+		UPDATE_SYLLADEX(PacketUpdateSylladexData.class),
 		SYLLADEX_FETCH(PacketSylladexFetch.class),
 		SYLLADEX_CAPTCHALOGUE(PacketSylladexCaptchalogue.class),
 		SYLLADEX_EMPTY_REQUEST(PacketSylladexEmptyRequest.class),

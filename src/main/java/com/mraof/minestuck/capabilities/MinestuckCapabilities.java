@@ -40,6 +40,8 @@ public class MinestuckCapabilities
 	public static final Capability<IGodKeyStates> GOD_KEY_STATES = null;
 	@CapabilityInject(IGodTierData.class)
 	public static final Capability<IGodTierData> GOD_TIER_DATA = null;
+	@CapabilityInject(ISylladexData.class)
+	public static final Capability<ISylladexData> SYLLADEX_DATA = null;
 
 	public static void registerCapabilities()
 	{
@@ -49,6 +51,7 @@ public class MinestuckCapabilities
 		CapabilityManager.INSTANCE.register(IBadgeEffects.class, new MinestuckCapabilityProvider.Storage<>(), BadgeEffects::new);
 		CapabilityManager.INSTANCE.register(IGodKeyStates.class, new MinestuckCapabilityProvider.Storage<>(), GodKeyStates::new);
 		CapabilityManager.INSTANCE.register(IGodTierData.class, new MinestuckCapabilityProvider.Storage<>(), GodTierData::new);
+		CapabilityManager.INSTANCE.register(ISylladexData.class, new MinestuckCapabilityProvider.Storage<>(), SylladexData::new);
 	}
 
 	@SubscribeEvent
@@ -68,6 +71,7 @@ public class MinestuckCapabilities
 			event.addCapability(new ResourceLocation(Minestuck.MODID, "strife_data"), new MinestuckCapabilityProvider<>(STRIFE_DATA, (EntityPlayer) event.getObject()));
 			event.addCapability(new ResourceLocation(Minestuck.MODID, "god_key_states"), new MinestuckCapabilityProvider<>(GOD_KEY_STATES, (EntityPlayer) event.getObject()));
 			event.addCapability(new ResourceLocation(Minestuck.MODID, "god_tier_data"), new MinestuckCapabilityProvider<>(GOD_TIER_DATA, (EntityPlayer) event.getObject()));
+			event.addCapability(new ResourceLocation(Minestuck.MODID, "sylladex_data"), new MinestuckCapabilityProvider<>(SYLLADEX_DATA, (EntityPlayer) event.getObject()));
 		}
 
 		if (event.getObject() instanceof EntityLivingBase)

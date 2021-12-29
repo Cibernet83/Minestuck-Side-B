@@ -38,7 +38,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 
 	public RenderItem itemRender;
 	private MultiSylladex sylladex;
-	private SylladexGuiContainer cardGuiContainer;
+	private MultiSylladexGuiContainer cardGuiContainer;
 	
 	/**
 	 * Position of the map (the actual gui viewport)
@@ -238,7 +238,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	public void updateSylladex(MultiSylladex sylladex)
 	{
 		this.sylladex = sylladex;
-		this.cardGuiContainer = new SylladexGuiContainer(null, sylladex);
+		this.cardGuiContainer = sylladex.generateSubContainer(null);
 		this.cardsWidth = cardGuiContainer.getWidth();
 		this.cardsHeight = cardGuiContainer.getHeight();
 	}

@@ -1,11 +1,11 @@
 package com.mraof.minestuck.captchalogue.sylladex;
 
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.AlchemyUtils;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,17 +13,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 
 public class CardSylladex implements ISylladex
 {
+	private final EntityPlayer player;
 	private final BottomSylladex owner;
 	private ICaptchalogueable object;
-	private final ArrayList<SylladexGuiContainer> containers = new ArrayList<>();
 	private boolean markedForDeletion = false;
 
 	public CardSylladex(BottomSylladex owner, ICaptchalogueable object)
 	{
+		this.player = owner.player;
 		this.owner = owner;
 		this.object = object;
 	}
@@ -39,7 +39,7 @@ public class CardSylladex implements ISylladex
 	{
 		checkSlots(slots, index);
 		ICaptchalogueable object = asCard ?
-										   new CaptchalogueableItemStack(AlchemyUtils.setCardModi(this.object.captchalogueIntoCardItem(), owner.modi)) : // Shouldn't ever ask for empty cards
+										   new CaptchalogueableItemStack(AlchemyUtils.setCardModi(this.object.captchalogueIntoCardItem(), SylladexUtils.getTextureModi(slots, player))) : // Shouldn't ever ask for empty cards
 										   this.object == null ? new CaptchalogueableItemStack(ItemStack.EMPTY) : this.object;
 		this.object = null;
 		if (asCard)
@@ -68,14 +68,14 @@ public class CardSylladex implements ISylladex
 		if (object == null)
 		{
 			markedForDeletion = true;
-			return new CaptchalogueableItemStack(AlchemyUtils.setCardModi(new ItemStack(MinestuckItems.captchaCard), owner.modi));
+			return new CaptchalogueableItemStack(AlchemyUtils.setCardModi(new ItemStack(MinestuckItems.captchaCard), SylladexUtils.getTextureModi(slots, player)));
 		}
 		else
 			return null;
 	}
 
 	@Override
-	public void put(ICaptchalogueable object, EntityPlayer player)
+	public void put(ICaptchalogueable object)
 	{
 		if (this.object != null || markedForDeletion)
 			throw new IllegalStateException("Attempted to put an object " + object.getName() + " into a card with " + this.object.getName());
@@ -90,14 +90,14 @@ public class CardSylladex implements ISylladex
 	}
 
 	@Override
-	public void eject(EntityPlayer player)
+	public void eject()
 	{
 		get(null, 0, false).eject(owner, owner.getSylladices().indexOf(this) + 1, player);
 		this.object = null;
 	}
 
 	@Override
-	public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
+	public void ejectAll(boolean asCards, boolean onlyFull)
 	{
 		if (!onlyFull || object != null)
 			get(null, -1, asCards).eject(player);
@@ -105,7 +105,7 @@ public class CardSylladex implements ISylladex
 	}
 
 	@Override
-	public boolean tryEjectCard(EntityPlayer player)
+	public boolean tryEjectCard()
 	{
 		if (object != null && object.tryEjectCard(owner, owner.getSylladices().indexOf(this) + 1, player))
 		{
@@ -131,7 +131,7 @@ public class CardSylladex implements ISylladex
 	{
 		if (markedForDeletion)
 			throw new NullPointerException("Attempted to interact from a card marked for deletion");
-		if (slots != null && i >= slots.length)
+		if (slots != null && i > slots.length)
 			throw new IndexOutOfBoundsException("Attempted to fetch a numbered slot from a card");
 	}
 
@@ -170,10 +170,8 @@ public class CardSylladex implements ISylladex
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ArrayList<SylladexGuiContainer> generateSubContainers(CardGuiContainer.CardTextureIndex[] textureIndices)
+	public CardGuiContainer generateSubContainer(CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
-		containers.clear();
-		containers.add(new CardGuiContainer(textureIndices, object));
-		return containers;
+		return new CardGuiContainer(textureIndices, object);
 	}
 }

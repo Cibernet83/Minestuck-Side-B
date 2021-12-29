@@ -79,7 +79,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 			while (!stack.isEmpty()) // FIXME: Make these move up a stack when popping over the 256 card limit
 			{
 				if (fromSylladex.autoBalanceNewCards)
-					SylladexUtils.getSylladex(player).addCard(AlchemyUtils.getCardContents(stack), player);
+					SylladexUtils.getSylladex(player).addCard(AlchemyUtils.getCardContents(stack));
 				else
 					fromSylladex.addCard(index, AlchemyUtils.getCardContents(stack), player);
 				stack.shrink(1);

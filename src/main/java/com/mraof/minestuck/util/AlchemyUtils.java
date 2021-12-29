@@ -4,8 +4,6 @@ import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
-import com.mraof.minestuck.captchalogue.ModusLayer;
-import com.mraof.minestuck.captchalogue.ModusSettings;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableGhost;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
@@ -13,7 +11,6 @@ import com.mraof.minestuck.captchalogue.modus.MinestuckModi;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.item.ItemCruxiteArtifact;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -149,8 +146,7 @@ public class AlchemyUtils
 	@Nonnull
 	public static ItemStack createCaptcharoidCard(ICaptchalogueable item)
 	{
-		ModusLayer layer = new ModusLayer(-1, new ModusSettings(MinestuckModi.hashtable, new NBTTagCompound()), new ModusSettings(MinestuckModi.queue, new NBTTagCompound()));
-		return setCardModi(createCard(new CaptchalogueableGhost(item), false), layer);
+		return setCardModi(createCard(new CaptchalogueableGhost(item), false), new Modus[]{ MinestuckModi.hashtable, MinestuckModi.queue });
 	}
 
 	public static ICaptchalogueable getCardContents(ItemStack card)
@@ -181,14 +177,14 @@ public class AlchemyUtils
 	}
 
 
-	public static ItemStack setCardModi(ItemStack card, ModusLayer modi)
+	public static ItemStack setCardModi(ItemStack card, Modus[] textureModi)
 	{
 		if(!card.hasTagCompound())
 			card.setTagCompound(new NBTTagCompound());
 
 		NBTTagList nbt = new NBTTagList();
 
-		for(Modus modus : modi.getModi())
+		for(Modus modus : textureModi)
 			nbt.appendTag(new NBTTagString(modus.getRegistryName().toString()));
 
 		card.getTagCompound().setTag("Modus", nbt);
