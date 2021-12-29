@@ -46,7 +46,7 @@ public class Title
 	}
 	
 	@Override
-	public boolean equals(Object obj)	//TODO override title.hashCode() too.
+	public boolean equals(Object obj)
 	{
 		if(obj instanceof Title)
 		{
@@ -54,5 +54,11 @@ public class Title
 			return title.heroClass.equals(this.heroClass) && title.heroAspect.equals(this.heroAspect);
 		}
 		return false;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return heroClass.hashCode() + heroAspect.hashCode();
 	}
 }

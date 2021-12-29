@@ -151,8 +151,7 @@ public class ItemCaptcharoidCamera extends MSItemBase {
 	@SubscribeEvent
 	public static void onEntityInteract(PlayerInteractEvent.EntityInteract event)
 	{
-		System.out.println("aa");
-		if(event.getEntityPlayer().isSneaking())
+		if(!(event.getEntityPlayer().getHeldItem(event.getHand()).getItem() instanceof ItemCaptcharoidCamera) || event.getEntityPlayer().isSneaking())
 			return;
 
 		EntityPlayer player = event.getEntityPlayer();

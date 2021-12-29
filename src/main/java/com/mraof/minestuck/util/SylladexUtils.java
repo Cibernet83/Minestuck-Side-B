@@ -124,8 +124,8 @@ public class SylladexUtils
 		stack.shrink(amount);
 		return true;
 	}
-	
-	public static void dropSylladexOnDeath(EntityPlayer player)
+
+	public static void dropSylladexOnDeath(EntityPlayer player) // TODO: instead of dropping items add them to the player drops list
 	{
 		MultiSylladex sylladex = getSylladex(player);
 		if(sylladex == null)
@@ -141,7 +141,7 @@ public class SylladexUtils
 		{
 			int toDrop = Math.max(emptyCardsLeft - emptyCardStackSize, emptyCardsToKeep);
 			emptyCardsLeft -= emptyCardStackSize;
-			launchItem(player, new ItemStack(MinestuckItems.captchaCard, toDrop)); // TODO: Drop these and the other items softly, with the rest of the death loot
+			launchItem(player, new ItemStack(MinestuckItems.captchaCard, toDrop));
 		}
 
 		setSylladex(player, ISylladex.newSylladex(player, sylladex.getModusLayers()));
