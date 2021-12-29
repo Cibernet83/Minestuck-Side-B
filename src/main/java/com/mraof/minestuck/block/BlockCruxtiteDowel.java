@@ -168,7 +168,7 @@ public class BlockCruxtiteDowel extends MSBlockBase
 		if(te instanceof TileEntityItemStack)
 		{
 			ItemStack dowel = ((TileEntityItemStack) te).getStack();
-			if(state.getValue(TYPE) == Type.DOWEL && AlchemyUtils.hasDecodedItem(dowel))
+			if(state.getValue(TYPE) == Type.DOWEL && AlchemyUtils.hasDecodedObject(dowel))
 				return state.withProperty(TYPE, Type.TOTEM);
 		}
 		

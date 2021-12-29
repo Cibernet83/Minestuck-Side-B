@@ -157,7 +157,7 @@ public final class ModelCaptchaCard implements IModel
 
 	protected static String getContentsKey(ItemStack stack)
 	{
-		return AlchemyUtils.hasCardContents(stack) ? AlchemyUtils.getCardContents(stack).getTextureKey() : "empty";
+		return AlchemyUtils.hasDecodedObject(stack) ? AlchemyUtils.getCardContents(stack).getTextureKey() : "empty";
 	}
 
 

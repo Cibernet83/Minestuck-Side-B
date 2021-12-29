@@ -61,11 +61,11 @@ public class TileEntityAlchemiter extends TileEntity
 	{
 		if(false)//hasUpgrade(AlchemiterUpgrades.captchaCard)) [asks for upgrade]
 		{
-		if (!AlchemyUtils.hasDecodedItem(dowel))
+		if (!AlchemyUtils.hasDecodedObject(dowel))
 			return AlchemyUtils.createCard(new ItemStack(MinestuckBlocks.genericObject), false);
 		else return AlchemyUtils.createCard(new ItemStack(AlchemyUtils.getDecodedItem(dowel).getItem(), 1), false);
 		}
-		else if (!AlchemyUtils.hasDecodedItem(dowel))
+		else if (!AlchemyUtils.hasDecodedObject(dowel))
 			return new ItemStack(MinestuckBlocks.genericObject);
 		else return AlchemyUtils.getDecodedItem(dowel);
 	}

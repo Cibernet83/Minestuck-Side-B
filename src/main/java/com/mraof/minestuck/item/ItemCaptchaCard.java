@@ -32,7 +32,7 @@ public class ItemCaptchaCard extends MSItemBase
 	@Override
 	public int getItemStackLimit(ItemStack stack)
 	{
-		if(stack.hasTagCompound())
+		if(AlchemyUtils.containsObject(stack))
 			return 16;
 		else return 64;
 	}

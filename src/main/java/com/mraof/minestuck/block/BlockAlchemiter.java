@@ -159,7 +159,7 @@ public class BlockAlchemiter extends BlockLargeMachine
 				ItemStack dowel = ((TileEntityAlchemiter) te).getDowel();
 				EnumParts type = EnumParts.TOTEM_PAD;
 				if(!dowel.isEmpty())
-					if(AlchemyUtils.hasDecodedItem(dowel))
+					if(AlchemyUtils.hasDecodedObject(dowel))
 						type = EnumParts.TOTEM_PAD_TOTEM;
 					else type = EnumParts.TOTEM_PAD_DOWEL;
 				return state.withProperty(PART, type);

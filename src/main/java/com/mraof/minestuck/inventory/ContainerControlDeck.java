@@ -30,7 +30,7 @@ public class ContainerControlDeck extends Container
 			@Override
 			public boolean isItemValid(ItemStack stack)
 			{
-				return stack.getItem() instanceof ItemModus || (stack.getItem().equals(MinestuckItems.captchaCard) && (!stack.hasTagCompound() || AlchemyUtils.containsItem(stack)));
+				return stack.getItem() instanceof ItemModus || (stack.getItem().equals(MinestuckItems.captchaCard) && AlchemyUtils.isAppendable(stack));
 			}
 		});
 	}

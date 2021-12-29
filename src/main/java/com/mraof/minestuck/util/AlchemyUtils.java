@@ -4,10 +4,8 @@ import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristRegistry;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
-import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableGhost;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.captchalogue.modus.MinestuckModi;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.item.ItemCruxiteArtifact;
 import net.minecraft.entity.player.EntityPlayer;
@@ -83,7 +81,7 @@ public class AlchemyUtils
 	@Deprecated //use getCardContents instead
 	public static ItemStack getDecodedItem(ItemStack card, boolean ignoreGhost)
 	{
-		if (!hasDecodedItem(card))
+		if (!hasDecodedObject(card))
 			return ItemStack.EMPTY;
 		ItemStack stack = new ItemStack(card.getTagCompound().getCompoundTag("Content"));
 		if (isGhostCard(card) && !ignoreGhost)
@@ -150,11 +148,6 @@ public class AlchemyUtils
 		return ICaptchalogueable.readFromNBT(card.getTagCompound().getCompoundTag("Content"));
 	}
 
-	public static boolean hasCardContents(ItemStack card)
-	{
-		return getCardContents(card) != null;
-	}
-
 	@Nullable
 	public static List<Modus> getCardModi(ItemStack stack)
 	{
@@ -201,23 +194,23 @@ public class AlchemyUtils
 		return card.getItem() == captchaCard && card.hasTagCompound() && card.getTagCompound().getBoolean("Ghost");
 	}
 
-	public static boolean hasDecodedItem(ItemStack card)
+	public static boolean hasDecodedObject(ItemStack card)
 	{
 		return card.hasTagCompound() && card.getTagCompound().hasKey("Content", 10);
 	}
 
-	public static boolean containsItem(ItemStack card)
+	public static boolean containsObject(ItemStack card)
 	{
-		return card.getItem() == captchaCard && hasDecodedItem(card) && !card.getTagCompound().getBoolean("Punched") && !card.getTagCompound().getBoolean("Ghost");
+		return card.getItem() == captchaCard && hasDecodedObject(card) && !card.getTagCompound().getBoolean("Punched") && !card.getTagCompound().getBoolean("Ghost");
 	}
 
 	public static boolean isEmptyCard(ItemStack card)
 	{
-		return card.getItem() == captchaCard && !hasDecodedItem(card);
+		return card.getItem() == captchaCard && !hasDecodedObject(card);
 	}
 
 	public static boolean isAppendable(ItemStack card)
 	{
-		return isEmptyCard(card) || containsItem(card);
+		return isEmptyCard(card) || containsObject(card);
 	}
 }

@@ -297,7 +297,7 @@ public class CraftingRecipes
 			{
 				final ItemStack stack = crafting.getStackInSlot(i);
 				
-				if(AlchemyUtils.hasDecodedItem(stack))
+				if(AlchemyUtils.hasDecodedObject(stack))
 					remainingItems.set(i, new ItemStack(stack.getItem()));
 				else
 					remainingItems.set(i, ForgeHooks.getContainerItem(stack));

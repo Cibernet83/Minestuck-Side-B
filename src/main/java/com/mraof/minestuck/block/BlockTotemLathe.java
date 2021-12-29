@@ -208,7 +208,7 @@ public class BlockTotemLathe extends BlockLargeMachine
 		} else if(part.isRodRight())
 		{
 			TileEntity te = worldIn.getTileEntity(pos);
-			if(te instanceof TileEntityItemStack && AlchemyUtils.hasDecodedItem(((TileEntityItemStack) te).getStack()))
+			if(te instanceof TileEntityItemStack && AlchemyUtils.hasDecodedObject(((TileEntityItemStack) te).getStack()))
 				return state.withProperty(PART, EnumParts.ROD_RIGHT_CARVED);
 		}
 		

@@ -86,7 +86,7 @@ public class ContainerAutoCaptcha extends Container
 			else if (index != 1 && index != 0)
 			{
 				
-				if (itemstack1.getItem() == MinestuckItems.captchaCard && !AlchemyUtils.hasDecodedItem(itemstack1) && (captchaStack.isEmpty() || itemstack1.isItemEqual(captchaStack)))
+				if (itemstack1.getItem() == MinestuckItems.captchaCard && !AlchemyUtils.hasDecodedObject(itemstack1) && (captchaStack.isEmpty() || itemstack1.isItemEqual(captchaStack)))
 				{
 					if (!this.mergeItemStack(itemstack1, 1, 2, false))
 					{

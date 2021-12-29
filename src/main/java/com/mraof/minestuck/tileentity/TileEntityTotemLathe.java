@@ -317,7 +317,7 @@ public class TileEntityTotemLathe extends TileEntity
 		ItemStack dowel = getDowel();
 		ItemStack output;
 		boolean success = false;
-		if(!dowel.isEmpty() && !AlchemyUtils.hasDecodedItem(dowel) &&  (!card1.isEmpty() || !card2.isEmpty()))
+		if(!dowel.isEmpty() && !AlchemyUtils.hasDecodedObject(dowel) &&  (!card1.isEmpty() || !card2.isEmpty()))
 		{
 			if(!card1.isEmpty() && !card2.isEmpty())
 				if(!card1.hasTagCompound() || !card1.getTagCompound().getBoolean("punched") || !card2.hasTagCompound() || !card2.getTagCompound().getBoolean("punched"))
