@@ -143,12 +143,6 @@ public class AlchemyUtils
 		return createCard(new CaptchalogueableItemStack(stack), punched);
 	}
 
-	@Nonnull
-	public static ItemStack createCaptcharoidCard(ICaptchalogueable item)
-	{
-		return setCardModi(createCard(new CaptchalogueableGhost(item), false), new Modus[]{ MinestuckModi.hashtable, MinestuckModi.queue });
-	}
-
 	public static ICaptchalogueable getCardContents(ItemStack card)
 	{
 		if(!card.hasTagCompound() || !card.getTagCompound().hasKey("Content"))

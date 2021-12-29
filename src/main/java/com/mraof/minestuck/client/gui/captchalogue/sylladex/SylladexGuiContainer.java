@@ -41,6 +41,6 @@ public abstract class SylladexGuiContainer
 		return top + bottom;
 	}
 
-	public abstract void draw(GuiSylladex gui);
+	public abstract void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks);
 	public abstract ArrayList<Integer> hit(float x, float y);
 }

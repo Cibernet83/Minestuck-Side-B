@@ -138,34 +138,12 @@ public class CardSylladex implements ISylladex
 	@Override
 	public NBTTagCompound writeToNBT()
 	{
-		if (object != null)
-		{
-			NBTTagCompound nbt = object.writeToNBT();
-			nbt.setString("class", object.getClass().getName());
-			return nbt;
-		}
-		else
-		{
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("class", "null");
-			return nbt;
-		}
+		return ICaptchalogueable.writeToNBT(object);
 	}
 
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		String className = nbt.getString("class");
-		if (!className.equals("null"))
-		{
-			try
-			{
-				object = (ICaptchalogueable) Class.forName(className).getConstructor(NBTTagCompound.class).newInstance(nbt);
-			}
-			catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
-			{
-				throw new RuntimeException(e);
-			}
-		}
+		object = ICaptchalogueable.readFromNBT(nbt);
 	}
 
 	@Override

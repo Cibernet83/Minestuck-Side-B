@@ -22,7 +22,8 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 			containers.add(sylladex.generateSubContainer(firstTextureIndices != null && sylladex == sylladices.getFirstWithSlots() ? firstTextureIndices : lowerTextureIndices));
 	}
 
-	public void draw(GuiSylladex gui)
+	@Override
+	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
 	{
 		GlStateManager.translate(x, y, 0);
 
@@ -32,7 +33,7 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 			for (SylladexGuiContainer container : containers)
 			{
 				container.x = width;
-				container.draw(gui);
+				container.draw(gui, mouseX - x, mouseY - y, partialTicks);
 				width += container.getWidth() + 5;
 			}
 		}
@@ -41,6 +42,7 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 		GlStateManager.translate(-x, -y, 0);
 	}
 
+	@Override
 	public ArrayList<Integer> hit(float x, float y)
 	{
 		x -= this.x;

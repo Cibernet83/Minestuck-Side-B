@@ -1,6 +1,5 @@
 package com.mraof.minestuck.captchalogue.captchalogueable;
 
-import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,24 +9,16 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class CaptchalogueableInvalid implements ICaptchalogueable {
+	public CaptchalogueableInvalid() { }
+
+	public CaptchalogueableInvalid(NBTTagCompound nbt) { }
+
 	@Override
-	public void grow(ICaptchalogueable other) {
-
-	}
-
-	public CaptchalogueableInvalid()
-	{
-
-	}
-
-	public CaptchalogueableInvalid(NBTTagCompound nbt)
-	{
-
-	}
+	public void grow(ICaptchalogueable other) { }
 
 	@Override
 	public boolean isEmpty() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -36,19 +27,10 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	}
 
 	@Override
-	public void fetch(EntityPlayer player, boolean shrinkHand) {
-
-	}
+	public void fetch(EntityPlayer player) { }
 
 	@Override
-	public void eject(BottomSylladex fromSylladex, int index, EntityPlayer player) {
-
-	}
-
-	@Override
-	public void eject(EntityPlayer player) {
-
-	}
+	public void eject(EntityPlayer player) { }
 
 	@Override
 	public ItemStack captchalogueIntoCardItem() {
@@ -62,18 +44,19 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT() {
+	public NBTTagCompound writeData() {
 		return new NBTTagCompound();
 	}
 
 	@Override
-	public void draw(GuiSylladex gui)
+	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
 	{
 		gui.drawTexturedModalRect(0, 0, 0, 0, 16, 16);
 	}
 
 	@Override
-	public String getDisplayName() {
+	public String getDisplayName()
+	{
 		return "INVALID";
 	}
 
@@ -83,9 +66,7 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	}
 
 	@Override
-	public void renderTooltip(GuiSylladex gui, int x, int y) {
-
-	}
+	public void renderTooltip(GuiSylladex gui, int x, int y) { }
 
 	@Override
 	public String getTextureKey() {
@@ -93,7 +74,5 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	}
 
 	@Override
-	public void drop(World world, double posX, double posY, double posZ) {
-
-	}
+	public void drop(World world, double posX, double posY, double posZ) { }
 }

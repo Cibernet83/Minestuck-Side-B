@@ -62,7 +62,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public void fetch(EntityPlayer player, boolean shrinkHand)
+	public void fetch(EntityPlayer player)
 	{
 		ItemStack handStack = player.getHeldItemMainhand().copy();
 
@@ -130,14 +130,14 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT()
+	public NBTTagCompound writeData()
 	{
 		return stack.writeToNBT(new NBTTagCompound());
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void draw(GuiSylladex gui)
+	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
 	{
 		if(!stack.isEmpty())
 		{

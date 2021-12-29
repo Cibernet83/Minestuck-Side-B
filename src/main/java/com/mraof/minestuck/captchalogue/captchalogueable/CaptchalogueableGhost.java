@@ -31,10 +31,7 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
-	public void grow(ICaptchalogueable other)
-	{
-
-	}
+	public void grow(ICaptchalogueable other) { }
 
 	@Override
 	public boolean isEmpty()
@@ -49,22 +46,13 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
-	public void fetch(EntityPlayer player, boolean shrinkHand)
-	{
-
-	}
+	public void fetch(EntityPlayer player) { }
 
 	@Override
-	public void eject(BottomSylladex fromSylladex, int index, EntityPlayer player)
-	{
-
-	}
+	public void eject(BottomSylladex fromSylladex, int index, EntityPlayer player) { }
 
 	@Override
-	public void eject(EntityPlayer player) {
-
-
-	}
+	public void eject(EntityPlayer player) { }
 
 	@Override
 	public ItemStack captchalogueIntoCardItem()
@@ -79,7 +67,7 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT()
+	public NBTTagCompound writeData()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setTag("Parent", ICaptchalogueable.writeToNBT(parent));
@@ -87,10 +75,10 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
-	public void draw(GuiSylladex gui)
+	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
 	{
 		//TODO grayscale would be neat
-		parent.draw(gui);
+		parent.draw(gui, 20, 20, partialTicks);
 	}
 
 	@Override
