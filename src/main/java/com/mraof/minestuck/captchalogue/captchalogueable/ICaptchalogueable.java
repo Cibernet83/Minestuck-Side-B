@@ -9,22 +9,23 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public interface ICaptchalogueable
 {
-	HashMap<ResourceLocation, Class<? extends ICaptchalogueable>> REGISTRY = new HashMap<ResourceLocation, Class<? extends ICaptchalogueable>>()
+	HashMap<ResourceLocation, Tuple<Class<? extends ICaptchalogueable>, Function<NBTTagCompound, ? extends ICaptchalogueable>>> REGISTRY = new HashMap<ResourceLocation, Tuple<Class<? extends ICaptchalogueable>, Function<NBTTagCompound, ? extends ICaptchalogueable>>>()
 	{{
-		put(new ResourceLocation(Minestuck.MODID, "itemstack"), CaptchalogueableItemStack.class);
-		put(new ResourceLocation(Minestuck.MODID, "ghost"), CaptchalogueableGhost.class);
-		put(new ResourceLocation(Minestuck.MODID, "entity"), CaptchalogueableEntity.class);
+		put(new ResourceLocation(Minestuck.MODID, "itemstack"), new Tuple<>(CaptchalogueableItemStack.class, CaptchalogueableItemStack::new));
+		put(new ResourceLocation(Minestuck.MODID, "ghost"), new Tuple<>(CaptchalogueableGhost.class, CaptchalogueableGhost::new));
+		put(new ResourceLocation(Minestuck.MODID, "entity"), new Tuple<>(CaptchalogueableEntity.class, CaptchalogueableEntity::new));
 	}};
 
 	void grow(ICaptchalogueable other);
@@ -76,10 +77,10 @@ public interface ICaptchalogueable
 		{
 			NBTTagCompound nbt = object.writeData();
 
-			for(Map.Entry<ResourceLocation, Class<? extends ICaptchalogueable>> set : REGISTRY.entrySet())
-				if(set.getValue().equals(object.getClass()))
+			for(Map.Entry<ResourceLocation, Tuple<Class<? extends ICaptchalogueable>, Function<NBTTagCompound, ? extends ICaptchalogueable>>> set : REGISTRY.entrySet())
+				if(set.getValue().getFirst().equals(object.getClass()))
 				{
-					nbt.setString("class", set.getKey().toString());
+					nbt.setString("Class", set.getKey().toString());
 					break;
 				}
 			return nbt;
@@ -87,14 +88,14 @@ public interface ICaptchalogueable
 		else
 		{
 			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("class", "null");
+			nbt.setString("Class", "null");
 			return nbt;
 		}
 	}
 
 	static ICaptchalogueable readFromNBT(NBTTagCompound nbt)
 	{
-		String className = nbt.getString("class");
+		String className = nbt.getString("Class");
 		if (!className.equals("null"))
 		{
 			if(!className.contains(":"))
@@ -104,23 +105,16 @@ public interface ICaptchalogueable
 			if(!REGISTRY.containsKey(loc))
 				return new CaptchalogueableInvalid();
 
-			try
-			{
-				return REGISTRY.get(loc).getConstructor(NBTTagCompound.class).newInstance(nbt);
-			}
-			catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
-			{
-				throw new RuntimeException(e);
-			}
+			return REGISTRY.get(loc).getSecond().apply(nbt);
 		}
 		return null;
 	}
 
 	//for addon makers, slap this in one of the init events to register custom captchalogueable objects
-	static void register(ResourceLocation location, Class<? extends ICaptchalogueable> objectType)
+	static <T extends ICaptchalogueable> void register(ResourceLocation location, Class<T> objectType, Function<NBTTagCompound, T> constructor)
 	{
 		if(REGISTRY.containsKey(location))
 			throw new IllegalArgumentException(location + " already exists.");
-		REGISTRY.put(location, objectType);
+		REGISTRY.put(location, new Tuple<>(objectType, constructor));
 	}
 }
