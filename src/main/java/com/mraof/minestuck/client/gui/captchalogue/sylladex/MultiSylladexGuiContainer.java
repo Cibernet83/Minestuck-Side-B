@@ -23,23 +23,31 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
-	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	public void update(int depth, float partialTicks)
 	{
-		GlStateManager.translate(x, y, 0);
-
 		if (!containers.isEmpty())
 		{
 			float width = -containers.get(0).left;
 			for (SylladexGuiContainer container : containers)
 			{
 				container.x = width;
-				container.draw(gui, mouseX - x, mouseY - y, partialTicks);
+				container.update(depth + 1, partialTicks);
 				width += container.getWidth() + 5;
 			}
 		}
 		recalculateBoundingBox();
+	}
 
-		GlStateManager.translate(-x, -y, 0);
+	@Override
+	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	{
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x, y, 0);
+
+		for (SylladexGuiContainer container : containers)
+			container.draw(gui, mouseX - x, mouseY - y, partialTicks);
+
+		GlStateManager.popMatrix();
 	}
 
 	@Override
@@ -61,6 +69,12 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public CardGuiContainer peek(int[] slots, int index)
+	{
+		return containers.get(slots[index]).peek(slots, index);
 	}
 
 	protected void recalculateBoundingBox()

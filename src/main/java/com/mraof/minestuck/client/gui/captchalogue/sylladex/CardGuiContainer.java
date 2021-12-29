@@ -3,6 +3,7 @@ package com.mraof.minestuck.client.gui.captchalogue.sylladex;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,21 +25,29 @@ public class CardGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
+	public void update(int depth, float partialTicks) { }
+
+	@Override
 	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks) // TODO: Darken unusable cards
 	{
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x, y, 0);
+
 		int width = (int) getWidth();
 		int height = (int) getHeight();
 
 		for (int i = 0; i < textureIndices.length; i++)
 		{
 			Minecraft.getMinecraft().getTextureManager().bindTexture(textureIndices[i].texture);
-			gui.drawTexturedModalRect(x  + i * width / textureIndices.length, y,
+			gui.drawTexturedModalRect(i * width / textureIndices.length, 0,
 					textureIndices[i].index % 12 * width + i * width / textureIndices.length, textureIndices[i].index / 12 * height,
 					width / textureIndices.length, height);
 		}
 
 		if (object != null)
 			object.draw(gui, mouseX, mouseY, partialTicks);
+
+		GlStateManager.popMatrix();
 	}
 
 	@Override
@@ -51,6 +60,12 @@ public class CardGuiContainer extends SylladexGuiContainer
 			return null;
 		else
 			return new ArrayList<>();
+	}
+
+	@Override
+	public CardGuiContainer peek(int[] slots, int index)
+	{
+		return this;
 	}
 
 	public static class CardTextureIndex

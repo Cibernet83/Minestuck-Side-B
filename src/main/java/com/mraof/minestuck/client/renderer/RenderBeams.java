@@ -1,4 +1,4 @@
-package com.mraof.minestuck.client;
+package com.mraof.minestuck.client.renderer;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.Beam;
