@@ -66,15 +66,19 @@ public class CardSylladex implements ISylladex
 	{
 		checkSlots(slots, index);
 		if (object == null)
+		{
 			markedForDeletion = true;
-		return object == null ? new CaptchalogueableItemStack(AlchemyUtils.setCardModi(new ItemStack(MinestuckItems.captchaCard), owner.modi)) : null;
+			return new CaptchalogueableItemStack(AlchemyUtils.setCardModi(new ItemStack(MinestuckItems.captchaCard), owner.modi));
+		}
+		else
+			return null;
 	}
 
 	@Override
 	public void put(ICaptchalogueable object, EntityPlayer player)
 	{
 		if (this.object != null || markedForDeletion)
-			throw new IllegalStateException("Attempted to put an item into a full card");
+			throw new IllegalStateException("Attempted to put an object " + object.getName() + " into a card with " + this.object.getName());
 		this.object = object;
 	}
 
@@ -88,14 +92,27 @@ public class CardSylladex implements ISylladex
 	@Override
 	public void eject(EntityPlayer player)
 	{
-		get(null, 0, false).eject(owner, player);
+		get(null, 0, false).eject(owner, owner.getSylladices().indexOf(this) + 1, player);
+		this.object = null;
 	}
 
 	@Override
 	public void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull)
 	{
 		if (!onlyFull || object != null)
-			get(null, -1, asCards).eject(null, player);
+			get(null, -1, asCards).eject(player);
+		this.object = null;
+	}
+
+	@Override
+	public boolean tryEjectCard(EntityPlayer player)
+	{
+		if (object != null && object.tryEjectCard(owner, owner.getSylladices().indexOf(this) + 1, player))
+		{
+			object = null;
+			return true;
+		}
+		return false;
 	}
 
 	@Override

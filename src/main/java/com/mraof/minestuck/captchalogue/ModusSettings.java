@@ -3,6 +3,7 @@ package com.mraof.minestuck.captchalogue;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,9 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class ModusSettings
 {
@@ -36,27 +34,27 @@ public class ModusSettings
 		return modus;
 	}
 
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, int[] slots, int index, boolean asCard)
+	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, int[] slots, int index, boolean asCard)
 	{
 		return modus.get(sylladices, settings, slots, index, asCard);
 	}
 
-	public <SYLLADEX extends ISylladex> boolean canGet(LinkedList<SYLLADEX> sylladices, int[] slots, int index)
+	public <SYLLADEX extends ISylladex> boolean canGet(SylladexList<SYLLADEX> sylladices, int[] slots, int index)
 	{
 		return modus.canGet(sylladices, settings, slots, index);
 	}
 
-	public <SYLLADEX extends ISylladex> void put(LinkedList<SYLLADEX> sylladexes, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object, EntityPlayer player)
 	{
 		modus.put(sylladexes, settings, object, player);
 	}
 
-	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladexes, ICaptchalogueable object)
+	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
 	{
 		modus.grow(sylladexes, settings, object);
 	}
 
-	public <SYLLADEX extends ISylladex> void eject(LinkedList<SYLLADEX> sylladexes, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladexes, EntityPlayer player)
 	{
 		modus.eject(sylladexes, settings, player);
 	}

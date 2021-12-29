@@ -10,12 +10,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class UpperSylladex extends MultiSylladex
 {
-	private final LinkedList<MultiSylladex> sylladices = new LinkedList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
+	private final SylladexList<MultiSylladex> sylladices = new SylladexList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
 
 	UpperSylladex(ModusLayer[] modusLayers, int index)
 	{
@@ -75,7 +74,7 @@ public class UpperSylladex extends MultiSylladex
 	}
 
 	@Override
-	protected LinkedList<MultiSylladex> getSylladices()
+	protected SylladexList<MultiSylladex> getSylladices()
 	{
 		return sylladices;
 	}

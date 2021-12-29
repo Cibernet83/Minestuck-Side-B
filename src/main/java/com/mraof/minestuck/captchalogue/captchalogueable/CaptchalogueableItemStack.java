@@ -73,12 +73,15 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public void eject(BottomSylladex fromSylladex, EntityPlayer player)
+	public void eject(BottomSylladex fromSylladex, int index, EntityPlayer player)
 	{
 		if(fromSylladex != null && AlchemyUtils.isAppendable(stack))
 			while (!stack.isEmpty()) // FIXME: Make these move up a stack when popping over the 256 card limit
 			{
-				(fromSylladex.autoBalanceNewCards ? SylladexUtils.getSylladex(player) : fromSylladex).addCard(AlchemyUtils.getCardContents(stack), player);
+				if (fromSylladex.autoBalanceNewCards)
+					SylladexUtils.getSylladex(player).addCard(AlchemyUtils.getCardContents(stack), player);
+				else
+					fromSylladex.addCard(index, AlchemyUtils.getCardContents(stack), player);
 				stack.shrink(1);
 			}
 		if(!stack.isEmpty())
@@ -92,9 +95,38 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
+	public void drop(World world, double posX, double posY, double posZ)
+	{
+		EntityItem item = new EntityItem(world, posX, posY, posZ, stack);
+		item.motionY = (world.rand.nextGaussian() * 0.05 + 0.2)/2.0;
+		item.setDefaultPickupDelay();
+		world.spawnEntity(item);
+	}
+
+	@Override
+	public boolean tryEjectCard(BottomSylladex fromSylladex, int index, EntityPlayer player)
+	{
+		assert fromSylladex != null;
+
+		if (AlchemyUtils.isAppendable(stack))
+		{
+			eject(fromSylladex, index, player);
+			return true;
+		}
+		else
+			return false;
+	}
+
+	@Override
 	public ItemStack captchalogueIntoCardItem()
 	{
 		return AlchemyUtils.createCard(this, false);
+	}
+
+	@Override
+	public String getName()
+	{
+		return stack.getUnlocalizedName();
 	}
 
 	@Override
@@ -145,15 +177,5 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	public String getTextureKey()
 	{
 		return "item";
-	}
-
-	@Override
-	public void drop(World world, double posX, double posY, double posZ)
-	{
-
-		EntityItem item = new EntityItem(world, posX, posY, posZ, stack);
-		item.motionY = (world.rand.nextGaussian() * 0.05000000074505806D + 0.20000000298023224D)/2.0;
-		item.setDefaultPickupDelay();
-		world.spawnEntity(item);
 	}
 }

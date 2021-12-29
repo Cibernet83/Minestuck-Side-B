@@ -3,15 +3,14 @@ package com.mraof.minestuck.captchalogue.sylladex;
 import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public abstract class MultiSylladex implements ISylladex
@@ -62,6 +61,15 @@ public abstract class MultiSylladex implements ISylladex
 	public void eject(EntityPlayer player)
 	{
 		modi.eject(getSylladices(), player);
+	}
+
+	@Override
+	public boolean tryEjectCard(EntityPlayer player)
+	{
+		for (ISylladex sylladex : getSylladices())
+			if (sylladex.tryEjectCard(player))
+				return true;
+		return false;
 	}
 
 	public void addCards(int cards, EntityPlayer player)
@@ -124,7 +132,7 @@ public abstract class MultiSylladex implements ISylladex
 
 	public abstract void addCard(ICaptchalogueable object, EntityPlayer player);
 	protected abstract void getModusLayers(List<ModusLayer> modusLayers);
-	protected abstract LinkedList<? extends ISylladex> getSylladices();
+	protected abstract SylladexList<? extends ISylladex> getSylladices();
 	public abstract NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)
 	public abstract String getName(boolean plural);

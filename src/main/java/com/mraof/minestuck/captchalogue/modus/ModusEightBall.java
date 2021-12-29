@@ -4,6 +4,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
@@ -13,8 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.LinkedList;
-
 public class ModusEightBall extends Modus
 {
 	protected ModusEightBall(String name)
@@ -23,7 +22,7 @@ public class ModusEightBall extends Modus
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
+	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
 	{
 		ICaptchalogueable item = super.get(sylladices, settings, slots, i, asCard);
 

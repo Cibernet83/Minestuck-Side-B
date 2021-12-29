@@ -23,9 +23,23 @@ public interface ICaptchalogueable
 	{
 		fetch(player, false);
 	}
-	void eject(BottomSylladex fromSylladex, EntityPlayer player);
+	void eject(BottomSylladex fromSylladex, int index, EntityPlayer player);
 	void eject(EntityPlayer player);
+	default boolean tryEjectCard(BottomSylladex fromSylladex, int index, EntityPlayer player)
+	{
+		return false;
+	}
+	void drop(World world, double posX, double posY, double posZ);
+	default void drop(Entity entity)
+	{
+		drop(entity.world, entity.posX, entity.posY, entity.posZ);
+	}
 	ItemStack captchalogueIntoCardItem();
+	default ICaptchalogueable getAlchemyComponent()
+	{
+		return this;
+	}
+	String getName();
 	NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)
 	void draw(GuiSylladex gui);
@@ -35,10 +49,6 @@ public interface ICaptchalogueable
 	ITextComponent getTextComponent();
 	@SideOnly(Side.CLIENT)
 	void renderTooltip(GuiSylladex gui, int x, int y);
-	default ICaptchalogueable getAlchemyComponent()
-	{
-		return this;
-	}
 
 	/**
 	 * Determines what content texture is used (ghost, item, abstract, etc.)
@@ -82,12 +92,4 @@ public interface ICaptchalogueable
 		}
 		return null;
 	}
-
-	void drop(World world, double posX, double posY, double posZ);
-
-	default void drop(Entity entity)
-	{
-		drop(entity.world, entity.posX, entity.posY, entity.posZ);
-	}
-
 }

@@ -3,6 +3,7 @@ package com.mraof.minestuck.captchalogue;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +12,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 public class ModusLayer
 {
@@ -39,7 +42,7 @@ public class ModusLayer
 		return length;
 	}
 
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, int[] slots, int index, boolean asCard)
+	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, int[] slots, int index, boolean asCard)
 	{
 		for (ModusSettings modus : modi)
 			if (modus.canGet(sylladices, slots, index))
@@ -47,7 +50,7 @@ public class ModusLayer
 		return null;
 	}
 
-	public <SYLLADEX extends ISylladex> boolean canGet(LinkedList<SYLLADEX> sylladices, int[] slots, int index)
+	public <SYLLADEX extends ISylladex> boolean canGet(SylladexList<SYLLADEX> sylladices, int[] slots, int index)
 	{
 		for (ModusSettings modus : modi)
 			if (modus.canGet(sylladices, slots, index))
@@ -55,17 +58,17 @@ public class ModusLayer
 		return false;
 	}
 
-	public <SYLLADEX extends ISylladex> void put(LinkedList<SYLLADEX> sylladexes, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object, EntityPlayer player)
 	{
 		modi[0].put(sylladexes, object, player);
 	}
 
-	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladexes, ICaptchalogueable object)
+	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
 	{
 		modi[0].grow(sylladexes, object);
 	}
 
-	public <SYLLADEX extends ISylladex> void eject(LinkedList<SYLLADEX> sylladexes, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladexes, EntityPlayer player)
 	{
 		modi[0].eject(sylladexes, player);
 	}

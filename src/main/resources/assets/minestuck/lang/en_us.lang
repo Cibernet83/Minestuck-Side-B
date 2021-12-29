@@ -2686,7 +2686,7 @@ modus.pluralize=%ss
 # alone.plural (default: modus.pluralize)
 # prefix (default: alone.singular)
 # suffix.singular (default: lowercase(alone.singular))
-# suffix.plural (default: lowercase(alone.plural))
+# suffix.plural (default: modus.pluralize)
 
 modus.stack.alone.singular=Stack
 modus.queue.alone.singular=Queue
@@ -2705,14 +2705,12 @@ modus.alchemodus.suffix.singular=chemodus
 modus.alchemodus.suffix.plural=chemodi
 
 modus.eightBall.alone.singular=8-Ball
-modus.eightBall.alone.plural=64-Ball
 modus.eightBall.prefix=8-
-modus.eightBall.prefix.plural=64-
-modus.eightBall.suffix.singular=Ball
+modus.eightBall.suffix.singular=ball
 
 modus.popTart.alone.singular=Pop Tart
 modus.popTart.prefix=Pop
-modus.popTart.suffix.singular=Tart
+modus.popTart.suffix.singular=tart
 
 property.item.broken=Broken %s
 

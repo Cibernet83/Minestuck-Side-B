@@ -3,6 +3,7 @@ package com.mraof.minestuck.captchalogue.modus;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.SylladexGuiContainer;
@@ -23,8 +24,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import java.util.LinkedList;
-
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements IRegistryObject<Modus>
 {
@@ -44,56 +43,76 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 
 	/**
 	 * Fetch an object from the slots[i]th sylladex and perform some rearranging of sylladices if required. Modus#canGet
-	 * has already been confirmed by this point. Make sure to update slots[i] if rearranging is needed.
+	 * has already been confirmed by this point. Make sure to update slots[i] if rearranging is needed. There is known to be an existing card.
 	 */
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
+	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
 	{
 		return sylladices.get(slots[i]).get(slots, i + 1, asCard);
 	}
 
 	/**
-	 * Return whether a card is valid to be retrieved from.
+	 * Return whether a slot meets the modus's fetch requirements.
 	 */
-	public <SYLLADEX extends ISylladex> boolean canGet(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i)
+	public <SYLLADEX extends ISylladex> boolean canGet(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i)
 	{
 		return sylladices.get(slots[i]).canGet(slots, i + 1);
 	}
 
 	/**
 	 * Put an object into a default card and perform some rearranging of sylladices if required. Modus#grow has already
-	 * been called by this point.
+	 * been called by this point. There is known to be an existing card.
 	 */
-	public <SYLLADEX extends ISylladex> void put(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object, EntityPlayer player)
 	{
-		getSylladexWithMostFreeSlots(sylladices, settings, player).put(object, player);
+		getSylladexToPutInto(sylladices, settings, player).put(object, player);
 	}
 
-	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexWithMostFreeSlots(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
+	/**
+	 * Find a sylladex to put something into, and if there isn't one available, make one available. There is known to be an existing card.
+	 */
+	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
+	{
+		SYLLADEX freeSylladex = getMostFreeSlotsSylladex(sylladices, settings);
+
+		if (freeSylladex == null)
+		{
+			for (SYLLADEX sylladex : sylladices)
+				if (sylladex.getTotalSlots() > 0)
+				{
+					if (sylladex.tryEjectCard(player))
+						return sylladex;
+					else
+						freeSylladex = sylladex;
+				}
+			freeSylladex.eject(player); // Known to exist by this point
+		}
+
+		return freeSylladex;
+	}
+
+	/**
+	 * Get the sylladex with the most amount of empty slots (or the preferred one on a tie), or null if all slots are full.
+	 */
+	protected <SYLLADEX extends ISylladex> SYLLADEX getMostFreeSlotsSylladex(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
 	{
 		int mostFreeSlots = 0;
-		SYLLADEX mostFreeSlotsSylladex = null;
+		SYLLADEX freeSylladex = null;
 		for (SYLLADEX sylladex : sylladices)
 		{
 			int slots = sylladex.getFreeSlots();
 			if (slots > mostFreeSlots)
 			{
 				mostFreeSlots = slots;
-				mostFreeSlotsSylladex = sylladex;
+				freeSylladex = sylladex;
 			}
 		}
-		if (mostFreeSlots == 0)
-		{
-			mostFreeSlotsSylladex = sylladices.getLast();
-			mostFreeSlotsSylladex.eject(player);
-		}
-
-		return mostFreeSlotsSylladex;
+		return freeSylladex;
 	}
 
 	/**
 	 * Try to fill a default card with as much of other as possible.
 	 */
-	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
+	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
 	{
 		for (int i = 0; i < sylladices.size() && !other.isEmpty(); i++)
 			sylladices.get(i).grow(other);
@@ -102,7 +121,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	/**
 	 * Eject the contents of a default card.
 	 */
-	public <SYLLADEX extends ISylladex> void eject(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
 	{
 		sylladices.getLast().eject(player);
 	}
@@ -140,7 +159,7 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 			return getIfKeyExists("modus." + name + ".prefix", getName());
 		else
 			if (plural)
-				return getIfKeyExists("modus." + name + ".suffix.plural", getName(true).toLowerCase());
+				return getIfKeyExists("modus." + name + ".suffix.plural", I18n.format("modus.pluralize", getName(false, false, false)));
 			else
 				return getIfKeyExists("modus." + name + ".suffix.singular", getName().toLowerCase());
 	}

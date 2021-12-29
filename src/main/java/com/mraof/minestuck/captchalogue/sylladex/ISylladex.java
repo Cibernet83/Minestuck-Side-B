@@ -22,6 +22,7 @@ public interface ISylladex
 	void grow(ICaptchalogueable object);
 	void eject(EntityPlayer player);
 	void ejectAll(EntityPlayer player, boolean asCards, boolean onlyFull);
+	boolean tryEjectCard(EntityPlayer player);
 	int getFreeSlots();
 	int getTotalSlots();
 	NBTTagCompound writeToNBT();

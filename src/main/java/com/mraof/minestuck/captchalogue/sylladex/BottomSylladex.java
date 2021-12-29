@@ -9,12 +9,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class BottomSylladex extends MultiSylladex
 {
-	private final LinkedList<CardSylladex> cards = new LinkedList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
+	private final SylladexList<CardSylladex> cards = new SylladexList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
 
 	BottomSylladex(ModusLayer modi)
 	{
@@ -51,9 +50,9 @@ public class BottomSylladex extends MultiSylladex
 	public void put(ICaptchalogueable object, EntityPlayer player)
 	{
 		if (cards.size() > 0)
-			modi.put(getSylladices(), object, player);
-		else
-			object.eject(this, player);
+			modi.put(cards, object, player);
+		else // Empty sylladex
+			object.eject(this, 0, player);
 	}
 
 	@Override
@@ -97,6 +96,11 @@ public class BottomSylladex extends MultiSylladex
 		cards.add(new CardSylladex(this, object));
 	}
 
+	public void addCard(int index, ICaptchalogueable object, EntityPlayer player)
+	{
+		cards.add(index, new CardSylladex(this, object));
+	}
+
 	@Override
 	protected void getModusLayers(List<ModusLayer> modusLayers)
 	{
@@ -104,7 +108,7 @@ public class BottomSylladex extends MultiSylladex
 	}
 
 	@Override
-	protected LinkedList<CardSylladex> getSylladices()
+	protected SylladexList<CardSylladex> getSylladices()
 	{
 		return cards;
 	}

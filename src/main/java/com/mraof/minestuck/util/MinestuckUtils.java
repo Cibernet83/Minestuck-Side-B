@@ -27,6 +27,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class MinestuckUtils
@@ -246,4 +247,9 @@ public class MinestuckUtils
 	{
 		return pointX >= regionX && pointX < regionX + regionWidth && pointY >= regionY && pointY < regionY + regionHeight;
 	}
+	
+	public static <T> Iterable<T> reverse(LinkedList<T> list)
+    {
+        return list::descendingIterator;
+    }
 }

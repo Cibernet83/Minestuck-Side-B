@@ -1,10 +1,14 @@
 package com.mraof.minestuck.network;
 
+import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.block.MinestuckBlocks;
+import com.mraof.minestuck.editmode.ServerEditHandler;
+import com.mraof.minestuck.network.skaianet.SburbConnection;
+import com.mraof.minestuck.network.skaianet.SburbHandler;
+import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.util.AlchemyUtils;
+import com.mraof.minestuck.util.IdentifierHandler;
 import io.netty.buffer.ByteBuf;
-
-import java.util.EnumSet;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -12,13 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.network.skaianet.SburbConnection;
-import com.mraof.minestuck.network.skaianet.SburbHandler;
-import com.mraof.minestuck.network.skaianet.SkaianetHandler;
-import com.mraof.minestuck.util.IdentifierHandler;
-import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.editmode.ServerEditHandler;
+import java.util.EnumSet;
 
 public class PacketClientEdit extends MinestuckPacket
 {
@@ -44,7 +42,6 @@ public class PacketClientEdit extends MinestuckPacket
 
 		username = data.readInt();
 		target = data.readInt();
-
 	}
 
 	@Override

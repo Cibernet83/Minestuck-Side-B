@@ -3,6 +3,7 @@ package com.mraof.minestuck.captchalogue.modus;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiStackModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
@@ -14,8 +15,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.LinkedList;
-
 public class ModusStack extends Modus
 {
 	public ModusStack(String name)
@@ -24,33 +23,48 @@ public class ModusStack extends Modus
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
+	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
 	{
-		SYLLADEX sylladex = sylladices.removeFirst();
+		SYLLADEX sylladex = sylladices.removeFirstWithSlots();
 		sylladices.addLast(sylladex);
 		slots[i] = sylladices.size() - 1;
 		return sylladex.get(slots, i + 1, asCard);
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> boolean canGet(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i)
+	public <SYLLADEX extends ISylladex> boolean canGet(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i)
 	{
-		return slots[i] == 0 && sylladices.getFirst().canGet(slots, i + 1);
+		SYLLADEX first = sylladices.getFirstWithSlots();
+		return slots[i] == sylladices.indexOf(first) && first.canGet(slots, i + 1);
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> void put(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object, EntityPlayer player)
+	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object, EntityPlayer player)
 	{
-		SYLLADEX mostFreeSlotsSylladex = getSylladexWithMostFreeSlots(sylladices, settings, player);
-		sylladices.remove(mostFreeSlotsSylladex);
-		sylladices.addFirst(mostFreeSlotsSylladex);
-		mostFreeSlotsSylladex.put(object, player);
+		SYLLADEX sylladex = getSylladexToPutInto(sylladices, settings, player);
+		sylladices.remove(sylladex);
+		sylladices.addFirst(sylladex);
+		sylladex.put(object, player);
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> void grow(LinkedList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
+	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, EntityPlayer player)
 	{
-		sylladices.getFirst().grow(other);
+		SYLLADEX freeSylladex = getMostFreeSlotsSylladex(sylladices, settings);
+
+		if (freeSylladex == null)
+		{
+			freeSylladex = sylladices.getLastWithSlots();
+			freeSylladex.eject(player);
+		}
+
+		return freeSylladex;
+	}
+
+	@Override
+	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
+	{
+		sylladices.getFirstWithSlots().grow(other);
 	}
 
 	@Override

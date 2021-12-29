@@ -41,7 +41,7 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	}
 
 	@Override
-	public void eject(BottomSylladex fromSylladex, EntityPlayer player) {
+	public void eject(BottomSylladex fromSylladex, int index, EntityPlayer player) {
 
 	}
 
@@ -53,6 +53,12 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	@Override
 	public ItemStack captchalogueIntoCardItem() {
 		return ItemStack.EMPTY;
+	}
+
+	@Override
+	public String getName()
+	{
+		return "INVALID";
 	}
 
 	@Override

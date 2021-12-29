@@ -55,7 +55,7 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
-	public void eject(BottomSylladex fromSylladex, EntityPlayer player)
+	public void eject(BottomSylladex fromSylladex, int index, EntityPlayer player)
 	{
 
 	}
@@ -70,6 +70,12 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	public ItemStack captchalogueIntoCardItem()
 	{
 		return new ItemStack(MinestuckItems.captchaCard);
+	}
+
+	@Override
+	public String getName()
+	{
+		return "ghost of " + parent.getName();
 	}
 
 	@Override
