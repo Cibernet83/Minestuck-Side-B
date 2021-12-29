@@ -23,9 +23,9 @@ public interface ICaptchalogueable
 {
 	HashMap<ResourceLocation, Tuple<Class<? extends ICaptchalogueable>, Function<NBTTagCompound, ? extends ICaptchalogueable>>> REGISTRY = new HashMap<ResourceLocation, Tuple<Class<? extends ICaptchalogueable>, Function<NBTTagCompound, ? extends ICaptchalogueable>>>()
 	{{
-		put(new ResourceLocation(Minestuck.MODID, "itemstack"), new Tuple<>(CaptchalogueableItemStack.class, CaptchalogueableItemStack::new));
-		put(new ResourceLocation(Minestuck.MODID, "ghost"), new Tuple<>(CaptchalogueableGhost.class, CaptchalogueableGhost::new));
-		put(new ResourceLocation(Minestuck.MODID, "entity"), new Tuple<>(CaptchalogueableEntity.class, CaptchalogueableEntity::new));
+		register(new ResourceLocation(Minestuck.MODID, "itemstack"), CaptchalogueableItemStack.class, CaptchalogueableItemStack::new);
+		register(new ResourceLocation(Minestuck.MODID, "ghost"), CaptchalogueableGhost.class, CaptchalogueableGhost::new);
+		register(new ResourceLocation(Minestuck.MODID, "entity"), CaptchalogueableEntity.class, CaptchalogueableEntity::new);
 	}};
 
 	void grow(ICaptchalogueable other);
