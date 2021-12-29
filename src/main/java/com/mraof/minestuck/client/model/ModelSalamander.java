@@ -63,52 +63,52 @@ public class ModelSalamander extends ModelConsort
 	}
 	
 	@Override
-	public void render(Entity entity, float par2, float par3, float par4, float par5, float par6, float par7)
+	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
-		this.setRotationAngles(par2, par3, par4, par5, par6, par7, entity);
+		this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
 		
 		if (this.isChild)
 		{
 			float var8 = 2.0F;
 			GL11.glPushMatrix();
 			GL11.glScalef(1.5F / var8, 1.5F / var8, 1.5F / var8);
-			GL11.glTranslatef(0.0F, 16.0F * par7, 0.0F);
-			head.render(par7);
-			upperJaw.render(par7);
-			lowerJaw.render(par7);
-			hood.render(par7);
+			GL11.glTranslatef(0.0F, 16.0F * scale, 0.0F);
+			head.render(scale);
+			upperJaw.render(scale);
+			lowerJaw.render(scale);
+			hood.render(scale);
 			GL11.glPopMatrix();
 			GL11.glPushMatrix();
 			GL11.glScalef(1.0F / var8, 1.0F / var8, 1.0F / var8);
-			GL11.glTranslatef(0.0F, 24.0F * par7, 0.0F);
+			GL11.glTranslatef(0.0F, 24.0F * scale, 0.0F);
 //			if(hasArms)
 //			{
-//				this.rightArm.render(par7);
-//				this.leftArm.render(par7);
+//				this.rightArm.render(scale);
+//				this.leftArm.render(scale);
 //			}
-			this.body.render(par7);
-			this.rightLeg.render(par7);
-			this.leftLeg.render(par7);
-			this.upperTail.render(par7);
-			this.lowerTail.render(par7);
+			this.body.render(scale);
+			this.rightLeg.render(scale);
+			this.leftLeg.render(scale);
+			this.upperTail.render(scale);
+			this.lowerTail.render(scale);
 			GL11.glPopMatrix();
 		}
 		else
 		{
-			head.render(par7);
-			upperJaw.render(par7);
-			lowerJaw.render(par7);
-			hood.render(par7);
+			head.render(scale);
+			upperJaw.render(scale);
+			lowerJaw.render(scale);
+			hood.render(scale);
 //			if(hasArms)
 //			{
-//				this.rightArm.render(par7);
-//				this.leftArm.render(par7);
+//				this.rightArm.render(scale);
+//				this.leftArm.render(scale);
 //			}
-			this.body.render(par7);
-			this.rightLeg.render(par7);
-			this.leftLeg.render(par7);
-			this.upperTail.render(par7);
-			this.lowerTail.render(par7);
+			this.body.render(scale);
+			this.rightLeg.render(scale);
+			this.leftLeg.render(scale);
+			this.upperTail.render(scale);
+			this.lowerTail.render(scale);
 		}
 	}
 	/**

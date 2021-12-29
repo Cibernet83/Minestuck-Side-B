@@ -73,10 +73,9 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
+		cardGuiContainer.update(0, partialTicks);
+
 		this.drawDefaultBackground();
-		
-		emptySylladex.x = (width - GUI_WIDTH)/2 + 140;
-		emptySylladex.y = (height - GUI_HEIGHT)/2 + 175;
 		
 		int mouseWheel = Mouse.getDWheel();
 		float prevScroll = scroll;
@@ -161,11 +160,14 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 			if (hitSlots != null)
 			{
 				int[] slots = hitSlots.stream().mapToInt(Integer::intValue).toArray();
+				cardGuiContainer.peek(slots, 0);
 				ICaptchalogueable object = sylladex.peek(slots, 0);
 				if (object != null)
+				{
 					object.renderTooltip(this, mouseX, mouseY);
+				}
 			}
-		} // FIXME: fetchdeck inventory only saving on sync
+		}
 	}
 	
 	@Override

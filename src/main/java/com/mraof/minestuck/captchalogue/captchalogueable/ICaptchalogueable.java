@@ -4,6 +4,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.util.AlchemyUtils;
+import com.mraof.minestuck.util.Pair;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,11 +22,12 @@ import java.util.function.Function;
 
 public interface ICaptchalogueable
 {
-	HashMap<ResourceLocation, Tuple<Class<? extends ICaptchalogueable>, Function<NBTTagCompound, ? extends ICaptchalogueable>>> REGISTRY = new HashMap<ResourceLocation, Tuple<Class<? extends ICaptchalogueable>, Function<NBTTagCompound, ? extends ICaptchalogueable>>>()
+	HashMap<ResourceLocation, Tuple<Class<? extends ICaptchalogueable>, Function<NBTTagCompound, ? extends ICaptchalogueable>>> REGISTRY = new HashMap<>();
+	Pair<Boolean, Boolean> COOL_BEANS = new Pair<Boolean, Boolean>(false, false)
 	{{
-		put(new ResourceLocation(Minestuck.MODID, "itemstack"), new Tuple<>(CaptchalogueableItemStack.class, CaptchalogueableItemStack::new));
-		put(new ResourceLocation(Minestuck.MODID, "ghost"), new Tuple<>(CaptchalogueableGhost.class, CaptchalogueableGhost::new));
-		put(new ResourceLocation(Minestuck.MODID, "entity"), new Tuple<>(CaptchalogueableEntity.class, CaptchalogueableEntity::new));
+		register(new ResourceLocation(Minestuck.MODID, "itemstack"), CaptchalogueableItemStack.class, CaptchalogueableItemStack::new);
+		register(new ResourceLocation(Minestuck.MODID, "ghost"), CaptchalogueableGhost.class, CaptchalogueableGhost::new);
+		register(new ResourceLocation(Minestuck.MODID, "entity"), CaptchalogueableEntity.class, CaptchalogueableEntity::new);
 	}};
 
 	void grow(ICaptchalogueable other);
