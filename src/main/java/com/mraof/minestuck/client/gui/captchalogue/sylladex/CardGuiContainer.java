@@ -39,7 +39,7 @@ public class CardGuiContainer extends SylladexGuiContainer
 		GlStateManager.translate(x, y, 0);
 
 		if (!fetchable)
-			GlStateManager.color(0.5f, 0.5f, 0.5f);
+			GlStateManager.color(0.8f, 0.8f, 0.8f);
 
 		for (int i = 0; i < textureIndices.length; i++)
 		{

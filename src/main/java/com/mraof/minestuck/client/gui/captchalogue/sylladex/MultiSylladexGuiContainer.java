@@ -51,7 +51,7 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 				container.y = distanceY;
 
 				float containerSlope = container.height / container.width;
-				float relaxedMetric = Math.abs(slope) < containerSlope ? container.width : container.height;
+				float relaxedMetric = (Math.abs(slope) < containerSlope ? container.width : container.height) * 0.9f;
 				distanceX += moveX * relaxedMetric;
 				distanceY += moveY * relaxedMetric;
 			}
