@@ -43,7 +43,6 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	 */
 	private float mapX, mapY;
 	private float mapWidth = MAP_WIDTH, mapHeight = MAP_HEIGHT;
-	private float cardsWidth, cardsHeight;
 	/**
 	 * The scrolling
 	 */
@@ -53,14 +52,14 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	private boolean mousePressed;
 
 	private GuiButton emptySylladex;
+
+	private boolean updatedOnce;
 	
 	public GuiSylladex(MultiSylladex sylladex)
 	{
 		updateSylladex(sylladex);
 		this.mc = Minecraft.getMinecraft();
 		this.itemRender = mc.getRenderItem();
-		this.mapX = cardsWidth < MAP_WIDTH ? MAP_WIDTH / 2f - cardsWidth / 2f : MAP_WIDTH / 2f - 20;
-		this.mapY = cardsHeight < MAP_HEIGHT ? MAP_HEIGHT / 2f - cardsHeight / 2f : MAP_HEIGHT / 2f - 20;
 	}
 	
 	@Override
@@ -74,6 +73,13 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	public void drawScreen(int mx, int my, float partialTicks)
 	{
 		cardGuiContainer.update(0, partialTicks);
+
+		if (!updatedOnce)
+		{
+			mapX = cardGuiContainer.width < MAP_WIDTH ? (MAP_WIDTH - cardGuiContainer.width) / 2f : 20;
+			mapY = cardGuiContainer.height < MAP_HEIGHT ? (MAP_HEIGHT - cardGuiContainer.height) / 2f : 20;
+			updatedOnce = true;
+		}
 
 		this.drawDefaultBackground();
 		
@@ -241,8 +247,6 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	{
 		this.sylladex = sylladex;
 		this.cardGuiContainer = sylladex.generateSubContainer(null);
-		this.cardsWidth = cardGuiContainer.width;
-		this.cardsHeight = cardGuiContainer.height;
 	}
 	
 	/*public static class ModusSizeCard extends GuiCard
