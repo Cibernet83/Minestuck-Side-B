@@ -1,6 +1,12 @@
 package com.mraof.minestuck.tileentity;
 
+import com.mraof.minestuck.captchalogue.ModusLayer;
+import com.mraof.minestuck.captchalogue.ModusSettings;
+import com.mraof.minestuck.captchalogue.modus.MinestuckModi;
+import com.mraof.minestuck.item.ItemCaptchaCard;
 import com.mraof.minestuck.item.ItemModus;
+import com.mraof.minestuck.util.AlchemyUtils;
+import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.ItemStackHelper;
@@ -12,6 +18,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.ArrayList;
 
 public class TileEntityModusControlDeck extends TileEntity
 {
@@ -68,9 +76,25 @@ public class TileEntityModusControlDeck extends TileEntity
 		return MathHelper.ceil((float) getCartridgeCount() / (float) WIDTH);
 	}
 
+	public ModusLayer getLayer(int layer, int length)
+	{
+		int layerCount = getLayerCount();
+		int startIndex = (layerCount - layer - 1) * WIDTH;
+		ArrayList<ModusSettings> modi = new ArrayList<>();
+		for (int i = startIndex; i < startIndex + WIDTH; i++)
+		{
+			ItemStack stack = inventory.get(i);
+			if (!stack.isEmpty() && stack.getItem() instanceof ItemModus)
+				modi.add(new ModusSettings(((ItemModus)stack.getItem()).getModus(), SylladexUtils.getModusSettings(stack)));
+		}
+		if (modi.isEmpty())
+			modi.add(new ModusSettings(MinestuckModi.captchaCard, new NBTTagCompound()));
+		return new ModusLayer(length, modi.toArray(new ModusSettings[0]));
+	}
+
 	public boolean canInsertStack(ItemStack stack)
 	{
-		return !stack.isEmpty() && stack.getItem() instanceof ItemModus;
+		return !stack.isEmpty() && (stack.getItem() instanceof ItemModus || (stack.getItem() instanceof ItemCaptchaCard && AlchemyUtils.isEmptyCard(stack)));
 	}
 
 	@Override
@@ -95,7 +119,6 @@ public class TileEntityModusControlDeck extends TileEntity
 	{
 		return inventory;
 	}
-
 
 	@Override
 	public NBTTagCompound getUpdateTag() {

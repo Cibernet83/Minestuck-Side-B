@@ -1,15 +1,12 @@
 package com.mraof.minestuck.network;
 
 import com.mraof.minestuck.captchalogue.ModusLayer;
-import com.mraof.minestuck.captchalogue.ModusSettings;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
-import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
 import com.mraof.minestuck.util.SylladexUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -55,18 +52,7 @@ public class PacketModusControlDeckSync extends MinestuckPacket
 		int layerCount = te.getLayerCount();
 		ModusLayer[] modusLayers = new ModusLayer[layerCount];
 		for (int i = 0; i < layerCount; i++)
-		{
-			int modiInLayer = i == 0 ? te.getCartridgeCount() - (layerCount - 1) * TileEntityModusControlDeck.WIDTH : TileEntityModusControlDeck.WIDTH;
-
-			ModusSettings[] modi = new ModusSettings[modiInLayer];
-			for (int j = 0; j < modiInLayer; j++)
-			{
-				ItemStack modusStack = te.getInventory().get((layerCount - i - 1) * TileEntityModusControlDeck.WIDTH + j);
-				modi[j] = new ModusSettings(((ItemModus) modusStack.getItem()).getModus(), SylladexUtils.getModusSettings(modusStack));
-			}
-
-			modusLayers[i] = new ModusLayer(i + 1 == layerCount ? -1 : lengths[i], modi);
-		}
+			modusLayers[i] = te.getLayer(i, i + 1 == layerCount ? -1 : lengths[i]);
 
 		// Eject previous sylladex
 		MultiSylladex sylladex = SylladexUtils.getSylladex(player);
