@@ -20,8 +20,8 @@ public class CardGuiContainer extends SylladexGuiContainer
 	{
 		this.textureIndices = textureIndices;
 		this.object = object;
-		right = 21;
-		bottom = 26;
+		this.width = 21;
+		this.height = 26;
 	}
 
 	@Override
@@ -30,11 +30,11 @@ public class CardGuiContainer extends SylladexGuiContainer
 	@Override
 	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks) // TODO: Darken unusable cards
 	{
+		int width = (int) this.width;
+		int height = (int) this.height;
+
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
-
-		int width = (int) getWidth();
-		int height = (int) getHeight();
 
 		for (int i = 0; i < textureIndices.length; i++)
 		{
@@ -51,21 +51,27 @@ public class CardGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
+	public void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	{
+		draw(gui, mouseX, mouseY, partialTicks);
+	}
+
+	@Override
 	public ArrayList<Integer> hit(float x, float y)
 	{
 		x -= this.x;
 		y -= this.y;
 
-		if (x < left || x > right || y < top || y > bottom)
+		if (x < 0 || x > width || y < 0 || y > height)
 			return null;
 		else
 			return new ArrayList<>();
 	}
 
 	@Override
-	public CardGuiContainer peek(int[] slots, int index)
+	public boolean isEmpty()
 	{
-		return this;
+		return false;
 	}
 
 	public static class CardTextureIndex

@@ -8,41 +8,11 @@ import java.util.ArrayList;
 @SideOnly(Side.CLIENT)
 public abstract class SylladexGuiContainer
 {
-	protected float x, y;
-	protected float left, right, top, bottom; // Relative to x, y
-
-	public float getLeft()
-	{
-		return x - left;
-	}
-
-	public float getRight()
-	{
-		return x + right;
-	}
-
-	public float getTop()
-	{
-		return y - top;
-	}
-
-	public float getBottom()
-	{
-		return y + bottom;
-	}
-
-	public float getWidth()
-	{
-		return left + right;
-	}
-
-	public float getHeight()
-	{
-		return top + bottom;
-	}
+	protected float x, y, width, height;
 
 	public abstract void update(int depth, float partialTicks);
 	public abstract void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks);
+	public abstract void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks);
 	public abstract ArrayList<Integer> hit(float x, float y);
-	public abstract CardGuiContainer peek(int[] slots, int index);
+	public abstract boolean isEmpty();
 }
