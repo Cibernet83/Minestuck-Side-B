@@ -762,7 +762,7 @@ public class MinestuckItems
 		}
 
 		for (Modus modus : MinestuckModi.modi)
-			new ItemModus(modus); // sure lol
+			modus.makeItem();
 
 		for (IRegistryBlock block : blocks)
 		{

@@ -3,6 +3,7 @@ package com.mraof.minestuck.captchalogue.modus;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
+import com.mraof.minestuck.item.ItemModus;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -21,6 +22,12 @@ public class ModusCaptchaCard extends Modus
 
 	@Override
 	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	{
+		return null;
+	}
+
+	@Override
+	public ItemModus makeItem()
 	{
 		return null;
 	}

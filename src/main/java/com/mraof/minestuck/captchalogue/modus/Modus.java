@@ -7,6 +7,7 @@ import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainer;
+import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.util.IRegistryObject;
 import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.resources.I18n;
@@ -139,6 +140,11 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	{
 		setRegistryName(regName);
 		registry.register(this);
+	}
+
+	public ItemModus makeItem()
+	{
+		return new ItemModus(this);
 	}
 
 	/**
