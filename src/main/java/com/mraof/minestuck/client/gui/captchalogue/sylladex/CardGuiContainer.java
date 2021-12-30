@@ -15,11 +15,13 @@ public class CardGuiContainer extends SylladexGuiContainer
 {
 	private final ICaptchalogueable object;
 	private final CardTextureIndex[] textureIndices;
+	private final boolean fetchable;
 
-	public CardGuiContainer(CardTextureIndex[] textureIndices, ICaptchalogueable object)
+	public CardGuiContainer(CardTextureIndex[] textureIndices, ICaptchalogueable object, boolean fetchable)
 	{
 		this.textureIndices = textureIndices;
 		this.object = object;
+		this.fetchable = fetchable;
 		this.width = 21;
 		this.height = 26;
 	}
@@ -36,6 +38,9 @@ public class CardGuiContainer extends SylladexGuiContainer
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
 
+		if (!fetchable)
+			GlStateManager.color(0.5f, 0.5f, 0.5f);
+
 		for (int i = 0; i < textureIndices.length; i++)
 		{
 			Minecraft.getMinecraft().getTextureManager().bindTexture(textureIndices[i].texture);
@@ -46,6 +51,9 @@ public class CardGuiContainer extends SylladexGuiContainer
 
 		if (object != null)
 			object.draw(gui, mouseX, mouseY, partialTicks);
+
+		if (!fetchable)
+			GlStateManager.color(1f, 1f, 1f);
 
 		GlStateManager.popMatrix();
 	}

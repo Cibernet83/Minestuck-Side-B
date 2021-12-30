@@ -1,5 +1,6 @@
 package com.mraof.minestuck.captchalogue.sylladex;
 
+import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
@@ -11,8 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.lang.reflect.InvocationTargetException;
 
 public class CardSylladex implements ISylladex
 {
@@ -148,8 +147,8 @@ public class CardSylladex implements ISylladex
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public CardGuiContainer generateSubContainer(CardGuiContainer.CardTextureIndex[] textureIndices)
+	public CardGuiContainer generateSubContainer(int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
-		return new CardGuiContainer(textureIndices, object);
+		return new CardGuiContainer(textureIndices, object, player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).getSylladex().canGet(slots, 0));
 	}
 }

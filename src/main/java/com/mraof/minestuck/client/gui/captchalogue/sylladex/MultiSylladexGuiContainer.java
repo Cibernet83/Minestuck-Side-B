@@ -15,12 +15,16 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 	protected final SylladexList<? extends ISylladex> sylladices;
 	protected final ArrayList<SylladexGuiContainer> containers = new ArrayList<>();
 
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer(SylladexList<SYLLADEX> sylladices, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer(SylladexList<SYLLADEX> sylladices, int[] slots, int index, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
 	{
 		this.sylladices = sylladices;
 
+		int i = 0;
 		for (ISylladex sylladex : sylladices)
-			containers.add(sylladex.generateSubContainer(firstTextureIndices != null && sylladex == sylladices.getFirstWithSlots() ? firstTextureIndices : lowerTextureIndices));
+		{
+			slots[index] = i++;
+			containers.add(sylladex.generateSubContainer(slots, index + 1, firstTextureIndices != null && sylladex == sylladices.getFirstWithSlots() ? firstTextureIndices : lowerTextureIndices));
+		}
 	}
 
 	@Override

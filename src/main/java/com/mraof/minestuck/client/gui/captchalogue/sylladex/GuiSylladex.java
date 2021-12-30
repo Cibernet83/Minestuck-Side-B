@@ -246,7 +246,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	public void updateSylladex(MultiSylladex sylladex)
 	{
 		this.sylladex = sylladex;
-		this.cardGuiContainer = sylladex.generateSubContainer(null);
+		this.cardGuiContainer = sylladex.generateSubContainer(new int[sylladex.getModusLayers().length], 0, null);
 	}
 	
 	/*public static class ModusSizeCard extends GuiCard

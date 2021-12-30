@@ -145,9 +145,9 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 * Get a new MultiSylladexGuiContainer or a subtype that draws different positions or animations.
 	 */
 	@SideOnly(Side.CLIENT)
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices, NBTTagCompound settings)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int index, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
 	{
-		return new MultiSylladexGuiContainer(sylladices, firstTextureIndices, lowerTextureIndices);
+		return new MultiSylladexGuiContainer(sylladices, slots, index, firstTextureIndices, lowerTextureIndices);
 	}
 
 	@SideOnly(Side.CLIENT)

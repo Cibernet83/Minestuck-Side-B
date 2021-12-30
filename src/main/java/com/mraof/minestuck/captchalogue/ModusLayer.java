@@ -124,8 +124,8 @@ public class ModusLayer
 	}
 
 	@SideOnly(Side.CLIENT)
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, CardGuiContainer.CardTextureIndex[] textureIndices)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
-		return modi[0].getGuiContainer(sylladices, textureIndices, getTextureIndices());
+		return modi[0].getGuiContainer(sylladices, slots, index, textureIndices, getTextureIndices());
 	}
 }
