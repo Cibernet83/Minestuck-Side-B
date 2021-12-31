@@ -27,12 +27,11 @@ import java.util.List;
 public class CaptchalogueableEntity implements ICaptchalogueable
 {
 	private NBTTagCompound entityNbt;
-	private String name;
 
 	public CaptchalogueableEntity(Entity entity)
 	{
 		entityNbt = new NBTTagCompound();
-		//TODO players crash the game :(
+		//TODO players/e dragon crash the game :(
 		entityNbt.setString("id", EntityRegistry.getEntry(entity.getClass()).getRegistryName().toString());
 		entity.writeToNBT(entityNbt);
 
@@ -41,13 +40,10 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 			entityNbt.removeTag("UUIDLeast");
 			entityNbt.removeTag("UUIDMost");
 		}
-		name = entity.getName();
-		entityNbt.setString("EntityName", name);
 	}
 
 	public CaptchalogueableEntity(NBTTagCompound nbtTagCompound)
 	{
-		name = nbtTagCompound.getString("EntityName");
 		entityNbt = nbtTagCompound;
 	}
 
@@ -93,28 +89,33 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getDisplayName()
 	{
-		return name;
+		Entity entity = AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);
+		return entity.getName();
 	}
 
 	@Override
+	@Deprecated //only used in debugging, use getDisplayName instead
 	public String getName()
 	{
-		return name;
+		return entityNbt.getString("id");
 	}
 
 	@Override
 	public ITextComponent getTextComponent()
 	{
-		return new TextComponentString(name);
+
+		Entity entity = AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);
+		return entity.getDisplayName();
 	}
 
 	@Override
 	public void renderTooltip(GuiSylladex gui, int x, int y)
 	{
 		List<String> tooltip = new ArrayList<>();
-		tooltip.add(name);
+		tooltip.add(getDisplayName());
 
 		gui.drawHoveringText(tooltip, x, y);
 	}
