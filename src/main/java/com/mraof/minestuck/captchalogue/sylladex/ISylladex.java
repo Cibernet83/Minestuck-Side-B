@@ -24,7 +24,7 @@ public interface ISylladex
 	int getTotalSlots();
 	NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)
-	SylladexGuiContainer generateSubContainer(CardGuiContainer.CardTextureIndex[] textureIndices);
+	SylladexGuiContainer generateSubContainer(int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices);
 
 	static MultiSylladex readFromNBT(EntityPlayer player, NBTTagCompound nbt)
 	{

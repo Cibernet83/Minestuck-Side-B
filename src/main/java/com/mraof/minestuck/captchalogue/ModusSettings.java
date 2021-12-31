@@ -67,9 +67,9 @@ public class ModusSettings
 	}
 
 	@SideOnly(Side.CLIENT)
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, int[] slots, int index, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
 	{
-		return modus.getGuiContainer(sylladices, firstTextureIndices, lowerTextureIndices, settings);
+		return modus.getGuiContainer(sylladices, settings, slots, index, firstTextureIndices, lowerTextureIndices);
 	}
 
 	@SideOnly(Side.CLIENT)

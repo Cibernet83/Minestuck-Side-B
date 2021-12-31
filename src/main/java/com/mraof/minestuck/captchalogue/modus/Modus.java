@@ -7,6 +7,7 @@ import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainer;
+import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.util.IRegistryObject;
 import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.resources.I18n;
@@ -141,13 +142,18 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 		registry.register(this);
 	}
 
+	public ItemModus makeItem()
+	{
+		return new ItemModus(this);
+	}
+
 	/**
 	 * Get a new MultiSylladexGuiContainer or a subtype that draws different positions or animations.
 	 */
 	@SideOnly(Side.CLIENT)
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices, NBTTagCompound settings)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int index, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
 	{
-		return new MultiSylladexGuiContainer(sylladices, firstTextureIndices, lowerTextureIndices);
+		return new MultiSylladexGuiContainer(sylladices, slots, index, firstTextureIndices, lowerTextureIndices);
 	}
 
 	@SideOnly(Side.CLIENT)

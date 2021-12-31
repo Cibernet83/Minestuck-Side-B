@@ -3,6 +3,7 @@ package com.mraof.minestuck.client.gui.captchalogue.sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -14,12 +15,16 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 	protected final SylladexList<? extends ISylladex> sylladices;
 	protected final ArrayList<SylladexGuiContainer> containers = new ArrayList<>();
 
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer(SylladexList<SYLLADEX> sylladices, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer(SylladexList<SYLLADEX> sylladices, int[] slots, int index, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
 	{
 		this.sylladices = sylladices;
 
+		int i = 0;
 		for (ISylladex sylladex : sylladices)
-			containers.add(sylladex.generateSubContainer(firstTextureIndices != null && sylladex == sylladices.getFirstWithSlots() ? firstTextureIndices : lowerTextureIndices));
+		{
+			slots[index] = i++;
+			containers.add(sylladex.generateSubContainer(slots, index + 1, firstTextureIndices != null && sylladex == sylladices.getFirstWithSlots() ? firstTextureIndices : lowerTextureIndices));
+		}
 	}
 
 	@Override
@@ -27,15 +32,52 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 	{
 		if (!containers.isEmpty())
 		{
-			float width = -containers.get(0).left;
+			float theta = (-depth + 1) * (float)Math.PI / 3f;
+			if (theta < 0)
+				theta += (float)Math.PI;
+			float moveX = MathHelper.cos(theta);
+			float moveY = MathHelper.sin(theta);
+			float slope = moveY / moveX;
+
+			float distanceX = 0;
+			float distanceY = 0;
 			for (SylladexGuiContainer container : containers)
 			{
-				container.x = width;
+				if (container.isEmpty())
+					continue;
 				container.update(depth + 1, partialTicks);
-				width += container.getWidth() + 5;
+				container.x = distanceX;
+				if (slope < 0) container.x -= container.width;
+				container.y = distanceY;
+
+				float containerSlope = container.height / container.width;
+				float relaxedMetric = (Math.abs(slope) < containerSlope ? container.width : container.height) * 0.9f;
+				distanceX += moveX * relaxedMetric;
+				distanceY += moveY * relaxedMetric;
+			}
+
+			// Constrain bounding box
+			width = height = 0;
+			if (slope < 0) // Origin is at top-left, backwards
+			{
+				for (SylladexGuiContainer container : containers)
+				{
+					width = Math.min(width, container.x);
+					height = Math.max(height, container.y + container.height);
+				}
+				width = -width;
+				for (SylladexGuiContainer container : containers) // Fix origin
+					container.x += width;
+			}
+			else // Origin is at top-right, how it should be
+			{
+				for (SylladexGuiContainer container : containers)
+				{
+					width = Math.max(width, container.x + container.width);
+					height = Math.max(height, container.y + container.height);
+				}
 			}
 		}
-		recalculateBoundingBox();
 	}
 
 	@Override
@@ -51,12 +93,23 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
+	public void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	{
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x, y, 0);
+
+		containers.get(slots[index]).drawPeek(slots, index + 1, gui, mouseX, mouseY, partialTicks);
+
+		GlStateManager.popMatrix();
+	}
+
+	@Override
 	public ArrayList<Integer> hit(float x, float y)
 	{
 		x -= this.x;
 		y -= this.y;
 
-		if (x < left || x > right || y < top || y > bottom)
+		if (x < 0 || x > width || y < 0 || y > height)
 			return null;
 
 		for (int i = 0; i < containers.size(); i++)
@@ -72,20 +125,11 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
-	public CardGuiContainer peek(int[] slots, int index)
+	public boolean isEmpty()
 	{
-		return containers.get(slots[index]).peek(slots, index);
-	}
-
-	protected void recalculateBoundingBox()
-	{
-		left = right = top = bottom = 0;
 		for (SylladexGuiContainer container : containers)
-		{
-			left = Math.min(left, container.getLeft());
-			right = Math.max(right, container.getRight());
-			top = Math.min(top, container.getTop());
-			bottom = Math.max(bottom, container.getBottom());
-		}
+			if (!container.isEmpty())
+				return false;
+		return true;
 	}
 }

@@ -27,6 +27,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -251,5 +252,34 @@ public class MinestuckUtils
 	public static <T> Iterable<T> reverse(LinkedList<T> list)
     {
         return list::descendingIterator;
+    }
+
+    public static <T> Iterable<T> reverse(T[] list)
+    {
+        return () -> new DescendingArrayIterator<>(list);
+    }
+
+    public static class DescendingArrayIterator<T> implements Iterator<T> // This is not a safe class :D
+    {
+        private T[] list;
+        private int i;
+
+        public DescendingArrayIterator(T[] list)
+        {
+            this.list = list;
+            this.i = list.length - 1;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            return i >= 0;
+        }
+
+        @Override
+        public T next()
+        {
+            return list[i--];
+        }
     }
 }

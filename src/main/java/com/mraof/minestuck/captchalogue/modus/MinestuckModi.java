@@ -13,6 +13,8 @@ public class MinestuckModi
 {
 	public static final ArrayList<Modus> modi = new ArrayList<>();
 
+	public static final Modus captchaCard = new ModusCaptchaCard("captchaCard");
+
 	//beta
 	public static final Modus stack = new ModusStack("stack");
 	public static final Modus queue = new ModusQueue("queue");

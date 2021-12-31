@@ -115,9 +115,9 @@ public abstract class MultiSylladex implements ISylladex
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MultiSylladexGuiContainer generateSubContainer(CardGuiContainer.CardTextureIndex[] textureIndices)
+	public MultiSylladexGuiContainer generateSubContainer(int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
-		return modi.getGuiContainer(getSylladices(), textureIndices);
+		return modi.getGuiContainer(getSylladices(), slots, index, textureIndices);
 	}
 
 	@SideOnly(Side.CLIENT)
