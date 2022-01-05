@@ -54,7 +54,7 @@ public class SburbClient extends ButtonListProgram {
 		else if(buttonName.equals("computer.buttonClose"))
 			SkaiaClient.sendCloseRequest(te, te.getData(getId()).getBoolean("isResuming")?-1:SkaiaClient.getClientConnection(te.ownerId).getServerId(), true);
 		else if(buttonName.equals("computer.selectColor"))
-			ClientProxy.getClientPlayer().openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.COLOR.ordinal(), te.getWorld(), te.getPos().getX(), te.getPos().getY(), te.getPos().getZ());
+			ClientProxy.getClientPlayerEntity().openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.COLOR.ordinal(), te.getWorld(), te.getPos().getX(), te.getPos().getY(), te.getPos().getZ());
 	}
 	
 	@Override

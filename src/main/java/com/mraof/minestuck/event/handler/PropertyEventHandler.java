@@ -5,8 +5,8 @@ import com.mraof.minestuck.item.IPropertyWeapon;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.weapon.MSShieldBase;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -106,7 +106,7 @@ public class PropertyEventHandler
 	public static void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event)
 	{
 		EntityPlayer player = event.getEntityPlayer();
-		MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.LEFT_CLICK_EMPTY, player));
+		MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.LEFT_CLICK_EMPTY, player));
 	}
 
 	@SubscribeEvent

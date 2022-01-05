@@ -7,8 +7,8 @@ import com.mraof.minestuck.item.IPropertyWeapon;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.properties.beams.IPropertyBeam;
 import com.mraof.minestuck.item.weapon.IBeamStats;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -243,7 +243,7 @@ public class Beam
 		beam.world.getCapability(MinestuckCapabilities.BEAM_DATA, null).addBeam(beam);
 		if(!beam.world.isRemote)
 			for(EntityPlayer player : beam.world.playerEntities)
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_BEAMS, beam.world), player);
+				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_BEAMS, beam.world), player);
 	}
 
 	public void readFromNBT(NBTTagCompound nbt)

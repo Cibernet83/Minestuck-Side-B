@@ -3,10 +3,10 @@ package com.mraof.minestuck.network.skaianet;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiComputer;
 import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.MinestuckPacket.Type;
-import com.mraof.minestuck.network.PacketSkaianetInfo;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.MinestuckMessage.Type;
+import com.mraof.minestuck.network.message.MessageSkaianetInfo;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -54,8 +54,8 @@ public class SkaiaClient
 		boolean b = openServers.get(computer.ownerId) != null;
 		if(!b)
 		{
-			MinestuckPacket packet = MinestuckPacket.makePacket(Type.SBURB_INFO, computer.ownerId);
-			MinestuckChannelHandler.sendToServer(packet);
+			MinestuckMessage packet = MinestuckMessage.makePacket(Type.SBURB_INFO, computer.ownerId);
+			MinestuckNetwork.sendToServer(packet);
 			te = computer;
 		}
 		return b;
@@ -123,14 +123,14 @@ public class SkaiaClient
 	
 	public static void sendConnectRequest(TileEntityComputer te, int otherPlayer, boolean isClient)	//Used for both connect, open server and resume
 	{
-		MinestuckPacket packet = MinestuckPacket.makePacket(Type.SBURB_CONNECT, ComputerData.createData(te), otherPlayer, isClient);
-		MinestuckChannelHandler.sendToServer(packet);
+		MinestuckMessage packet = MinestuckMessage.makePacket(Type.SBURB_CONNECT, ComputerData.createData(te), otherPlayer, isClient);
+		MinestuckNetwork.sendToServer(packet);
 	}
 	
 	public static void sendCloseRequest(TileEntityComputer te, int otherPlayer, boolean isClient)
 	{
-		MinestuckPacket packet = MinestuckPacket.makePacket(Type.SBURB_CLOSE, te.ownerId, otherPlayer, isClient);
-		MinestuckChannelHandler.sendToServer(packet);
+		MinestuckMessage packet = MinestuckMessage.makePacket(Type.SBURB_CLOSE, te.ownerId, otherPlayer, isClient);
+		MinestuckNetwork.sendToServer(packet);
 	}
 	
 	//Methods used by the SkaianetInfoPacket.
@@ -152,7 +152,7 @@ public class SkaiaClient
 		return c;
 	}
 	
-	public static void consumePacket(PacketSkaianetInfo data)
+	public static void consumePacket(MessageSkaianetInfo data)
 	{
 		if(data.landChains != null)
 		{

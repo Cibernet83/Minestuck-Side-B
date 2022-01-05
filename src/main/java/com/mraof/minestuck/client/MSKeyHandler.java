@@ -3,8 +3,8 @@ package com.mraof.minestuck.client;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.client.gui.GuiStrifeSwitcher;
 import com.mraof.minestuck.event.handler.StrifeEventHandler;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
@@ -56,7 +56,7 @@ public class MSKeyHandler
 					GuiStrifeSwitcher.showSwitcher = true;
 				else if(!player.getHeldItemMainhand().isEmpty() && !player.getCapability(MinestuckCapabilities.STRIFE_DATA, null).isArmed())
 				{
-					MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.ASSIGN_STRIFE, EnumHand.MAIN_HAND));
+					MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.ASSIGN_STRIFE, EnumHand.MAIN_HAND));
 				}
 			}
 		} else offhandMode = null;

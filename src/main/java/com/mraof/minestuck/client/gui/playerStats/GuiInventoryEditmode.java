@@ -5,9 +5,9 @@ import java.util.Calendar;
 
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.inventory.ContainerEditmode;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.MinestuckPacket.Type;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.MinestuckMessage.Type;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
@@ -56,18 +56,18 @@ public class GuiInventoryEditmode extends GuiPlayerStatsContainer
 	{
 		if(ycor >= yOffset + arrowY && ycor < yOffset + arrowY + 18)
 		{
-			MinestuckPacket packet = null;
+			MinestuckMessage packet = null;
 			if(less && xcor >= xOffset + leftArrowX && xcor < xOffset + leftArrowX + 18)
 			{
 				mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-				packet = MinestuckPacket.makePacket(Type.INVENTORY, 0, false);
+				packet = MinestuckMessage.makePacket(Type.INVENTORY, 0, false);
 			} else if(more && xcor >= xOffset + rightArrowX && xcor < xOffset + rightArrowX + 18)
 			{
 				mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-				packet = MinestuckPacket.makePacket(Type.INVENTORY, 0, true);
+				packet = MinestuckMessage.makePacket(Type.INVENTORY, 0, true);
 			}
 			if(packet != null)
-				MinestuckChannelHandler.sendToServer(packet);
+				MinestuckNetwork.sendToServer(packet);
 		}
 		super.mouseClicked(xcor, ycor, mouseButton);
 	}

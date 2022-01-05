@@ -12,8 +12,8 @@ import com.mraof.minestuck.badges.heroClass.BadgeHeroClass;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.entity.consort.EnumConsort;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
 import com.mraof.minestuck.util.EnumLunarSway;
 import com.mraof.minestuck.util.IdentifierHandler;
@@ -341,9 +341,9 @@ public class GodTierData implements IGodTierData
 	public void update()
 	{
 		if(owner.isUser())
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_DATA_CLIENT));
+			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_DATA_CLIENT));
 		else
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_DATA_SERVER, owner), owner);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_DATA_SERVER, owner), owner);
 	}
 
 	@Override

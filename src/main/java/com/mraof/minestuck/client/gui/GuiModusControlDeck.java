@@ -3,8 +3,8 @@ package com.mraof.minestuck.client.gui;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
 import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.gui.GuiButton;
@@ -128,8 +128,8 @@ public class GuiModusControlDeck extends GuiScreen
 			int[] lengths = new int[lengthFields.length];
 			for (int i = 0; i < lengths.length; i++)
 				lengths[i] = Integer.parseInt(lengthFields[i].getText());
-			MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CONTROL_DECK_SYNC, te.getPos(), lengths);
-			MinestuckChannelHandler.sendToServer(packet);
+			MinestuckMessage packet = MinestuckMessage.makePacket(MinestuckMessage.Type.CONTROL_DECK_SYNC, te.getPos(), lengths);
+			MinestuckNetwork.sendToServer(packet);
 		}
 	}
 

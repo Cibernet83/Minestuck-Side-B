@@ -3,8 +3,8 @@ package com.mraof.minestuck.event.handler;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.armor.ItemPogoBoots;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -114,7 +114,7 @@ public class ArmorEventHandler
 		{
 			event.getEntityPlayer().moveRelative(event.getMovementInput().moveStrafe*0.5f, 1, event.getMovementInput().moveForward*0.5f, 0.165f);
 			event.getEntityPlayer().fallDistance *= 0.8f;
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.ROCKET_BOOTS));
+			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.ROCKET_BOOTS));
 		}
 	}
 

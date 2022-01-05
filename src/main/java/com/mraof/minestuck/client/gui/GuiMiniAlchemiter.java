@@ -6,8 +6,8 @@ import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.client.util.GuiUtil;
 import com.mraof.minestuck.inventory.miniMachines.ContainerMiniAlchemiter;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.tileentity.TileEntityMiniAlchemiter;
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.resources.I18n;
@@ -90,7 +90,7 @@ public class GuiMiniAlchemiter extends GuiMiniSburbMachine implements IGristSele
 		te.selectedGrist = grist;
 
 		mc.currentScreen = this;
-		MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.MACHINE_STATE, grist));
+		MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.MACHINE_STATE, grist));
 	}
 
 	@Override

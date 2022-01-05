@@ -2,8 +2,8 @@ package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.inventory.ContainerMachineChasis;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.tileentity.TileEntityMachineChassis;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -42,7 +42,7 @@ public class GuiMachineChasis extends GuiContainer
         super.actionPerformed(button);
         if(button == goButton)
         {
-            MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.MACHINE_CHASSIS, new Object[] {tileEntity}));
+            MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.MACHINE_CHASSIS, new Object[] {tileEntity}));
         }
 
     }

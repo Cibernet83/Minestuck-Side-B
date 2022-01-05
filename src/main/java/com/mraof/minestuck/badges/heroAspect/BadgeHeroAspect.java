@@ -8,8 +8,8 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.MSGTKeyHandler;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
@@ -87,7 +87,7 @@ public abstract class BadgeHeroAspect extends BadgeLevel
 		{
 			findShards(player, true);
 			player.experienceLevel -= requiredXp;
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.ADD_PLAYER_XP, -requiredXp), player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.ADD_PLAYER_XP, -requiredXp), player);
 			return true;
 		}
 		return false;

@@ -1,7 +1,7 @@
 package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.client.gui.GuiComputer;
-import com.mraof.minestuck.network.PacketClearMessage;
+import com.mraof.minestuck.network.message.MessageClearMessage;
 import com.mraof.minestuck.network.skaianet.ComputerData;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import net.minecraft.client.Minecraft;
@@ -46,7 +46,7 @@ public abstract class ButtonListProgram extends ComputerProgram {
 			index++;
 		else if(data != null) {
 			if(!te.latestmessage.get(this.getId()).isEmpty())
-				PacketClearMessage.send(ComputerData.createData(te), this.getId());
+				MessageClearMessage.send(ComputerData.createData(te), this.getId());
 			onButtonPressed(te, data.string, data.formatData);
 		}
 	}

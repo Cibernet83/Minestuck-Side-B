@@ -1,8 +1,8 @@
 package com.mraof.minestuck.potions;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -50,7 +50,7 @@ public abstract class PotionMouseSensitivityAdjusterBase extends MSPotionBase
 			else;
 		else
 			if (entityLivingBase instanceof EntityPlayer)
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.SET_MOUSE_SENSITIVITY, getIdFromPotion(this)), (EntityPlayer) entityLivingBase);
+				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.SET_MOUSE_SENSITIVITY, getIdFromPotion(this)), (EntityPlayer) entityLivingBase);
 	}
 
 	public static void resetMouseSensitivity(EntityLivingBase entityLivingBase)
@@ -61,7 +61,7 @@ public abstract class PotionMouseSensitivityAdjusterBase extends MSPotionBase
 			else;
 		else
 			if (entityLivingBase instanceof EntityPlayer)
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.SET_MOUSE_SENSITIVITY, -1), (EntityPlayer) entityLivingBase);
+				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.SET_MOUSE_SENSITIVITY, -1), (EntityPlayer) entityLivingBase);
 	}
 
 	public static void applyNextSensitivity(EntityLivingBase entityLivingBase, @Nullable PotionMouseSensitivityAdjusterBase removingPotion)

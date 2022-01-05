@@ -8,8 +8,8 @@ import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -121,7 +121,7 @@ public class BadgeBuilder extends BadgeLevel
 		{
 			if (cap.getEditPos1() != null)
 			{
-				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.EDIT_FILL_BLOCKS, cap.getEditPos1(), cap.getEditPos2(), cap.getEditTraceHit(), cap.getEditTraceFacing()));
+				MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.EDIT_FILL_BLOCKS, cap.getEditPos1(), cap.getEditPos2(), cap.getEditTraceHit(), cap.getEditTraceFacing()));
 			}
 			cap.setEditPos1(null);
 			cap.setEditPos2(null);

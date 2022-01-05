@@ -7,8 +7,8 @@ import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.event.LivingShockEvent;
 import com.mraof.minestuck.event.handler.CommonEventHandler;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.util.MinestuckSoundHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -70,7 +70,7 @@ public class PropertyShock extends WeaponProperty
 			if(player == null || target == player)
 				((EntityPlayer) target).getCooldownTracker().setCooldown(target.getHeldItemOffhand().getItem(), time);
 			((EntityPlayer) target).resetCooldown();
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.RESET_COOLDOWN), (EntityPlayer) target);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.RESET_COOLDOWN), (EntityPlayer) target);
 		}
 
 		if(!player.world.isRemote)

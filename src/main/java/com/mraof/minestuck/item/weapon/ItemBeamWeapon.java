@@ -6,8 +6,8 @@ import com.mraof.minestuck.capabilities.Beam;
 import com.mraof.minestuck.item.properties.PropertyDualWield;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -115,7 +115,7 @@ public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 						((EntityPlayer) entityIn).getCooldownTracker().setCooldown(stack.getItem(), beam.getDuration());
 					beam.releaseBeam();
 					for(EntityPlayer player : beam.world.playerEntities)
-						MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_BEAMS, beam.world), player);
+						MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_BEAMS, beam.world), player);
 				}
 			}
 

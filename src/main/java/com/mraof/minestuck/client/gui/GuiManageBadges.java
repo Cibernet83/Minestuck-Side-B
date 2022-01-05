@@ -6,8 +6,8 @@ import com.mraof.minestuck.badges.MasterBadge;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.Minecraft;
@@ -292,12 +292,12 @@ public class GuiManageBadges extends GuiScreen
 		if(hoveredBadge instanceof MasterBadge)
 		{
 			if((data.isBadgeActive(MinestuckBadges.BADGE_OVERLORD) || data.hasBadge(hoveredBadge) && data.getMasterBadge() != null))
-				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.TOGGLE_BADGE, hoveredBadge));
+				MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.TOGGLE_BADGE, hoveredBadge));
 		}
 		else
 		{
 			if(data.hasBadge(hoveredBadge))
-				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.TOGGLE_BADGE, hoveredBadge));
+				MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.TOGGLE_BADGE, hoveredBadge));
 		}
 	}
 

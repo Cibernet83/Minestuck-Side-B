@@ -2,7 +2,7 @@ package com.mraof.minestuck.capabilities.api;
 
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.SoulData;
-import com.mraof.minestuck.capabilities.IBadgeEffect;
+import com.mraof.minestuck.network.ISerializableDataType;
 import com.mraof.minestuck.capabilities.IMinestuckCapabilityBase;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
@@ -114,5 +114,5 @@ public interface IBadgeEffects extends IMinestuckCapabilityBase<EntityLivingBase
 	// ----- Data
 	void setOwner(EntityLivingBase entity);
 
-	void receive(String key, IBadgeEffect value);
+	void receive(String key, ISerializableDataType value);
 }

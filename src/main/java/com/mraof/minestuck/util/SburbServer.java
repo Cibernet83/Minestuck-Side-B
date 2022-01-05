@@ -3,8 +3,8 @@ package com.mraof.minestuck.util;
 import java.util.ArrayList;
 
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.network.skaianet.ComputerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaiaClient;
@@ -49,8 +49,8 @@ public class SburbServer extends ButtonListProgram
 	public void onButtonPressed(TileEntityComputer te, String buttonName, Object[] data) {
 		if(buttonName.equals("computer.buttonEdit") || buttonName.equals("computer.buttonGive"))
 		{
-			MinestuckPacket packet = MinestuckPacket.makePacket(MinestuckPacket.Type.CLIENT_EDIT, te.ownerId, te.getData(getId()).getInteger("connectedClient"));
-			MinestuckChannelHandler.sendToServer(packet);
+			MinestuckMessage packet = MinestuckMessage.makePacket(MinestuckMessage.Type.CLIENT_EDIT, te.ownerId, te.getData(getId()).getInteger("connectedClient"));
+			MinestuckNetwork.sendToServer(packet);
 		} else if(buttonName.equals("computer.buttonResume"))
 			SkaiaClient.sendConnectRequest(te, SkaiaClient.getAssociatedPartner(te.ownerId, false), false);
 		else if(buttonName.equals("computer.buttonOpen"))

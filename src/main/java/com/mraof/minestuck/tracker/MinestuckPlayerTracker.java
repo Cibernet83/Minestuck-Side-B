@@ -8,10 +8,10 @@ import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.ModusSettings;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.captchalogue.modus.Modus;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.MinestuckPacket.Type;
-import com.mraof.minestuck.network.PacketPlayerData;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.MinestuckMessage.Type;
+import com.mraof.minestuck.network.message.MessagePlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
@@ -82,20 +82,20 @@ public class MinestuckPlayerTracker
 				Debug.warnf("Couldn't create a modus by the name %s.", MinestuckConfig.defaultModusTypes[index]);
 		}
 		else if(SylladexUtils.getSylladex(player) != null)
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.UPDATE_SYLLADEX, player), player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(Type.UPDATE_SYLLADEX, player), player);
 		
 		updateGristCache(identifier);
 		updateTitle(player);
 		updateEcheladder(player, true);
-		MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.BOONDOLLAR, MinestuckPlayerData.getData(identifier).boondollars), player);
+		MinestuckNetwork.sendTo(MinestuckMessage.makePacket(Type.PLAYER_DATA, MessagePlayerData.BOONDOLLAR, MinestuckPlayerData.getData(identifier).boondollars), player);
 		ServerEditHandler.onPlayerLoggedIn(player);
 		
 		if(firstTime && !player.isSpectator())
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.COLOR), player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(Type.PLAYER_DATA, MessagePlayerData.COLOR), player);
 		else
 		{
-			MinestuckPacket packet = MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.COLOR, MinestuckPlayerData.getData(player).color);
-			MinestuckChannelHandler.sendToPlayer(packet, player);
+			MinestuckMessage packet = MinestuckMessage.makePacket(Type.PLAYER_DATA, MessagePlayerData.COLOR, MinestuckPlayerData.getData(player).color);
+			MinestuckNetwork.sendTo(packet, player);
 		}
 		
 		if(UpdateChecker.outOfDate)
@@ -158,8 +158,8 @@ public class MinestuckPlayerTracker
 		EntityPlayerMP playerMP = player.getPlayer();
 		if(playerMP != null)
 		{
-			MinestuckPacket packet = MinestuckPacket.makePacket(Type.GRISTCACHE, gristSet, false);
-			MinestuckChannelHandler.sendToPlayer(packet, playerMP);
+			MinestuckMessage packet = MinestuckMessage.makePacket(Type.GRISTCACHE, gristSet, false);
+			MinestuckNetwork.sendTo(packet, playerMP);
 		}
 		
 		//The editing player, if there is any.
@@ -167,8 +167,8 @@ public class MinestuckPlayerTracker
 		if(c != null && ServerEditHandler.getData(c) != null)
 		{
 			EntityPlayerMP editor = ServerEditHandler.getData(c).getEditor();
-			MinestuckPacket packet = MinestuckPacket.makePacket(Type.GRISTCACHE, gristSet, true);
-			MinestuckChannelHandler.sendToPlayer(packet, editor);
+			MinestuckMessage packet = MinestuckMessage.makePacket(Type.GRISTCACHE, gristSet, true);
+			MinestuckNetwork.sendTo(packet, editor);
 		}
 	}
 	
@@ -178,25 +178,25 @@ public class MinestuckPlayerTracker
 		Title newTitle = MinestuckPlayerData.getTitle(identifier);
 		if(newTitle == null)
 			return;
-		MinestuckPacket packet = MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.TITLE, newTitle.getHeroClass(), newTitle.getHeroAspect());
-		MinestuckChannelHandler.sendToPlayer(packet, player);
+		MinestuckMessage packet = MinestuckMessage.makePacket(Type.PLAYER_DATA, MessagePlayerData.TITLE, newTitle.getHeroClass(), newTitle.getHeroAspect());
+		MinestuckNetwork.sendTo(packet, player);
 	}
 	
 	public static void updateEcheladder(EntityPlayer player, boolean jump)
 	{
 		Echeladder echeladder = MinestuckPlayerData.getData(player).echeladder;
-		MinestuckPacket packet = MinestuckPacket.makePacket(Type.PLAYER_DATA, PacketPlayerData.ECHELADDER, echeladder.getRung(), MinestuckConfig.echeladderProgress ? echeladder.getProgress() : 0F, jump);
-		MinestuckChannelHandler.sendToPlayer(packet, player);
+		MinestuckMessage packet = MinestuckMessage.makePacket(Type.PLAYER_DATA, MessagePlayerData.ECHELADDER, echeladder.getRung(), MinestuckConfig.echeladderProgress ? echeladder.getProgress() : 0F, jump);
+		MinestuckNetwork.sendTo(packet, player);
 	}
 	
 	public static void updateLands(EntityPlayer player)
 	{
-		MinestuckPacket packet = MinestuckPacket.makePacket(Type.LANDREGISTER);
+		MinestuckMessage packet = MinestuckMessage.makePacket(Type.LANDREGISTER);
 		Debug.debugf("Sending land packets to %s.", player == null ? "all players" : player.getName());
 		if(player == null)
-			MinestuckChannelHandler.sendToAllPlayers(packet);
+			MinestuckNetwork.sendToAll(packet);
 		else
-			MinestuckChannelHandler.sendToPlayer(packet, player);
+			MinestuckNetwork.sendTo(packet, player);
 	}
 	public static void updateLands()
 	{
@@ -205,18 +205,18 @@ public class MinestuckPlayerTracker
 
 	public static void sendConfigPacket(EntityPlayerMP player, boolean mode)
 	{
-		MinestuckPacket packet;
+		MinestuckMessage packet;
 		if(mode)
-			packet = MinestuckPacket.makePacket(Type.CONFIG, true);
+			packet = MinestuckMessage.makePacket(Type.CONFIG, true);
 		else
 		{
 			boolean permission = MinestuckConfig.getDataCheckerPermissionFor(player);
-			packet = MinestuckPacket.makePacket(Type.CONFIG, false, permission);
+			packet = MinestuckMessage.makePacket(Type.CONFIG, false, permission);
 			if(permission)
 				dataCheckerPermission.add(player.getName());
 			else dataCheckerPermission.remove(player.getName());
 		}
-		MinestuckChannelHandler.sendToPlayer(packet, player);
+		MinestuckNetwork.sendTo(packet, player);
 	}
 	
 	public static void sendLandEntryMessage(EntityPlayer player)

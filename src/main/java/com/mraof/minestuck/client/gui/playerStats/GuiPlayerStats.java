@@ -5,9 +5,9 @@ import com.mraof.minestuck.client.gui.GuiScreenMinestuck;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.inventory.ContainerHandler;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.MinestuckPacket.Type;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.MinestuckMessage.Type;
 import com.mraof.minestuck.network.skaianet.SkaiaClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -278,7 +278,7 @@ public abstract class GuiPlayerStats extends GuiScreenMinestuck
 				int ordinal = (ClientEditHandler.isActive() ? editmodeTab : normalTab).ordinal();
 				guiContainer.inventorySlots.windowId = ContainerHandler.clientWindowIdStart + ordinal;
 				
-				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(Type.CONTAINER, ordinal));
+				MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(Type.CONTAINER, ordinal));
 				mc.displayGuiScreen(guiContainer);
 			}
 			else mc.displayGuiScreen(ClientEditHandler.isActive()? editmodeTab.createGuiInstance():normalTab.createGuiInstance());

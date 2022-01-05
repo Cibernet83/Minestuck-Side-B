@@ -3,8 +3,8 @@ package com.mraof.minestuck.client;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -41,7 +41,7 @@ public class MSGTKeyHandler
 			if (keyBindings[i].isKeyDown() ^ downs[i])
 			{
 				downs[i] = !downs[i];
-				MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.GOD_KEY_INPUT, i, downs[i]));
+				MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.GOD_KEY_INPUT, i, downs[i]));
 				if(Minecraft.getMinecraft().player != null)
 					Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_KEY_STATES, null).updateKeyState(GodKeyStates.Key.values()[i], downs[i]);
 			}

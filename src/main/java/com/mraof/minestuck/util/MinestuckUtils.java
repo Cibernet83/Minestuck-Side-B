@@ -6,9 +6,9 @@ import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.PacketPlayerData;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessagePlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -228,7 +228,7 @@ public class MinestuckUtils
         if(!(player instanceof FakePlayer))
         {
             MinestuckPlayerData.getData(player).title = new Title(heroClass, aspect);
-            MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.PLAYER_DATA, PacketPlayerData.TITLE, heroClass, aspect), player);
+            MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.PLAYER_DATA, MessagePlayerData.TITLE, heroClass, aspect), player);
             IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
             if(!data.hasMasterControl())
                 data.resetTitleBadges(true);

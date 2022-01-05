@@ -7,9 +7,9 @@ import com.mraof.minestuck.capabilities.caps.StrifeData;
 import com.mraof.minestuck.event.handler.StrifeEventHandler;
 import com.mraof.minestuck.item.ItemStrifeCard;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.PacketUpdateStrifeData;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageUpdateStrifeData;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -64,8 +64,8 @@ public class StrifePortfolioHandler
 			cap.setSelectedWeaponIndex(selSpecibus.getContents().indexOf(stack));
 			if(entity instanceof EntityPlayer)
 			{
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, entity, PacketUpdateStrifeData.UpdateType.PORTFOLIO, prevSelectedSpecibus, cap.getSpecibusIndex(selSpecibus)), (EntityPlayer) entity);
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, entity, PacketUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) entity);
+				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, entity, MessageUpdateStrifeData.UpdateType.PORTFOLIO, prevSelectedSpecibus, cap.getSpecibusIndex(selSpecibus)), (EntityPlayer) entity);
+				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, entity, MessageUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) entity);
 			}
 			return selSpecibus;
 		}
@@ -91,8 +91,8 @@ public class StrifePortfolioHandler
 					cap.setSelectedWeaponIndex(specibus.getContents().indexOf(stack));
 					if(entity instanceof EntityPlayer)
 					{
-						MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, entity, PacketUpdateStrifeData.UpdateType.PORTFOLIO, prevSelectedSpecibus, cap.getSpecibusIndex(specibus)), (EntityPlayer) entity);
-						MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, entity, PacketUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) entity);
+						MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, entity, MessageUpdateStrifeData.UpdateType.PORTFOLIO, prevSelectedSpecibus, cap.getSpecibusIndex(specibus)), (EntityPlayer) entity);
+						MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, entity, MessageUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) entity);
 					}
 					return specibus;
 				}
@@ -125,7 +125,7 @@ public class StrifePortfolioHandler
 				{
 					if(sendStatusMessage)
 						((EntityPlayer) entity).sendStatusMessage(new TextComponentTranslation("status.strife.assignWeapon", stack.getTextComponent(), selSpecibus.getDisplayName()), true);
-					MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, entity, PacketUpdateStrifeData.UpdateType.PORTFOLIO, cap.getSpecibusIndex(selSpecibus)), (EntityPlayer) entity);
+					MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, entity, MessageUpdateStrifeData.UpdateType.PORTFOLIO, cap.getSpecibusIndex(selSpecibus)), (EntityPlayer) entity);
 				}
 				return true;
 			}
@@ -146,7 +146,7 @@ public class StrifePortfolioHandler
 					{
 						if(sendStatusMessage)
 							((EntityPlayer) entity).sendStatusMessage(new TextComponentTranslation("status.strife.assignWeapon", stack.getTextComponent(), specibus.getDisplayName()), true);
-						MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, entity, PacketUpdateStrifeData.UpdateType.PORTFOLIO, cap.getSpecibusIndex(specibus)), (EntityPlayer) entity);
+						MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, entity, MessageUpdateStrifeData.UpdateType.PORTFOLIO, cap.getSpecibusIndex(specibus)), (EntityPlayer) entity);
 					}
 					return true;
 				}
@@ -182,7 +182,7 @@ public class StrifePortfolioHandler
 			if(specibus != null && specibus.putItemStack(stack, slot))
 			{
 				if(entity instanceof EntityPlayer)
-					MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, entity, PacketUpdateStrifeData.UpdateType.PORTFOLIO, cap.getSpecibusIndex(specibus)), (EntityPlayer) entity);
+					MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, entity, MessageUpdateStrifeData.UpdateType.PORTFOLIO, cap.getSpecibusIndex(specibus)), (EntityPlayer) entity);
 				return true;
 			}
 		}
@@ -219,7 +219,7 @@ public class StrifePortfolioHandler
 		{
 			if(specibus.isAssigned())
 				((EntityPlayer) entity).sendStatusMessage(new TextComponentTranslation("status.strife.assign", specibus.kindAbstratus.getLocalizedName()), true);
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, entity, PacketUpdateStrifeData.UpdateType.PORTFOLIO), (EntityPlayer) entity);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, entity, MessageUpdateStrifeData.UpdateType.PORTFOLIO), (EntityPlayer) entity);
 		}
 
 		return true;
@@ -303,7 +303,7 @@ public class StrifePortfolioHandler
 				cap.setArmed(true);
 			}
 			if(player instanceof  EntityPlayer)
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) player);
+				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) player);
 		}
 	}
 
@@ -342,7 +342,7 @@ public class StrifePortfolioHandler
 		else player.entityDropItem(stack, player.getEyeHeight());
 
 		if(player instanceof  EntityPlayer)
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) player);
 	}
 
 	public static void unassignSelected(EntityLivingBase player)
@@ -361,8 +361,8 @@ public class StrifePortfolioHandler
 		cap.setArmed(false);
 		if(player instanceof  EntityPlayer)
 		{
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) player);
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.PORTFOLIO, sel), (EntityPlayer) player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageUpdateStrifeData.UpdateType.INDEXES), (EntityPlayer) player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageUpdateStrifeData.UpdateType.PORTFOLIO, sel), (EntityPlayer) player);
 		}
 	}
 }

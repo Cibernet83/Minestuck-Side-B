@@ -11,9 +11,9 @@ import com.mraof.minestuck.event.WeaponAssignedEvent;
 import com.mraof.minestuck.item.ItemStrifeCard;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.weapon.MSWeaponBase;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.PacketUpdateStrifeData;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageUpdateStrifeData;
 import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.MinestuckKindAbstrata;
 import com.mraof.minestuck.strife.StrifePortfolioHandler;
@@ -255,7 +255,7 @@ public class StrifeEventHandler
 		if(!event.player.world.isRemote && cap.abstrataSwitcherUnlocked() != unlockSwitcher)
 		{
 			cap.unlockAbstrataSwitcher(unlockSwitcher);
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, event.player, PacketUpdateStrifeData.UpdateType.CONFIG), event.player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, event.player, MessageUpdateStrifeData.UpdateType.CONFIG), event.player);
 
 			if(unlockSwitcher)
 				event.player.sendStatusMessage(new TextComponentTranslation("status.strife.unlockSwitcher"), false);
@@ -282,7 +282,7 @@ public class StrifeEventHandler
 				if(!player.world.isRemote)
 				{
 					cap.setArmed(false);
-					MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.INDEXES), player);
+					MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageUpdateStrifeData.UpdateType.INDEXES), player);
 				}
 				return;
 			}
@@ -308,7 +308,7 @@ public class StrifeEventHandler
 					if(!player.world.isRemote)
 					{
 						cap.setArmed(false);
-						MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.INDEXES), player);
+						MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageUpdateStrifeData.UpdateType.INDEXES), player);
 					}
 					return;
 				}
@@ -357,7 +357,7 @@ public class StrifeEventHandler
 
 								specibus.switchKindAbstratus(abstratusList.get(0), player);
 								if(!player.world.isRemote)
-									MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_STRIFE, player, PacketUpdateStrifeData.UpdateType.PORTFOLIO, cap.getSelectedSpecibusIndex()), player);
+									MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageUpdateStrifeData.UpdateType.PORTFOLIO, cap.getSelectedSpecibusIndex()), player);
 							}
 							else
 							{

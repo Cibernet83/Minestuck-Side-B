@@ -6,7 +6,6 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
-import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.enchantments.MinestuckEnchantments;
 import com.mraof.minestuck.event.AlchemizeItemEvent;
 import com.mraof.minestuck.event.UnderlingSpoilsEvent;
@@ -15,33 +14,26 @@ import com.mraof.minestuck.item.properties.PropertyRandomDamage;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.weapon.ItemBeamBlade;
 import com.mraof.minestuck.item.weapon.MSWeaponBase;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.potions.MinestuckPotions;
-import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.MinestuckUtils;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.*;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
@@ -281,19 +273,19 @@ public class CommonEventHandler
 
 			if(potion == MinestuckPotions.EARTHBOUND && player.isCreative())
 			{
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.FLIGHT_EFFECT, potion == MinestuckPotions.EARTHBOUND), player);
+				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.FLIGHT_EFFECT, potion == MinestuckPotions.EARTHBOUND), player);
 				player.capabilities.allowFlying = true;
 			}
 			if(potion == MinestuckPotions.SKYHBOUND && !player.isCreative())
 			{
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.FLIGHT_EFFECT, potion == MinestuckPotions.EARTHBOUND), player);
+				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.FLIGHT_EFFECT, potion == MinestuckPotions.EARTHBOUND), player);
 				player.capabilities.allowFlying = false;
 				player.capabilities.isFlying = false;
 			}
 			if(!player.isCreative() && potion == MinestuckPotions.CREATIVE_SHOCK)
 			{
 				player.capabilities.allowEdit = !MinestuckUtils.getPlayerGameType(player).hasLimitedInteractions();
-				MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.BUILD_INHIBIT_EFFECT), player);
+				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.BUILD_INHIBIT_EFFECT), player);
 			}
 		}
 	}

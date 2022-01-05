@@ -1,8 +1,8 @@
 package com.mraof.minestuck.badges;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,7 +47,7 @@ public class MasterBadge extends BadgeLevel
 		if(player.experienceLevel >= requiredXp)
 		{
 			player.experienceLevel -= requiredLevel;
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.ADD_PLAYER_XP, requiredLevel), player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.ADD_PLAYER_XP, requiredLevel), player);
 			return true;
 		}
 		return false;

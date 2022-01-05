@@ -2,8 +2,8 @@ package com.mraof.minestuck.client.gui.playerStats;
 
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.LocalizedObject;
@@ -63,7 +63,7 @@ public class GuiDataChecker extends GuiScreen
 		this.buttonList.add(refreshButton);
 		
 		if(activeComponent == null)
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.DATA_CHECKER));
+			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.DATA_CHECKER));
 		
 		componentChanged();
 	}
@@ -195,7 +195,7 @@ public class GuiDataChecker extends GuiScreen
 			componentChanged();
 		} else if(button.id == 6)
 		{
-			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.DATA_CHECKER));
+			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.DATA_CHECKER));
 			activeComponent = null;
 			componentChanged();
 		}

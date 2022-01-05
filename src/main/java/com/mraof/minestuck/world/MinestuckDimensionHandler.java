@@ -2,7 +2,7 @@ package com.mraof.minestuck.world;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.network.PacketLandRegister;
+import com.mraof.minestuck.network.message.MessageLandRegister;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.world.lands.LandAspectRegistry;
 import net.minecraft.nbt.NBTTagCompound;
@@ -160,7 +160,7 @@ public class MinestuckDimensionHandler
 		return lands.entrySet();
 	}
 	
-	public static void onLandPacket(PacketLandRegister packet)
+	public static void onLandPacket(MessageLandRegister packet)
 	{
 		if(Minestuck.isServerRunning)
 			return;

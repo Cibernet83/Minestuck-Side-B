@@ -4,9 +4,9 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.entity.EntityDecoy;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.MinestuckPacket.Type;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.MinestuckMessage.Type;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
@@ -135,8 +135,8 @@ public class ServerEditHandler
 		
 		decoy.markedForDespawn = true;
 		
-		MinestuckPacket packet = MinestuckPacket.makePacket(Type.SERVER_EDIT);
-		MinestuckChannelHandler.sendToPlayer(packet, player);
+		MinestuckMessage packet = MinestuckMessage.makePacket(Type.SERVER_EDIT);
+		MinestuckNetwork.sendTo(packet, player);
 		
 		if(damageSource != null && damageSource.getImmediateSource() != player)
 			player.attackEntityFrom(damageSource, damage);
@@ -170,8 +170,8 @@ public class ServerEditHandler
 				player.inventory.readFromNBT(c.inventory);
 			decoy.world.spawnEntity(decoy);
 			list.add(data);
-			MinestuckPacket packet = MinestuckPacket.makePacket(Type.SERVER_EDIT, computerTarget, c.centerX, c.centerZ, c.givenItems(), DeployList.getDeployListTag(c));
-			MinestuckChannelHandler.sendToPlayer(packet, player);
+			MinestuckMessage packet = MinestuckMessage.makePacket(Type.SERVER_EDIT, computerTarget, c.centerX, c.centerZ, c.givenItems(), DeployList.getDeployListTag(c));
+			MinestuckNetwork.sendTo(packet, player);
 			MinestuckPlayerTracker.updateGristCache(c.getClientIdentifier());
 		}
 	}
@@ -398,8 +398,8 @@ public class ServerEditHandler
 			EditData data = getData(event.getPlayer());
 			if(event.isCanceled())	//If the event was cancelled server side and not client side, notify the client.
 			{
-				MinestuckPacket packet = MinestuckPacket.makePacket(Type.SERVER_EDIT, data.connection.givenItems());
-				MinestuckChannelHandler.sendToPlayer(packet, event.getPlayer());
+				MinestuckMessage packet = MinestuckMessage.makePacket(Type.SERVER_EDIT, data.connection.givenItems());
+				MinestuckNetwork.sendTo(packet, event.getPlayer());
 				return;
 			}
 			

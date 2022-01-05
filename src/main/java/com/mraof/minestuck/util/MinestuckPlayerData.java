@@ -4,10 +4,10 @@ import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.editmode.ClientEditHandler;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.PacketGristCache;
-import com.mraof.minestuck.network.PacketPlayerData;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageGristCache;
+import com.mraof.minestuck.network.message.MessagePlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
@@ -32,7 +32,7 @@ public class MinestuckPlayerData
 
 	private static Map<PlayerIdentifier, PlayerData> dataMap = new HashMap<>();
 
-	public static void onPacketRecived(PacketGristCache packet)
+	public static void onPacketRecived(MessageGristCache packet)
 	{
 		if (packet.targetGrist)
 			sessionClientGrist = packet.values;
@@ -142,7 +142,7 @@ public class MinestuckPlayerData
 		
 		EntityPlayer player = id.getPlayer();
 		if(player != null)
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.PLAYER_DATA, PacketPlayerData.BOONDOLLAR, data.boondollars), player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.PLAYER_DATA, MessagePlayerData.BOONDOLLAR, data.boondollars), player);
 		return true;
 	}
 

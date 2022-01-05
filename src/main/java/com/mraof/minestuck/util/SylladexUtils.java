@@ -10,8 +10,8 @@ import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -54,7 +54,7 @@ public class SylladexUtils
 
 		MinestuckCriteriaTriggers.CAPTCHALOGUE.trigger(player, sylladex, object);
 
-		MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_SYLLADEX, player), player);
+		MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_SYLLADEX, player), player);
 	}
 	
 	public static void captchalouge(int slotIndex, EntityPlayerMP player) {
@@ -98,7 +98,7 @@ public class SylladexUtils
 			}
 
 		if (fetched)
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_SYLLADEX, player), player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_SYLLADEX, player), player);
 	}
 
 	public static boolean areItemStacksCompatible(ItemStack stackA, ItemStack stackB)
@@ -159,7 +159,7 @@ public class SylladexUtils
 			MinestuckPlayerData.getData(player).givenModus = true;
 
 		if (player instanceof EntityPlayerMP)
-			MinestuckChannelHandler.sendToPlayer(MinestuckPacket.makePacket(MinestuckPacket.Type.UPDATE_SYLLADEX, player), player);
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_SYLLADEX, player), player);
 	}
 
 	public static NBTTagCompound getModusSettings(ItemStack stack)

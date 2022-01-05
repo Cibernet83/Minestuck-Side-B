@@ -15,7 +15,7 @@ import com.mraof.minestuck.modSupport.BotaniaSupport;
 import com.mraof.minestuck.modSupport.CarryOnSupport;
 import com.mraof.minestuck.modSupport.MSGTTrophySlotsSupport;
 import com.mraof.minestuck.modSupport.SplatcraftSupport;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckNetwork;
 import com.mraof.minestuck.network.skaianet.SessionHandler;
 import com.mraof.minestuck.recipes.MachineChasisRecipes;
 import com.mraof.minestuck.tileentity.*;
@@ -92,11 +92,8 @@ public class CommonProxy
 		GameRegistry.registerTileEntity(TileEntityEffectBeacon.class, Minestuck.MODID+":effect_beacon");
 		GameRegistry.registerTileEntity(TileEntityBoondollarRegister.class, Minestuck.MODID+":porkhollow_vault");
 
-		//Register event handlers
-		MinecraftForge.EVENT_BUS.register(MinestuckChannelHandler.instance); // Is this needed?
-
 		//register channel handler
-		MinestuckChannelHandler.setupChannel();
+		MinestuckNetwork.setupChannel();
 
 		//Register structures
 		MapGenStructureIO.registerStructure(StructureCastleStart.class, "SkaiaCastle");

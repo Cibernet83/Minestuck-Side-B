@@ -6,9 +6,9 @@ import com.mraof.minestuck.editmode.EditData;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.event.ConnectionClosedEvent;
 import com.mraof.minestuck.event.ConnectionCreatedEvent;
-import com.mraof.minestuck.network.MinestuckChannelHandler;
-import com.mraof.minestuck.network.MinestuckPacket;
-import com.mraof.minestuck.network.MinestuckPacket.Type;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.MinestuckMessage.Type;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.Debug;
@@ -110,8 +110,8 @@ public class SkaianetHandler {
 		s[0] = identifier;
 		infoToSend.put(identifier, s);
 		updatePlayer(identifier);
-		MinestuckPacket packet = createLandChainPacket();
-		MinestuckChannelHandler.sendToPlayer(packet, player);
+		MinestuckMessage packet = createLandChainPacket();
+		MinestuckNetwork.sendTo(packet, player);
 	}
 	
 	public static void requestConnection(ComputerData player, PlayerIdentifier otherPlayer, boolean isClient)
@@ -461,9 +461,9 @@ public class SkaianetHandler {
 		updateLandChain();
 	}
 	
-	public static MinestuckPacket createLandChainPacket()
+	public static MinestuckMessage createLandChainPacket()
 	{
-		return MinestuckPacket.makePacket(Type.SBURB_INFO, landChains);
+		return MinestuckMessage.makePacket(Type.SBURB_INFO, landChains);
 	}
 	
 	static void updateLandChain()
@@ -516,8 +516,8 @@ public class SkaianetHandler {
 	static void sendLandChainUpdate()
 	{
 		updateLandChain();
-		MinestuckPacket packet = createLandChainPacket();
-		MinestuckChannelHandler.sendToAllPlayers(packet);
+		MinestuckMessage packet = createLandChainPacket();
+		MinestuckNetwork.sendToAll(packet);
 	}
 	
 	static void updateAll()
@@ -543,8 +543,8 @@ public class SkaianetHandler {
 		{
 			if(i != null)
 			{
-				MinestuckPacket packet = MinestuckPacket.makePacket(Type.SBURB_INFO, generateClientInfo(i));
-				MinestuckChannelHandler.sendToPlayer(packet, playerMP);
+				MinestuckMessage packet = MinestuckMessage.makePacket(Type.SBURB_INFO, generateClientInfo(i));
+				MinestuckNetwork.sendTo(packet, playerMP);
 			}
 		}
 	}
@@ -794,8 +794,8 @@ public class SkaianetHandler {
 			EditData data = ServerEditHandler.getData(c);
 			if(data != null)
 			{
-				MinestuckPacket packet = MinestuckPacket.makePacket(Type.SERVER_EDIT, c.givenItemList);
-				MinestuckChannelHandler.sendToPlayer(packet, data.getEditor());
+				MinestuckMessage packet = MinestuckMessage.makePacket(Type.SERVER_EDIT, c.givenItemList);
+				MinestuckNetwork.sendTo(packet, data.getEditor());
 			}
 		}
 	}

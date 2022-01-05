@@ -54,12 +54,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy
 {
-	
-	public static EntityPlayer getClientPlayer()	//Note: can't get the client player directly from FMLClientHandler either, as the server side will still crash because of the return type
+	/**
+	 * Gets the client player as EntityPlayer instead of EntityPlayerSP because the return type crashes ded servers.
+	 */
+	public static EntityPlayer getClientPlayerEntity()
 	{
 		return FMLClientHandler.instance().getClientPlayerEntity();
 	}
-	
+
 	public static void addScheduledTask(Runnable runnable)
 	{
 		Minecraft.getMinecraft().addScheduledTask(runnable);
