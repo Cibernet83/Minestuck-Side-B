@@ -87,4 +87,10 @@ public class GuiModusSettings extends GuiScreen implements GuiYesNoCallback
 			MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.SYLLADEX_EMPTY_REQUEST));
 		mc.currentScreen = this;
 	}
+
+	@Override
+	public boolean doesGuiPauseGame()
+	{
+		return false;
+	}
 }

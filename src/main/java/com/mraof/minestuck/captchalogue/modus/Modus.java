@@ -147,6 +147,11 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 		return new ItemModus(this);
 	}
 
+	public Modus getAlternate()
+	{
+		return null;
+	}
+
 	/**
 	 * Get a new MultiSylladexGuiContainer or a subtype that draws different positions or animations.
 	 */

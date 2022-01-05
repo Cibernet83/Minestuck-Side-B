@@ -90,6 +90,12 @@ public class ModusQueue extends Modus
 	}
 
 	@Override
+	public Modus getAlternate()
+	{
+		return MinestuckModi.stack;
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{

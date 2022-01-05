@@ -1,10 +1,10 @@
 package com.mraof.minestuck.client.gui.captchalogue.modus;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.captchalogue.modus.MinestuckModi;
-import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
+import com.mraof.minestuck.network.MinestuckChannelHandler;
+import com.mraof.minestuck.network.MinestuckPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.resources.I18n;
@@ -35,7 +35,7 @@ public class GuiStackModusSettings extends GuiModusSettings
 			@Override
 			public void click()
 			{
-				switchModus(MinestuckModi.stack);
+				switchModus();
 			}
 		});
 		buttons.add(new ModusGuiButton(settingsGuiTexture, guiX + FILO_BUTTON_X + FILO_BUTTON_WIDTH + FIFO_GAP, guiY + FILO_BUTTON_Y, EJECT_BUTTON_WIDTH, GUI_HEIGHT, FILO_BUTTON_WIDTH, FILO_BUTTON_HEIGHT, I18n.format("gui.fifo"), modus.getTextColor(), !filo)
@@ -43,22 +43,23 @@ public class GuiStackModusSettings extends GuiModusSettings
 			@Override
 			public void click()
 			{
-				switchModus(MinestuckModi.queue);
+				switchModus();
 			}
 		});
 	}
 
-	private void switchModus(Modus modus)
+	private void switchModus()
 	{
+		MinestuckChannelHandler.sendToServer(MinestuckPacket.makePacket(MinestuckPacket.Type.SWITCH_MODUS));
+
 		EntityPlayerSP player = Minecraft.getMinecraft().player;
-		modusStack.shrink(1);
-		if (!player.getHeldItemMainhand().isEmpty())
-			player.dropItem(true);
-		ItemStack newModusStack = new ItemStack(MinestuckItems.modi.get(modus));
+		BlockPos pos = player.getPosition();
+
+		// So this next bit isn't really safe but assume that the item the server is going to eventually hand back is the same as this
+		ItemStack newModusStack = new ItemStack(MinestuckItems.modi.get(modus.getAlternate()));
 		newModusStack.setTagCompound(modusStack.getTagCompound());
 		player.setHeldItem(EnumHand.MAIN_HAND, newModusStack);
 
-		BlockPos pos = player.getPosition();
 		player.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.FETCH_MODUS.ordinal(), player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ());
 	}
 }
