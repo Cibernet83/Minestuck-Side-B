@@ -58,6 +58,9 @@ public class SylladexUtils
 	}
 	
 	public static void captchalouge(int slotIndex, EntityPlayerMP player) {
+		if (getSylladex(player) == null)
+			return;
+
 		// This statement is so that the server knows whether the item is in the hotbar or not because apparently THE "openContainer" CANT EDIT THE HOTBAR SLOTS.
 		if(player.openContainer == player.inventoryContainer && InventoryPlayer.isHotbar(slotIndex)) {
 			int hotbarIndex = slotIndex;
