@@ -15,7 +15,7 @@ public class MessageBadgeUnlockRequest implements MinestuckMessage
 {
     private Badge badge;
 
-    private MessageBadgeUnlockRequest() { }
+    public MessageBadgeUnlockRequest() { }
 
     public MessageBadgeUnlockRequest(Badge badge)
     {

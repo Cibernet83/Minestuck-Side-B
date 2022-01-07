@@ -17,7 +17,7 @@ public class MessageStrifeAssignRequest implements MinestuckMessage
 	private EnumHand hand;
 	private KindAbstratus newType;
 
-	private MessageStrifeAssignRequest() { }
+	public MessageStrifeAssignRequest() { }
 
 	public MessageStrifeAssignRequest(EnumHand hand, KindAbstratus newType)
 	{

@@ -12,7 +12,7 @@ public class MessageSylladexFetchRequest implements MinestuckMessage
 	private int[] slots;
 	private boolean asCard;
 
-	private MessageSylladexFetchRequest() { }
+	public MessageSylladexFetchRequest() { }
 
 	public MessageSylladexFetchRequest(int[] slots, boolean asCard)
 	{

@@ -17,7 +17,7 @@ public class MessageSburbConnectRequest implements MinestuckMessage
 	private int otherPlayer;
 	private boolean isClient;
 
-	private MessageSburbConnectRequest() { }
+	public MessageSburbConnectRequest() { }
 
 	public MessageSburbConnectRequest(ComputerData player, int otherPlayer, boolean isClient)
 	{

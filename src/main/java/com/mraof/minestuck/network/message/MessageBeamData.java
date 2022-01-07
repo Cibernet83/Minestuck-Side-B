@@ -14,7 +14,7 @@ public class MessageBeamData implements MinestuckMessage
 	private int worldId;
 	private NBTTagCompound nbt;
 
-	private MessageBeamData() { }
+	public MessageBeamData() { }
 
 	public MessageBeamData(World world)
 	{

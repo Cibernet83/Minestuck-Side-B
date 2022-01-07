@@ -17,7 +17,7 @@ public class MessageBadgeEffect implements MinestuckMessage
 	private String key;
 	private ISerializableDataType value;
 
-	private MessageBadgeEffect() { }
+	public MessageBadgeEffect() { }
 
 	public MessageBadgeEffect(Entity entity, String key, ISerializableDataType value)
 	{

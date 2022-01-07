@@ -15,7 +15,7 @@ public class MessagePorkhollowWithdraw implements MinestuckMessage
 	private int amount;
 	private int count;
 
-	private MessagePorkhollowWithdraw() { }
+	public MessagePorkhollowWithdraw() { }
 
 	public MessagePorkhollowWithdraw(EntityPlayer reciever, int amount, int count)
 	{

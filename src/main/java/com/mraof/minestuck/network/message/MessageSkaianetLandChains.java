@@ -13,7 +13,7 @@ public class MessageSkaianetLandChains implements MinestuckMessage
 {
 	private List<List<Integer>> landChains;
 
-	private MessageSkaianetLandChains() { }
+	public MessageSkaianetLandChains() { }
 
 	public MessageSkaianetLandChains(List<List<Integer>> landChains)
 	{

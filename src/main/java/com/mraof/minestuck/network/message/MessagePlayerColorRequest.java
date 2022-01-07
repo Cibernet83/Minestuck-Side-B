@@ -12,7 +12,7 @@ public class MessagePlayerColorRequest implements MinestuckMessage
 {
 	private int color;
 
-	private MessagePlayerColorRequest() { }
+	public MessagePlayerColorRequest() { }
 
 	public MessagePlayerColorRequest(int color)
 	{

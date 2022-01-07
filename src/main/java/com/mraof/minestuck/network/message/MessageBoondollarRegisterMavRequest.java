@@ -12,7 +12,7 @@ public class MessageBoondollarRegisterMavRequest implements MinestuckMessage
 	private BlockPos pos;
 	private int mav;
 
-	private MessageBoondollarRegisterMavRequest() { }
+	public MessageBoondollarRegisterMavRequest() { }
 
 	public MessageBoondollarRegisterMavRequest(TileEntityBoondollarRegister te)
 	{

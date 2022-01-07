@@ -16,7 +16,7 @@ public class MessageToggleBadgeRequest implements MinestuckMessage
 	private Badge badge;
 	private boolean sendMessage;
 
-	private MessageToggleBadgeRequest() { }
+	public MessageToggleBadgeRequest() { }
 
 	public MessageToggleBadgeRequest(Badge badge, boolean sendMessage)
 	{

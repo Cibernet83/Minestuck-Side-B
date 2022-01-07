@@ -10,7 +10,7 @@ public class MessageInventoryChangedRequest implements MinestuckMessage
 {
 	private boolean increase;
 
-	private MessageInventoryChangedRequest() { }
+	public MessageInventoryChangedRequest() { }
 
 	public MessageInventoryChangedRequest(boolean increase)
 	{

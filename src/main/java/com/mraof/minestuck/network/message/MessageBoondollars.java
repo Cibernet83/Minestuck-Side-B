@@ -10,7 +10,7 @@ public class MessageBoondollars implements MinestuckMessage
 {
 	public long boondollars;
 
-	private MessageBoondollars() { }
+	public MessageBoondollars() { }
 
 	public MessageBoondollars(long boondollars)
 	{

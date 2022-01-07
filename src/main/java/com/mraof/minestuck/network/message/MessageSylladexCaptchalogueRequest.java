@@ -11,7 +11,7 @@ public class MessageSylladexCaptchalogueRequest implements MinestuckMessage
 {
 	private int slotIndex;
 
-	private MessageSylladexCaptchalogueRequest() { }
+	public MessageSylladexCaptchalogueRequest() { }
 
 	public MessageSylladexCaptchalogueRequest(int slotIndex)
 	{

@@ -31,7 +31,7 @@ public class MessagePlaceBlockAreaRequest implements MinestuckMessage
 	private Vec3d hitVec;
 	private EnumFacing face;
 
-	private MessagePlaceBlockAreaRequest() { }
+	public MessagePlaceBlockAreaRequest() { }
 
 	public MessagePlaceBlockAreaRequest(BlockPos pos1, BlockPos pos2, Vec3d hitVec, EnumFacing face)
 	{

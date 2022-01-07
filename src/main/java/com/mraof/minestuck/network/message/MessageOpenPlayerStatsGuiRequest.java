@@ -12,7 +12,7 @@ public class MessageOpenPlayerStatsGuiRequest implements MinestuckMessage
 {
 	private int id;
 
-	private MessageOpenPlayerStatsGuiRequest() { }
+	public MessageOpenPlayerStatsGuiRequest() { }
 
 	public MessageOpenPlayerStatsGuiRequest(int id)
 	{

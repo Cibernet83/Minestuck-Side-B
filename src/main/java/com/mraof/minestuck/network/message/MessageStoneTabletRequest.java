@@ -13,7 +13,7 @@ public class MessageStoneTabletRequest implements MinestuckMessage
 {
 	private String text;
 
-	private MessageStoneTabletRequest() { }
+	public MessageStoneTabletRequest() { }
 
 	public MessageStoneTabletRequest(String text) { }
 

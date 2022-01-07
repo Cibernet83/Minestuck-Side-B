@@ -14,7 +14,7 @@ public class MessageGoButton implements MinestuckMessage
 	private boolean newMode;
 	private boolean overrideStop;
 
-	private MessageGoButton() { }
+	public MessageGoButton() { }
 
 	public MessageGoButton(boolean newMode, boolean overrideStop)
 	{

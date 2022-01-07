@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 public class MessageStrifeConfig extends MessageUpdateStrifeToClientBase
 {
-	private MessageStrifeConfig() { }
+	public MessageStrifeConfig() { }
 
 	public MessageStrifeConfig(EntityLivingBase entity)
 	{

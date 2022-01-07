@@ -12,7 +12,7 @@ public class MessageGristHoardRequest implements MinestuckMessage
 {
     private Grist grist;
 
-    private MessageGristHoardRequest() { }
+    public MessageGristHoardRequest() { }
 
     public MessageGristHoardRequest(Grist grist)
     {

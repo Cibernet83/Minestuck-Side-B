@@ -14,7 +14,7 @@ public class MessageMachineGristRequest implements MinestuckMessage
 {
 	private Grist grist;
 
-	private MessageMachineGristRequest() { }
+	public MessageMachineGristRequest() { }
 
 	public MessageMachineGristRequest(Grist grist)
 	{

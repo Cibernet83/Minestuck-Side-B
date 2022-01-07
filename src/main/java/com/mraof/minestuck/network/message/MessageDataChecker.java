@@ -17,7 +17,7 @@ public class MessageDataChecker implements MinestuckMessage
 	 */
 	private int packetIndex;
 
-	private MessageDataChecker() { }
+	public MessageDataChecker() { }
 
 	public MessageDataChecker(int packetIndex, NBTTagCompound nbtData)
 	{

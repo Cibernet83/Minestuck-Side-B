@@ -11,7 +11,7 @@ public class MessageMouseSensitivityPotion implements MinestuckMessage
 {
 	private PotionMouseSensitivityAdjusterBase potion;
 
-	private MessageMouseSensitivityPotion() { }
+	public MessageMouseSensitivityPotion() { }
 
 	public MessageMouseSensitivityPotion(PotionMouseSensitivityAdjusterBase potion)
 	{

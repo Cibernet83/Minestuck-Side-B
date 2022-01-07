@@ -12,7 +12,7 @@ public class MessageStrifeSwapOffhandRequest implements MinestuckMessage
 	private int specibusIndex;
 	private int weaponIndex;
 
-	private MessageStrifeSwapOffhandRequest() { }
+	public MessageStrifeSwapOffhandRequest() { }
 
 	public MessageStrifeSwapOffhandRequest(int specibusIndex, int weaponIndex)
 	{

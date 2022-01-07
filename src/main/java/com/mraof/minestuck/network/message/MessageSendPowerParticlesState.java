@@ -17,7 +17,7 @@ public class MessageSendPowerParticlesState implements MinestuckMessage
 	private Class badge;
 	private MinestuckParticles.PowerParticleState state;
 
-	private MessageSendPowerParticlesState() { }
+	public MessageSendPowerParticlesState() { }
 
 	public MessageSendPowerParticlesState(Entity entity, Class badge, MinestuckParticles.PowerParticleState state)
 	{

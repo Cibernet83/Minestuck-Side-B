@@ -87,8 +87,8 @@ public class MinestuckCapabilities
 		{
 			IStrifeData cap = event.getEntity().getCapability(STRIFE_DATA, null);
 			cap.setStrifeEnabled(true);
-			MinestuckNetwork.sendTo(new MessageStrifeData((EntityLivingBase)event.getEntity()), ((EntityPlayer)event.getEntity()));
-			MinestuckNetwork.sendTo(new MessageBeamData(event.getWorld()), ((EntityPlayer)event.getEntity()));
+			MinestuckNetwork.sendTo(new MessageStrifeData((EntityLivingBase)event.getEntity()), (EntityPlayer)event.getEntity());
+			MinestuckNetwork.sendTo(new MessageBeamData(event.getWorld()), (EntityPlayer)event.getEntity());
 		}
 	}
 

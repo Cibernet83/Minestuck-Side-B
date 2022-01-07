@@ -12,7 +12,7 @@ public class MessageGodKeyInputRequest implements MinestuckMessage
 	private GodKeyStates.Key key;
 	private boolean pressed;
 
-	private MessageGodKeyInputRequest() { }
+	public MessageGodKeyInputRequest() { }
 
 	public MessageGodKeyInputRequest(GodKeyStates.Key key, boolean pressed)
 	{

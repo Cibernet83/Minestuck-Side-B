@@ -9,7 +9,7 @@ public class MessageCurrentItem implements MinestuckMessage
 {
 	private int currentItem;
 
-	private MessageCurrentItem() { }
+	public MessageCurrentItem() { }
 
 	public MessageCurrentItem(int currentItem)
 	{

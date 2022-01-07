@@ -17,7 +17,7 @@ public class MessageInventoryChanged implements MinestuckMessage
 	private ArrayList<ItemStack> inventory;
 	private boolean less, more;
 
-	private MessageInventoryChanged() { }
+	public MessageInventoryChanged() { }
 
 	public MessageInventoryChanged(ArrayList<ItemStack> inventory, boolean less, boolean more)
 	{

@@ -16,7 +16,7 @@ public class MessageModusControlDeckSyncRequest implements MinestuckMessage
 	private BlockPos pos;
 	private int[] lengths;
 
-	private MessageModusControlDeckSyncRequest() { }
+	public MessageModusControlDeckSyncRequest() { }
 
 	public MessageModusControlDeckSyncRequest(TileEntityModusControlDeck deck, int[] lengths)
 	{

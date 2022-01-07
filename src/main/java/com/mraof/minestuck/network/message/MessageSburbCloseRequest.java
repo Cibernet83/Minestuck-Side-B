@@ -16,7 +16,7 @@ public class MessageSburbCloseRequest implements MinestuckMessage
 	private int otherPlayer;
 	private boolean isClient;
 
-	private MessageSburbCloseRequest() { }
+	public MessageSburbCloseRequest() { }
 
 	public MessageSburbCloseRequest(int player, int otherPlayer, boolean isClient)
 	{

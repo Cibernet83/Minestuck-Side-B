@@ -13,7 +13,7 @@ public class MessageGodTierData implements MinestuckMessage
 {
     private NBTTagCompound nbt;
 
-    private MessageGodTierData() { }
+    public MessageGodTierData() { }
 
     public MessageGodTierData(EntityPlayer player)
     {

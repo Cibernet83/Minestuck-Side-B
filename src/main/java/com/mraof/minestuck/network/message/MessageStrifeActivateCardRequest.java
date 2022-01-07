@@ -16,7 +16,7 @@ public class MessageStrifeActivateCardRequest implements MinestuckMessage
 	private int index;
 	private boolean isSpecibus;
 
-	private MessageStrifeActivateCardRequest() { }
+	public MessageStrifeActivateCardRequest() { }
 
 	public MessageStrifeActivateCardRequest(int index, boolean isSpecibus)
 	{

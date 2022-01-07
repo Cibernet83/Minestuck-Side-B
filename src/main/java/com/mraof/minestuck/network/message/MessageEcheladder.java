@@ -17,7 +17,7 @@ public class MessageEcheladder implements MinestuckMessage
 	private float progress;
 	private boolean jumpToRung;
 
-	private MessageEcheladder() { }
+	public MessageEcheladder() { }
 
 	public MessageEcheladder(int rung, float progress, boolean jumpToRung)
 	{

@@ -12,7 +12,7 @@ public class MessageOpenGui implements MinestuckMessage // EntityPlayer$openGui 
 {
 	private int type;
 
-	private MessageOpenGui() { }
+	public MessageOpenGui() { }
 
 	public MessageOpenGui(MinestuckGuiHandler.GuiId id)
 	{

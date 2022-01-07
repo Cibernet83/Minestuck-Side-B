@@ -12,7 +12,7 @@ public class MessageBoondollarRegisterTakeRequest implements MinestuckMessage
 {
 	private BlockPos pos;
 
-	private MessageBoondollarRegisterTakeRequest() { }
+	public MessageBoondollarRegisterTakeRequest() { }
 
 	public MessageBoondollarRegisterTakeRequest(TileEntityBoondollarRegister te)
 	{

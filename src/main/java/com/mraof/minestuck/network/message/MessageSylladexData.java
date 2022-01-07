@@ -16,7 +16,7 @@ public class MessageSylladexData implements MinestuckMessage
 {
 	private NBTTagCompound nbt;
 
-	private MessageSylladexData() { }
+	public MessageSylladexData() { }
 
 	public MessageSylladexData(EntityPlayer player)
 	{

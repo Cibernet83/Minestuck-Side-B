@@ -14,7 +14,7 @@ public class MessageBadgeEffectsAll implements MinestuckMessage
 	private int entityId;
 	private NBTTagCompound nbt;
 
-	private MessageBadgeEffectsAll() { }
+	public MessageBadgeEffectsAll() { }
 
 	public MessageBadgeEffectsAll(EntityLivingBase entity)
 	{

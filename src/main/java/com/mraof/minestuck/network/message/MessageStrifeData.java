@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 public class MessageStrifeData extends MessageUpdateStrifeToClientBase
 {
-	private MessageStrifeData() { }
+	public MessageStrifeData() { }
 
 	public MessageStrifeData(EntityLivingBase entity)
 	{

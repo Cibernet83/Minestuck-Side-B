@@ -13,7 +13,7 @@ public class MessageAlchemize implements MinestuckMessage
 	private BlockPos tePos;
 	private int quantity;
 
-	private MessageAlchemize() { }
+	public MessageAlchemize() { }
 
 	public MessageAlchemize(TileEntityAlchemiter alchemiter, int quantity)
 	{

@@ -17,15 +17,15 @@ public class ConnectionListener
 	@SubscribeEvent
 	public static void onServerConnectionCreated(FMLNetworkEvent.ServerConnectionFromClientEvent event)
 	{
-		MinestuckNetwork.sendToDispatcher(new MessageLandRegister(), event.getManager().channel().attr(NetworkDispatcher.FML_DISPATCHER).get());
+		if (!event.isLocal())
+			MinestuckNetwork.sendToDispatcher(new MessageLandRegister(), event.getManager().channel().attr(NetworkDispatcher.FML_DISPATCHER).get());
 	}
 	
 	@SubscribeEvent
 	public static void onClientConnectionClosed(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
 	{
 		Debug.debug("Disconnecting from server. Unregistering land dimensions...");
-		if(!Minestuck.isServerRunning)
+		if (!Minestuck.isServerRunning)
 			MinestuckDimensionHandler.unregisterDimensions();
 	}
-	
 }

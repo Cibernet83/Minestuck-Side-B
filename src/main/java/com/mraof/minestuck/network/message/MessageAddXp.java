@@ -9,7 +9,7 @@ public class MessageAddXp implements MinestuckMessage
 {
 	private int levels;
 
-	private MessageAddXp() { }
+	public MessageAddXp() { }
 
 	public MessageAddXp(int levels)
 	{

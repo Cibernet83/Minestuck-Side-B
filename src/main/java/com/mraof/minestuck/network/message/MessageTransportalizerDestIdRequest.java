@@ -13,7 +13,7 @@ public class MessageTransportalizerDestIdRequest implements MinestuckMessage
 	private BlockPos pos;
 	private String destId;
 
-	private MessageTransportalizerDestIdRequest() { }
+	public MessageTransportalizerDestIdRequest() { }
 
 	public MessageTransportalizerDestIdRequest(TileEntityTransportalizer transportalizer, String destId)
 	{

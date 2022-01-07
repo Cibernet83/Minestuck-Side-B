@@ -15,7 +15,7 @@ public class MessageConfig implements MinestuckMessage
 	private boolean dataChecker;
 	private boolean preEntryEcheladder;
 
-	private MessageConfig() { }
+	public MessageConfig() { }
 
 	public MessageConfig(boolean dataChecker)
 	{

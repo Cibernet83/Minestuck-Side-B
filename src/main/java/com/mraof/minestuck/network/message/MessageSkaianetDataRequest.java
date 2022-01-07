@@ -11,7 +11,7 @@ public class MessageSkaianetDataRequest implements MinestuckMessage
 {
 	private int playerId;
 
-	private MessageSkaianetDataRequest() { }
+	public MessageSkaianetDataRequest() { }
 
 	public MessageSkaianetDataRequest(int playerId)
 	{

@@ -17,7 +17,7 @@ public class MessageSendParticle implements MinestuckMessage
 	private int color;
 	private int count;
 
-	private MessageSendParticle() { }
+	public MessageSendParticle() { }
 
 	public MessageSendParticle(MinestuckParticles.ParticleType type, double x, double y, double z, int color, int count)
 	{

@@ -18,7 +18,7 @@ public class MessageMindflayerMovementInputRequest implements MinestuckMessage
 	private boolean jump, sneak;
 	private int currentItem;
 
-	private MessageMindflayerMovementInputRequest() { }
+	public MessageMindflayerMovementInputRequest() { }
 
 	public MessageMindflayerMovementInputRequest(float moveStrafe, float moveForward, boolean jump, boolean sneak, int currentItem)
 	{

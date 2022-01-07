@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 public class MessageStrifeDroppedCards extends MessageUpdateStrifeToClientBase
 {
-	private MessageStrifeDroppedCards() { }
+	public MessageStrifeDroppedCards() { }
 
 	public MessageStrifeDroppedCards(EntityLivingBase entity)
 	{

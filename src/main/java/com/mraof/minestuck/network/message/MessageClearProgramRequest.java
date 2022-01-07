@@ -13,7 +13,7 @@ public class MessageClearProgramRequest implements MinestuckMessage
 	private ComputerData computer;
 	private int program;
 
-	private MessageClearProgramRequest() { }
+	public MessageClearProgramRequest() { }
 
 	public MessageClearProgramRequest(ComputerData computer, int program){
 		this.computer = computer;

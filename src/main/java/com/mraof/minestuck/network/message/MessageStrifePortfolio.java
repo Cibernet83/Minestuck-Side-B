@@ -11,7 +11,7 @@ public class MessageStrifePortfolio extends MessageUpdateStrifeToClientBase
 {
 	private int[] indices;
 
-	private MessageStrifePortfolio() { }
+	public MessageStrifePortfolio() { }
 
 	public MessageStrifePortfolio(EntityLivingBase entity, int... indices)
 	{

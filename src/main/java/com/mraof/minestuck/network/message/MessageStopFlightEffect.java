@@ -9,7 +9,7 @@ public class MessageStopFlightEffect implements MinestuckMessage
 {
 	private boolean isBadEffect;
 
-	private MessageStopFlightEffect() { }
+	public MessageStopFlightEffect() { }
 
 	public MessageStopFlightEffect(boolean isBadEffect)
 	{

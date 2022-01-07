@@ -11,7 +11,7 @@ public class MessageAssembleMachineChassisRequest implements MinestuckMessage
 {
     private BlockPos pos;
 
-    private MessageAssembleMachineChassisRequest() { }
+    public MessageAssembleMachineChassisRequest() { }
 
     public MessageAssembleMachineChassisRequest(TileEntityMachineChassis machineChassis)
     {

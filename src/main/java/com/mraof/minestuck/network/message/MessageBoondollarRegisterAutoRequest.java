@@ -11,7 +11,7 @@ public class MessageBoondollarRegisterAutoRequest implements MinestuckMessage
 {
 	private BlockPos pos;
 
-	private MessageBoondollarRegisterAutoRequest() { }
+	public MessageBoondollarRegisterAutoRequest() { }
 
 	public MessageBoondollarRegisterAutoRequest(TileEntityBoondollarRegister te)
 	{

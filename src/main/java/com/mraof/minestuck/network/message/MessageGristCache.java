@@ -14,7 +14,7 @@ public class MessageGristCache implements MinestuckMessage
 	public GristSet gristSet;
 	public boolean targetGrist;
 
-	private MessageGristCache() { }
+	public MessageGristCache() { }
 
 	public MessageGristCache(GristSet gristSet, boolean targetGrist)
 	{

@@ -14,7 +14,7 @@ public class MessageStrifeRetrieveRequest implements MinestuckMessage
 	private boolean isCard;
 	private EnumHand hand;
 
-	private MessageStrifeRetrieveRequest() { }
+	public MessageStrifeRetrieveRequest() { }
 
 	public MessageStrifeRetrieveRequest(int index, boolean isCard, EnumHand hand)
 	{

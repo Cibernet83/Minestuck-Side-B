@@ -20,7 +20,7 @@ public class MessageSkaianetData implements MinestuckMessage
 	private Map<Integer, String> openServers;
 	private List<SburbConnection> connections;
 
-	private MessageSkaianetData() { }
+	public MessageSkaianetData() { }
 
 	public MessageSkaianetData(int playerId, boolean isClientResuming, boolean isServerResuming, Map<Integer, String> openServers, List<SburbConnection> connections)
 	{

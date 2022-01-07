@@ -16,7 +16,7 @@ public class MessageAddSkillXp implements MinestuckMessage
     private UUID playerUUID;
     private int amount;
 
-    private MessageAddSkillXp() { }
+    public MessageAddSkillXp() { }
 
     public MessageAddSkillXp(GodTierData.SkillType skillType, EntityPlayer player)
     {
