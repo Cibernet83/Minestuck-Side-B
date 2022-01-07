@@ -6,7 +6,7 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageSendParticle;
 import com.mraof.minestuck.util.EnumClass;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.Style;
@@ -48,7 +48,7 @@ public class BadgeMage extends BadgeHeroClass
 			alignmentColor = 0xB200FF;
 
 		if (time > 50)
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, alignmentColor, 5, player), player);
+			MinestuckNetwork.sendTo(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, player, alignmentColor, 5), player);
 		else badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.MAGE, 1);
 
 		if (time > 100)

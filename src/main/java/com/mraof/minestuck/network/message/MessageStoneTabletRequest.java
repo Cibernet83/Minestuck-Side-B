@@ -9,13 +9,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageStoneTablet implements MinestuckMessage
+public class MessageStoneTabletRequest implements MinestuckMessage
 {
 	private String text;
 
-	private MessageStoneTablet() { }
+	private MessageStoneTabletRequest() { }
 
-	public MessageStoneTablet(String text) { }
+	public MessageStoneTabletRequest(String text) { }
 
 	@Override
 	public void toBytes(ByteBuf buf)

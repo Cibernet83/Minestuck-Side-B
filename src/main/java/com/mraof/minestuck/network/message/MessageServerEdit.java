@@ -2,6 +2,7 @@ package com.mraof.minestuck.network.message;
 
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.util.IdentifierHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,11 +16,14 @@ public class MessageServerEdit implements MinestuckMessage
 	private NBTTagCompound deployTags;
 	private boolean[] givenItems;
 
-	private MessageServerEdit() { }
-
-	public MessageServerEdit(String target, int posX, int posZ, NBTTagCompound deployTags, boolean[] givenItems)
+	public MessageServerEdit()
 	{
-		this.target = target;
+		this(new boolean[0]);
+	}
+
+	public MessageServerEdit(IdentifierHandler.PlayerIdentifier target, int posX, int posZ, NBTTagCompound deployTags, boolean[] givenItems)
+	{
+		this.target = target.toString();
 		this.posX = posX;
 		this.posZ = posZ;
 		this.deployTags = deployTags;

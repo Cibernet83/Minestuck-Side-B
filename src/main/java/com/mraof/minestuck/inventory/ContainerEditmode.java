@@ -3,8 +3,7 @@ package com.mraof.minestuck.inventory;
 import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
+import com.mraof.minestuck.network.message.MessageInventoryChanged;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -131,7 +130,7 @@ public class ContainerEditmode extends Container
 			this.inventoryItemStacks.set(i, itemList.get(i));
 		}
 		
-		MinestuckNetwork.sendTo(MinestuckMessage.makePacket(Type.INVENTORY, 0, itemList, scroll > 0, scroll*2 + 14 < items.size()), player);
+		MinestuckNetwork.sendTo(new MessageInventoryChanged(itemList, scroll > 0, scroll*2 + 14 < items.size()), player);
 	}
 	
 	private static class ToolbarSlot extends Slot

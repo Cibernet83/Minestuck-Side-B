@@ -12,17 +12,22 @@ import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageAssignStrife implements MinestuckMessage
+public class MessageStrifeAssignRequest implements MinestuckMessage
 {
 	private EnumHand hand;
 	private KindAbstratus newType;
 
-	private MessageAssignStrife() { }
+	private MessageStrifeAssignRequest() { }
 
-	public MessageAssignStrife(EnumHand hand, KindAbstratus newType)
+	public MessageStrifeAssignRequest(EnumHand hand, KindAbstratus newType)
 	{
 		this.hand = hand;
 		this.newType = newType;
+	}
+
+	public MessageStrifeAssignRequest(EnumHand hand)
+	{
+		this(hand, null);
 	}
 
 	@Override

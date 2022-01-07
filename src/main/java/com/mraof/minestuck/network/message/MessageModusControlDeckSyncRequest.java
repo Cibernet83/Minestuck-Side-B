@@ -11,14 +11,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageModusControlDeckSync implements MinestuckMessage
+public class MessageModusControlDeckSyncRequest implements MinestuckMessage
 {
 	private BlockPos pos;
 	private int[] lengths;
 
-	private MessageModusControlDeckSync() { }
+	private MessageModusControlDeckSyncRequest() { }
 
-	public MessageModusControlDeckSync(TileEntityModusControlDeck deck, int[] lengths)
+	public MessageModusControlDeckSyncRequest(TileEntityModusControlDeck deck, int[] lengths)
 	{
 		this.pos = deck.getPos();
 		this.lengths = lengths;

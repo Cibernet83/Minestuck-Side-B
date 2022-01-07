@@ -7,14 +7,14 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageGodKeyInput implements MinestuckMessage
+public class MessageGodKeyInputRequest implements MinestuckMessage
 {
 	private GodKeyStates.Key key;
 	private boolean pressed;
 
-	private MessageGodKeyInput() { }
+	private MessageGodKeyInputRequest() { }
 
-	public MessageGodKeyInput(GodKeyStates.Key key, boolean pressed)
+	public MessageGodKeyInputRequest(GodKeyStates.Key key, boolean pressed)
 	{
 		this.key = key;
 		this.pressed = pressed;

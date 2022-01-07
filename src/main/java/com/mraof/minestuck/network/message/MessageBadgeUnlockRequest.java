@@ -11,13 +11,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageAttemptBadgeUnlock implements MinestuckMessage
+public class MessageBadgeUnlockRequest implements MinestuckMessage
 {
     private Badge badge;
 
-    private MessageAttemptBadgeUnlock() { }
+    private MessageBadgeUnlockRequest() { }
 
-    public MessageAttemptBadgeUnlock(Badge badge)
+    public MessageBadgeUnlockRequest(Badge badge)
     {
         this.badge = badge;
     }

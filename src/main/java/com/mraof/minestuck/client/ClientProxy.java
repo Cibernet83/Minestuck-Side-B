@@ -12,7 +12,6 @@ import com.mraof.minestuck.client.renderer.entity.frog.RenderFrog;
 import com.mraof.minestuck.client.renderer.tileentity.RenderControlDeckModi;
 import com.mraof.minestuck.client.renderer.tileentity.RenderGate;
 import com.mraof.minestuck.client.renderer.tileentity.RenderSkaiaPortal;
-import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.entity.*;
 import com.mraof.minestuck.entity.carapacian.EntityBishop;

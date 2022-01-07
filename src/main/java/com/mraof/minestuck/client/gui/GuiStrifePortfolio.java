@@ -6,7 +6,8 @@ import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.client.MinestuckFontRenderer;
 import com.mraof.minestuck.client.gui.playerStats.GuiPlayerStats;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageStrifeActivateCardRequest;
+import com.mraof.minestuck.network.message.MessageStrifeRetrieveRequest;
 import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.StrifePortfolioHandler;
 import com.mraof.minestuck.strife.StrifeSpecibus;
@@ -187,14 +188,14 @@ public class GuiStrifePortfolio extends GuiPlayerStats
 					if(!mousePressed)
 					{
 						StrifePortfolioHandler.retrieveCard(mc.player, i);
-						MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.RETRIEVE_STRIFE, i));
+						MinestuckNetwork.sendToServer(new MessageStrifeRetrieveRequest(i));
 					}
 					mousePressed = true;
 				}
 				else if(Mouse.isButtonDown(0))
 				{
 					if(!mousePressed)
-						MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.SET_ACTIVE_STRIFE, i, true));
+						MinestuckNetwork.sendToServer(new MessageStrifeActivateCardRequest(i, true));
 					mousePressed = true;
 				}
 				else mousePressed = false;
@@ -234,13 +235,13 @@ public class GuiStrifePortfolio extends GuiPlayerStats
 			if(Mouse.isButtonDown(1))
 			{
 				if(!mousePressed)
-					MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.RETRIEVE_STRIFE, index, true));
+					MinestuckNetwork.sendToServer(new MessageStrifeActivateCardRequest(index, true));
 				mousePressed = true;
 			}
 			else if(Mouse.isButtonDown(0))
 			{
 				if(!mousePressed)
-					MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.SET_ACTIVE_STRIFE, index, true));
+					MinestuckNetwork.sendToServer(new MessageStrifeActivateCardRequest(index, true));
 				mousePressed = true;
 			}
 			else mousePressed = false;

@@ -11,20 +11,20 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageToggleBadge implements MinestuckMessage
+public class MessageToggleBadgeRequest implements MinestuckMessage
 {
 	private Badge badge;
 	private boolean sendMessage;
 
-	private MessageToggleBadge() { }
+	private MessageToggleBadgeRequest() { }
 
-	public MessageToggleBadge(Badge badge, boolean sendMessage)
+	public MessageToggleBadgeRequest(Badge badge, boolean sendMessage)
 	{
 		this.badge = badge;
 		this.sendMessage = sendMessage;
 	}
 
-	public MessageToggleBadge(Badge badge)
+	public MessageToggleBadgeRequest(Badge badge)
 	{
 		this(badge, false);
 	}

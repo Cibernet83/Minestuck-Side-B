@@ -5,8 +5,7 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.entity.EntityDecoy;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
+import com.mraof.minestuck.network.message.MessageServerEdit;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
@@ -134,9 +133,8 @@ public class ServerEditHandler
 		player.inventory.copyInventory(decoy.inventory);
 		
 		decoy.markedForDespawn = true;
-		
-		MinestuckMessage packet = MinestuckMessage.makePacket(Type.SERVER_EDIT);
-		MinestuckNetwork.sendTo(packet, player);
+
+		MinestuckNetwork.sendTo(new MessageServerEdit(), player);
 		
 		if(damageSource != null && damageSource.getImmediateSource() != player)
 			player.attackEntityFrom(damageSource, damage);
@@ -170,8 +168,7 @@ public class ServerEditHandler
 				player.inventory.readFromNBT(c.inventory);
 			decoy.world.spawnEntity(decoy);
 			list.add(data);
-			MinestuckMessage packet = MinestuckMessage.makePacket(Type.SERVER_EDIT, computerTarget, c.centerX, c.centerZ, c.givenItems(), DeployList.getDeployListTag(c));
-			MinestuckNetwork.sendTo(packet, player);
+			MinestuckNetwork.sendTo(new MessageServerEdit(computerTarget, c.centerX, c.centerZ, DeployList.getDeployListTag(c), c.givenItems()), player);
 			MinestuckPlayerTracker.updateGristCache(c.getClientIdentifier());
 		}
 	}
@@ -398,8 +395,7 @@ public class ServerEditHandler
 			EditData data = getData(event.getPlayer());
 			if(event.isCanceled())	//If the event was cancelled server side and not client side, notify the client.
 			{
-				MinestuckMessage packet = MinestuckMessage.makePacket(Type.SERVER_EDIT, data.connection.givenItems());
-				MinestuckNetwork.sendTo(packet, event.getPlayer());
+				MinestuckNetwork.sendTo(new MessageServerEdit(data.connection.givenItems()), event.getPlayer());
 				return;
 			}
 			

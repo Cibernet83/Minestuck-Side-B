@@ -10,13 +10,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageMachineGristSelect implements MinestuckMessage
+public class MessageMachineGristRequest implements MinestuckMessage
 {
 	private Grist grist;
 
-	private MessageMachineGristSelect() { }
+	private MessageMachineGristRequest() { }
 
-	public MessageMachineGristSelect(Grist grist)
+	public MessageMachineGristRequest(Grist grist)
 	{
 		this.grist = grist;
 	}

@@ -4,19 +4,22 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.badges.MinestuckBadges;
 import com.mraof.minestuck.badges.heroAspect.*;
 import com.mraof.minestuck.badges.heroAspectUtil.*;
-import com.mraof.minestuck.network.ISerializableDataType;
-import com.mraof.minestuck.network.ISerializableDataType.*;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.ai.EntityAIMindflayerTarget;
+import com.mraof.minestuck.network.ISerializableDataType;
+import com.mraof.minestuck.network.ISerializableDataType.*;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageBadgeEffect;
+import com.mraof.minestuck.network.message.MessageBadgeEffectsAll;
+import com.mraof.minestuck.network.message.MessageSendPowerParticlesState;
 import com.mraof.minestuck.potions.PotionConceal;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.SoulData;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -412,7 +415,10 @@ public class BadgeEffects implements IBadgeEffects
 		if (!(particleMap.containsKey(badge) && particleMap.get(badge).equals(state)))
 		{
 			if (!owner.world.isRemote)
-				MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_POWER_PARTICLES, owner, badge, state), owner);
+				if (owner instanceof EntityPlayer)
+					MinestuckNetwork.sendToTrackingAndSelf(new MessageSendPowerParticlesState(owner, badge, state), (EntityPlayer) owner);
+				else
+					MinestuckNetwork.sendToTracking(new MessageSendPowerParticlesState(owner, badge, state), owner);
 
 			particleMap.put(badge, state);
 		}
@@ -424,7 +430,10 @@ public class BadgeEffects implements IBadgeEffects
 		if (particleMap.containsKey(badge))
 		{
 			if (!owner.world.isRemote)
-				MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_POWER_PARTICLES, owner, badge), owner);
+				if (owner instanceof EntityPlayer)
+					MinestuckNetwork.sendToTrackingAndSelf(new MessageSendPowerParticlesState(owner, badge, null), (EntityPlayer) owner);
+				else
+					MinestuckNetwork.sendToTracking(new MessageSendPowerParticlesState(owner, badge, null), owner);
 
 			particleMap.remove(badge);
 		}
@@ -434,7 +443,10 @@ public class BadgeEffects implements IBadgeEffects
 	public void oneshotPowerParticles(MinestuckParticles.PowerParticleState state)
 	{
 		if (!owner.world.isRemote)
-			MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_POWER_PARTICLES, owner, state), owner);
+			if (owner instanceof EntityPlayer)
+				MinestuckNetwork.sendToTrackingAndSelf(new MessageSendPowerParticlesState(owner, state), (EntityPlayer) owner);
+			else
+				MinestuckNetwork.sendToTracking(new MessageSendPowerParticlesState(owner, state), owner);
 		else
 			spawnClientParticles(owner, state);
 	}
@@ -481,6 +493,7 @@ public class BadgeEffects implements IBadgeEffects
 		for (Map.Entry<Class, ISerializableDataType> entry : this.effects.entrySet())
 		{
 			NBTTagCompound tag = new NBTTagCompound();
+			tag.setString("DataTypeClass", entry.getValue().getClass().getName());
 			tag.setString("Badge", entry.getKey().getName());
 			entry.getValue().serialize(tag);
 			effects.appendTag(tag);
@@ -511,16 +524,11 @@ public class BadgeEffects implements IBadgeEffects
 			try
 			{
 				NBTTagCompound tag = (NBTTagCompound) tagBase;
-				ISerializableDataType dataType = ISerializableDataType.deserialize(tag);
+				ISerializableDataType dataType = ISerializableDataType.deserialize(tag, (Class<? extends ISerializableDataType>) Class.forName(tag.getString("DataTypeClass")));
 				dataType.initialize(owner.world);
 				effects.replace(Class.forName(tag.getString("Badge")), dataType);
 			}
 			catch (ClassNotFoundException e)
-			{
-				e.printStackTrace();
-				continue;
-			}
-			catch (IndexOutOfBoundsException e)
 			{
 				e.printStackTrace();
 				continue;
@@ -554,7 +562,10 @@ public class BadgeEffects implements IBadgeEffects
 
 	private void send(String key, ISerializableDataType value)
 	{
-		MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_BADGE_EFFECT, owner, key, value), owner);
+		if (owner instanceof EntityPlayer)
+			MinestuckNetwork.sendToTrackingAndSelf(new MessageBadgeEffect(owner, key, value), (EntityPlayer) owner);
+		else
+			MinestuckNetwork.sendToTracking(new MessageBadgeEffect(owner, key, value), owner);
 	}
 
 	@Override
@@ -574,7 +585,7 @@ public class BadgeEffects implements IBadgeEffects
 
 
 	private int getInt(Class badge) {
-		return effects.containsKey(badge) ? ((IntegerData) effects.get(badge)).value : 0;
+		return effects.containsKey(badge) ? ((IntegerData) effects.get(badge)).getValue() : 0;
 	}
 
 	private void setInt(Class badge, int value) {
@@ -586,7 +597,7 @@ public class BadgeEffects implements IBadgeEffects
 
 	private boolean getBoolean(Class badge)
 	{
-		return effects.containsKey(badge) ? ((BooleanData) effects.get(badge)).value : false;
+		return effects.containsKey(badge) ? ((BooleanData) effects.get(badge)).getValue() : false;
 	}
 
 	private void setBoolean(Class badge, boolean value)
@@ -598,11 +609,11 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	private Vec3d getVec4Position(Class badge) {
-		return effects.containsKey(badge) ? ((Vec4Data) effects.get(badge)).position : null;
+		return effects.containsKey(badge) ? ((Vec4Data) effects.get(badge)).getValue().getPosition() : null;
 	}
 
 	private int getVec4Dimension(Class badge) {
-		return effects.containsKey(badge) ? ((Vec4Data) effects.get(badge)).dimension : 0;
+		return effects.containsKey(badge) ? ((Vec4Data) effects.get(badge)).getValue().getDimension() : 0;
 	}
 
 	private void setVec4(Class badge, Vec3d position, int dimension) {
@@ -613,19 +624,19 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	private float getMovementInputStrafe(Class badge) {
-		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).moveStrafe : 0;
+		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().getMoveStrafe() : 0;
 	}
 
 	private float getMovementInputForward(Class badge) {
-		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).moveForward : 0;
+		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().getMoveForward() : 0;
 	}
 
 	private boolean getMovementInputJump(Class badge) {
-		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).jump : false;
+		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().isJumping() : false;
 	}
 
 	private boolean getMovementInputSneak(Class badge) {
-		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).sneak : false;
+		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().isSneaking() : false;
 	}
 
 	private void setMovementInput(Class badge, float moveStrafe, float moveForward, boolean jump, boolean sneak)
@@ -637,7 +648,7 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	private EntityLivingBase getEntity(Class badge) {
-		return effects.containsKey(badge) ? ((EntityData) effects.get(badge)).value : null;
+		return effects.containsKey(badge) ? ((EntityData) effects.get(badge)).getValue() : null;
 	}
 
 	private void setEntity(Class badge, EntityLivingBase entity)
@@ -654,14 +665,14 @@ public class BadgeEffects implements IBadgeEffects
 	public static void onPlayerLoggedIn(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent event)
 	{
 		if (!event.player.world.isRemote)
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_ALL_BADGE_EFFECTS, event.player), event.player);
+			MinestuckNetwork.sendTo(new MessageBadgeEffectsAll(event.player), event.player);
 	}
 
 	@SubscribeEvent
 	public static void onStartTracking(PlayerEvent.StartTracking event) // Only fired from the server
 	{
 		if (event.getTarget() instanceof EntityLivingBase)
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_ALL_BADGE_EFFECTS, event.getTarget()), event.getEntityPlayer());
+			MinestuckNetwork.sendTo(new MessageBadgeEffectsAll((EntityLivingBase) event.getTarget()), event.getEntityPlayer());
 	}
 
 	@SubscribeEvent

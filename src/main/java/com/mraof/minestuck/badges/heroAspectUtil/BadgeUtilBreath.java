@@ -6,7 +6,7 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageSendParticle;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import net.minecraft.client.Minecraft;
@@ -61,8 +61,8 @@ public class BadgeUtilBreath extends BadgeHeroAspectUtil
 		badgeEffects.setDoingWimdyThing(true);
 
 		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.BREATH, 10);
-		MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x47E2FA, 5, player.posX, player.posY+1, player.posZ), player);
-		MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x4379E6, 5, player.posX, player.posY+1, player.posZ), player);
+		MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, player.posX, player.posY+1, player.posZ, 0x47E2FA, 5), player);
+		MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, player.posX, player.posY+1, player.posZ, 0x4379E6, 5), player);
 
 		if(time % 20 == 1 && !player.isCreative())
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-1);

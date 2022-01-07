@@ -13,7 +13,7 @@ import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageGodTierData;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
 import com.mraof.minestuck.util.EnumLunarSway;
 import com.mraof.minestuck.util.IdentifierHandler;
@@ -340,10 +340,7 @@ public class GodTierData implements IGodTierData
 	@Override
 	public void update()
 	{
-		if(owner.isUser())
-			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_DATA_CLIENT));
-		else
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_DATA_SERVER, owner), owner);
+		MinestuckNetwork.sendTo(new MessageGodTierData(owner), owner);
 	}
 
 	@Override

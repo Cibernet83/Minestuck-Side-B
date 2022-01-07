@@ -9,17 +9,20 @@ import java.util.function.Consumer;
 
 public class MessageStrifePortfolio extends MessageUpdateStrifeToClientBase
 {
+	private int[] indices;
+
 	private MessageStrifePortfolio() { }
 
-	public MessageStrifePortfolio(EntityLivingBase entity)
+	public MessageStrifePortfolio(EntityLivingBase entity, int... indices)
 	{
 		super(entity);
+		this.indices = indices;
 	}
 
 	@Override
 	public Consumer<ByteBuf> getEncoder(IStrifeData cap)
 	{
-		return cap::writePortfolio;
+		return (ByteBuf buf) -> cap.writePortfolio(buf, indices);
 	}
 
 	@Override

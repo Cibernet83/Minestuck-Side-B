@@ -1,18 +1,16 @@
 package com.mraof.minestuck.client.gui.playerStats;
 
-import java.io.IOException;
-import java.util.Calendar;
-
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.inventory.ContainerEditmode;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
-
+import com.mraof.minestuck.network.message.MessageInventoryChangedRequest;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
+
+import java.io.IOException;
+import java.util.Calendar;
 
 public class GuiInventoryEditmode extends GuiPlayerStatsContainer
 {
@@ -56,18 +54,16 @@ public class GuiInventoryEditmode extends GuiPlayerStatsContainer
 	{
 		if(ycor >= yOffset + arrowY && ycor < yOffset + arrowY + 18)
 		{
-			MinestuckMessage packet = null;
 			if(less && xcor >= xOffset + leftArrowX && xcor < xOffset + leftArrowX + 18)
 			{
 				mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-				packet = MinestuckMessage.makePacket(Type.INVENTORY, 0, false);
-			} else if(more && xcor >= xOffset + rightArrowX && xcor < xOffset + rightArrowX + 18)
+				MinestuckNetwork.sendToServer(new MessageInventoryChangedRequest(false));
+			}
+			else if(more && xcor >= xOffset + rightArrowX && xcor < xOffset + rightArrowX + 18)
 			{
 				mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-				packet = MinestuckMessage.makePacket(Type.INVENTORY, 0, true);
+				MinestuckNetwork.sendToServer(new MessageInventoryChangedRequest(true));
 			}
-			if(packet != null)
-				MinestuckNetwork.sendToServer(packet);
 		}
 		super.mouseClicked(xcor, ycor, mouseButton);
 	}

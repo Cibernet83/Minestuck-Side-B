@@ -6,8 +6,9 @@ import com.mraof.minestuck.capabilities.api.IStrifeData;
 import com.mraof.minestuck.client.MSKeyHandler;
 import com.mraof.minestuck.event.handler.StrifeEventHandler;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.message.MessageStrifeData;
+import com.mraof.minestuck.network.message.MessageStrifeIndicesRequest;
+import com.mraof.minestuck.network.message.MessageStrifeRetrieveRequest;
+import com.mraof.minestuck.network.message.MessageStrifeSwapOffhandRequest;
 import com.mraof.minestuck.strife.StrifeSpecibus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -88,13 +89,14 @@ public class GuiStrifeSwitcher extends Gui
 					{
 						cap.setSelectedWeaponIndex(selWeaponIndex);
 						cap.setSelectedSpecibusIndex(selSpecibusIndex);
-						MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, mc.player, MessageStrifeData.UpdateType.INDEXES));
+						MinestuckNetwork.sendToServer(new MessageStrifeIndicesRequest(mc.player));
 					}
 					if(!(mc.player.isSneaking() && canUseAbstrataSwitcher()))
 					{
 						if(offhandMode)
-							MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.SWAP_OFFHAND_STRIFE, selSpecibus, selWeapon));
-						else MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.RETRIEVE_STRIFE, cap.getSelectedWeaponIndex(), false, hand));
+							MinestuckNetwork.sendToServer(new MessageStrifeSwapOffhandRequest(selSpecibus, selWeapon));
+						else
+							MinestuckNetwork.sendToServer(new MessageStrifeRetrieveRequest(cap.getSelectedWeaponIndex(), false, hand));
 					}
 				}
 			}

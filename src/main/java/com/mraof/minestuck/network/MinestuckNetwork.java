@@ -12,6 +12,7 @@ import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.FMLOutboundHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleIndexedCodec;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -143,6 +144,14 @@ public class MinestuckNetwork
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimensionId);
 		channels.get(Side.SERVER).writeOutbound(message);
+	}
+
+	public static void sendToDispatcher(MinestuckMessage message, NetworkDispatcher dispatcher)
+	{
+		checkSide(message, Side.SERVER);
+		MinestuckNetwork.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DISPATCHER);
+		MinestuckNetwork.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dispatcher);
+		MinestuckNetwork.channels.get(Side.SERVER).writeOutbound(message);
 	}
 
 	public static void sendToServer(MinestuckMessage message)

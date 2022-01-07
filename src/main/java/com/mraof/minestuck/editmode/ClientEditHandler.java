@@ -5,9 +5,8 @@ import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.client.gui.playerStats.GuiPlayerStats;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
-import com.mraof.minestuck.util.*;
+import com.mraof.minestuck.network.message.MessageClientEditRequest;
+import com.mraof.minestuck.util.MinestuckPlayerData;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -63,8 +62,7 @@ public class ClientEditHandler {
 	
 	public static void onKeyPressed()
 	{
-		MinestuckMessage packet = MinestuckMessage.makePacket(Type.CLIENT_EDIT);
-		MinestuckNetwork.sendToServer(packet);
+		MinestuckNetwork.sendToServer(new MessageClientEditRequest());
 	}
 	
 	public static void onClientPackage(String target, int posX, int posZ, boolean[] items, NBTTagCompound deployList)

@@ -4,7 +4,7 @@ import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.client.MinestuckFontRenderer;
 import com.mraof.minestuck.item.ItemModus;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageSylladexEmptyRequest;
 import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
@@ -84,7 +84,7 @@ public class GuiModusSettings extends GuiScreen implements GuiYesNoCallback
 	public void confirmClicked(boolean result, int id)
 	{
 		if(result)
-			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.SYLLADEX_EMPTY_REQUEST));
+			MinestuckNetwork.sendToServer(new MessageSylladexEmptyRequest());
 		mc.currentScreen = this;
 	}
 

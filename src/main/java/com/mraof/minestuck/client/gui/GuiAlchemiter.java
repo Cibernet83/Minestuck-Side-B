@@ -6,8 +6,8 @@ import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.client.util.GuiUtil;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
+import com.mraof.minestuck.network.message.MessageAlchemize;
+import com.mraof.minestuck.network.message.MessageMachineGristRequest;
 import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.gui.GuiButton;
@@ -117,17 +117,15 @@ public class GuiAlchemiter extends GuiScreen implements IGristSelectable
 		
 		if (button.id == 0)
 		{
-			
-			MinestuckMessage packet = MinestuckMessage.makePacket(Type.ALCHEMITER_PACKET, alchemiter, itemQuantity);
-			MinestuckNetwork.sendToServer(packet);
+			MinestuckNetwork.sendToServer(new MessageAlchemize(alchemiter, itemQuantity));
 			this.mc.displayGuiScreen(null);
-			
-		} else
+		}
+		else
 		{
 			//the amount the button changes the amount
 			int change;
 			int maxCount = Math.min(999, alchemiter.getOutput().getMaxStackSize() * MinestuckConfig.clientAlchemiterStacks);
-			if(button.id <= 3)
+			if (button.id <= 3)
 			{
 				change = (int) Math.pow(10, button.id - 1);
 				//custom modulo function
@@ -140,7 +138,8 @@ public class GuiAlchemiter extends GuiScreen implements IGristSelectable
 					if(itemQuantity + change <= 0)
 						itemQuantity += powTen;
 				}
-			} else
+			}
+			else
 			{
 				change = 0 - (int) Math.pow(10, button.id - 4);
 				//custom modulo function
@@ -186,7 +185,7 @@ public class GuiAlchemiter extends GuiScreen implements IGristSelectable
 		getAlchemiter().setSelectedGrist(grist);
 
 		mc.currentScreen = this;
-		MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.MACHINE_STATE, grist));
+		MinestuckNetwork.sendToServer(new MessageMachineGristRequest(grist));
 	}
 
 	@Override

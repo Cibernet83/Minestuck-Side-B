@@ -18,14 +18,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageClientEdit implements MinestuckMessage
+public class MessageClientEditRequest implements MinestuckMessage
 {
 	private int username = -1;
 	private int target;
 
-	private MessageClientEdit() { }
+	public MessageClientEditRequest() { }
 
-	public MessageClientEdit(TileEntityComputer computer, int program)
+	public MessageClientEditRequest(TileEntityComputer computer, int program)
 	{
 		username = computer.ownerId;
 		target = computer.getData(program).getInteger("connectedClient");

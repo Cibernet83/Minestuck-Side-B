@@ -82,9 +82,10 @@ public class CommandSburbSession extends CommandBase	//TODO properly localize al
 				if(titleClass == null)
 				{
 					int classIndex = Integer.parseInt(classStr);
-					titleClass = EnumClass.getClassFromInt(classIndex);
+					titleClass = EnumClass.values()[classIndex];
 				}
-			} catch(Exception e)
+			}
+			catch(Exception e)
 			{
 				throw new WrongUsageException("commands.sburbSession.notClass", classStr);
 			}
@@ -100,9 +101,10 @@ public class CommandSburbSession extends CommandBase	//TODO properly localize al
 				if(titleAspect == null)
 				{
 					int aspectIndex = Integer.parseInt(aspectStr);
-					titleAspect = EnumAspect.getAspectFromInt(aspectIndex);
+					titleAspect = EnumAspect.values()[aspectIndex];
 				}
-			} catch(Exception e)
+			}
+			catch(Exception e)
 			{
 				throw new WrongUsageException("commands.sburbSession.notAspect", aspectStr);
 			}
@@ -115,7 +117,7 @@ public class CommandSburbSession extends CommandBase	//TODO properly localize al
 			
 			TerrainLandAspect landAspect = LandAspectRegistry.fromNameTerrain(args[3].toLowerCase());
 			if(landAspect == null)
-				throw new CommandException("Can't find terrain land aspect by the name %s", args[3]);
+				throw new CommandException("commands.sburbSession.landTerrainUnknown", args[3]);
 			
 			SburbHandler.predefineTerrainLandAspect(server, sender, this, playerName, sessionName, landAspect);
 			
@@ -125,7 +127,7 @@ public class CommandSburbSession extends CommandBase	//TODO properly localize al
 			
 			TitleLandAspect landAspect = LandAspectRegistry.fromNameTitle(args[3].toLowerCase());
 			if(landAspect == null)
-				throw new CommandException("Can't find title land aspect by the name %s", args[3]);
+				throw new CommandException("commands.sburbSession.landTitleUnknown", args[3]);
 			
 			SburbHandler.predefineTitleLandAspect(server, sender, this, playerName, sessionName, landAspect);
 			
@@ -150,7 +152,7 @@ public class CommandSburbSession extends CommandBase	//TODO properly localize al
 				if(titleClass == null)
 				{
 					int classIndex = Integer.parseInt(classStr);
-					titleClass = EnumClass.getClassFromInt(classIndex);
+					titleClass = EnumClass.values()[classIndex];
 				}
 			} catch(Exception e)
 			{
@@ -168,7 +170,7 @@ public class CommandSburbSession extends CommandBase	//TODO properly localize al
 				if(titleAspect == null)
 				{
 					int aspectIndex = Integer.parseInt(aspectStr);
-					titleAspect = EnumAspect.getAspectFromInt(aspectIndex);
+					titleAspect = EnumAspect.values()[aspectIndex];
 				}
 			} catch(Exception e)
 			{
@@ -181,10 +183,10 @@ public class CommandSburbSession extends CommandBase	//TODO properly localize al
 			{
 				titleLand = LandAspectRegistry.fromNameTitle(args[5].toLowerCase());
 				if(titleLand == null)
-					throw new CommandException("Can't find title land aspect by the name %s", args[5]);
+					throw new CommandException("commands.sburbSession.landTitleUnknown", args[5]);
 				terrainLand = LandAspectRegistry.fromNameTerrain(args[6].toLowerCase());
 				if(terrainLand == null)
-					throw new CommandException("Can't find terrain land aspect by the name %s", args[6]);
+					throw new CommandException("commands.sburbSession.landTerrainUnknown", args[6]);
 			} else
 			{
 				titleLand = LandAspectRegistry.fromNameTitle(args[5].toLowerCase());
@@ -192,7 +194,7 @@ public class CommandSburbSession extends CommandBase	//TODO properly localize al
 				{
 					terrainLand = LandAspectRegistry.fromNameTerrain(args[5].toLowerCase());
 					if(terrainLand == null)
-						throw new CommandException("Can't find any land aspect by the name %s", args[5]);
+						throw new CommandException("commands.sburbSession.landAspectUnknown", args[5]);
 				}
 			}
 			

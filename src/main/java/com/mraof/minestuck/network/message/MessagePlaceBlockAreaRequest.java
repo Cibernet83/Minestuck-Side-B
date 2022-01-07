@@ -25,15 +25,15 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import static com.mraof.minestuck.editmode.ServerEditHandler.isBlockItem;
 
-public class MessagePlaceBlockArea implements MinestuckMessage
+public class MessagePlaceBlockAreaRequest implements MinestuckMessage
 {
 	private BlockPos pos1, pos2;
 	private Vec3d hitVec;
 	private EnumFacing face;
 
-	private MessagePlaceBlockArea() { }
+	private MessagePlaceBlockAreaRequest() { }
 
-	public MessagePlaceBlockArea(BlockPos pos1, BlockPos pos2, Vec3d hitVec, EnumFacing face)
+	public MessagePlaceBlockAreaRequest(BlockPos pos1, BlockPos pos2, Vec3d hitVec, EnumFacing face)
 	{
 		this.pos1 = pos1;
 		this.pos2 = pos2;

@@ -8,13 +8,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessagePlayerStatsGuiRequest implements MinestuckMessage
+public class MessageOpenPlayerStatsGuiRequest implements MinestuckMessage
 {
 	private int id;
 
-	private MessagePlayerStatsGuiRequest() { }
+	private MessageOpenPlayerStatsGuiRequest() { }
 
-	public MessagePlayerStatsGuiRequest(int id)
+	public MessageOpenPlayerStatsGuiRequest(int id)
 	{
 		this.id = id;
 	}

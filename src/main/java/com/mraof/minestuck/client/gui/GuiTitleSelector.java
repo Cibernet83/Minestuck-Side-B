@@ -1,7 +1,7 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageTitleRequest;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.Title;
@@ -35,13 +35,13 @@ public class GuiTitleSelector extends GuiScreen
 	{
 		for(int i = 0; i < 12; i++)
 		{
-			GuiButton button = new GuiButtonExt(i, (width - guiWidth)/2 + 4 + (i%2)*40, (height - guiHeight)/2 + 24 + (i/2)*16, 40, 16, EnumClass.getClassFromInt(i).getDisplayName());
+			GuiButton button = new GuiButtonExt(i, (width - guiWidth)/2 + 4 + (i%2)*40, (height - guiHeight)/2 + 24 + (i/2)*16, 40, 16, EnumClass.values()[i].getDisplayName());
 			buttonList.add(button);
 			classButtons[i] = button;
 		}
 		for(int i = 0; i < 12; i++)
 		{
-			GuiButton button = new GuiButtonExt(12 + i, (width - guiWidth)/2 + 102 + (i%2)*40, (height - guiHeight)/2 + 24 + (i/2)*16, 40, 16, EnumAspect.getAspectFromInt(i).getDisplayName());
+			GuiButton button = new GuiButtonExt(12 + i, (width - guiWidth)/2 + 102 + (i%2)*40, (height - guiHeight)/2 + 24 + (i/2)*16, 40, 16, EnumAspect.values()[i].getDisplayName());
 			buttonList.add(button);
 			aspectButtons[i] = button;
 		}
@@ -78,22 +78,22 @@ public class GuiTitleSelector extends GuiScreen
 		if(button.id >= 0 && button.id < 12)	//class
 		{
 			if(currentClass != null)
-				classButtons[EnumClass.getIntFromClass(currentClass)].enabled = true;
+				classButtons[currentClass.ordinal()].enabled = true;
 			int id = button.id;
-			currentClass = EnumClass.getClassFromInt(id);
+			currentClass = EnumClass.values()[id];
 			button.enabled = false;
 			
 		} else if(button.id >= 12 && button.id < 24)	//aspect
 		{
 			if(currentAspect != null)
-				aspectButtons[EnumAspect.getIntFromAspect(currentAspect)].enabled = true;
+				aspectButtons[currentAspect.ordinal()].enabled = true;
 			int id = button.id - 12;
-			currentAspect = EnumAspect.getAspectFromInt(id);
+			currentAspect = EnumAspect.values()[id];
 			button.enabled = false;
 			
 		} else if(button.id == -1)	//select
 		{
-			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.PLAYER_DATA, MessagePlayerData.TITLE_SELECT, currentClass, currentAspect));
+			MinestuckNetwork.sendToServer(new MessageTitleRequest(currentClass, currentAspect));
 			sendPacket = false;
 			mc.displayGuiScreen(null);
 		}
@@ -103,7 +103,7 @@ public class GuiTitleSelector extends GuiScreen
 	public void onGuiClosed()
 	{
 		if(sendPacket)
-			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.PLAYER_DATA, MessagePlayerData.TITLE_SELECT));
+			MinestuckNetwork.sendToServer(new MessageTitleRequest());
 	}
 	
 }

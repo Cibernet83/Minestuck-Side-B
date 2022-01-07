@@ -1,54 +1,23 @@
 package com.mraof.minestuck.network.skaianet;
 
-import static com.mraof.minestuck.network.skaianet.SessionHandler.GLOBAL_SESSION_NAME;
-import static com.mraof.minestuck.network.skaianet.SessionHandler.getPlayerSession;
-import static com.mraof.minestuck.network.skaianet.SessionHandler.maxSize;
-import static com.mraof.minestuck.network.skaianet.SessionHandler.merge;
-import static com.mraof.minestuck.network.skaianet.SessionHandler.sessions;
-import static com.mraof.minestuck.network.skaianet.SessionHandler.sessionsByName;
-import static com.mraof.minestuck.network.skaianet.SessionHandler.singleSession;
-import static com.mraof.minestuck.network.skaianet.SessionHandler.split;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
-import com.mraof.minestuck.entity.underling.EntityBasilisk;
-import com.mraof.minestuck.entity.underling.EntityGiclops;
-import com.mraof.minestuck.entity.underling.EntityImp;
-import com.mraof.minestuck.entity.underling.EntityLich;
-import com.mraof.minestuck.entity.underling.EntityOgre;
-import com.mraof.minestuck.entity.underling.EntityUnderling;
+import com.mraof.minestuck.entity.underling.*;
 import com.mraof.minestuck.item.ItemCruxiteArtifact;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageTitleGui;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
-import com.mraof.minestuck.util.Debug;
-import com.mraof.minestuck.util.EnumAspect;
-import com.mraof.minestuck.util.EnumClass;
-import com.mraof.minestuck.alchemy.GristHelper;
-import com.mraof.minestuck.alchemy.Grist;
-import com.mraof.minestuck.util.IdentifierHandler;
+import com.mraof.minestuck.util.*;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
-import com.mraof.minestuck.util.MinestuckPlayerData;
-import com.mraof.minestuck.util.MinestuckRandom;
-import com.mraof.minestuck.util.Title;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
 import com.mraof.minestuck.world.lands.LandAspectRegistry;
 import com.mraof.minestuck.world.lands.LandAspectRegistry.AspectCombination;
 import com.mraof.minestuck.world.lands.terrain.TerrainLandAspect;
 import com.mraof.minestuck.world.lands.title.TitleLandAspect;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -67,6 +36,10 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
+
+import java.util.*;
+
+import static com.mraof.minestuck.network.skaianet.SessionHandler.*;
 
 /**
  * A class for managing sbrub-related stuff from outside this package that is dependent on connections and sessions.
@@ -159,7 +132,7 @@ public class SburbHandler
 					int classChance = 12 - classFrequency[classIndex];
 					if(titleIndex < classChance)
 					{
-						titleClass = EnumClass.getClassFromInt(classIndex);
+						titleClass = EnumClass.values()[classIndex];
 						break;
 					}
 					titleIndex -= classChance;
@@ -206,9 +179,9 @@ public class SburbHandler
 		if(session == null)
 		{
 			if(finish && playerNames.length == 0)
-				throw new CommandException("Couldn't find session with that name. Aborting the finalizing process.", sessionName);
+				throw new CommandException("commands.sburbSession.notFound", sessionName);
 			if(singleSession)
-				throw new CommandException("Not allowed to create new sessions when global session is active. Use \"%s\" as session name for global session access.", GLOBAL_SESSION_NAME);
+				throw new CommandException("commands.sburbSession.globalSessionCreate", GLOBAL_SESSION_NAME);
 			
 			if(sender.sendCommandFeedback())
 				sender.sendMessage(new TextComponentString("Couldn't find session with that name, creating a new session..."));
@@ -219,7 +192,7 @@ public class SburbHandler
 		}
 		
 		if(session.locked)
-			throw new CommandException("That session may no longer be modified.");
+			throw new CommandException("commands.sburbSession.locked");
 		
 		int handled = 0;
 		boolean skipFinishing = false;
@@ -756,7 +729,7 @@ public class SburbHandler
 			return true;
 		
 		titleSelectionMap.put(player, new Vec3d(player.posX, player.posY, player.posZ));
-		MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.PLAYER_DATA, MessagePlayerData.TITLE_SELECT), player);
+		MinestuckNetwork.sendTo(new MessageTitleGui(), player);
 		return false;
 	}
 	
@@ -783,13 +756,13 @@ public class SburbHandler
 				for(SburbConnection c : s.connections)
 					if(c.enteredGame() && title.equals(MinestuckPlayerData.getTitle(c.getClientIdentifier())))
 					{	//Title is already used
-						MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.PLAYER_DATA, MessagePlayerData.TITLE_SELECT, title.getHeroClass(), title.getHeroAspect()), player);
+						MinestuckNetwork.sendTo(new MessageTitleGui(title.getHeroClass(), title.getHeroAspect()), player);
 						return;
 					}
 				for(PredefineData data : s.predefinedPlayers.values())
 					if(title.equals(data.title))
 					{
-						MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.PLAYER_DATA, MessagePlayerData.TITLE_SELECT, title.getHeroClass(), title.getHeroAspect()), player);
+						MinestuckNetwork.sendTo(new MessageTitleGui(title.getHeroClass(), title.getHeroAspect()), player);
 						return;
 					}
 				

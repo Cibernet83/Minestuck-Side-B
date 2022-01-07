@@ -4,7 +4,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageSwitchModusRequest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.resources.I18n;
@@ -50,7 +50,7 @@ public class GuiStackModusSettings extends GuiModusSettings
 
 	private void switchModus()
 	{
-		MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.SWITCH_MODUS));
+		MinestuckNetwork.sendToServer(new MessageSwitchModusRequest());
 
 		EntityPlayerSP player = Minecraft.getMinecraft().player;
 		BlockPos pos = player.getPosition();

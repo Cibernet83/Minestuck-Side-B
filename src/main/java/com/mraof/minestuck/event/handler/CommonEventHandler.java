@@ -9,13 +9,16 @@ import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.enchantments.MinestuckEnchantments;
 import com.mraof.minestuck.event.AlchemizeItemEvent;
 import com.mraof.minestuck.event.UnderlingSpoilsEvent;
-import com.mraof.minestuck.item.*;
+import com.mraof.minestuck.item.IPropertyWeapon;
+import com.mraof.minestuck.item.MSItemBase;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.properties.PropertyRandomDamage;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.weapon.ItemBeamBlade;
 import com.mraof.minestuck.item.weapon.MSWeaponBase;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageStopBuildInhibitEffect;
+import com.mraof.minestuck.network.message.MessageStopFlightEffect;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.MinestuckUtils;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
@@ -273,19 +276,19 @@ public class CommonEventHandler
 
 			if(potion == MinestuckPotions.EARTHBOUND && player.isCreative())
 			{
-				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.FLIGHT_EFFECT, potion == MinestuckPotions.EARTHBOUND), player);
+				MinestuckNetwork.sendTo(new MessageStopFlightEffect(potion == MinestuckPotions.EARTHBOUND), player);
 				player.capabilities.allowFlying = true;
 			}
 			if(potion == MinestuckPotions.SKYHBOUND && !player.isCreative())
 			{
-				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.FLIGHT_EFFECT, potion == MinestuckPotions.EARTHBOUND), player);
+				MinestuckNetwork.sendTo(new MessageStopFlightEffect(potion == MinestuckPotions.EARTHBOUND), player);
 				player.capabilities.allowFlying = false;
 				player.capabilities.isFlying = false;
 			}
 			if(!player.isCreative() && potion == MinestuckPotions.CREATIVE_SHOCK)
 			{
 				player.capabilities.allowEdit = !MinestuckUtils.getPlayerGameType(player).hasLimitedInteractions();
-				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.BUILD_INHIBIT_EFFECT), player);
+				MinestuckNetwork.sendTo(new MessageStopBuildInhibitEffect(), player);
 			}
 		}
 	}

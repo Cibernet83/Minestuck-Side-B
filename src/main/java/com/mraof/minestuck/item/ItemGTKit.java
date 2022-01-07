@@ -65,13 +65,13 @@ public class ItemGTKit extends MSItemBase
 			{
 				int c = nbt.getInteger("class");
 				if(c >= 0 && c < EnumClass.values().length)
-					heroClass = EnumClass.getClassFromInt(c).getDisplayName();
+					heroClass = EnumClass.values()[c].getDisplayName();
 			}
 			if(nbt.hasKey("aspect"))
 			{
 				int a = nbt.getInteger("aspect");
 				if(a >= 0 && a < EnumAspect.values().length)
-					heroAspect = EnumAspect.getAspectFromInt(a).getDisplayName();
+					heroAspect = EnumAspect.values()[a].getDisplayName();
 			}
 			
 		}

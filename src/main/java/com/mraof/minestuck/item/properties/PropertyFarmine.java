@@ -9,6 +9,7 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -16,8 +17,7 @@ import java.util.*;
 
 public class PropertyFarmine extends WeaponProperty
 {
-	int terminus;
-	int radius;
+	private int radius, terminus;
 
 	public PropertyFarmine(int radius, int terminus)
 	{
@@ -30,8 +30,8 @@ public class PropertyFarmine extends WeaponProperty
 	{
 		if (!worldIn.isRemote)
 		{
-			Comparator<Pair> comparator = new PairedIntComparator();
-			PriorityQueue<Pair> candidates = new PriorityQueue(comparator);
+			Comparator<Tuple<BlockPos, Integer>> comparator = new PairedIntComparator<>();
+			PriorityQueue<Tuple<BlockPos, Integer>> candidates = new PriorityQueue<>(comparator);
 			Block block = blockState.getBlock();
 			int fortuneLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
 			Item drop = block.getItemDropped(blockState, new Random(0L), fortuneLevel);
@@ -41,16 +41,16 @@ public class PropertyFarmine extends WeaponProperty
 					(blockState.getBlockHardness(worldIn, pos) == 0 || (double)Math.abs(blockState.getBlockHardness(worldIn, pos)) >= 1.0E-9D))
 			{
 				if (stack.getItem().getDestroySpeed(stack, blockState) >= 0)
-					candidates.add(new Pair(pos, this.radius));
-					else candidates.add(new Pair(pos, 1));
+					candidates.add(new Tuple<>(pos, this.radius));
+					else candidates.add(new Tuple<>(pos, 1));
 
-				HashSet<BlockPos> blocksToBreak = new HashSet();
+				HashSet<BlockPos> blocksToBreak = new HashSet<>();
 				boolean passedBreakLimit = false;
 
 				int rad;
 				while(!candidates.isEmpty()) {
-					BlockPos curr = (BlockPos) candidates.peek().object1;
-					rad = (Integer) candidates.poll().object2;
+					BlockPos curr = candidates.peek().getFirst();
+					rad = candidates.poll().getSecond();
 					if (!blocksToBreak.contains(curr)) {
 						blocksToBreak.add(curr);
 						if (rad != 0) {
@@ -62,7 +62,7 @@ public class PropertyFarmine extends WeaponProperty
 											IBlockState newState = worldIn.getBlockState(newBlockPos);
 											Block newBlock = newState.getBlock();
 											if (newBlock.equals(block) && newBlock.getItemDropped(newState, new Random(0L), fortuneLevel) == drop && newBlock.damageDropped(newState) == damageDrop) {
-												candidates.add(new Pair(newBlockPos, rad - 1));
+												candidates.add(new Tuple<>(newBlockPos, rad - 1));
 											}
 										}
 									}
@@ -123,12 +123,12 @@ public class PropertyFarmine extends WeaponProperty
 		}
 	}
 
-	private class PairedIntComparator implements Comparator<Pair> {
+	private class PairedIntComparator<T> implements Comparator<Tuple<T, Integer>> {
 		private PairedIntComparator() {
 		}
 
-		public int compare(Pair x, Pair y) {
-			return x != null && y != null && x.object2 != null && y.object2 != null ? (Integer)y.object2 - (Integer)x.object2 : 0;
+		public int compare(Tuple x, Tuple y) {
+			return x != null && y != null && x.getSecond() != null && y.getSecond() != null ? (Integer)y.getSecond() - (Integer)x.getSecond() : 0;
 		}
 	}
 }

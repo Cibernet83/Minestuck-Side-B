@@ -7,13 +7,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageMachineChassis implements MinestuckMessage
+public class MessageAssembleMachineChassisRequest implements MinestuckMessage
 {
     private BlockPos pos;
 
-    private MessageMachineChassis() { }
+    private MessageAssembleMachineChassisRequest() { }
 
-    public MessageMachineChassis(TileEntityMachineChassis machineChassis)
+    public MessageAssembleMachineChassisRequest(TileEntityMachineChassis machineChassis)
     {
         pos = machineChassis.getPos();
     }

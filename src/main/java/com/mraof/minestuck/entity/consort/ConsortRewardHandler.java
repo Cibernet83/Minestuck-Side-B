@@ -8,6 +8,7 @@ import com.mraof.minestuck.util.Debug;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.oredict.OreDictionary;
@@ -224,26 +225,26 @@ public class ConsortRewardHandler
 		}
 	}
 	
-	public static List<Pair<ItemStack, Integer>> generateStock(ResourceLocation lootTable, EntityConsort consort, Random rand)
+	public static List<Tuple<ItemStack, Integer>> generateStock(ResourceLocation lootTable, EntityConsort consort, Random rand)
 	{
 		LootContext.Builder contextBuilder = new LootContext.Builder((WorldServer) consort.world).withLootedEntity(consort);
 		List<ItemStack> itemStacks = consort.world.getLootTableManager().getLootTableFromLocation(lootTable).generateLootForPools(rand, contextBuilder.build());
-		List<Pair<ItemStack, Integer>> itemPriceList = new ArrayList<>();
+		List<Tuple<ItemStack, Integer>> itemPriceList = new ArrayList<>();
 		stackLoop:
 		for (ItemStack stack : itemStacks)
 		{
-			for (Pair<ItemStack, Integer> pair : itemPriceList)
+			for (Tuple<ItemStack, Integer> pair : itemPriceList)
 			{
-				if (ItemStack.areItemsEqual(pair.object1, stack) && ItemStack.areItemStackTagsEqual(pair.object1, stack))
+				if (ItemStack.areItemsEqual(pair.getFirst(), stack) && ItemStack.areItemStackTagsEqual(pair.getFirst(), stack))
 				{
-					pair.object1.grow(stack.getCount());
+					pair.getFirst().grow(stack.getCount());
 					continue stackLoop;
 				}
 			}
-			
+
 			int price = getPrice(stack, rand);
 			if (price >= 0 && itemPriceList.size() < 9)
-				itemPriceList.add(new Pair<>(stack, price));
+				itemPriceList.add(new Tuple<>(stack, price));
 			if (price < 0)
 				Debug.warn("Couldn't find a boondollar price for " + stack);
 		}

@@ -1,13 +1,16 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.alchemy.*;
+import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.GristAmount;
+import com.mraof.minestuck.alchemy.GristRegistry;
+import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.client.util.GuiUtil;
 import com.mraof.minestuck.inventory.miniMachines.ContainerMiniAlchemiter;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageMachineGristRequest;
 import com.mraof.minestuck.tileentity.TileEntityMiniAlchemiter;
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.resources.I18n;
@@ -90,7 +93,7 @@ public class GuiMiniAlchemiter extends GuiMiniSburbMachine implements IGristSele
 		te.selectedGrist = grist;
 
 		mc.currentScreen = this;
-		MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.MACHINE_STATE, grist));
+		MinestuckNetwork.sendToServer(new MessageMachineGristRequest(grist));
 	}
 
 	@Override

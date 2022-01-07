@@ -12,8 +12,9 @@ import com.mraof.minestuck.item.ItemStrifeCard;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.weapon.MSWeaponBase;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.message.MessageStrifeData;
+import com.mraof.minestuck.network.message.MessageStrifeConfig;
+import com.mraof.minestuck.network.message.MessageStrifeIndices;
+import com.mraof.minestuck.network.message.MessageStrifePortfolio;
 import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.MinestuckKindAbstrata;
 import com.mraof.minestuck.strife.StrifePortfolioHandler;
@@ -255,7 +256,7 @@ public class StrifeEventHandler
 		if(!event.player.world.isRemote && cap.abstrataSwitcherUnlocked() != unlockSwitcher)
 		{
 			cap.unlockAbstrataSwitcher(unlockSwitcher);
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, event.player, MessageStrifeData.UpdateType.CONFIG), event.player);
+			MinestuckNetwork.sendTo(new MessageStrifeConfig(event.player), event.player);
 
 			if(unlockSwitcher)
 				event.player.sendStatusMessage(new TextComponentTranslation("status.strife.unlockSwitcher"), false);
@@ -282,7 +283,7 @@ public class StrifeEventHandler
 				if(!player.world.isRemote)
 				{
 					cap.setArmed(false);
-					MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageStrifeData.UpdateType.INDEXES), player);
+					MinestuckNetwork.sendTo(new MessageStrifeIndices(player), player);
 				}
 				return;
 			}
@@ -308,7 +309,7 @@ public class StrifeEventHandler
 					if(!player.world.isRemote)
 					{
 						cap.setArmed(false);
-						MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageStrifeData.UpdateType.INDEXES), player);
+						MinestuckNetwork.sendTo(new MessageStrifeIndices(player), player);
 					}
 					return;
 				}
@@ -357,7 +358,7 @@ public class StrifeEventHandler
 
 								specibus.switchKindAbstratus(abstratusList.get(0), player);
 								if(!player.world.isRemote)
-									MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, player, MessageStrifeData.UpdateType.PORTFOLIO, cap.getSelectedSpecibusIndex()), player);
+									MinestuckNetwork.sendTo(new MessageStrifePortfolio(player, cap.getSelectedSpecibusIndex()), player);
 							}
 							else
 							{

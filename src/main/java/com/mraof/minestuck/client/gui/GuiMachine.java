@@ -1,8 +1,7 @@
 package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
+import com.mraof.minestuck.network.message.MessageGoButton;
 import com.mraof.minestuck.tileentity.TileEntityMachine;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
@@ -15,9 +14,6 @@ import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
 
-/**
- * Created by mraof on 2017 December 07 at 12:55 AM.
- */
 public abstract class GuiMachine extends GuiContainer
 {
 	private TileEntityMachine te;
@@ -39,8 +35,7 @@ public abstract class GuiMachine extends GuiContainer
 			this.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 
 			boolean mode = te.allowOverrideStop() && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54));
-			MinestuckMessage packet = MinestuckMessage.makePacket(Type.GOBUTTON, true, mode && !te.overrideStop);
-			MinestuckNetwork.sendToServer(packet);
+			MinestuckNetwork.sendToServer(new MessageGoButton(true, mode && !te.overrideStop));
 
 			if (!mode)
 				te.ready = true;
@@ -57,8 +52,7 @@ public abstract class GuiMachine extends GuiContainer
 			if (Mouse.getEventButton() == 0 && !te.overrideStop)
 			{
 				//Tell the machine to go once
-				MinestuckMessage packet = MinestuckMessage.makePacket(Type.GOBUTTON, true, false);
-				MinestuckNetwork.sendToServer(packet);
+				MinestuckNetwork.sendToServer(new MessageGoButton(true, false));
 
 				te.ready = true;
 				te.overrideStop = false;
@@ -67,8 +61,7 @@ public abstract class GuiMachine extends GuiContainer
 			else if (Mouse.getEventButton() == 1 && te.allowOverrideStop())
 			{
 				//Tell the machine to go until stopped
-				MinestuckMessage packet = MinestuckMessage.makePacket(Type.GOBUTTON, true, !te.overrideStop);
-				MinestuckNetwork.sendToServer(packet);
+				MinestuckNetwork.sendToServer(new MessageGoButton(true, !te.overrideStop));
 
 				te.overrideStop = !te.overrideStop;
 				goButton.displayString = I18n.format(te.overrideStop ? "gui.buttonStop" : "gui.buttonGo");

@@ -12,15 +12,15 @@ import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageMindflayerMovementInput implements MinestuckMessage
+public class MessageMindflayerMovementInputRequest implements MinestuckMessage
 {
 	private float moveStrafe, moveForward;
 	private boolean jump, sneak;
 	private int currentItem;
 
-	private MessageMindflayerMovementInput() { }
+	private MessageMindflayerMovementInputRequest() { }
 
-	public MessageMindflayerMovementInput(float moveStrafe, float moveForward, boolean jump, boolean sneak, int currentItem)
+	public MessageMindflayerMovementInputRequest(float moveStrafe, float moveForward, boolean jump, boolean sneak, int currentItem)
 	{
 		this.moveStrafe = moveStrafe;
 		this.moveForward = moveForward;

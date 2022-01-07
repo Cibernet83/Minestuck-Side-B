@@ -5,8 +5,11 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.util.*;
+import com.mraof.minestuck.network.message.MessageSendParticle;
+import com.mraof.minestuck.util.EnumAspect;
+import com.mraof.minestuck.util.EnumRole;
+import com.mraof.minestuck.util.MinestuckUtils;
+import com.mraof.minestuck.util.Teleport;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
@@ -27,7 +30,7 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
 		if(player.isSneaking() && badgeEffects.hasWarpPoint() && badgeEffects.getWarpPointDim() == player.world.provider.getDimension())
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x4BEC13, 3, badgeEffects.getWarpPoint().x, badgeEffects.getWarpPoint().y, badgeEffects.getWarpPoint().z), player);
+			MinestuckNetwork.sendTo(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, badgeEffects.getWarpPoint().x, badgeEffects.getWarpPoint().y, badgeEffects.getWarpPoint().z, 0x4BEC13, 3), player);
 
 		if (state != GodKeyStates.KeyState.PRESS)
 			return false;
@@ -72,7 +75,10 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 						if (target.attemptTeleport(attemptX, attemptY, attemptZ))
 						{
 							target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.SPACE, 5);
-							MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.BURST, 0x4BEC13, 5, attemptX, attemptY, attemptZ), target);
+							if (target instanceof EntityPlayer)
+								MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.BURST, attemptX, attemptY, attemptZ, 0x4BEC13, 5), (EntityPlayer) target);
+							else
+								MinestuckNetwork.sendToTracking(new MessageSendParticle(MinestuckParticles.ParticleType.BURST, attemptX, attemptY, attemptZ, 0x4BEC13, 5), target);
 							break;
 						}
 					}
@@ -83,7 +89,7 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 					Teleport.teleportEntity(target, badgeEffects.getWarpPointDim(), null, warpPoint.x, warpPoint.y, warpPoint.z);
 
 					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.SPACE, 5);
-					MinestuckNetwork.sendToDimension(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.BURST, 0x4BEC13, 5, warpPoint.x, warpPoint.y, warpPoint.z), badgeEffects.getWarpPointDim()); // leaving this as dim bc dims
+					MinestuckNetwork.sendToDimension(new MessageSendParticle(MinestuckParticles.ParticleType.BURST, warpPoint.x, warpPoint.y, warpPoint.z, 0x4BEC13, 5), badgeEffects.getWarpPointDim()); // leaving this as dim bc dims
 				}
 
 				if (!player.isCreative())

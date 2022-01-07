@@ -8,14 +8,14 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageClearProgram implements MinestuckMessage
+public class MessageClearProgramRequest implements MinestuckMessage
 {
 	private ComputerData computer;
 	private int program;
 
-	private MessageClearProgram() { }
+	private MessageClearProgramRequest() { }
 
-	public MessageClearProgram(ComputerData computer, int program){
+	public MessageClearProgramRequest(ComputerData computer, int program){
 		this.computer = computer;
 		this.program = program;
 	}

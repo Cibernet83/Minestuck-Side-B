@@ -4,9 +4,8 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.MinestuckFontRenderer;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageStrifeAssignRequest;
 import com.mraof.minestuck.strife.KindAbstratus;
-import com.mraof.minestuck.strife.StrifeSpecibus;
 import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -118,7 +117,7 @@ public class GuiStrifeCard extends GuiScreen
 
 					if(card.isItemEqual(new ItemStack(MinestuckItems.strifeCard)))
 					{
-						MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.ASSIGN_STRIFE, hand, new StrifeSpecibus(type)));
+						MinestuckNetwork.sendToServer(new MessageStrifeAssignRequest(hand, type));
 						this.mc.displayGuiScreen(null);
 					}
 

@@ -1,23 +1,22 @@
 package com.mraof.minestuck.network.message;
 
-import com.mraof.minestuck.client.gui.GuiTitleSelector;
 import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.skaianet.SburbHandler;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.Title;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageSelectTitleGui implements MinestuckMessage
+public class MessageTitleRequest implements MinestuckMessage
 {
 	private EnumClass clazz;
 	private EnumAspect aspect;
 
-	private MessageSelectTitleGui() { }
+	public MessageTitleRequest() { }
 
-	public MessageSelectTitleGui(EnumClass clazz, EnumAspect aspect)
+	public MessageTitleRequest(EnumClass clazz, EnumAspect aspect)
 	{
 		this.clazz = clazz;
 		this.aspect = aspect;
@@ -47,12 +46,12 @@ public class MessageSelectTitleGui implements MinestuckMessage
 			title = new Title(clazz, aspect);
 		else
 			title = null;
-		FMLClientHandler.instance().showGuiScreen(new GuiTitleSelector(title));
+		SburbHandler.titleSelected(player, title);
 	}
 	
 	@Override
 	public Side toSide()
 	{
-		return Side.CLIENT;
+		return Side.SERVER;
 	}
 }

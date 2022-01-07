@@ -7,7 +7,8 @@ import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.entity.ai.EntityAIMindflayerTarget;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageCurrentItem;
+import com.mraof.minestuck.network.message.MessageMindflayerMovementInputRequest;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumRole;
@@ -90,7 +91,7 @@ public class BadgeActiveMind extends BadgeHeroAspect
 		else if(mfTarget instanceof EntityPlayer)
 		{
 			mfTarget.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setMindflayedBy(player);
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.SET_CURRENT_ITEM, player.inventory.currentItem), (EntityPlayer) mfTarget);
+			MinestuckNetwork.sendTo(new MessageCurrentItem(player.inventory.currentItem), (EntityPlayer) mfTarget);
 		}
 		return mfTarget;
 	}
@@ -171,7 +172,7 @@ public class BadgeActiveMind extends BadgeHeroAspect
 		{
 			Vec3d movement = new Vec3d(input.moveStrafe, 0, input.moveForward).rotateYaw(-event.getEntityPlayer().rotationYawHead * 0.017453292f);
 
-			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.MINDFLAYER_MOVEMENT_INPUT, (float) movement.x, (float) movement.z, input.jump, input.sneak, event.getEntityPlayer().inventory.currentItem));
+			MinestuckNetwork.sendToServer(new MessageMindflayerMovementInputRequest((float) movement.x, (float) movement.z, input.jump, input.sneak, event.getEntityPlayer().inventory.currentItem));
 
 			input.moveStrafe = 0;
 			input.moveForward = 0;

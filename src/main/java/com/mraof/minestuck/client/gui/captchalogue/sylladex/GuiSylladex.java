@@ -4,12 +4,15 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.client.MinestuckFontRenderer;
-import com.mraof.minestuck.client.settings.MinestuckKeyHandler;
+import com.mraof.minestuck.client.MinestuckKeyHandler;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
+import com.mraof.minestuck.network.message.MessageSylladexEmptyRequest;
+import com.mraof.minestuck.network.message.MessageSylladexFetchRequest;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.resources.I18n;
@@ -186,8 +189,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 			if (hitSlots != null)
 			{
 				int[] slots = hitSlots.stream().mapToInt(Integer::intValue).toArray();
-				MinestuckMessage packet = MinestuckMessage.makePacket(Type.SYLLADEX_FETCH, slots, mouseButton != 0);
-				MinestuckNetwork.sendToServer(packet);
+				MinestuckNetwork.sendToServer(new MessageSylladexFetchRequest(slots, mouseButton != 0));
 				return;
 			}
 		}
@@ -216,7 +218,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	public void confirmClicked(boolean result, int id)
 	{
 		if(result)
-			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(Type.SYLLADEX_EMPTY_REQUEST));
+			MinestuckNetwork.sendToServer(new MessageSylladexEmptyRequest());
 		mc.currentScreen = this;
 		mousePressed = false;
 	}

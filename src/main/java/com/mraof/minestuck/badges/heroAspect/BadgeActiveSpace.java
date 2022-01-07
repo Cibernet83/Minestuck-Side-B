@@ -4,8 +4,11 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.util.*;
+import com.mraof.minestuck.network.message.MessageSendParticle;
+import com.mraof.minestuck.util.EnumAspect;
+import com.mraof.minestuck.util.EnumRole;
+import com.mraof.minestuck.util.MinestuckUtils;
+import com.mraof.minestuck.util.Teleport;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -60,7 +63,7 @@ public class BadgeActiveSpace extends BadgeHeroAspect
 
 
 		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.SPACE, 10);
-		MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x4BEC13, 10, player.posX, player.posY, player.posZ), player);
+		MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, player, 0x4BEC13, 10), player);
 
 		Teleport.localTeleport(player, null, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
 

@@ -12,7 +12,7 @@ import com.mraof.minestuck.damage.CritDamageSource;
 import com.mraof.minestuck.damage.EntityCritDamageSource;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageGodTierData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
@@ -402,7 +402,7 @@ public class GodTierEventHandler
 					data.setConsortType(landspects.aspectTerrain.getConsortType());
 			}
 
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_DATA_SERVER, ((EntityPlayer)event.getEntity())), ((EntityPlayer)event.getEntity()));
+			MinestuckNetwork.sendTo(new MessageGodTierData((EntityPlayer)event.getEntity()), (EntityPlayer)event.getEntity());
 		}
 	}
 }

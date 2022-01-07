@@ -15,7 +15,7 @@ import com.mraof.minestuck.event.UnderlingSpoilsEvent;
 import com.mraof.minestuck.event.WeaponAssignedEvent;
 import com.mraof.minestuck.modSupport.LocksSupport;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageSendParticle;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.EnumAspect;
@@ -104,7 +104,7 @@ public class BadgeEventHandler
 		{
 			if(targetData.isBadgeActive(MinestuckBadges.MASTER_BADGE_BRAVE) && (event.getEntity().world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_BRAVE.getStatNumber(targetPlayer)))
 			{
-				MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x0094FF, 20, targetPlayer), targetPlayer);
+				MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, targetPlayer, 0x0094FF, 20), targetPlayer);
 				event.setAmount(0);
 			}
 		}
@@ -114,7 +114,7 @@ public class BadgeEventHandler
 		{
 			if(event.getEntity().world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_MIGHTY.getStatNumber(sourcePlayer))
 			{
-				MinestuckNetwork.sendToTrackingAndSelf(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0xF80000, 20, sourcePlayer), sourcePlayer);
+				MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, sourcePlayer, 0xF80000, 20), sourcePlayer);
 				event.setAmount(event.getAmount()*2);
 			}
 		}
@@ -140,7 +140,7 @@ public class BadgeEventHandler
 
 			if(data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE) && (event.getEntity().world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
 			{
-				MinestuckNetwork.sendToTracking(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x00D54E, 20, entity.posX, entity.posY, entity.posZ), entity);
+				MinestuckNetwork.sendToTracking(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, entity.posX, entity.posY, entity.posZ, 0x00D54E, 20), entity);
 
 				for(EntityItem item : event.getDrops())
 					item.getItem().setCount(Math.min(item.getItem().getCount()*4, item.getItem().getMaxStackSize()));
@@ -179,7 +179,7 @@ public class BadgeEventHandler
 				if((underling.world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
 				{
 					grist = grist.scaleGrist(5);
-					MinestuckNetwork.sendToTracking(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_PARTICLE, MinestuckParticles.ParticleType.AURA, 0x00D54E, 20, underling.posX, underling.posY, underling.posZ), underling);
+					MinestuckNetwork.sendToTracking(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, underling.posX, underling.posY, underling.posZ, 0x00D54E, 20), underling);
 				}
 
 				event.setSpoils(grist);

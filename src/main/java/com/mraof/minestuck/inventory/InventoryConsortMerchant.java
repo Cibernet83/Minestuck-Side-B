@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -47,7 +48,7 @@ public class InventoryConsortMerchant implements IInventory
 	{
 	}
 	
-	public InventoryConsortMerchant(EntityConsort consort, List<Pair<ItemStack, Integer>> stocks)
+	public InventoryConsortMerchant(EntityConsort consort, List<Tuple<ItemStack, Integer>> stocks)
 	{
 		this.consort = consort;
 		consortType = consort.getConsortType();
@@ -55,9 +56,9 @@ public class InventoryConsortMerchant implements IInventory
 		
 		for (int i = 0; i < stocks.size(); i++)
 		{
-			Pair<ItemStack, Integer> entry = stocks.get(i);
-			inv.set(i, entry.object1);
-			prices[i] = entry.object2;
+			Tuple<ItemStack, Integer> entry = stocks.get(i);
+			inv.set(i, entry.getFirst());
+			prices[i] = entry.getSecond();
 		}
 	}
 	

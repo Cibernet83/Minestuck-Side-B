@@ -11,14 +11,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageStrifeActiveRequest implements MinestuckMessage
+public class MessageStrifeActivateCardRequest implements MinestuckMessage
 {
 	private int index;
 	private boolean isSpecibus;
 
-	private MessageStrifeActiveRequest() { }
+	private MessageStrifeActivateCardRequest() { }
 
-	public MessageStrifeActiveRequest(int index, boolean isSpecibus)
+	public MessageStrifeActivateCardRequest(int index, boolean isSpecibus)
 	{
 		this.index = index;
 		this.isSpecibus = isSpecibus;

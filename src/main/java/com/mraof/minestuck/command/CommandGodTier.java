@@ -70,7 +70,7 @@ public class CommandGodTier extends CommandBase
 					if(titleClass == null)
 					{
 						int classIndex = Integer.parseInt(classStr);
-						titleClass = EnumClass.getClassFromInt(classIndex);
+						titleClass = EnumClass.values()[classIndex];
 					}
 				} catch(Exception e)
 				{
@@ -88,7 +88,7 @@ public class CommandGodTier extends CommandBase
 					if(titleAspect == null)
 					{
 						int aspectIndex = Integer.parseInt(aspectStr);
-						titleAspect = EnumAspect.getAspectFromInt(aspectIndex);
+						titleAspect = EnumAspect.values()[aspectIndex];
 					}
 				} catch(Exception e)
 				{

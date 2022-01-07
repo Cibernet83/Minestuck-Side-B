@@ -9,37 +9,34 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessagePlayerTitle implements MinestuckMessage
+public class MessageTitle implements MinestuckMessage
 {
-	private EnumClass clazz;
-	private EnumAspect aspect;
+	private Title title;
 
-	public MessagePlayerTitle() { }
+	public MessageTitle() { }
 
-	public MessagePlayerTitle(EnumClass clazz, EnumAspect aspect)
+	public MessageTitle(Title title)
 	{
-		this.clazz = clazz;
-		this.aspect = aspect;
+		this.title = title;
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
-		data.writeInt(clazz.ordinal());
-		data.writeInt(aspect.ordinal());
+		buf.writeInt(title.getHeroClass().ordinal());
+		buf.writeInt(title.getHeroAspect().ordinal());
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		clazz = EnumClass.values()[data.readInt()];
-		aspect = EnumAspect.values()[data.readInt()];
+		title = new Title(EnumClass.values()[buf.readInt()], EnumAspect.values()[buf.readInt()]);
 	}
 	
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		MinestuckPlayerData.clientData.title = new Title(clazz, aspect);
+		MinestuckPlayerData.clientData.title = title;
 	}
 	
 	@Override

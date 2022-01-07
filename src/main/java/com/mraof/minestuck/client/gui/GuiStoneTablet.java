@@ -2,8 +2,7 @@ package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
+import com.mraof.minestuck.network.message.MessageStoneTabletRequest;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -110,8 +109,7 @@ public class GuiStoneTablet extends GuiScreen
 		{
 			if (this.text != null)
 			{
-				MinestuckMessage packet = MinestuckMessage.makePacket(Type.STONE_TABLET, this.text.getString());
-				MinestuckNetwork.sendToServer(packet);
+				MinestuckNetwork.sendToServer(new MessageStoneTabletRequest(this.text.getString()));
 				this.mc.displayGuiScreen(null);
 			}
 		}

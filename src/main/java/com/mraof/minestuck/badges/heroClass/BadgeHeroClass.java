@@ -7,7 +7,7 @@ import com.mraof.minestuck.capabilities.api.IBadgeEffects;
 import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.MSGTKeyHandler;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageAddXp;
 import com.mraof.minestuck.potions.MinestuckPotions;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -67,7 +67,7 @@ public abstract class BadgeHeroClass extends BadgeLevel
 		if(player.experienceLevel >= requiredXp)
 		{
 			player.experienceLevel -= requiredXp;
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.ADD_PLAYER_XP, -requiredXp), player);
+			MinestuckNetwork.sendTo(new MessageAddXp(-requiredXp), player);
 			return true;
 		}
 		return false;

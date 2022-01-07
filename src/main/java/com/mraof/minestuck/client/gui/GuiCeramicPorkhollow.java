@@ -3,7 +3,7 @@ package com.mraof.minestuck.client.gui;
 import com.google.common.collect.Lists;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessagePorkhollowWithdraw;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -159,7 +159,7 @@ public class GuiCeramicPorkhollow extends GuiScreen
 			int amount = getInt(amountTextField);
 			int n = getInt(nTextField);
 			amount *= n;
-			MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.PORKHOLLOW_WITHDRAW, player, amount, n));
+			MinestuckNetwork.sendToServer(new MessagePorkhollowWithdraw(player, amount, n));
 			this.mc.displayGuiScreen(null);
 			if (this.mc.currentScreen == null)
 				this.mc.setIngameFocus();

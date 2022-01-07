@@ -8,14 +8,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageTransportalizerCodeRequest implements MinestuckMessage
+public class MessageTransportalizerDestIdRequest implements MinestuckMessage
 {
 	private BlockPos pos;
 	private String destId;
 
-	private MessageTransportalizerCodeRequest() { }
+	private MessageTransportalizerDestIdRequest() { }
 
-	public MessageTransportalizerCodeRequest(TileEntityTransportalizer transportalizer, String destId)
+	public MessageTransportalizerDestIdRequest(TileEntityTransportalizer transportalizer, String destId)
 	{
 		this.pos = transportalizer.getPos();
 		this.destId = destId;

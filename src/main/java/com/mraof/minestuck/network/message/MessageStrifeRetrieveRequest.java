@@ -8,27 +8,27 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageRetrieveStrifeCard implements MinestuckMessage
+public class MessageStrifeRetrieveRequest implements MinestuckMessage
 {
 	private int index;
 	private boolean isCard;
 	private EnumHand hand;
 
-	private MessageRetrieveStrifeCard() { }
+	private MessageStrifeRetrieveRequest() { }
 
-	public MessageRetrieveStrifeCard(int index, boolean isCard, EnumHand hand)
+	public MessageStrifeRetrieveRequest(int index, boolean isCard, EnumHand hand)
 	{
 		this.index = index;
 		this.isCard = isCard;
 		this.hand = hand;
 	}
 
-	public MessageRetrieveStrifeCard(int index, boolean isCard)
+	public MessageStrifeRetrieveRequest(int index, boolean isCard)
 	{
 		this(index, isCard, EnumHand.MAIN_HAND);
 	}
 
-	public MessageRetrieveStrifeCard(int index)
+	public MessageStrifeRetrieveRequest(int index)
 	{
 		this(index, true);
 	}

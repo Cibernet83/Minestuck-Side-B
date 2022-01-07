@@ -8,14 +8,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageAlchemiter implements MinestuckMessage
+public class MessageAlchemize implements MinestuckMessage
 {
 	private BlockPos tePos;
 	private int quantity;
 
-	private MessageAlchemiter() { }
+	private MessageAlchemize() { }
 
-	public MessageAlchemiter(TileEntityAlchemiter alchemiter, int quantity)
+	public MessageAlchemize(TileEntityAlchemiter alchemiter, int quantity)
 	{
 		this.tePos = alchemiter.getPos();
 		this.quantity = quantity;

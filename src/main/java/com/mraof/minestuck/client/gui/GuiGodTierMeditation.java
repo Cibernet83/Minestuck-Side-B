@@ -8,7 +8,9 @@ import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.capabilities.caps.GodTierData;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageAddSkillXp;
+import com.mraof.minestuck.network.message.MessageBadgeUnlockRequest;
+import com.mraof.minestuck.network.message.MessageToggleBadgeRequest;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.Minecraft;
@@ -357,7 +359,7 @@ public class GuiGodTierMeditation extends GuiScreen
 			MasterBadge badge = masterBadges.get(i);
 
 			if(isPointInRegion(mouseX, mouseY, xOffset+(xSize - masterBadges.size()*22)/2  + i*22, yOffset+124, 20, 20) && badge.isReadable(player.world, player))
-				MinestuckNetwork.sendToServer(MinestuckMessage.makePacket((!data.isBadgeActive(MinestuckBadges.BADGE_OVERLORD) && !data.hasBadge(badge) && data.getMasterBadge() == null && mouseButton == 0) ? MinestuckMessage.Type.ATTEMPT_BADGE_UNLOCK : MinestuckMessage.Type.TOGGLE_BADGE, badge));
+				MinestuckNetwork.sendToServer(!data.isBadgeActive(MinestuckBadges.BADGE_OVERLORD) && !data.hasBadge(badge) && data.getMasterBadge() == null && mouseButton == 0 ? new MessageBadgeUnlockRequest(badge) : new MessageToggleBadgeRequest(badge));
 
 		}
 		for(int i = 0; i < badges.size(); i++)
@@ -365,7 +367,7 @@ public class GuiGodTierMeditation extends GuiScreen
 			Badge badge = badges.get(i);
 			int rows = (int) Math.max(2, Math.ceil(badges.size()/20f));
 			if(isPointInRegion(mouseX, mouseY, xOffset+(xSize - ((badges.size()+1)/rows)*22)/2  + ((i)/rows)*22, yOffset+157 + (i%rows)*22, 20, 20) && badge.isReadable(player.world, player))
-				MinestuckNetwork.sendToServer(MinestuckMessage.makePacket((!data.hasBadge(badge) && mouseButton == 0) ? MinestuckMessage.Type.ATTEMPT_BADGE_UNLOCK : MinestuckMessage.Type.TOGGLE_BADGE, badge));
+				MinestuckNetwork.sendToServer(!data.hasBadge(badge) && mouseButton == 0 ? new MessageBadgeUnlockRequest(badge) : new MessageToggleBadgeRequest(badge));
 		}
 	}
 
@@ -389,7 +391,7 @@ public class GuiGodTierMeditation extends GuiScreen
 				mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 
 				int amount = showExtra ? 5 : 1;
-				MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.INCREASE_XP, skill, player, amount));
+				MinestuckNetwork.sendToServer(new MessageAddSkillXp(skill, player, amount));
 
 				if(!player.isCreative())
 					player.experienceLevel -= amount;

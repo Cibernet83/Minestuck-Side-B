@@ -43,7 +43,6 @@ public class ItemGTArmor extends MSArmorBase
 	{
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public String getItemStackDisplayName(ItemStack stack)
 	{
@@ -58,13 +57,13 @@ public class ItemGTArmor extends MSArmorBase
 			{
 				int c = nbt.getInteger("class");
 				if(c >= 0 && c < EnumClass.values().length)
-					heroClass = EnumClass.getClassFromInt(c).getDisplayName();
+					heroClass = EnumClass.values()[c].getDisplayName();
 			}
 			if(nbt.hasKey("aspect"))
 			{
 				int a = nbt.getInteger("aspect");
 				if(a >= 0 && a < EnumAspect.values().length)
-					heroAspect = EnumAspect.getAspectFromInt(a).getDisplayName();
+					heroAspect = EnumAspect.values()[a].getDisplayName();
 			}
 		}
 		return I18n.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", I18n.translateToLocalFormatted("title.format", heroClass, heroAspect)).trim();
@@ -170,7 +169,7 @@ public class ItemGTArmor extends MSArmorBase
 		
 		int c = nbt.getInteger("class");
 		if(c >= 0 && c < EnumClass.values().length)
-			return EnumClass.getClassFromInt(c);
+			return EnumClass.values()[c];
 		return null;
 	}
 	
@@ -199,7 +198,7 @@ public class ItemGTArmor extends MSArmorBase
 		
 		int a = nbt.getInteger("aspect");
 		if(a >= 0 && a < EnumAspect.values().length)
-			return EnumAspect.getAspectFromInt(a);
+			return EnumAspect.values()[a];
 		return null;
 	}
 
@@ -219,7 +218,7 @@ public class ItemGTArmor extends MSArmorBase
 		ModelLoader.setCustomMeshDefinition(this, (ItemStack stack) -> {
 			NBTTagCompound nbt = stack.getTagCompound();
 			if(nbt == null) return new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "god_tier_" + name), "inventory");
-			String clss = EnumClass.getClassFromInt(nbt.getInteger("class")).getDisplayName().toLowerCase();
+			String clss = EnumClass.values()[nbt.getInteger("class")].getDisplayName().toLowerCase();
 			return new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, clss + "_" + name + (ItemGTArmor.getHideExtras(stack) ? "_hidden" : "")), "inventory");
 		});
 	}

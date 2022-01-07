@@ -2,7 +2,7 @@ package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageCurrentItem;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
@@ -67,7 +67,7 @@ public class SoulData
 		{
 			((EntityPlayer) player).inventory.currentItem = this.currentItem;
 			if(FMLCommonHandler.instance().getSide() == Side.SERVER)
-				MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.SET_CURRENT_ITEM, this.currentItem), (EntityPlayer) player);
+				MinestuckNetwork.sendTo(new MessageCurrentItem(this.currentItem), (EntityPlayer) player);
 		}
 
 	}
