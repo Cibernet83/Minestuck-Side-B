@@ -7,8 +7,10 @@ import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.client.gui.GuiGodTierMeditation;
 import com.mraof.minestuck.client.gui.IGristSelectable;
+import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.network.message.MessageOpenGui;
+import com.mraof.minestuck.network.message.MessageGristHoardRequest;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -35,7 +37,7 @@ public class BadgeGristHoard extends BadgeLevel implements IGristSelectable
 			if(!GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), new GristSet(type, REQ)))
 				return false;
 
-		MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.REQUEST_GRIST_HOARD), player);
+		MinestuckNetwork.sendTo(new MessageOpenGui(MinestuckGuiHandler.GuiId.HOARD_SELECTOR), player);
 		return false;
 	}
 
@@ -69,6 +71,7 @@ public class BadgeGristHoard extends BadgeLevel implements IGristSelectable
 	{
 		return Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).hasBadge(this);
 	}
+
 	@SideOnly(Side.CLIENT)
 	private Grist getGristHoard()
 	{
@@ -87,7 +90,7 @@ public class BadgeGristHoard extends BadgeLevel implements IGristSelectable
 		MinestuckPlayerTracker.updateGristCache(pid);
 
 		mc.player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).setGristHoard(grist);
-		MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.SEND_GRIST_HOARD, grist));
+		MinestuckNetwork.sendToServer(new MessageGristHoardRequest(grist));
 		Minecraft.getMinecraft().currentScreen = new GuiGodTierMeditation(Minecraft.getMinecraft().player);
 	}
 

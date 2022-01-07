@@ -4,9 +4,9 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.GuiComputer;
 import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
-import com.mraof.minestuck.network.message.MessageSkaianetInfo;
+import com.mraof.minestuck.network.message.MessageSburbCloseRequest;
+import com.mraof.minestuck.network.message.MessageSburbConnectRequest;
+import com.mraof.minestuck.network.message.MessageSkaianetDataRequest;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -15,7 +15,10 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class SkaiaClient
@@ -51,14 +54,13 @@ public class SkaiaClient
 	 */
 	public static boolean requestData(TileEntityComputer computer)
 	{
-		boolean b = openServers.get(computer.ownerId) != null;
-		if(!b)
+		boolean hasData = openServers.get(computer.ownerId) != null;
+		if(!hasData)
 		{
-			MinestuckMessage packet = MinestuckMessage.makePacket(Type.SBURB_INFO, computer.ownerId);
-			MinestuckNetwork.sendToServer(packet);
+			MinestuckNetwork.sendToServer(new MessageSkaianetDataRequest(computer.ownerId));
 			te = computer;
 		}
-		return b;
+		return hasData;
 	}
 	
 	//Getters used by the computer
@@ -123,14 +125,12 @@ public class SkaiaClient
 	
 	public static void sendConnectRequest(TileEntityComputer te, int otherPlayer, boolean isClient)	//Used for both connect, open server and resume
 	{
-		MinestuckMessage packet = MinestuckMessage.makePacket(Type.SBURB_CONNECT, ComputerData.createData(te), otherPlayer, isClient);
-		MinestuckNetwork.sendToServer(packet);
+		MinestuckNetwork.sendToServer(new MessageSburbConnectRequest(ComputerData.createData(te), otherPlayer, isClient));
 	}
 	
 	public static void sendCloseRequest(TileEntityComputer te, int otherPlayer, boolean isClient)
 	{
-		MinestuckMessage packet = MinestuckMessage.makePacket(Type.SBURB_CLOSE, te.ownerId, otherPlayer, isClient);
-		MinestuckNetwork.sendToServer(packet);
+		MinestuckNetwork.sendToServer(new MessageSburbCloseRequest(te.ownerId, otherPlayer, isClient));
 	}
 	
 	//Methods used by the SkaianetInfoPacket.
@@ -151,38 +151,32 @@ public class SkaiaClient
 		
 		return c;
 	}
-	
-	public static void consumePacket(MessageSkaianetInfo data)
+
+	public static void setLandChains(List<List<Integer>> landChains)
 	{
-		if(data.landChains != null)
-		{
-			landChainMap.clear();
-			for(List<Integer> list : data.landChains)
-				for(int i : list)
-					landChainMap.put(i, list);
-			return;
-		}
-		
-		if(playerId == -1)
-			playerId = data.playerId;	//The first info packet is expected to be regarding the receiving player.
-		openServers.put(data.playerId, data.openServers);
-		
-		resumingClient.put(data.playerId, data.isClientResuming);
-		serverWaiting.put(data.playerId, data.isServerResuming);
-		
-		Iterator<SburbConnection> i = connections.iterator();
-		while(i.hasNext())
-		{
-			SburbConnection c = i.next();
-			if(c.clientId == data.playerId || c.serverId == data.playerId)
-				i.remove();
-		}
-		connections.addAll(data.connections);
+		landChainMap.clear();
+		for(List<Integer> list : landChains)
+			for(int i : list)
+				landChainMap.put(i, list);
+	}
+	
+	public static void setSkaianetData(int playerId, boolean isClientResuming, boolean isServerResuming, Map<Integer, String> openServers, List<SburbConnection> connections)
+	{
+		if(SkaiaClient.playerId == -1)
+			SkaiaClient.playerId = playerId;	//The first info packet is expected to be regarding the receiving player.
+
+		SkaiaClient.resumingClient.put(playerId, isClientResuming);
+		SkaiaClient.serverWaiting.put(playerId, isServerResuming);
+
+		SkaiaClient.openServers.put(playerId, openServers);
+
+		SkaiaClient.connections.removeIf((SburbConnection connection) -> connection.clientId == playerId || connection.serverId == playerId);
+		SkaiaClient.connections.addAll(connections);
 		
 		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
 		if(gui instanceof GuiComputer)
 			((GuiComputer)gui).updateGui();
-		else if(te != null && te.ownerId == data.playerId)
+		else if(te != null && te.ownerId == playerId)
 		{
 			if(!Minecraft.getMinecraft().player.isSneaking())
 				Minecraft.getMinecraft().player.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.COMPUTER.ordinal(), te.getWorld(), te.getPos().getX(), te.getPos().getY(), te.getPos().getZ());

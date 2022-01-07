@@ -7,26 +7,24 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageSylladexEmptyRequest extends MinestuckMessage
+public class MessageSylladexEmptyRequest implements MinestuckMessage
 {
 	@Override
-	public void generatePacket(Object... args){}
+	public void toBytes(ByteBuf buf) { }
 
 	@Override
-	public void consumePacket(ByteBuf data){}
+	public void fromBytes(ByteBuf buf) { }
 
 	@Override
 	public void execute(EntityPlayer player)
 	{
 		SylladexUtils.getSylladex(player).ejectAll(false, true);
-		MinestuckNetwork.sendTo(MinestuckMessage.makePacket(Type.UPDATE_SYLLADEX, player), player);
+		MinestuckNetwork.sendTo(new MessageSylladexData(player), player);
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.CLIENT);
+		return Side.SERVER;
 	}
 }

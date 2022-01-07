@@ -1,58 +1,58 @@
 package com.mraof.minestuck.network.message;
 
-import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-import java.util.Map;
-
-public class MessageGristCache extends MinestuckMessage
+public class MessageGristCache implements MinestuckMessage
 {
-	public GristSet values;
+	public GristSet gristSet;
 	public boolean targetGrist;
 
-	@Override
-	public void generatePacket(Object... dat)
+	private MessageGristCache() { }
+
+	public MessageGristCache(GristSet gristSet, boolean targetGrist)
 	{
-		GristSet gristSet = (GristSet) dat[0];
-		data.writeInt(gristSet.gristTypes.size());
-		for (Map.Entry<Grist, Integer> entry : gristSet.getMap().entrySet())
-		{
-			data.writeInt(entry.getKey().getId());
-			data.writeInt(entry.getValue());
-		}
-		data.writeBoolean((Boolean) dat[1]);
+		this.gristSet = gristSet;
+		this.targetGrist = targetGrist;
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(gristSet.gristTypes.size());
+		gristSet.getMap().forEach((Grist grist, Integer amount) -> {
+			ByteBufUtils.writeRegistryEntry(buf, grist);
+			buf.writeInt(amount);
+		});
+		buf.writeBoolean(targetGrist);
 
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
-		values = new GristSet();
-		int length = data.readInt();
+		gristSet = new GristSet();
+		int length = buf.readInt();
 		for (int i = 0; i < length; i++)
-		{
-			values.setGrist(Grist.REGISTRY.getValue(data.readInt()), data.readInt());
-		}
-		targetGrist = data.readBoolean();
-
+			gristSet.setGrist(ByteBufUtils.readRegistryEntry(buf, Grist.REGISTRY), buf.readInt());
+		targetGrist = buf.readBoolean();
 	}
 
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		MinestuckPlayerData.onPacketRecived(this);
+		MinestuckPlayerData.setGristCache(gristSet, targetGrist);
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.SERVER);
+		return Side.CLIENT;
 	}
-
 }

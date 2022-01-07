@@ -8,69 +8,76 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageBoondollarRegister extends MinestuckMessage
+public class MessageBoondollarRegister implements MinestuckMessage
 {
-    BlockPos pos;
-    EnumType type;
-    int mav;
+	private EnumType type;
+	private BlockPos pos;
+	private int mav;
 
-    @Override
-    public void generatePacket(Object... dat)
-    {
-        this.data.writeInt(((EnumType)dat[0]).ordinal());
-        TileEntityBoondollarRegister te = (TileEntityBoondollarRegister) dat[1];
-        data.writeInt(te.getPos().getX());
-        data.writeInt(te.getPos().getY());
-        data.writeInt(te.getPos().getZ());
+	private MessageBoondollarRegister() { }
 
-        data.writeInt(te.mav);
+	public MessageBoondollarRegister(EnumType type, TileEntityBoondollarRegister te)
+	{
+		this.type = type;
+		this.pos = te.getPos();
+		this.mav = te.mav;
+	}
 
-    }
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(type.ordinal());
+		buf.writeInt(pos.getX());
+		buf.writeInt(pos.getY());
+		buf.writeInt(pos.getZ());
+		buf.writeInt(mav);
+	}
 
-    @Override
-    public void consumePacket(ByteBuf dat)
-    {
-        type = EnumType.values()[dat.readInt()];
-        pos = new BlockPos(dat.readInt(), dat.readInt(), dat.readInt());
-        mav = dat.readInt();
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		type = EnumType.values()[buf.readInt()];
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		mav = buf.readInt();
+	}
 
-    }
+	@Override
+	public void execute(EntityPlayer player)
+	{
+		if(player.world.getTileEntity(pos) instanceof TileEntityBoondollarRegister)
+		{
+			TileEntityBoondollarRegister vault = (TileEntityBoondollarRegister) player.world.getTileEntity(pos);
 
-    @Override
-    public void execute(EntityPlayer player)
-    {
-        if(player.world.getTileEntity(pos) instanceof TileEntityBoondollarRegister)
-        {
-            TileEntityBoondollarRegister vault = (TileEntityBoondollarRegister) player.world.getTileEntity(pos);
+			switch (type)
+			{
+				case AUTO:
+					vault.auto = !vault.auto;
+					break;
+				case TAKE:
+					MinestuckPlayerData.addBoondollars(player, vault.getStoredBoons());
+					vault.setStoredBoons(0);
+					break;
+				case MAV:
+					vault.mav = mav;
+					break;
+			}
+			//player.world.scheduleUpdate(pos, vault.getBlockType(), vault.getBlockType().tickRate(player.world));
+			player.world.notifyBlockUpdate(vault.getPos(), player.world.getBlockState(pos), player.world.getBlockState(pos), 3);
+		}
+	}
 
-            switch (type)
-            {
-                case AUTO: vault.auto = !vault.auto; break;
-                case TAKE:
-                    MinestuckPlayerData.addBoondollars(player, vault.getStoredBoons());
-                    vault.setStoredBoons(0);
-                break;
-                case MAV: vault.mav = mav; break;
-            }
-            //player.world.scheduleUpdate(pos, vault.getBlockType(), vault.getBlockType().tickRate(player.world));
-            player.world.notifyBlockUpdate(vault.getPos(), player.world.getBlockState(pos), player.world.getBlockState(pos), 3);
-        }
-    }
+	@Override
+	public Side toSide()
+	{
+		return Side.SERVER;
+	}
 
-    @Override
-    public EnumSet<Side> getSenderSide()
-    {
-        return EnumSet.of(Side.CLIENT);
-    }
-
-    public enum EnumType
-    {
-        UPDATE,
-        TAKE,
-        AUTO,
-        MAV,
-        ;
-    }
+	public enum EnumType
+	{
+		UPDATE,
+		TAKE,
+		AUTO,
+		MAV,
+		;
+	}
 }

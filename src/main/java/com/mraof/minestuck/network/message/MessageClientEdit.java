@@ -7,6 +7,7 @@ import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
+import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.IdentifierHandler;
 import io.netty.buffer.ByteBuf;
@@ -17,32 +18,37 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageClientEdit extends MinestuckMessage
+public class MessageClientEdit implements MinestuckMessage
 {
-	
-	int username = -1;
-	int target;
+	private int username = -1;
+	private int target;
+
+	private MessageClientEdit() { }
+
+	public MessageClientEdit(TileEntityComputer computer, int program)
+	{
+		username = computer.ownerId;
+		target = computer.getData(program).getInteger("connectedClient");
+	}
 	
 	@Override
-	public void generatePacket(Object... dat)
+	public void toBytes(ByteBuf buf)
 	{
-		if(dat.length > 0)
-		{
-			data.writeInt((Integer) dat[0]);
-			data.writeInt((Integer) dat[1]);
-		}
+		if (username == -1)
+			return;
 
+		buf.writeInt(username);
+		buf.writeInt(target);
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
-		if(data.readableBytes() == 0)
+		if(buf.readableBytes() == 0)
+			return;
 
-		username = data.readInt();
-		target = data.readInt();
+		username = buf.readInt();
+		target = buf.readInt();
 	}
 
 	@Override
@@ -102,9 +108,9 @@ public class MessageClientEdit extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.CLIENT);
+		return Side.SERVER;
 	}
 
 }

@@ -7,26 +7,31 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageGodKeyInput extends MinestuckMessage
+public class MessageGodKeyInput implements MinestuckMessage
 {
 	private GodKeyStates.Key key;
 	private boolean pressed;
 
-	@Override
-	public void generatePacket(Object... args)
-	{
-		data.writeByte((int) args[0]);
-		data.writeBoolean((boolean) args[1]);
+	private MessageGodKeyInput() { }
 
+	public MessageGodKeyInput(GodKeyStates.Key key, boolean pressed)
+	{
+		this.key = key;
+		this.pressed = pressed;
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		key = GodKeyStates.Key.values()[data.readByte()];
-		pressed = data.readBoolean();
+		buf.writeByte(key.ordinal());
+		buf.writeBoolean(pressed);
+	}
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		key = GodKeyStates.Key.values()[buf.readByte()];
+		pressed = buf.readBoolean();
 	}
 
 	@Override
@@ -36,8 +41,8 @@ public class MessageGodKeyInput extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return null;
+		return Side.SERVER;
 	}
 }

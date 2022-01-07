@@ -6,31 +6,29 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageStoneTablet extends MinestuckMessage
+public class MessageStoneTablet implements MinestuckMessage
 {
-	public String text;
+	private String text;
+
+	private MessageStoneTablet() { }
+
+	public MessageStoneTablet(String text) { }
 
 	@Override
-	public void generatePacket(Object... dat)
+	public void toBytes(ByteBuf buf)
 	{
-		if(dat.length > 0)
-			data.writeBytes(((String) dat[0]).getBytes());
-
+		if (text != null)
+			ByteBufUtils.writeUTF8String(buf, text);
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
-		int size = data.readableBytes();
-		byte[] destBytes = new byte[size];
-		for(int i = 0; i < size; i++)
-			destBytes[i] = data.readByte();
-		text = new String(destBytes);
-
+		if (buf.readableBytes() > 0)
+			text = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
@@ -48,15 +46,15 @@ public class MessageStoneTablet extends MinestuckMessage
 				return;
 
 		if(!text.trim().isEmpty())
-			nbt.setString("text",text);
+			nbt.setString("text", text);
 		else if(nbt.hasKey("text"))
 			nbt.removeTag("text");
 		stack.setTagCompound(nbt.hasNoTags() ? null : nbt);
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.CLIENT);
+		return Side.SERVER;
 	}
 }

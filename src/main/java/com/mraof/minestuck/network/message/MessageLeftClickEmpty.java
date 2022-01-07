@@ -12,22 +12,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
 import java.util.List;
 
-public class MessageLeftClickEmpty extends MinestuckMessage
+public class MessageLeftClickEmpty implements MinestuckMessage
 {
-	@Override
-	public void generatePacket(Object... args)
-	{
-
-	}
+	public MessageLeftClickEmpty() { }
 
 	@Override
-	public void consumePacket(ByteBuf data)
-	{
+	public void toBytes(ByteBuf buf) { }
 
-	}
+	@Override
+	public void fromBytes(ByteBuf buf) { }
 
 	@Override
 	public void execute(EntityPlayer player)
@@ -51,7 +46,7 @@ public class MessageLeftClickEmpty extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide() {
-		return EnumSet.of(Side.CLIENT);
+	public Side toSide() {
+		return Side.SERVER;
 	}
 }

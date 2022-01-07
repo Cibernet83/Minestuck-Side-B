@@ -54,7 +54,7 @@ public class BadgeEffects implements IBadgeEffects
 		public ISerializableDataType remove(Object key)
 		{
 			if (containsKey(key))
-				send(((Class) key).getName(), null);
+				send(((Class)key).getName(), null);
 			return super.remove(key);
 		}
 
@@ -511,7 +511,9 @@ public class BadgeEffects implements IBadgeEffects
 			try
 			{
 				NBTTagCompound tag = (NBTTagCompound) tagBase;
-				effects.replace(Class.forName(tag.getString("Badge")), ISerializableDataType.deserialize(tag).initialize(owner.world));
+				ISerializableDataType dataType = ISerializableDataType.deserialize(tag);
+				dataType.initialize(owner.world);
+				effects.replace(Class.forName(tag.getString("Badge")), dataType);
 			}
 			catch (ClassNotFoundException e)
 			{
@@ -572,14 +574,14 @@ public class BadgeEffects implements IBadgeEffects
 
 
 	private int getInt(Class badge) {
-		return effects.containsKey(badge) ? ((IntData) effects.get(badge)).value : 0;
+		return effects.containsKey(badge) ? ((IntegerData) effects.get(badge)).value : 0;
 	}
 
 	private void setInt(Class badge, int value) {
 		if (value == 0)
 			effects.remove(badge);
 		else
-			effects.put(badge, new IntData(value));
+			effects.put(badge, new IntegerData(value));
 	}
 
 	private boolean getBoolean(Class badge)

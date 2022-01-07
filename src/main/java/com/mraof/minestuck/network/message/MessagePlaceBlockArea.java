@@ -23,41 +23,46 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
 import static com.mraof.minestuck.editmode.ServerEditHandler.isBlockItem;
 
-public class MessagePlaceBlockArea extends MinestuckMessage
+public class MessagePlaceBlockArea implements MinestuckMessage
 {
-	BlockPos pos1;
-	BlockPos pos2;
-	Vec3d hitVec;
-	EnumFacing face;
+	private BlockPos pos1, pos2;
+	private Vec3d hitVec;
+	private EnumFacing face;
 
-	@Override
-	public void generatePacket(Object... args)
+	private MessagePlaceBlockArea() { }
+
+	public MessagePlaceBlockArea(BlockPos pos1, BlockPos pos2, Vec3d hitVec, EnumFacing face)
 	{
-		data.writeInt(((BlockPos)args[0]).getX());
-		data.writeInt(((BlockPos)args[0]).getY());
-		data.writeInt(((BlockPos)args[0]).getZ());
-		data.writeInt(((BlockPos)args[1]).getX());
-		data.writeInt(((BlockPos)args[1]).getY());
-		data.writeInt(((BlockPos)args[1]).getZ());
-		data.writeDouble(((Vec3d)args[2]).x);
-		data.writeDouble(((Vec3d)args[2]).y);
-		data.writeDouble(((Vec3d)args[2]).z);
-		data.writeInt(((EnumFacing)args[3]).ordinal());
-
-
+		this.pos1 = pos1;
+		this.pos2 = pos2;
+		this.hitVec = hitVec;
+		this.face = face;
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		pos1 = new BlockPos(data.readInt(), data.readInt(), data.readInt());
-		pos2 = new BlockPos(data.readInt(), data.readInt(), data.readInt());
-		hitVec = new Vec3d(data.readDouble(), data.readDouble(), data.readDouble());
-		face = EnumFacing.values()[data.readInt()];
+		buf.writeInt(pos1.getX());
+		buf.writeInt(pos1.getY());
+		buf.writeInt(pos1.getZ());
+		buf.writeInt(pos2.getX());
+		buf.writeInt(pos2.getY());
+		buf.writeInt(pos2.getZ());
+		buf.writeDouble(hitVec.x);
+		buf.writeDouble(hitVec.y);
+		buf.writeDouble(hitVec.z);
+		buf.writeInt(face.ordinal());
+	}
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		pos1 = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		pos2 = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		hitVec = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+		face = EnumFacing.values()[buf.readInt()];
 
 	}
 
@@ -101,8 +106,8 @@ public class MessagePlaceBlockArea extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide() {
-		return EnumSet.of(Side.CLIENT);
+	public Side toSide() {
+		return Side.SERVER;
 	}
 	
 	private static boolean editModePlaceCheck(World world, EntityPlayer player, EnumHand hand)

@@ -18,7 +18,7 @@ public class PacketRequestCommunistUpdate extends MinestuckPacket
 	
 	IdentifierHandler.PlayerIdentifier target;
 	
-	public void generatePacket(Object... data)
+	public void toBytes(ByteBuf buf)
 	{
 		if (data.length > 0)
 		{
@@ -45,7 +45,7 @@ public class PacketRequestCommunistUpdate extends MinestuckPacket
 
 	}
 	
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
 		if (data.readableBytes() > 0)
 		{
@@ -75,7 +75,7 @@ public class PacketRequestCommunistUpdate extends MinestuckPacket
 	}
 	
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
 		return EnumSet.of(Side.CLIENT);
 	}

@@ -12,120 +12,120 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Badge extends net.minecraftforge.registries.IForgeRegistryEntry.Impl<Badge> implements Comparable<Badge>
 {
-    String unlocalizedName;
-    int sortIndex;
-    static int sort = 0;
+	private String unlocalizedName;
+	private int sortIndex;
+	private static int sort = 0;
 
-    public Badge()
-    {
-        this.sortIndex = sort++;
-    }
+	public Badge()
+	{
+		this.sortIndex = sort++;
+	}
 
-    public String getUnlocalizedName()
-    {
-        return "badge." + unlocalizedName;
-    }
+	public String getUnlocalizedName()
+	{
+		return "badge." + unlocalizedName;
+	}
 
-    public String getDisplayName()
-    {
-        return getDisplayComponent().getFormattedText();
-    }
+	public String getDisplayName()
+	{
+		return getDisplayComponent().getFormattedText();
+	}
 
-    public TextComponentTranslation getDisplayComponent()
-    {
-        return new TextComponentTranslation(getUnlocalizedName()+".name");
-    }
+	public TextComponentTranslation getDisplayComponent()
+	{
+		return new TextComponentTranslation(getUnlocalizedName()+".name");
+	}
 
-    @SideOnly(Side.CLIENT)
-    public String getDisplayTooltip()
-    {
-        return I18n.format(getUnlocalizedName() + ".tooltip");
-    }
+	@SideOnly(Side.CLIENT)
+	public String getDisplayTooltip()
+	{
+		return I18n.format(getUnlocalizedName() + ".tooltip");
+	}
 
-    public String getReadRequirements()
-    {
-        return new TextComponentTranslation(getUnlocalizedName()+".read").getFormattedText();
-    }
+	public String getReadRequirements()
+	{
+		return new TextComponentTranslation(getUnlocalizedName()+".read").getFormattedText();
+	}
 
-    public String getUnlockRequirements()
-    {
-        return new TextComponentTranslation(getUnlocalizedName()+".unlock").getFormattedText();
-    }
+	public String getUnlockRequirements()
+	{
+		return new TextComponentTranslation(getUnlocalizedName()+".unlock").getFormattedText();
+	}
 
-    public Badge setUnlocalizedName(String unlocalizedName)
-    {
-        this.unlocalizedName = unlocalizedName;
-        return this;
-    }
+	public Badge setUnlocalizedName(String unlocalizedName)
+	{
+		this.unlocalizedName = unlocalizedName;
+		return this;
+	}
 
-    public boolean canAppearOnList(World world, EntityPlayer player)
-    {
-        return true;
-    }
+	public boolean canAppearOnList(World world, EntityPlayer player)
+	{
+		return true;
+	}
 
-    public boolean isReadable(World world, EntityPlayer player)
-    {
-        return true;
-    }
+	public boolean isReadable(World world, EntityPlayer player)
+	{
+		return true;
+	}
 
-    public boolean canUnlock(World world, EntityPlayer player)
-    {
-        return true;
-    }
+	public boolean canUnlock(World world, EntityPlayer player)
+	{
+		return true;
+	}
 
-    public boolean canUse(World world, EntityPlayer player) { return !(player.isPotionActive(MinestuckPotions.GOD_TIER_LOCK) && player.getActivePotionEffect(MinestuckPotions.GOD_TIER_LOCK).getAmplifier() >= 2); }
+	public boolean canUse(World world, EntityPlayer player) { return !(player.isPotionActive(MinestuckPotions.GOD_TIER_LOCK) && player.getActivePotionEffect(MinestuckPotions.GOD_TIER_LOCK).getAmplifier() >= 2); }
 
-    public boolean canDisable() { return true; }
+	public boolean canDisable() { return true; }
 
-    @SideOnly(Side.CLIENT)
-    public ResourceLocation getTextureLocation()
-    {
-        return new ResourceLocation(getRegistryName().getResourceDomain(), "textures/gui/badges/"+getRegistryName().getResourcePath()+".png");
-    }
+	@SideOnly(Side.CLIENT)
+	public ResourceLocation getTextureLocation()
+	{
+		return new ResourceLocation(getRegistryName().getResourceDomain(), "textures/gui/badges/"+getRegistryName().getResourcePath()+".png");
+	}
 
-    public int getSortIndex()
-    {
-        return sortIndex;
-    }
+	public int getSortIndex()
+	{
+		return sortIndex;
+	}
 
-    public static boolean findItem(EntityPlayer player, ItemStack stack, boolean decr)
-    {
-        return findItem(player, stack, decr, true);
-    }
+	public static boolean findItem(EntityPlayer player, ItemStack stack, boolean decr)
+	{
+		return findItem(player, stack, decr, true);
+	}
 
-    public static boolean findItem(EntityPlayer player, ItemStack stack, boolean decr, boolean ignoreMeta)
-    {
-        stack = stack.copy();
-        for(int i = 0; i < player.inventory.getSizeInventory(); ++i)
-        {
-            ItemStack invStack = player.inventory.getStackInSlot(i);
-            if(!decr)
-                invStack = invStack.copy();
+	public static boolean findItem(EntityPlayer player, ItemStack stack, boolean decr, boolean ignoreMeta)
+	{
+		stack = stack.copy();
+		for(int i = 0; i < player.inventory.getSizeInventory(); ++i)
+		{
+			ItemStack invStack = player.inventory.getStackInSlot(i);
+			if(!decr)
+				invStack = invStack.copy();
 
-            if(ignoreMeta ? invStack.getItem() == stack.getItem() : invStack.isItemEqual(stack))
-            {
-                if(stack.getCount() > invStack.getCount())
-                {
-                    stack.setCount(stack.getCount() - invStack.getCount());
-                    invStack.setCount(0);
-                }
-                else
-                {
-                    invStack.setCount(invStack.getCount()-stack.getCount());
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+			if(ignoreMeta ? invStack.getItem() == stack.getItem() : invStack.isItemEqual(stack))
+			{
+				if(stack.getCount() > invStack.getCount())
+				{
+					stack.setCount(stack.getCount() - invStack.getCount());
+					invStack.setCount(0);
+				}
+				else
+				{
+					invStack.setCount(invStack.getCount()-stack.getCount());
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 
-    @Override
-    public int compareTo(Badge o) {
-        return this.sortIndex - o.sortIndex;
-    }
+	@Override
+	public int compareTo(Badge o) {
+		return this.sortIndex - o.sortIndex;
+	}
 
-    public void onBadgeUnlocked(World world, EntityPlayer player)
-    {
-    }
+	public void onBadgeUnlocked(World world, EntityPlayer player)
+	{
+	}
 }

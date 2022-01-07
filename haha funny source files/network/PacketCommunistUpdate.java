@@ -21,7 +21,7 @@ public class PacketCommunistUpdate extends MinestuckPacket
 	public PacketCommunistUpdate() {
 	}
 	
-	public void generatePacket(Object... data)
+	public void toBytes(ByteBuf buf)
 	{
 		if (data.length > 0)
 		{
@@ -41,7 +41,7 @@ public class PacketCommunistUpdate extends MinestuckPacket
 
 	}
 	
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
 		if (data.readableBytes() > 0)
 		{
@@ -67,7 +67,7 @@ public class PacketCommunistUpdate extends MinestuckPacket
 		else Debug.debug("Lost modus");
 	}
 	
-	public EnumSet<Side> getSenderSide() {
+	public Side toSide() {
 		return EnumSet.of(Side.SERVER);
 	}
 }

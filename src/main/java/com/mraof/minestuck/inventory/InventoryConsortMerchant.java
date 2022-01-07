@@ -4,7 +4,6 @@ import com.mraof.minestuck.entity.consort.EntityConsort;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.MinestuckPlayerData;
-import com.mraof.minestuck.util.Pair;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

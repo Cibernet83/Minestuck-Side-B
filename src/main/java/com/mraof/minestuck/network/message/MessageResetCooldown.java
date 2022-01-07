@@ -5,21 +5,15 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageResetCooldown extends MinestuckMessage
+public class MessageResetCooldown implements MinestuckMessage
 {
-	@Override
-	public void generatePacket(Object... var1)
-	{
-
-	}
+	public MessageResetCooldown() { }
 
 	@Override
-	public void consumePacket(ByteBuf var1)
-	{
+	public void toBytes(ByteBuf buf) { }
 
-	}
+	@Override
+	public void fromBytes(ByteBuf buf) { }
 
 	@Override
 	public void execute(EntityPlayer player)
@@ -28,7 +22,7 @@ public class MessageResetCooldown extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide() {
-		return EnumSet.of(Side.SERVER);
+	public Side toSide() {
+		return Side.CLIENT;
 	}
 }

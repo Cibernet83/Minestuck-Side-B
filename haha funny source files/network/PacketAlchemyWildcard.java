@@ -14,7 +14,7 @@ public class PacketAlchemyWildcard extends MinestuckPacket
 	Grist grist;
 	
 	@Override
-	public void generatePacket(Object... args)
+	public void toBytes(ByteBuf buf)
 	{
 		this.data.writeInt(Grist.REGISTRY.getID((Grist)args[0]));
 
@@ -35,7 +35,7 @@ public class PacketAlchemyWildcard extends MinestuckPacket
 	}
 	
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
 		return EnumSet.of(Side.CLIENT);
 	}

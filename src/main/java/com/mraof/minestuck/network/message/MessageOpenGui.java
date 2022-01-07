@@ -12,23 +12,23 @@ public class MessageOpenGui implements MinestuckMessage // EntityPlayer$openGui 
 {
 	private int type;
 
-	public MessageOpenGui() { }
+	private MessageOpenGui() { }
 
 	public MessageOpenGui(MinestuckGuiHandler.GuiId id)
 	{
-		type = id.ordinal();
+		this.type = id.ordinal();
 	}
 
 	@Override
-	public void toBytes(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		data.writeInt(type);
+		buf.writeInt(type);
 	}
 
 	@Override
-	public void fromBytes(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
-		type = data.readInt();
+		type = buf.readInt();
 	}
 
 	@Override

@@ -11,33 +11,37 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageModusControlDeckSync extends MinestuckMessage
+public class MessageModusControlDeckSync implements MinestuckMessage
 {
 	private BlockPos pos;
 	private int[] lengths;
 
-	@Override
-	public void generatePacket(Object... args)
+	private MessageModusControlDeckSync() { }
+
+	public MessageModusControlDeckSync(TileEntityModusControlDeck deck, int[] lengths)
 	{
-		BlockPos pos = (BlockPos) args[0];
-		int[] lengths = (int[]) args[1];
-		data.writeInt(pos.getX());
-		data.writeInt(pos.getY());
-		data.writeInt(pos.getZ());
-		data.writeByte(lengths.length);
-		for (int length : lengths)
-			data.writeByte(length - 1);
+		this.pos = deck.getPos();
+		this.lengths = lengths;
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		pos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
-		lengths = new int[data.readByte()];
+		buf.writeInt(pos.getX());
+		buf.writeInt(pos.getY());
+		buf.writeInt(pos.getZ());
+		buf.writeByte(lengths.length);
+		for (int length : lengths)
+			buf.writeByte(length - 1);
+	}
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		lengths = new int[buf.readByte()];
 		for (int i = 0; i < lengths.length; i++)
-			lengths[i] = (data.readByte() & 0xff) + 1;
+			lengths[i] = (buf.readByte() & 0xff) + 1;
 	}
 
 	@Override
@@ -67,8 +71,8 @@ public class MessageModusControlDeckSync extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.CLIENT);
+		return Side.SERVER;
 	}
 }

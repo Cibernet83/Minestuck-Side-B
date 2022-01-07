@@ -3,6 +3,7 @@ package com.mraof.minestuck.capabilities.api;
 import com.mraof.minestuck.capabilities.IMinestuckCapabilityBase;
 import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.StrifeSpecibus;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -40,8 +41,19 @@ public interface IStrifeData extends IMinestuckCapabilityBase<EntityLivingBase>
 	StrifeSpecibus[] getNonEmptyPortfolio();
 	int getSpecibusIndex(StrifeSpecibus specibus);
 
-	NBTTagCompound writeSelectedIndexes(NBTTagCompound nbt);
-	NBTTagCompound writePortfolio(NBTTagCompound nbt, int... indexes);
-	NBTTagCompound writeDroppedCards(NBTTagCompound nbt);
-	NBTTagCompound writeConfig(NBTTagCompound nbt);
+	void writePortfolio(NBTTagCompound nbt, int... indices);
+	void writeSelectedIndices(NBTTagCompound nbt);
+	void writeDroppedCards(NBTTagCompound nbt);
+	void writeConfig(NBTTagCompound nbt);
+
+	void toBytes(ByteBuf buf);
+	void fromBytes(ByteBuf buf);
+	void writePortfolio(ByteBuf buf, int... indices);
+	void readPortfolio(ByteBuf buf);
+	void writeSelectedIndices(ByteBuf buf);
+	void readSelectedIndices(ByteBuf buf);
+	void writeDroppedCards(ByteBuf buf);
+	void readDroppedCards(ByteBuf buf);
+	void writeConfig(ByteBuf buf);
+	void readConfig(ByteBuf buf);
 }

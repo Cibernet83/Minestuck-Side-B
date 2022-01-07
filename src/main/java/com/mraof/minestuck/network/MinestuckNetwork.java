@@ -8,7 +8,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.FMLOutboundHandler;
@@ -67,7 +66,18 @@ public class MinestuckNetwork
 		int id = 0;
 		for(ClassPath.ClassInfo classInfo : messageTypes)
 			if (classInfo.getSimpleName().startsWith("Message"))
-				packetCodec.addDiscriminator(id++, (Class<? extends MinestuckMessage>) classInfo.load());
+			{
+				Class<? extends MinestuckMessage> clazz = (Class<? extends MinestuckMessage>) classInfo.load();
+				try
+				{
+					clazz.getConstructor().setAccessible(true);
+				}
+				catch (NoSuchMethodException e)
+				{
+					throw new RuntimeException("All network messages are required to have a default constructor but " + clazz + " does not.", e);
+				}
+				packetCodec.addDiscriminator(id++, clazz);
+			}
 	}
 
 	private static void addHandler(Side side)
@@ -121,11 +131,10 @@ public class MinestuckNetwork
 		channels.get(Side.SERVER).writeOutbound(message);
 	}
 
-	public static void sendToTrackingAndSelf(MinestuckMessage message, Entity entity) // FIXME: I changed sendToTracking so idk if this is needed anymore
+	public static void sendToTrackingAndSelf(MinestuckMessage message, EntityPlayer player)
 	{
-		sendToTracking(message, entity);
-		if (entity instanceof EntityPlayerMP)
-			sendTo(message, (EntityPlayerMP)entity);
+		sendToTracking(message, player);
+		sendTo(message, player);
 	}
 
 	public static void sendToDimension(MinestuckMessage message, int dimensionId)

@@ -5,62 +5,56 @@ import com.mraof.minestuck.world.MinestuckDimensionHandler;
 import com.mraof.minestuck.world.lands.LandAspectRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.Map;
 
-public class MessageLandRegister extends MinestuckMessage
+public class MessageLandRegister implements MinestuckMessage
 {
-	public HashMap<Integer, LandAspectRegistry.AspectCombination> aspectMap;
-	public HashMap<Integer, BlockPos> spawnMap;
+	private HashMap<Integer, Tuple<LandAspectRegistry.AspectCombination, BlockPos>> lands;
+
+	public MessageLandRegister() { }
 	
 	@Override
-	public void generatePacket(Object... dat)
+	public void toBytes(ByteBuf buf)
 	{
-		for(Map.Entry<Integer, LandAspectRegistry.AspectCombination> entry : MinestuckDimensionHandler.getLandSet())
-		{
-			this.data.writeInt(entry.getKey());
-			ByteBufUtils.writeUTF8String(data, entry.getValue().aspectTerrain.getPrimaryName());
-			ByteBufUtils.writeUTF8String(data, entry.getValue().aspectTitle.getPrimaryName());
-			BlockPos spawn = MinestuckDimensionHandler.getSpawn(entry.getKey());
-			data.writeInt(spawn.getX());
-			data.writeInt(spawn.getY());
-			data.writeInt(spawn.getZ());
-		}
-
+		MinestuckDimensionHandler.forEachLand((Integer dim, LandAspectRegistry.AspectCombination type) -> {
+			buf.writeInt(dim);
+			ByteBufUtils.writeUTF8String(buf, type.aspectTerrain.getPrimaryName());
+			ByteBufUtils.writeUTF8String(buf, type.aspectTitle.getPrimaryName());
+			BlockPos spawn = MinestuckDimensionHandler.getSpawn(dim);
+			buf.writeInt(spawn.getX());
+			buf.writeInt(spawn.getY());
+			buf.writeInt(spawn.getZ());
+		});
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
-		aspectMap = new HashMap<>();
-		spawnMap = new HashMap<>();
-		while(data.readableBytes() > 0)
+		lands = new HashMap<>();
+		while(buf.readableBytes() > 0)
 		{
-			int dim = data.readInt();
-			String aspect1 = ByteBufUtils.readUTF8String(data);
-			String aspect2 = ByteBufUtils.readUTF8String(data);
-			BlockPos spawn = new BlockPos(data.readInt(), data.readInt(), data.readInt());
-			aspectMap.put(dim, new LandAspectRegistry.AspectCombination(LandAspectRegistry.fromNameTerrain(aspect1), LandAspectRegistry.fromNameTitle(aspect2)));
-			spawnMap.put(dim, spawn);
+			int dimID = buf.readInt();
+			String aspect1 = ByteBufUtils.readUTF8String(buf);
+			String aspect2 = ByteBufUtils.readUTF8String(buf);
+			BlockPos spawn = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+			lands.put(dimID, new Tuple<>(new LandAspectRegistry.AspectCombination(LandAspectRegistry.fromNameTerrain(aspect1), LandAspectRegistry.fromNameTitle(aspect2)), spawn));
 		}
-		
-
 	}
 	
 	@Override
 	public void execute(EntityPlayer player) 
 	{
-		MinestuckDimensionHandler.onLandPacket(this);
+		MinestuckDimensionHandler.onLandPacket(lands);
 	}
 	
 	@Override
-	public EnumSet<Side> getSenderSide() {
-		return EnumSet.of(Side.SERVER);
+	public Side toSide() {
+		return Side.CLIENT;
 	}
 
 }

@@ -7,7 +7,7 @@ import com.mraof.minestuck.client.MSKeyHandler;
 import com.mraof.minestuck.event.handler.StrifeEventHandler;
 import com.mraof.minestuck.network.MinestuckNetwork;
 import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.message.MessageUpdateStrifeData;
+import com.mraof.minestuck.network.message.MessageStrifeData;
 import com.mraof.minestuck.strife.StrifeSpecibus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -88,7 +88,7 @@ public class GuiStrifeSwitcher extends Gui
 					{
 						cap.setSelectedWeaponIndex(selWeaponIndex);
 						cap.setSelectedSpecibusIndex(selSpecibusIndex);
-						MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, mc.player, MessageUpdateStrifeData.UpdateType.INDEXES));
+						MinestuckNetwork.sendToServer(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, mc.player, MessageStrifeData.UpdateType.INDEXES));
 					}
 					if(!(mc.player.isSneaking() && canUseAbstrataSwitcher()))
 					{

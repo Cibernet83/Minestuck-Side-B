@@ -7,53 +7,59 @@ import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.network.MinestuckMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageToggleBadge extends MinestuckMessage
+public class MessageToggleBadge implements MinestuckMessage
 {
-    Badge badge;
-    boolean sendMessage;
+	private Badge badge;
+	private boolean sendMessage;
 
-    @Override
-    public void generatePacket(Object... args)
-    {
-        ByteBufUtils.writeUTF8String(data, ((Badge)args[0]).getRegistryName().toString());
+	private MessageToggleBadge() { }
 
-        data.writeBoolean(args.length > 1 && (Boolean) args[1]);
+	public MessageToggleBadge(Badge badge, boolean sendMessage)
+	{
+		this.badge = badge;
+		this.sendMessage = sendMessage;
+	}
 
+	public MessageToggleBadge(Badge badge)
+	{
+		this(badge, false);
+	}
 
-    }
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		ByteBufUtils.writeRegistryEntry(buf, badge);
+		buf.writeBoolean(sendMessage);
+	}
 
-    @Override
-    public void consumePacket(ByteBuf data)
-    {
-        badge = MinestuckBadges.REGISTRY.getValue(new ResourceLocation(ByteBufUtils.readUTF8String(data)));
-        sendMessage = data.readBoolean();
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		badge = ByteBufUtils.readRegistryEntry(buf, MinestuckBadges.REGISTRY);
+		sendMessage = buf.readBoolean();
+	}
 
-    }
+	@Override
+	public void execute(EntityPlayer player)
+	{
+		IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
+		if(data.hasBadge(badge))
+		{
+			data.setBadgeEnabled(badge, !data.isBadgeEnabled(badge));
+			data.update();
 
-    @Override
-    public void execute(EntityPlayer player)
-    {
-        IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
-        if(data.hasBadge(badge))
-        {
-            data.setBadgeEnabled(badge, !data.isBadgeEnabled(badge));
-            data.update();
+			if(sendMessage)
+				player.sendStatusMessage(new TextComponentTranslation((!data.isBadgeEnabled(badge) ? "status.badgeDisabled" : "status.badgeEnabled"), badge.getDisplayComponent()), true);
+		}
+	}
 
-            if(sendMessage)
-                player.sendStatusMessage(new TextComponentTranslation((!data.isBadgeEnabled(badge) ? "status.badgeDisabled" : "status.badgeEnabled"), badge.getDisplayComponent()), true);
-        }
-    }
-
-    @Override
-    public EnumSet<Side> getSenderSide()
-    {
-        return EnumSet.of(Side.CLIENT);
-    }
+	@Override
+	public Side toSide()
+	{
+		return Side.SERVER;
+	}
 }

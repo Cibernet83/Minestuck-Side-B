@@ -4,31 +4,32 @@ import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.tileentity.TileEntityMachineChassis;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageMachineChassis extends MinestuckMessage
+public class MessageMachineChassis implements MinestuckMessage
 {
-    public BlockPos pos;
+    private BlockPos pos;
 
-    @Override
-    public void generatePacket(Object... dat)
+    private MessageMachineChassis() { }
+
+    public MessageMachineChassis(TileEntityMachineChassis machineChassis)
     {
-        TileEntity te = (TileEntity)dat[0];
-        this.data.writeInt(te.getPos().getX());
-        this.data.writeInt(te.getPos().getY());
-        this.data.writeInt(te.getPos().getZ());
-
+        pos = machineChassis.getPos();
     }
 
     @Override
-    public void consumePacket(ByteBuf data)
+    public void toBytes(ByteBuf buf)
     {
-        this.pos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
+        buf.writeInt(pos.getX());
+        buf.writeInt(pos.getY());
+        buf.writeInt(pos.getZ());
+    }
 
+    @Override
+    public void fromBytes(ByteBuf buf)
+    {
+        this.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
     }
 
     @Override
@@ -43,7 +44,7 @@ public class MessageMachineChassis extends MinestuckMessage
     }
 
     @Override
-    public EnumSet<Side> getSenderSide() {
-        return null;
+    public Side toSide() {
+        return Side.SERVER;
     }
 }

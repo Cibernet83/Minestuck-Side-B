@@ -46,28 +46,6 @@ public enum EnumAspect implements IUnlocSerializable
 	}
 	
 	/**
-	 * Used to get a title-aspect based on index. Used when reading a title-aspect from nbt.
-	 * The index value is matched with the return of <code>getIntFromAspect</code>
-	 * @param i The index number.
-	 * @return the title-aspect
-	 */
-	public static EnumAspect getAspectFromInt(int i)
-	{
-		return EnumAspect.values()[i];
-	}
-	
-	/**
-	 * Gives the index for the aspect. Used when writing a title-aspect to nbt.
-	 * When reading a title-aspect from nbt, <code>getAspectFromInt</code> should be used to return the index to a title-aspect.
-	 * @param e The title-aspect to convert.
-	 * @return an index number that matches this title-aspect
-	 */
-	public static int getIntFromAspect(EnumAspect e)
-	{
-		return e.ordinal();
-	}
-	
-	/**
 	 * Takes the enum name for this title-aspect and returns a lowercase version.
 	 * Aside from regular use of the method, it is useful for producing
 	 * the unlocalized name of the title-aspect using <code>"title." + titleAspect.toString()</code>

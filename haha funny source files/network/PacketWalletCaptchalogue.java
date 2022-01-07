@@ -37,7 +37,7 @@ public class PacketWalletCaptchalogue extends MinestuckPacket
     BlockPos pos;
 
     @Override
-    public void generatePacket(Object... args)
+    public void toBytes(ByteBuf buf)
     {
         RayTraceResult lookingAt = ((RayTraceResult)args[0]);
 
@@ -86,7 +86,7 @@ public class PacketWalletCaptchalogue extends MinestuckPacket
     }
 
     @Override
-    public EnumSet<Side> getSenderSide()
+    public Side toSide()
     {
         return EnumSet.of(Side.CLIENT);
     }

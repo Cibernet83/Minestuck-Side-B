@@ -32,7 +32,6 @@ import com.mraof.minestuck.item.ItemCruxiteArtifact;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
 import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.message.MessagePlayerData;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.EnumAspect;

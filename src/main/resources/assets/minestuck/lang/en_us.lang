@@ -385,6 +385,8 @@ computer.singleSessionFull=Game session is full
 computer.selectColor=Select a Color
 computer.serverSessionFull=Server player's session is full
 computer.clientSessionFull=Client player's session is full
+computer.sessionLocked=The client session is locked, and can no longer be modified!
+computer.sessionAlreadyConnectedPlayers=Those players are already connected!
 
 #Start Config Localization
 config.minestuck.title=Minestuck Configuration

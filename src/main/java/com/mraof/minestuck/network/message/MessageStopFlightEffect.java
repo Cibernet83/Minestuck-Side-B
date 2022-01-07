@@ -5,41 +5,44 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageStopFlightEffect extends MinestuckMessage
+public class MessageStopFlightEffect implements MinestuckMessage
 {
-    boolean isBadEffect;
+	private boolean isBadEffect;
 
-    @Override
-    public void generatePacket(Object... args)
-    {
-        data.writeBoolean((Boolean) args[0]);
+	private MessageStopFlightEffect() { }
 
-    }
+	public MessageStopFlightEffect(boolean isBadEffect)
+	{
+		this.isBadEffect = isBadEffect;
+	}
 
-    @Override
-    public void consumePacket(ByteBuf data)
-    {
-        isBadEffect = data.readBoolean();
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeBoolean(isBadEffect);
+	}
 
-    }
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		isBadEffect = buf.readBoolean();
+	}
 
-    @Override
-    public void execute(EntityPlayer player)
-    {
-        if(isBadEffect && player.isCreative())
-            player.capabilities.allowFlying = true;
-        if(!isBadEffect && !player.isCreative())
-        {
-            player.capabilities.allowFlying = false;
-            player.capabilities.isFlying = false;
-        }
-    }
+	@Override
+	public void execute(EntityPlayer player)
+	{
+		if(isBadEffect && player.isCreative())
+			player.capabilities.allowFlying = true;
+		if(!isBadEffect && !player.isCreative())
+		{
+			player.capabilities.allowFlying = false;
+			player.capabilities.isFlying = false;
+		}
+	}
 
-    @Override
-    public EnumSet<Side> getSenderSide()
-    {
-        return EnumSet.of(Side.SERVER);
-    }
+	@Override
+	public Side toSide()
+	{
+		return Side.CLIENT;
+	}
 }

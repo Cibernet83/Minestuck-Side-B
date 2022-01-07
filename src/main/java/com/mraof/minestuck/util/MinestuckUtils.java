@@ -8,7 +8,6 @@ import com.mraof.minestuck.item.ItemBoondollars;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
 import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.message.MessagePlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetworkPlayerInfo;

@@ -6,33 +6,26 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageStopBuildInhibitEffect extends MinestuckMessage
+public class MessageStopBuildInhibitEffect implements MinestuckMessage
 {
+	public MessageStopBuildInhibitEffect() { }
 
-    @Override
-    public void generatePacket(Object... args)
-    {
+	@Override
+	public void toBytes(ByteBuf buf) { }
 
-    }
+	@Override
+	public void fromBytes(ByteBuf buf) { }
 
-    @Override
-    public void consumePacket(ByteBuf data)
-    {
+	@Override
+	public void execute(EntityPlayer player)
+	{
+		if(!player.isCreative())
+			player.capabilities.allowEdit = !MinestuckUtils.getPlayerGameType(player).hasLimitedInteractions();
+	}
 
-    }
-
-    @Override
-    public void execute(EntityPlayer player)
-    {
-        if(!player.isCreative())
-            player.capabilities.allowEdit = !MinestuckUtils.getPlayerGameType(player).hasLimitedInteractions();
-    }
-
-    @Override
-    public EnumSet<Side> getSenderSide()
-    {
-        return EnumSet.of(Side.SERVER);
-    }
+	@Override
+	public Side toSide()
+	{
+		return Side.CLIENT;
+	}
 }

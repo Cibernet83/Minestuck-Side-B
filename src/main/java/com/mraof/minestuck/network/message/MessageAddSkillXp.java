@@ -16,7 +16,7 @@ public class MessageAddSkillXp implements MinestuckMessage
     private UUID playerUUID;
     private int amount;
 
-    public MessageAddSkillXp() { }
+    private MessageAddSkillXp() { }
 
     public MessageAddSkillXp(GodTierData.SkillType skillType, EntityPlayer player)
     {
@@ -31,19 +31,19 @@ public class MessageAddSkillXp implements MinestuckMessage
     }
 
     @Override
-    public void toBytes(ByteBuf data)
+    public void toBytes(ByteBuf buf)
     {
-        data.writeInt(skillType.ordinal());
-        ByteBufUtils.writeUTF8String(data, playerUUID.toString());
-        data.writeInt(amount);
+        buf.writeInt(skillType.ordinal());
+        ByteBufUtils.writeUTF8String(buf, playerUUID.toString());
+        buf.writeInt(amount);
     }
 
     @Override
-    public void fromBytes(ByteBuf data)
+    public void fromBytes(ByteBuf buf)
     {
-        skillType = GodTierData.SkillType.values()[data.readInt()];
-        playerUUID = UUID.fromString(ByteBufUtils.readUTF8String(data));
-        amount = data.readInt();
+        skillType = GodTierData.SkillType.values()[buf.readInt()];
+        playerUUID = UUID.fromString(ByteBufUtils.readUTF8String(buf));
+        amount = buf.readInt();
     }
 
     @Override

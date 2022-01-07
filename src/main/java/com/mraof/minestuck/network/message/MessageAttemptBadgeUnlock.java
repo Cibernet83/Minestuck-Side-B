@@ -8,28 +8,30 @@ import com.mraof.minestuck.capabilities.api.IGodTierData;
 import com.mraof.minestuck.network.MinestuckMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageAttemptBadgeUnlock extends MinestuckMessage
+public class MessageAttemptBadgeUnlock implements MinestuckMessage
 {
-    Badge badge;
+    private Badge badge;
 
-    @Override
-    public void generatePacket(Object... args)
+    private MessageAttemptBadgeUnlock() { }
+
+    public MessageAttemptBadgeUnlock(Badge badge)
     {
-        ByteBufUtils.writeUTF8String(data, ((Badge)args[0]).getRegistryName().toString());
-
+        this.badge = badge;
     }
 
     @Override
-    public void consumePacket(ByteBuf data)
+    public void toBytes(ByteBuf buf)
     {
-        badge = MinestuckBadges.REGISTRY.getValue(new ResourceLocation(ByteBufUtils.readUTF8String(data)));
+        ByteBufUtils.writeRegistryEntry(buf, badge);
+    }
 
+    @Override
+    public void fromBytes(ByteBuf buf)
+    {
+        badge = ByteBufUtils.readRegistryEntry(buf, MinestuckBadges.REGISTRY);
     }
 
     @Override
@@ -42,8 +44,8 @@ public class MessageAttemptBadgeUnlock extends MinestuckMessage
     }
 
     @Override
-    public EnumSet<Side> getSenderSide()
+    public Side toSide()
     {
-        return EnumSet.of(Side.CLIENT);
+        return Side.SERVER;
     }
 }

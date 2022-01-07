@@ -7,8 +7,9 @@ import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.event.ConnectionClosedEvent;
 import com.mraof.minestuck.event.ConnectionCreatedEvent;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckMessage.Type;
+import com.mraof.minestuck.network.message.MessageServerEdit;
+import com.mraof.minestuck.network.message.MessageSkaianetData;
+import com.mraof.minestuck.network.message.MessageSkaianetLandChains;
 import com.mraof.minestuck.tileentity.TileEntityComputer;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.Debug;
@@ -34,6 +35,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /**
  * This class handles server sided stuff about the sburb connection network.
@@ -110,8 +112,7 @@ public class SkaianetHandler {
 		s[0] = identifier;
 		infoToSend.put(identifier, s);
 		updatePlayer(identifier);
-		MinestuckMessage packet = createLandChainPacket();
-		MinestuckNetwork.sendTo(packet, player);
+		MinestuckNetwork.sendTo(new MessageSkaianetLandChains(landChains), player);
 	}
 	
 	public static void requestConnection(ComputerData player, PlayerIdentifier otherPlayer, boolean isClient)
@@ -461,11 +462,6 @@ public class SkaianetHandler {
 		updateLandChain();
 	}
 	
-	public static MinestuckMessage createLandChainPacket()
-	{
-		return MinestuckMessage.makePacket(Type.SBURB_INFO, landChains);
-	}
-	
 	static void updateLandChain()
 	{
 		landChains.clear();
@@ -516,8 +512,7 @@ public class SkaianetHandler {
 	static void sendLandChainUpdate()
 	{
 		updateLandChain();
-		MinestuckMessage packet = createLandChainPacket();
-		MinestuckNetwork.sendToAll(packet);
+		MinestuckNetwork.sendToAll(new MessageSkaianetLandChains(landChains));
 	}
 	
 	static void updateAll()
@@ -529,9 +524,9 @@ public class SkaianetHandler {
 	
 	private static void updatePlayer(PlayerIdentifier player)
 	{
-		PlayerIdentifier[] iden = infoToSend.get(player);
+		PlayerIdentifier[] playersToSendTo = infoToSend.get(player);
 		EntityPlayerMP playerMP = player.getPlayer();
-		if(iden == null || playerMP == null)//If the player disconnected
+		if(playersToSendTo == null || playerMP == null)//If the player disconnected
 			return;
 		for(SburbConnection c : connections)
 			if(c.isActive && (c.getClientIdentifier().equals(player) || c.getServerIdentifier().equals(player)))
@@ -539,33 +534,17 @@ public class SkaianetHandler {
 				MinestuckCriteriaTriggers.SBURB_CONNECTION.trigger(playerMP);
 				break;
 			}
-		for(PlayerIdentifier i : iden)
-		{
-			if(i != null)
-			{
-				MinestuckMessage packet = MinestuckMessage.makePacket(Type.SBURB_INFO, generateClientInfo(i));
-				MinestuckNetwork.sendTo(packet, playerMP);
-			}
-		}
-	}
-	
-	private static Object[] generateClientInfo(PlayerIdentifier player)
-	{
-		List<Object> list = new ArrayList<Object>();
-		list.add(player.getId());
-		
-		list.add(resumingClients.containsKey(player));
-		list.add(resumingServers.containsKey(player) || serversOpen.containsKey(player));
-		
-		List<Object> playerList = SessionHandler.getServerList(player);
-		list.add(playerList.size()/2);
-		list.addAll(playerList);
-		
-		for(SburbConnection c : connections)
-			if(c.getClientIdentifier().equals(player) || c.getServerIdentifier().equals(player))
-				list.add(c);
-		
-		return list.toArray();
+		for(PlayerIdentifier playerToSendTo : playersToSendTo)
+			if(playerToSendTo != null)
+				MinestuckNetwork.sendTo(new MessageSkaianetData(
+						playerToSendTo.getId(),
+						resumingClients.containsKey(playerToSendTo),
+						resumingServers.containsKey(playerToSendTo) || serversOpen.containsKey(playerToSendTo),
+						SessionHandler.getServerList(playerToSendTo),
+						connections.stream().filter(
+								(SburbConnection connection) -> connection.getClientIdentifier().equals(playerToSendTo) || connection.getServerIdentifier().equals(playerToSendTo)
+						).collect(Collectors.toList())
+				), playerMP);
 	}
 	
 	private static void checkData()
@@ -793,10 +772,7 @@ public class SkaianetHandler {
 			c.unregisteredItems = new NBTTagList();
 			EditData data = ServerEditHandler.getData(c);
 			if(data != null)
-			{
-				MinestuckMessage packet = MinestuckMessage.makePacket(Type.SERVER_EDIT, c.givenItemList);
-				MinestuckNetwork.sendTo(packet, data.getEditor());
-			}
+				MinestuckNetwork.sendTo(new MessageServerEdit(c.givenItemList), data.getEditor());
 		}
 	}
 	

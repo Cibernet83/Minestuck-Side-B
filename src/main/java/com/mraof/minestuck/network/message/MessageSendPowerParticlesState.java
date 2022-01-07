@@ -6,74 +6,72 @@ import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageSendPowerParticlesState extends MinestuckMessage
+public class MessageSendPowerParticlesState implements MinestuckMessage
 {
 	private int entityId;
 	private Class badge;
 	private MinestuckParticles.PowerParticleState state;
 
-	@Override
-	public void generatePacket(Object... args)
+	private MessageSendPowerParticlesState() { }
+
+	public MessageSendPowerParticlesState(Entity entity, Class badge, MinestuckParticles.PowerParticleState state)
 	{
-		data.writeInt(((EntityLivingBase)args[0]).getEntityId());
+		this.entityId = entity.getEntityId();
+		this.badge = badge;
+		this.state = state;
+	}
 
-		int stateIndex;
-		if (args[1] instanceof Class)
-		{
-			data.writeBoolean(true);
-			ByteBufUtils.writeUTF8String(data, ((Class) args[1]).getCanonicalName());
-			stateIndex = 2;
-		}
-		else
-		{
-			data.writeBoolean(false);
-			stateIndex = 1;
-		}
-
-		if (args.length > stateIndex)
-		{
-			data.writeBoolean(true);
-			MinestuckParticles.PowerParticleState state = (MinestuckParticles.PowerParticleState) args[stateIndex];
-			data.writeBoolean(state.type == MinestuckParticles.ParticleType.AURA);
-			if (state.aspect != null)
-				data.writeByte(state.aspect.ordinal());
-			else
-				data.writeByte(EnumAspect.values().length + state.clazz.ordinal());
-			data.writeByte(state.count);
-		}
-		else
-			data.writeBoolean(false);
-
-
+	public MessageSendPowerParticlesState(Entity entity, MinestuckParticles.PowerParticleState state)
+	{
+		this(entity, null, state);
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		entityId = data.readInt();
+		buf.writeInt(entityId);
 
-		if (data.readBoolean())
+		buf.writeBoolean(badge != null);
+		if (badge != null)
+			ByteBufUtils.writeUTF8String(buf, badge.getName());
+
+		buf.writeBoolean(state != null);
+		if (state != null)
+		{
+			buf.writeBoolean(state.type == MinestuckParticles.ParticleType.AURA);
+			if (state.aspect != null)
+				buf.writeByte(state.aspect.ordinal());
+			else
+				buf.writeByte(EnumAspect.values().length + state.clazz.ordinal());
+			buf.writeByte(state.count);
+		}
+	}
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		entityId = buf.readInt();
+
+		if (buf.readBoolean())
 			try
 			{
-				badge = Class.forName(ByteBufUtils.readUTF8String(data));
+				badge = Class.forName(ByteBufUtils.readUTF8String(buf));
 			}
 			catch (ClassNotFoundException e)
 			{
 				throw new RuntimeException(e);
 			}
 
-		if (data.readBoolean())
+		if (buf.readBoolean())
 		{
-			boolean aura = data.readBoolean();
-			int classpect = data.readByte();
-			int count = data.readByte();
+			boolean aura = buf.readBoolean();
+			int classpect = buf.readByte();
+			int count = buf.readByte();
 
 			if (classpect < EnumAspect.values().length)
 				state = new MinestuckParticles.PowerParticleState(
@@ -86,7 +84,7 @@ public class MessageSendPowerParticlesState extends MinestuckMessage
 						aura ? MinestuckParticles.ParticleType.AURA : MinestuckParticles.ParticleType.BURST,
 						EnumClass.values()[classpect - EnumAspect.values().length],
 						count
-					);
+				);
 		}
 
 
@@ -104,8 +102,8 @@ public class MessageSendPowerParticlesState extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.SERVER);
+		return Side.CLIENT;
 	}
 }

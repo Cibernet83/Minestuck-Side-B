@@ -70,28 +70,6 @@ public enum EnumClass
 	}
 	
 	/**
-	 * Used to get a title-class based on index. Used when reading a title-class from nbt.
-	 * The index value is matched with the return of <code>getIntFromClass</code>
-	 * @param i The index number.
-	 * @return the title-class
-	 */
-	public static EnumClass getClassFromInt(int i)
-	{
-		return EnumClass.values()[i];
-	}
-	
-	/**
-	 * Gives the index for the class. Used when writing a title-class to nbt.
-	 * When reading a title-class from nbt, <code>getClassFromInt</code> should be used to return the index to a title-class.
-	 * @param e The title-class to convert.
-	 * @return an index number that matches this title-class
-	 */
-	public static int getIntFromClass(EnumClass e)
-	{
-		return e.ordinal();
-	}
-	
-	/**
 	 * Takes the enum name for this title-class and returns a lowercase version.
 	 * Aside from regular use of the method, it is useful for producing
 	 * the unlocalized name of the title-class using <code>"title." + titleClass.toString()</code>

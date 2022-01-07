@@ -2,19 +2,17 @@ package com.mraof.minestuck.world;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.network.message.MessageLandRegister;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.world.lands.LandAspectRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
 
 public class MinestuckDimensionHandler
 {
@@ -26,8 +24,8 @@ public class MinestuckDimensionHandler
 	public static int biomeIdStart;
 	
 	private static Exception unregisterTrace;
-	private static Hashtable<Integer, LandAspectRegistry.AspectCombination> lands = new Hashtable<Integer, LandAspectRegistry.AspectCombination>();
-	private static Hashtable<Integer, BlockPos> spawnpoints = new Hashtable<Integer, BlockPos>();
+	private static HashMap<Integer, LandAspectRegistry.AspectCombination> lands = new HashMap<>();
+	private static HashMap<Integer, BlockPos> spawnpoints = new HashMap<>();
 	
 	public static DimensionType landDimensionType;
 	public static DimensionType skaiaDimensionType;
@@ -43,20 +41,16 @@ public class MinestuckDimensionHandler
 	
 	public static void unregisterDimensions()
 	{
-		for(Iterator<Integer> iterator = lands.keySet().iterator(); iterator.hasNext();)
-		{
-			int b = iterator.next();
+		for (int b : lands.keySet())
 			if(DimensionManager.isDimensionRegistered(b))
-			{
 				DimensionManager.unregisterDimension(b);
-			}
-		}
 		
 		if(Minestuck.isServerRunning)
 			try
 			{
 				throw new Exception();
-			} catch(Exception e)
+			}
+			catch(Exception e)
 			{
 				unregisterTrace = e;
 			}
@@ -68,24 +62,21 @@ public class MinestuckDimensionHandler
 	public static void saveData(NBTTagCompound nbt)
 	{
 		if(unregisterTrace != null)
-		{
 			throw new IllegalStateException("Saving minestuck dimension data after unregistering dimensions. This is bad!", unregisterTrace);
-		}
 		
 		NBTTagList list = new NBTTagList();
-		for(Map.Entry<Integer, LandAspectRegistry.AspectCombination> entry : lands.entrySet())
-		{
+		lands.forEach((Integer dim, LandAspectRegistry.AspectCombination type) -> {
 			NBTTagCompound tagCompound = new NBTTagCompound();
-			tagCompound.setInteger("dimID", entry.getKey());
+			tagCompound.setInteger("dimID", dim);
 			tagCompound.setString("type", "land");
-			tagCompound.setString("aspect1", entry.getValue().aspectTerrain.getPrimaryName());
-			tagCompound.setString("aspect2", entry.getValue().aspectTitle.getPrimaryName());
-			BlockPos spawn = spawnpoints.get(entry.getKey());
+			tagCompound.setString("aspect1", type.aspectTerrain.getPrimaryName());
+			tagCompound.setString("aspect2", type.aspectTitle.getPrimaryName());
+			BlockPos spawn = spawnpoints.get(dim);
 			tagCompound.setInteger("spawnX", spawn.getX());
 			tagCompound.setInteger("spawnY", spawn.getY());
 			tagCompound.setInteger("spawnZ", spawn.getZ());
 			list.appendTag(tagCompound);
-		}
+		});
 		GateHandler.saveData(list);
 		nbt.setTag("dimensionData", list);
 	}
@@ -94,9 +85,7 @@ public class MinestuckDimensionHandler
 	{
 		unregisterTrace = null;
 		if(nbt == null)
-		{
 			return;
-		}
 		
 		NBTTagList list = nbt.getTagList("dimensionData", new NBTTagCompound().getId());
 		for(int i = 0; i < list.tagCount(); i++)
@@ -115,7 +104,9 @@ public class MinestuckDimensionHandler
 				spawnpoints.put(dim, spawn);
 				DimensionManager.registerDimension(dim, landDimensionType);
 				Debug.debugf("Loaded minestuck info on land dimension %d", dim);
-			} else Debug.warnf("Found data on a non-land dimension in the minestuck data (%d). Are you running a newer world on an older version?", dim);
+			}
+			else
+				Debug.warnf("Found data on a non-land dimension in the minestuck data (%d). Are you running a newer world on an older version?", dim);
 		}
 		Debug.debugf("Loaded minestuck data for %d land dimensions out of %d entries.", lands.size(), list.tagCount());
 		GateHandler.loadData(list);
@@ -138,9 +129,7 @@ public class MinestuckDimensionHandler
 		LandAspectRegistry.AspectCombination aspects = lands.get(dimensionId);
 		
 		if(aspects == null)
-		{
 			Debug.warnf("Tried to access land aspect for dimension %d, but didn't find any!", dimensionId);
-		}
 		
 		return aspects;
 	}
@@ -155,27 +144,27 @@ public class MinestuckDimensionHandler
 		return dimensionId == skaiaDimensionId;
 	}
 	
-	public static Set<Map.Entry<Integer, LandAspectRegistry.AspectCombination>> getLandSet()
+	public static void forEachLand(BiConsumer<? super Integer, ? super LandAspectRegistry.AspectCombination> action)
 	{
-		return lands.entrySet();
+		lands.forEach(action);
 	}
 	
-	public static void onLandPacket(MessageLandRegister packet)
+	public static void onLandPacket(HashMap<Integer, Tuple<LandAspectRegistry.AspectCombination, BlockPos>> newLands)
 	{
 		if(Minestuck.isServerRunning)
 			return;
 		unregisterTrace = null;
 		lands.clear();
 		spawnpoints.clear();
-		
-		lands.putAll(packet.aspectMap);
-		spawnpoints.putAll(packet.spawnMap);
+
+		newLands.forEach((Integer dim, Tuple<LandAspectRegistry.AspectCombination, BlockPos> data) -> {
+			lands.put(dim, data.getFirst());
+			spawnpoints.put(dim, data.getSecond());
+		});
 		
 		for(int dim : lands.keySet())
-		{
 			if(!DimensionManager.isDimensionRegistered(dim))
 				DimensionManager.registerDimension(dim, landDimensionType);
-		}
 	}
 	
 	public static BlockPos getSpawn(int dim)

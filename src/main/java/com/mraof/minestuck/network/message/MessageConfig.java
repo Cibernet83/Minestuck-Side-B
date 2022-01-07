@@ -12,12 +12,12 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageConfig extends MinestuckMessage
+public class MessageConfig implements MinestuckMessage
 {
-	
-	private boolean mode;
+	/**
+	 * Values that shouldn't be changed while the game is running, and should therefore only be sent once
+	 */
+	private boolean initialConfigs;
 
 	private int overWorldEditRange;
 	private int landEditRange;
@@ -33,70 +33,74 @@ public class MessageConfig extends MinestuckMessage
 	private boolean preEntryEcheladder;
 	private boolean hardMode;
 	private boolean[] deployValues;
-	
-	@Override
-	public void generatePacket(Object... dat)
+
+	private MessageConfig() { }
+
+	public MessageConfig(boolean initialConfigs, boolean dataChecker)
 	{
-		boolean mode = (Boolean) dat[0];
-		data.writeBoolean(mode);
-		if(mode)	//Values that shouldn't be changed while the game is running, and should therefore only be sent once
+		this.initialConfigs = initialConfigs;
+		this.dataChecker = dataChecker;
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeBoolean(initialConfigs);
+		if (initialConfigs)
 		{
-			data.writeInt(MinestuckConfig.overworldEditRange);
-			data.writeInt(MinestuckConfig.landEditRange);
-			data.writeInt(ContainerHandler.windowIdStart);
-			data.writeInt(MinestuckConfig.oreMultiplier);
-			data.writeBoolean(MinestuckConfig.giveItems);
-			data.writeBoolean(MinestuckConfig.hardMode);
+			buf.writeInt(MinestuckConfig.overworldEditRange);
+			buf.writeInt(MinestuckConfig.landEditRange);
+			buf.writeInt(ContainerHandler.windowIdStart);
+			buf.writeInt(MinestuckConfig.oreMultiplier);
+			buf.writeBoolean(MinestuckConfig.giveItems);
+			buf.writeBoolean(MinestuckConfig.hardMode);
 			
 			for(int i = 0; i < MinestuckConfig.deployConfigurations.length; i++)
-				data.writeBoolean(MinestuckConfig.deployConfigurations[i]);
-		} else
-		{
-			data.writeInt(MinestuckConfig.cardCost);
-			data.writeInt(MinestuckConfig.alchemiterMaxStacks);
-			data.writeBoolean(MinestuckConfig.disableGristWidget);
-			data.writeByte(MinestuckConfig.treeModusSetting);
-			data.writeBoolean((Boolean) dat[1]);
-			data.writeBoolean(MinestuckConfig.preEntryRungLimit <= 0);
+				buf.writeBoolean(MinestuckConfig.deployConfigurations[i]);
 		}
-		
-
+		else
+		{
+			buf.writeInt(MinestuckConfig.cardCost);
+			buf.writeInt(MinestuckConfig.alchemiterMaxStacks);
+			buf.writeBoolean(MinestuckConfig.disableGristWidget);
+			buf.writeByte(MinestuckConfig.treeModusSetting);
+			buf.writeBoolean(dataChecker);
+			buf.writeBoolean(MinestuckConfig.preEntryRungLimit <= 0);
+		}
 	}
 	
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
-		mode = data.readBoolean();
+		initialConfigs = buf.readBoolean();
 		
-		if(mode)
+		if(initialConfigs)
 		{
-			overWorldEditRange = data.readInt();
-			landEditRange = data.readInt();
-			windowIdStart = data.readInt();
-			oreMultiplier = data.readInt();
-			giveItems = data.readBoolean();
-			hardMode = data.readBoolean();
+			overWorldEditRange = buf.readInt();
+			landEditRange = buf.readInt();
+			windowIdStart = buf.readInt();
+			oreMultiplier = buf.readInt();
+			giveItems = buf.readBoolean();
+			hardMode = buf.readBoolean();
 			
 			deployValues = new boolean[MinestuckConfig.deployConfigurations.length];
 			for(int i = 0; i < deployValues.length; i++)
-				deployValues[i] = data.readBoolean();
+				deployValues[i] = buf.readBoolean();
 		} else
 		{
-			cardCost = data.readInt();
-			alchemiterStacks = data.readInt();
-			disableGristWidget = data.readBoolean();
-			treeModusSetting = data.readByte();
-			dataChecker = data.readBoolean();
-			preEntryEcheladder = data.readBoolean();
+			cardCost = buf.readInt();
+			alchemiterStacks = buf.readInt();
+			disableGristWidget = buf.readBoolean();
+			treeModusSetting = buf.readByte();
+			dataChecker = buf.readBoolean();
+			preEntryEcheladder = buf.readBoolean();
 		}
-		
-
 	}
 
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(mode)
+		if(initialConfigs)
 		{
 			MinestuckConfig.clientOverworldEditRange = overWorldEditRange;
 			MinestuckConfig.clientLandEditRange = landEditRange;
@@ -123,8 +127,7 @@ public class MessageConfig extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide() {
-		return EnumSet.of(Side.SERVER);
+	public Side toSide() {
+		return Side.CLIENT;
 	}
-
 }

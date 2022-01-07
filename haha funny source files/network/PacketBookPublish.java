@@ -42,7 +42,7 @@ public class PacketBookPublish extends MinestuckPacket
 	}
 	
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
 		return EnumSet.of(Side.CLIENT);
 	}

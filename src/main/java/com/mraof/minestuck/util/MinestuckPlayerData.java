@@ -5,9 +5,7 @@ import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.message.MessageGristCache;
-import com.mraof.minestuck.network.message.MessagePlayerData;
+import com.mraof.minestuck.network.message.MessageBoondollars;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
@@ -32,12 +30,12 @@ public class MinestuckPlayerData
 
 	private static Map<PlayerIdentifier, PlayerData> dataMap = new HashMap<>();
 
-	public static void onPacketRecived(MessageGristCache packet)
+	public static void setGristCache(GristSet gristSet, boolean targetGrist)
 	{
-		if (packet.targetGrist)
-			sessionClientGrist = packet.values;
+		if (targetGrist)
+			sessionClientGrist = gristSet;
 		else
-			clientData.gristCache = packet.values;
+			clientData.gristCache = gristSet;
 	}
 
 	//Server sided
@@ -142,7 +140,7 @@ public class MinestuckPlayerData
 		
 		EntityPlayer player = id.getPlayer();
 		if(player != null)
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.PLAYER_DATA, MessagePlayerData.BOONDOLLAR, data.boondollars), player);
+			MinestuckNetwork.sendTo(new MessageBoondollars(data.boondollars), player);
 		return true;
 	}
 
@@ -214,7 +212,7 @@ public class MinestuckPlayerData
 				}
 			}
 			if (nbt.hasKey("titleClass"))
-				this.title = new Title(EnumClass.getClassFromInt(nbt.getByte("titleClass")), EnumAspect.getAspectFromInt(nbt.getByte("titleAspect")));
+				this.title = new Title(EnumClass.values()[nbt.getByte("titleClass")], EnumAspect.values()[nbt.getByte("titleAspect")]);
 			givenModus = nbt.getBoolean("givenModus");
 			if (nbt.hasKey("color"))
 				this.color = nbt.getInteger("color");

@@ -1,6 +1,5 @@
 package com.mraof.minestuck.item.properties;
 
-import com.mraof.minestuck.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;

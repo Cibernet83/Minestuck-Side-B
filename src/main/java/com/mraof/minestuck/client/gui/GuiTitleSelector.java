@@ -2,7 +2,6 @@ package com.mraof.minestuck.client.gui;
 
 import com.mraof.minestuck.network.MinestuckNetwork;
 import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.message.MessagePlayerData;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
 import com.mraof.minestuck.util.Title;

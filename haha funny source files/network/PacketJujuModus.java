@@ -14,7 +14,7 @@ public class PacketJujuModus extends MinestuckPacket
 	Type type;
 	
 	@Override
-	public void generatePacket(Object... args)
+	public void toBytes(ByteBuf buf)
 	{
 		if(args[0] instanceof Type)
 			data.writeInt(((Type)args[0]).ordinal());
@@ -62,7 +62,7 @@ public class PacketJujuModus extends MinestuckPacket
 	}
 	
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
 		return EnumSet.of(Side.CLIENT);
 	}

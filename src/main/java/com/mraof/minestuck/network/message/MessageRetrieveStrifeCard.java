@@ -8,30 +8,45 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageRetrieveStrifeCard extends MinestuckMessage
+public class MessageRetrieveStrifeCard implements MinestuckMessage
 {
-	int index;
-	boolean isCard;
-	EnumHand hand;
+	private int index;
+	private boolean isCard;
+	private EnumHand hand;
 
-	@Override
-	public void generatePacket(Object... args)
+	private MessageRetrieveStrifeCard() { }
+
+	public MessageRetrieveStrifeCard(int index, boolean isCard, EnumHand hand)
 	{
-		data.writeInt((int) args[0]);
-		data.writeBoolean(args.length <= 1 || (boolean)args[1]);
-		data.writeBoolean(args.length <= 2 || args[2] == EnumHand.MAIN_HAND);
+		this.index = index;
+		this.isCard = isCard;
+		this.hand = hand;
+	}
 
+	public MessageRetrieveStrifeCard(int index, boolean isCard)
+	{
+		this(index, isCard, EnumHand.MAIN_HAND);
+	}
+
+	public MessageRetrieveStrifeCard(int index)
+	{
+		this(index, true);
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		index = data.readInt();
-		isCard = data.readBoolean();
-		hand = data.readBoolean() ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
+		buf.writeInt(index);
+		buf.writeBoolean(isCard);
+		buf.writeBoolean(hand == EnumHand.MAIN_HAND);
+	}
 
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		index = buf.readInt();
+		isCard = buf.readBoolean();
+		hand = buf.readBoolean() ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
 	}
 
 	@Override
@@ -39,13 +54,14 @@ public class MessageRetrieveStrifeCard extends MinestuckMessage
 	{
 		if(isCard)
 			StrifePortfolioHandler.retrieveCard(player, index);
-		else StrifePortfolioHandler.retrieveWeapon(player, index, hand);
-		MinestuckNetwork.sendTo(makePacket(Type.UPDATE_STRIFE, player, MessageUpdateStrifeData.UpdateType.PORTFOLIO), player);
+		else
+			StrifePortfolioHandler.retrieveWeapon(player, index, hand);
+		MinestuckNetwork.sendTo(new MessageStrifePortfolio(player), player);
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.CLIENT);
+		return Side.SERVER;
 	}
 }

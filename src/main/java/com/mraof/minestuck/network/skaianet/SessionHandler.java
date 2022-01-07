@@ -387,17 +387,12 @@ public class SessionHandler
 		}
 	}
 	
-	static List<Object> getServerList(PlayerIdentifier client)
+	static Map<Integer, String> getServerList(PlayerIdentifier client)
 	{
-		ArrayList<Object> list = new ArrayList<Object>();
+		Map<Integer, String> list = new HashMap<>();
 		for(PlayerIdentifier server : SkaianetHandler.serversOpen.keySet())
-		{
 			if(canConnect(client, server))
-			{
-				list.add(server.getId());
-				list.add(server.getUsername());
-			}
-		}
+				list.put(server.getId(), server.getUsername());
 		return list;
 	}
 	
@@ -423,14 +418,14 @@ public class SessionHandler
 			} else if(sc == null)
 			{
 				if(ss.locked)
-					throw new CommandException("The server session is locked, and can no longer be modified!");
+					throw new CommandException("computer.sessionLocked");
 				if(MinestuckConfig.forceMaxSize && ss.getPlayerList().size() + 1 > maxSize)
 					throw new CommandException("computer.serverSessionFull");
 				sc = ss;
 			} else if(ss == null)
 			{
 				if(sc.locked)
-					throw new CommandException("The client session is locked, and can no longer be modified!");
+					throw new CommandException("computer.sessionLocked");
 				if(MinestuckConfig.forceMaxSize && sc.getPlayerList().size() + 1 > maxSize)
 					throw new CommandException("computer.clientSessionFull");
 				ss = sc;
@@ -440,7 +435,7 @@ public class SessionHandler
 		SburbConnection cc = SkaianetHandler.getMainConnection(client, true), cs = SkaianetHandler.getMainConnection(server, false);
 		
 		if(cc != null && cc == cs)
-			throw new CommandException("Those players are already connected!");
+			throw new CommandException("computer.sessionAlreadyConnectedPlayers");
 		
 		if(sc != ss)
 		{

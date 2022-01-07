@@ -1,67 +1,54 @@
 package com.mraof.minestuck.network.message;
 
-import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.client.gui.playerStats.GuiDataChecker;
 import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.skaianet.SessionHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageDataChecker extends MinestuckMessage
+public class MessageDataChecker implements MinestuckMessage
 {
-	
-	public static int index = 0;
-	public static NBTTagCompound nbtData;
+	private static NBTTagCompound nbtData;
 	
 	/**
 	 * Used to avoid confusion when the client sends several requests during a short period
 	 */
-	public int packetIndex;
-	
-	@Override
-	public void generatePacket(Object... dat)
+	private int packetIndex;
+
+	private MessageDataChecker() { }
+
+	public MessageDataChecker(int packetIndex, NBTTagCompound nbtData)
 	{
-		if(dat.length == 0)	//Cient request to server
-			data.writeByte(index = (index + 1) % 100);
-		else
-		{
-			data.writeByte((Integer) dat[0]);
-			ByteBufUtils.writeTag(data, (NBTTagCompound)dat[1]);
-		}
+		this.packetIndex = packetIndex;
+		MessageDataChecker.nbtData = nbtData;
 	}
 	
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		packetIndex = data.readByte();
-		nbtData = ByteBufUtils.readTag(data);
+		buf.writeByte(packetIndex);
+		ByteBufUtils.writeTag(buf, nbtData);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		packetIndex = buf.readByte();
+		nbtData = ByteBufUtils.readTag(buf);
 	}
 	
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(player.world.isRemote)
-		{
-			if(packetIndex == index)
-				GuiDataChecker.activeComponent = new GuiDataChecker.MainComponent(nbtData);
-		} else if(player instanceof EntityPlayerMP && MinestuckConfig.getDataCheckerPermissionFor((EntityPlayerMP) player))
-		{
-			NBTTagCompound data = SessionHandler.createDataTag(player.getServer());
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(Type.DATA_CHECKER, packetIndex, data), player);
-		}
+		if(packetIndex == MessageDataCheckerRequest.index)
+			GuiDataChecker.activeComponent = new GuiDataChecker.MainComponent(nbtData);
 	}
 	
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.allOf(Side.class);
+		return Side.CLIENT;
 	}
-	
 }

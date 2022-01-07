@@ -1,69 +1,73 @@
 package com.mraof.minestuck.network;
 
+import com.mraof.minestuck.util.MovementInput;
+import com.mraof.minestuck.util.Vec4;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 import java.util.function.Function;
 
-public interface ISerializableDataType
+public interface ISerializableDataType<T>
 {
 	void serialize(NBTTagCompound tag);
-	void serialize(ByteBuf data);
-	default ISerializableDataType initialize(World world)
-	{
-		return this;
-	}
+	void serialize(ByteBuf buf);
+	T getValue();
+	default void initialize(World world) { }
 
-	enum DataType
-	{
-		INT(IntData::new, IntData::new),
-		BOOLEAN(BooleanData::new, BooleanData::new),
-		VEC4(Vec4Data::new, Vec4Data::new),
-		MOVEMENT_INPUT(MovementInputData::new, MovementInputData::new),
-		ENTITY(EntityIDData::new, EntityIDData::new),
-		;
+	LinkedHashMap<Class<? extends ISerializableDataType>, Tuple<Function<NBTTagCompound, ? extends ISerializableDataType>, Function<ByteBuf, ? extends ISerializableDataType>>> REGISTRY = new LinkedHashMap<>();
+	Tuple<Boolean, Boolean> COOL_BEANS = new Tuple<Boolean, Boolean>(false, false)
+	{{
+		register(IntegerData.class, IntegerData::new, IntegerData::new);
+		register(BooleanData.class, BooleanData::new, BooleanData::new);
+		register(StringData.class, StringData::new, StringData::new);
+		register(Vec4Data.class, Vec4Data::new, Vec4Data::new);
+		register(MovementInputData.class, MovementInputData::new, MovementInputData::new);
+		register(EntityData.class, EntityData::new, EntityData::new);
+		register(DataTypeData.class, DataTypeData::new, DataTypeData::new);
+	}};
 
-		public Function<NBTTagCompound, ? extends ISerializableDataType> tagReader;
-		public Function<ByteBuf, ? extends ISerializableDataType> byteBufReader;
-		DataType(Function<NBTTagCompound, ? extends ISerializableDataType> tagReader, Function<ByteBuf, ? extends ISerializableDataType> byteBufReader)
-		{
-			this.tagReader = tagReader;
-			this.byteBufReader = byteBufReader;
-		}
-	}
-
-	static ISerializableDataType deserialize(NBTTagCompound tag)
+	static <T extends ISerializableDataType> void register(Class<T> dataType, Function<NBTTagCompound, T> tagReader, Function<ByteBuf, T> byteBufReader)
 	{
-		DataType type = DataType.values()[tag.getByte("DataType")];
-		return type.tagReader.apply(tag);
-	}
-
-	static ISerializableDataType deserialize(ByteBuf data)
-	{
-		DataType type = DataType.values()[data.readByte()];
-		return type.byteBufReader.apply(data);
+		if(REGISTRY.containsKey(dataType))
+			throw new IllegalArgumentException(dataType + " already exists.");
+		REGISTRY.put(dataType, new Tuple<>(tagReader, byteBufReader));
 	}
 
 
-	class IntData implements ISerializableDataType
+	static <T extends ISerializableDataType> T deserialize(NBTTagCompound tag, Class<T> dataType)
 	{
-		public final int value;
+		return (T)REGISTRY.get(dataType).getFirst().apply(tag);
+	}
 
-		public IntData(int value)
+	static <T extends ISerializableDataType> T deserialize(ByteBuf buf, Class<T> dataType)
+	{
+		return (T)REGISTRY.get(dataType).getSecond().apply(buf);
+	}
+
+
+	class IntegerData implements ISerializableDataType<Integer>
+	{
+		private final int value;
+
+		public IntegerData(int value)
 		{
 			this.value = value;
 		}
 
-		private IntData(NBTTagCompound tag)
+		private IntegerData(NBTTagCompound tag)
 		{
 			this.value = tag.getInteger("Value");
 		}
 
-		private IntData(ByteBuf data)
+		private IntegerData(ByteBuf data)
 		{
 			this.value = data.readInt();
 		}
@@ -71,31 +75,35 @@ public interface ISerializableDataType
 		@Override
 		public void serialize(NBTTagCompound tag)
 		{
-			tag.setByte("BadgeEffectType", (byte) DataType.INT.ordinal());
 			tag.setInteger("Value", value);
 		}
 
 		@Override
-		public void serialize(ByteBuf data)
+		public void serialize(ByteBuf buf)
 		{
-			data.writeByte(DataType.INT.ordinal());
-			data.writeInt(value);
+			buf.writeInt(value);
+		}
+
+		@Override
+		public Integer getValue()
+		{
+			return value;
 		}
 
 		@Override
 		public boolean equals(Object obj)
 		{
-			if (!(obj instanceof IntData))
+			if (!(obj instanceof ISerializableDataType.IntegerData))
 				return false;
-			IntData effect = (IntData) obj;
+			IntegerData other = (IntegerData) obj;
 
-			return this.value == effect.value;
+			return this.value == other.value;
 		}
 	}
 
-	class BooleanData implements ISerializableDataType
+	class BooleanData implements ISerializableDataType<Boolean>
 	{
-		public final boolean value;
+		private final boolean value;
 
 		public BooleanData(boolean value)
 		{
@@ -115,15 +123,19 @@ public interface ISerializableDataType
 		@Override
 		public void serialize(NBTTagCompound tag)
 		{
-			tag.setByte("BadgeEffectType", (byte) DataType.BOOLEAN.ordinal());
 			tag.setBoolean("Value", value);
 		}
 
 		@Override
-		public void serialize(ByteBuf data)
+		public void serialize(ByteBuf buf)
 		{
-			data.writeByte(DataType.BOOLEAN.ordinal());
-			data.writeBoolean(value);
+			buf.writeBoolean(value);
+		}
+
+		@Override
+		public Boolean getValue()
+		{
+			return value;
 		}
 
 		@Override
@@ -131,61 +143,111 @@ public interface ISerializableDataType
 		{
 			if (!(obj instanceof BooleanData))
 				return false;
-			BooleanData effect = (BooleanData) obj;
+			BooleanData other = (BooleanData) obj;
 
-			return this.value == effect.value;
+			return this.value == other.value;
 		}
 	}
 
-	class Vec4Data implements ISerializableDataType
+	class StringData implements ISerializableDataType<String>
 	{
-		public final Vec3d position;
-		public final int dimension;
+		private final String value;
 
-		public Vec4Data(Vec3d position, int dimension)
+		public StringData(String value)
 		{
-			this.position = position;
-			this.dimension = dimension;
+			this.value = value;
 		}
 
-		private Vec4Data(NBTTagCompound tag)
+		private StringData(NBTTagCompound tag)
 		{
-			this.position = new Vec3d(
-					tag.getDouble("PositionX"),
-					tag.getDouble("PositionY"),
-					tag.getDouble("PositionZ")
-			);
-			this.dimension = tag.getInteger("Dimension");
+			this.value = tag.getString("Value");
 		}
 
-		private Vec4Data(ByteBuf data)
+		private StringData(ByteBuf data)
 		{
-			this.position = new Vec3d(
-					data.readDouble(),
-					data.readDouble(),
-					data.readDouble()
-			);
-			this.dimension = data.readInt();
+			this.value = ByteBufUtils.readUTF8String(data);
 		}
 
 		@Override
 		public void serialize(NBTTagCompound tag)
 		{
-			tag.setByte("BadgeEffectType", (byte) DataType.VEC4.ordinal());
-			tag.setDouble("PositionX", position.x);
-			tag.setDouble("PositionY", position.y);
-			tag.setDouble("PositionZ", position.z);
-			tag.setInteger("Dimension", dimension);
+			tag.setString("Value", value);
 		}
 
 		@Override
-		public void serialize(ByteBuf data)
+		public void serialize(ByteBuf buf)
 		{
-			data.writeByte(DataType.VEC4.ordinal());
-			data.writeDouble(position.x);
-			data.writeDouble(position.y);
-			data.writeDouble(position.z);
-			data.writeInt(dimension);
+			ByteBufUtils.writeUTF8String(buf, value);
+		}
+
+		@Override
+		public String getValue()
+		{
+			return value;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (!(obj instanceof StringData))
+				return false;
+			StringData other = (StringData) obj;
+
+			return this.value.equals(other.value);
+		}
+	}
+
+	class Vec4Data implements ISerializableDataType<Vec4>
+	{
+		private final Vec4 value;
+
+		public Vec4Data(Vec3d position, int dimension)
+		{
+			this.value = new Vec4(position.x, position.y, position.z, dimension);
+		}
+
+		private Vec4Data(NBTTagCompound tag)
+		{
+			this.value = new Vec4(
+					tag.getDouble("PositionX"),
+					tag.getDouble("PositionY"),
+					tag.getDouble("PositionZ"),
+					tag.getInteger("Dimension")
+			);
+		}
+
+		private Vec4Data(ByteBuf data)
+		{
+			this.value = new Vec4(
+					data.readDouble(),
+					data.readDouble(),
+					data.readDouble(),
+					data.readInt()
+			);
+		}
+
+		@Override
+		public void serialize(NBTTagCompound tag)
+		{
+			tag.setDouble("PositionX", value.getX());
+			tag.setDouble("PositionY", value.getY());
+			tag.setDouble("PositionZ", value.getZ());
+			tag.setInteger("Dimension", value.getDimension());
+		}
+
+		@Override
+		public void serialize(ByteBuf buf)
+		{
+			buf.writeDouble(value.getX());
+			buf.writeDouble(value.getY());
+			buf.writeDouble(value.getZ());
+			buf.writeInt(value.getDimension());
+		}
+
+		@Override
+		public Vec4 getValue()
+		{
+			return value;
 		}
 
 		@Override
@@ -193,61 +255,53 @@ public interface ISerializableDataType
 		{
 			if (!(obj instanceof Vec4Data))
 				return false;
-			Vec4Data effect = (Vec4Data) obj;
+			Vec4Data other = (Vec4Data) obj;
 
-			return this.position.equals(effect.position) && this.dimension == effect.dimension;
+			return this.value.equals(other.value);
 		}
 	}
 
-	class MovementInputData implements ISerializableDataType
+	class MovementInputData implements ISerializableDataType<MovementInput>
 	{
-		public final float moveStrafe;
-		public final float moveForward;
-		public final boolean jump;
-		public final boolean sneak;
+		private final MovementInput value;
 
 		public MovementInputData(float moveStrafe, float moveForward, boolean jump, boolean sneak)
 		{
-			this.moveStrafe = moveStrafe;
-			this.moveForward = moveForward;
-			this.jump = jump;
-			this.sneak = sneak;
+			this.value = new MovementInput(moveStrafe, moveForward, jump, sneak);
 		}
 
 		private MovementInputData(NBTTagCompound tag)
 		{
-			this.moveStrafe = tag.getFloat("MoveStrafe");
-			this.moveForward = tag.getFloat("MoveForward");
-			this.jump = tag.getBoolean("Jump");
-			this.sneak = tag.getBoolean("Sneak");
+			this.value = new MovementInput(tag.getFloat("MoveStrafe"), tag.getFloat("MoveForward"), tag.getBoolean("Jump"), tag.getBoolean("Sneak"));
 		}
 
 		private MovementInputData(ByteBuf data)
 		{
-			this.moveStrafe = data.readFloat();
-			this.moveForward = data.readFloat();
-			this.jump = data.readBoolean();
-			this.sneak = data.readBoolean();
+			this.value = new MovementInput(data.readFloat(), data.readFloat(), data.readBoolean(), data.readBoolean());
 		}
 
 		@Override
 		public void serialize(NBTTagCompound tag)
 		{
-			tag.setByte("BadgeEffectType", (byte) DataType.MOVEMENT_INPUT.ordinal());
-			tag.setFloat("MoveStrafe", moveStrafe);
-			tag.setFloat("MoveForward", moveForward);
-			tag.setBoolean("Jump", jump);
-			tag.setBoolean("Sneak", sneak);
+			tag.setFloat("MoveStrafe", value.getMoveStrafe());
+			tag.setFloat("MoveForward", value.getMoveForward());
+			tag.setBoolean("Jump", value.isJumping());
+			tag.setBoolean("Sneak", value.isSneaking());
 		}
 
 		@Override
-		public void serialize(ByteBuf data)
+		public void serialize(ByteBuf buf)
 		{
-			data.writeByte(DataType.MOVEMENT_INPUT.ordinal());
-			data.writeFloat(moveStrafe);
-			data.writeFloat(moveForward);
-			data.writeBoolean(jump);
-			data.writeBoolean(sneak);
+			buf.writeFloat(value.getMoveStrafe());
+			buf.writeFloat(value.getMoveForward());
+			buf.writeBoolean(value.isJumping());
+			buf.writeBoolean(value.isSneaking());
+		}
+
+		@Override
+		public MovementInput getValue()
+		{
+			return value;
 		}
 
 		@Override
@@ -255,72 +309,60 @@ public interface ISerializableDataType
 		{
 			if (!(obj instanceof MovementInputData))
 				return false;
-			MovementInputData effect = (MovementInputData) obj;
+			MovementInputData other = (MovementInputData) obj;
 
-			return this.moveStrafe == effect.moveStrafe && this.moveForward == effect.moveForward && this.jump == effect.jump && this.sneak == effect.sneak;
+			return this.value.equals(other.value);
 		}
 	}
 
-	class EntityIDData implements ISerializableDataType // Helper class to get around the fromBytes/execute limits
+	class EntityData implements ISerializableDataType<EntityLivingBase>
 	{
-		private final int id;
-		private final UUID uuid;
+		// no final :cryign:
+		private EntityLivingBase value;
 
-		private EntityIDData(ByteBuf data)
-		{
-			this.id = data.readInt();
-			this.uuid = null;
-		}
-
-		private EntityIDData(NBTTagCompound tag)
-		{
-			this.id = -1;
-			this.uuid = UUID.fromString(tag.getString("UUID"));
-		}
-
-		@Override
-		public void serialize(NBTTagCompound tag)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public void serialize(ByteBuf data)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public ISerializableDataType initialize(World world)
-		{
-			if (uuid == null)
-				return new EntityData((EntityLivingBase) world.getEntityByID(id));
-			else
-				return new EntityData(world.getEntities(EntityLivingBase.class, (entity) -> entity.getUniqueID().equals(uuid)).get(0));
-		}
-	}
-
-	class EntityData implements ISerializableDataType
-	{
-		public final EntityLivingBase value;
+		private UUID uuid;
+		private int id;
 
 		public EntityData(EntityLivingBase value)
 		{
 			this.value = value;
 		}
 
+		private EntityData(NBTTagCompound tag)
+		{
+			this.uuid = UUID.fromString(tag.getString("UUID"));
+		}
+
+		private EntityData(ByteBuf data)
+		{
+			this.id = data.readInt();
+		}
+
 		@Override
 		public void serialize(NBTTagCompound tag)
 		{
-			tag.setByte("BadgeEffectType", (byte) DataType.ENTITY.ordinal());
 			tag.setString("UUID", value.getUniqueID().toString());
 		}
 
 		@Override
-		public void serialize(ByteBuf data)
+		public void serialize(ByteBuf buf)
 		{
-			data.writeByte(DataType.ENTITY.ordinal());
-			data.writeInt(value.getEntityId());
+			buf.writeInt(value.getEntityId());
+		}
+
+		@Override
+		public void initialize(World world)
+		{
+			if (uuid == null)
+				value = (EntityLivingBase) world.getEntityByID(id);
+			else
+				value = world.getEntities(EntityLivingBase.class, (entity) -> entity.getUniqueID().equals(uuid)).get(0);
+		}
+
+		@Override
+		public EntityLivingBase getValue()
+		{
+			return value;
 		}
 
 		@Override
@@ -328,9 +370,93 @@ public interface ISerializableDataType
 		{
 			if (!(obj instanceof EntityData))
 				return false;
-			EntityData effect = (EntityData) obj;
+			EntityData other = (EntityData) obj;
 
-			return this.value.equals(effect.value);
+			return this.value.equals(other.value);
+		}
+	}
+
+	class DataTypeData implements ISerializableDataType<ISerializableDataType>
+	{
+		private final ISerializableDataType value;
+
+		public <T extends ISerializableDataType> DataTypeData(T value)
+		{
+			this.value = value;
+		}
+
+		private DataTypeData(NBTTagCompound tag)
+		{
+			String clazzName = tag.getString("Class");
+			if (clazzName.equals("null"))
+				this.value = null;
+			else
+				try
+				{
+					this.value = deserialize(tag.getCompoundTag("Data"), (Class<? extends ISerializableDataType>) Class.forName(clazzName));
+				}
+				catch (ClassNotFoundException e)
+				{
+					throw new RuntimeException("yeah you gotta throw out the whole data lol idk how to catch this from here safely", e);
+				}
+		}
+
+		private DataTypeData(ByteBuf data)
+		{
+			int clazzIndex = data.readInt();
+			if (clazzIndex > 0)
+				this.value = deserialize(data, REGISTRY.keySet().toArray(new Class[0])[clazzIndex]);
+			else
+				this.value = null;
+		}
+
+		@Override
+		public void serialize(NBTTagCompound tag)
+		{
+			if (value == null)
+				tag.setString("Class", "null");
+			else
+			{
+				NBTTagCompound valueTag = new NBTTagCompound();
+				value.serialize(valueTag);
+				tag.setTag("Data", valueTag);
+				tag.setString("Class", value.getClass().getName());
+			}
+		}
+
+		@Override
+		public void serialize(ByteBuf buf)
+		{
+			if (value == null)
+				buf.writeInt(-1);
+			else
+			{
+				buf.writeInt(Arrays.asList(REGISTRY.keySet().toArray(new Class[0])).indexOf(value.getClass()));
+				value.serialize(buf);
+			}
+		}
+
+		@Override
+		public void initialize(World world)
+		{
+			if (value != null)
+				value.initialize(world);
+		}
+
+		@Override
+		public ISerializableDataType getValue()
+		{
+			return value;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (!(obj instanceof EntityData))
+				return false;
+			EntityData other = (EntityData) obj;
+
+			return this.value != null && this.value.equals(other.value);
 		}
 	}
 }

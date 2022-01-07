@@ -8,32 +8,33 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageAlchemiter extends MinestuckMessage
+public class MessageAlchemiter implements MinestuckMessage
 {
-	
-	public BlockPos tePos;
-	public int quantity;
-	
-	@Override
-	public void generatePacket(Object... dat)
+	private BlockPos tePos;
+	private int quantity;
+
+	private MessageAlchemiter() { }
+
+	public MessageAlchemiter(TileEntityAlchemiter alchemiter, int quantity)
 	{
-		TileEntity te = ((TileEntity) dat[0]);
-		data.writeInt(te.getPos().getX());
-		data.writeInt(te.getPos().getY());
-		data.writeInt(te.getPos().getZ());
-		data.writeInt((int) dat[1]);
+		this.tePos = alchemiter.getPos();
+		this.quantity = quantity;
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(tePos.getX());
+		buf.writeInt(tePos.getY());
+		buf.writeInt(tePos.getZ());
+		buf.writeInt(quantity);
 	}
 	
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
-		tePos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
-		
-		quantity = data.readInt();
-		
-
+		tePos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		quantity = buf.readInt();
 	}
 	
 	@Override
@@ -51,8 +52,8 @@ public class MessageAlchemiter extends MinestuckMessage
 	}
 	
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.CLIENT);
+		return Side.SERVER;
 	}
 }

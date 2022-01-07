@@ -4,7 +4,6 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.util.AlchemyUtils;
-import com.mraof.minestuck.util.Pair;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,7 +22,7 @@ import java.util.function.Function;
 public interface ICaptchalogueable
 {
 	HashMap<ResourceLocation, Tuple<Class<? extends ICaptchalogueable>, Function<NBTTagCompound, ? extends ICaptchalogueable>>> REGISTRY = new HashMap<>();
-	Pair<Boolean, Boolean> COOL_BEANS = new Pair<Boolean, Boolean>(false, false)
+	Tuple<Boolean, Boolean> COOL_BEANS = new Tuple<Boolean, Boolean>(false, false)
 	{{
 		register(new ResourceLocation(Minestuck.MODID, "itemstack"), CaptchalogueableItemStack.class, CaptchalogueableItemStack::new);
 		register(new ResourceLocation(Minestuck.MODID, "ghost"), CaptchalogueableGhost.class, CaptchalogueableGhost::new);

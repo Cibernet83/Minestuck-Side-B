@@ -5,7 +5,7 @@ import com.mraof.minestuck.capabilities.api.*;
 import com.mraof.minestuck.capabilities.caps.*;
 import com.mraof.minestuck.network.MinestuckNetwork;
 import com.mraof.minestuck.network.MinestuckMessage;
-import com.mraof.minestuck.network.message.MessageUpdateStrifeData;
+import com.mraof.minestuck.network.message.MessageStrifeData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -87,7 +87,7 @@ public class MinestuckCapabilities
 		{
 			IStrifeData cap = event.getEntity().getCapability(STRIFE_DATA, null);
 			cap.setStrifeEnabled(true);
-			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, event.getEntity(), MessageUpdateStrifeData.UpdateType.ALL), ((EntityPlayer)event.getEntity()));
+			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_STRIFE, event.getEntity(), MessageStrifeData.UpdateType.ALL), ((EntityPlayer)event.getEntity()));
 			MinestuckNetwork.sendTo(MinestuckMessage.makePacket(MinestuckMessage.Type.UPDATE_BEAMS, event.getWorld()), ((EntityPlayer)event.getEntity()));
 		}
 	}

@@ -1,40 +1,39 @@
 package com.mraof.minestuck.network.message;
 
+import com.mraof.minestuck.inventory.ContainerGristWidget;
+import com.mraof.minestuck.inventory.miniMachines.ContainerMiniSburbMachine;
 import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.tileentity.TileEntityMachine;
+import com.mraof.minestuck.util.Debug;
 import io.netty.buffer.ByteBuf;
-
-import java.util.EnumSet;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.mraof.minestuck.inventory.ContainerGristWidget;
-import com.mraof.minestuck.inventory.miniMachines.ContainerMiniSburbMachine;
-import com.mraof.minestuck.tileentity.TileEntityMachine;
-import com.mraof.minestuck.util.Debug;
-
-public class MessageGoButton extends MinestuckMessage
+public class MessageGoButton implements MinestuckMessage
 {
-	
-	public boolean newMode;
-	public boolean overrideStop;
+	private boolean newMode;
+	private boolean overrideStop;
+
+	private MessageGoButton() { }
+
+	public MessageGoButton(boolean newMode, boolean overrideStop)
+	{
+		this.newMode = newMode;
+		this.overrideStop = overrideStop;
+	}
 	
 	@Override
-	public void generatePacket(Object... dat)
+	public void toBytes(ByteBuf buf)
 	{
-		data.writeBoolean((Boolean) dat[0]);
-		data.writeBoolean((Boolean) dat[1]);
-		
-
+		buf.writeBoolean(newMode);
+		buf.writeBoolean(overrideStop);
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
-		newMode = data.readBoolean();
-		overrideStop = data.readBoolean();
-		
-
+		newMode = buf.readBoolean();
+		overrideStop = buf.readBoolean();
 	}
 
 	@Override
@@ -61,8 +60,8 @@ public class MessageGoButton extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide() {
-		return EnumSet.of(Side.CLIENT);
+	public Side toSide() {
+		return Side.SERVER;
 	}
 
 }

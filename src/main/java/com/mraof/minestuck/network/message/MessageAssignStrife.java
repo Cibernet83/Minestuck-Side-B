@@ -2,80 +2,57 @@ package com.mraof.minestuck.network.message;
 
 import com.mraof.minestuck.item.ItemStrifeCard;
 import com.mraof.minestuck.network.MinestuckMessage;
+import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.StrifePortfolioHandler;
 import com.mraof.minestuck.strife.StrifeSpecibus;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageAssignStrife extends MinestuckMessage
+public class MessageAssignStrife implements MinestuckMessage
 {
-	EnumHand hand;
-	StrifeSpecibus specibus;
+	private EnumHand hand;
+	private KindAbstratus newType;
 
-	ItemStack stack;
-	int slot;
+	private MessageAssignStrife() { }
 
-	@Override
-	public void generatePacket(Object... args)
+	public MessageAssignStrife(EnumHand hand, KindAbstratus newType)
 	{
-		data.writeBoolean(args[0] instanceof ItemStack);
-
-		if(args[0] instanceof ItemStack)
-		{
-			ByteBufUtils.writeItemStack(data, (ItemStack) args[0]);
-			data.writeInt((Integer) args[1]);
-
-		}
-
-		data.writeInt(((EnumHand)args[0]).ordinal());
-		data.writeBoolean(args.length > 1);
-		if(args.length > 1)
-			ByteBufUtils.writeTag(data, ((StrifeSpecibus)args[1]).writeToNBT(new NBTTagCompound()));
-
-
+		this.hand = hand;
+		this.newType = newType;
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		if(data.readBoolean())
-		{
-			stack = ByteBufUtils.readItemStack(data);
-			slot = data.readInt();
+		buf.writeInt(hand.ordinal());
+		if (newType != null)
+			ByteBufUtils.writeRegistryEntry(buf, newType);
+	}
 
-		}
-
-		hand = EnumHand.values()[data.readInt()];
-		if(data.readBoolean())
-			specibus = new StrifeSpecibus(ByteBufUtils.readTag(data));
-
-
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		hand = EnumHand.values()[buf.readInt()];
+		if(buf.readableBytes() > 0)
+			newType = ByteBufUtils.readRegistryEntry(buf, KindAbstratus.REGISTRY);
 	}
 
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(stack != null)
-		{
-			StrifePortfolioHandler.addWeapontoSlot(player, stack, slot);
-			return;
-		}
-
-		if(specibus != null)
-			ItemStrifeCard.injectStrifeSpecibus(specibus, player.getHeldItem(hand));
+		ItemStack heldItem = player.getHeldItem(hand);
+		if(newType != null && heldItem.getItem() instanceof ItemStrifeCard && !(heldItem.hasTagCompound() && heldItem.getTagCompound().hasKey("StrifeSpecibus"))) // No hacking for arbitrary cards lol
+			ItemStrifeCard.injectStrifeSpecibus(new StrifeSpecibus(newType), heldItem);
 		StrifePortfolioHandler.assignStrife(player, hand);
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.CLIENT);
+		return Side.SERVER;
 	}
 }

@@ -4,7 +4,6 @@ import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.network.MinestuckNetwork;
 import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.network.MinestuckMessage.Type;
-import com.mraof.minestuck.network.message.MessagePlayerData;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;

@@ -12,14 +12,14 @@ public class PacketBookModusPage extends MinestuckPacket
 {
 	int page;
 	
-	public void generatePacket(Object... args)
+	public void toBytes(ByteBuf buf)
 	{
 		this.data.writeInt((Integer) args[0]);
 		
 
 	}
 	
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
 		
 		page = data.readInt();
@@ -35,7 +35,7 @@ public class PacketBookModusPage extends MinestuckPacket
 	}
 	
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
 		return EnumSet.of(Side.CLIENT);
 	}

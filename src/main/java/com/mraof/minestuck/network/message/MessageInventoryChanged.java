@@ -1,93 +1,71 @@
 package com.mraof.minestuck.network.message;
 
-import com.mraof.minestuck.network.MinestuckMessage;
-import io.netty.buffer.ByteBuf;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
-
 import com.mraof.minestuck.client.gui.playerStats.GuiInventoryEditmode;
 import com.mraof.minestuck.inventory.ContainerEditmode;
-
+import com.mraof.minestuck.network.MinestuckMessage;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageInventoryChanged extends MinestuckMessage
-{
-	
-	public int type;
-	public boolean b1, b2;
-	public ArrayList<ItemStack> inventory;
-	
-	@Override
-	public void generatePacket(Object... data)
-	{
-		this.data.writeByte((Integer) data[0]);
-		if(data[1] instanceof ArrayList)
-		{
-			this.data.writeBoolean((Boolean) data[2]);
-			this.data.writeBoolean((Boolean) data[3]);
-			ArrayList<ItemStack> list = (ArrayList<ItemStack>) data[1];
-			for(ItemStack stack : list)
-				ByteBufUtils.writeItemStack(this.data, stack);
-		} else this.data.writeBoolean((Boolean) data[1]);
-		
+import java.util.ArrayList;
 
+public class MessageInventoryChanged implements MinestuckMessage
+{
+	private ArrayList<ItemStack> inventory;
+	private boolean less, more;
+
+	private MessageInventoryChanged() { }
+
+	public MessageInventoryChanged(ArrayList<ItemStack> inventory, boolean less, boolean more)
+	{
+		this.inventory = inventory;
+		this.less = less;
+		this.more = more;
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		this.type = data.readByte();
-		
-		if(data.readableBytes() == 1)
-			b1 = data.readBoolean();
-		else
-		{
-			b1 = data.readBoolean();
-			b2 = data.readBoolean();
-			inventory = new ArrayList<ItemStack>();
-			while(data.readableBytes() > 0)
-			{
-				inventory.add(ByteBufUtils.readItemStack(data));
-			}
-		}
+		buf.writeBoolean(less);
+		buf.writeBoolean(more);
+		for(ItemStack stack : inventory)
+			ByteBufUtils.writeItemStack(buf, stack);
+	}
 
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		less = buf.readBoolean();
+		more = buf.readBoolean();
+		inventory = new ArrayList<>();
+		while(buf.readableBytes() > 0)
+			inventory.add(ByteBufUtils.readItemStack(buf));
 	}
 
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		switch(type)
+		if(player.openContainer instanceof ContainerEditmode)
 		{
-		case 0:
-			if(player.world.isRemote && this.inventory != null && player.openContainer instanceof ContainerEditmode)
+			for(int i = 0; i < inventory.size(); i++)
 			{
-				for(int i = 0; i < inventory.size(); i++)
-				{
-					((ContainerEditmode)player.openContainer).inventoryItemStacks.set(i, inventory.get(i) == null? null:inventory.get(i).copy());
-					((ContainerEditmode)player.openContainer).inventory.setInventorySlotContents(i, inventory.get(i));
-				}
-				if(FMLClientHandler.instance().getClient().currentScreen instanceof GuiInventoryEditmode)
-				{
-					((GuiInventoryEditmode)FMLClientHandler.instance().getClient().currentScreen).less = b1;
-					((GuiInventoryEditmode)FMLClientHandler.instance().getClient().currentScreen).more = b2;
-				}
+				((ContainerEditmode)player.openContainer).inventoryItemStacks.set(i, inventory.get(i) == null ? null : inventory.get(i).copy());
+				((ContainerEditmode)player.openContainer).inventory.setInventorySlotContents(i, inventory.get(i));
 			}
-			else if(!player.world.isRemote && player.openContainer instanceof ContainerEditmode)
-				((ContainerEditmode)player.openContainer).updateScroll(b1);
-			break;
+			if(FMLClientHandler.instance().getClient().currentScreen instanceof GuiInventoryEditmode)
+			{
+				((GuiInventoryEditmode)FMLClientHandler.instance().getClient().currentScreen).less = less;
+				((GuiInventoryEditmode)FMLClientHandler.instance().getClient().currentScreen).more = more;
+			}
 		}
-		
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.allOf(Side.class);
+		return Side.CLIENT;
 	}
-
 }

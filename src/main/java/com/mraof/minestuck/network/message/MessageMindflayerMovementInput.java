@@ -12,33 +12,41 @@ import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageMindflayerMovementInput extends MinestuckMessage
+public class MessageMindflayerMovementInput implements MinestuckMessage
 {
-	private float moveForward, moveStrafe;
+	private float moveStrafe, moveForward;
 	private boolean jump, sneak;
 	private int currentItem;
 
-	@Override
-	public void generatePacket(Object... args)
-	{
-		data.writeFloat((float) args[0]);
-		data.writeFloat((float) args[1]);
-		data.writeBoolean((boolean) args[2]);
-		data.writeBoolean((boolean) args[3]);
-		data.writeInt((int) args[4]);
+	private MessageMindflayerMovementInput() { }
 
+	public MessageMindflayerMovementInput(float moveStrafe, float moveForward, boolean jump, boolean sneak, int currentItem)
+	{
+		this.moveStrafe = moveStrafe;
+		this.moveForward = moveForward;
+		this.jump = jump;
+		this.sneak = sneak;
+		this.currentItem = currentItem;
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void toBytes(ByteBuf buf)
 	{
-		moveStrafe = data.readFloat();
-		moveForward = data.readFloat();
-		jump = data.readBoolean();
-		sneak = data.readBoolean();
-		currentItem = data.readInt();
+		buf.writeFloat(moveStrafe);
+		buf.writeFloat(moveForward);
+		buf.writeBoolean(jump);
+		buf.writeBoolean(sneak);
+		buf.writeInt(currentItem);
+	}
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		moveStrafe = buf.readFloat();
+		moveForward = buf.readFloat();
+		jump = buf.readBoolean();
+		sneak = buf.readBoolean();
+		currentItem = buf.readInt();
 
 	}
 
@@ -51,27 +59,25 @@ public class MessageMindflayerMovementInput extends MinestuckMessage
 			return;
 
 		if (target instanceof EntityCreature)
-		{
-			for (EntityAITasks.EntityAITaskEntry entry : ((EntityCreature) target).tasks.taskEntries)
+			for (EntityAITasks.EntityAITaskEntry entry : ((EntityCreature)target).tasks.taskEntries)
 				if (entry.action instanceof EntityAIMindflayerTarget)
 					((EntityAIMindflayerTarget) entry.action).setMove(moveStrafe, moveForward);
-		}
 		else
 		{
 			IBadgeEffects badgeEffects = target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null);
 			badgeEffects.setMovement(moveStrafe, moveForward, jump, sneak);
 
-			if(target instanceof EntityPlayer && ((EntityPlayer) target).inventory.currentItem != currentItem)
+			if(target instanceof EntityPlayer && ((EntityPlayer)target).inventory.currentItem != currentItem)
 			{
-				((EntityPlayer) target).inventory.currentItem = currentItem;
-				MinestuckNetwork.sendTo(makePacket(Type.SET_CURRENT_ITEM, currentItem), (EntityPlayer) target);
+				((EntityPlayer)target).inventory.currentItem = currentItem;
+				MinestuckNetwork.sendTo(new MessageCurrentItem(currentItem), (EntityPlayer)target);
 			}
 		}
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.CLIENT);
+		return Side.SERVER;
 	}
 }

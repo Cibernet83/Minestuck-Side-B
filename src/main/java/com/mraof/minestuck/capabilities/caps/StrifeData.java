@@ -5,12 +5,16 @@ import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.strife.StrifeSpecibus;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.util.MinestuckPlayerData;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.ArrayList;
 
 public class StrifeData implements IStrifeData
 {
@@ -46,7 +50,7 @@ public class StrifeData implements IStrifeData
 		}
 
 		writePortfolio(nbt);
-		writeSelectedIndexes(nbt);
+		writeSelectedIndices(nbt);
 		writeDroppedCards(nbt);
 		nbt.setBoolean("AbstrataSwitcherUnlocked", abstrataSwitcherUnlocked);
 
@@ -54,24 +58,15 @@ public class StrifeData implements IStrifeData
 	}
 
 	@Override
-	public NBTTagCompound writeSelectedIndexes(NBTTagCompound nbt)
+	public void writePortfolio(NBTTagCompound nbt, int... indices)
 	{
-		nbt.setInteger("SelectedSpecibus", getSelectedSpecibusIndex());
-		nbt.setInteger("SelectedWeapon", getSelectedWeaponIndex());
-		nbt.setBoolean("Armed", isArmed());
-		return nbt;
-	}
-
-	@Override
-	public NBTTagCompound writePortfolio(NBTTagCompound nbt, int... indexes)
-	{
-		if(indexes.length > 0)
+		if(indices.length > 0)
 			nbt.setBoolean("KeepPortfolio", true);
 
 		NBTTagList portfolioList = new NBTTagList();
 		for(int i = 0; i < portfolio.length; i++)
 		{
-			if((indexes.length <= 0 || ArrayUtils.contains(indexes, i)) && portfolio[i] != null)
+			if((indices.length <= 0 || ArrayUtils.contains(indices, i)) && portfolio[i] != null)
 			{
 				NBTTagCompound spNbt = new NBTTagCompound();
 				spNbt.setInteger("Slot", i);
@@ -82,24 +77,28 @@ public class StrifeData implements IStrifeData
 		}
 
 		nbt.setTag("Portfolio", portfolioList);
-		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound writeDroppedCards(NBTTagCompound nbt)
+	public void writeSelectedIndices(NBTTagCompound nbt)
+	{
+		nbt.setInteger("SelectedSpecibus", getSelectedSpecibusIndex());
+		nbt.setInteger("SelectedWeapon", getSelectedWeaponIndex());
+		nbt.setBoolean("Armed", isArmed());
+	}
+
+	@Override
+	public void writeDroppedCards(NBTTagCompound nbt)
 	{
 		nbt.setInteger("DroppedCards", droppedCards);
-		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound writeConfig(NBTTagCompound nbt)
+	public void writeConfig(NBTTagCompound nbt)
 	{
 		nbt.setBoolean("AbstrataSwitcherUnlocked", abstrataSwitcherUnlocked);
 		nbt.setBoolean("CanStrife", strifeEnabled);
-		return nbt;
 	}
-
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
@@ -131,6 +130,112 @@ public class StrifeData implements IStrifeData
 				portfolio[slot] = new StrifeSpecibus(spNbt.getCompoundTag("Specibus"));
 		}
 	}
+
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		if(selWeapon < 0)
+		{
+			clearPortfolio();
+			portfolio[0] = StrifeSpecibus.empty();
+			selWeapon = 0;
+		}
+
+		writePortfolio(buf);
+		writeSelectedIndices(buf);
+		writeDroppedCards(buf);
+		writeConfig(buf);
+	}
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		readPortfolio(buf);
+		readSelectedIndices(buf);
+		readDroppedCards(buf);
+		readConfig(buf);
+	}
+
+	@Override
+	public void writePortfolio(ByteBuf buf, int... indices)
+	{
+		buf.writeBoolean(indices.length == 0);
+
+		ArrayList<NBTTagCompound> tags = new ArrayList<>();
+		for(int i = 0; i < portfolio.length; i++)
+			if((indices.length <= 0 || ArrayUtils.contains(indices, i)) && portfolio[i] != null)
+			{
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setInteger("Slot", i);
+				tag.setTag("Specibus", portfolio[i].writeToNBT(new NBTTagCompound()));
+
+				tags.add(tag);
+			}
+
+		buf.writeInt(tags.size());
+		for (NBTTagCompound tag : tags)
+			ByteBufUtils.writeTag(buf, tag);
+	}
+
+	@Override
+	public void readPortfolio(ByteBuf buf)
+	{
+		if(buf.readBoolean())
+			clearPortfolio();
+
+		int length = buf.readInt();
+		for (int i = 0; i < length; i++)
+		{
+			NBTTagCompound tag = ByteBufUtils.readTag(buf);
+			int slot = tag.getInteger("Slot");
+			if(slot >= 0 && slot < portfolio.length)
+				portfolio[slot] = new StrifeSpecibus(tag.getCompoundTag("Specibus"));
+		}
+	}
+
+	@Override
+	public void writeSelectedIndices(ByteBuf buf)
+	{
+		buf.writeInt(getSelectedSpecibusIndex());
+		buf.writeInt(getSelectedWeaponIndex());
+		buf.writeBoolean(isArmed());
+	}
+
+	@Override
+	public void readSelectedIndices(ByteBuf buf)
+	{
+		setSelectedSpecibusIndex(buf.readInt());
+		setSelectedWeaponIndex(buf.readInt());
+		setArmed(buf.readBoolean());
+	}
+
+	@Override
+	public void writeDroppedCards(ByteBuf buf)
+	{
+		buf.writeInt(droppedCards);
+	}
+
+	@Override
+	public void readDroppedCards(ByteBuf buf)
+	{
+		droppedCards = buf.readInt();
+	}
+
+	@Override
+	public void writeConfig(ByteBuf buf)
+	{
+		buf.writeBoolean(abstrataSwitcherUnlocked);
+		buf.writeBoolean(strifeEnabled);
+	}
+
+	@Override
+	public void readConfig(ByteBuf buf)
+	{
+		abstrataSwitcherUnlocked = buf.readBoolean();
+		strifeEnabled = buf.readBoolean();
+	}
+
 
 	@Override
 	public StrifeSpecibus[] getPortfolio() {

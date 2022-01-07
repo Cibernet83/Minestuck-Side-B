@@ -8,62 +8,58 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
-public class MessageServerEdit extends MinestuckMessage
+public class MessageServerEdit implements MinestuckMessage
 {
-
 	private String target;
 	private int posX, posZ;
-	private boolean[] givenItems;
 	private NBTTagCompound deployTags;
+	private boolean[] givenItems;
+
+	private MessageServerEdit() { }
+
+	public MessageServerEdit(String target, int posX, int posZ, NBTTagCompound deployTags, boolean[] givenItems)
+	{
+		this.target = target;
+		this.posX = posX;
+		this.posZ = posZ;
+		this.deployTags = deployTags;
+		this.givenItems = givenItems;
+	}
+
+	public MessageServerEdit(boolean[] givenItems)
+	{
+		this.givenItems = givenItems;
+	}
 	
 	@Override
-	public void generatePacket(Object... args)
+	public void toBytes(ByteBuf buf)
 	{
-		if(args.length == 1 || args.length == 2)
+		buf.writeBoolean(target != null);
+		if (target != null)
 		{
-			data.writeBoolean(true);
-			boolean[] booleans = (boolean[]) args[0];
-			data.writeInt(booleans.length);
-			for(boolean b : booleans)
-				data.writeBoolean(b);
+			ByteBufUtils.writeUTF8String(buf, target);
+			buf.writeInt(posX);
+			buf.writeInt(posZ);
+			ByteBufUtils.writeTag(buf, deployTags);
 		}
-		else if (args.length > 2)
-		{
-			data.writeBoolean(false);
-			ByteBufUtils.writeUTF8String(data, args[0].toString());
-			data.writeInt((Integer) args[1]);
-			data.writeInt((Integer) args[2]);
-			boolean[] booleans = (boolean[]) args[3];
-			data.writeInt(booleans.length);
-			for (boolean b : booleans)
-				data.writeBoolean(b);
-			ByteBufUtils.writeTag(data, (NBTTagCompound) args[4]);
-		}
+		buf.writeInt(givenItems.length);
+		for (boolean givenItem : givenItems)
+			buf.writeBoolean(givenItem);
 	}
 
 	@Override
-	public void consumePacket(ByteBuf data)
+	public void fromBytes(ByteBuf buf)
 	{
-		if(data.readBoolean())
+		if (buf.readBoolean())
 		{
-			givenItems = new boolean[data.readableBytes()];
-			for(int i = 0; i < givenItems.length; i++)
-				givenItems[i] = data.readBoolean();
+			target = ByteBufUtils.readUTF8String(buf);
+			posX = buf.readInt();
+			posZ = buf.readInt();
+			deployTags = ByteBufUtils.readTag(buf);
 		}
-		else
-		{
-			target = ByteBufUtils.readUTF8String(data);
-			posX = data.readInt();
-			posZ = data.readInt();
-			givenItems = new boolean[data.readInt()];
-			for (int i = 0; i < givenItems.length; i++)
-			{
-				givenItems[i] = data.readBoolean();
-			}
-			deployTags = ByteBufUtils.readTag(data);
-		}
+		givenItems = new boolean[buf.readInt()];
+		for (int i = 0; i < givenItems.length; i++)
+			givenItems[i] = buf.readBoolean();
 	}
 
 	@Override
@@ -73,9 +69,8 @@ public class MessageServerEdit extends MinestuckMessage
 	}
 
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
-		return EnumSet.of(Side.SERVER);
+		return Side.CLIENT;
 	}
-
 }

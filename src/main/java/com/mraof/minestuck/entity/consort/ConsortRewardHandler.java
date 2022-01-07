@@ -5,7 +5,6 @@ import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.MinestuckGrist;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.Debug;
-import com.mraof.minestuck.util.Pair;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;

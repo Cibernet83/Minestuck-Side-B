@@ -15,7 +15,7 @@ public class PacketChatModusEject extends MinestuckPacket
 	boolean isOwner;
 	
 	@Override
-	public void generatePacket(Object... args)
+	public void toBytes(ByteBuf buf)
 	{
 		ByteBufUtils.writeUTF8String(data, (String)args[0]);
 		data.writeBoolean((Boolean) args[1]);
@@ -40,7 +40,7 @@ public class PacketChatModusEject extends MinestuckPacket
 	}
 	
 	@Override
-	public EnumSet<Side> getSenderSide()
+	public Side toSide()
 	{
 		return EnumSet.of(Side.CLIENT);
 	}
