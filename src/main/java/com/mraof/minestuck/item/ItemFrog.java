@@ -24,6 +24,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -291,6 +293,7 @@ public class ItemFrog extends MSItemBase
     }
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		for (int i = 0; i <= EntityFrog.maxTypes(); i++)

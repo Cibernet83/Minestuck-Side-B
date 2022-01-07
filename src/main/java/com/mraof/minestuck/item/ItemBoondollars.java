@@ -79,6 +79,7 @@ public class ItemBoondollars extends MSItemBase
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		ModelLoader.registerItemVariants(boondollars,

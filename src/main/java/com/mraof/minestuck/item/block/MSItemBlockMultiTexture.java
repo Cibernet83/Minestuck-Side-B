@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MSItemBlockMultiTexture extends MSItemBlock
 {
@@ -33,6 +35,7 @@ public class MSItemBlockMultiTexture extends MSItemBlock
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		for (int i = 0; i < states.length; i++)

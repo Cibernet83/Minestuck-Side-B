@@ -21,8 +21,8 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 
 	public ItemCruxiteArmor(String name, EntityEquipmentSlot equipmentSlot, boolean isEntryArtifact)
 	{
-		super(name, isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL, equipmentSlot, (isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL).getDurability(equipmentSlot), new ResourceLocation((isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL).getName() + "_layer_" + (equipmentSlot == EntityEquipmentSlot.LEGS ? "2" : "1")));
-		
+		super(name, isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL, equipmentSlot, (isEntryArtifact ? CRUXITE_MATERIAL : OPERANDI_MATERIAL).getDurability(equipmentSlot), new ResourceLocation((isEntryArtifact ? "cruxite" : "operadi") + "_layer_" + (equipmentSlot == EntityEquipmentSlot.LEGS ? "2" : "1")));
+
 		setCreativeTab(MinestuckTabs.minestuck);
 
 		if(isEntryArtifact)

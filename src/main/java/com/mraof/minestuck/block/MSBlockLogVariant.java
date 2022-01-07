@@ -18,6 +18,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MSBlockLogVariant extends MSBlockLog implements IRegistryBlock
 {
@@ -119,6 +121,7 @@ public class MSBlockLogVariant extends MSBlockLog implements IRegistryBlock
 		return new MSItemBlockMultiTexture(this, BlockType.values())
 		{
 			@Override
+			@SideOnly(Side.CLIENT)
 			public void registerModel()
 			{
 				super.registerModel();

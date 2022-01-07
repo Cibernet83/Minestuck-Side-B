@@ -35,7 +35,16 @@ public class MinestuckCapabilityProvider<HANDLER extends IMinestuckCapabilityBas
 	@Override
 	public NBTTagCompound serializeNBT()
 	{
-		return (NBTTagCompound) getCapability().writeNBT(instance, null);
+		try
+		{
+			return (NBTTagCompound) getCapability().writeNBT(instance, null);
+		}
+		catch (Throwable e)
+		{
+			RuntimeException e2 = new RuntimeException("Error saving capability " + instance, e);
+			e2.printStackTrace();
+			throw e2;
+		}
 	}
 
 	@Override
@@ -51,8 +60,6 @@ public class MinestuckCapabilityProvider<HANDLER extends IMinestuckCapabilityBas
 
 	public static class Storage<H extends IMinestuckCapabilityBase> implements Capability.IStorage<H>
 	{
-
-		@Nullable
 		@Override
 		public NBTBase writeNBT(Capability<H> capability, H instance, EnumFacing side)
 		{

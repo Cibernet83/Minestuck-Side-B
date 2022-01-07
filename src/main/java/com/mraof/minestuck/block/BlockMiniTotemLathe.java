@@ -23,6 +23,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockMiniTotemLathe extends MSFacingBase
 {
@@ -46,6 +48,7 @@ public class BlockMiniTotemLathe extends MSFacingBase
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing)
 	{
 		BlockPos pos = rayTraceResult.getBlockPos();

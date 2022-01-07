@@ -9,6 +9,8 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class MSFluidBase extends BlockFluidClassic implements IRegistryBlock
@@ -37,6 +39,7 @@ public class MSFluidBase extends BlockFluidClassic implements IRegistryBlock
         return new MSItemBlock(this)
         {
             @Override
+            @SideOnly(Side.CLIENT)
             public void registerModel()
             {
                 super.registerModel();

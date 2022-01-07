@@ -104,12 +104,14 @@ public class MSItemBase extends Item implements IRegistryItem
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		if(hasCustomModel)
 			return;
 		if(getHasSubtypes())
 			ModelLoader.setCustomMeshDefinition(this, (stack -> new ModelResourceLocation(getRegistryName(), "inventory")));
-		else ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+		else
+			ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
 }

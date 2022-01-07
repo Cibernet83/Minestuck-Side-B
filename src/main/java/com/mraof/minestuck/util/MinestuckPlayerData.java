@@ -161,7 +161,6 @@ public class MinestuckPlayerData
 		public PlayerIdentifier player;
 		public Title title;
 		public GristSet gristCache;
-		public boolean givenModus;
 		public int color = -1;
 		public long boondollars;
 		public Echeladder echeladder;
@@ -213,7 +212,6 @@ public class MinestuckPlayerData
 			}
 			if (nbt.hasKey("titleClass"))
 				this.title = new Title(EnumClass.values()[nbt.getByte("titleClass")], EnumAspect.values()[nbt.getByte("titleAspect")]);
-			givenModus = nbt.getBoolean("givenModus");
 			if (nbt.hasKey("color"))
 				this.color = nbt.getInteger("color");
 			boondollars = nbt.getLong("boondollars");
@@ -244,7 +242,6 @@ public class MinestuckPlayerData
 				nbt.setByte("titleClass", (byte) this.title.getHeroClass().ordinal());
 				nbt.setByte("titleAspect", (byte) this.title.getHeroAspect().ordinal());
 			}
-			nbt.setBoolean("givenModus", givenModus);
 			nbt.setInteger("color", this.color);
 			nbt.setLong("boondollars", boondollars);
 			nbt.setBoolean("effectToggle", effectToggle);

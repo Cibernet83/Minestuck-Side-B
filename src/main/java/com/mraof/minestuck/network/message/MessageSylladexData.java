@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MessageSylladexData implements MinestuckMessage
 {
@@ -36,6 +37,7 @@ public class MessageSylladexData implements MinestuckMessage
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void execute(EntityPlayer player)
 	{
 		if (nbt != null)

@@ -5,6 +5,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 //TODO separate into independent items
 public class ItemDisk extends MSItemBase
@@ -41,6 +43,7 @@ public class ItemDisk extends MSItemBase
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName() + "_client", "inventory"));

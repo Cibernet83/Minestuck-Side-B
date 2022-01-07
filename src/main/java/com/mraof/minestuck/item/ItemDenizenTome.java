@@ -132,6 +132,7 @@ public class ItemDenizenTome extends MSItemBase
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "sealed_tome"), "inventory"));

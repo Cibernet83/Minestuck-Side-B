@@ -55,6 +55,8 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 import vazkii.botania.common.block.ModBlocks;
 
@@ -608,6 +610,7 @@ public class MinestuckItems
 	public static final MSArmorBase diverHelmet = new ItemDiverHelmet("diverHelmet", materialDiverHelmet, EntityEquipmentSlot.HEAD)
 	{
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void registerModel()
 		{
 			super.registerModel();
@@ -617,6 +620,7 @@ public class MinestuckItems
 	public static final MSArmorBase spikedHelmet = new MSArmorBase("spikedDiverHelmet", materialSpikedHelmet, EntityEquipmentSlot.HEAD)
 	{
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void registerModel()
 		{
 			super.registerModel();
@@ -626,6 +630,7 @@ public class MinestuckItems
 	public static final MSArmorBase cruxtruderHat = new MSArmorBase("cruxtruderHelmet", materialMetal, EntityEquipmentSlot.HEAD)
 	{
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void registerModel()
 		{
 			super.registerModel();
@@ -635,6 +640,7 @@ public class MinestuckItems
 	public static final MSArmorBase frogHat = new MSArmorBase("frogHat", materialCloth, EntityEquipmentSlot.HEAD)
 	{
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void registerModel()
 		{
 			super.registerModel();
@@ -644,6 +650,7 @@ public class MinestuckItems
 	public static final MSArmorBase wizardHat = new MSArmorBase("wizardHat", materialCloth, EntityEquipmentSlot.HEAD, 40)
 	{
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void registerModel()
 		{
 			super.registerModel();
@@ -653,6 +660,7 @@ public class MinestuckItems
 	public static final MSArmorBase archmageHat = new MSArmorBase("archmageHat", materialCloth, EntityEquipmentSlot.HEAD, 500)
 	{
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void registerModel()
 		{
 			super.registerModel();
@@ -662,6 +670,7 @@ public class MinestuckItems
 	public static final MSArmorBase scarf = new ItemScarf("scarf", materialCloth, EntityEquipmentSlot.HEAD)
 	{
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void registerModel()
 		{
 			super.registerModel();
@@ -680,6 +689,7 @@ public class MinestuckItems
 	public static final MSArmorBase crumplyHat = new MSArmorBase("crumplyHat", materialCloth, EntityEquipmentSlot.HEAD)
 	{
 		@Override
+		@SideOnly(Side.CLIENT)
 		public void registerModel()
 		{
 			super.registerModel();

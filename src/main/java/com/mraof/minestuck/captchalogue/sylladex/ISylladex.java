@@ -28,7 +28,7 @@ public interface ISylladex
 
 	static MultiSylladex readFromNBT(EntityPlayer player, NBTTagCompound nbt)
 	{
-		return nbt.getBoolean("IsBottom") ? new BottomSylladex(player, nbt) : new UpperSylladex(player, nbt);
+		return nbt.hasKey("Modus") ? nbt.getBoolean("IsBottom") ? new BottomSylladex(player, nbt) : new UpperSylladex(player, nbt) : null;
 	}
 
 	static MultiSylladex newSylladex(EntityPlayer player, ModusLayer... modusLayers)

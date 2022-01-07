@@ -19,6 +19,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem
@@ -128,7 +130,9 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem
 	}
 
 	@Override
-	public void registerModel() {
+	@SideOnly(Side.CLIENT)
+	public void registerModel()
+	{
 		for (int i = 0; i < MinestuckBlocks.fluids.size(); i++)
 			ModelLoader.setCustomModelResourceLocation(ItemMinestuckBucket.this, i, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "bucket_" + MinestuckBlocks.fluids.get(i).getBlock().getRegistryName().getResourcePath()), "inventory"));
 	}

@@ -95,15 +95,6 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public void drop(World world, double posX, double posY, double posZ)
-	{
-		EntityItem item = new EntityItem(world, posX, posY, posZ, stack);
-		item.motionY = (world.rand.nextGaussian() * 0.05 + 0.2)/2.0;
-		item.setDefaultPickupDelay();
-		world.spawnEntity(item);
-	}
-
-	@Override
 	public boolean tryEjectCard(BottomSylladex fromSylladex, int index, EntityPlayer player)
 	{
 		assert fromSylladex != null;
@@ -115,6 +106,15 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 		}
 		else
 			return false;
+	}
+
+	@Override
+	public void drop(World world, double posX, double posY, double posZ)
+	{
+		EntityItem item = new EntityItem(world, posX, posY, posZ, stack);
+		item.motionY = (world.rand.nextGaussian() * 0.05 + 0.2)/2.0;
+		item.setDefaultPickupDelay();
+		world.spawnEntity(item);
 	}
 
 	@Override
@@ -156,11 +156,13 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getDisplayName() {
 		return (stack.getCount() <= 1 ? "" : (stack.getCount() + "x ")) + stack.getDisplayName();
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public ITextComponent getTextComponent() {
 		return stack.getTextComponent();
 	}

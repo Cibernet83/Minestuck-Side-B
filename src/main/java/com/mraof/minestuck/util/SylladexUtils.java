@@ -154,9 +154,7 @@ public class SylladexUtils
 	
 	public static void setSylladex(EntityPlayer player, MultiSylladex sylladex)
 	{
-		player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).setSylladex(sylladex);
-		if(sylladex != null)
-			MinestuckPlayerData.getData(player).givenModus = true;
+		player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).setSylladex(sylladex); // FIXME: ded server really doesn't like it when you don't have a sylladex :/
 
 		if (player instanceof EntityPlayerMP)
 			MinestuckNetwork.sendTo(new MessageSylladexData(player), player);

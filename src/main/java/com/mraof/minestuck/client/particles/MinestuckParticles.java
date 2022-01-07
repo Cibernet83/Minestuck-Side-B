@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod.EventBusSubscriber(modid = Minestuck.MODID)
+@Mod.EventBusSubscriber(modid = Minestuck.MODID, value = Side.CLIENT)
 public class MinestuckParticles
 {
 	private static Minecraft mc = Minecraft.getMinecraft();

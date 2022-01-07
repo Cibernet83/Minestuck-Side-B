@@ -17,6 +17,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Random;
@@ -104,6 +106,7 @@ public class BlockTNTSpecial extends BlockTNT implements IRegistryBlock
 		return new MSItemBlock(this)
 		{
 			@Override
+			@SideOnly(Side.CLIENT)
 			public void registerModel()
 			{
 				super.registerModel();

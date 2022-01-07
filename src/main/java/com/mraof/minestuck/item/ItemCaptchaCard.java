@@ -1,8 +1,8 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
-import com.mraof.minestuck.client.model.item.ModelCaptchaCard;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
+import com.mraof.minestuck.client.model.item.ModelCaptchaCard;
 import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.util.ITooltipFlag;
@@ -17,6 +17,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -77,6 +79,7 @@ public class ItemCaptchaCard extends MSItemBase
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		ModelLoader.setCustomMeshDefinition(this, stack -> ModelCaptchaCard.LOCATION);

@@ -55,6 +55,7 @@ public class ItemStoneTablet extends MSItemBase
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		ModelLoader.registerItemVariants(stoneTablet, new ResourceLocation(Minestuck.MODID, "stone_tablet"), new ResourceLocation(Minestuck.MODID, "stone_tablet_written"));

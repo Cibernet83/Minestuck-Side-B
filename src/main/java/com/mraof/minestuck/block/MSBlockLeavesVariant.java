@@ -164,6 +164,7 @@ public class MSBlockLeavesVariant extends MSBlockLeaves implements IRegistryBloc
 		return new MSItemBlockMultiTexture(this, BlockType.values())
 		{
 			@Override
+			@SideOnly(Side.CLIENT)
 			public void registerModel()
 			{
 				super.registerModel();

@@ -52,6 +52,7 @@ public class BadgeGristHoard extends BadgeLevel implements IGristSelectable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getDisplayTooltip()
 	{
 		String str = new TextComponentTranslation(getUnlocalizedName()+".tooltip.any").getFormattedText();
@@ -79,6 +80,7 @@ public class BadgeGristHoard extends BadgeLevel implements IGristSelectable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void select(Grist grist)
 	{
 		Minecraft mc = Minecraft.getMinecraft();
@@ -95,6 +97,7 @@ public class BadgeGristHoard extends BadgeLevel implements IGristSelectable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void cancel()
 	{
 		Minecraft.getMinecraft().currentScreen = new GuiGodTierMeditation(Minecraft.getMinecraft().player);

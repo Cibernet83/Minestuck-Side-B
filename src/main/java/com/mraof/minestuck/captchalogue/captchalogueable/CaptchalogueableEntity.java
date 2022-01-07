@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -48,10 +47,7 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	}
 
 	@Override
-	public void grow(ICaptchalogueable other)
-	{
-
-	}
+	public void grow(ICaptchalogueable other) { }
 
 	@Override
 	public boolean isEmpty()
@@ -83,9 +79,35 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	}
 
 	@Override
+	public void drop(World world, double posX, double posY, double posZ)
+	{
+		AnvilChunkLoader.readWorldEntityPos(entityNbt, world, posX, posY, posZ, true);
+	}
+
+	/**
+	 * only used in debugging, use getDisplayName instead
+	 */
+	@Override
+	@Deprecated
+	public String getName()
+	{
+		return entityNbt.getString("id");
+	}
+
+	@Override
 	public NBTTagCompound writeData()
 	{
 		return entityNbt;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	{
+		Entity entity = AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);
+
+		if(entity != null)
+			drawEntityOnScreen(10, 20, 10, -mouseX, -mouseY, entity);
 	}
 
 	@Override
@@ -97,13 +119,7 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	}
 
 	@Override
-	@Deprecated //only used in debugging, use getDisplayName instead
-	public String getName()
-	{
-		return entityNbt.getString("id");
-	}
-
-	@Override
+	@SideOnly(Side.CLIENT)
 	public ITextComponent getTextComponent()
 	{
 
@@ -112,6 +128,7 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void renderTooltip(GuiSylladex gui, int x, int y)
 	{
 		List<String> tooltip = new ArrayList<>();
@@ -121,25 +138,10 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getTextureKey()
 	{
 		return "entity";
-	}
-
-	@Override
-	public void drop(World world, double posX, double posY, double posZ)
-	{
-		AnvilChunkLoader.readWorldEntityPos(entityNbt, world, posX, posY, posZ, true);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
-	{
-		Entity entity = AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);
-
-		if(entity != null)
-			drawEntityOnScreen(10, 20, 10, -mouseX, -mouseY, entity);
 	}
 
 	@SideOnly(Side.CLIENT)

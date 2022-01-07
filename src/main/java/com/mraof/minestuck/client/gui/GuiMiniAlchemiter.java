@@ -16,10 +16,13 @@ import com.mraof.minestuck.util.AlchemyUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
 import java.util.List;
 
+@SideOnly(Side.CLIENT)
 public class GuiMiniAlchemiter extends GuiMiniSburbMachine implements IGristSelectable
 {
 	public GuiMiniAlchemiter(InventoryPlayer inventoryPlayer, TileEntityMiniAlchemiter tileEntity) {

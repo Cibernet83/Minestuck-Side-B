@@ -23,6 +23,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class BlockAspectLog2 extends BlockLog implements IRegistryObject<Block>, IRegistryBlock
@@ -122,6 +124,7 @@ public class BlockAspectLog2 extends BlockLog implements IRegistryObject<Block>,
 		return new MSItemBlockMultiTexture(this, BlockAspectLog1.BlockType.values())
 		{
 			@Override
+			@SideOnly(Side.CLIENT)
 			public void registerModel()
 			{
 				for (int i = 0; i < states.length; i++)

@@ -343,6 +343,7 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		super.registerModel();

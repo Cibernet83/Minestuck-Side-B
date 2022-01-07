@@ -203,6 +203,7 @@ public class ItemGTArmor extends MSArmorBase
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		String name = getType();

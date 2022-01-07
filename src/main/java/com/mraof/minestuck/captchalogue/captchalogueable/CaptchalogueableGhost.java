@@ -10,6 +10,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CaptchalogueableGhost implements ICaptchalogueable
 {
@@ -55,6 +57,9 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	public void eject(EntityPlayer player) { }
 
 	@Override
+	public void drop(World world, double posX, double posY, double posZ) { }
+
+	@Override
 	public ItemStack captchalogueIntoCardItem()
 	{
 		return new ItemStack(MinestuckItems.captchaCard);
@@ -75,6 +80,7 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
 	{
 		//TODO grayscale would be neat
@@ -82,12 +88,14 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getDisplayName()
 	{
 		return I18n.format("captchalogueable.ghost", parent.getDisplayName());
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public ITextComponent getTextComponent()
 	{
 		ITextComponent component = parent.getTextComponent();
@@ -96,20 +104,16 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void renderTooltip(GuiSylladex gui, int x, int y)
 	{
 		parent.renderTooltip(gui, x, y);
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getTextureKey()
 	{
 		return "ghost";
-	}
-
-	@Override
-	public void drop(World world, double posX, double posY, double posZ)
-	{
-
 	}
 }

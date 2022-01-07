@@ -17,6 +17,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MinestuckGuiHandler implements IGuiHandler
 {
@@ -157,8 +159,10 @@ public class MinestuckGuiHandler implements IGuiHandler
 			case HOARD_SELECTOR:
 				return new GuiGristSelector(new IGristSelectable() {
 					@Override
+					@SideOnly(Side.CLIENT)
 					public void select(Grist grist) { }
 					@Override
+					@SideOnly(Side.CLIENT)
 					public void cancel() { }
 				});
 		}

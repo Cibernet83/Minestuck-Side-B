@@ -7,6 +7,8 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMinestuckBeverage extends ItemFood
 {
@@ -79,6 +81,7 @@ public class ItemMinestuckBeverage extends ItemFood
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		for (int i = 0; i < NAMES.length; i++)

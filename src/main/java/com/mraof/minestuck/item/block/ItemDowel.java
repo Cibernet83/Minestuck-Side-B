@@ -20,6 +20,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -77,6 +79,7 @@ public class ItemDowel extends MSItemBlock
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
 		ModelLoader.registerItemVariants(this, new ResourceLocation(Minestuck.MODID, "dowel_uncarved"), new ResourceLocation(Minestuck.MODID, "dowel_carved"));

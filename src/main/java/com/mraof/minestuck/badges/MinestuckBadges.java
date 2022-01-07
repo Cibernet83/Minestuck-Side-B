@@ -27,6 +27,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Minestuck.MODID)
+@Mod.EventBusSubscriber(modid = Minestuck.MODID, value = Side.CLIENT)
 public class MinestuckBadges
 {
 	public static ForgeRegistry<Badge> REGISTRY;

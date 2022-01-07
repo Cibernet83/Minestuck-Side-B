@@ -8,4 +8,5 @@ public interface ISylladexData extends IMinestuckCapabilityBase<EntityPlayer>
 {
 	MultiSylladex getSylladex();
 	void setSylladex(MultiSylladex sylladex);
+	boolean wasGivenModus();
 }

@@ -77,6 +77,10 @@ public class MinestuckNetwork
 				{
 					throw new RuntimeException("All network messages are required to have a default constructor but " + clazz + " does not.", e);
 				}
+				catch (Throwable e)
+				{
+					throw new RuntimeException("Caught exception loading message " + clazz, e);
+				}
 				packetCodec.addDiscriminator(id++, clazz);
 			}
 	}
