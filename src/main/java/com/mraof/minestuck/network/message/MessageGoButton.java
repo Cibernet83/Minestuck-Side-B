@@ -21,13 +21,6 @@ public class MessageGoButton implements MinestuckMessage
 		this.newMode = newMode;
 		this.overrideStop = overrideStop;
 	}
-	
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeBoolean(newMode);
-		buf.writeBoolean(overrideStop);
-	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
@@ -37,20 +30,28 @@ public class MessageGoButton implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeBoolean(newMode);
+		buf.writeBoolean(overrideStop);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
 		TileEntityMachine te;
-		if(player.openContainer instanceof ContainerMiniSburbMachine)
-				te = ((ContainerMiniSburbMachine) player.openContainer).tileEntity;
-		else if(player.openContainer instanceof ContainerGristWidget)
+		if (player.openContainer instanceof ContainerMiniSburbMachine)
+			te = ((ContainerMiniSburbMachine) player.openContainer).tileEntity;
+		else if (player.openContainer instanceof ContainerGristWidget)
 			te = ((ContainerGristWidget) player.openContainer).tileEntity;
 		else return;
-		
+
 		if (te == null)
 		{
 			System.out.println("Invalid TE in container for player %s");
 			Debug.warnf("Invalid TE in container for player %s!", player.getName());
-		} else
+		}
+		else
 		{
 			System.out.println("Button pressed. Alchemiter going!");
 			Debug.debug("Button pressed. Alchemiter going!");
@@ -60,7 +61,8 @@ public class MessageGoButton implements MinestuckMessage
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.SERVER;
 	}
 

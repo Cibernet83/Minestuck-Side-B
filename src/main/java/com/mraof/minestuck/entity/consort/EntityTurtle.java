@@ -11,22 +11,23 @@ public class EntityTurtle extends EntityConsort
 	{
 		super(world);
 	}
-	
+
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
 	{
 		return MinestuckSoundHandler.soundTurtleHurt;
 	}
+
 	protected SoundEvent getDeathSound()
 	{
 		return MinestuckSoundHandler.soundTurtleDeath;
 	}
-	
+
 	@Override
 	public String getTexture()
 	{
 		return "textures/mobs/turtle.png";
 	}
-	
+
 	@Override
 	public EnumConsort getConsortType()
 	{

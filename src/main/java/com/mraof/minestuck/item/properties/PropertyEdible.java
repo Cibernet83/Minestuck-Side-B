@@ -24,6 +24,12 @@ public class PropertyEdible extends WeaponProperty implements IPropertyShield
 	int damageTaken;
 	ArrayList<IConsumableEffect> effects = new ArrayList<>();
 
+	public PropertyEdible(int amount, float saturation, int damageTaken)
+	{
+		this(amount, saturation, damageTaken, ((stack, player) ->
+		{}));
+	}
+
 	public PropertyEdible(int amount, float saturation, int damageTaken, IConsumableEffect... effects)
 	{
 		this.amount = amount;
@@ -31,17 +37,13 @@ public class PropertyEdible extends WeaponProperty implements IPropertyShield
 		this.damageTaken = damageTaken;
 		this.effects.addAll(Arrays.asList(effects));
 	}
-	public PropertyEdible(int amount, float saturation, int damageTaken)
-	{
-		this(amount, saturation, damageTaken, ((stack, player) -> {}));
-	}
 
 	public PropertyEdible setPotionEffect(float chance, PotionEffect... effects)
 	{
 
-		this.effects.add ((stack, player) ->
+		this.effects.add((stack, player) ->
 		{
-			if(!player.world.isRemote && player.world.rand.nextFloat() <= chance)
+			if (!player.world.isRemote && player.world.rand.nextFloat() <= chance)
 			{
 				PotionEffect potion = effects[player.world.rand.nextInt(effects.length)];
 				player.addPotionEffect(new PotionEffect(potion.getPotion(), potion.getDuration(), potion.getAmplifier(), potion.getIsAmbient(), potion.doesShowParticles()));
@@ -57,19 +59,30 @@ public class PropertyEdible extends WeaponProperty implements IPropertyShield
 	}
 
 	@Override
-	public EnumAction getItemUseAction(ItemStack stack)
+	public int getMaxItemUseDuration(ItemStack stack, int duration)
 	{
-		if(stack.getItem() instanceof MSShieldBase && stack.hasTagCompound() && !stack.getTagCompound().getBoolean("Eat"))
-			return super.getItemUseAction(stack);
-		return EnumAction.EAT;
+		if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Eat"))
+			return 32;
+		return Math.max(duration, 32);
 	}
 
 	@Override
-	public int getMaxItemUseDuration(ItemStack stack, int duration)
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
 	{
-		if(stack.hasTagCompound() && stack.getTagCompound().getBoolean("Eat"))
-			return 32;
-		return Math.max(duration, 32);
+		if (stack.getItem().isShield(stack, entityLiving) && !stack.getTagCompound().getBoolean("Eat"))
+			return stack;
+
+		stack.damageItem(this.damageTaken, entityLiving);
+		for (IConsumableEffect effect : effects)
+			effect.consume(stack, entityLiving);
+		if (entityLiving instanceof EntityPlayer)
+		{
+			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
+			entityplayer.getFoodStats().addStats(this.amount, this.saturation);
+			worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
+		}
+
+		return stack;
 	}
 
 	@Override
@@ -77,15 +90,15 @@ public class PropertyEdible extends WeaponProperty implements IPropertyShield
 	{
 		ItemStack stack = playerIn.getHeldItem(handIn);
 
-		if(stack.getItem() instanceof MSShieldBase || stack.getItem().isShield(stack, playerIn))
+		if (stack.getItem() instanceof MSShieldBase || stack.getItem().isShield(stack, playerIn))
 		{
 			boolean shouldEat = playerIn.isSneaking() && playerIn.getFoodStats().needFood();
 
-			if(!stack.hasTagCompound())
+			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
 			stack.getTagCompound().setBoolean("Eat", shouldEat);
 
-			if(shouldEat)
+			if (shouldEat)
 			{
 				playerIn.setActiveHand(handIn);
 				return EnumActionResult.SUCCESS;
@@ -99,22 +112,11 @@ public class PropertyEdible extends WeaponProperty implements IPropertyShield
 	}
 
 	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		if(stack.getItem().isShield(stack, entityLiving) && !stack.getTagCompound().getBoolean("Eat"))
-			return stack;
-
-		stack.damageItem(this.damageTaken, entityLiving);
-		for(IConsumableEffect effect : effects)
-			effect.consume(stack, entityLiving);
-		if (entityLiving instanceof EntityPlayer)
-		{
-			EntityPlayer entityplayer = (EntityPlayer)entityLiving;
-			entityplayer.getFoodStats().addStats(this.amount, this.saturation);
-			worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
-		}
-
-		return stack;
+		if (stack.getItem() instanceof MSShieldBase && stack.hasTagCompound() && !stack.getTagCompound().getBoolean("Eat"))
+			return super.getItemUseAction(stack);
+		return EnumAction.EAT;
 	}
 
 	interface IConsumableEffect

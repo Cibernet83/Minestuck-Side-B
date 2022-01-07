@@ -16,7 +16,8 @@ public class PropertyMobTypeDamage extends WeaponProperty
 	}
 
 	@Override
-	public float damageAgainstEntity(ItemStack stack, EntityLivingBase player, EntityLivingBase target, float amount) {
+	public float damageAgainstEntity(ItemStack stack, EntityLivingBase player, EntityLivingBase target, float amount)
+	{
 		return amount * (target.getCreatureAttribute() == mobType ? multiplier : 1);
 	}
 }

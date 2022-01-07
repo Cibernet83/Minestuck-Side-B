@@ -1,10 +1,8 @@
 package com.mraof.minestuck.inventory;
 
 import com.mraof.minestuck.block.MinestuckBlocks;
-import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -20,20 +18,11 @@ public class InventoryItemVoid extends InventoryBasic
 	}
 
 	@Override
-	public ItemStack removeStackFromSlot(int index)
-	{
-		ItemStack result = super.removeStackFromSlot(index);
-		addItem(new ItemStack(MinestuckBlocks.genericObject));
-		return result;
-	}
-
-
-	@Override
 	public ItemStack addItem(ItemStack stack)
 	{
 		ItemStack itemstack = stack.copy();
 
-		for (int i = 0; i < this.slotsCount; ++i)
+		for (int i = 0; i < slotsCount; ++i)
 		{
 			ItemStack itemstack1 = this.getStackInSlot(i);
 
@@ -63,17 +52,25 @@ public class InventoryItemVoid extends InventoryBasic
 			}
 		}
 
-		for (int i = 0; i < this.slotsCount-1; ++i)
-			this.setInventorySlotContents(i, getStackInSlot(i+1));
-		this.setInventorySlotContents(slotsCount-1, itemstack);
+		for (int i = 0; i < slotsCount - 1; ++i)
+			this.setInventorySlotContents(i, getStackInSlot(i + 1));
+		this.setInventorySlotContents(slotsCount - 1, itemstack);
 		this.markDirty();
 
 		return ItemStack.EMPTY;
 	}
 
+	@Override
+	public ItemStack removeStackFromSlot(int index)
+	{
+		ItemStack result = super.removeStackFromSlot(index);
+		addItem(new ItemStack(MinestuckBlocks.genericObject));
+		return result;
+	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player)
+	{
 		return true;
 	}
 
@@ -107,7 +104,7 @@ public class InventoryItemVoid extends InventoryBasic
 			if (!itemstack.isEmpty())
 			{
 				NBTTagCompound nbttagcompound = new NBTTagCompound();
-				nbttagcompound.setByte("Slot", (byte)i);
+				nbttagcompound.setByte("Slot", (byte) i);
 				itemstack.writeToNBT(nbttagcompound);
 				nbttaglist.appendTag(nbttagcompound);
 			}

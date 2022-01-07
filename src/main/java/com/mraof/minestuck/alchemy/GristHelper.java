@@ -1,10 +1,10 @@
 package com.mraof.minestuck.alchemy;
 
+import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.editmode.EditData;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
-import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
@@ -20,16 +20,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-public class GristHelper {
-	private static Random random = new Random();
+public class GristHelper
+{
 	private static final boolean SHOULD_OUTPUT_GRIST_CHANGES = MinestuckConfig.showGristChanges;
-	
 	public static HashMap<Grist, ArrayList<Grist>> secondaryGristMap;
+	private static Random random = new Random();
 
 	static
 	{
 		secondaryGristMap = new HashMap<>();
-		for(Grist type : Grist.values())
+		for (Grist type : Grist.values())
 			secondaryGristMap.put(type, new ArrayList<>());
 		secondaryGristMap.get(MinestuckGrist.amber).add(MinestuckGrist.rust);
 		secondaryGristMap.get(MinestuckGrist.amber).add(MinestuckGrist.sulfur);
@@ -61,13 +61,13 @@ public class GristHelper {
 		secondaryGristMap.get(MinestuckGrist.sulfur).add(MinestuckGrist.tar);
 		secondaryGristMap.get(MinestuckGrist.tar).add(MinestuckGrist.amber);
 		secondaryGristMap.get(MinestuckGrist.tar).add(MinestuckGrist.cobalt);
-		
+
 		secondaryGristMap.get(MinestuckGrist.uranium).add(MinestuckGrist.diamond);
 		secondaryGristMap.get(MinestuckGrist.diamond).add(MinestuckGrist.gold);
 		secondaryGristMap.get(MinestuckGrist.gold).add(MinestuckGrist.uranium);
 	}
 
-	
+
 	/**
 	 * Returns a random grist type. Used for creating randomly aligned underlings.
 	 */
@@ -81,56 +81,48 @@ public class GristHelper {
 				return randGrist;
 		}
 	}
-	
-	/**
-	 * Returns a secondary grist type based on primary grist
-	 */
-	public static Grist getSecondaryGrist(Grist primary)
-	{
-		if(secondaryGristMap.get(primary).size() != 0 && random.nextInt(secondaryGristMap.get(primary).size() * 2) != 0)
-			return secondaryGristMap.get(primary).get(random.nextInt(secondaryGristMap.get(primary).size()));
-		else return primary;
-	}
 
-	
 	/**
 	 * Returns a GristSet representing the drops from an underling, given the underling's type and a static loot multiplier.
 	 */
 	public static GristSet getRandomDrop(Grist primary, double multiplier)
 	{
-		if(primary == null)
+		if (primary == null)
 		{
-			Debug.warn("Got an underling grist drop call with a null grist type. (multiplier:"+multiplier+")");
+			Debug.warn("Got an underling grist drop call with a null grist type. (multiplier:" + multiplier + ")");
 			return null;
 		}
-		
+
 		GristSet set = new GristSet();
-		set.addGrist(MinestuckGrist.build, (int)(2*multiplier + random.nextDouble()*18*multiplier));
-		set.addGrist(primary, (int)(1*multiplier + random.nextDouble()*9*multiplier));
-		set.addGrist(getSecondaryGrist(primary), (int)(0.5*multiplier + random.nextDouble()*4*multiplier));
+		set.addGrist(MinestuckGrist.build, (int) (2 * multiplier + random.nextDouble() * 18 * multiplier));
+		set.addGrist(primary, (int) (1 * multiplier + random.nextDouble() * 9 * multiplier));
+		set.addGrist(getSecondaryGrist(primary), (int) (0.5 * multiplier + random.nextDouble() * 4 * multiplier));
 		return set;
-		
+
 	}
-	
+
 	/**
-	 * A shortened statement to obtain a certain grist count.
-	 * Uses the encoded version of the username!
+	 * Returns a secondary grist type based on primary grist
 	 */
-	public static int getGrist(PlayerIdentifier player, Grist type)
+	public static Grist getSecondaryGrist(Grist primary)
 	{
-		return MinestuckPlayerData.getGristSet(player).getGrist(type);
+		if (secondaryGristMap.get(primary).size() != 0 && random.nextInt(secondaryGristMap.get(primary).size() * 2) != 0)
+			return secondaryGristMap.get(primary).get(random.nextInt(secondaryGristMap.get(primary).size()));
+		else return primary;
 	}
-	
+
 	public static boolean canAfford(PlayerIdentifier player, @Nonnull ItemStack stack, boolean clientSide)
 	{
 		return canAfford(clientSide ? MinestuckPlayerData.getClientGrist() : MinestuckPlayerData.getGristSet(player), GristRegistry.getGristConversion(stack));
 	}
-	
-	public static boolean canAfford(GristSet base, GristSet cost) {
+
+	public static boolean canAfford(GristSet base, GristSet cost)
+	{
 		if (base == null || cost == null) {return false;}
 		Map<Grist, Integer> reqs = cost.getMap();
-		
-		if (reqs != null) {
+
+		if (reqs != null)
+		{
 			for (Entry<Grist, Integer> pairs : reqs.entrySet())
 			{
 				Grist type = pairs.getKey();
@@ -143,14 +135,15 @@ public class GristHelper {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Uses the encoded version of the username!
 	 */
 	public static void decrease(PlayerIdentifier player, GristSet set)
 	{
 		Map<Grist, Integer> reqs = set.getMap();
-		if (reqs != null) {
+		if (reqs != null)
+		{
 			for (Entry<Grist, Integer> pairs : reqs.entrySet())
 			{
 				setGrist(player, pairs.getKey(), getGrist(player, pairs.getKey()) - pairs.getValue());
@@ -158,30 +151,66 @@ public class GristHelper {
 			}
 		}
 	}
-	
+
+	/**
+	 * A shortened statement to obtain a certain grist count.
+	 * Uses the encoded version of the username!
+	 */
+	public static int getGrist(PlayerIdentifier player, Grist type)
+	{
+		return MinestuckPlayerData.getGristSet(player).getGrist(type);
+	}
+
 	public static void setGrist(PlayerIdentifier player, Grist type, int i)
 	{
 		MinestuckPlayerData.getGristSet(player).setGrist(type, i);
 	}
-	
+
+	private static void notifyServer(PlayerIdentifier player, String type, Integer difference, String action)
+	{
+		SburbConnection sc = SkaianetHandler.getClientConnection(player);
+		if (sc == null) return;
+		EditData ed = ServerEditHandler.getData(sc);
+		if (ed == null) return;
+		notify(IdentifierHandler.encode(ed.getEditor()), type, difference, action);
+	}
+
+	private static void notify(PlayerIdentifier player, String type, Integer difference, String action)
+	{
+		if (SHOULD_OUTPUT_GRIST_CHANGES)
+		{
+			if (player != null)
+			{
+				EntityPlayerMP client = player.getPlayer();
+				if (client != null)
+				{
+					//"true" sends the message to the action bar (like bed messages), while "false" sends it to the chat.
+					player.getPlayer().sendStatusMessage(new TextComponentTranslation("You " + action + " " + difference + " " + type + " grist."), true);
+				}
+			}
+		}
+	}
+
 	/**
 	 * This method will probably be used somewhere in the future.
 	 */
-	public static int getGristValue(GristSet set) {
+	public static int getGristValue(GristSet set)
+	{
 		int i = 0;
-		for(Grist type : Grist.values()) {
-			if(type.equals(MinestuckGrist.build))
+		for (Grist type : Grist.values())
+		{
+			if (type.equals(MinestuckGrist.build))
 				i += set.getGrist(type);
-			else if(type.getRarity() == 0.0F)
-				i += set.getGrist(type)*15;
-			else i += set.getGrist(type)*type.getPower();
+			else if (type.getRarity() == 0.0F)
+				i += set.getGrist(type) * 15;
+			else i += set.getGrist(type) * type.getPower();
 		}
 		return i;
 	}
-	
+
 	public static boolean increase(PlayerIdentifier player, GristSet set)
 	{
-		if(player == null || set == null)
+		if (player == null || set == null)
 			return false;
 		Map<Grist, Integer> reqs = set.getMap();
 		if (reqs != null)
@@ -194,30 +223,5 @@ public class GristHelper {
 		}
 		return true;
 	}
-	
-	private static void notify(PlayerIdentifier player, String type, Integer difference, String action)
-	{
-		if(SHOULD_OUTPUT_GRIST_CHANGES)
-		{
-			if (player != null)
-			{
-				EntityPlayerMP client = player.getPlayer();
-				if(client != null)
-				{
-					//"true" sends the message to the action bar (like bed messages), while "false" sends it to the chat.
-					player.getPlayer().sendStatusMessage(new TextComponentTranslation("You " + action + " " + difference + " " + type + " grist."), true);
-				}
-			}
-		}
-	}
-	
-	private static void notifyServer(PlayerIdentifier player, String type, Integer difference, String action)
-	{
-		SburbConnection sc = SkaianetHandler.getClientConnection(player);
-		if (sc==null) return;
-		EditData ed = ServerEditHandler.getData(sc);
-		if(ed==null) return;
-		notify(IdentifierHandler.encode(ed.getEditor()), type, difference, action);
-	}
-	
+
 }

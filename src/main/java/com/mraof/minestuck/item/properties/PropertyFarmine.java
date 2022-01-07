@@ -38,30 +38,38 @@ public class PropertyFarmine extends WeaponProperty
 			int damageDrop = block.damageDropped(blockState);
 
 			if (stack.getItem().canHarvestBlock(blockState, stack) && playerIn instanceof EntityPlayer && !playerIn.isSneaking() && this.terminus != 1 && this.radius != 0 &&
-					(blockState.getBlockHardness(worldIn, pos) == 0 || (double)Math.abs(blockState.getBlockHardness(worldIn, pos)) >= 1.0E-9D))
+						(blockState.getBlockHardness(worldIn, pos) == 0 || (double) Math.abs(blockState.getBlockHardness(worldIn, pos)) >= 1.0E-9D))
 			{
 				if (stack.getItem().getDestroySpeed(stack, blockState) >= 0)
 					candidates.add(new Tuple<>(pos, this.radius));
-					else candidates.add(new Tuple<>(pos, 1));
+				else candidates.add(new Tuple<>(pos, 1));
 
 				HashSet<BlockPos> blocksToBreak = new HashSet<>();
 				boolean passedBreakLimit = false;
 
 				int rad;
-				while(!candidates.isEmpty()) {
+				while (!candidates.isEmpty())
+				{
 					BlockPos curr = candidates.peek().getFirst();
 					rad = candidates.poll().getSecond();
-					if (!blocksToBreak.contains(curr)) {
+					if (!blocksToBreak.contains(curr))
+					{
 						blocksToBreak.add(curr);
-						if (rad != 0) {
-							for(int i = -1; i < 2; ++i) {
-								for(int j = -1; j < 2; ++j) {
-									for(int k = -1; k < 2; ++k) {
-										if (i != 0 || j != 0 || k != 0) {
+						if (rad != 0)
+						{
+							for (int i = -1; i < 2; ++i)
+							{
+								for (int j = -1; j < 2; ++j)
+								{
+									for (int k = -1; k < 2; ++k)
+									{
+										if (i != 0 || j != 0 || k != 0)
+										{
 											BlockPos newBlockPos = new BlockPos(curr.getX() + i, curr.getY() + j, curr.getZ() + k);
 											IBlockState newState = worldIn.getBlockState(newBlockPos);
 											Block newBlock = newState.getBlock();
-											if (newBlock.equals(block) && newBlock.getItemDropped(newState, new Random(0L), fortuneLevel) == drop && newBlock.damageDropped(newState) == damageDrop) {
+											if (newBlock.equals(block) && newBlock.getItemDropped(newState, new Random(0L), fortuneLevel) == drop && newBlock.damageDropped(newState) == damageDrop)
+											{
 												candidates.add(new Tuple<>(newBlockPos, rad - 1));
 											}
 										}
@@ -71,22 +79,28 @@ public class PropertyFarmine extends WeaponProperty
 						}
 					}
 
-					if (blocksToBreak.size() + 1 > stack.getMaxDamage() - stack.getItemDamage() || blocksToBreak.size() + 1 > this.terminus) {
+					if (blocksToBreak.size() + 1 > stack.getMaxDamage() - stack.getItemDamage() || blocksToBreak.size() + 1 > this.terminus)
+					{
 						passedBreakLimit = true;
 						break;
 					}
 				}
 
-				if (passedBreakLimit) {
+				if (passedBreakLimit)
+				{
 					blocksToBreak.clear();
 
-					for(int i = -1; i < 2; ++i) {
-						for(rad = -1; rad < 2; ++rad) {
-							for(i = -1; i < 2; ++i) {
+					for (int i = -1; i < 2; ++i)
+					{
+						for (rad = -1; rad < 2; ++rad)
+						{
+							for (i = -1; i < 2; ++i)
+							{
 								BlockPos newBlockPos = new BlockPos(pos.getX() + i, pos.getY() + rad, pos.getZ() + i);
 								IBlockState newState = worldIn.getBlockState(newBlockPos);
 								Block newBlock = newState.getBlock();
-								if (newBlock.equals(block) && newBlock.getItemDropped(newState, new Random(0L), fortuneLevel) == drop && newBlock.damageDropped(newState) == damageDrop && blocksToBreak.size() + 1 < stack.getMaxDamage() - stack.getItemDamage()) {
+								if (newBlock.equals(block) && newBlock.getItemDropped(newState, new Random(0L), fortuneLevel) == drop && newBlock.damageDropped(newState) == damageDrop && blocksToBreak.size() + 1 < stack.getMaxDamage() - stack.getItemDamage())
+								{
 									blocksToBreak.add(newBlockPos);
 								}
 							}
@@ -96,13 +110,15 @@ public class PropertyFarmine extends WeaponProperty
 
 				Iterator var24 = blocksToBreak.iterator();
 
-				while(var24.hasNext()) {
-					BlockPos blockToBreak = (BlockPos)var24.next();
+				while (var24.hasNext())
+				{
+					BlockPos blockToBreak = (BlockPos) var24.next();
 					IBlockState state = worldIn.getBlockState(blockToBreak);
-					harvestBlock(worldIn, state.getBlock(), blockToBreak, state, (EntityPlayer)playerIn, stack);
+					harvestBlock(worldIn, state.getBlock(), blockToBreak, state, playerIn, stack);
 				}
 
-				if (stack.getItem().isDamageable()) {
+				if (stack.getItem().isDamageable())
+				{
 					stack.damageItem(blocksToBreak.size() + 1, playerIn);
 				}
 
@@ -111,24 +127,31 @@ public class PropertyFarmine extends WeaponProperty
 		}
 	}
 
-	private static boolean harvestBlock(World world, Block block, BlockPos pos, IBlockState state, EntityLivingBase playerIn, ItemStack stack) {
-		EntityPlayer player = (EntityPlayer)playerIn;
+	private static boolean harvestBlock(World world, Block block, BlockPos pos, IBlockState state, EntityLivingBase playerIn, ItemStack stack)
+	{
+		EntityPlayer player = (EntityPlayer) playerIn;
 		TileEntity te = world.getTileEntity(pos);
-		if (block.removedByPlayer(state, world, pos, player, true)) {
+		if (block.removedByPlayer(state, world, pos, player, true))
+		{
 			block.onBlockDestroyedByPlayer(world, pos, state);
 			block.harvestBlock(world, player, pos, state, te, stack);
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
 
-	private class PairedIntComparator<T> implements Comparator<Tuple<T, Integer>> {
-		private PairedIntComparator() {
+	private class PairedIntComparator<T> implements Comparator<Tuple<T, Integer>>
+	{
+		private PairedIntComparator()
+		{
 		}
 
-		public int compare(Tuple x, Tuple y) {
-			return x != null && y != null && x.getSecond() != null && y.getSecond() != null ? (Integer)y.getSecond() - (Integer)x.getSecond() : 0;
+		public int compare(Tuple x, Tuple y)
+		{
+			return x != null && y != null && x.getSecond() != null && y.getSecond() != null ? (Integer) y.getSecond() - (Integer) x.getSecond() : 0;
 		}
 	}
 }

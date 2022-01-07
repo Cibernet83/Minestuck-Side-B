@@ -28,36 +28,6 @@ public class MSGTTrophySlotsSupport
 
 	}
 
-	@SubscribeEvent
-	public static void onPlayerJoinDim(PlayerEvent.PlayerChangedDimensionEvent event)
-	{
-		EntityPlayer player = event.player;
-		ISlotInfo slotInfo = SlotManager.INSTANCE.getPlayerSlotInfo(player);
-
-		if(!player.world.isRemote && FMLCommonHandler.instance() != null)
-			SlotManager.INSTANCE.updateClient(player, slotInfo);
-	}
-
-
-	@SubscribeEvent
-	public static void onPlayerClone(PlayerEvent.PlayerRespawnEvent event)
-	{
-		EntityPlayer player = event.player;
-		ISlotInfo slotInfo = SlotManager.INSTANCE.getPlayerSlotInfo(player);
-
-		if(!player.world.isRemote && FMLCommonHandler.instance() != null)
-			SlotManager.INSTANCE.updateClient(player, slotInfo);
-	}
-
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public static void onPlayerDeath(LivingDeathEvent event)
-	{
-		if(!(event.getEntity() instanceof EntityPlayer))
-			return;
-
-		updateSlots((EntityPlayer) event.getEntity(), false);
-	}
-
 	protected static void updateSlots(EntityPlayer player, boolean sendMessage)
 	{
 		ISlotInfo slotInfo = SlotManager.INSTANCE.getPlayerSlotInfo(player);
@@ -65,24 +35,53 @@ public class MSGTTrophySlotsSupport
 			Intrinsics.throwNpe();
 
 		Echeladder echeladder = MinestuckPlayerData.getData(player).echeladder;
-		int slots = (int) (Math.min(20, echeladder.getRung())*9/20f);
+		int slots = (int) (Math.min(20, echeladder.getRung()) * 9 / 20f);
 
-		if(player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.PATCH_OF_THE_HOARDER))
+		if (player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.PATCH_OF_THE_HOARDER))
 			slots = slotInfo.getMaxSlots();
 
-		int slotsToUnlock = slots-slotInfo.getSlotsUnlocked();
+		int slotsToUnlock = slots - slotInfo.getSlotsUnlocked();
 		//slots += TrophySlots.INSTANCE.getProxy().getStartingSlots();
 
-		if(!player.isDead && slotInfo.getSlotsUnlocked() < slots)
+		if (!player.isDead && slotInfo.getSlotsUnlocked() < slots)
 		{
 			slotInfo.unlockSlot(slotsToUnlock);
-			if(sendMessage)
-				player.sendStatusMessage(new TextComponentTranslation("status.trophySlotsRung", slots+TrophySlots.INSTANCE.getProxy().getStartingSlots()), true);
+			if (sendMessage)
+				player.sendStatusMessage(new TextComponentTranslation("status.trophySlotsRung", slots + TrophySlots.INSTANCE.getProxy().getStartingSlots()), true);
 
-			if(!player.world.isRemote && FMLCommonHandler.instance() != null)
+			if (!player.world.isRemote && FMLCommonHandler.instance() != null)
 				SlotManager.INSTANCE.updateClient(player, slotInfo);
 			if (player instanceof EntityPlayerMP)
-				AllTriggers.getUNLOCK_SLOT().trigger((EntityPlayerMP)player);
+				AllTriggers.getUNLOCK_SLOT().trigger((EntityPlayerMP) player);
 		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerJoinDim(PlayerEvent.PlayerChangedDimensionEvent event)
+	{
+		EntityPlayer player = event.player;
+		ISlotInfo slotInfo = SlotManager.INSTANCE.getPlayerSlotInfo(player);
+
+		if (!player.world.isRemote && FMLCommonHandler.instance() != null)
+			SlotManager.INSTANCE.updateClient(player, slotInfo);
+	}
+
+	@SubscribeEvent
+	public static void onPlayerClone(PlayerEvent.PlayerRespawnEvent event)
+	{
+		EntityPlayer player = event.player;
+		ISlotInfo slotInfo = SlotManager.INSTANCE.getPlayerSlotInfo(player);
+
+		if (!player.world.isRemote && FMLCommonHandler.instance() != null)
+			SlotManager.INSTANCE.updateClient(player, slotInfo);
+	}
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public static void onPlayerDeath(LivingDeathEvent event)
+	{
+		if (!(event.getEntity() instanceof EntityPlayer))
+			return;
+
+		updateSlots((EntityPlayer) event.getEntity(), false);
 	}
 }

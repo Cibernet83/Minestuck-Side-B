@@ -9,13 +9,13 @@ import net.minecraft.util.math.RayTraceResult;
 public class PropertyTeleArrows extends WeaponProperty implements IPropertyArrow
 {
 	@Override
-	public boolean onBlockImpact(EntityMSUArrow arrow, RayTraceResult result) 
+	public boolean onBlockImpact(EntityMSUArrow arrow, RayTraceResult result)
 	{
 		if (!arrow.world.isRemote)
 		{
 			if (arrow.shootingEntity instanceof EntityPlayerMP)
 			{
-				EntityPlayerMP entityplayermp = (EntityPlayerMP)arrow.shootingEntity;
+				EntityPlayerMP entityplayermp = (EntityPlayerMP) arrow.shootingEntity;
 
 				if (entityplayermp.connection.getNetworkManager().isChannelOpen() && entityplayermp.world == arrow.world && !entityplayermp.isPlayerSleeping())
 				{
@@ -37,7 +37,7 @@ public class PropertyTeleArrows extends WeaponProperty implements IPropertyArrow
 				arrow.shootingEntity.fallDistance = 0.0F;
 			}
 		}
-		
+
 		return true;
 	}
 }

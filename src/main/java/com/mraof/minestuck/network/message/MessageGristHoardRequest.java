@@ -10,36 +10,36 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class MessageGristHoardRequest implements MinestuckMessage
 {
-    private Grist grist;
+	private Grist grist;
 
-    public MessageGristHoardRequest() { }
+	public MessageGristHoardRequest() { }
 
-    public MessageGristHoardRequest(Grist grist)
-    {
-        this.grist = grist;
-    }
+	public MessageGristHoardRequest(Grist grist)
+	{
+		this.grist = grist;
+	}
 
-    @Override
-    public void toBytes(ByteBuf buf)
-    {
-        ByteBufUtils.writeRegistryEntry(buf, grist);
-    }
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		grist = ByteBufUtils.readRegistryEntry(buf, Grist.REGISTRY);
+	}
 
-    @Override
-    public void fromBytes(ByteBuf buf)
-    {
-        grist = ByteBufUtils.readRegistryEntry(buf, Grist.REGISTRY);
-    }
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		ByteBufUtils.writeRegistryEntry(buf, grist);
+	}
 
-    @Override
-    public void execute(EntityPlayer player)
-    {
-        player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).setGristHoard(grist);
-    }
+	@Override
+	public void execute(EntityPlayer player)
+	{
+		player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).setGristHoard(grist);
+	}
 
-    @Override
-    public Side toSide()
-    {
-        return Side.SERVER;
-    }
+	@Override
+	public Side toSide()
+	{
+		return Side.SERVER;
+	}
 }

@@ -1,10 +1,10 @@
 package com.mraof.minestuck.badges.heroAspect;
 
-import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
+import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
-import com.mraof.minestuck.util.EnumRole;
 import com.mraof.minestuck.util.EnumAspect;
+import com.mraof.minestuck.util.EnumRole;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,37 +24,37 @@ public class BadgeActiveBreath extends BadgeHeroAspect
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state == GodKeyStates.KeyState.NONE)
+		if (state == GodKeyStates.KeyState.NONE)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 0)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 0)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(state == GodKeyStates.KeyState.RELEASED)
+		if (state == GodKeyStates.KeyState.RELEASED)
 		{
-			if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 2)
+			if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 2)
 			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 				return false;
 			}
 
-			if(time < 30)
+			if (time < 30)
 				return false;
 
 			player.setSprinting(false);
 			player.capabilities.isFlying = false;
-			player.motionY = Math.min(2, Math.max(1.2f, time/30f));
+			player.motionY = Math.min(2, Math.max(1.2f, time / 30f));
 			player.velocityChanged = true;
 
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.BREATH, 40);
 
-			if(!player.isCreative())
-				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-2);
+			if (!player.isCreative())
+				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 2);
 
-			EntityLightningBolt lightning = new EntityLightningBolt(world, player.posX, player.posY-1d, player.posZ, true);
+			EntityLightningBolt lightning = new EntityLightningBolt(world, player.posX, player.posY - 1d, player.posZ, true);
 			world.spawnEntity(lightning);
 			world.addWeatherEffect(lightning);
 
@@ -63,15 +63,15 @@ public class BadgeActiveBreath extends BadgeHeroAspect
 
 			for (Entity entity : list)
 			{
-				if(entity == player) continue;
+				if (entity == player) continue;
 				if (!net.minecraftforge.event.ForgeEventFactory.onEntityStruckByLightning(entity, lightning))
 					entity.onStruckByLightning(lightning);
 			}
 		}
 		else
 		{
-			if(time % 10 == 0 && !player.isCreative())
-				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-1);
+			if (time % 10 == 0 && !player.isCreative())
+				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 1);
 
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.BREATH, time < 30 ? 2 : 8);
 		}

@@ -10,65 +10,64 @@ import java.util.TreeMap;
 
 public class ItemGhost extends MSItemBase
 {
-    private final Block block;
+	public static final TreeMap<BlockEntry, Item> ghostItems = new TreeMap<>();
+	private final Block block;
 
-    public static final TreeMap<BlockEntry, Item> ghostItems = new TreeMap<>();
+	public ItemGhost(String name)
+	{
+		this(name, null);
+	}
 
-    public ItemGhost(String name, Block block)
-    {
-        super(name);
-        this.block = block;
-        if(block != null)
-            ghostItems.put(new BlockEntry(block), this);
-    }
+	public ItemGhost(String name, Block block)
+	{
+		super(name);
+		this.block = block;
+		if (block != null)
+			ghostItems.put(new BlockEntry(block), this);
+	}
 
-    public ItemGhost(String name)
-    {
-        this(name, null);
-    }
+	public static Item get(Block block)
+	{
+		return ghostItems.get(new BlockEntry(block));
+	}
 
-    public static Item get(Block block)
-    {
-        return ghostItems.get(new BlockEntry(block));
-    }
+	public static boolean containsKey(Block block)
+	{
+		return ghostItems.containsKey(new BlockEntry(block));
+	}
 
-    public static boolean containsKey(Block block)
-    {
-        return ghostItems.containsKey(new BlockEntry(block));
-    }
+	@Override
+	public String getUnlocalizedName()
+	{
+		return block == null || block.getUnlocalizedName().equals("tile.null") ? super.getUnlocalizedName() : this.block.getUnlocalizedName();
+	}
 
-    @Override
-    public String getUnlocalizedName(ItemStack stack)
-    {
-        return block == null || block.getUnlocalizedName().equals("tile.null") ? super.getUnlocalizedName(stack) : this.block.getUnlocalizedName();
-    }
+	@Override
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		return block == null || block.getUnlocalizedName().equals("tile.null") ? super.getUnlocalizedName(stack) : this.block.getUnlocalizedName();
+	}
 
-    @Override
-    public String getUnlocalizedName()
-    {
-        return block == null || block.getUnlocalizedName().equals("tile.null") ? super.getUnlocalizedName() : this.block.getUnlocalizedName();
-    }
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+		if (items.isEmpty())
+			super.getSubItems(tab, items);
+	}
 
-    @Override
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-    {
-        if(items.isEmpty())
-            super.getSubItems(tab, items);
-    }
+	static class BlockEntry implements Comparable<BlockEntry>
+	{
+		final Block block;
 
-    static class BlockEntry implements Comparable<BlockEntry>
-    {
-        final Block block;
+		BlockEntry(Block block)
+		{
+			this.block = block;
+		}
 
-        BlockEntry(Block block)
-        {
-            this.block = block;
-        }
-
-        @Override
-        public int compareTo(BlockEntry o)
-        {
-            return block.hashCode() - o.block.hashCode();
-        }
-    }
+		@Override
+		public int compareTo(BlockEntry o)
+		{
+			return block.hashCode() - o.block.hashCode();
+		}
+	}
 }

@@ -13,7 +13,7 @@ public class PropertyRainbowBeam extends WeaponProperty implements IPropertyBeam
 	{
 		Color color = new Color(beam.color);
 		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), new float[3]);
-		hsb[0] = (hsb[0]+0.05f) % 1f;
+		hsb[0] = (hsb[0] + 0.05f) % 1f;
 		hsb[1] = 0.6f;
 		beam.color = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
 	}

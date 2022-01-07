@@ -22,10 +22,10 @@ public class ItemSashKit extends MSItemBase
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
-		if(playerIn.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isGodTier())
+		if (playerIn.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isGodTier())
 		{
 			BlockPos pos = playerIn.getPosition();
-			if(worldIn.isRemote)
+			if (worldIn.isRemote)
 				playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.SASH.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 		}

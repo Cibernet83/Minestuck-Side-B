@@ -10,10 +10,10 @@ import net.minecraftforge.fml.relauncher.Side;
 public class MessageSylladexEmptyRequest implements MinestuckMessage
 {
 	@Override
-	public void toBytes(ByteBuf buf) { }
+	public void fromBytes(ByteBuf buf) { }
 
 	@Override
-	public void fromBytes(ByteBuf buf) { }
+	public void toBytes(ByteBuf buf) { }
 
 	@Override
 	public void execute(EntityPlayer player)

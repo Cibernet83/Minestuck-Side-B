@@ -21,26 +21,26 @@ public abstract class StructureComponentUtil extends StructureComponent
 		setBlockState(worldIn, state, x, y, z, sbb);
 		setBlockState(worldIn, state.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), x, y + 1, z, sbb);
 	}
-	
+
 	protected void generateBed(World worldIn, StructureBoundingBox sbb, Random rand, int x, int y, int z, EnumFacing facing, IBlockState state)
 	{
 		state = state.withProperty(BlockHorizontal.FACING, facing);
 		setBlockState(worldIn, state, x, y, z, sbb);
 		setBlockState(worldIn, state.withProperty(BlockBed.PART, BlockBed.EnumPartType.HEAD), x + facing.getFrontOffsetX(), y, z + facing.getFrontOffsetZ(), sbb);
 	}
-	
+
 	protected int getAverageGroundLevel(World worldIn, StructureBoundingBox structurebb)
 	{
 		int i = 0;
 		int j = 0;
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-		
+
 		for (int k = boundingBox.minZ; k <= boundingBox.maxZ; ++k)
 		{
 			for (int l = boundingBox.minX; l <= boundingBox.maxX; ++l)
 			{
 				blockpos$mutableblockpos.setPos(l, 64, k);
-				
+
 				if (structurebb.isVecInside(blockpos$mutableblockpos))
 				{
 					i += Math.max(worldIn.getTopSolidOrLiquidBlock(blockpos$mutableblockpos).getY(),
@@ -49,21 +49,22 @@ public abstract class StructureComponentUtil extends StructureComponent
 				}
 			}
 		}
-		
+
 		if (j == 0)
 		{
 			return -1;
-		} else
+		}
+		else
 		{
 			return i / j;
 		}
 	}
-	
+
 	@Override
 	protected int getXWithOffset(int x, int z)
 	{
 		EnumFacing enumfacing = getCoordBaseMode();
-		
+
 		if (enumfacing == null)
 			return x;
 		else switch (enumfacing)
@@ -80,12 +81,12 @@ public abstract class StructureComponentUtil extends StructureComponent
 				return x;
 		}
 	}
-	
+
 	@Override
 	protected int getZWithOffset(int x, int z)
 	{
 		EnumFacing enumfacing = getCoordBaseMode();
-		
+
 		if (enumfacing == null)
 			return z;
 		else switch (enumfacing)
@@ -102,16 +103,16 @@ public abstract class StructureComponentUtil extends StructureComponent
 				return z;
 		}
 	}
-	
+
 	@Override
 	protected void setBlockState(World worldIn, IBlockState blockstateIn, int x, int y, int z, StructureBoundingBox boundingboxIn)
 	{
 		BlockPos blockpos = new BlockPos(getXWithOffset(x, z), getYWithOffset(y), getZWithOffset(x, z));
-		
+
 		if (boundingboxIn.isVecInside(blockpos))
 		{
 			EnumFacing facing = getCoordBaseMode();
-			switch(facing)
+			switch (facing)
 			{
 				case NORTH:
 					blockstateIn = blockstateIn.withRotation(Rotation.CLOCKWISE_180);
@@ -124,7 +125,7 @@ public abstract class StructureComponentUtil extends StructureComponent
 					break;
 				default:
 			}
-			
+
 			worldIn.setBlockState(blockpos, blockstateIn, 2);
 		}
 	}

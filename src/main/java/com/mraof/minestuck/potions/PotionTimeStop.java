@@ -30,32 +30,13 @@ public class PotionTimeStop extends PotionMouseSensitivityAdjusterBase
 		super(name, isBadEffectIn, liquidColorIn);
 	}
 
-	@Override
-	public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier)
-	{
-		if (entityLivingBaseIn.world.isRemote)
-			setMouseSensitivity(entityLivingBaseIn);
-	}
-
-	@Override
-	public boolean isReady(int duration, int amplifier)
-	{
-		return true; // should always do this so it has priority
-	}
-
-	@Override
-	protected float getNewMouseSensitivity(float currentSensitivity)
-	{
-		return -1f/3f;
-	}
-
 	@SubscribeEvent
 	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
 	{
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity.world.isRemote ?
-				entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isTimeStopped() :
-				entity.isPotionActive(MinestuckPotions.TIME_STOP)) // Usually I would use capabilities, but we need this instead to update it
+					entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isTimeStopped() :
+					entity.isPotionActive(MinestuckPotions.TIME_STOP)) // Usually I would use capabilities, but we need this instead to update it
 		{
 			if (!entity.world.isRemote || MinestuckUtils.isClientPlayer(entity))
 				event.setCanceled(true);
@@ -76,7 +57,7 @@ public class PotionTimeStop extends PotionMouseSensitivityAdjusterBase
 					entity.world.spawnParticle(EnumParticleTypes.SPELL_MOB, entity.posX + (rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + rand.nextDouble() * (double) entity.height, entity.posZ + (rand.nextDouble() - 0.5D) * (double) entity.width, d0, d1, d2);
 				}
 			}
-			
+
 			if (!entity.world.isRemote || (MinestuckUtils.isClientPlayer(entity) && entity.isPotionActive(MinestuckPotions.TIME_STOP)))
 			{
 				PotionEffect potionEffect = entity.getActivePotionEffect(MinestuckPotions.TIME_STOP);
@@ -93,7 +74,7 @@ public class PotionTimeStop extends PotionMouseSensitivityAdjusterBase
 	public static void onGuiOpen(GuiOpenEvent event)
 	{
 		// I hate that I have to put this here but the assignment screws with SideOnly
-		Class<? extends GuiScreen>[] TIME_STOP_SAFE_GUIS = new Class[] { GuiMainMenu.class, GuiIngameMenu.class, GuiGameOver.class, GuiDisconnected.class, GuiErrorScreen.class, GuiMemoryErrorScreen.class, GuiConfirmOpenLink.class, GuiMultiplayer.class };
+		Class<? extends GuiScreen>[] TIME_STOP_SAFE_GUIS = new Class[]{GuiMainMenu.class, GuiIngameMenu.class, GuiGameOver.class, GuiDisconnected.class, GuiErrorScreen.class, GuiMemoryErrorScreen.class, GuiConfirmOpenLink.class, GuiMultiplayer.class};
 
 		if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isTimeStopped())
 		{
@@ -118,6 +99,19 @@ public class PotionTimeStop extends PotionMouseSensitivityAdjusterBase
 	}
 
 	@Override
+	public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier)
+	{
+		if (entityLivingBaseIn.world.isRemote)
+			setMouseSensitivity(entityLivingBaseIn);
+	}
+
+	@Override
+	public boolean isReady(int duration, int amplifier)
+	{
+		return true; // should always do this so it has priority
+	}
+
+	@Override
 	public void applyAttributesModifiersToEntity(EntityLivingBase entityLivingBaseIn, AbstractAttributeMap attributeMapIn, int amplifier)
 	{
 		super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
@@ -129,5 +123,11 @@ public class PotionTimeStop extends PotionMouseSensitivityAdjusterBase
 	{
 		super.removeAttributesModifiersFromEntity(entityLivingBaseIn, attributeMapIn, amplifier);
 		entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setTimeStopped(false);
+	}
+
+	@Override
+	protected float getNewMouseSensitivity(float currentSensitivity)
+	{
+		return -1f / 3f;
 	}
 }

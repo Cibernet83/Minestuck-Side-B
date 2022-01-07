@@ -20,7 +20,7 @@ public class PropertyPotionArrow extends WeaponProperty implements IPropertyArro
 	@Override
 	public boolean onEntityImpact(EntityMSUArrow arrow, RayTraceResult result)
 	{
-		if(!arrow.world.isRemote && arrow.world.rand.nextFloat() <= chance && result.entityHit instanceof EntityLivingBase)
+		if (!arrow.world.isRemote && arrow.world.rand.nextFloat() <= chance && result.entityHit instanceof EntityLivingBase)
 			((EntityLivingBase) result.entityHit).addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
 
 		return true;

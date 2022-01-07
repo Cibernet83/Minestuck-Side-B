@@ -27,6 +27,16 @@ public class MessageBadgeEffect implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		entityId = buf.readInt();
+		key = ByteBufUtils.readUTF8String(buf);
+		int classIndex = buf.readInt();
+		if (classIndex > 0)
+			value = ISerializableDataType.deserialize(buf, (Class) ISerializableDataType.REGISTRY.keySet().toArray()[classIndex]);
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(entityId);
@@ -38,16 +48,6 @@ public class MessageBadgeEffect implements MinestuckMessage
 		}
 		else
 			buf.writeInt(-1);
-	}
-
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		entityId = buf.readInt();
-		key = ByteBufUtils.readUTF8String(buf);
-		int classIndex = buf.readInt();
-		if (classIndex > 0)
-			value = ISerializableDataType.deserialize(buf, (Class) ISerializableDataType.REGISTRY.keySet().toArray()[classIndex]);
 	}
 
 	@Override

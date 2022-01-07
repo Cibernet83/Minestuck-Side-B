@@ -40,74 +40,59 @@ public class BlockAspectLog1 extends BlockLog implements IRegistryBlock
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, new IProperty[] {VARIANT, LOG_AXIS});
-	}
-
-	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockType.values()[meta&3]);
-		iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.values()[(meta>>2)&3]);
-		
+		IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockType.values()[meta & 3]);
+		iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.values()[(meta >> 2) & 3]);
+
 		return iblockstate;
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
 		int i = state.getValue(VARIANT).ordinal();
-		
-		i |= state.getValue(LOG_AXIS).ordinal()<<2;
-		
+
+		i |= state.getValue(LOG_AXIS).ordinal() << 2;
+
 		return i;
 	}
-	
+
 	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
+	protected BlockStateContainer createBlockState()
 	{
-		for(BlockType type : BlockType.values())
-			items.add(new ItemStack(this, 1, type.ordinal()));
+		return new BlockStateContainer(this, VARIANT, LOG_AXIS);
 	}
-	
+
 	@Override
 	protected ItemStack getSilkTouchDrop(IBlockState state)
 	{
 		return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).ordinal());
 	}
-	
+
 	@Override
 	public int damageDropped(IBlockState state)
 	{
 		return state.getValue(VARIANT).ordinal();
 	}
-	
+
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
+	{
+		for (BlockType type : BlockType.values())
+			items.add(new ItemStack(this, 1, type.ordinal()));
+	}
+
 	@Override
 	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{
 		return 5;
 	}
-	
+
 	@Override
 	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{
 		return 5;
-	}
-	
-	public enum BlockType implements IUnlocSerializable
-	{
-		BLOOD, BREATH, DOOM, HEART;
-		@Override
-		public String getName()
-		{
-			return name().toLowerCase();
-		}
-		@Override
-		public String getUnlocalizedName()
-		{
-			return name().toLowerCase();
-		}
 	}
 
 	@Override
@@ -131,5 +116,22 @@ public class BlockAspectLog1 extends BlockLog implements IRegistryBlock
 				ModelLoader.setCustomStateMapper(BlockAspectLog1.this, (new StateMap.Builder()).withName(BlockAspectLog1.VARIANT).withSuffix("_log").build());
 			}
 		};
+	}
+
+	public enum BlockType implements IUnlocSerializable
+	{
+		BLOOD, BREATH, DOOM, HEART;
+
+		@Override
+		public String getName()
+		{
+			return name().toLowerCase();
+		}
+
+		@Override
+		public String getUnlocalizedName()
+		{
+			return name().toLowerCase();
+		}
 	}
 }

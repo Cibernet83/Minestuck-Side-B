@@ -1,11 +1,11 @@
 package com.mraof.minestuck.entity;
 
+import com.google.common.base.Optional;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.properties.bowkind.IPropertyArrow;
 import com.mraof.minestuck.item.weapon.MSBowBase;
-import com.google.common.base.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,27 +40,21 @@ public class EntityMSUArrow extends EntityArrow
 	private static final DataParameter<ItemStack> BOW_STACK = EntityDataManager.createKey(EntityMSUArrow.class, DataSerializers.ITEM_STACK);
 	private static final DataParameter<ItemStack> ARROW_STACK = EntityDataManager.createKey(EntityMSUArrow.class, DataSerializers.ITEM_STACK);
 	private static final DataParameter<Optional<UUID>> SHOOTER_UUID = EntityDataManager.createKey(EntityMSUArrow.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-
+	private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/projectiles/arrow.png");
 	private NBTTagCompound projectileData = new NBTTagCompound();
 
-	public EntityMSUArrow(World worldIn) {
+	public EntityMSUArrow(World worldIn)
+	{
 		super(worldIn);
 	}
 
-	@Override
-	protected void entityInit()
+	public EntityMSUArrow(World worldIn, double x, double y, double z)
 	{
-		super.entityInit();
-		dataManager.register(BOW_STACK, new ItemStack(Items.BOW));
-		dataManager.register(ARROW_STACK, new ItemStack(Items.ARROW));
-		dataManager.register(SHOOTER_UUID, Optional.absent());
-	}
-
-	public EntityMSUArrow(World worldIn, double x, double y, double z) {
 		super(worldIn, x, y, z);
 	}
 
-	public EntityMSUArrow(World worldIn, EntityLivingBase shooter) {
+	public EntityMSUArrow(World worldIn, EntityLivingBase shooter)
+	{
 		super(worldIn, shooter);
 	}
 
@@ -72,17 +66,26 @@ public class EntityMSUArrow extends EntityArrow
 	}
 
 	@Override
+	protected void entityInit()
+	{
+		super.entityInit();
+		dataManager.register(BOW_STACK, new ItemStack(Items.BOW));
+		dataManager.register(ARROW_STACK, new ItemStack(Items.ARROW));
+		dataManager.register(SHOOTER_UUID, Optional.absent());
+	}
+
+	@Override
 	public void onUpdate()
 	{
 		super.onUpdate();
 
 		updateShootingEntity();
 
-		if(shootingEntity != null)
+		if (shootingEntity != null)
 			setOwnerUniqueId(shootingEntity.getUniqueID());
 
 		ItemStack stack = getBowStack();
-		if(stack.getItem() instanceof IPropertyWeapon)
+		if (stack.getItem() instanceof IPropertyWeapon)
 		{
 			List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
 			for (WeaponProperty p : propertyList)
@@ -92,7 +95,7 @@ public class EntityMSUArrow extends EntityArrow
 
 		ItemStack arrow = getArrowStack();
 
-		if(arrow.getItem() instanceof ItemTippedArrow)
+		if (arrow.getItem() instanceof ItemTippedArrow)
 		{
 			if (this.world.isRemote)
 			{
@@ -105,11 +108,11 @@ public class EntityMSUArrow extends EntityArrow
 			}
 			else if (this.inGround && this.timeInGround != 0 && this.timeInGround >= 600)
 			{
-				this.world.setEntityState(this, (byte)0);
+				this.world.setEntityState(this, (byte) 0);
 				setArrowStack(new ItemStack(Items.ARROW, arrow.getCount()));
 			}
 		}
-		else if(arrow.getItem() instanceof ItemSpectralArrow)
+		else if (arrow.getItem() instanceof ItemSpectralArrow)
 		{
 			if (this.world.isRemote)
 			{
@@ -130,55 +133,32 @@ public class EntityMSUArrow extends EntityArrow
 		if (arrowStack.getItem() instanceof ItemTippedArrow)
 		{
 			int i = PotionUtils.getColor(arrowStack);
-			double r = (double)(i >> 16 & 255) / 255.0D;
-			double g = (double)(i >> 8 & 255) / 255.0D;
-			double b = (double)(i >> 0 & 255) / 255.0D;
+			double r = (double) (i >> 16 & 255) / 255.0D;
+			double g = (double) (i >> 8 & 255) / 255.0D;
+			double b = (double) (i >> 0 & 255) / 255.0D;
 
 			for (int j = 0; j < count; ++j)
-				this.world.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, r, g, b);
+				this.world.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width, this.posY + this.rand.nextDouble() * (double) this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width, r, g, b);
 		}
 	}
 
 	public void spawnGlowingParticles(int count)
 	{
 		for (int j = 0; j < count; ++j)
-			this.world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0, 0, 0);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void handleStatusUpdate(byte id)
-	{
-		if (id == 0)
-		{
-			ItemStack arrowStack = getArrowStack();
-
-			if (arrowStack.getItem() instanceof ItemTippedArrow)
-				spawnPotionParticles(20);
-		}
-		else
-		{
-			super.handleStatusUpdate(id);ItemStack stack = getBowStack();
-			if(stack.getItem() instanceof IPropertyWeapon)
-			{
-				List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
-				for (WeaponProperty p : propertyList)
-					if (p instanceof IPropertyArrow)
-						((IPropertyArrow) p).onStatusUpdate(this, id);
-			}
-		}
+			this.world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width, this.posY + this.rand.nextDouble() * (double) this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width, 0, 0, 0);
 	}
 
 	@Override
 	public void onHit(RayTraceResult raytraceResultIn)
 	{
 		ItemStack stack = getBowStack();
-		if(stack.getItem() instanceof IPropertyWeapon)
+		if (stack.getItem() instanceof IPropertyWeapon)
 		{
 			List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
 			for (WeaponProperty p : propertyList)
 				if (p instanceof IPropertyArrow)
 				{
-					if(!(raytraceResultIn.entityHit != null ? ((IPropertyArrow) p).onEntityImpact(this, raytraceResultIn) : ((IPropertyArrow) p).onBlockImpact(this, raytraceResultIn)))
+					if (!(raytraceResultIn.entityHit != null ? ((IPropertyArrow) p).onEntityImpact(this, raytraceResultIn) : ((IPropertyArrow) p).onBlockImpact(this, raytraceResultIn)))
 						return;
 				}
 		}
@@ -190,7 +170,7 @@ public class EntityMSUArrow extends EntityArrow
 	protected void arrowHit(EntityLivingBase living)
 	{
 		ItemStack bowStack = getBowStack();
-		if(bowStack.getItem() instanceof IPropertyWeapon)
+		if (bowStack.getItem() instanceof IPropertyWeapon)
 		{
 			List<WeaponProperty> propertyList = ((IPropertyWeapon) bowStack.getItem()).getProperties(bowStack);
 			for (WeaponProperty p : propertyList)
@@ -203,8 +183,7 @@ public class EntityMSUArrow extends EntityArrow
 		ItemStack arrowStack = getArrowStack();
 
 
-
-		if(arrowStack.getItem() instanceof ItemTippedArrow)
+		if (arrowStack.getItem() instanceof ItemTippedArrow)
 		{
 			PotionType potion = PotionUtils.getPotionFromItem(arrowStack);
 			Collection<PotionEffect> customPotionEffects = PotionUtils.getFullEffectsFromItem(arrowStack);
@@ -222,11 +201,52 @@ public class EntityMSUArrow extends EntityArrow
 				}
 			}
 		}
-		else if(arrowStack.getItem() instanceof ItemSpectralArrow)
+		else if (arrowStack.getItem() instanceof ItemSpectralArrow)
 		{
 			PotionEffect potioneffect = new PotionEffect(MobEffects.GLOWING, 200, 0);
 			living.addPotionEffect(potioneffect);
 		}
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound)
+	{
+		super.writeEntityToNBT(compound);
+
+		if (!projectileData.hasNoTags())
+			compound.setTag("ProjectileData", getProjectileData());
+
+		compound.setTag("Bow", getBowStack().writeToNBT(new NBTTagCompound()));
+		compound.setTag("Item", getArrowStack().writeToNBT(new NBTTagCompound()));
+
+		if (getOwnerUniqueId() != null)
+			compound.setUniqueId("ownerName", getOwnerUniqueId());
+		else if (shootingEntity != null)
+			compound.setUniqueId("ownerName", shootingEntity.getUniqueID());
+	}
+
+	public NBTTagCompound getProjectileData()
+	{
+		return projectileData;
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound)
+	{
+		super.readEntityFromNBT(compound);
+
+		if (compound.hasKey("ProjectileData"))
+			projectileData = compound.getCompoundTag("ProjectileData");
+		if (compound.hasKey("Bow"))
+			setBowStack(new ItemStack(compound.getCompoundTag("Bow")));
+		if (compound.hasKey("Item"))
+			setArrowStack(new ItemStack(compound.getCompoundTag("Item")));
+
+		this.shootingEntity = null;
+		if (compound.hasUniqueId("Owner"))
+			setOwnerUniqueId(compound.getUniqueId("Owner"));
+
+		shootingEntity = this.updateShootingEntity();
 	}
 
 	@Override
@@ -244,37 +264,14 @@ public class EntityMSUArrow extends EntityArrow
 	}
 
 	@Override
-	public boolean hasNoGravity()
+	public ItemStack getArrowStack()
 	{
-		ItemStack stack = getBowStack();
-		if(stack.getItem() instanceof IPropertyWeapon)
-		{
-			List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
-			for (WeaponProperty p : propertyList)
-				if (p instanceof IPropertyArrow)
-				{
-					if(!((IPropertyArrow) p).hasGravity(this))
-						return true;
-				}
-		}
-		return super.hasNoGravity();
+		return dataManager.get(ARROW_STACK);
 	}
 
-	@Override
-	public boolean canRenderOnFire()
+	public void setArrowStack(ItemStack stack)
 	{
-		return !getBowStack().getItem().equals(MinestuckItems.bowOfLight) && super.canRenderOnFire();
-	}
-
-	@Nullable
-	protected UUID getOwnerUniqueId()
-	{
-		return (UUID)((Optional)this.dataManager.get(SHOOTER_UUID)).orNull();
-	}
-
-	protected void setOwnerUniqueId(@Nullable UUID uniqueId)
-	{
-		this.dataManager.set(SHOOTER_UUID, Optional.fromNullable(uniqueId));
+		dataManager.set(ARROW_STACK, stack);
 	}
 
 	public ItemStack getBowStack()
@@ -285,48 +282,6 @@ public class EntityMSUArrow extends EntityArrow
 	public void setBowStack(ItemStack stack)
 	{
 		dataManager.set(BOW_STACK, stack);
-	}
-
-	@Override
-	public ItemStack getArrowStack() {
-		return dataManager.get(ARROW_STACK);
-	}
-
-	public void setArrowStack(ItemStack stack)
-	{
-		dataManager.set(ARROW_STACK, stack);
-	}
-
-	public NBTTagCompound getProjectileData() {
-		return projectileData;
-	}
-
-	private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/projectiles/arrow.png");
-	public ResourceLocation getArrowTexture()
-	{
-		ItemStack stack = getBowStack();
-		if(stack.getItem() instanceof MSBowBase)
-			return ((MSBowBase) stack.getItem()).getArrowTexture();
-		return TEXTURE;
-	}
-
-	@Override
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
-		super.readEntityFromNBT(compound);
-
-		if(compound.hasKey("ProjectileData"))
-			projectileData = compound.getCompoundTag("ProjectileData");
-		if(compound.hasKey("Bow"))
-			setBowStack(new ItemStack(compound.getCompoundTag("Bow")));
-		if(compound.hasKey("Item"))
-			setArrowStack(new ItemStack(compound.getCompoundTag("Item")));
-
-		this.shootingEntity = null;
-		if(compound.hasUniqueId("Owner"))
-			setOwnerUniqueId(compound.getUniqueId("Owner"));
-
-		shootingEntity = this.updateShootingEntity();
 	}
 
 	public Entity updateShootingEntity()
@@ -347,24 +302,74 @@ public class EntityMSUArrow extends EntityArrow
 		return this.shootingEntity;
 	}
 
-	@Override
-	public void writeEntityToNBT(NBTTagCompound compound)
+	@Nullable
+	protected UUID getOwnerUniqueId()
 	{
-		super.writeEntityToNBT(compound);
-
-		if(!projectileData.hasNoTags())
-			compound.setTag("ProjectileData", getProjectileData());
-
-		compound.setTag("Bow", getBowStack().writeToNBT(new NBTTagCompound()));
-		compound.setTag("Item", getArrowStack().writeToNBT(new NBTTagCompound()));
-
-		if(getOwnerUniqueId() != null)
-			compound.setUniqueId("ownerName", getOwnerUniqueId());
-		else if(shootingEntity != null)
-			compound.setUniqueId("ownerName", shootingEntity.getUniqueID());
+		return (UUID) ((Optional) this.dataManager.get(SHOOTER_UUID)).orNull();
 	}
 
-	public boolean isInGround() {
+	protected void setOwnerUniqueId(@Nullable UUID uniqueId)
+	{
+		this.dataManager.set(SHOOTER_UUID, Optional.fromNullable(uniqueId));
+	}
+
+	@Override
+	public boolean hasNoGravity()
+	{
+		ItemStack stack = getBowStack();
+		if (stack.getItem() instanceof IPropertyWeapon)
+		{
+			List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
+			for (WeaponProperty p : propertyList)
+				if (p instanceof IPropertyArrow)
+				{
+					if (!((IPropertyArrow) p).hasGravity(this))
+						return true;
+				}
+		}
+		return super.hasNoGravity();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void handleStatusUpdate(byte id)
+	{
+		if (id == 0)
+		{
+			ItemStack arrowStack = getArrowStack();
+
+			if (arrowStack.getItem() instanceof ItemTippedArrow)
+				spawnPotionParticles(20);
+		}
+		else
+		{
+			super.handleStatusUpdate(id);
+			ItemStack stack = getBowStack();
+			if (stack.getItem() instanceof IPropertyWeapon)
+			{
+				List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
+				for (WeaponProperty p : propertyList)
+					if (p instanceof IPropertyArrow)
+						((IPropertyArrow) p).onStatusUpdate(this, id);
+			}
+		}
+	}
+
+	@Override
+	public boolean canRenderOnFire()
+	{
+		return !getBowStack().getItem().equals(MinestuckItems.bowOfLight) && super.canRenderOnFire();
+	}
+
+	public ResourceLocation getArrowTexture()
+	{
+		ItemStack stack = getBowStack();
+		if (stack.getItem() instanceof MSBowBase)
+			return ((MSBowBase) stack.getItem()).getArrowTexture();
+		return TEXTURE;
+	}
+
+	public boolean isInGround()
+	{
 		return inGround;
 	}
 }

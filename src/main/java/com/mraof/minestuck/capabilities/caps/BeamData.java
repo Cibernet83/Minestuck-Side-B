@@ -12,8 +12,8 @@ import java.util.UUID;
 
 public class BeamData implements IBeamData
 {
-	private World owner;
 	private final LinkedHashMap<UUID, Beam> beams = new LinkedHashMap<>();
+	private World owner;
 
 	@Override
 	public NBTTagCompound writeToNBT()
@@ -21,7 +21,7 @@ public class BeamData implements IBeamData
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList beamList = new NBTTagList();
 
-		for(Beam beam : getBeams())
+		for (Beam beam : getBeams())
 			beamList.appendTag(beam.writeToNBT());
 
 		nbt.setTag("Beams", beamList);
@@ -34,9 +34,9 @@ public class BeamData implements IBeamData
 		beams.clear();
 		NBTTagList beamList = nbt.getTagList("Beams", 10);
 
-		for(int i = 0; i < beamList.tagCount(); i++)
+		for (int i = 0; i < beamList.tagCount(); i++)
 		{
-			Beam beam = new Beam(owner, nbt.hasUniqueId("UUID") ? nbt.getUniqueId("UUID"): UUID.randomUUID());
+			Beam beam = new Beam(owner, nbt.hasUniqueId("UUID") ? nbt.getUniqueId("UUID") : UUID.randomUUID());
 			beam.readFromNBT(beamList.getCompoundTagAt(i));
 			addBeam(beam);
 		}
@@ -49,12 +49,14 @@ public class BeamData implements IBeamData
 	}
 
 	@Override
-	public ArrayList<Beam> getBeams() {
+	public ArrayList<Beam> getBeams()
+	{
 		return new ArrayList<>(beams.values());
 	}
 
 	@Override
-	public Beam getBeam(UUID beamId) {
+	public Beam getBeam(UUID beamId)
+	{
 		return beams.get(beamId);
 	}
 
@@ -67,10 +69,10 @@ public class BeamData implements IBeamData
 	@Override
 	public void tickBeams()
 	{
-		for(Beam beam : getBeams())
+		for (Beam beam : getBeams())
 		{
 			beam.onUpdate();
-			if(beam.isDead())
+			if (beam.isDead())
 				beams.values().remove(beam);
 		}
 	}

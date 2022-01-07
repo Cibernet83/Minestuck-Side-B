@@ -15,6 +15,6 @@ public class PropertyThrowGravity extends WeaponProperty implements IPropertyThr
 	@Override
 	public float getGravity(EntityMSUThrowable projectile, float gravity)
 	{
-		return this.gravity*gravity;
+		return this.gravity * gravity;
 	}
 }

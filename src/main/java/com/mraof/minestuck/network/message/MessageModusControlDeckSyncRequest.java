@@ -25,6 +25,15 @@ public class MessageModusControlDeckSyncRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		lengths = new int[buf.readByte()];
+		for (int i = 0; i < lengths.length; i++)
+			lengths[i] = (buf.readByte() & 0xff) + 1;
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(pos.getX());
@@ -33,15 +42,6 @@ public class MessageModusControlDeckSyncRequest implements MinestuckMessage
 		buf.writeByte(lengths.length);
 		for (int length : lengths)
 			buf.writeByte(length - 1);
-	}
-
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		lengths = new int[buf.readByte()];
-		for (int i = 0; i < lengths.length; i++)
-			lengths[i] = (buf.readByte() & 0xff) + 1;
 	}
 
 	@Override

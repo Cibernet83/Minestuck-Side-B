@@ -18,21 +18,21 @@ public class MessagePlayerColor implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		color = buf.readInt();
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(color);
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		color = buf.readInt();
-	}
-	
-	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(color == -2)
+		if (color == -2)
 		{
 			ColorCollector.playerColor = -1;
 			ColorCollector.displaySelectionGui = true;
@@ -40,7 +40,7 @@ public class MessagePlayerColor implements MinestuckMessage
 		else
 			ColorCollector.playerColor = color;
 	}
-	
+
 	@Override
 	public Side toSide()
 	{

@@ -10,45 +10,55 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-public class ItemRazorBlade extends MSItemBase {
-	public ItemRazorBlade() {
+public class ItemRazorBlade extends MSItemBase
+{
+	public ItemRazorBlade()
+	{
 		super("razorBlade");
 		this.setCreativeTab(MinestuckTabs.minestuck);
 	}
-	
+
 	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-		if(attacker instanceof EntityPlayer) {
-			if(!((EntityPlayer) attacker).capabilities.isCreativeMode) {
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
+	{
+		if (attacker instanceof EntityPlayer)
+		{
+			if (!((EntityPlayer) attacker).capabilities.isCreativeMode)
+			{
 				EntityItem razor = new EntityItem(attacker.world, attacker.posX, attacker.posY, attacker.posZ, stack.copy());
-				if(!attacker.world.isRemote) {
+				if (!attacker.world.isRemote)
+				{
 					razor.getItem().setCount(1);
 					razor.setPickupDelay(40);
 					attacker.world.spawnEntity(razor);
-            		stack.shrink(1);
-            		ITextComponent message = new TextComponentTranslation("item.razorBlade.mishandle");
-            		attacker.sendMessage(message);
+					stack.shrink(1);
+					ITextComponent message = new TextComponentTranslation("item.razorBlade.mishandle");
+					attacker.sendMessage(message);
 				}
-				((EntityPlayer) attacker).setHealth(((EntityPlayer) attacker).getHealth() - 1);
+				attacker.setHealth(attacker.getHealth() - 1);
 			}
 		}
 		return super.hitEntity(stack, target, attacker);
 	}
-	
+
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
-		if(entityLiving instanceof EntityPlayer) {
-			if(!((EntityPlayer) entityLiving).capabilities.isCreativeMode) {
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
+	{
+		if (entityLiving instanceof EntityPlayer)
+		{
+			if (!((EntityPlayer) entityLiving).capabilities.isCreativeMode)
+			{
 				EntityItem razor = new EntityItem(entityLiving.world, entityLiving.posX, entityLiving.posY, entityLiving.posZ, stack.copy());
-				if(!entityLiving.world.isRemote) {
+				if (!entityLiving.world.isRemote)
+				{
 					razor.getItem().setCount(1);
 					razor.setPickupDelay(40);
 					entityLiving.world.spawnEntity(razor);
-            		stack.shrink(1);
-            		ITextComponent message = new TextComponentTranslation("item.razorBlade.mishandle");
-            		entityLiving.sendMessage(message);
+					stack.shrink(1);
+					ITextComponent message = new TextComponentTranslation("item.razorBlade.mishandle");
+					entityLiving.sendMessage(message);
 				}
-				((EntityPlayer) entityLiving).setHealth(((EntityPlayer) entityLiving).getHealth() - 1);
+				entityLiving.setHealth(entityLiving.getHealth() - 1);
 			}
 		}
 		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);

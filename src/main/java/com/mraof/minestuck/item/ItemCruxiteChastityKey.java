@@ -21,39 +21,39 @@ public class ItemCruxiteChastityKey extends ItemCruxite
 		super(name);
 		setMaxStackSize(1);
 	}
-	
+
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
 	}
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
-		if(worldIn.isRemote)
+		if (worldIn.isRemote)
 			MinestuckNetwork.sendToServer(new MessageSylladexCaptchalogueRequest(Minecraft.getMinecraft().player.inventory.currentItem));
 		return new ActionResult(EnumActionResult.FAIL, playerIn.getHeldItem(handIn));
 	}
-	
+
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem)
 	{
 		entityItem.setEntityInvulnerable(true);
-		if(entityItem.ticksExisted > 600 && !entityItem.isGlowing())
+		if (entityItem.ticksExisted > 600 && !entityItem.isGlowing())
 			entityItem.setGlowing(true);
-		
-		if(entityItem.posY < 1)
+
+		if (entityItem.posY < 1)
 		{
 			BlockPos safePos = entityItem.world.getTopSolidOrLiquidBlock(entityItem.getPosition()).up();
 			entityItem.setPosition(safePos.getX(), safePos.getY(), safePos.getZ());
-			entityItem.motionY = entityItem.world.rand.nextDouble()*1.2;
-			
+			entityItem.motionY = entityItem.world.rand.nextDouble() * 1.2;
+
 			ItemStack key = entityItem.getItem();
-			if(key.hasTagCompound() && key.getTagCompound().hasUniqueId("PlayerUUID")
-					&& entityItem.world.getPlayerEntityByUUID(key.getTagCompound().getUniqueId("PlayerUUID")) != null)
+			if (key.hasTagCompound() && key.getTagCompound().hasUniqueId("PlayerUUID")
+						&& entityItem.world.getPlayerEntityByUUID(key.getTagCompound().getUniqueId("PlayerUUID")) != null)
 			{
 				EntityPlayer player = entityItem.world.getPlayerEntityByUUID(key.getTagCompound().getUniqueId("PlayerUUID"));
-				
+
 				entityItem.motionX = Math.signum(player.posX - entityItem.posX) * 0.05;
 				entityItem.motionZ = Math.signum(player.posZ - entityItem.posZ) * 0.05;
 				/*
@@ -68,9 +68,9 @@ public class ItemCruxiteChastityKey extends ItemCruxite
 			else
 			{
 			}
-			
+
 		}
-		
+
 		return super.onEntityItemUpdate(entityItem);
 	}
 }

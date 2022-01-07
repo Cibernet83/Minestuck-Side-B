@@ -20,12 +20,6 @@ public class MessageMachineGristRequest implements MinestuckMessage
 	{
 		this.grist = grist;
 	}
-	
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		ByteBufUtils.writeRegistryEntry(buf, grist);
-	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
@@ -34,13 +28,19 @@ public class MessageMachineGristRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		ByteBufUtils.writeRegistryEntry(buf, grist);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(!(player.openContainer instanceof ContainerMiniSburbMachine))
+		if (!(player.openContainer instanceof ContainerMiniSburbMachine))
 			return;
-		
+
 		TileEntityMiniSburbMachine te = ((ContainerMiniSburbMachine) player.openContainer).tileEntity;
-		
+
 		if (te == null)
 			Debug.warnf("Invalid TE in container for player %s!", player.getName());
 		else
@@ -48,7 +48,8 @@ public class MessageMachineGristRequest implements MinestuckMessage
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.SERVER;
 	}
 

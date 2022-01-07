@@ -22,6 +22,13 @@ public class MessageAlchemize implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		tePos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		quantity = buf.readInt();
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(tePos.getX());
@@ -29,28 +36,21 @@ public class MessageAlchemize implements MinestuckMessage
 		buf.writeInt(tePos.getZ());
 		buf.writeInt(quantity);
 	}
-	
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		tePos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		quantity = buf.readInt();
-	}
-	
+
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(player.getEntityWorld().isBlockLoaded(tePos))
+		if (player.getEntityWorld().isBlockLoaded(tePos))
 		{
 			TileEntity te;
 			te = player.getEntityWorld().getTileEntity(tePos);
-			if(te instanceof TileEntityAlchemiter)
+			if (te instanceof TileEntityAlchemiter)
 			{
 				((TileEntityAlchemiter) te).processContents(quantity, player);
 			}
 		}
 	}
-	
+
 	@Override
 	public Side toSide()
 	{

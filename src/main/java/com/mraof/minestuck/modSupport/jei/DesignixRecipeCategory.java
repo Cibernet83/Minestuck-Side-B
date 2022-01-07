@@ -20,56 +20,56 @@ import java.util.List;
  */
 public class DesignixRecipeCategory implements IRecipeCategory<DesignixRecipeWrapper>
 {
-    private IDrawable background;
+	private IDrawable background;
 
-    DesignixRecipeCategory(IGuiHelper guiHelper)
-    {
-        ResourceLocation punchDesignixBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/designix.png");
-        background = guiHelper.createDrawable(punchDesignixBackground, 43, 25, 94, 42);
-    }
-    
-    @Override
-    public String getModName()
-    {
-        return Minestuck.NAME;
-    }
-    
-    @Override
-    public String getUid()
-    {
-        return "minestuck.punchDesignix";
-    }
+	DesignixRecipeCategory(IGuiHelper guiHelper)
+	{
+		ResourceLocation punchDesignixBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/designix.png");
+		background = guiHelper.createDrawable(punchDesignixBackground, 43, 25, 94, 42);
+	}
 
-    @Override
-    public String getTitle()
-    {
-        return I18n.format("tile.miniPunchDesignix.name");
-    }
+	@Override
+	public String getUid()
+	{
+		return "minestuck.punchDesignix";
+	}
 
-    @Override
-    public IDrawable getBackground()
-    {
-        return background;
-    }
+	@Override
+	public String getTitle()
+	{
+		return I18n.format("tile.miniPunchDesignix.name");
+	}
 
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, DesignixRecipeWrapper recipeWrapper, IIngredients ingredients)
-    {
-        IGuiItemStackGroup stackGroup = recipeLayout.getItemStacks();
-        stackGroup.init(0, true, 0, 0);
-        stackGroup.init(1, true, 0, 24);
-        stackGroup.init(2, false, 72, 11);
-        List<List<ItemStack>> inputs = ingredients.getInputs(ItemStack.class);
-        stackGroup.set(0, inputs.get(0));
+	@Override
+	public String getModName()
+	{
+		return Minestuck.NAME;
+	}
 
-        List<ItemStack> second = new ArrayList<ItemStack>();
-        for(ItemStack stack : inputs.get(1))
-        {
-            second.add(AlchemyUtils.createCard(stack, true));
-        }
-        stackGroup.set(1, second);
-        List<ItemStack> outputs = new ArrayList<ItemStack>(ingredients.getOutputs(ItemStack.class).get(0));
-        outputs.add(AlchemyUtils.createCard(outputs.get(0), true));
-        stackGroup.set(2, outputs);
-    }
+	@Override
+	public IDrawable getBackground()
+	{
+		return background;
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, DesignixRecipeWrapper recipeWrapper, IIngredients ingredients)
+	{
+		IGuiItemStackGroup stackGroup = recipeLayout.getItemStacks();
+		stackGroup.init(0, true, 0, 0);
+		stackGroup.init(1, true, 0, 24);
+		stackGroup.init(2, false, 72, 11);
+		List<List<ItemStack>> inputs = ingredients.getInputs(ItemStack.class);
+		stackGroup.set(0, inputs.get(0));
+
+		List<ItemStack> second = new ArrayList<ItemStack>();
+		for (ItemStack stack : inputs.get(1))
+		{
+			second.add(AlchemyUtils.createCard(stack, true));
+		}
+		stackGroup.set(1, second);
+		List<ItemStack> outputs = new ArrayList<ItemStack>(ingredients.getOutputs(ItemStack.class).get(0));
+		outputs.add(AlchemyUtils.createCard(outputs.get(0), true));
+		stackGroup.set(2, outputs);
+	}
 }

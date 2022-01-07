@@ -20,16 +20,16 @@ public class PropertyTrueDamage extends WeaponProperty implements IEnchantablePr
 	@SubscribeEvent
 	public static void onEntityAttack(LivingDamageEvent event)
 	{
-		if(event.getSource().getImmediateSource() instanceof EntityLivingBase)
+		if (event.getSource().getImmediateSource() instanceof EntityLivingBase)
 		{
 			EntityLivingBase source = ((EntityLivingBase) event.getSource().getTrueSource());
 			ItemStack stack = source.getHeldItemMainhand();
 
-			if(stack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyTrueDamage.class, stack))
+			if (stack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyTrueDamage.class, stack))
 			{
 				float pow = source instanceof EntityPlayer ? CommonEventHandler.getCooledAttackStrength((EntityPlayer) source) : 1;
 				event.setAmount((float) ((source.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getModifier(MSWeaponBase.getAttackDamageUUID()).getAmount() +
-										  source.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue()) * (0.2F + pow * pow * 0.8F)));
+												  source.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue()) * (0.2F + pow * pow * 0.8F)));
 			}
 		}
 	}

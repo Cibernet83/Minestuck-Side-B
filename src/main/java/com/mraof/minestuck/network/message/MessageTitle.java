@@ -19,7 +19,13 @@ public class MessageTitle implements MinestuckMessage
 	{
 		this.title = title;
 	}
-	
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		title = new Title(EnumClass.values()[buf.readInt()], EnumAspect.values()[buf.readInt()]);
+	}
+
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
@@ -28,17 +34,11 @@ public class MessageTitle implements MinestuckMessage
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		title = new Title(EnumClass.values()[buf.readInt()], EnumAspect.values()[buf.readInt()]);
-	}
-	
-	@Override
 	public void execute(EntityPlayer player)
 	{
 		MinestuckPlayerData.clientData.title = title;
 	}
-	
+
 	@Override
 	public Side toSide()
 	{

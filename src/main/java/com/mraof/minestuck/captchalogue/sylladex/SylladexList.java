@@ -6,6 +6,13 @@ import java.util.LinkedList;
 
 public class SylladexList<SYLLADEX extends ISylladex> extends LinkedList<SYLLADEX>
 {
+	public SYLLADEX removeFirstWithSlots()
+	{
+		SYLLADEX rtn = getFirstWithSlots();
+		remove(rtn);
+		return rtn;
+	}
+
 	public SYLLADEX getFirstWithSlots()
 	{
 		for (SYLLADEX sylladex : this)
@@ -14,26 +21,19 @@ public class SylladexList<SYLLADEX extends ISylladex> extends LinkedList<SYLLADE
 		return null;
 	}
 
+	public SYLLADEX removeLastWithSlots()
+	{
+		SYLLADEX rtn = getLastWithSlots();
+		remove(rtn);
+		return rtn;
+	}
+
 	public SYLLADEX getLastWithSlots()
 	{
 		for (SYLLADEX sylladex : MinestuckUtils.reverse(this))
 			if (sylladex.getTotalSlots() > 0)
 				return sylladex;
 		return null;
-	}
-
-	public SYLLADEX removeFirstWithSlots()
-	{
-		SYLLADEX rtn = getFirstWithSlots();
-		remove(rtn);
-		return rtn;
-	}
-
-	public SYLLADEX removeLastWithSlots()
-	{
-		SYLLADEX rtn = getLastWithSlots();
-		remove(rtn);
-		return rtn;
 	}
 
 	public SYLLADEX getFirstWithObject()

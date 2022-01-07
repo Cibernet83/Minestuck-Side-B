@@ -35,30 +35,30 @@ public class BlockGlowingMushroom extends BlockBush implements IRegistryBlock
 		setRegistryName(regName);
 		registry.register(this);
 	}
-	
+
 	@Override
 	protected boolean canSustainBush(IBlockState state)
 	{
 		return state.isFullBlock();
 	}
-	
+
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
 	{
 		super.updateTick(worldIn, pos, state, rand);
-		if(canSpread(worldIn, pos, state) && rand.nextInt(25) == 0)
+		if (canSpread(worldIn, pos, state) && rand.nextInt(25) == 0)
 		{
 			int count = 0;
 			Iterable blocks = BlockPos.getAllInBoxMutable(pos.add(-4, -1, -4), pos.add(4, 1, 4));
-			
-			for(BlockPos checkPos : (Iterable<BlockPos>) blocks)
-				if(worldIn.getBlockState(checkPos).getBlock() == this)
+
+			for (BlockPos checkPos : (Iterable<BlockPos>) blocks)
+				if (worldIn.getBlockState(checkPos).getBlock() == this)
 				{
 					count++;
 					if (count >= 5)
 						return;
 				}
-			
+
 			for (int i = 0; i < 5; ++i)
 			{
 				BlockPos spreadPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(2) - rand.nextInt(2), rand.nextInt(3) - 1);
@@ -70,13 +70,13 @@ public class BlockGlowingMushroom extends BlockBush implements IRegistryBlock
 			}
 		}
 	}
-	
+
 	public boolean canSpread(World world, BlockPos pos, IBlockState state)
 	{
 		IBlockState soil = world.getBlockState(pos.down());
 		return soil.getBlock().equals(MinestuckBlocks.coloredDirt) && soil.getValue(BlockColoredDirt.VARIANT).equals(BlockColoredDirt.BlockType.BLUE);
 	}
-	
+
 	@Override
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{

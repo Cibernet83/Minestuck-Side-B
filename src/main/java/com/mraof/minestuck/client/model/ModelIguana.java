@@ -83,7 +83,14 @@ public class ModelIguana extends ModelConsort
 		head.addChild(shape1);
 		head.addChild(shape2);
 	}
-	
+
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
+
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
 	{
@@ -97,22 +104,15 @@ public class ModelIguana extends ModelConsort
 		lowerTail.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
-	}
-
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
 	{
-		float angleY = netHeadYaw / (180F / (float)Math.PI);
-		float angleX = headPitch / (180F / (float)Math.PI);
+		float angleY = netHeadYaw / (180F / (float) Math.PI);
+		float angleX = headPitch / (180F / (float) Math.PI);
 		head.rotateAngleY = angleY;
 		head.rotateAngleX = angleX;
 		this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-		this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 	}
 
 }

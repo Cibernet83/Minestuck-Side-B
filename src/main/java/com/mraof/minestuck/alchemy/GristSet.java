@@ -12,14 +12,6 @@ public class GristSet
 
 	public TreeMap<Grist, Integer> gristTypes;
 
-	/**
-	 * Creates a blank set of grist values, used in setting up the Grist Registry.
-	 */
-	public GristSet()
-	{
-		this.gristTypes = new TreeMap<>();
-	}
-
 	public GristSet(Map<Grist, Integer> map)
 	{
 		this.gristTypes = new TreeMap<>(map);
@@ -32,6 +24,14 @@ public class GristSet
 	{
 		this();
 		this.gristTypes.put(type, amount);
+	}
+
+	/**
+	 * Creates a blank set of grist values, used in setting up the Grist Registry.
+	 */
+	public GristSet()
+	{
+		this.gristTypes = new TreeMap<>();
 	}
 
 	/**
@@ -63,41 +63,33 @@ public class GristSet
 	{
 		return this.gristTypes.getOrDefault(type, 0);
 	}
-	
+
 	/**
 	 * @return a value estimate for this grist set
 	 */
 	public float getValue()
 	{
 		float sum = 0;
-		for(GristAmount amount : getArray())
+		for (GristAmount amount : getArray())
 			sum += amount.getValue();
 		return sum;
 	}
-	
+
+	/**
+	 * Returns a ArrayList containing GristAmount objects representing the set.
+	 */
+	public ArrayList<GristAmount> getArray()
+	{
+		return new ArrayList<>(this.gristTypes.entrySet().stream().map((entry) -> new GristAmount(entry.getKey(), entry.getValue())).collect(Collectors.toList()));
+	}
+
 	/**
 	 * Sets the amount of grist, given a type of grist and the new amount.
 	 */
 	public GristSet setGrist(Grist type, int amount)
 	{
-		if(type != null)
+		if (type != null)
 			gristTypes.put(type, amount);
-		return this;
-	}
-
-	/**
-	 * Adds an amount of grist to a GristSet, given a grist type and amount.
-	 */
-	public GristSet addGrist(Grist type, int amount)
-	{
-		if (amount == 0)
-		{
-			this.gristTypes.remove(type);
-		}
-		else
-		{
-			this.gristTypes.compute(type, (key, value) -> value == null ? amount : value + amount);
-		}
 		return this;
 	}
 
@@ -107,14 +99,6 @@ public class GristSet
 	public TreeMap<Grist, Integer> getMap()
 	{
 		return this.gristTypes;
-	}
-
-	/**
-	 * Returns a ArrayList containing GristAmount objects representing the set.
-	 */
-	public ArrayList<GristAmount> getArray()
-	{
-		return new ArrayList<>(this.gristTypes.entrySet().stream().map((entry) -> new GristAmount(entry.getKey(), entry.getValue())).collect(Collectors.toList()));
 	}
 
 	/**
@@ -140,12 +124,29 @@ public class GristSet
 	}
 
 	/**
+	 * Adds an amount of grist to a GristSet, given a grist type and amount.
+	 */
+	public GristSet addGrist(Grist type, int amount)
+	{
+		if (amount == 0)
+		{
+			this.gristTypes.remove(type);
+		}
+		else
+		{
+			this.gristTypes.compute(type, (key, value) -> value == null ? amount : value + amount);
+		}
+		return this;
+	}
+
+	/**
 	 * Multiplies all the grist amounts by a factor.
 	 */
 	public GristSet scaleGrist(float scale)
 	{
 
-		this.gristTypes.forEach((type, amount) -> {
+		this.gristTypes.forEach((type, amount) ->
+		{
 			if (amount > 0)
 			{
 				this.gristTypes.put(type, (int) Math.max(amount * scale, 1));

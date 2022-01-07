@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.event.TimetableEffectEvent;
 import com.google.common.base.Predicates;
+import com.mraof.minestuck.event.TimetableEffectEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
@@ -37,16 +37,6 @@ public class ItemTimetable extends MSItemBase
 	}
 
 	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
-		return EnumAction.BLOCK;
-	}
-
-	@Override
-	public int getMaxItemUseDuration(ItemStack stack) {
-		return 72000;
-	}
-
-	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
 		ItemStack stack = playerIn.getHeldItem(handIn);
@@ -57,10 +47,10 @@ public class ItemTimetable extends MSItemBase
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		if(!worldIn.isRemote && isSelected && entityIn instanceof EntityPlayer && ((EntityLivingBase) entityIn).getActiveItemStack().equals(stack))
+		if (!worldIn.isRemote && isSelected && entityIn instanceof EntityPlayer && ((EntityLivingBase) entityIn).getActiveItemStack().equals(stack))
 		{
 			EntityPlayer player = (EntityPlayer) entityIn;
-			if((player.getItemInUseMaxCount()-player.getItemInUseCount()) % 20 != 0)
+			if ((player.getItemInUseMaxCount() - player.getItemInUseCount()) % 20 != 0)
 				return;
 
 			Entity target = getHoveredEntity(player, player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue());
@@ -70,7 +60,7 @@ public class ItemTimetable extends MSItemBase
 
 			int xpUsed = 20;
 
-			if(player.isCreative() || player.experienceTotal >= xpUsed)
+			if (player.isCreative() || player.experienceTotal >= xpUsed)
 			{
 				if (!event.isCanceled())
 				{
@@ -78,7 +68,7 @@ public class ItemTimetable extends MSItemBase
 						((EntityZombie) target).setChild(true);
 					else if (target instanceof EntityAgeable)
 					{
-						if(target instanceof EntityChicken && ((EntityChicken) target).getGrowingAge() < -600)
+						if (target instanceof EntityChicken && ((EntityChicken) target).getGrowingAge() < -600)
 						{
 							worldIn.spawnEntity(new EntityItem(worldIn, target.posX, target.posY, target.posZ, new ItemStack(Items.EGG)));
 							target.setDead();
@@ -90,7 +80,7 @@ public class ItemTimetable extends MSItemBase
 						ItemStack targetStack = ((EntityItem) target).getItem();
 						if (targetStack.isItemDamaged())
 							targetStack.setItemDamage(Math.max(0, targetStack.getItemDamage() - 3));
-						else if(targetStack.getItem() == Items.CHICKEN)
+						else if (targetStack.getItem() == Items.CHICKEN)
 						{
 							EntityChicken chicken = new EntityChicken(worldIn);
 							chicken.setPosition(target.posX, target.posY, target.posZ);
@@ -114,10 +104,11 @@ public class ItemTimetable extends MSItemBase
 							if (deconstruct)
 								targetStack.shrink(recipe.getRecipeOutput().getCount());
 						}
-					} else return;
+					}
+					else return;
 				}
 
-				if((event.isCanceled() || target != null) && !player.isCreative())
+				if ((event.isCanceled() || target != null) && !player.isCreative())
 				{
 					decreaseExp(player, xpUsed);
 					stack.damageItem(1, player);
@@ -127,12 +118,26 @@ public class ItemTimetable extends MSItemBase
 	}
 
 	@Override
+	public EnumAction getItemUseAction(ItemStack stack)
+	{
+		return EnumAction.BLOCK;
+	}
+
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack)
+	{
+		return 72000;
+	}
+
+	@Override
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
 	{
 		entityLiving.resetActiveHand();
 	}
 
-	/** Decreases player's experience properly by unclecat_*/
+	/**
+	 * Decreases player's experience properly by unclecat_
+	 */
 	public static void decreaseExp(EntityPlayer player, float amount)
 	{
 		if (player.experienceTotal - amount <= 0) // If not enough levels or will be negative
@@ -145,9 +150,9 @@ public class ItemTimetable extends MSItemBase
 
 		player.experienceTotal -= amount;
 
-		if (player.experience * (float)player.xpBarCap() < amount) // Removing experience within current level to floor it to player.experience == 0.0f
+		if (player.experience * (float) player.xpBarCap() < amount) // Removing experience within current level to floor it to player.experience == 0.0f
 		{
-			amount -= player.experience * (float)player.xpBarCap();
+			amount -= player.experience * (float) player.xpBarCap();
 			player.experience = 1.0f;
 			player.experienceLevel--;
 		}
@@ -158,7 +163,7 @@ public class ItemTimetable extends MSItemBase
 			player.experienceLevel--;
 		}
 
-		player.experience -= amount / (float)player.xpBarCap(); // Removing experience from remaining level
+		player.experience -= amount / (float) player.xpBarCap(); // Removing experience from remaining level
 	}
 
 	public static IRecipe getItemRecipe(ItemStack stack)
@@ -179,14 +184,15 @@ public class ItemTimetable extends MSItemBase
 		});
 		*/
 
-		for(IRecipe recipe : CraftingManager.REGISTRY)
+		for (IRecipe recipe : CraftingManager.REGISTRY)
 		{
 			try
 			{
 				ItemStack res = recipe.getCraftingResult(null);
-				if(stack.getCount() >= res.getCount() && stack.getItem() == res.getItem() && stack.getMetadata() == res.getMetadata())
+				if (stack.getCount() >= res.getCount() && stack.getItem() == res.getItem() && stack.getMetadata() == res.getMetadata())
 					return recipe;
-			} catch (NullPointerException e) {}
+			}
+			catch (NullPointerException e) {}
 		}
 
 		return null;
@@ -201,27 +207,34 @@ public class ItemTimetable extends MSItemBase
 
 		List<Entity> entities = player.world.getEntitiesInAABBexcluding(player, player.getEntityBoundingBox().expand(look.x * entityHitDistance, look.y * entityHitDistance, look.z * entityHitDistance).grow(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, p_apply_1_ -> p_apply_1_ != null));
 
-		for (Entity entity : entities) {
+		for (Entity entity : entities)
+		{
 			AxisAlignedBB entityAABB = entity.getEntityBoundingBox().grow(entity instanceof EntityItem ? 0.2 : (double) entity.getCollisionBorderSize());
 			RayTraceResult entityResult = entityAABB.calculateIntercept(eyePos, lookPos);
 
-			if (entityAABB.contains(eyePos)) {
-				if (entityHitDistance >= 0.0D) {
+			if (entityAABB.contains(eyePos))
+			{
+				if (entityHitDistance >= 0.0D)
+				{
 					pointedEntity = entity;
 					entityHitDistance = 0.0D;
 				}
 			}
-			else if (entityResult != null) {
+			else if (entityResult != null)
+			{
 				double eyeToHitDistance = eyePos.distanceTo(entityResult.hitVec);
 
-				if (eyeToHitDistance < entityHitDistance || entityHitDistance == 0.0D) {
-					if (entity.getLowestRidingEntity() == player.getLowestRidingEntity() && !entity.canRiderInteract()) {
+				if (eyeToHitDistance < entityHitDistance || entityHitDistance == 0.0D)
+				{
+					if (entity.getLowestRidingEntity() == player.getLowestRidingEntity() && !entity.canRiderInteract())
+					{
 						if (entityHitDistance == 0.0D)
 						{
 							pointedEntity = entity;
 						}
-					} else
-						{
+					}
+					else
+					{
 						pointedEntity = entity;
 						entityHitDistance = eyeToHitDistance;
 					}

@@ -22,14 +22,14 @@ public class RenderControlDeckModi extends TileEntitySpecialRenderer<TileEntityM
 		EnumFacing facing = te.getWorld().getBlockState(te.getPos()).getValue(BlockModusControlDeck.FACING);
 		//GlStateManager.translate(5/16d + 6/16d*(i%2),  5.5/16d, 4.5/16d + 3/16d*(i/2));
 
-		for(int i = 0; i < inv.size(); i++)
+		for (int i = 0; i < inv.size(); i++)
 		{
 			GlStateManager.pushMatrix();
 			ItemStack stack = inv.get(i);
 
 			GlStateManager.translate(x, y, z);
 			GlStateManager.rotate(180 - facing.getHorizontalAngle(), 0.0F, 1.0F, 0.0F);
-			GlStateManager.translate(11/16d - 6/16d*(i%2) + -((3-facing.getHorizontalIndex()) / 2), 5.5/16d, 11.5/16d - 3/16d*(i/2) + (facing == EnumFacing.SOUTH || facing == EnumFacing.EAST ? -1 : 0));
+			GlStateManager.translate(11 / 16d - 6 / 16d * (i % 2) + -((3 - facing.getHorizontalIndex()) / 2), 5.5 / 16d, 11.5 / 16d - 3 / 16d * (i / 2) + (facing == EnumFacing.SOUTH || facing == EnumFacing.EAST ? -1 : 0));
 
 			GlStateManager.scale(0.5, 0.5, 0.5);
 			Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.FIXED);

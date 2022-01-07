@@ -10,7 +10,9 @@ import net.minecraft.util.math.MathHelper;
 
 public class EntityAIAttackByDistance extends EntityAIBase
 {
-	/** The entity the AI instance has been applied to */
+	/**
+	 * The entity the AI instance has been applied to
+	 */
 	private final EntityLiving entityHost;
 
 	/**
@@ -52,7 +54,7 @@ public class EntityAIAttackByDistance extends EntityAIBase
 		else
 		{
 			this.attacker = (EntityLiving) par1IRangedAttackMob;
-			this.entityHost = (EntityLiving)par1IRangedAttackMob;
+			this.entityHost = (EntityLiving) par1IRangedAttackMob;
 			this.entityMoveSpeed = par2;
 			this.field_96561_g = par3;
 			this.maxRangedAttackTime = par4;
@@ -74,7 +76,7 @@ public class EntityAIAttackByDistance extends EntityAIBase
 			return false;
 		else
 		{
-			if(entityliving.isEntityAlive())
+			if (entityliving.isEntityAlive())
 			{
 				this.attackTarget = entityliving;
 				return true;
@@ -122,7 +124,7 @@ public class EntityAIAttackByDistance extends EntityAIBase
 			this.ticksSeeingTarget = 0;
 		}
 
-		if (d0 <= (double)this.field_82642_h && this.ticksSeeingTarget >= 20)
+		if (d0 <= (double) this.field_82642_h && this.ticksSeeingTarget >= 20)
 		{
 			this.entityHost.getNavigator().clearPath();
 		}
@@ -133,36 +135,36 @@ public class EntityAIAttackByDistance extends EntityAIBase
 
 		this.entityHost.getLookHelper().setLookPositionWithEntity(this.attackTarget, 30.0F, 30.0F);
 		float f;
-		double meleeRange = (double)(this.attacker.width * 2.0F * this.attacker.width * 2.0F);
-		if(d0 > meleeRange)
+		double meleeRange = (double) (this.attacker.width * 2.0F * this.attacker.width * 2.0F);
+		if (d0 > meleeRange)
 		{
 			if (--this.rangedAttackTime == 0)
 			{
-				if (d0 > (double)this.field_82642_h || !flag)
+				if (d0 > (double) this.field_82642_h || !flag)
 				{
 					return;
 				}
-	
+
 				f = MathHelper.sqrt(d0) / this.field_96562_i;
 				float f1 = f;
-	
+
 				if (f < 0.1F)
 				{
 					f1 = 0.1F;
 				}
-	
+
 				if (f1 > 1.0F)
 				{
 					f1 = 1.0F;
 				}
-	
+
 				((IRangedAttackMob) this.attacker).attackEntityWithRangedAttack(this.attackTarget, f1);
-				this.rangedAttackTime = MathHelper.floor(f * (float)(this.maxRangedAttackTime - this.field_96561_g) + (float)this.field_96561_g);
+				this.rangedAttackTime = MathHelper.floor(f * (float) (this.maxRangedAttackTime - this.field_96561_g) + (float) this.field_96561_g);
 			}
 			else if (this.rangedAttackTime < 0)
 			{
 				f = MathHelper.sqrt(d0) / this.field_96562_i;
-				this.rangedAttackTime = MathHelper.floor(f * (float)(this.maxRangedAttackTime - this.field_96561_g) + (float)this.field_96561_g);
+				this.rangedAttackTime = MathHelper.floor(f * (float) (this.maxRangedAttackTime - this.field_96561_g) + (float) this.field_96561_g);
 			}
 		}
 		else
@@ -173,12 +175,12 @@ public class EntityAIAttackByDistance extends EntityAIBase
 				if (this.rangedAttackTime <= 0)
 				{
 					this.rangedAttackTime = 20;
-	
+
 					if (this.attacker.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) != null)
 					{
 						this.attacker.swingArm(EnumHand.MAIN_HAND);
 					}
-	
+
 					this.attacker.attackEntityAsMob(this.attackTarget);
 				}
 			}

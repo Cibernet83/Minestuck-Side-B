@@ -1,8 +1,6 @@
-	package com.mraof.minestuck.block;
+package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
-
-import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -31,16 +29,17 @@ public class BlockPetrifiedFlora extends BlockBush implements IRegistryBlock
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
+	{
 		IBlockState soil = worldIn.getBlockState(pos.down());
 		return canSustainBush(soil);
 	}
-	
+
 	@Override
-    protected boolean canSustainBush(IBlockState state)
-    {
-        return state.getBlock() == Blocks.STONE || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.COBBLESTONE;
-    }
+	protected boolean canSustainBush(IBlockState state)
+	{
+		return state.getBlock() == Blocks.STONE || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.COBBLESTONE;
+	}
 
 	@Override
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)

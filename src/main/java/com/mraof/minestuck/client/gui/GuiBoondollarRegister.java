@@ -45,15 +45,9 @@ public class GuiBoondollarRegister extends GuiScreen
 		this.player = player;
 		this.mc = Minecraft.getMinecraft();
 		this.fontRenderer = mc.fontRenderer;
-		
+
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
-	}
-
-	@Override
-	public void onGuiClosed() {
-		super.onGuiClosed();
-		Keyboard.enableRepeatEvents(false);
 	}
 
 	@Override
@@ -65,74 +59,25 @@ public class GuiBoondollarRegister extends GuiScreen
 		int yOffset = this.height / 2 - 77;
 		int xOffset = this.width / 2 - 88;
 		this.drawTexturedModalRect(xOffset, yOffset, 0, 0, 176, 166);
-		
+
 		xOffset = (this.width - 176) / 2;
 		yOffset = (this.height - 166) / 2;
 
-		this.fontRenderer.drawString(I18n.translateToLocalFormatted(vault.getStoredBoons() > 9999999 ? "gui.vault.amountLabelShort" : "gui.vault.amountLabel", vault.getStoredBoons()),  xOffset+ 12,  yOffset+ 50, 4210752);
-		this.fontRenderer.drawString(I18n.translateToLocal("gui.vault.mavLabel"),  xOffset+ 8,  yOffset+ 100, 4210752);
-		this.fontRenderer.drawString(I18n.translateToLocal("gui.vault.label.2"),  xOffset+ 88 - (fontRenderer.getStringWidth(I18n.translateToLocal("gui.vault.label.2"))/2),  yOffset+ 25, 0x61B3E7);
+		this.fontRenderer.drawString(I18n.translateToLocalFormatted(vault.getStoredBoons() > 9999999 ? "gui.vault.amountLabelShort" : "gui.vault.amountLabel", vault.getStoredBoons()), xOffset + 12, yOffset + 50, 4210752);
+		this.fontRenderer.drawString(I18n.translateToLocal("gui.vault.mavLabel"), xOffset + 8, yOffset + 100, 4210752);
+		this.fontRenderer.drawString(I18n.translateToLocal("gui.vault.label.2"), xOffset + 88 - (fontRenderer.getStringWidth(I18n.translateToLocal("gui.vault.label.2")) / 2), yOffset + 25, 0x61B3E7);
 
 		mavTextField.drawTextBox();
-		
+
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
-
-	@Override
-	public void onResize(Minecraft mcIn, int w, int h)
-	{
-		super.onResize(mcIn, w, h);
-		updateButtons();
-	}
-
-	@Override
-	public void initGui()
-	{
-		Keyboard.enableRepeatEvents(true);
-		super.initGui();
-		int yOffset = this.height / 2 - 77;
-		int xOffset = this.width / 2 - 88;
-		withdrawButton = new GuiButton(0,xOffset+8,yOffset+65,70,20, I18n.translateToLocal("gui.vault.collect"));
-		autoButton = new GuiButton(1,xOffset+78,yOffset+65,90,20, I18n.translateToLocalFormatted("gui.vault.auto", vault.auto ? "ON" : "OFF"));
-		mavTextField = new GuiTextField(2, fontRenderer,xOffset+9, yOffset+106, 158, 20);
-		mavTextField.setText(String.valueOf(vault.mav));
-		updateButtons();
-	}
-
-	@Override
-	public void updateScreen() {
-		super.updateScreen();
-		autoButton.displayString = I18n.translateToLocalFormatted("gui.vault.auto", vault.auto ? "ON" : "OFF");
-	}
-
-	public void updateButtons()
-	{
-		buttonList.clear();
-
-		buttonList.add(withdrawButton);
-		buttonList.add(autoButton);
-		textboxList.add(mavTextField);
-		
-	}
-
-	public boolean doesGuiPauseGame() {
-		return false;
-	}
-
-	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
-	{
-		super.mouseClicked(mouseX, mouseY, mouseButton);
-		mavTextField.setFocused(mavTextField.mouseClicked(mouseX, mouseY, mouseButton));
-	}
-
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException
 	{
 		super.keyTyped(typedChar, keyCode);
 
-		if((Character.digit(typedChar, 10) >= 0 || keyCode == 14) && mavTextField != null)
+		if ((Character.digit(typedChar, 10) >= 0 || keyCode == 14) && mavTextField != null)
 		{
 			mavTextField.textboxKeyTyped(typedChar, keyCode);
 			try {vault.mav = mavTextField.getText().isEmpty() ? 0 : Integer.parseInt(mavTextField.getText()); }
@@ -143,15 +88,71 @@ public class GuiBoondollarRegister extends GuiScreen
 
 	}
 
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
+	{
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		mavTextField.setFocused(mavTextField.mouseClicked(mouseX, mouseY, mouseButton));
+	}
 
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
 		super.actionPerformed(button);
 
-		if(button == autoButton)
+		if (button == autoButton)
 			MinestuckNetwork.sendToServer(new MessageBoondollarRegisterAutoRequest(vault));
-		if(button == withdrawButton)
+		if (button == withdrawButton)
 			MinestuckNetwork.sendToServer(new MessageBoondollarRegisterTakeRequest(vault));
+	}
+
+	@Override
+	public void initGui()
+	{
+		Keyboard.enableRepeatEvents(true);
+		super.initGui();
+		int yOffset = this.height / 2 - 77;
+		int xOffset = this.width / 2 - 88;
+		withdrawButton = new GuiButton(0, xOffset + 8, yOffset + 65, 70, 20, I18n.translateToLocal("gui.vault.collect"));
+		autoButton = new GuiButton(1, xOffset + 78, yOffset + 65, 90, 20, I18n.translateToLocalFormatted("gui.vault.auto", vault.auto ? "ON" : "OFF"));
+		mavTextField = new GuiTextField(2, fontRenderer, xOffset + 9, yOffset + 106, 158, 20);
+		mavTextField.setText(String.valueOf(vault.mav));
+		updateButtons();
+	}
+
+	@Override
+	public void updateScreen()
+	{
+		super.updateScreen();
+		autoButton.displayString = I18n.translateToLocalFormatted("gui.vault.auto", vault.auto ? "ON" : "OFF");
+	}
+
+	@Override
+	public void onGuiClosed()
+	{
+		super.onGuiClosed();
+		Keyboard.enableRepeatEvents(false);
+	}
+
+	public boolean doesGuiPauseGame()
+	{
+		return false;
+	}
+
+	@Override
+	public void onResize(Minecraft mcIn, int w, int h)
+	{
+		super.onResize(mcIn, w, h);
+		updateButtons();
+	}
+
+	public void updateButtons()
+	{
+		buttonList.clear();
+
+		buttonList.add(withdrawButton);
+		buttonList.add(autoButton);
+		textboxList.add(mavTextField);
+
 	}
 }

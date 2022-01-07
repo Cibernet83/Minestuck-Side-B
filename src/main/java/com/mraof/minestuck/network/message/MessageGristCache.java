@@ -23,18 +23,6 @@ public class MessageGristCache implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(gristSet.gristTypes.size());
-		gristSet.getMap().forEach((Grist grist, Integer amount) -> {
-			ByteBufUtils.writeRegistryEntry(buf, grist);
-			buf.writeInt(amount);
-		});
-		buf.writeBoolean(targetGrist);
-
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		gristSet = new GristSet();
@@ -42,6 +30,19 @@ public class MessageGristCache implements MinestuckMessage
 		for (int i = 0; i < length; i++)
 			gristSet.setGrist(ByteBufUtils.readRegistryEntry(buf, Grist.REGISTRY), buf.readInt());
 		targetGrist = buf.readBoolean();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(gristSet.gristTypes.size());
+		gristSet.getMap().forEach((Grist grist, Integer amount) ->
+		{
+			ByteBufUtils.writeRegistryEntry(buf, grist);
+			buf.writeInt(amount);
+		});
+		buf.writeBoolean(targetGrist);
+
 	}
 
 	@Override

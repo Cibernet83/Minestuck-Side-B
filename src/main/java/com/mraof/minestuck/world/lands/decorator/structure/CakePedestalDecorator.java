@@ -16,25 +16,25 @@ public class CakePedestalDecorator extends SimpleStructureDecorator
 	{
 		super(biomes);
 	}
-	
+
 	@Override
 	protected BlockPos generateStructure(World world, Random random, BlockPos pos, ChunkProviderLands provider)
 	{
 		IBlockState block = provider.blockRegistry.getBlockState("structure_secondary");
 		IBlockState blockDecor = provider.blockRegistry.getBlockState("structure_secondary_decorative");
-		
+
 		IBlockState stairsN = provider.blockRegistry.getStairs("structure_secondary_stairs", EnumFacing.NORTH, false);
 		IBlockState stairsE = provider.blockRegistry.getStairs("structure_secondary_stairs", EnumFacing.EAST, false);
 		IBlockState stairsS = provider.blockRegistry.getStairs("structure_secondary_stairs", EnumFacing.SOUTH, false);
 		IBlockState stairsW = provider.blockRegistry.getStairs("structure_secondary_stairs", EnumFacing.WEST, false);
-		
+
 		xCoord = pos.getX();
 		zCoord = pos.getZ();
 		yCoord = world.getPrecipitationHeight(pos).getY();
-		
-		if(world.getBlockState(new BlockPos(xCoord, yCoord - 1, zCoord)).getMaterial().isLiquid())
+
+		if (world.getBlockState(new BlockPos(xCoord, yCoord - 1, zCoord)).getMaterial().isLiquid())
 			return null;
-		
+
 		placeBlocks(world, block, -1, 0, 0, 1, 0, 0);
 		placeBlock(world, block, 0, 0, -1);
 		placeBlock(world, block, 0, 0, 1);
@@ -51,20 +51,20 @@ public class CakePedestalDecorator extends SimpleStructureDecorator
 		placeBlocks(world, stairsW, 2, 0, -1, 2, 0, 0);
 		placeBlock(world, stairsS, 1, 0, -1);
 		placeBlock(world, stairsW, 1, 0, -2);
-		
+
 		IBlockState cake = MinestuckBlocks.fuchsiaCake.getDefaultState();
-		
+
 		placeBlock(world, cake, 0, 2, 0);
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public int getCount(Random random)
 	{
 		return random.nextInt(100) == 0 ? 1 : 0;
 	}
-	
+
 	@Override
 	public float getPriority()
 	{

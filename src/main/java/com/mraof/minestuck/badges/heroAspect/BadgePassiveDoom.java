@@ -16,35 +16,35 @@ import net.minecraft.world.World;
 
 public class BadgePassiveDoom extends BadgeHeroAspect
 {
+	protected static final int RADIUS = 16;
+
 	public BadgePassiveDoom()
 	{
 		super(EnumAspect.DOOM, EnumRole.PASSIVE, EnumAspect.BLOOD);
 	}
 
-	protected static final int RADIUS = 16;
-
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state == GodKeyStates.KeyState.NONE || time >= 26)
+		if (state == GodKeyStates.KeyState.NONE || time >= 26)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(time > 20)
+		if (time > 20)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.DOOM, 20);
 		else
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.DOOM, 10);
 
-		if(time >= 25)
+		if (time >= 25)
 		{
-			for(EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(RADIUS), p -> !p.equals(player)))
+			for (EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(RADIUS), p -> !p.equals(player)))
 			{
-				if(!(target instanceof EntityPlayer || target instanceof IMob))
+				if (!(target instanceof EntityPlayer || target instanceof IMob))
 					continue;
 
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.DOOM, 10);

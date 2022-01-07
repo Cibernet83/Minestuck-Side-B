@@ -9,40 +9,43 @@ import javax.annotation.Nullable;
 public class EntityCritDamageSource extends EntityDamageSource implements IMSGTDamage
 {
 
-    protected boolean isCrit = false;
-    protected boolean godproof = false;
+	protected boolean isCrit = false;
+	protected boolean godproof = false;
 
-    public EntityCritDamageSource(String damageTypeIn, @Nullable Entity damageSourceEntityIn)
-    {
-        super(Minestuck.MODID+"."+damageTypeIn, damageSourceEntityIn);
-    }
+	public EntityCritDamageSource(String damageTypeIn, @Nullable Entity damageSourceEntityIn)
+	{
+		super(Minestuck.MODID + "." + damageTypeIn, damageSourceEntityIn);
+	}
 
-    @Override
-    public boolean isDifficultyScaled() {
-        return false;
-    }
+	@Override
+	public boolean isDifficultyScaled()
+	{
+		return false;
+	}
 
-    @Override
-    public EntityCritDamageSource setCrit()
-    {
-        isCrit = true;
-        return this;
-    }
+	@Override
+	public EntityCritDamageSource setCrit()
+	{
+		isCrit = true;
+		return this;
+	}
 
-    @Override
-    public boolean isCrit() {
-        return isCrit;
-    }
+	@Override
+	public boolean isCrit()
+	{
+		return isCrit;
+	}
 
-    @Override
-    public EntityCritDamageSource setGodproof()
-    {
-        godproof = true;
-        return this;
-    }
+	@Override
+	public EntityCritDamageSource setGodproof()
+	{
+		godproof = true;
+		return this;
+	}
 
-    @Override
-    public boolean isGodproof() {
-        return godproof;
-    }
+	@Override
+	public boolean isGodproof()
+	{
+		return godproof;
+	}
 }

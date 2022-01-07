@@ -9,7 +9,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 
-public class ModelSpikedHelmet extends ModelBiped {
+public class ModelSpikedHelmet extends ModelBiped
+{
 	private final ModelRenderer Head;
 	private final ModelRenderer SpikedHelmet;
 	private final ModelRenderer Helmet;
@@ -35,24 +36,25 @@ public class ModelSpikedHelmet extends ModelBiped {
 	private final ModelRenderer Spike16;
 	private final ModelRenderer Spike17;
 
-	public ModelSpikedHelmet() {
+	public ModelSpikedHelmet()
+	{
 		textureWidth = 128;
 		textureHeight = 128;
 
 		bipedHead.cubeList.remove(0);
 		Head = new ModelRenderer(this);
 		Head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		
+
 
 		SpikedHelmet = new ModelRenderer(this);
 		SpikedHelmet.setRotationPoint(-1.0F, 1.0F, 0.0F);
 		Head.addChild(SpikedHelmet);
-		
+
 
 		Helmet = new ModelRenderer(this);
 		Helmet.setRotationPoint(1.0F, 0.0F, 0.0F);
 		SpikedHelmet.addChild(Helmet);
-		
+
 
 		Main = new ModelRenderer(this);
 		Main.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -275,7 +277,8 @@ public class ModelSpikedHelmet extends ModelBiped {
 		bipedHead.addChild(Head);
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
@@ -288,7 +291,7 @@ public class ModelSpikedHelmet extends ModelBiped {
 
 		if (entityIn instanceof EntityArmorStand)
 		{
-			EntityArmorStand entityarmorstand = (EntityArmorStand)entityIn;
+			EntityArmorStand entityarmorstand = (EntityArmorStand) entityIn;
 			bipedHead.rotateAngleX = 0.017453292F * entityarmorstand.getHeadRotation().getX();
 			bipedHead.rotateAngleY = 0.017453292F * entityarmorstand.getHeadRotation().getY();
 			bipedHead.rotateAngleZ = 0.017453292F * entityarmorstand.getHeadRotation().getZ();

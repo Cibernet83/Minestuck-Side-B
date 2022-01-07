@@ -24,7 +24,9 @@ public class EntityAIAttackOnCollideWithRate extends EntityAIBase
 	float movementSpeed;
 	boolean willSearch;
 
-	/** The PathEntity of our entity. */
+	/**
+	 * The PathEntity of our entity.
+	 */
 	Path entityPath;
 	Class<? extends Entity> classTarget;
 	private int movementTime;
@@ -79,7 +81,7 @@ public class EntityAIAttackOnCollideWithRate extends EntityAIBase
 	public boolean shouldContinueExecuting()
 	{
 		EntityLivingBase entityliving = this.attacker.getAttackTarget();
-		return entityliving == null ? false : (!this.entityTarget.isEntityAlive() ? false : (!this.willSearch ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistanceFromPosition(new BlockPos(MathHelper.floor(this.entityTarget.posX), MathHelper.floor(this.entityTarget.posY), MathHelper.floor(this.entityTarget.posZ)))));
+		return entityliving != null && (this.entityTarget.isEntityAlive() && (!this.willSearch ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistanceFromPosition(new BlockPos(MathHelper.floor(this.entityTarget.posX), MathHelper.floor(this.entityTarget.posY), MathHelper.floor(this.entityTarget.posZ)))));
 	}
 
 	/**
@@ -117,9 +119,9 @@ public class EntityAIAttackOnCollideWithRate extends EntityAIBase
 		}
 
 		this.attackTick = Math.max(this.attackTick - 1, 0);
-		double d0 = (double)(this.attacker.width * distanceMultiplier * this.attacker.width * distanceMultiplier);
+		double d0 = (double) (this.attacker.width * distanceMultiplier * this.attacker.width * distanceMultiplier);
 
-		if (this.attacker.getDistanceSq(this.entityTarget.posX, this.entityTarget.getEntityBoundingBox().minY, this.entityTarget.posZ) - (entityTarget.width / 2 ) <= d0)
+		if (this.attacker.getDistanceSq(this.entityTarget.posX, this.entityTarget.getEntityBoundingBox().minY, this.entityTarget.posZ) - (entityTarget.width / 2) <= d0)
 		{
 			if (this.attackTick <= 0)
 			{
@@ -134,7 +136,8 @@ public class EntityAIAttackOnCollideWithRate extends EntityAIBase
 			}
 		}
 	}
-	public void setDistanceMultiplier(float distanceMultiplier) 
+
+	public void setDistanceMultiplier(float distanceMultiplier)
 	{
 		this.distanceMultiplier = distanceMultiplier;
 	}

@@ -11,33 +11,33 @@ import tschipp.carryon.client.keybinds.CarryOnKeybinds;
 
 public class CarryOnSupport
 {
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onEntityRightClick(PlayerInteractEvent.EntityInteract event)
-    {
-        EntityPlayer player = event.getEntityPlayer();
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public static void onEntityRightClick(PlayerInteractEvent.EntityInteract event)
+	{
+		EntityPlayer player = event.getEntityPlayer();
 
-        if(player instanceof EntityPlayerMP)
-        {
-            ItemStack main = player.getHeldItemMainhand();
-            ItemStack off = player.getHeldItemOffhand();
+		if (player instanceof EntityPlayerMP)
+		{
+			ItemStack main = player.getHeldItemMainhand();
+			ItemStack off = player.getHeldItemOffhand();
 
-            if(!player.isCreative() && main.isEmpty() && off.isEmpty() && CarryOnKeybinds.isKeyPressed(player) && player.getActivePotionEffect(MinestuckPotions.CREATIVE_SHOCK) != null)
-                event.setCanceled(true);
-        }
-    }
+			if (!player.isCreative() && main.isEmpty() && off.isEmpty() && CarryOnKeybinds.isKeyPressed(player) && player.getActivePotionEffect(MinestuckPotions.CREATIVE_SHOCK) != null)
+				event.setCanceled(true);
+		}
+	}
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onBlockRightClick(PlayerInteractEvent.RightClickBlock event)
-    {
-        EntityPlayer player = event.getEntityPlayer();
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public static void onBlockRightClick(PlayerInteractEvent.RightClickBlock event)
+	{
+		EntityPlayer player = event.getEntityPlayer();
 
-        if(player instanceof EntityPlayerMP)
-        {
-            ItemStack main = player.getHeldItemMainhand();
-            ItemStack off = player.getHeldItemOffhand();
+		if (player instanceof EntityPlayerMP)
+		{
+			ItemStack main = player.getHeldItemMainhand();
+			ItemStack off = player.getHeldItemOffhand();
 
-            if(!player.isCreative() && main.isEmpty() && off.isEmpty() && CarryOnKeybinds.isKeyPressed(player) && player.getActivePotionEffect(MinestuckPotions.CREATIVE_SHOCK) != null)
-                event.setCanceled(true);
-        }
-    }
+			if (!player.isCreative() && main.isEmpty() && off.isEmpty() && CarryOnKeybinds.isKeyPressed(player) && player.getActivePotionEffect(MinestuckPotions.CREATIVE_SHOCK) != null)
+				event.setCanceled(true);
+		}
+	}
 }

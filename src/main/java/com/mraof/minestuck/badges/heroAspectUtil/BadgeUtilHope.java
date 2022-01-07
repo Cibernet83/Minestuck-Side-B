@@ -1,7 +1,7 @@
 package com.mraof.minestuck.badges.heroAspectUtil;
 
-import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
+import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.MinestuckUtils;
@@ -14,20 +14,20 @@ import net.minecraft.world.World;
 
 public class BadgeUtilHope extends BadgeHeroAspectUtil
 {
+	protected static final int ENERGY_USE = 4;
+
 	public BadgeUtilHope()
 	{
 		super(EnumAspect.HOPE, new ItemStack(Items.MILK_BUCKET, 16));
 	}
 
-	protected static final int ENERGY_USE = 4;
-
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(!state.equals(GodKeyStates.KeyState.PRESS))
+		if (!state.equals(GodKeyStates.KeyState.PRESS))
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -35,10 +35,10 @@ public class BadgeUtilHope extends BadgeHeroAspectUtil
 
 		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 
-		if(target == null || target.getActivePotionMap().isEmpty())
+		if (target == null || target.getActivePotionMap().isEmpty())
 			target = player;
 
-		if(!target.getActivePotionMap().isEmpty())
+		if (!target.getActivePotionMap().isEmpty())
 		{
 			target.clearActivePotions();
 			if (!player.isCreative())

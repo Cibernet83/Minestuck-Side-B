@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Title
 {
-	
+
 	private EnumClass heroClass;
 	private EnumAspect heroAspect;
 
@@ -17,38 +17,38 @@ public class Title
 		this.heroClass = heroClass;
 		this.heroAspect = heroAspect;
 	}
-	
+
 	public EnumClass getHeroClass()
 	{
 		return this.heroClass;
 	}
-	
+
 	public EnumAspect getHeroAspect()
 	{
 		return this.heroAspect;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public String getTitleName()
 	{
 		return I18n.format("title.format", heroClass.getDisplayName(), heroAspect.getDisplayName());
 	}
-	
-	@Override
-	public String toString()
-	{
-		return heroClass.toString() + " of " + heroAspect.toString();
-	}
-	
+
 	public ITextComponent asTextComponent()
 	{
 		return new TextComponentTranslation("title.format", heroClass.asTextComponent(), heroAspect.asTextComponent());
 	}
-	
+
+	@Override
+	public int hashCode()
+	{
+		return heroClass.hashCode() + heroAspect.hashCode();
+	}
+
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(obj instanceof Title)
+		if (obj instanceof Title)
 		{
 			Title title = (Title) obj;
 			return title.heroClass.equals(this.heroClass) && title.heroAspect.equals(this.heroAspect);
@@ -57,8 +57,8 @@ public class Title
 	}
 
 	@Override
-	public int hashCode()
+	public String toString()
 	{
-		return heroClass.hashCode() + heroAspect.hashCode();
+		return heroClass.toString() + " of " + heroAspect.toString();
 	}
 }

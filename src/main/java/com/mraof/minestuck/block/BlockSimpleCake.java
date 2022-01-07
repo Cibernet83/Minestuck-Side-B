@@ -10,7 +10,7 @@ public class BlockSimpleCake extends BlockCustomCake
 	private final int foodLevel;
 	private final float saturation;
 	private final Effect effect;
-	
+
 	public BlockSimpleCake(String name, int foodLevel, float saturation, Effect effect)
 	{
 		super(name);
@@ -18,15 +18,15 @@ public class BlockSimpleCake extends BlockCustomCake
 		this.saturation = saturation;
 		this.effect = effect;
 	}
-	
+
 	@Override
 	protected void applyEffects(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
 		player.getFoodStats().addStats(foodLevel, saturation);
-		if(effect != null)
+		if (effect != null)
 			effect.applyEffects(player);
 	}
-	
+
 	public interface Effect
 	{
 		void applyEffects(EntityPlayer player);

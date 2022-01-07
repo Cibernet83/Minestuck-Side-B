@@ -13,29 +13,29 @@ import javax.annotation.Nullable;
 
 public class TileEntityItemStack extends TileEntity
 {
-	
+
 	private ItemStack stack = ItemStack.EMPTY;
-	
+
 	public ItemStack getStack()
 	{
 		return stack;
 	}
-	
+
 	public void setStack(ItemStack stack)
 	{
-		if(stack != null)
+		if (stack != null)
 		{
 			this.stack = stack;
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound)
 	{
 		super.readFromNBT(compound);
 		stack = new ItemStack(compound.getCompoundTag("stack"));
 	}
-	
+
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
@@ -43,35 +43,35 @@ public class TileEntityItemStack extends TileEntity
 		compound.setTag("stack", stack.writeToNBT(new NBTTagCompound()));
 		return compound;
 	}
-	
-	@Override
-	public NBTTagCompound getUpdateTag()
-	{
-		return writeToNBT(new NBTTagCompound());
-	}
-	
+
 	@Nullable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
 		return new SPacketUpdateTileEntity(getPos(), 2, getUpdateTag());
 	}
-	
+
+	@Override
+	public NBTTagCompound getUpdateTag()
+	{
+		return writeToNBT(new NBTTagCompound());
+	}
+
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
 		handleUpdateTag(pkt.getNbtCompound());
-		if(world != null)
+		if (world != null)
 		{
 			IBlockState state = world.getBlockState(pos);
 			world.notifyBlockUpdate(pos, state, state, 2);
 		}
 	}
-	
+
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
 	{
 		return oldState.getBlock() != newSate.getBlock();
 	}
-	
+
 }

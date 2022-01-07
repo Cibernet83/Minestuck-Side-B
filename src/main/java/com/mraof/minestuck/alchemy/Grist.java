@@ -43,7 +43,7 @@ public class Grist extends IForgeRegistryEntry.Impl<Grist> implements Comparable
 	{
 		if (!string.contains(":"))
 		{
-			string = Minestuck.MODID+":" + string;
+			string = Minestuck.MODID + ":" + string;
 		}
 		return REGISTRY.getValue(new ResourceLocation(string));
 	}
@@ -53,7 +53,16 @@ public class Grist extends IForgeRegistryEntry.Impl<Grist> implements Comparable
 		return REGISTRY.getValuesCollection();
 	}
 
-	public String getDisplayName()	//TODO Phase out serverside usage of this method
+	@SubscribeEvent
+	public static void onNewRegistry(RegistryEvent.NewRegistry event)
+	{
+		REGISTRY = (ForgeRegistry<Grist>) new RegistryBuilder<Grist>()
+												  .setName(new ResourceLocation(Minestuck.MODID, "grist"))
+												  .setType(Grist.class)
+												  .create();
+	}
+
+	public String getDisplayName()    //TODO Phase out serverside usage of this method
 	{
 		return I18n.translateToLocal("grist." + regName);
 	}
@@ -91,7 +100,6 @@ public class Grist extends IForgeRegistryEntry.Impl<Grist> implements Comparable
 		return 1 / rarity;
 	}
 
-
 	/**
 	 * @return a value estimate for this grist type
 	 */
@@ -116,15 +124,15 @@ public class Grist extends IForgeRegistryEntry.Impl<Grist> implements Comparable
 		return this;
 	}
 
-	public int getId()
-	{
-		return REGISTRY.getID(this);
-	}
-
 	@Override
 	public int compareTo(Grist grist)
 	{
 		return this.getId() - grist.getId();
+	}
+
+	public int getId()
+	{
+		return REGISTRY.getID(this);
 	}
 
 	@Override
@@ -132,15 +140,6 @@ public class Grist extends IForgeRegistryEntry.Impl<Grist> implements Comparable
 	{
 		setRegistryName(regName);
 		registry.register(this);
-	}
-
-	@SubscribeEvent
-	public static void onNewRegistry(RegistryEvent.NewRegistry event)
-	{
-		REGISTRY = (ForgeRegistry<Grist>) new RegistryBuilder<Grist>()
-				.setName(new ResourceLocation(Minestuck.MODID, "grist"))
-				.setType(Grist.class)
-				.create();
 	}
 }
 

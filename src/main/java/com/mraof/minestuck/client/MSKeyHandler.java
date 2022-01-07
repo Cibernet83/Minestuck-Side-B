@@ -24,6 +24,7 @@ public class MSKeyHandler
 	public static final KeyBinding strifeSelectorLeftKey = new KeyBinding("key.strifeSelectorLeft", Keyboard.KEY_NONE, "key.categories.minestuck");
 	public static final KeyBinding strifeSelectorRightKey = new KeyBinding("key.strifeSelectorRight", Keyboard.KEY_NONE, "key.categories.minestuck");
 	public static final KeyBinding swapOffhandStrifeKey = new KeyBinding("key.swapOffhandStrife", Keyboard.KEY_NONE, "key.categories.minestuck");
+	private static Boolean offhandMode = null;
 
 	public static void register()
 	{
@@ -34,27 +35,26 @@ public class MSKeyHandler
 		ClientRegistry.registerKeyBinding(swapOffhandStrifeKey);
 	}
 
-	private static Boolean offhandMode = null;
 	@SubscribeEvent
 	public static void onInput(InputEvent event)
 	{
 		EntityPlayerSP player = Minecraft.getMinecraft().player;
-		if(player == null)
+		if (player == null)
 			return;
 
 		boolean strifeKeyDown = strifeKey.isKeyDown();
 		boolean swapStrifeKeyDown = swapOffhandStrifeKey.isKeyDown();
 
 		boolean strifePressed = offhandMode == null ? (strifeKeyDown || swapStrifeKeyDown) : offhandMode ? swapStrifeKeyDown : strifeKeyDown;
-		if(strifePressed)
+		if (strifePressed)
 		{
-			if(offhandMode == null)
+			if (offhandMode == null)
 			{
 				offhandMode = !(!swapStrifeKeyDown && strifeKeyDown);
 				GuiStrifeSwitcher.offhandMode = offhandMode;
-				if(offhandMode || (player.getHeldItemMainhand().isEmpty() || StrifeEventHandler.isStackAssigned(player.getHeldItemMainhand()) || StrifeEventHandler.isStackAssigned(player.getHeldItemOffhand())))
+				if (offhandMode || (player.getHeldItemMainhand().isEmpty() || StrifeEventHandler.isStackAssigned(player.getHeldItemMainhand()) || StrifeEventHandler.isStackAssigned(player.getHeldItemOffhand())))
 					GuiStrifeSwitcher.showSwitcher = true;
-				else if(!player.getHeldItemMainhand().isEmpty() && !player.getCapability(MinestuckCapabilities.STRIFE_DATA, null).isArmed())
+				else if (!player.getHeldItemMainhand().isEmpty() && !player.getCapability(MinestuckCapabilities.STRIFE_DATA, null).isArmed())
 				{
 					MinestuckNetwork.sendToServer(new MessageStrifeAssignRequest(EnumHand.MAIN_HAND));
 				}

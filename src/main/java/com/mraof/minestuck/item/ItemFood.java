@@ -17,42 +17,29 @@ public class ItemFood extends net.minecraft.item.ItemFood implements IRegistryIt
 {
 	protected final FoodItemConsumer consumer;
 	private final String regName;
-	public ItemFood(String name, int amount, float saturation, boolean isWolfFood, FoodItemConsumer consumer)
-	{
-		super(amount, saturation, isWolfFood);
-		this.consumer = consumer;
-		
-		setCreativeTab(MinestuckTabs.minestuck);
-		
-		setUnlocalizedName(name);
-		regName = IRegistryObject.unlocToReg(name);
-		MinestuckItems.items.add(this);
-	}
-	
+
 	public ItemFood(String name, int amount, float saturation, boolean isWolfFood)
 	{
 		this(name, amount, saturation, isWolfFood, null);
 	}
-	
-	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+
+	public ItemFood(String name, int amount, float saturation, boolean isWolfFood, FoodItemConsumer consumer)
 	{
-		ItemStack oldStack = stack.copy();
-		ItemStack result = super.onItemUseFinish(stack, worldIn, entityLiving);
-		if(consumer != null && entityLiving instanceof EntityPlayer)
-		{
-			ItemStack consumerResult = consumer.accept(oldStack, worldIn, (EntityPlayer) entityLiving);
-			if(consumerResult != null)
-				return consumerResult;
-		}
-		return result;
+		super(amount, saturation, isWolfFood);
+		this.consumer = consumer;
+
+		setCreativeTab(MinestuckTabs.minestuck);
+
+		setUnlocalizedName(name);
+		regName = IRegistryObject.unlocToReg(name);
+		MinestuckItems.items.add(this);
 	}
 
 	public static FoodItemConsumer getPopBallConsumer()
 	{
 		return (stack, worldIn, player) ->
 		{
-			if(!worldIn.isRemote)
+			if (!worldIn.isRemote)
 			{
 				int eightBallMessage = worldIn.rand.nextInt(20);
 				ITextComponent msg = new TextComponentTranslation("status.eightBallMessage." + eightBallMessage).setStyle(new Style().setColor(TextFormatting.BLUE).setItalic(true));
@@ -60,6 +47,27 @@ public class ItemFood extends net.minecraft.item.ItemFood implements IRegistryIt
 			}
 			return null;
 		};
+	}
+
+	@Override
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+	{
+		ItemStack oldStack = stack.copy();
+		ItemStack result = super.onItemUseFinish(stack, worldIn, entityLiving);
+		if (consumer != null && entityLiving instanceof EntityPlayer)
+		{
+			ItemStack consumerResult = consumer.accept(oldStack, worldIn, (EntityPlayer) entityLiving);
+			if (consumerResult != null)
+				return consumerResult;
+		}
+		return result;
+	}
+
+	public ItemFood setPotionEffect(PotionEffect effect, float probability)
+	{
+		//this.potionId = effect;
+		//this.potionEffectProbability = probability;
+		return this;
 	}
 
 	@Override
@@ -72,12 +80,5 @@ public class ItemFood extends net.minecraft.item.ItemFood implements IRegistryIt
 	public interface FoodItemConsumer
 	{
 		ItemStack accept(ItemStack stack, World worldIn, EntityPlayer player);
-	}
-
-	public ItemFood setPotionEffect(PotionEffect effect, float probability)
-	{
-		//this.potionId = effect;
-		//this.potionEffectProbability = probability;
-		return this;
 	}
 }

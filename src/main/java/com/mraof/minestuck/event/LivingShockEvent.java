@@ -10,8 +10,8 @@ public class LivingShockEvent extends Event
 	protected final EntityLivingBase target;
 	protected final EntityLivingBase source;
 	protected final int ogTime;
-	protected int time;
 	protected final float ogDamage;
+	protected int time;
 	protected float damage;
 
 	public LivingShockEvent(EntityLivingBase target, EntityLivingBase player, int time, float damage)
@@ -30,35 +30,43 @@ public class LivingShockEvent extends Event
 		return true;
 	}
 
-	public EntityLivingBase getSource() {
+	public EntityLivingBase getSource()
+	{
 		return source;
 	}
 
-	public EntityLivingBase getTarget() {
+	public EntityLivingBase getTarget()
+	{
 		return target;
 	}
 
-	public float getDamage() {
+	public float getDamage()
+	{
 		return damage;
 	}
 
-	public float getOriginalDamage() {
-		return ogDamage;
-	}
-
-	public int getTime() {
-		return time;
-	}
-
-	public int getOriginalTime() {
-		return ogTime;
-	}
-
-	public void setDamage(float damage) {
+	public void setDamage(float damage)
+	{
 		this.damage = damage;
 	}
 
-	public void setTime(int time) {
+	public float getOriginalDamage()
+	{
+		return ogDamage;
+	}
+
+	public int getTime()
+	{
+		return time;
+	}
+
+	public void setTime(int time)
+	{
 		this.time = time;
+	}
+
+	public int getOriginalTime()
+	{
+		return ogTime;
 	}
 }

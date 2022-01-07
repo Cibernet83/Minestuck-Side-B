@@ -19,9 +19,8 @@ public class GuiTransportalizer extends GuiScreen
 
 	private static final int guiWidth = 126;
 	private static final int guiHeight = 98;
-
-	private Minecraft mc;
 	TileEntityTransportalizer te;
+	private Minecraft mc;
 	private GuiTextField destinationTextField;
 	private GuiButton doneButton;
 
@@ -35,18 +34,6 @@ public class GuiTransportalizer extends GuiScreen
 	}
 
 	@Override
-	public void initGui()
-	{
-		int yOffset = (this.height / 2) - (guiHeight / 2);
-		this.destinationTextField = new GuiTextField(0, this.fontRenderer, this.width / 2 - 20, yOffset + 25, 40, 20);
-		this.destinationTextField.setMaxStringLength(4);
-		this.destinationTextField.setFocused(true);
-		this.destinationTextField.setText(this.te.getDestId());
-		
-		this.doneButton = new GuiButton(0, this.width / 2 - 20, yOffset + 50, 40, 20, I18n.format("gui.done"));
-		this.buttonList.add(doneButton);
-	}
-	@Override
 	public void drawScreen(int x, int y, float f1)
 	{
 		this.drawDefaultBackground();
@@ -58,6 +45,7 @@ public class GuiTransportalizer extends GuiScreen
 		this.destinationTextField.drawTextBox();
 		super.drawScreen(x, y, f1);
 	}
+
 	/**
 	 * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
 	 */
@@ -84,12 +72,25 @@ public class GuiTransportalizer extends GuiScreen
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		if(button.id == 0 && this.destinationTextField.getText().length() == 4)
+		if (button.id == 0 && this.destinationTextField.getText().length() == 4)
 		{
 			//Debug.print("Sending transportalizer packet with destination of " + this.destinationTextField.getText());
 			MinestuckNetwork.sendToServer(new MessageTransportalizerDestIdRequest(te, this.destinationTextField.getText().toUpperCase()));
 			this.mc.displayGuiScreen(null);
 		}
+	}
+
+	@Override
+	public void initGui()
+	{
+		int yOffset = (this.height / 2) - (guiHeight / 2);
+		this.destinationTextField = new GuiTextField(0, this.fontRenderer, this.width / 2 - 20, yOffset + 25, 40, 20);
+		this.destinationTextField.setMaxStringLength(4);
+		this.destinationTextField.setFocused(true);
+		this.destinationTextField.setText(this.te.getDestId());
+
+		this.doneButton = new GuiButton(0, this.width / 2 - 20, yOffset + 50, 40, 20, I18n.format("gui.done"));
+		this.buttonList.add(doneButton);
 	}
 
 }

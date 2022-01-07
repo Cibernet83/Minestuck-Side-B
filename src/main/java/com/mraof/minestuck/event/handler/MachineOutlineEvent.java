@@ -1,7 +1,6 @@
 package com.mraof.minestuck.event.handler;
 
 import com.mraof.minestuck.badges.MinestuckBadges;
-import com.mraof.minestuck.block.BlockSburbMachine;
 import com.mraof.minestuck.block.MSFacingBase;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import net.minecraft.block.state.IBlockState;
@@ -37,7 +36,7 @@ public class MachineOutlineEvent
 				//facing = mc.player.getHorizontalFacing().getOpposite();
 				ItemStack stack = mc.player.getHeldItemMainhand();
 
-				((MSFacingBase)state.getBlock()).renderCheckItem(mc.player, stack, event.getContext(), rayTraceResult, event.getPartialTicks(), facing);
+				((MSFacingBase) state.getBlock()).renderCheckItem(mc.player, stack, event.getContext(), rayTraceResult, event.getPartialTicks(), facing);
 			}
 		}
 	}

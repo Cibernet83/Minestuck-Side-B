@@ -10,10 +10,10 @@ public class MessageResetCooldown implements MinestuckMessage
 	public MessageResetCooldown() { }
 
 	@Override
-	public void toBytes(ByteBuf buf) { }
+	public void fromBytes(ByteBuf buf) { }
 
 	@Override
-	public void fromBytes(ByteBuf buf) { }
+	public void toBytes(ByteBuf buf) { }
 
 	@Override
 	public void execute(EntityPlayer player)
@@ -22,7 +22,8 @@ public class MessageResetCooldown implements MinestuckMessage
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.CLIENT;
 	}
 }

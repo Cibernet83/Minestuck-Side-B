@@ -30,24 +30,6 @@ public class GuiGristSelector extends GuiScreenMinestuck
 		this.owner = owner;
 	}
 
-	/**
-	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
-	 * window resizes, the buttonList is cleared beforehand.
-	 */
-	@Override
-	public void initGui()
-	{
-		super.initGui();
-		int xOffset = (width - guiWidth) / 2;
-		int yOffset = (height - guiHeight) / 2;
-		this.previousButton = new GuiButtonExt(1, (this.width) + 8, yOffset + 8, 16, 16, "<");
-		this.nextButton = new GuiButtonExt(2, xOffset + guiWidth - 24, yOffset + 8, 16, 16, ">");
-		if(Grist.REGISTRY.getValues().size() > rows * columns)
-		{
-			this.buttonList.add(this.nextButton);
-		}
-	}
-
 	@Override
 	public void drawScreen(int xcor, int ycor, float par3)
 	{
@@ -72,7 +54,7 @@ public class GuiGristSelector extends GuiScreenMinestuck
 		GlStateManager.disableDepth();
 
 		this.drawGrist(xOffset, yOffset, xcor, ycor, page);
-		
+
 /*		if (tooltip != -1)
 			if(tooltip % 2 == 0)
 				drawHoveringText(Arrays.asList(I18n.format("grist.format", GristType.values()[tooltip/2].getDisplayName())),
@@ -104,7 +86,7 @@ public class GuiGristSelector extends GuiScreenMinestuck
 				{
 					owner.select(type);
 
-					if(mc.currentScreen != this)
+					if (mc.currentScreen != this)
 						mc.currentScreen.setWorldAndResolution(mc, width, height);
 
 					break;
@@ -114,18 +96,11 @@ public class GuiGristSelector extends GuiScreenMinestuck
 		}
 	}
 
-	@Override
-	public void onGuiClosed()
-	{
-		owner.cancel();
-		mc.player.closeScreen();
-	}
-
 	protected boolean isPointInRegion(int regionX, int regionY, int regionWidth, int regionHeight, int pointX, int pointY)
 	{
 		return pointX >= regionX && pointX < regionX + regionWidth && pointY >= regionY && pointY < regionY + regionHeight;
 	}
-	
+
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
@@ -133,22 +108,51 @@ public class GuiGristSelector extends GuiScreenMinestuck
 		if (button == previousButton && page > 0)
 		{
 			page--;
-			if(page == 0) {
+			if (page == 0)
+			{
 				this.buttonList.remove(previousButton);
 			}
-			if(!this.buttonList.contains(nextButton)) {
+			if (!this.buttonList.contains(nextButton))
+			{
 				this.addButton(nextButton);
 			}
 		}
 		else if (button == nextButton && page < maxPage)
 		{
 			page++;
-			if(page == maxPage) {
+			if (page == maxPage)
+			{
 				this.buttonList.remove(nextButton);
 			}
-			if(!this.buttonList.contains(previousButton)) {
+			if (!this.buttonList.contains(previousButton))
+			{
 				this.addButton(previousButton);
 			}
 		}
+	}
+
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+	 * window resizes, the buttonList is cleared beforehand.
+	 */
+	@Override
+	public void initGui()
+	{
+		super.initGui();
+		int xOffset = (width - guiWidth) / 2;
+		int yOffset = (height - guiHeight) / 2;
+		this.previousButton = new GuiButtonExt(1, (this.width) + 8, yOffset + 8, 16, 16, "<");
+		this.nextButton = new GuiButtonExt(2, xOffset + guiWidth - 24, yOffset + 8, 16, 16, ">");
+		if (Grist.REGISTRY.getValues().size() > rows * columns)
+		{
+			this.buttonList.add(this.nextButton);
+		}
+	}
+
+	@Override
+	public void onGuiClosed()
+	{
+		owner.cancel();
+		mc.player.closeScreen();
 	}
 }

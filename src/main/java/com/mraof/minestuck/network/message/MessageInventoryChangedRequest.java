@@ -16,12 +16,6 @@ public class MessageInventoryChangedRequest implements MinestuckMessage
 	{
 		this.increase = increase;
 	}
-	
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeBoolean(increase);
-	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
@@ -30,10 +24,16 @@ public class MessageInventoryChangedRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeBoolean(increase);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(player.openContainer instanceof ContainerEditmode)
-			((ContainerEditmode)player.openContainer).updateScroll(increase);
+		if (player.openContainer instanceof ContainerEditmode)
+			((ContainerEditmode) player.openContainer).updateScroll(increase);
 	}
 
 	@Override

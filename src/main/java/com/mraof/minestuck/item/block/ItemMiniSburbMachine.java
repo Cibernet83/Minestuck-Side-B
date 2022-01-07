@@ -19,28 +19,28 @@ public class ItemMiniSburbMachine extends MSItemBlock
 	{
 		super(block);
 	}
-	
-	@Override
-	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState)
-	{
-		if(super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState))
-		{
-			if(Block.getBlockFromItem(stack.getItem()) instanceof BlockMiniCruxtruder && stack.hasTagCompound() && stack.getTagCompound().hasKey("color"))
-			{
-				TileEntity te = world.getTileEntity(pos);
-				if(te instanceof TileEntityMiniSburbMachine)
-					((TileEntityMiniSburbMachine)te).color = stack.getTagCompound().getInteger("color");
-			}
-			return true;
-		}
-		return false;
-	}
-	
+
 	public static ItemStack getCruxtruderWithColor(int color)
 	{
 		ItemStack stack = new ItemStack(MinestuckBlocks.miniCruxtruder, 1);
 		stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setInteger("color", color);
 		return stack;
+	}
+
+	@Override
+	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState)
+	{
+		if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState))
+		{
+			if (Block.getBlockFromItem(stack.getItem()) instanceof BlockMiniCruxtruder && stack.hasTagCompound() && stack.getTagCompound().hasKey("color"))
+			{
+				TileEntity te = world.getTileEntity(pos);
+				if (te instanceof TileEntityMiniSburbMachine)
+					((TileEntityMiniSburbMachine) te).color = stack.getTagCompound().getInteger("color");
+			}
+			return true;
+		}
+		return false;
 	}
 }

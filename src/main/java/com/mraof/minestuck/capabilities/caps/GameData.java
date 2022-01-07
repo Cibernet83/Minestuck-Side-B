@@ -21,24 +21,27 @@ public class GameData implements IGameData
 	{
 		return itemVoid;
 	}
+
 	public static void addItemToVoid(ItemStack itemStack)
 	{
 		itemVoid.addItem(itemStack);
 	}
 
+	public static void setJujuSpawned(Item juju, boolean spawned)
+	{
+		if (spawned)
+		{
+			if (!hasJujuSpawned(juju))
+				jujuSpawns.add(juju);
+		}
+		else if (hasJujuSpawned(juju))
+			jujuSpawns.remove(juju);
+
+	}
+
 	public static boolean hasJujuSpawned(Item juju)
 	{
 		return jujuSpawns.contains(juju);
-	}
-	public static void setJujuSpawned(Item juju, boolean spawned)
-	{
-		if(spawned)
-		{
-			if(!hasJujuSpawned(juju))
-				jujuSpawns.add(juju);
-		} else if(hasJujuSpawned(juju))
-			jujuSpawns.remove(juju);
-
 	}
 
 	@Override
@@ -48,9 +51,9 @@ public class GameData implements IGameData
 		nbt.setTag("ItemVoid", itemVoid.saveInventoryToNBT());
 
 		NBTTagList jujuNbt = new NBTTagList();
-		if(!jujuSpawns.isEmpty())
+		if (!jujuSpawns.isEmpty())
 		{
-			for(Item i : jujuSpawns)
+			for (Item i : jujuSpawns)
 			{
 				NBTTagCompound itemNbt = new NBTTagCompound();
 				itemNbt.setString("id", i.getRegistryName().toString());

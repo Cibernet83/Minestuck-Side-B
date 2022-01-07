@@ -22,18 +22,18 @@ public class LocalChatEventHandler
 	@SubscribeEvent
 	public static void onChat(ServerChatEvent event)
 	{
-		if(!MinestuckConfig.localizedChat)
+		if (!MinestuckConfig.localizedChat)
 			return;
 
 		World world = event.getPlayer().world;
 		EntityPlayer player = world.getPlayerEntityByUUID(event.getPlayer().getCommandSenderEntity().getUniqueID());
 		boolean canSenderGab = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null) != null && player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.GIFT_OF_GAB);
 
-		for(EntityPlayer receiver : world.getMinecraftServer().getPlayerList().getPlayers())
+		for (EntityPlayer receiver : world.getMinecraftServer().getPlayerList().getPlayers())
 		{
 			boolean canReceiverGab = receiver.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null) != null && receiver.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.GIFT_OF_GAB);
 
-			if(receiver == player || (canSenderGab && canReceiverGab) || (!canSenderGab && player.getDistanceSq(receiver) < 128 && player.world.provider.getDimension() == receiver.world.provider.getDimension()))
+			if (receiver == player || (canSenderGab && canReceiverGab) || (!canSenderGab && player.getDistanceSq(receiver) < 128 && player.world.provider.getDimension() == receiver.world.provider.getDimension()))
 				receiver.sendStatusMessage(event.getComponent(), false);
 		}
 
@@ -44,31 +44,34 @@ public class LocalChatEventHandler
 	@SubscribeEvent
 	public static void onCommandSent(CommandEvent event)
 	{
-		if(!MinestuckConfig.localizedChat)
+		if (!MinestuckConfig.localizedChat)
 			return;
 
 		World world = event.getSender().getEntityWorld();
 		EntityPlayer player = world.getPlayerEntityByUUID(event.getSender().getCommandSenderEntity().getUniqueID());
 		boolean canSenderGab = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null) != null && player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.GIFT_OF_GAB);
 
-		if(!canSenderGab && event.getCommand() instanceof CommandEmote)
+		if (!canSenderGab && event.getCommand() instanceof CommandEmote)
 		{
 			TextComponentTranslation msg = new TextComponentTranslation("commands.generic.permission");
 			msg.getStyle().setColor(TextFormatting.RED);
 			event.getSender().sendMessage(msg);
 			event.setCanceled(true);
 		}
-		else if(event.getCommand() instanceof CommandMessage)
+		else if (event.getCommand() instanceof CommandMessage)
 		{
 			EntityPlayer receiver;
 
-			try { receiver = CommandBase.getPlayer(event.getSender().getServer(), event.getSender(), event.getParameters()[0]); }
+			try
+			{
+				receiver = CommandBase.getPlayer(event.getSender().getServer(), event.getSender(), event.getParameters()[0]);
+			}
 			catch (Throwable throwable) { return; }
 
 
 			boolean canReceiverGab = receiver.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null) != null && receiver.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.GIFT_OF_GAB);
 
-			if(!(receiver == player || (canSenderGab && canReceiverGab) || (!canSenderGab && player.getDistanceSq(receiver) < 128 && player.world.provider.getDimension() == receiver.world.provider.getDimension())))
+			if (!(receiver == player || (canSenderGab && canReceiverGab) || (!canSenderGab && player.getDistanceSq(receiver) < 128 && player.world.provider.getDimension() == receiver.world.provider.getDimension())))
 			{
 				TextComponentTranslation msg = new TextComponentTranslation("commands.localizedChat.outOfReach", player.getDisplayName());
 				msg.getStyle().setColor(TextFormatting.RED);

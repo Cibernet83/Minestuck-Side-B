@@ -23,131 +23,138 @@ import java.util.List;
 
 public class ItemDualClaw extends MSWeaponBase
 {
-    public double damage;
-    public double damageSheathed;
-    public double attackSpeed;
-    public double attackSpeedSheathed;
+	protected final ArrayList<WeaponProperty> sheathedProperties = new ArrayList<>();
+	public double damage;
+	public double damageSheathed;
+	public double attackSpeed;
+	public double attackSpeedSheathed;
 
-    protected final ArrayList<WeaponProperty> sheathedProperties = new ArrayList<>();
+	public ItemDualClaw(String name, int maxUses, double damageVsEntity, double damagedVsEntityWhileShiethed, double weaponSpeed, double weaponSpeedWhileShiethed, int enchantability)
+	{
+		super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
+		this.damage = damageVsEntity;
+		this.damageSheathed = damagedVsEntityWhileShiethed;
+		this.attackSpeed = weaponSpeed;
+		this.attackSpeedSheathed = weaponSpeedWhileShiethed;
 
-    public ItemDualClaw(String name, int maxUses, double damageVsEntity, double damagedVsEntityWhileShiethed, double weaponSpeed, double weaponSpeedWhileShiethed, int enchantability) {
-        super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
-        this.damage = damageVsEntity;
-        this.damageSheathed = damagedVsEntityWhileShiethed;
-        this.attackSpeed = weaponSpeed;
-        this.attackSpeedSheathed = weaponSpeedWhileShiethed;
+		this.addProperties(new PropertySweep(), new PropertyDualWield());
+		addPropertyOverride(new ResourceLocation(Minestuck.MODID, "sheathed"), ((stack, worldIn, entityIn) -> isDrawn(stack) ? 0 : 1));
+	}
 
-        this.addProperties(new PropertySweep(), new PropertyDualWield());
-        addPropertyOverride(new ResourceLocation(Minestuck.MODID, "sheathed"), ((stack, worldIn, entityIn) -> isDrawn(stack) ? 0 : 1));
-    }
+	public static boolean isDrawn(ItemStack itemStack)
+	{
+		return checkTagCompound(itemStack).getBoolean("IsDrawn");
+	}
 
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-    {
-        ItemStack stack = playerIn.getHeldItem(handIn);
-        if(!playerIn.isSneaking())
-            return new ActionResult(EnumActionResult.PASS, stack);
+	public static NBTTagCompound checkTagCompound(ItemStack stack)
+	{
+		NBTTagCompound tagCompound = stack.getTagCompound();
+		if (tagCompound == null)
+		{
+			tagCompound = new NBTTagCompound();
+			stack.setTagCompound(tagCompound);
+		}
 
-        EnumHand otherHand = handIn == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
-        ItemStack otherStack = playerIn.getHeldItem(otherHand);
+		if (!tagCompound.hasKey("IsDrawn"))
+		{
+			tagCompound.setBoolean("IsDrawn", true);
+		}
 
-        if(otherStack.getItem() instanceof ItemDualClaw)
-            draw(playerIn, otherStack, !isDrawn(otherStack));
-        draw(playerIn, stack, !isDrawn(stack));
-        return new ActionResult(EnumActionResult.SUCCESS, stack);
-    }
+		return tagCompound;
+	}
 
-    public static boolean isDrawn(ItemStack itemStack) {
-        return checkTagCompound(itemStack).getBoolean("IsDrawn");
-    }
+	@Override
+	public MSWeaponBase addProperties(WeaponProperty... properties)
+	{
+		List<WeaponProperty> propertiesList = sheathedProperties;
+		for (WeaponProperty p : properties)
+		{
+			for (WeaponProperty p1 : propertiesList)
+				if (!p.compatibleWith(p1))
+					throw new IllegalArgumentException("Property " + p1 + " is not compatible with " + p);
 
-    public static NBTTagCompound checkTagCompound(ItemStack stack) {
-        NBTTagCompound tagCompound = stack.getTagCompound();
-        if (tagCompound == null) {
-            tagCompound = new NBTTagCompound();
-            stack.setTagCompound(tagCompound);
-        }
+			propertiesList.add(p);
+		}
+		return super.addProperties(properties);
+	}
 
-        if (!tagCompound.hasKey("IsDrawn")) {
-            tagCompound.setBoolean("IsDrawn", true);
-        }
+	@Override
+	public List<WeaponProperty> getProperties(ItemStack stack)
+	{
+		return isDrawn(stack) ? super.getProperties() : sheathedProperties;
+	}
 
-        return tagCompound;
-    }
+	public static void draw(EntityPlayer player, ItemStack stack, boolean draw)
+	{
+		NBTTagCompound tagCompound = checkTagCompound(stack);
+		tagCompound.setBoolean("IsDrawn", draw);
 
-    public double getAttackDamage(ItemStack stack) {
-        double dmg = isDrawn(stack) ? this.damage : this.damageSheathed;
+		if (stack.getItem() instanceof ItemDualClaw)
+		{
+			((ItemDualClaw) stack.getItem()).getProperties(stack).forEach(p ->
+			{
+				if (p instanceof IPropertyClaw)
+					((IPropertyClaw) p).onStateChange(player, stack, draw);
+			});
+		}
+	}
 
-        for (WeaponProperty p : properties)
-            dmg = p.getAttackDamage(stack, dmg);
+	public double getAttackDamage(ItemStack stack)
+	{
+		double dmg = isDrawn(stack) ? this.damage : this.damageSheathed;
 
-        return dmg;
-    }
+		for (WeaponProperty p : properties)
+			dmg = p.getAttackDamage(stack, dmg);
 
-    public double getAttackSpeed(ItemStack stack) {
-        return this.isDrawn(stack) ? this.attackSpeed : this.attackSpeedSheathed;
-    }
+		return dmg;
+	}
 
-    public static void draw(EntityPlayer player, ItemStack stack, boolean draw)
-    {
-        NBTTagCompound tagCompound = checkTagCompound(stack);
-        tagCompound.setBoolean("IsDrawn", draw);
+	public double getAttackSpeed(ItemStack stack)
+	{
+		return isDrawn(stack) ? this.attackSpeed : this.attackSpeedSheathed;
+	}
 
-        if(stack.getItem() instanceof ItemDualClaw)
-        {
-        	((ItemDualClaw) stack.getItem()).getProperties(stack).forEach(p ->
-	        {
-	        	if(p instanceof IPropertyClaw)
-	        		((IPropertyClaw) p).onStateChange(player, stack, draw);
-	        });
-        }
-    }
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
+		ItemStack stack = playerIn.getHeldItem(handIn);
+		if (!playerIn.isSneaking())
+			return new ActionResult(EnumActionResult.PASS, stack);
 
-    @Override
-    public MSWeaponBase addProperties(WeaponProperty... properties)
-    {
-        List<WeaponProperty> propertiesList = sheathedProperties;
-        for(WeaponProperty p : properties)
-        {
-            for (WeaponProperty p1 : propertiesList)
-                if(!p.compatibleWith(p1))
-                    throw new IllegalArgumentException("Property " + p1 + " is not compatible with " + p);
+		EnumHand otherHand = handIn == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
+		ItemStack otherStack = playerIn.getHeldItem(otherHand);
 
-            propertiesList.add(p);
-        }
-        return super.addProperties(properties);
-    }
+		if (otherStack.getItem() instanceof ItemDualClaw)
+			draw(playerIn, otherStack, !isDrawn(otherStack));
+		draw(playerIn, stack, !isDrawn(stack));
+		return new ActionResult(EnumActionResult.SUCCESS, stack);
+	}
 
-    public MSWeaponBase addProperties(boolean drawn, WeaponProperty... properties)
-    {
-        List<WeaponProperty> propertiesList = (drawn ? getProperties() : sheathedProperties);
-        for(WeaponProperty p : properties)
-        {
-            for (WeaponProperty p1 : propertiesList)
-                if(!p.compatibleWith(p1))
-                    throw new IllegalArgumentException("Property " + p1 + " is not compatible with " + p);
+	public MSWeaponBase addProperties(boolean drawn, WeaponProperty... properties)
+	{
+		List<WeaponProperty> propertiesList = (drawn ? getProperties() : sheathedProperties);
+		for (WeaponProperty p : properties)
+		{
+			for (WeaponProperty p1 : propertiesList)
+				if (!p.compatibleWith(p1))
+					throw new IllegalArgumentException("Property " + p1 + " is not compatible with " + p);
 
-            propertiesList.add(p);
-        }
+			propertiesList.add(p);
+		}
 
-        return this;
-    }
+		return this;
+	}
 
-    @Override
-    public List<WeaponProperty> getProperties(ItemStack stack) {
-        return isDrawn(stack) ? super.getProperties() : sheathedProperties;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerModel()
-    {
-        super.registerModel();
-        String sheathed = getRegistryName().getResourcePath() + "_sheathed";
-        String drawn = getRegistryName().getResourcePath() + "_drawn";
-        ModelLoader.registerItemVariants(this,
-                new ResourceLocation(Minestuck.MODID, sheathed),
-                new ResourceLocation(Minestuck.MODID, drawn));
-        ModelLoader.setCustomMeshDefinition(this, (ItemStack stack) -> new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, isDrawn(stack) ? drawn : sheathed), "inventory"));
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerModel()
+	{
+		super.registerModel();
+		String sheathed = getRegistryName().getResourcePath() + "_sheathed";
+		String drawn = getRegistryName().getResourcePath() + "_drawn";
+		ModelLoader.registerItemVariants(this,
+				new ResourceLocation(Minestuck.MODID, sheathed),
+				new ResourceLocation(Minestuck.MODID, drawn));
+		ModelLoader.setCustomMeshDefinition(this, (ItemStack stack) -> new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, isDrawn(stack) ? drawn : sheathed), "inventory"));
+	}
 }

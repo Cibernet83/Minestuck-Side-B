@@ -14,6 +14,12 @@ public class TileEntityMiniCruxtruder extends TileEntityMiniSburbMachine
 	}
 
 	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack)
+	{
+		return i == 0 && itemstack.getItem() == MinestuckItems.rawCruxite;
+	}
+
+	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound)
 	{
 		super.writeToNBT(tagCompound);
@@ -22,17 +28,10 @@ public class TileEntityMiniCruxtruder extends TileEntityMiniSburbMachine
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack)
+	public boolean contentsValid()
 	{
-		return i == 0 && itemstack.getItem() == MinestuckItems.rawCruxite;
-	}
-
-	@Override
-	public int[] getSlotsForFace(EnumFacing side)
-	{
-		if (side == EnumFacing.DOWN)
-			return new int[]{1};
-		else return new int[]{0};
+		ItemStack stack1 = this.inv.get(1);
+		return (!world.isBlockPowered(this.getPos()) && !this.inv.get(0).isEmpty() && (stack1.isEmpty() || stack1.getCount() < stack1.getMaxStackSize() && stack1.getItemDamage() == this.color + 1));
 	}
 
 	@Override
@@ -49,10 +48,11 @@ public class TileEntityMiniCruxtruder extends TileEntityMiniSburbMachine
 	}
 
 	@Override
-	public boolean contentsValid()
+	public int[] getSlotsForFace(EnumFacing side)
 	{
-		ItemStack stack1 = this.inv.get(1);
-		return (!world.isBlockPowered(this.getPos()) && !this.inv.get(0).isEmpty() && (stack1.isEmpty() || stack1.getCount() < stack1.getMaxStackSize() && stack1.getItemDamage() == this.color + 1));
+		if (side == EnumFacing.DOWN)
+			return new int[]{1};
+		else return new int[]{0};
 	}
 
 	@Override

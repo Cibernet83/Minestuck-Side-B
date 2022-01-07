@@ -36,9 +36,6 @@ import java.util.*;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class GodTierData implements IGodTierData
 {
-	private int staticKarma = 0;
-	private float tempKarma = 0;
-
 	private final HashMap<SkillType, SkillData> godTierXp = new HashMap<SkillType, SkillData>()
 	{{
 		put(SkillType.GENERAL, new SkillData(SkillType.GENERAL, 1));
@@ -47,8 +44,9 @@ public class GodTierData implements IGodTierData
 		put(SkillType.SPEED, new SkillData(SkillType.SPEED, 0.05));
 		put(SkillType.LUCK, new SkillData(SkillType.LUCK, 0.5));
 	}};
-
 	private final TreeMap<Badge, Boolean> badges = new TreeMap<>();
+	private int staticKarma = 0;
+	private float tempKarma = 0;
 	private MasterBadge masterBadge = null;
 	private boolean isMasterBadgeEnabled = true;
 	private int maxBadges = 7;
@@ -64,25 +62,31 @@ public class GodTierData implements IGodTierData
 
 	private EntityPlayer owner;
 
+	@SubscribeEvent
+	public static void onPlayerRespawn(PlayerEvent.Clone event)
+	{
+		event.getEntity().getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).readFromNBT(event.getOriginal().getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).writeToNBT());
+	}
+
 	@Override
 	public boolean addBadge(Badge badge, boolean sendUpdate)
 	{
-		if(badge instanceof MasterBadge)
+		if (badge instanceof MasterBadge)
 		{
-			if(masterBadge != null)
+			if (masterBadge != null)
 				return false;
 			masterBadge = (MasterBadge) badge;
-			if(sendUpdate)
+			if (sendUpdate)
 				update();
 			badge.onBadgeUnlocked(owner.world, owner);
 			return true;
 		}
 
-		if(badge == null || badges.containsKey(badge) || getBadgesLeft() <= 0)
+		if (badge == null || badges.containsKey(badge) || getBadgesLeft() <= 0)
 			return false;
 
 		badges.put(badge, true);
-		if(sendUpdate)
+		if (sendUpdate)
 			update();
 		badge.onBadgeUnlocked(owner.world, owner);
 		return true;
@@ -91,7 +95,7 @@ public class GodTierData implements IGodTierData
 	@Override
 	public boolean hasBadge(Badge badge)
 	{
-		if(badge instanceof MasterBadge)
+		if (badge instanceof MasterBadge)
 			return badge == masterBadge || (isBadgeEnabled(MinestuckBadges.BADGE_OVERLORD));
 		return badges.containsKey(badge);
 	}
@@ -99,7 +103,7 @@ public class GodTierData implements IGodTierData
 	@Override
 	public boolean isBadgeActive(Badge badge)
 	{
-		if(badge instanceof MasterBadge && isBadgeActive(MinestuckBadges.BADGE_OVERLORD))
+		if (badge instanceof MasterBadge && isBadgeActive(MinestuckBadges.BADGE_OVERLORD))
 			return isBadgeEnabled(badge);
 		return !owner.isSpectator() && hasBadge(badge) && (!badge.canDisable() || (isBadgeEnabled(badge) && badge.canUse(owner.world, owner)));
 	}
@@ -113,9 +117,9 @@ public class GodTierData implements IGodTierData
 	@Override
 	public void setBadgeEnabled(Badge badge, boolean enabled)
 	{
-		if(!hasBadge(badge) || !badge.canDisable())
+		if (!hasBadge(badge) || !badge.canDisable())
 			return;
-		if(badge instanceof MasterBadge)
+		if (badge instanceof MasterBadge)
 			isMasterBadgeEnabled = enabled;
 		else badges.put(badge, enabled);
 	}
@@ -143,13 +147,13 @@ public class GodTierData implements IGodTierData
 	public void resetTitleBadges(boolean sendUpdate)
 	{
 		badges.keySet().removeIf((key) -> key instanceof BadgeHeroClass || key instanceof BadgeHeroAspect || key instanceof BadgeHeroAspectUtil);
-		if(sendUpdate) update();
+		if (sendUpdate) update();
 	}
 
 	@Override
 	public int getBadgesLeft()
 	{
-		return maxBadges-badges.size();
+		return maxBadges - badges.size();
 	}
 
 	@Override
@@ -187,37 +191,39 @@ public class GodTierData implements IGodTierData
 	{
 		resetSkills(sendUpdate);
 		godTierXp.get(SkillType.GENERAL).level = 1;
-		if(sendUpdate) update();
+		if (sendUpdate) update();
 	}
 
 	@Override
 	public String getGodTierTitle(Title title)
 	{
-		if(I18n.hasKey("godTierTitle."+title.getHeroClass().toString()+"."+title.getHeroAspect().toString()+"."+getSkillLevel(SkillType.GENERAL)))
-			return I18n.format("godTierTitle."+title.getHeroClass().toString()+"."+title.getHeroAspect().toString()+"."+getSkillLevel(SkillType.GENERAL));
+		if (I18n.hasKey("godTierTitle." + title.getHeroClass().toString() + "." + title.getHeroAspect().toString() + "." + getSkillLevel(SkillType.GENERAL)))
+			return I18n.format("godTierTitle." + title.getHeroClass().toString() + "." + title.getHeroAspect().toString() + "." + getSkillLevel(SkillType.GENERAL));
 
-		else if(I18n.hasKey("godTierTitle."+title.getHeroClass().toString()+"."+getSkillLevel(SkillType.GENERAL)))
-			return I18n.format("godTierTitle."+title.getHeroClass().toString()+"."+getSkillLevel(SkillType.GENERAL), title.getHeroAspect().getDisplayName());
+		else if (I18n.hasKey("godTierTitle." + title.getHeroClass().toString() + "." + getSkillLevel(SkillType.GENERAL)))
+			return I18n.format("godTierTitle." + title.getHeroClass().toString() + "." + getSkillLevel(SkillType.GENERAL), title.getHeroAspect().getDisplayName());
 
-		else if(I18n.hasKey("godTierTitle."+title.getHeroAspect().toString()+"."+getSkillLevel(SkillType.GENERAL)))
-			return I18n.format("godTierTitle."+title.getHeroAspect().toString()+"."+getSkillLevel(SkillType.GENERAL), title.getHeroClass().getDisplayName());
+		else if (I18n.hasKey("godTierTitle." + title.getHeroAspect().toString() + "." + getSkillLevel(SkillType.GENERAL)))
+			return I18n.format("godTierTitle." + title.getHeroAspect().toString() + "." + getSkillLevel(SkillType.GENERAL), title.getHeroClass().getDisplayName());
 
-		else if(I18n.hasKey("godTierTitle."+getSkillLevel(SkillType.GENERAL)))
-			return I18n.format("godTierTitle."+getSkillLevel(SkillType.GENERAL), title.getTitleName());
+		else if (I18n.hasKey("godTierTitle." + getSkillLevel(SkillType.GENERAL)))
+			return I18n.format("godTierTitle." + getSkillLevel(SkillType.GENERAL), title.getTitleName());
 
-		else if(getSkillLevel(SkillType.GENERAL) >= 8 && I18n.hasKey("godTierTitle."+title.getHeroAspect().toString()+".max"))
-			return I18n.format("godTierTitle."+title.getHeroAspect().toString()+".max", title.getHeroClass().getDisplayName());
+		else if (getSkillLevel(SkillType.GENERAL) >= 8 && I18n.hasKey("godTierTitle." + title.getHeroAspect().toString() + ".max"))
+			return I18n.format("godTierTitle." + title.getHeroAspect().toString() + ".max", title.getHeroClass().getDisplayName());
 
 		else return I18n.format("godTierTitle.default", title.getTitleName());
 	}
 
 	@Override
-	public boolean climbedTheSpire() {
+	public boolean climbedTheSpire()
+	{
 		return climbedTheSpire;
 	}
 
 	@Override
-	public void setClimbedTheSpire(boolean v) {
+	public void setClimbedTheSpire(boolean v)
+	{
 		climbedTheSpire = v;
 	}
 
@@ -237,10 +243,10 @@ public class GodTierData implements IGodTierData
 	public void increaseXp(SkillType type, float value)
 	{
 		godTierXp.get(type).addXp(value, getXpToNextLevel(type));
-		if(type != SkillType.GENERAL)
+		if (type != SkillType.GENERAL)
 			godTierXp.get(SkillType.GENERAL).addXp(value, getXpToNextLevel(type));
 
-		if(!hasBadge(MinestuckBadges.GIFT_OF_GAB) && getSkillLevel(SkillType.GENERAL) > 1)
+		if (!hasBadge(MinestuckBadges.GIFT_OF_GAB) && getSkillLevel(SkillType.GENERAL) > 1)
 			this.badges.put(MinestuckBadges.GIFT_OF_GAB, true);
 
 		update();
@@ -250,15 +256,15 @@ public class GodTierData implements IGodTierData
 	public void resetSkill(SkillType type, boolean sendUpdate)
 	{
 		godTierXp.get(type).reset();
-		if(sendUpdate) update();
+		if (sendUpdate) update();
 	}
 
 	@Override
 	public void resetSkills(boolean sendUpdate)
 	{
-		for(SkillType type : SkillType.values())
+		for (SkillType type : SkillType.values())
 			resetSkill(type, false);
-		if(sendUpdate) update();
+		if (sendUpdate) update();
 	}
 
 	@Override
@@ -271,24 +277,38 @@ public class GodTierData implements IGodTierData
 	public int getXpToNextLevel(SkillType type)
 	{
 		Title title = MinestuckPlayerData.getTitle(IdentifierHandler.encode(owner));
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
 			title = MinestuckPlayerData.clientData.title;
 
-		if(title == null)
+		if (title == null)
 			return 50;
 
-		int x = getSkillLevel(type)+1;
+		int x = getSkillLevel(type) + 1;
 
 		switch (title.getHeroClass())
 		{
-			case KNIGHT: case PRINCE: return (int) (Math.exp((x-1)*0.04)*50); //Exponential
-			case HEIR: case MAID: return (int) Math.min(2500, Math.pow(x-1, 2)+50); //Parabolic
-			case MUSE: case SEER: case MAGE: return (int) (4*Math.sin(x-1)+2*x)*5 + 50; //Fluctuating
-			case BARD: case WITCH: case SYLPH: return (int)(x * 12 + Math.sin(2*(x-1))*10 + 25); //Erratic
-			case THIEF: case ROGUE: return 10 * Math.min(x + (x%10), x + ((10-x)%10)) + 50; //Step
-			case PAGE: return 14*x + 50;
+			case KNIGHT:
+			case PRINCE:
+				return (int) (Math.exp((x - 1) * 0.04) * 50); //Exponential
+			case HEIR:
+			case MAID:
+				return (int) Math.min(2500, Math.pow(x - 1, 2) + 50); //Parabolic
+			case MUSE:
+			case SEER:
+			case MAGE:
+				return (int) (4 * Math.sin(x - 1) + 2 * x) * 5 + 50; //Fluctuating
+			case BARD:
+			case WITCH:
+			case SYLPH:
+				return (int) (x * 12 + Math.sin(2 * (x - 1)) * 10 + 25); //Erratic
+			case THIEF:
+			case ROGUE:
+				return 10 * Math.min(x + (x % 10), x + ((10 - x) % 10)) + 50; //Step
+			case PAGE:
+				return 14 * x + 50;
 			//case BARD: return (int) ((150*Math.sin(x)+180)+x*0.5);
-			case LORD: return 50*x;
+			case LORD:
+				return 50 * x;
 			//case MUSE: return Math.max(50, (int)(-x*0.8 + 250));
 		}
 
@@ -308,15 +328,15 @@ public class GodTierData implements IGodTierData
 	}
 
 	@Override
-	public int getStaticKarma()
-	{
-		return staticKarma;
-	}
-
-	@Override
 	public void setTempKarma(float tempKarma)
 	{
 		this.tempKarma = tempKarma;
+	}
+
+	@Override
+	public int getStaticKarma()
+	{
+		return staticKarma;
 	}
 
 	@Override
@@ -380,85 +400,26 @@ public class GodTierData implements IGodTierData
 	}
 
 	@Override
-	public EnumLunarSway getLunarSway() {
+	public EnumLunarSway getLunarSway()
+	{
 		return lunarSway;
 	}
 
 	@Override
-	public void setLunarSway(EnumLunarSway lunarSway) {
+	public void setLunarSway(EnumLunarSway lunarSway)
+	{
 		this.lunarSway = lunarSway;
 	}
 
 	@Override
-	public void setOwner(EntityPlayer owner)
+	public NBTTagCompound writeToNBT()
 	{
-		this.owner = owner;
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		this.staticKarma = nbt.getInteger("StaticKarma");
-		this.tempKarma = nbt.getFloat("TempKarma");
-
-		for(SkillData data : godTierXp.values())
-		{
-			NBTTagCompound skill = nbt.getCompoundTag(data.type.getName());
-			if(skill == null)
-				continue;
-
-			data.level = skill.getInteger("Level");
-			data.xp = skill.getFloat("Xp");
-		}
-
-		resetBadges();
-
-		if(nbt.hasKey("AllBadges"))
-			masterControl = nbt.getBoolean("AllBadges");
-		if(nbt.hasKey("MaxBadges"))
-			maxBadges = nbt.getInteger("MaxBadges");
-
-		NBTTagCompound badges = nbt.getCompoundTag("Badges");
-		for(int i = 0; i < maxBadges && badges.hasKey(String.valueOf(i)); i++)
-		{
-			NBTTagCompound badgeData = badges.getCompoundTag(String.valueOf(i));
-			Badge badge = MinestuckBadges.REGISTRY.getValue(new ResourceLocation(badgeData.getString("ID")));
-			if(badge != null)
-				this.badges.put(badge, badgeData.getBoolean("Enabled") || !badge.canDisable());
-		}
-		if(nbt.hasKey("MasterBadge"))
-		{
-			Badge badge = MinestuckBadges.REGISTRY.getValue(new ResourceLocation(nbt.getString("MasterBadge")));
-			if(badge instanceof MasterBadge)
-				masterBadge = (MasterBadge) badge;
-		}
-		if(nbt.hasKey("IsMasterEnabled"))
-			isMasterBadgeEnabled = nbt.getBoolean("IsMasterEnabled") || !masterBadge.canDisable();
-		if(nbt.hasKey("CanGodTier"))
-			canGodTier = nbt.getBoolean("CanGodTier");
-		if(nbt.hasKey("ClimbedTheSpire"))
-			climbedTheSpire = nbt.getBoolean("ClimbedTheSpire");
-
-		if(nbt.hasKey("GristHoardType"))
-			gristHoard = Grist.getTypeFromString(nbt.getString("GristHoardType"));
-
-		if(nbt.getInteger("ConsortType") != -1)
-			consortType = EnumConsort.values()[nbt.getInteger("ConsortType")];
-		if(nbt.getInteger("LunarSway") != -1)
-			lunarSway = EnumLunarSway.values()[nbt.getInteger("LunarSway")];
-
-		if(!hasBadge(MinestuckBadges.GIFT_OF_GAB) && getSkillLevel(SkillType.GENERAL) > 1)
-			this.badges.put(MinestuckBadges.GIFT_OF_GAB, true);
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 
 		nbt.setInteger("StaticKarma", staticKarma);
 		nbt.setFloat("TempKarma", tempKarma);
 
-		for(SkillData data : godTierXp.values())
+		for (SkillData data : godTierXp.values())
 		{
 			NBTTagCompound skill = new NBTTagCompound();
 			skill.setInteger("Level", data.level);
@@ -468,7 +429,7 @@ public class GodTierData implements IGodTierData
 
 		Iterator<Map.Entry<Badge, Boolean>> iter = badges.entrySet().iterator();
 		NBTTagCompound badges = new NBTTagCompound();
-		for(int i = 0; iter.hasNext(); i++)
+		for (int i = 0; iter.hasNext(); i++)
 		{
 			Map.Entry<Badge, Boolean> entry = iter.next();
 			NBTTagCompound badgeData = new NBTTagCompound();
@@ -477,14 +438,14 @@ public class GodTierData implements IGodTierData
 			badges.setTag(String.valueOf(i), badgeData);
 		}
 		nbt.setTag("Badges", badges);
-		if(masterBadge != null)
+		if (masterBadge != null)
 		{
 			nbt.setString("MasterBadge", masterBadge.getRegistryName().toString());
 			nbt.setBoolean("IsMasterEnabled", isMasterBadgeEnabled);
 		}
 
 		nbt.setInteger("ConsortType", consortType == null ? -1 : consortType.ordinal());
-		nbt.setInteger("LunarSway", lunarSway == null ? (int)Math.floor(Math.random()*EnumLunarSway.values().length) : lunarSway.ordinal());
+		nbt.setInteger("LunarSway", lunarSway == null ? (int) Math.floor(Math.random() * EnumLunarSway.values().length) : lunarSway.ordinal());
 
 		nbt.setString("GristHoardType", gristHoard.getRegistryName().toString());
 
@@ -493,40 +454,72 @@ public class GodTierData implements IGodTierData
 		nbt.setBoolean("ClimbedTheSpire", climbedTheSpire);
 		nbt.setInteger("MaxBadges", maxBadges);
 
-		if(reset)
+		if (reset)
 			nbt.setBoolean("Reset", true);
 
 		return nbt;
 	}
 
-	private static class SkillData
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
 	{
-		int level = 0;
-		float xp = 0;
-		double attributeMod;
-		final SkillType type;
+		this.staticKarma = nbt.getInteger("StaticKarma");
+		this.tempKarma = nbt.getFloat("TempKarma");
 
-		public SkillData(SkillType type, double attributeMod)
+		for (SkillData data : godTierXp.values())
 		{
-			this.type = type;
-			this.attributeMod = attributeMod;
+			NBTTagCompound skill = nbt.getCompoundTag(data.type.getName());
+			if (skill == null)
+				continue;
+
+			data.level = skill.getInteger("Level");
+			data.xp = skill.getFloat("Xp");
 		}
 
-		public void addXp(float v, float maxXp)
-		{
-			if(xp+v >= maxXp)
-			{
-				xp = xp+v-maxXp;
-				level++;
-			}
-			else xp += v;
-		}
+		resetBadges();
 
-		public void reset()
+		if (nbt.hasKey("AllBadges"))
+			masterControl = nbt.getBoolean("AllBadges");
+		if (nbt.hasKey("MaxBadges"))
+			maxBadges = nbt.getInteger("MaxBadges");
+
+		NBTTagCompound badges = nbt.getCompoundTag("Badges");
+		for (int i = 0; i < maxBadges && badges.hasKey(String.valueOf(i)); i++)
 		{
-			level = 0;
-			xp = 0;
+			NBTTagCompound badgeData = badges.getCompoundTag(String.valueOf(i));
+			Badge badge = MinestuckBadges.REGISTRY.getValue(new ResourceLocation(badgeData.getString("ID")));
+			if (badge != null)
+				this.badges.put(badge, badgeData.getBoolean("Enabled") || !badge.canDisable());
 		}
+		if (nbt.hasKey("MasterBadge"))
+		{
+			Badge badge = MinestuckBadges.REGISTRY.getValue(new ResourceLocation(nbt.getString("MasterBadge")));
+			if (badge instanceof MasterBadge)
+				masterBadge = (MasterBadge) badge;
+		}
+		if (nbt.hasKey("IsMasterEnabled"))
+			isMasterBadgeEnabled = nbt.getBoolean("IsMasterEnabled") || !masterBadge.canDisable();
+		if (nbt.hasKey("CanGodTier"))
+			canGodTier = nbt.getBoolean("CanGodTier");
+		if (nbt.hasKey("ClimbedTheSpire"))
+			climbedTheSpire = nbt.getBoolean("ClimbedTheSpire");
+
+		if (nbt.hasKey("GristHoardType"))
+			gristHoard = Grist.getTypeFromString(nbt.getString("GristHoardType"));
+
+		if (nbt.getInteger("ConsortType") != -1)
+			consortType = EnumConsort.values()[nbt.getInteger("ConsortType")];
+		if (nbt.getInteger("LunarSway") != -1)
+			lunarSway = EnumLunarSway.values()[nbt.getInteger("LunarSway")];
+
+		if (!hasBadge(MinestuckBadges.GIFT_OF_GAB) && getSkillLevel(SkillType.GENERAL) > 1)
+			this.badges.put(MinestuckBadges.GIFT_OF_GAB, true);
+	}
+
+	@Override
+	public void setOwner(EntityPlayer owner)
+	{
+		this.owner = owner;
 	}
 
 	public enum SkillType implements IStringSerializable
@@ -545,14 +538,39 @@ public class GodTierData implements IGodTierData
 		}
 
 		@Override
-		public String getName() {
+		public String getName()
+		{
 			return name;
 		}
 	}
 
-	@SubscribeEvent
-	public static void onPlayerRespawn(PlayerEvent.Clone event)
+	private static class SkillData
 	{
-		event.getEntity().getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).readFromNBT(event.getOriginal().getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).writeToNBT());
+		final SkillType type;
+		int level = 0;
+		float xp = 0;
+		double attributeMod;
+
+		public SkillData(SkillType type, double attributeMod)
+		{
+			this.type = type;
+			this.attributeMod = attributeMod;
+		}
+
+		public void addXp(float v, float maxXp)
+		{
+			if (xp + v >= maxXp)
+			{
+				xp = xp + v - maxXp;
+				level++;
+			}
+			else xp += v;
+		}
+
+		public void reset()
+		{
+			level = 0;
+			xp = 0;
+		}
 	}
 }

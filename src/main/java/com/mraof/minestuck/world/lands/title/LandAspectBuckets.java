@@ -7,7 +7,7 @@ import net.minecraft.block.BlockColored;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 
-public class LandAspectBuckets extends TitleLandAspect	//Yes, buckets
+public class LandAspectBuckets extends TitleLandAspect    //Yes, buckets
 {
 
 	@Override
@@ -21,7 +21,7 @@ public class LandAspectBuckets extends TitleLandAspect	//Yes, buckets
 	{
 		return new String[]{"bucket"};
 	}
-	
+
 	@Override
 	public void prepareChunkProviderServer(ChunkProviderLands chunkProvider)
 	{

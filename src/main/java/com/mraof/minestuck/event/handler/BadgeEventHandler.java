@@ -74,6 +74,8 @@ public class BadgeEventHandler
 		put(EnumAspect.TIME, new PotionEffect(MinestuckPotions.TIME_STOP, 100, 0));
 		put(EnumAspect.MIND, new PotionEffect(MinestuckPotions.MIND_CONFUSION, 300, 0));
 	}};
+	private static final int HOARD_THRESHOLD = 10000;
+	private static int blockCount = 0;
 
 	@SubscribeEvent
 	public static void canStrifeEvent(WeaponAssignedEvent event)
@@ -81,10 +83,10 @@ public class BadgeEventHandler
 		EntityLivingBase player = event.getPlayer();
 		IGodTierData cap = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
 
-		if(cap == null)
+		if (cap == null)
 			return;
 
-		if(cap.isBadgeActive(MinestuckBadges.STRIFE_BADGE))
+		if (cap.isBadgeActive(MinestuckBadges.STRIFE_BADGE))
 			event.setCheckResult(true);
 	}
 
@@ -95,14 +97,14 @@ public class BadgeEventHandler
 			return;
 
 		EntityPlayer sourcePlayer = event.getSource().getTrueSource() instanceof EntityPlayer ? (EntityPlayer) event.getSource().getTrueSource() : null;
-		IGodTierData sourceData   = sourcePlayer != null ? sourcePlayer.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null) : null;
-		EntityPlayer targetPlayer = event.getEntityLiving() instanceof  EntityPlayer ? (EntityPlayer) event.getEntityLiving() : null;
-		IGodTierData targetData   = targetPlayer != null ? targetPlayer.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null) : null;
+		IGodTierData sourceData = sourcePlayer != null ? sourcePlayer.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null) : null;
+		EntityPlayer targetPlayer = event.getEntityLiving() instanceof EntityPlayer ? (EntityPlayer) event.getEntityLiving() : null;
+		IGodTierData targetData = targetPlayer != null ? targetPlayer.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null) : null;
 
 		// Superblock
-		if(!event.getSource().isUnblockable() && targetPlayer != null)
+		if (!event.getSource().isUnblockable() && targetPlayer != null)
 		{
-			if(targetData.isBadgeActive(MinestuckBadges.MASTER_BADGE_BRAVE) && (event.getEntity().world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_BRAVE.getStatNumber(targetPlayer)))
+			if (targetData.isBadgeActive(MinestuckBadges.MASTER_BADGE_BRAVE) && (event.getEntity().world.rand.nextDouble() * 100 < MinestuckBadges.MASTER_BADGE_BRAVE.getStatNumber(targetPlayer)))
 			{
 				MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, targetPlayer, 0x0094FF, 20), targetPlayer);
 				event.setAmount(0);
@@ -110,12 +112,12 @@ public class BadgeEventHandler
 		}
 
 		// Crit
-		if(sourcePlayer != null && sourceData.isBadgeActive(MinestuckBadges.MASTER_BADGE_MIGHTY))
+		if (sourcePlayer != null && sourceData.isBadgeActive(MinestuckBadges.MASTER_BADGE_MIGHTY))
 		{
-			if(event.getEntity().world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_MIGHTY.getStatNumber(sourcePlayer))
+			if (event.getEntity().world.rand.nextDouble() * 100 < MinestuckBadges.MASTER_BADGE_MIGHTY.getStatNumber(sourcePlayer))
 			{
 				MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, sourcePlayer, 0xF80000, 20), sourcePlayer);
-				event.setAmount(event.getAmount()*2);
+				event.setAmount(event.getAmount() * 2);
 			}
 		}
 	}
@@ -125,65 +127,27 @@ public class BadgeEventHandler
 	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
 	{
 		EntityLivingBase entity = event.getEntityLiving();
-		if(!entity.world.isRemote && entity.hasCapability(MinestuckCapabilities.BADGE_EFFECTS, null))
+		if (!entity.world.isRemote && entity.hasCapability(MinestuckCapabilities.BADGE_EFFECTS, null))
 			entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setPrevPos(new Vec3d(entity.posX, entity.posY, entity.posZ));
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onLivingDrops(LivingDropsEvent event)
 	{
-		if(event.getSource().getTrueSource() instanceof EntityPlayer)
+		if (event.getSource().getTrueSource() instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
 			IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
 			EntityLivingBase entity = event.getEntityLiving();
 
-			if(data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE) && (event.getEntity().world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
+			if (data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE) && (event.getEntity().world.rand.nextDouble() * 100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
 			{
 				MinestuckNetwork.sendToTracking(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, entity.posX, entity.posY, entity.posZ, 0x00D54E, 20), entity);
 
-				for(EntityItem item : event.getDrops())
-					item.getItem().setCount(Math.min(item.getItem().getCount()*4, item.getItem().getMaxStackSize()));
+				for (EntityItem item : event.getDrops())
+					item.getItem().setCount(Math.min(item.getItem().getCount() * 4, item.getItem().getMaxStackSize()));
 			}
 
-		}
-	}
-
-	@SubscribeEvent
-	public static void onGetLooting(LootingLevelEvent event)
-	{
-		if(event.getDamageSource().getTrueSource() instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer) event.getDamageSource().getTrueSource();
-			IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
-
-			if(data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE))
-				event.setLootingLevel((int) Math.floor(event.getLootingLevel() + MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)/2));
-		}
-	}
-
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public static void onUnderlingSpoils(UnderlingSpoilsEvent event)
-	{
-		if(event.getSource().getTrueSource() instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
-			IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
-
-			if(data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE))
-			{
-				EntityUnderling underling = event.getUnderling();
-
-				GristSet grist = event.getSpoils().scaleGrist(1 + MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player));
-
-				if((underling.world.rand.nextDouble()*100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
-				{
-					grist = grist.scaleGrist(5);
-					MinestuckNetwork.sendToTracking(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, underling.posX, underling.posY, underling.posZ, 0x00D54E, 20), underling);
-				}
-
-				event.setSpoils(grist);
-			}
 		}
 	}
 
@@ -194,7 +158,43 @@ public class BadgeEventHandler
 
 	}*/
 
-	private static int blockCount = 0;
+	@SubscribeEvent
+	public static void onGetLooting(LootingLevelEvent event)
+	{
+		if (event.getDamageSource().getTrueSource() instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer) event.getDamageSource().getTrueSource();
+			IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
+
+			if (data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE))
+				event.setLootingLevel((int) Math.floor(event.getLootingLevel() + MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player) / 2));
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public static void onUnderlingSpoils(UnderlingSpoilsEvent event)
+	{
+		if (event.getSource().getTrueSource() instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
+			IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
+
+			if (data.isBadgeActive(MinestuckBadges.MASTER_BADGE_WISE))
+			{
+				EntityUnderling underling = event.getUnderling();
+
+				GristSet grist = event.getSpoils().scaleGrist(1 + MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player));
+
+				if ((underling.world.rand.nextDouble() * 100 < MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(player)))
+				{
+					grist = grist.scaleGrist(5);
+					MinestuckNetwork.sendToTracking(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, underling.posX, underling.posY, underling.posZ, 0x00D54E, 20), underling);
+				}
+
+				event.setSpoils(grist);
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public static void onBlockInteract(PlayerInteractEvent.RightClickBlock event)
@@ -203,17 +203,17 @@ public class BadgeEventHandler
 			return;
 
 		// Skeleton Key Badge
-		if(event.getHand() == EnumHand.OFF_HAND || !event.getItemStack().isEmpty())
+		if (event.getHand() == EnumHand.OFF_HAND || !event.getItemStack().isEmpty())
 			return;
 
-		if(event.getEntityPlayer().getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.SKELETON_KEY))
+		if (event.getEntityPlayer().getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.SKELETON_KEY))
 		{
 			IBlockState state = event.getWorld().getBlockState(event.getPos());
 			Block block = state.getBlock();
 			World world = event.getWorld();
 			BlockPos pos = event.getPos();
 
-			if(block instanceof BlockDoor && state.getMaterial() == Material.IRON)
+			if (block instanceof BlockDoor && state.getMaterial() == Material.IRON)
 			{
 				BlockPos blockpos = state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
 				IBlockState iblockstate = pos.equals(blockpos) ? state : world.getBlockState(blockpos);
@@ -226,19 +226,19 @@ public class BadgeEventHandler
 					world.playEvent(state.getValue(BlockDoor.OPEN) ? 1005 : 1011, pos, 0);
 				}
 			}
-			else if(block instanceof BlockTrapDoor && state.getMaterial() == Material.IRON)
+			else if (block instanceof BlockTrapDoor && state.getMaterial() == Material.IRON)
 			{
 				state = state.cycleProperty(BlockTrapDoor.OPEN);
 				world.setBlockState(pos, state, 2);
 				world.playEvent(state.getValue(BlockTrapDoor.OPEN) ? 1037 : 1036, pos, 0);
 			}
-			else if(block instanceof BlockDungeonDoor)
+			else if (block instanceof BlockDungeonDoor)
 				activateDoor(event.getWorld(), event.getPos());
-			else if(block instanceof BlockEndPortalFrame)
+			else if (block instanceof BlockEndPortalFrame)
 				activateEndPortal(event.getWorld(), event.getPos(), state, event.getWorld().rand);
-			else if(block.equals(Blocks.OBSIDIAN) && event.getFace().equals(EnumFacing.UP) && event.getWorld().provider.getDimensionType().getId() > 0 && Blocks.PORTAL.trySpawnPortal(event.getWorld(), event.getPos().up()))
+			else if (block.equals(Blocks.OBSIDIAN) && event.getFace().equals(EnumFacing.UP) && event.getWorld().provider.getDimensionType().getId() > 0 && Blocks.PORTAL.trySpawnPortal(event.getWorld(), event.getPos().up()))
 				world.playSound(event.getEntityPlayer(), pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.rand.nextFloat() * 0.4F + 0.8F);
-			else if(Minestuck.isLocksLoaded)
+			else if (Minestuck.isLocksLoaded)
 			{
 				LocksSupport.useKey(world, pos, event.getEntityPlayer());
 			}
@@ -248,7 +248,7 @@ public class BadgeEventHandler
 
 	private static void activateEndPortal(World worldIn, BlockPos pos, IBlockState iblockstate, Random itemRand)
 	{
-		if(iblockstate.getValue(BlockEndPortalFrame.EYE))
+		if (iblockstate.getValue(BlockEndPortalFrame.EYE))
 			return;
 
 		worldIn.setBlockState(pos, iblockstate.withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(true)), 2);
@@ -256,9 +256,9 @@ public class BadgeEventHandler
 
 		for (int i = 0; i < 16; ++i)
 		{
-			double d0 = (double)((float)pos.getX() + (5.0F + itemRand.nextFloat() * 6.0F) / 16.0F);
-			double d1 = (double)((float)pos.getY() + 0.8125F);
-			double d2 = (double)((float)pos.getZ() + (5.0F + itemRand.nextFloat() * 6.0F) / 16.0F);
+			double d0 = (double) ((float) pos.getX() + (5.0F + itemRand.nextFloat() * 6.0F) / 16.0F);
+			double d1 = (double) ((float) pos.getY() + 0.8125F);
+			double d2 = (double) ((float) pos.getZ() + (5.0F + itemRand.nextFloat() * 6.0F) / 16.0F);
 			double d3 = 0.0D;
 			double d4 = 0.0D;
 			double d5 = 0.0D;
@@ -287,14 +287,17 @@ public class BadgeEventHandler
 	private static void activateDoor(World world, BlockPos pos)
 	{
 		world.destroyBlock(pos, false);
-		if (blockCount < 100) {
+		if (blockCount < 100)
+		{
 			EnumFacing[] var2 = EnumFacing.values();
 			int var3 = var2.length;
 
-			for(int var4 = 0; var4 < var3; ++var4) {
+			for (int var4 = 0; var4 < var3; ++var4)
+			{
 				EnumFacing direction = var2[var4];
 				IBlockState state = world.getBlockState(pos.offset(direction));
-				if (state.getBlock() instanceof BlockDungeonDoor) {
+				if (state.getBlock() instanceof BlockDungeonDoor)
+				{
 					++blockCount;
 					activateDoor(world, pos.offset(direction));
 				}
@@ -302,8 +305,6 @@ public class BadgeEventHandler
 
 		}
 	}
-
-	private static final int HOARD_THRESHOLD = 10000;
 
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event)
@@ -313,7 +314,7 @@ public class BadgeEventHandler
 
 		// Hoard of the Alchemizer Badge
 		IGodTierData gtData = event.player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
-		if(gtData.isBadgeActive(MinestuckBadges.HOARD_OF_THE_ALCHEMIZER) && gtData.getGristHoard() != null && !GristHelper.canAfford(MinestuckPlayerData.getGristSet(event.player), new GristSet(gtData.getGristHoard(), HOARD_THRESHOLD)))
+		if (gtData.isBadgeActive(MinestuckBadges.HOARD_OF_THE_ALCHEMIZER) && gtData.getGristHoard() != null && !GristHelper.canAfford(MinestuckPlayerData.getGristSet(event.player), new GristSet(gtData.getGristHoard(), HOARD_THRESHOLD)))
 		{
 			IdentifierHandler.PlayerIdentifier pid = IdentifierHandler.encode(event.player);
 			GristHelper.setGrist(pid, gtData.getGristHoard(), HOARD_THRESHOLD);
@@ -326,8 +327,8 @@ public class BadgeEventHandler
 	{
 		IGodKeyStates cap = event.getEntityPlayer().getCapability(MinestuckCapabilities.GOD_KEY_STATES, null);
 
-		if(cap.getKeyState(GodKeyStates.Key.ASPECT) != GodKeyStates.KeyState.NONE || cap.getKeyState(GodKeyStates.Key.CLASS) != GodKeyStates.KeyState.NONE
-				|| cap.getKeyState(GodKeyStates.Key.UTIL) != GodKeyStates.KeyState.NONE)
+		if (cap.getKeyState(GodKeyStates.Key.ASPECT) != GodKeyStates.KeyState.NONE || cap.getKeyState(GodKeyStates.Key.CLASS) != GodKeyStates.KeyState.NONE
+					|| cap.getKeyState(GodKeyStates.Key.UTIL) != GodKeyStates.KeyState.NONE)
 			event.setCanceled(true);
 
 	}

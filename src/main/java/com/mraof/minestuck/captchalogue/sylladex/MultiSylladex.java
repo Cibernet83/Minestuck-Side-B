@@ -72,29 +72,6 @@ public abstract class MultiSylladex implements ISylladex
 		return false;
 	}
 
-	public void addCards(int cards)
-	{
-		for (int i = 0; i < cards; i++)
-			addCard(null);
-	}
-
-	public ModusLayer[] getModusLayers()
-	{
-		ArrayList<ModusLayer> modi = new ArrayList<>();
-		getModusLayers(modi);
-		return modi.toArray(new ModusLayer[0]);
-	}
-
-	public boolean isFirstVisibleCard(int[] slots, int index, int startIndex)
-	{
-		// Remember, get(slots[index]) is known to have slots
-		if (index >= startIndex)
-			for (int i = 0; i < slots[index]; i++)
-				if(getSylladices().get(i).getTotalSlots() > 0)
-					return false;
-		return index + 1 == slots.length || ((MultiSylladex)getSylladices().get(slots[index])).isFirstVisibleCard(slots, index + 1, startIndex);
-	}
-
 	@Override
 	public int getFreeSlots()
 	{
@@ -120,11 +97,43 @@ public abstract class MultiSylladex implements ISylladex
 		return modi.getGuiContainer(getSylladices(), slots, index, textureIndices);
 	}
 
+	protected abstract SylladexList<? extends ISylladex> getSylladices();
+
+	public void addCards(int cards)
+	{
+		for (int i = 0; i < cards; i++)
+			addCard(null);
+	}
+
+	public abstract void addCard(ICaptchalogueable object);
+
+	public ModusLayer[] getModusLayers()
+	{
+		ArrayList<ModusLayer> modi = new ArrayList<>();
+		getModusLayers(modi);
+		return modi.toArray(new ModusLayer[0]);
+	}
+
+	protected abstract void getModusLayers(List<ModusLayer> modusLayers);
+
+	public boolean isFirstVisibleCard(int[] slots, int index, int startIndex)
+	{
+		// Remember, get(slots[index]) is known to have slots
+		if (index >= startIndex)
+			for (int i = 0; i < slots[index]; i++)
+				if (getSylladices().get(i).getTotalSlots() > 0)
+					return false;
+		return index + 1 == slots.length || ((MultiSylladex) getSylladices().get(slots[index])).isFirstVisibleCard(slots, index + 1, startIndex);
+	}
+
 	@SideOnly(Side.CLIENT)
 	public String getName()
 	{
 		return getName(false);
 	}
+
+	@SideOnly(Side.CLIENT)
+	public abstract String getName(boolean plural);
 
 	@SideOnly(Side.CLIENT)
 	public GuiSylladex getGuiHandler()
@@ -134,10 +143,5 @@ public abstract class MultiSylladex implements ISylladex
 		return gui;
 	}
 
-	public abstract void addCard(ICaptchalogueable object);
-	protected abstract void getModusLayers(List<ModusLayer> modusLayers);
-	protected abstract SylladexList<? extends ISylladex> getSylladices();
 	public abstract BottomSylladex getFirstBottomSylladex();
-	@SideOnly(Side.CLIENT)
-	public abstract String getName(boolean plural);
 }

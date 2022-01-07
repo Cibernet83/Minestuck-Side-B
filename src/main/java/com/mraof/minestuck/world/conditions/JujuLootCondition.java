@@ -33,7 +33,7 @@ public class JujuLootCondition implements LootCondition
 	@Override
 	public boolean testCondition(Random rand, LootContext context)
 	{
-		if(!GameData.hasJujuSpawned(juju) && rand.nextFloat() <= chance)
+		if (!GameData.hasJujuSpawned(juju) && rand.nextFloat() <= chance)
 		{
 			GameData.setJujuSpawned(juju, true);
 			return true;

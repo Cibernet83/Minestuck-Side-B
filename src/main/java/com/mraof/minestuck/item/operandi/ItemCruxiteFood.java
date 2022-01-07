@@ -16,20 +16,21 @@ public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 {
 	private final EnumAction action;
 	private final CruxiteArtifactTeleporter teleporter;
-	
+
 	public ItemCruxiteFood(String name, int amount, float saturation, boolean isEntryArtifact)
 	{
 		this(name, amount, saturation, EnumAction.EAT, isEntryArtifact);
 	}
+
 	public ItemCruxiteFood(String name, int amount, float saturation, EnumAction action, boolean isEntryArtifact)
 	{
 		super(name, amount, saturation, false, getConsumer());
 		this.action = action;
 		setMaxStackSize(1);
 
-		if(isEntryArtifact)
+		if (isEntryArtifact)
 		{
-			teleporter =  new CruxiteArtifactTeleporter();
+			teleporter = new CruxiteArtifactTeleporter();
 			MinestuckItems.cruxiteArtifacts.add(this);
 		}
 		else
@@ -38,25 +39,13 @@ public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 			//OperandiModus.itemPool.add(this);
 		}
 	}
-	
-	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-	{
-		if(isEntryArtifact())
-			super.getSubItems(tab, items);
-	}
-	
-	
-	public EnumAction getItemUseAction(ItemStack stack) {
-		return action;
-	}
-	
+
 	public static FoodItemConsumer getConsumer()
 	{
 		return ((stack, worldIn, player) ->
 		{
 
-			if(stack.getItem() instanceof ICruxiteArtifact && ((ICruxiteArtifact) stack.getItem()).isEntryArtifact())
+			if (stack.getItem() instanceof ICruxiteArtifact && ((ICruxiteArtifact) stack.getItem()).isEntryArtifact())
 			{
 				((ICruxiteArtifact) stack.getItem()).getTeleporter().onArtifactActivated(player);
 				ItemStack result = stack.copy();
@@ -65,9 +54,9 @@ public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 			}
 
 			ICaptchalogueable storedStack = ModusStorage.getStoredItem(stack);
-			if(storedStack.isEmpty())
+			if (storedStack.isEmpty())
 				return null;
-			
+
 			worldIn.playSound(null, player.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
 			storedStack.fetch(player);
@@ -76,15 +65,28 @@ public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 	}
 
 	@Override
-	public boolean isEntryArtifact() {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+		if (isEntryArtifact())
+			super.getSubItems(tab, items);
+	}
+
+	@Override
+	public boolean isEntryArtifact()
+	{
 		return teleporter != null;
 	}
 
 	@Override
-	public CruxiteArtifactTeleporter getTeleporter() {
+	public CruxiteArtifactTeleporter getTeleporter()
+	{
 		return teleporter;
 	}
 
+	public EnumAction getItemUseAction(ItemStack stack)
+	{
+		return action;
+	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)

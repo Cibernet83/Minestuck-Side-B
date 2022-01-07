@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LandAspectShade extends TerrainLandAspect 
+public class LandAspectShade extends TerrainLandAspect
 {
-	
+
 	static Vec3d skyColor = new Vec3d(0.16D, 0.38D, 0.54D);
-	
+
 	@Override
 	public void registerBlocks(StructureBlockRegistry registry)
 	{
@@ -43,18 +43,7 @@ public class LandAspectShade extends TerrainLandAspect
 		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.CYAN));
 		registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.GRAY));
 	}
-	
-	@Override
-	public String getPrimaryName()
-	{
-		return "shade";
-	}
-	
-	@Override
-	public String[] getNames() {
-		return new String[] {"shade"};
-	}
-	
+
 	@Override
 	public List<ILandDecorator> getDecorators()
 	{
@@ -63,35 +52,47 @@ public class LandAspectShade extends TerrainLandAspect
 		list.add(new SurfaceMushroomGenerator(5, 32, MinestuckBiomes.mediumRough));
 		list.add(new LeaflessTreeDecorator(MinestuckBlocks.glowingLog.getDefaultState(), 0.5F, MinestuckBiomes.mediumNormal));
 		list.add(new LeaflessTreeDecorator(MinestuckBlocks.glowingLog.getDefaultState(), 2, MinestuckBiomes.mediumRough));
-		
+
 		list.add(new UndergroundDecoratorVein(Blocks.GRAVEL.getDefaultState(), 8, 33, 256));
 		list.add(new UndergroundDecoratorVein(Blocks.IRON_ORE.getDefaultState(), 24, 9, 64));
 		list.add(new UndergroundDecoratorVein(Blocks.LAPIS_ORE.getDefaultState(), 6, 7, 35));
-		
+
 		return list;
 	}
-	
+
 	@Override
 	public float getSkylightBase()
 	{
 		return 0F;
 	}
-	
+
 	@Override
-	public Vec3d getFogColor() 
+	public Vec3d getFogColor()
 	{
 		return skyColor;
 	}
-	
+
 	@Override
 	public int getWeatherType()
 	{
 		return 0;
 	}
-	
+
 	@Override
 	public EnumConsort getConsortType()
 	{
 		return EnumConsort.SALAMANDER;
+	}
+
+	@Override
+	public String getPrimaryName()
+	{
+		return "shade";
+	}
+
+	@Override
+	public String[] getNames()
+	{
+		return new String[]{"shade"};
 	}
 }

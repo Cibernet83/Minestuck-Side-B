@@ -41,21 +41,32 @@ public abstract class MSFacingBase extends MSBlockContainer
 	}
 
 	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state)
+	{
+		return EnumBlockRenderType.MODEL;
+	}	@Override
 	protected BlockStateContainer createBlockState()
 	{
 		return new BlockStateContainer(this, FACING);
 	}
 
 	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
+		TileEntityMachine te = (TileEntityMachine) worldIn.getTileEntity(pos);
+		if (te != null) InventoryHelper.dropInventoryItems(worldIn, pos, te);
+
+		super.breakBlock(worldIn, pos, state);
+	}	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return state.getValue(FACING).getHorizontalIndex()*4;
+		return state.getValue(FACING).getHorizontalIndex() * 4;
 	}
 
-	@Override
+	public abstract boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing);	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta/4));
+		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta / 4));
 	}
 
 	@Override
@@ -70,11 +81,7 @@ public abstract class MSFacingBase extends MSBlockContainer
 		return false;
 	}
 
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state)
-	{
-		return EnumBlockRenderType.MODEL;
-	}
+
 
 	@Override
 	public boolean isOpaqueCube(IBlockState state)
@@ -92,7 +99,7 @@ public abstract class MSFacingBase extends MSBlockContainer
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos)
 	{
 		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
-		if(te != null)
+		if (te != null)
 			return te.comparatorValue();
 		return 0;
 	}
@@ -100,17 +107,10 @@ public abstract class MSFacingBase extends MSBlockContainer
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side)
 	{
-		return side!=null;
+		return side != null;
 	}
 
-	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-	{
-		TileEntityMachine te = (TileEntityMachine) worldIn.getTileEntity(pos);
-		if(te != null) InventoryHelper.dropInventoryItems(worldIn, pos, te);
 
-		super.breakBlock(worldIn, pos, state);
-	}
 
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
@@ -124,7 +124,7 @@ public abstract class MSFacingBase extends MSBlockContainer
 		return new ItemStack(Item.getItemFromBlock(this), 1);
 	}
 
-	public abstract boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing);
+
 
 	@Override
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)

@@ -34,7 +34,7 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 		entityNbt.setString("id", EntityRegistry.getEntry(entity.getClass()).getRegistryName().toString());
 		entity.writeToNBT(entityNbt);
 
-		if(entityNbt.hasUniqueId("UUID"))
+		if (entityNbt.hasUniqueId("UUID"))
 		{
 			entityNbt.removeTag("UUIDLeast");
 			entityNbt.removeTag("UUIDMost");
@@ -44,6 +44,12 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	public CaptchalogueableEntity(NBTTagCompound nbtTagCompound)
 	{
 		entityNbt = nbtTagCompound;
+	}
+
+	@Override
+	public NBTTagCompound writeData()
+	{
+		return entityNbt;
 	}
 
 	@Override
@@ -70,8 +76,8 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	@Override
 	public void eject(EntityPlayer player)
 	{
-		Entity entity = AnvilChunkLoader.readWorldEntityPos(entityNbt, player.world, player.posX, player.posY+ 1.0D, player.posZ, true);
-		if(entity != null)
+		Entity entity = AnvilChunkLoader.readWorldEntityPos(entityNbt, player.world, player.posX, player.posY + 1.0D, player.posZ, true);
+		if (entity != null)
 		{
 			entity.motionX = SylladexUtils.rand.nextDouble() - 0.5D;
 			entity.motionZ = SylladexUtils.rand.nextDouble() - 0.5D;
@@ -95,18 +101,12 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	}
 
 	@Override
-	public NBTTagCompound writeData()
-	{
-		return entityNbt;
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
 	{
 		Entity entity = AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);
 
-		if(entity != null)
+		if (entity != null)
 			drawEntityOnScreen(10, 20, 10, -mouseX, -mouseY, entity);
 	}
 
@@ -149,28 +149,28 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	{
 		GlStateManager.enableColorMaterial();
 		GlStateManager.pushMatrix();
-		GlStateManager.translate((float)posX, (float)posY, 50.0F);
+		GlStateManager.translate((float) posX, (float) posY, 50.0F);
 		GlStateManager.scale(scale, -scale, scale);
 		float f1 = ent.rotationYaw;
 		float f2 = ent.rotationPitch;
-		float f = (ent instanceof EntityLivingBase) ? ((EntityLivingBase)ent).renderYawOffset : 0;
-		float f3 = (ent instanceof EntityLivingBase) ? ((EntityLivingBase)ent).prevRotationYawHead : 0;
-		float f4 = (ent instanceof EntityLivingBase) ? ((EntityLivingBase)ent).rotationYawHead : 0;
+		float f = (ent instanceof EntityLivingBase) ? ((EntityLivingBase) ent).renderYawOffset : 0;
+		float f3 = (ent instanceof EntityLivingBase) ? ((EntityLivingBase) ent).prevRotationYawHead : 0;
+		float f4 = (ent instanceof EntityLivingBase) ? ((EntityLivingBase) ent).rotationYawHead : 0;
 
 		GlStateManager.enableDepth();
 		GlStateManager.rotate(135.0F, 0.0F, 1.0F, 0.0F);
 		RenderHelper.enableStandardItemLighting();
 		GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
 
-		if(ent instanceof EntityLivingBase)
+		if (ent instanceof EntityLivingBase)
 		{
-			GlStateManager.rotate(-((float)Math.atan((double)(mouseY / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-			ent.rotationYaw = (float)Math.atan((double)(mouseX / 40.0F)) * 40.0F;
-			ent.rotationPitch = -((float)Math.atan((double)(mouseY / 40.0F))) * 20.0F;
+			GlStateManager.rotate(-((float) Math.atan((double) (mouseY / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
+			ent.rotationYaw = (float) Math.atan((double) (mouseX / 40.0F)) * 40.0F;
+			ent.rotationPitch = -((float) Math.atan((double) (mouseY / 40.0F))) * 20.0F;
 
-			((EntityLivingBase)ent).renderYawOffset = (float)Math.atan((double)(mouseX / 40.0F)) * 20.0F;
-			((EntityLivingBase)ent).rotationYawHead = ent.rotationYaw;
-			((EntityLivingBase)ent).prevRotationYawHead = ent.rotationYaw;
+			((EntityLivingBase) ent).renderYawOffset = (float) Math.atan((double) (mouseX / 40.0F)) * 20.0F;
+			((EntityLivingBase) ent).rotationYawHead = ent.rotationYaw;
+			((EntityLivingBase) ent).prevRotationYawHead = ent.rotationYaw;
 		}
 
 		GlStateManager.translate(0.0F, 0.0F, 0.0F);
@@ -182,11 +182,11 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 		ent.rotationYaw = f1;
 		ent.rotationPitch = f2;
 
-		if(ent instanceof EntityLivingBase)
+		if (ent instanceof EntityLivingBase)
 		{
-			((EntityLivingBase)ent).renderYawOffset = f;
-			((EntityLivingBase)ent).prevRotationYawHead = f3;
-			((EntityLivingBase)ent).rotationYawHead = f4;
+			((EntityLivingBase) ent).renderYawOffset = f;
+			((EntityLivingBase) ent).prevRotationYawHead = f3;
+			((EntityLivingBase) ent).rotationYawHead = f4;
 		}
 
 		GlStateManager.popMatrix();

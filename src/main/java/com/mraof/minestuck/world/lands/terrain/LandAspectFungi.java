@@ -17,11 +17,11 @@ import net.minecraft.world.gen.feature.WorldGenBigMushroom;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LandAspectFungi extends TerrainLandAspect 
+public class LandAspectFungi extends TerrainLandAspect
 {
 	static Vec3d fogColor = new Vec3d(0.69D, 0.76D, 0.61D);
 	static Vec3d skyColor = new Vec3d(0.69D, 0.76D, 0.61D);
-	
+
 	@Override
 	public void registerBlocks(StructureBlockRegistry registry)
 	{
@@ -41,18 +41,7 @@ public class LandAspectFungi extends TerrainLandAspect
 		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME));
 		registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.GRAY));
 	}
-	
-	@Override
-	public String getPrimaryName()
-	{
-		return "fungi";
-	}
-	
-	@Override
-	public String[] getNames() {
-		return new String[] {"fungi", "dank", "must", "mold", "mildew", "mycelium"};
-	}
-	
+
 	@Override
 	public List<ILandDecorator> getDecorators()
 	{
@@ -65,42 +54,54 @@ public class LandAspectFungi extends TerrainLandAspect
 		list.add(new SurfaceMushroomGenerator(Blocks.RED_MUSHROOM, true, 10, 64, MinestuckBiomes.mediumNormal));
 		list.add(new WorldGenDecorator(new WorldGenBigMushroom(), 200, 0.6F, MinestuckBiomes.mediumNormal));
 		list.add(new WorldGenDecorator(new WorldGenBigMushroom(), 120, 0.6F, MinestuckBiomes.mediumRough));
-		
+
 		list.add(new UndergroundDecoratorVein(Blocks.GRAVEL.getDefaultState(), 8, 33, 256));
 		list.add(new UndergroundDecoratorVein(Blocks.IRON_ORE.getDefaultState(), 24, 9, 64));
 		list.add(new UndergroundDecoratorVein(Blocks.REDSTONE_ORE.getDefaultState(), 12, 8, 32));
-		
+
 		return list;
 	}
-	
+
 	@Override
-	public Vec3d getFogColor() 
+	public Vec3d getFogColor()
 	{
 		return fogColor;
 	}
-	
+
 	@Override
 	public Vec3d getSkyColor()
 	{
 		return skyColor;
 	}
-	
+
 	@Override
 	public int getWeatherType()
 	{
 		return 1;
 	}
-	
+
 	@Override
 	public IGateStructure getGateStructure()
 	{
 		return new GateStructureMushroom();
 	}
-	
+
 	@Override
 	public EnumConsort getConsortType()
 	{
 		return EnumConsort.SALAMANDER;
+	}
+
+	@Override
+	public String getPrimaryName()
+	{
+		return "fungi";
+	}
+
+	@Override
+	public String[] getNames()
+	{
+		return new String[]{"fungi", "dank", "must", "mold", "mildew", "mycelium"};
 	}
 
 }

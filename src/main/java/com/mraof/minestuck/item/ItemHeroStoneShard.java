@@ -9,32 +9,32 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class ItemHeroStoneShard extends MSItemBase
 {
-    public final EnumAspect aspect;
+	public final EnumAspect aspect;
 
-    public ItemHeroStoneShard(EnumAspect aspect)
-    {
-        super("heroStoneShard");
-        this.aspect = aspect;
-        setCreativeTab(MinestuckTabs.godTier);
-    }
+	public ItemHeroStoneShard(EnumAspect aspect)
+	{
+		super("heroStoneShard");
+		this.aspect = aspect;
+		setCreativeTab(MinestuckTabs.godTier);
+	}
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public String getItemStackDisplayName(ItemStack stack)
-    {
+	@SuppressWarnings("deprecation")
+	@Override
+	public String getItemStackDisplayName(ItemStack stack)
+	{
 
-        String heroAspect = TextFormatting.OBFUSCATED + "Thing" + TextFormatting.RESET;
+		String heroAspect = TextFormatting.OBFUSCATED + "Thing" + TextFormatting.RESET;
 
-        if(aspect != null)
-            heroAspect = I18n.translateToLocal("title." + aspect.toString());
+		if (aspect != null)
+			heroAspect = I18n.translateToLocal("title." + aspect.toString());
 
-        return I18n.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", heroAspect).trim();
-    }
+		return I18n.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", heroAspect).trim();
+	}
 
-    @Override
-    public void register(IForgeRegistry<Item> registry)
-    {
-        setRegistryName("hero_stone_shard" + (aspect == null ? "" : ("_" + aspect.toString())));
-        registry.register(this);
-    }
+	@Override
+	public void register(IForgeRegistry<Item> registry)
+	{
+		setRegistryName("hero_stone_shard" + (aspect == null ? "" : ("_" + aspect.toString())));
+		registry.register(this);
+	}
 }

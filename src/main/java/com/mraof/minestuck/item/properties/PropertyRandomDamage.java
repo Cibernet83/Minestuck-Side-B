@@ -15,11 +15,6 @@ public class PropertyRandomDamage extends WeaponProperty implements IPropertyArr
 	protected float max;
 	protected float mulitiplier;
 
-	@Override
-	public double getAttackDamage(ItemStack stack, double dmg) {
-		return super.getAttackDamage(stack, dmg);
-	}
-
 	public PropertyRandomDamage()
 	{
 		this(0, 7, 1);
@@ -32,36 +27,44 @@ public class PropertyRandomDamage extends WeaponProperty implements IPropertyArr
 		this.mulitiplier = multiplier;
 	}
 
-	public float getMin()
+	@Override
+	public double getAttackDamage(ItemStack stack, double dmg)
 	{
-		return min;
-	}
-
-	public float getMax() {
-		return max;
-	}
-
-	public float getMulitiplier() {
-		return mulitiplier;
+		return super.getAttackDamage(stack, dmg);
 	}
 
 	@Override
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
 		DamageSource source = DamageSource.causeMobDamage(player);
-		if(player instanceof EntityPlayer)
+		if (player instanceof EntityPlayer)
 			source = DamageSource.causePlayerDamage((EntityPlayer) player);
 
 		Random rand = new Random();
-		int dmg = Math.round((rand.nextFloat()*max+min)*mulitiplier);
+		int dmg = Math.round((rand.nextFloat() * max + min) * mulitiplier);
 		target.hurtResistantTime = 0;
 		target.attackEntityFrom(source, dmg);
+	}
+
+	public float getMin()
+	{
+		return min;
+	}
+
+	public float getMax()
+	{
+		return max;
+	}
+
+	public float getMulitiplier()
+	{
+		return mulitiplier;
 	}
 
 	@Override
 	public EntityArrow customizeArrow(EntityArrow arrow, float chargeTime)
 	{
-		arrow.setDamage(arrow.getDamage() + Math.round((arrow.world.rand.nextFloat()*max+min)*mulitiplier));
+		arrow.setDamage(arrow.getDamage() + Math.round((arrow.world.rand.nextFloat() * max + min) * mulitiplier));
 		return arrow;
 	}
 }

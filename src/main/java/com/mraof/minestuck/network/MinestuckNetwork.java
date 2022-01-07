@@ -24,31 +24,6 @@ public class MinestuckNetwork
 	private static EnumMap<Side, FMLEmbeddedChannel> channels;
 	private static SimpleIndexedCodec packetCodec = new SimpleIndexedCodec();
 
-	private static class MinestuckMessageHandler extends SimpleChannelInboundHandler<MinestuckMessage>
-	{
-		private final Side side;
-
-		private MinestuckMessageHandler(Side side)
-		{
-			this.side = side;
-		}
-
-		@Override
-		protected void channelRead0(ChannelHandlerContext ctx, MinestuckMessage msg)
-		{
-			switch (side)
-			{
-				case CLIENT:
-					ClientProxy.addScheduledTask(() -> msg.execute(ClientProxy.getClientPlayerEntity()));
-					break;
-				case SERVER:
-					NetHandlerPlayServer netHandler = (NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get();
-					netHandler.player.getServerWorld().addScheduledTask(() -> msg.execute(netHandler.player));
-					break;
-			}
-		}
-	}
-
 	public static void setupChannel()
 	{
 		channels = NetworkRegistry.INSTANCE.newChannel(Minestuck.MODID, packetCodec);
@@ -65,7 +40,7 @@ public class MinestuckNetwork
 			throw new RuntimeException("Error retrieving message types", e);
 		}
 		int id = 0;
-		for(ClassPath.ClassInfo classInfo : messageTypes)
+		for (ClassPath.ClassInfo classInfo : messageTypes)
 			if (classInfo.getSimpleName().startsWith("Message"))
 			{
 				Class<? extends MinestuckMessage> clazz = (Class<? extends MinestuckMessage>) classInfo.load();
@@ -91,17 +66,23 @@ public class MinestuckNetwork
 		channels.get(side).pipeline().addAfter(targetName, "MinestuckMessageHandler", new MinestuckMessageHandler(side));
 	}
 
+	public static void sendToAll(MinestuckMessage message)
+	{
+		checkSide(message, Side.CLIENT);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
+		channels.get(Side.SERVER).writeOutbound(message);
+	}
+
 	private static void checkSide(MinestuckMessage message, Side side)
 	{
 		if (message.toSide() != side)
 			throw new RuntimeException("Message " + message + " intended for the " + message.toSide() + " tried to be sent to the " + side);
 	}
 
-	public static void sendToAll(MinestuckMessage message)
+	public static void sendToTrackingAndSelf(MinestuckMessage message, EntityPlayer player)
 	{
-		checkSide(message, Side.CLIENT);
-		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
-		channels.get(Side.SERVER).writeOutbound(message);
+		sendToTracking(message, player);
+		sendTo(message, player);
 	}
 
 	public static void sendTo(MinestuckMessage message, EntityPlayer player)
@@ -112,34 +93,12 @@ public class MinestuckNetwork
 		channels.get(Side.SERVER).writeOutbound(message);
 	}
 
-	public void sendToAllAround(MinestuckMessage message, NetworkRegistry.TargetPoint point)
-	{
-		checkSide(message, Side.CLIENT);
-		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
-		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
-		channels.get(Side.SERVER).writeOutbound(message);
-	}
-
-	public void sendToAllTracking(MinestuckMessage message, NetworkRegistry.TargetPoint point)
-	{
-		checkSide(message, Side.CLIENT);
-		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TRACKING_POINT);
-		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
-		channels.get(Side.SERVER).writeOutbound(message);
-	}
-
 	public static void sendToTracking(MinestuckMessage message, Entity entity)
 	{
 		checkSide(message, Side.CLIENT);
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TRACKING_ENTITY);
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(entity);
 		channels.get(Side.SERVER).writeOutbound(message);
-	}
-
-	public static void sendToTrackingAndSelf(MinestuckMessage message, EntityPlayer player)
-	{
-		sendToTracking(message, player);
-		sendTo(message, player);
 	}
 
 	public static void sendToDimension(MinestuckMessage message, int dimensionId)
@@ -163,5 +122,46 @@ public class MinestuckNetwork
 		checkSide(message, Side.SERVER);
 		channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
 		channels.get(Side.CLIENT).writeOutbound(message);
+	}
+
+	public void sendToAllAround(MinestuckMessage message, NetworkRegistry.TargetPoint point)
+	{
+		checkSide(message, Side.CLIENT);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
+		channels.get(Side.SERVER).writeOutbound(message);
+	}
+
+	public void sendToAllTracking(MinestuckMessage message, NetworkRegistry.TargetPoint point)
+	{
+		checkSide(message, Side.CLIENT);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TRACKING_POINT);
+		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
+		channels.get(Side.SERVER).writeOutbound(message);
+	}
+
+	private static class MinestuckMessageHandler extends SimpleChannelInboundHandler<MinestuckMessage>
+	{
+		private final Side side;
+
+		private MinestuckMessageHandler(Side side)
+		{
+			this.side = side;
+		}
+
+		@Override
+		protected void channelRead0(ChannelHandlerContext ctx, MinestuckMessage msg)
+		{
+			switch (side)
+			{
+				case CLIENT:
+					ClientProxy.addScheduledTask(() -> msg.execute(ClientProxy.getClientPlayerEntity()));
+					break;
+				case SERVER:
+					NetHandlerPlayServer netHandler = (NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get();
+					netHandler.player.getServerWorld().addScheduledTask(() -> msg.execute(netHandler.player));
+					break;
+			}
+		}
 	}
 }

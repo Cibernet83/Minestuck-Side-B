@@ -17,11 +17,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class EntityLocatorEye extends Entity
 {
 
-	/** 'x' location the eye should float towards. */
+	/**
+	 * 'x' location the eye should float towards.
+	 */
 	protected double targetX;
-	/** 'y' location the eye should float towards. */
+	/**
+	 * 'y' location the eye should float towards.
+	 */
 	protected double targetY;
-	/** 'z' location the eye should float towards. */
+	/**
+	 * 'z' location the eye should float towards.
+	 */
 	protected double targetZ;
 	protected int despawnTimer;
 	protected boolean shatterOrDrop;
@@ -33,27 +39,6 @@ public class EntityLocatorEye extends Entity
 		this.setSize(0.25F, 0.25F);
 	}
 
-	protected void entityInit()
-	{
-	}
-
-	/**
-	 * Checks if the entity is in range to render.
-	 */
-	@SideOnly(Side.CLIENT)
-	public boolean isInRangeToRenderDist(double distance)
-	{
-		double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
-
-		if (Double.isNaN(d0))
-		{
-			d0 = 4.0D;
-		}
-
-		d0 = d0 * 64.0D;
-		return distance < d0 * d0;
-	}
-
 	public EntityLocatorEye(World worldIn, double x, double y, double z)
 	{
 		super(worldIn);
@@ -62,50 +47,8 @@ public class EntityLocatorEye extends Entity
 		this.setPosition(x, y, z);
 	}
 
-	public void moveTowards(BlockPos pos, float shatterChance)
+	protected void entityInit()
 	{
-		double d0 = (double)pos.getX();
-		int i = pos.getY();
-		double d1 = (double)pos.getZ();
-		double d2 = d0 - this.posX;
-		double d3 = d1 - this.posZ;
-		float f = MathHelper.sqrt(d2 * d2 + d3 * d3);
-
-		if (f > 12.0F)
-		{
-			this.targetX = this.posX + d2 / (double)f * 12.0D;
-			this.targetZ = this.posZ + d3 / (double)f * 12.0D;
-			this.targetY = this.posY + 8.0D;
-		}
-		else
-		{
-			this.targetX = d0;
-			this.targetY = (double)i;
-			this.targetZ = d1;
-		}
-
-		this.despawnTimer = 0;
-		this.shatterOrDrop = this.rand.nextFloat() > shatterChance;
-	}
-
-	/**
-	 * Updates the entity motion clientside, called by packets from the server
-	 */
-	@SideOnly(Side.CLIENT)
-	public void setVelocity(double x, double y, double z)
-	{
-		this.motionX = x;
-		this.motionY = y;
-		this.motionZ = z;
-
-		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
-		{
-			float f = MathHelper.sqrt(x * x + z * z);
-			this.rotationYaw = (float)(MathHelper.atan2(x, z) * (180D / Math.PI));
-			this.rotationPitch = (float)(MathHelper.atan2(y, (double)f) * (180D / Math.PI));
-			this.prevRotationYaw = this.rotationYaw;
-			this.prevRotationPitch = this.rotationPitch;
-		}
 	}
 
 	/**
@@ -121,11 +64,10 @@ public class EntityLocatorEye extends Entity
 		this.posY += this.motionY;
 		this.posZ += this.motionZ;
 		float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-		this.rotationYaw = (float)(MathHelper.atan2(this.motionX, this.motionZ) * (180D / Math.PI));
+		this.rotationYaw = (float) (MathHelper.atan2(this.motionX, this.motionZ) * (180D / Math.PI));
 
-		for (this.rotationPitch = (float)(MathHelper.atan2(this.motionY, (double)f) * (180D / Math.PI)); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+		for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, (double) f) * (180D / Math.PI)); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
 		{
-			;
 		}
 
 		while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
@@ -150,9 +92,9 @@ public class EntityLocatorEye extends Entity
 		{
 			double d0 = this.targetX - this.posX;
 			double d1 = this.targetZ - this.posZ;
-			float f1 = (float)Math.sqrt(d0 * d0 + d1 * d1);
-			float f2 = (float)MathHelper.atan2(d1, d0);
-			double d2 = (double)f + (double)(f1 - f) * 0.0025D;
+			float f1 = (float) Math.sqrt(d0 * d0 + d1 * d1);
+			float f2 = (float) MathHelper.atan2(d1, d0);
+			double d2 = (double) f + (double) (f1 - f) * 0.0025D;
 
 			if (f1 < 1.0F)
 			{
@@ -160,8 +102,8 @@ public class EntityLocatorEye extends Entity
 				this.motionY *= 0.8D;
 			}
 
-			this.motionX = Math.cos((double)f2) * d2;
-			this.motionZ = Math.sin((double)f2) * d2;
+			this.motionX = Math.cos((double) f2) * d2;
+			this.motionZ = Math.sin((double) f2) * d2;
 
 			if (this.posY < this.targetY)
 			{
@@ -206,33 +148,15 @@ public class EntityLocatorEye extends Entity
 
 					this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, stack));
 				}
-				else world.setEntityState(this, (byte)0);
+				else world.setEntityState(this, (byte) 0);
 			}
 		}
 	}
 
-	@Override
-	public void handleStatusUpdate(byte id)
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender()
 	{
-		super.handleStatusUpdate(id);
-
-		if(id == 0)
-			world.spawnParticle(EnumParticleTypes.ITEM_CRACK, posX, posY, posZ, world.rand.nextGaussian() * 0.15D, world.rand.nextDouble() * 0.2D, world.rand.nextGaussian() * 0.15D, Item.getIdFromItem(MinestuckItems.denizenEye));
-
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
-	{
-	}
-
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
+		return 15728880;
 	}
 
 	/**
@@ -243,10 +167,65 @@ public class EntityLocatorEye extends Entity
 		return 1.0F;
 	}
 
+	/**
+	 * Checks if the entity is in range to render.
+	 */
 	@SideOnly(Side.CLIENT)
-	public int getBrightnessForRender()
+	public boolean isInRangeToRenderDist(double distance)
 	{
-		return 15728880;
+		double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
+
+		if (Double.isNaN(d0))
+		{
+			d0 = 4.0D;
+		}
+
+		d0 = d0 * 64.0D;
+		return distance < d0 * d0;
+	}
+
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
+	public void readEntityFromNBT(NBTTagCompound compound)
+	{
+	}
+
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
+	public void writeEntityToNBT(NBTTagCompound compound)
+	{
+	}
+
+	/**
+	 * Updates the entity motion clientside, called by packets from the server
+	 */
+	@SideOnly(Side.CLIENT)
+	public void setVelocity(double x, double y, double z)
+	{
+		this.motionX = x;
+		this.motionY = y;
+		this.motionZ = z;
+
+		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
+		{
+			float f = MathHelper.sqrt(x * x + z * z);
+			this.rotationYaw = (float) (MathHelper.atan2(x, z) * (180D / Math.PI));
+			this.rotationPitch = (float) (MathHelper.atan2(y, (double) f) * (180D / Math.PI));
+			this.prevRotationYaw = this.rotationYaw;
+			this.prevRotationPitch = this.rotationPitch;
+		}
+	}
+
+	@Override
+	public void handleStatusUpdate(byte id)
+	{
+		super.handleStatusUpdate(id);
+
+		if (id == 0)
+			world.spawnParticle(EnumParticleTypes.ITEM_CRACK, posX, posY, posZ, world.rand.nextGaussian() * 0.15D, world.rand.nextDouble() * 0.2D, world.rand.nextGaussian() * 0.15D, Item.getIdFromItem(MinestuckItems.denizenEye));
+
 	}
 
 	/**
@@ -255,5 +234,31 @@ public class EntityLocatorEye extends Entity
 	public boolean canBeAttackedWithItem()
 	{
 		return false;
+	}
+
+	public void moveTowards(BlockPos pos, float shatterChance)
+	{
+		double d0 = (double) pos.getX();
+		int i = pos.getY();
+		double d1 = (double) pos.getZ();
+		double d2 = d0 - this.posX;
+		double d3 = d1 - this.posZ;
+		float f = MathHelper.sqrt(d2 * d2 + d3 * d3);
+
+		if (f > 12.0F)
+		{
+			this.targetX = this.posX + d2 / (double) f * 12.0D;
+			this.targetZ = this.posZ + d3 / (double) f * 12.0D;
+			this.targetY = this.posY + 8.0D;
+		}
+		else
+		{
+			this.targetX = d0;
+			this.targetY = (double) i;
+			this.targetZ = d1;
+		}
+
+		this.despawnTimer = 0;
+		this.shatterOrDrop = this.rand.nextFloat() > shatterChance;
 	}
 }

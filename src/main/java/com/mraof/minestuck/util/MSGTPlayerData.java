@@ -31,7 +31,7 @@ public class MSGTPlayerData // TODO: caps ugh
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onWorldSave(WorldEvent.Save event)
 	{
-		if(event.getWorld().provider.getDimension() != 0)	//Only save one time each world-save instead of one per dimension each world-save.
+		if (event.getWorld().provider.getDimension() != 0)    //Only save one time each world-save instead of one per dimension each world-save.
 			return;
 
 		File dataFile = event.getWorld().getSaveHandler().getMapFileFromName("GodTierData");
@@ -40,7 +40,7 @@ public class MSGTPlayerData // TODO: caps ugh
 			if (dataFile.exists() && dataMap.isEmpty())
 				dataFile.delete();
 
-			else if(!dataMap.isEmpty())
+			else if (!dataMap.isEmpty())
 			{
 				NBTTagCompound nbt = new NBTTagCompound();
 				writeToNBT(nbt);
@@ -48,7 +48,8 @@ public class MSGTPlayerData // TODO: caps ugh
 				try
 				{
 					CompressedStreamTools.writeCompressed(nbt, new FileOutputStream(dataFile));
-				} catch (IOException e)
+				}
+				catch (IOException e)
 				{
 					e.printStackTrace();
 				}
@@ -56,30 +57,49 @@ public class MSGTPlayerData // TODO: caps ugh
 		}
 	}
 
+	private static NBTTagCompound writeToNBT(NBTTagCompound nbt)
+	{
+		NBTTagList list = new NBTTagList();
+		for (NBTBase tag : dataMap.values())
+			list.appendTag(tag);
+
+		nbt.setTag("playerData", list);
+
+		return nbt;
+	}
+
 	// Backwards compatibility
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onWorldLoad(WorldEvent.Load event)
 	{
-		if(event.getWorld().provider.getDimension() != 0 || event.getWorld().isRemote)
+		if (event.getWorld().provider.getDimension() != 0 || event.getWorld().isRemote)
 			return;
 
 		ISaveHandler saveHandler = event.getWorld().getSaveHandler();
 		File dataFile = saveHandler.getMapFileFromName("GodTierData");
 		NBTTagCompound nbt = new NBTTagCompound();
 
-		if(dataFile != null && dataFile.exists())
+		if (dataFile != null && dataFile.exists())
 		{
 			try
 			{
 				nbt = CompressedStreamTools.readCompressed(new FileInputStream(dataFile));
 			}
-			catch(IOException e)
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
 
 		readFromNBT(nbt);
+	}
+
+	private static void readFromNBT(NBTTagCompound nbt)
+	{
+		dataMap.clear();
+		if (nbt != null)
+			for (NBTBase tag : nbt.getTagList("playerData", 10))
+				dataMap.put(((NBTTagCompound) tag).hasKey("username") ? IdentifierHandler.load(tag, "username") : IdentifierHandler.load(tag, "player"), (NBTTagCompound) tag);
 	}
 
 	@SubscribeEvent
@@ -94,22 +114,5 @@ public class MSGTPlayerData // TODO: caps ugh
 			event.getEntity().getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).readFromNBT(dataMap.get(identifier));
 			dataMap.remove(identifier);
 		}
-	}
-
-	private static NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		NBTTagList list = new NBTTagList();
-		for (NBTBase tag : dataMap.values())
-			list.appendTag(tag);
-
-		nbt.setTag("playerData", list);
-
-		return nbt;
-	}
-
-	private static void readFromNBT(NBTTagCompound nbt) {
-		dataMap.clear();
-		if (nbt != null)
-			for (NBTBase tag : nbt.getTagList("playerData", 10))
-				dataMap.put(((NBTTagCompound)tag).hasKey("username") ? IdentifierHandler.load(tag, "username") : IdentifierHandler.load(tag, "player"), (NBTTagCompound) tag);
 	}
 }

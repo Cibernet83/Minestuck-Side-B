@@ -21,29 +21,29 @@ import java.util.Set;
 @SideOnly(Side.CLIENT)
 public class MinestuckGuiFactory implements IModGuiFactory
 {
-	
+
 	@Override
 	public void initialize(Minecraft minecraftInstance)
 	{}
-	
+
 	@Override
 	public boolean hasConfigGui()
 	{
 		return true;
 	}
-	
+
 	@Override
 	public GuiScreen createConfigGui(GuiScreen parentScreen)
 	{
 		return new MinestuckConfigGui(parentScreen);
 	}
-	
+
 	@Override
 	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories()
 	{
 		return null;
 	}
-	
+
 	public static class MinestuckConfigGui extends GuiConfig
 	{
 
@@ -51,19 +51,19 @@ public class MinestuckGuiFactory implements IModGuiFactory
 		{
 			super(parentScreen, getConfigElements(), Minestuck.class.getAnnotation(Mod.class).modid(), false, false, I18n.format("config.minestuck.title"));
 		}
-		
+
 		private static List<IConfigElement> getConfigElements()
 		{
 			Configuration c = MinestuckConfig.config;
 			List<IConfigElement> list = new ArrayList<IConfigElement>();
-			
+
 			list.add(new ConfigElement(c.getCategory("IDs")));
 			list.add(new ConfigElement(c.getCategory("Modus")));
 			list.addAll(new ConfigElement(c.getCategory("General")).getChildElements());
-			
+
 			return list;
 		}
-		
+
 	}
-	
+
 }

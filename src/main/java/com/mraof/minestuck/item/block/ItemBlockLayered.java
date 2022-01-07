@@ -13,17 +13,18 @@ import net.minecraft.world.World;
 
 public class ItemBlockLayered extends MSItemBlock
 {
-	
+
 	public IBlockState sourceBlock;
+
 	public ItemBlockLayered(BlockLayered block)
 	{
 		super(block);
 		sourceBlock = block.sourceBlock;
 	}
-	
+
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+									  EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		if (stack.isEmpty())
@@ -40,7 +41,7 @@ public class ItemBlockLayered extends MSItemBlock
 
 			if (state.getBlock() == this.block)
 			{
-				int metadata = (Integer) state.getValue(BlockLayered.SIZE);
+				int metadata = state.getValue(BlockLayered.SIZE);
 
 				if (/*depth <= 6 && */worldIn.checkNoEntityCollision(state.getBoundingBox(worldIn, pos)) && ((BlockLayered) this.block).changeHeight(worldIn, pos, metadata + 1)) //changes full BlockLayered into full block
 				{

@@ -10,16 +10,17 @@ import net.minecraft.world.World;
 
 public class ItemDiverHelmet extends MSArmorBase
 {
-    public ItemDiverHelmet(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot) {
-        super(name, material, equipmentSlot);
-    }
+	public ItemDiverHelmet(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot)
+	{
+		super(name, material, equipmentSlot);
+	}
 
-    @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-    {
-        super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 
-        if(entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).getItemStackFromSlot(EntityEquipmentSlot.HEAD) == stack && entityIn.isInWater())
-            ((EntityLivingBase)entityIn).addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 0, 0, true, false));
-    }
+		if (entityIn instanceof EntityLivingBase && ((EntityLivingBase) entityIn).getItemStackFromSlot(EntityEquipmentSlot.HEAD) == stack && entityIn.isInWater())
+			((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 0, 0, true, false));
+	}
 }

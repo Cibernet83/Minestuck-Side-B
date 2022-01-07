@@ -37,10 +37,14 @@ public class MSItemBase extends Item implements IRegistryItem
 		put(UUID.fromString("817aaf17-5127-45d8-8efe-142c2b8d64d8"), "carefreeDesigner");
 		put(UUID.fromString("dd82e2a0-f702-44ba-ad36-fb450cd38182"), "JDubSupreme");
 	}};
-
-	private final String regName;
 	public final boolean hasCustomModel;
+	private final String regName;
 	protected boolean isSecret = false;
+
+	public MSItemBase(String name, boolean hasCustomModel)
+	{
+		this(name, MinestuckTabs.minestuck, 64, hasCustomModel);
+	}
 
 	public MSItemBase(String name, CreativeTabs tab, int stackSize, boolean hasCustomModel)
 	{
@@ -50,11 +54,6 @@ public class MSItemBase extends Item implements IRegistryItem
 		setMaxStackSize(stackSize);
 		MinestuckItems.items.add(this);
 		this.hasCustomModel = hasCustomModel;
-	}
-
-	public MSItemBase(String name, boolean hasCustomModel)
-	{
-		this(name, MinestuckTabs.minestuck, 64, hasCustomModel);
 	}
 
 	public MSItemBase(String name)
@@ -68,32 +67,32 @@ public class MSItemBase extends Item implements IRegistryItem
 		return this;
 	}
 
-	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-	{
-		if(!isSecret)
-			super.getSubItems(tab, items);
-	}
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 	{
-		String key = getUnlocalizedName()+".tooltip";
+		String key = getUnlocalizedName() + ".tooltip";
 		UUID playerUUID = Minecraft.getMinecraft().player == null ? null : Minecraft.getMinecraft().player.getGameProfile().getId();
 		String playerName = playerUUID != null && DEDICATED_TOOLTIPS.containsKey(playerUUID) ? DEDICATED_TOOLTIPS.get(playerUUID) : "";
 
 		String str = "";
 
-		if(!playerName.isEmpty() && I18n.hasKey(key+"." + playerName))
+		if (!playerName.isEmpty() && I18n.hasKey(key + "." + playerName))
 			str = (I18n.format(key + "." + playerName));
-		else if(I18n.hasKey(key))
+		else if (I18n.hasKey(key))
 			str = I18n.format(key);
 
-		if(!str.isEmpty())
+		if (!str.isEmpty())
 			tooltip.add(str);
 
 		super.addInformation(stack, worldIn, tooltip, flagIn);
+	}
+
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+		if (!isSecret)
+			super.getSubItems(tab, items);
 	}
 
 	@Override
@@ -107,9 +106,9 @@ public class MSItemBase extends Item implements IRegistryItem
 	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
-		if(hasCustomModel)
+		if (hasCustomModel)
 			return;
-		if(getHasSubtypes())
+		if (getHasSubtypes())
 			ModelLoader.setCustomMeshDefinition(this, (stack -> new ModelResourceLocation(getRegistryName(), "inventory")));
 		else
 			ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));

@@ -23,7 +23,7 @@ public class EntityAIAttackRageShifted extends EntityAIAttackMelee
 			this.attackTick = (int) (20 * Math.sqrt(attacker.width * attacker.height));
 			this.attacker.swingArm(EnumHand.MAIN_HAND);
 
-			if(!this.attacker.attackEntityAsMob(target))
+			if (!this.attacker.attackEntityAsMob(target))
 			{
 				float volume = attacker.width * attacker.height;
 

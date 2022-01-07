@@ -12,27 +12,27 @@ public class BlockOperandiGlass extends BlockOperandi
 	{
 		super(name, hardness, resistance, blockMaterialIn, toolClass);
 	}
-	
-	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer()
+
+	@Override
+	public boolean isTranslucent(IBlockState state)
 	{
-		return BlockRenderLayer.TRANSLUCENT;
+		return true;
 	}
-	
+
 	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
-	
-	@Override
-	public boolean isTranslucent(IBlockState state)
+
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer()
 	{
-		return true;
+		return BlockRenderLayer.TRANSLUCENT;
 	}
 }

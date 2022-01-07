@@ -14,7 +14,8 @@ public class PropertyLuckBasedDamage extends WeaponProperty
 	}
 
 	@Override
-	public float damageAgainstEntity(ItemStack stack, EntityLivingBase player, EntityLivingBase target, float amount) {
-		return player instanceof EntityPlayer ? amount + amount*((EntityPlayer) player).getLuck()*multiplier : amount;
+	public float damageAgainstEntity(ItemStack stack, EntityLivingBase player, EntityLivingBase target, float amount)
+	{
+		return player instanceof EntityPlayer ? amount + amount * ((EntityPlayer) player).getLuck() * multiplier : amount;
 	}
 }

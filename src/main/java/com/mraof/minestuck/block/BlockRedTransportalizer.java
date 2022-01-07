@@ -27,74 +27,83 @@ import java.util.List;
 public class BlockRedTransportalizer extends BlockCustomTransportalizer
 {
 
-    public BlockRedTransportalizer() {
-        super(MapColor.RED, "rubyRedTransportalizer");
-        this.setHardness(3.5F);
-        this.setHarvestLevel("pickaxe", 0);
-    }
+	public BlockRedTransportalizer()
+	{
+		super(MapColor.RED, "rubyRedTransportalizer");
+		this.setHardness(3.5F);
+		this.setHarvestLevel("pickaxe", 0);
+	}
 
-    @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
-        return new TileEntityRedTransportalizer();
-    }
+	@Override
+	public TileEntity createNewTileEntity(World world, int metadata)
+	{
+		return new TileEntityRedTransportalizer();
+	}
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        TileEntityRedTransportalizer tileEntity = (TileEntityRedTransportalizer)worldIn.getTileEntity(pos);
-        IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode(playerIn);
-        if(!id.equals(tileEntity.owner))
-        {
-            if (playerIn instanceof EntityPlayerMP)
-                playerIn.sendStatusMessage(new TextComponentTranslation("message.transportalizer.notOwner"), true);
-            return true;
-        }
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		TileEntityRedTransportalizer tileEntity = (TileEntityRedTransportalizer) worldIn.getTileEntity(pos);
+		IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode(playerIn);
+		if (!id.equals(tileEntity.owner))
+		{
+			if (playerIn instanceof EntityPlayerMP)
+				playerIn.sendStatusMessage(new TextComponentTranslation("message.transportalizer.notOwner"), true);
+			return true;
+		}
 
-        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
-    }
+		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+	}
 
-    @Override
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
-        player.addStat(StatList.getBlockStats(this));
-        player.addExhaustion(0.005F);
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0) {
-            List<ItemStack> items = new ArrayList();
-            ItemStack itemstack = this.getSilkTouchDrop(state);
-            if (!itemstack.isEmpty()) {
-                if (te instanceof TileEntityRedTransportalizer)
-                {
-                    IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode(player);
-                    if(((TileEntityRedTransportalizer) te).owner.equals(id))
-                        itemstack.setStackDisplayName(((TileEntityRedTransportalizer)te).getId());
-                }
+	@Override
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
+	{
+		player.addStat(StatList.getBlockStats(this));
+		player.addExhaustion(0.005F);
+		if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0)
+		{
+			List<ItemStack> items = new ArrayList();
+			ItemStack itemstack = this.getSilkTouchDrop(state);
+			if (!itemstack.isEmpty())
+			{
+				if (te instanceof TileEntityRedTransportalizer)
+				{
+					IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode(player);
+					if (((TileEntityRedTransportalizer) te).owner.equals(id))
+						itemstack.setStackDisplayName(((TileEntityRedTransportalizer) te).getId());
+				}
 
-                items.add(itemstack);
-            }
+				items.add(itemstack);
+			}
 
-            ForgeEventFactory.fireBlockHarvesting(items, worldIn, pos, state, 0, 1.0F, true, player);
-            Iterator var9 = items.iterator();
+			ForgeEventFactory.fireBlockHarvesting(items, worldIn, pos, state, 0, 1.0F, true, player);
+			Iterator var9 = items.iterator();
 
-            while(var9.hasNext()) {
-                ItemStack item = (ItemStack)var9.next();
-                spawnAsEntity(worldIn, pos, item);
-            }
-        } else {
-            this.harvesters.set(player);
-            int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
-            this.dropBlockAsItem(worldIn, pos, state, i);
-            this.harvesters.set(null);
-        }
+			while (var9.hasNext())
+			{
+				ItemStack item = (ItemStack) var9.next();
+				spawnAsEntity(worldIn, pos, item);
+			}
+		}
+		else
+		{
+			this.harvesters.set(player);
+			int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
+			this.dropBlockAsItem(worldIn, pos, state, i);
+			this.harvesters.set(null);
+		}
 
-    }
+	}
 
-    @Nullable
-    @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
-    {
-        TileEntityRedTransportalizer te = (TileEntityRedTransportalizer)worldIn.getTileEntity(pos);
+	@Nullable
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	{
+		TileEntityRedTransportalizer te = (TileEntityRedTransportalizer) worldIn.getTileEntity(pos);
 
-        if(te != null && placer instanceof EntityPlayer)
-            te.owner = IdentifierHandler.encode((EntityPlayer) placer);
+		if (te != null && placer instanceof EntityPlayer)
+			te.owner = IdentifierHandler.encode((EntityPlayer) placer);
 
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-    }
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+	}
 }

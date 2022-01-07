@@ -43,22 +43,23 @@ public class ContainerMiniCruxtruder extends ContainerMiniSburbMachine
 			if (slotNumber <= 1)
 			{
 				//if it's a machine slot
-				result = mergeItemStack(itemstackOrig,2,allSlots,false);
-			} else if (slotNumber > 1)
+				result = mergeItemStack(itemstackOrig, 2, allSlots, false);
+			}
+			else if (slotNumber > 1)
 			{
 				//if it's an inventory slot with valid contents
 				//Debug.print("item ID of " + itemstackOrig.itemID + ". Expected " + Minestuck.rawCruxite.itemID);
 				if (itemstackOrig.getItem() == MinestuckItems.rawCruxite)
 				{
 					//Debug.print("Transferring...");
-					result = mergeItemStack(itemstackOrig,0,1,false);
+					result = mergeItemStack(itemstackOrig, 0, 1, false);
 				}
 			}
 
 			if (!result)
 				return ItemStack.EMPTY;
 
-			if(!itemstackOrig.isEmpty())
+			if (!itemstackOrig.isEmpty())
 				slot.onSlotChanged();
 		}
 

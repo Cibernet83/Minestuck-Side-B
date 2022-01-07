@@ -22,6 +22,15 @@ public class BlockGlowingHeroStone extends MSBlockBase implements IGodTierBlock
 		setLightLevel(1.0F);
 	}
 
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
+
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
 
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer()
@@ -29,22 +38,15 @@ public class BlockGlowingHeroStone extends MSBlockBase implements IGodTierBlock
 		return BlockRenderLayer.TRANSLUCENT;
 	}
 
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-
 	@Override
-	public EnumAspect getAspect() {
+	public EnumAspect getAspect()
+	{
 		return null;
 	}
 
 	@Override
-	public boolean canGodTier() {
+	public boolean canGodTier()
+	{
 		return false;
 	}
 }

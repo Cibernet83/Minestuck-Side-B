@@ -40,74 +40,59 @@ public class BlockAspectLog3 extends BlockLog implements IRegistryBlock
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, new IProperty[] {VARIANT, LOG_AXIS});
-	}
-
-	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockType.values()[meta&3]);
-		iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.values()[(meta>>2)&3]);
-		
+		IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockType.values()[meta & 3]);
+		iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.values()[(meta >> 2) & 3]);
+
 		return iblockstate;
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
 		int i = state.getValue(VARIANT).ordinal();
-		
-		i |= state.getValue(LOG_AXIS).ordinal()<<2;
-		
+
+		i |= state.getValue(LOG_AXIS).ordinal() << 2;
+
 		return i;
 	}
-	
+
 	@Override
-	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
+	protected BlockStateContainer createBlockState()
 	{
-		return 5;
+		return new BlockStateContainer(this, VARIANT, LOG_AXIS);
 	}
-	
-	@Override
-	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
-	{
-		return 5;
-	}
-	
-	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
-	{
-		for(BlockType type : BlockType.values())
-			items.add(new ItemStack(this, 1, type.ordinal()));
-	}
-	
+
 	@Override
 	protected ItemStack getSilkTouchDrop(IBlockState state)
 	{
 		return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).ordinal());
 	}
-	
+
 	@Override
 	public int damageDropped(IBlockState state)
 	{
 		return state.getValue(VARIANT).ordinal();
 	}
-	
-	public enum BlockType implements IUnlocSerializable
+
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
 	{
-		RAGE, SPACE, TIME, VOID;
-		@Override
-		public String getName()
-		{
-			return name().toLowerCase();
-		}
-		@Override
-		public String getUnlocalizedName()
-		{
-			return name().toLowerCase();
-		}
+		for (BlockType type : BlockType.values())
+			items.add(new ItemStack(this, 1, type.ordinal()));
+	}
+
+	@Override
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
+	{
+		return 5;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
+	{
+		return 5;
 	}
 
 	@Override
@@ -131,5 +116,22 @@ public class BlockAspectLog3 extends BlockLog implements IRegistryBlock
 				ModelLoader.setCustomStateMapper(BlockAspectLog3.this, (new StateMap.Builder()).withName(BlockAspectLog3.VARIANT).withSuffix("_log").build());
 			}
 		};
+	}
+
+	public enum BlockType implements IUnlocSerializable
+	{
+		RAGE, SPACE, TIME, VOID;
+
+		@Override
+		public String getName()
+		{
+			return name().toLowerCase();
+		}
+
+		@Override
+		public String getUnlocalizedName()
+		{
+			return name().toLowerCase();
+		}
 	}
 }

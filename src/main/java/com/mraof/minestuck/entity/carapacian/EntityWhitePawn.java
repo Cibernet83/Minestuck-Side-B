@@ -8,12 +8,14 @@ public class EntityWhitePawn extends EntityPawn
 	{
 		super(world);
 	}
+
 	public EntityWhitePawn(World world, int type)
 	{
 		super(world, type);
 	}
+
 	@Override
-	public String getTexture() 
+	public String getTexture()
 	{
 		return "textures/mobs/prospitian_pawn.png";
 	}

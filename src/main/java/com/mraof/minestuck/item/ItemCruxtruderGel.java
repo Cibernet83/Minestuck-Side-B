@@ -30,58 +30,52 @@ public class ItemCruxtruderGel extends ItemCruxite
 		super(name);
 		setMaxStackSize(16);
 	}
-	
-	@Override
-	public String getItemStackDisplayName(ItemStack stack)
-	{
-		return I18n.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", stack.getMetadata() == 0 ? "" : (I18n.translateToLocal("cruxite_color." + (stack.getMetadata() - 1))+" ")).trim();
-	}
-	
+
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		ItemStack stack = player.getHeldItem(hand);
-		int color = stack.getMetadata()-1;
-		
-		if(worldIn.getTileEntity(pos) instanceof TileEntityMiniSburbMachine)
+		int color = stack.getMetadata() - 1;
+
+		if (worldIn.getTileEntity(pos) instanceof TileEntityMiniSburbMachine)
 		{
 			TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) worldIn.getTileEntity(pos);
-			if(te instanceof TileEntityMiniCruxtruder)
+			if (te instanceof TileEntityMiniCruxtruder)
 			{
 				te.color = color;
-				
+
 				if (player instanceof EntityPlayerMP)
-					CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP)player, stack);
+					CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) player, stack);
 				worldIn.playSound(null, pos, MinestuckSounds.cruxtruderGelFill, SoundCategory.BLOCKS, 0.8f, 1);
-				if(worldIn.isRemote) for (int i = 0; i < 16; ++i)
+				if (worldIn.isRemote) for (int i = 0; i < 16; ++i)
 					MinestuckParticles.spawnInkParticle(pos.getX() + 0.5f, pos.getY() + 1, pos.getZ() + 0.5, 0, 0.15f, 0, color == -1 ? 0x99D9EA : ColorCollector.getColor(color));
 				stack.shrink(1);
 				player.inventory.addItemStackToInventory(new ItemStack(Items.GLASS_BOTTLE));
 				return EnumActionResult.SUCCESS;
 			}
 		}
-		else if(worldIn.getBlockState(pos).getBlock() instanceof BlockCruxtruder)
+		else if (worldIn.getBlockState(pos).getBlock() instanceof BlockCruxtruder)
 		{
 			BlockPos mainPos = ((BlockCruxtruder) worldIn.getBlockState(pos).getBlock()).getMainPos(worldIn.getBlockState(pos), pos);
 			TileEntity te = worldIn.getTileEntity(mainPos);
-			
-			if(te instanceof TileEntityCruxtruder && worldIn.getBlockState(mainPos.up()).getBlock().isReplaceable(worldIn, mainPos.up()))
+
+			if (te instanceof TileEntityCruxtruder && worldIn.getBlockState(mainPos.up()).getBlock().isReplaceable(worldIn, mainPos.up()))
 			{
 				((TileEntityCruxtruder) te).setColor(color);
-				
-				if(worldIn.getBlockState(mainPos.up()).getBlock() instanceof BlockCruxtiteDowel && worldIn.getBlockState(mainPos.up()).getValue(BlockCruxtiteDowel.TYPE).equals(BlockCruxtiteDowel.Type.CRUXTRUDER))
+
+				if (worldIn.getBlockState(mainPos.up()).getBlock() instanceof BlockCruxtiteDowel && worldIn.getBlockState(mainPos.up()).getValue(BlockCruxtiteDowel.TYPE).equals(BlockCruxtiteDowel.Type.CRUXTRUDER))
 				{
-					ItemStack dowel = ((TileEntityItemStack)worldIn.getTileEntity(mainPos.up())).getStack();
+					ItemStack dowel = ((TileEntityItemStack) worldIn.getTileEntity(mainPos.up())).getStack();
 					dowel.setItemDamage(stack.getMetadata());
-					((TileEntityItemStack)worldIn.getTileEntity(mainPos.up())).setStack(dowel);
+					((TileEntityItemStack) worldIn.getTileEntity(mainPos.up())).setStack(dowel);
 				}
-				
-				if(player instanceof EntityPlayerMP)
+
+				if (player instanceof EntityPlayerMP)
 					CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) player, stack);
 				worldIn.playSound(null, pos, MinestuckSounds.cruxtruderGelFill, SoundCategory.BLOCKS, 0.8f, 1);
-				if(worldIn.isRemote) for(int i = 0; i < 16; ++i)
+				if (worldIn.isRemote) for (int i = 0; i < 16; ++i)
 					MinestuckParticles.spawnInkParticle(mainPos.getX() + 0.5f, mainPos.getY() + 1, mainPos.getZ() + 0.5, 0, 0.15f, 0, color == -1 ? 0x99D9EA : ColorCollector.getColor(color));
-				if(!player.isCreative())
+				if (!player.isCreative())
 				{
 					stack.shrink(1);
 					player.inventory.addItemStackToInventory(new ItemStack(Items.GLASS_BOTTLE));
@@ -89,7 +83,13 @@ public class ItemCruxtruderGel extends ItemCruxite
 				return EnumActionResult.SUCCESS;
 			}
 		}
-		
+
 		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+	}
+
+	@Override
+	public String getItemStackDisplayName(ItemStack stack)
+	{
+		return I18n.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", stack.getMetadata() == 0 ? "" : (I18n.translateToLocal("cruxite_color." + (stack.getMetadata() - 1)) + " ")).trim();
 	}
 }

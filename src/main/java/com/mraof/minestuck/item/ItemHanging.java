@@ -1,9 +1,7 @@
 package com.mraof.minestuck.item;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -25,11 +23,11 @@ public abstract class ItemHanging extends MSItemBase
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		BlockPos blockPos = pos.offset(facing);
-		
+
 		if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && player.canPlayerEdit(blockPos, facing, stack))
 		{
 			EntityHanging entityhanging = this.createEntity(worldIn, blockPos, facing, stack, stack.getMetadata());
-			
+
 			if (entityhanging != null && entityhanging.onValidSurface())
 			{
 				if (!worldIn.isRemote)
@@ -37,10 +35,10 @@ public abstract class ItemHanging extends MSItemBase
 					entityhanging.playPlaceSound();
 					worldIn.spawnEntity(entityhanging);
 				}
-				
+
 				stack.shrink(1);
 			}
-			
+
 			return EnumActionResult.SUCCESS;
 		}
 		else
@@ -48,6 +46,6 @@ public abstract class ItemHanging extends MSItemBase
 			return EnumActionResult.FAIL;
 		}
 	}
-	
+
 	public abstract EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing facing, ItemStack stack, int meta);
 }

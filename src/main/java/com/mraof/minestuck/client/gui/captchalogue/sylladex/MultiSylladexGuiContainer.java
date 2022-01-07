@@ -32,9 +32,9 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 	{
 		if (!containers.isEmpty())
 		{
-			float theta = (-depth + 1) * (float)Math.PI / 3f;
+			float theta = (-depth + 1) * (float) Math.PI / 3f;
 			if (theta < 0)
-				theta += (float)Math.PI;
+				theta += (float) Math.PI;
 			float moveX = MathHelper.cos(theta);
 			float moveY = MathHelper.sin(theta);
 			float slope = moveY / moveX;

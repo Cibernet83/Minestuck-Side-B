@@ -27,6 +27,14 @@ public class MessageSburbConnectRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		player = new ComputerData(IdentifierHandler.getById(buf.readInt()), buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt());
+		otherPlayer = buf.readInt();
+		isClient = buf.readBoolean();
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(player.getOwnerId());
@@ -37,23 +45,15 @@ public class MessageSburbConnectRequest implements MinestuckMessage
 		buf.writeInt(otherPlayer);
 		buf.writeBoolean(isClient);
 	}
-	
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		player = new ComputerData(IdentifierHandler.getById(buf.readInt()), buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt());
-		otherPlayer = buf.readInt();
-		isClient = buf.readBoolean();
-	}
-	
+
 	@Override
 	public void execute(EntityPlayer player)
 	{
 		UserListOpsEntry opsEntry = player.getServer().getPlayerList().getOppedPlayers().getEntry(player.getGameProfile());
-		if((!MinestuckConfig.privateComputers || IdentifierHandler.encode(player) == this.player.getOwner() || opsEntry != null && opsEntry.getPermissionLevel() >= 2) && ServerEditHandler.getData(player) == null)
+		if ((!MinestuckConfig.privateComputers || IdentifierHandler.encode(player) == this.player.getOwner() || opsEntry != null && opsEntry.getPermissionLevel() >= 2) && ServerEditHandler.getData(player) == null)
 			SkaianetHandler.requestConnection(this.player, otherPlayer != -1 ? IdentifierHandler.getById(otherPlayer) : null, isClient);
 	}
-	
+
 	@Override
 	public Side toSide()
 	{

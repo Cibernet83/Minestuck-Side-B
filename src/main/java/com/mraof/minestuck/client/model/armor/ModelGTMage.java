@@ -17,14 +17,14 @@ public class ModelGTMage extends ModelGTAbstract
 		addColorIgnores(6, 7, 8);
 
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F+0.2f, -5.0F, 10, 1, 10, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F+0.2f, 4.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F+0.2f, -5.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 20, 4.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 40, 0, -5.0F, -10.0F+0.2f, -4.0F, 10, 1, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 36, -4.0F, -10.0F+0.2f, 4.0F, 8, 1, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 36, -4.0F, -10.0F+0.2f, -5.0F, 8, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F + 0.2f, -5.0F, 10, 1, 10, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F + 0.2f, 4.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F + 0.2f, -5.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 18, 20, 4.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 40, 0, -5.0F, -10.0F + 0.2f, -4.0F, 10, 1, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 18, 36, -4.0F, -10.0F + 0.2f, 4.0F, 8, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 36, -4.0F, -10.0F + 0.2f, -5.0F, 8, 1, 1, 0.0F, false));
 
 		hood = new ModelRenderer(this);
 		hood.setRotationPoint(0.0F, 24.0F, 0.0F);
@@ -79,12 +79,13 @@ public class ModelGTMage extends ModelGTAbstract
 	}
 
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-	
+
 	@Override
 	public EntityEquipmentSlot getSkirtSlot()
 	{

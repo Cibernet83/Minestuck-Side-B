@@ -18,47 +18,47 @@ import java.util.Random;
 
 public class LandAspectSilence extends TitleLandAspect
 {
-	
+
 	@Override
 	public String getPrimaryName()
 	{
 		return "silence";
 	}
-	
+
 	@Override
 	public String[] getNames()
 	{
 		return new String[]{"silence"};
 	}
-	
+
 	@Override
-	public void prepareWorldProvider(WorldProviderLands worldProvider)
+	public boolean isAspectCompatible(TerrainLandAspect aspect)
 	{
-		worldProvider.skylightBase = Math.min(1/2F, worldProvider.skylightBase);
-		worldProvider.mergeFogColor(new Vec3d(0, 0, 0.1), 0.5F);
+		return (aspect.getWeatherType() == -1 || (aspect.getWeatherType() & 1) == 1)/*snow is quiet, rain is noisy*/;
 	}
-	
+
 	@Override
 	public void prepareChunkProvider(ChunkProviderLands chunkProvider)
 	{
 	}
-	
+
 	@Override
 	public void prepareChunkProviderServer(ChunkProviderLands chunkProvider)
 	{
 		chunkProvider.blockRegistry.setBlockState("structure_wool_2", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.BLACK));
 		chunkProvider.blockRegistry.setBlockState("carpet", Blocks.CARPET.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.BLUE));
 		chunkProvider.decorators.add(new PumpkinDecorator());
-		if(chunkProvider.blockRegistry.getCustomBlock("torch") == null)
+		if (chunkProvider.blockRegistry.getCustomBlock("torch") == null)
 			chunkProvider.blockRegistry.setBlockState("torch", Blocks.REDSTONE_TORCH.getDefaultState());
 	}
-	
+
 	@Override
-	public boolean isAspectCompatible(TerrainLandAspect aspect)
+	public void prepareWorldProvider(WorldProviderLands worldProvider)
 	{
-		return (aspect.getWeatherType() == -1 || (aspect.getWeatherType() & 1) == 1)/*snow is quiet, rain is noisy*/;
+		worldProvider.skylightBase = Math.min(1 / 2F, worldProvider.skylightBase);
+		worldProvider.mergeFogColor(new Vec3d(0, 0, 0.1), 0.5F);
 	}
-	
+
 	private static class PumpkinDecorator extends SingleBlockDecorator
 	{
 		@Override
@@ -66,15 +66,17 @@ public class LandAspectSilence extends TitleLandAspect
 		{
 			return Blocks.PUMPKIN.getDefaultState().withProperty(BlockPumpkin.FACING, EnumFacing.Plane.HORIZONTAL.random(random));
 		}
-		@Override
-		public int getCount(Random random)
-		{
-			return random.nextFloat() < 0.01 ? 1 : 0;
-		}
+
 		@Override
 		public boolean canPlace(BlockPos pos, World world)
 		{
 			return !world.getBlockState(pos.down()).getMaterial().isLiquid();
+		}
+
+		@Override
+		public int getCount(Random random)
+		{
+			return random.nextFloat() < 0.01 ? 1 : 0;
 		}
 	}
 }

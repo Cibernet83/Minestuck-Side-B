@@ -18,13 +18,13 @@ import net.minecraft.world.World;
 public class EntityAIFollowHope extends EntityAIBase
 {
 	private final EntityHopeGolem golem;
-	private EntityLivingBase owner;
-	World world;
 	private final double followSpeed;
 	private final PathNavigate petPathfinder;
-	private int timeToRecalcPath;
+	World world;
 	float maxDist;
 	float minDist;
+	private EntityLivingBase owner;
+	private int timeToRecalcPath;
 	private float oldWaterCost;
 
 	public EntityAIFollowHope(EntityHopeGolem golem, double followSpeedIn, float minDistIn, float maxDistIn)
@@ -54,11 +54,11 @@ public class EntityAIFollowHope extends EntityAIBase
 		{
 			return false;
 		}
-		else if (entitylivingbase instanceof EntityPlayer && ((EntityPlayer)entitylivingbase).isSpectator())
+		else if (entitylivingbase instanceof EntityPlayer && ((EntityPlayer) entitylivingbase).isSpectator())
 		{
 			return false;
 		}
-		else if (this.golem.getDistanceSq(entitylivingbase) < (double)(this.minDist * this.minDist))
+		else if (this.golem.getDistanceSq(entitylivingbase) < (double) (this.minDist * this.minDist))
 		{
 			return false;
 		}
@@ -74,7 +74,7 @@ public class EntityAIFollowHope extends EntityAIBase
 	 */
 	public boolean shouldContinueExecuting()
 	{
-		return !this.petPathfinder.noPath() && this.golem.getDistanceSq(this.owner) > (double)(this.maxDist * this.maxDist);
+		return !this.petPathfinder.noPath() && this.golem.getDistanceSq(this.owner) > (double) (this.maxDist * this.maxDist);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class EntityAIFollowHope extends EntityAIBase
 	 */
 	public void updateTask()
 	{
-		this.golem.getLookHelper().setLookPositionWithEntity(this.owner, 10.0F, (float)this.golem.getVerticalFaceSpeed());
+		this.golem.getLookHelper().setLookPositionWithEntity(this.owner, 10.0F, (float) this.golem.getVerticalFaceSpeed());
 
 		if (--this.timeToRecalcPath <= 0)
 		{
@@ -124,7 +124,7 @@ public class EntityAIFollowHope extends EntityAIBase
 							{
 								if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.isTeleportFriendlyBlock(i, j, k, l, i1))
 								{
-									this.golem.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), this.golem.rotationYaw, this.golem.rotationPitch);
+									this.golem.setLocationAndAngles((double) ((float) (i + l) + 0.5F), (double) k, (double) ((float) (j + i1) + 0.5F), this.golem.rotationYaw, this.golem.rotationPitch);
 									this.petPathfinder.clearPath();
 									return;
 								}

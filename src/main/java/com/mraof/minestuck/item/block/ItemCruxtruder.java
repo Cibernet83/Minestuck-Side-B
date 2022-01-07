@@ -27,37 +27,39 @@ public class ItemCruxtruder extends MSItemBlock
 	{
 		super(block);
 	}
-	
+
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-		
+
 		if (world.isRemote)
 		{
 			return EnumActionResult.SUCCESS;
-		} else if (facing != EnumFacing.UP)
+		}
+		else if (facing != EnumFacing.UP)
 		{
 			return EnumActionResult.FAIL;
-		} else
+		}
+		else
 		{
 			Block block = world.getBlockState(pos).getBlock();
 			boolean flag = block.isReplaceable(world, pos);
-			
+
 			if (!flag)
 			{
 				pos = pos.up();
 			}
-			
+
 			EnumFacing placedFacing = player.getHorizontalFacing().getOpposite();
 			ItemStack itemstack = player.getHeldItem(hand);
-			
+
 			pos = pos.offset(placedFacing.rotateY());
-			
+
 			if (!itemstack.isEmpty())
 			{
-				if(!canPlaceAt(itemstack, player, world, pos, placedFacing))
+				if (!canPlaceAt(itemstack, player, world, pos, placedFacing))
 					return EnumActionResult.FAIL;
-				
+
 				IBlockState state = this.block.getDefaultState();
 				this.placeBlockAt(itemstack, player, world, pos, facing, hitX, hitY, hitZ, state);
 				return EnumActionResult.SUCCESS;
@@ -65,7 +67,7 @@ public class ItemCruxtruder extends MSItemBlock
 			return EnumActionResult.FAIL;
 		}
 	}
-	
+
 	public static boolean canPlaceAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing)
 	{
 		for (int x = 0; x < 3; x++)
@@ -74,19 +76,20 @@ public class ItemCruxtruder extends MSItemBlock
 				return false;
 			for (int y = 0; y < 3; y++)
 			{
-				for(int z=0;z<3;z++) {
-					if (!world.mayPlace(MinestuckBlocks.cruxtruder, pos.offset(facing.getOpposite(),z).offset(facing.rotateYCCW(), x).up(y), false, EnumFacing.UP, null))
+				for (int z = 0; z < 3; z++)
+				{
+					if (!world.mayPlace(MinestuckBlocks.cruxtruder, pos.offset(facing.getOpposite(), z).offset(facing.rotateYCCW(), x).up(y), false, EnumFacing.UP, null))
 						return false;
 				}
 			}
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState)
 	{
-		if(!world.isRemote)
+		if (!world.isRemote)
 		{
 			EnumFacing facing = player.getHorizontalFacing().getOpposite();
 			switch (facing)
@@ -104,7 +107,7 @@ public class ItemCruxtruder extends MSItemBlock
 				default:
 					break;
 			}
-			
+
 			world.setBlockState(pos.south(0).up(0).east(0), newState.withProperty(BlockCruxtruder.PART, EnumParts.BASE_CORNER).withProperty(BlockCruxtruder.DIRECTION, EnumFacing.NORTH));
 			world.setBlockState(pos.south(0).up(0).east(1), newState.withProperty(BlockCruxtruder.PART, EnumParts.BASE_SIDE).withProperty(BlockCruxtruder.DIRECTION, EnumFacing.NORTH));
 			world.setBlockState(pos.south(0).up(0).east(2), newState.withProperty(BlockCruxtruder.PART, EnumParts.BASE_CORNER).withProperty(BlockCruxtruder.DIRECTION, EnumFacing.EAST));
@@ -116,23 +119,24 @@ public class ItemCruxtruder extends MSItemBlock
 			world.setBlockState(pos.south(1).up(0).east(1), newState.withProperty(BlockCruxtruder.PART, EnumParts.CENTER).withProperty(BlockCruxtruder.DIRECTION, facing));
 			world.setBlockState(pos.south(1).up(1).east(1), newState.withProperty(BlockCruxtruder.PART, EnumParts.TUBE).withProperty(BlockCruxtruder.DIRECTION, facing));
 			world.setBlockState(pos.south().up(2).east(), MinestuckBlocks.cruxtruderLid.getDefaultState());
-			
-			TileEntity te = world.getTileEntity(pos.add( 1, 1, 1));
-			if(te instanceof TileEntityCruxtruder)
+
+			TileEntity te = world.getTileEntity(pos.add(1, 1, 1));
+			if (te instanceof TileEntityCruxtruder)
 			{
 				int color;
 				EditData editData = ServerEditHandler.getData(player);
-				if(editData != null)
+				if (editData != null)
 					color = MinestuckPlayerData.getData(editData.getTarget()).color;
 				else color = MinestuckPlayerData.getData(player).color;
-				
+
 				((TileEntityCruxtruder) te).setColor(color);
-			} else Debug.warnf("Placed cruxtruder, but can't find tile entity. Instead found %s.", te);
-			
-			if(player instanceof EntityPlayerMP)
+			}
+			else Debug.warnf("Placed cruxtruder, but can't find tile entity. Instead found %s.", te);
+
+			if (player instanceof EntityPlayerMP)
 				CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, stack);
 		}
-		
+
 		return true;
 	}
 }

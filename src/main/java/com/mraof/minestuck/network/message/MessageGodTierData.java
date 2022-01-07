@@ -11,40 +11,41 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class MessageGodTierData implements MinestuckMessage
 {
-    private NBTTagCompound nbt;
+	private NBTTagCompound nbt;
 
-    public MessageGodTierData() { }
+	public MessageGodTierData() { }
 
-    public MessageGodTierData(EntityPlayer player)
-    {
-        nbt = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).writeToNBT();
-    }
+	public MessageGodTierData(EntityPlayer player)
+	{
+		nbt = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).writeToNBT();
+	}
 
-    @Override
-    public void toBytes(ByteBuf buf)
-    {
-        ByteBufUtils.writeTag(buf, nbt);
-    }
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		nbt = ByteBufUtils.readTag(buf);
+	}
 
-    @Override
-    public void fromBytes(ByteBuf buf)
-    {
-        nbt = ByteBufUtils.readTag(buf);
-    }
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		ByteBufUtils.writeTag(buf, nbt);
+	}
 
-    @Override
-    public void execute(EntityPlayer player)
-    {
-        if(nbt.hasKey("Reset"))
-        {
-            nbt.removeTag("Reset");
-            MinestuckUtils.onResetGodTier(player);
-        }
-        player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).readFromNBT(nbt);
-    }
+	@Override
+	public void execute(EntityPlayer player)
+	{
+		if (nbt.hasKey("Reset"))
+		{
+			nbt.removeTag("Reset");
+			MinestuckUtils.onResetGodTier(player);
+		}
+		player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).readFromNBT(nbt);
+	}
 
-    @Override
-    public Side toSide() {
-        return Side.CLIENT;
-    }
+	@Override
+	public Side toSide()
+	{
+		return Side.CLIENT;
+	}
 }

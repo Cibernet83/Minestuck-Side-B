@@ -34,9 +34,9 @@ import java.util.*;
 
 public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 {
-	protected final AxisAlignedBB[] AABBS;
 	public static final PropertyDirection DIRECTION = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyEnum<EnumComputerState> COMPUTER_STATE = PropertyEnum.create("state", EnumComputerState.class);
+	protected final AxisAlignedBB[] AABBS;
 
 	public BlockComputer(String name, AxisAlignedBB... aabb)
 	{
@@ -49,68 +49,29 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 
 		AABBS = aabb;
 	}
-	
-	@Override
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
-	
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-	
-	@Override
-	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
-	{
-		return false;
-	}
-	
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, DIRECTION, COMPUTER_STATE);
-	}
-	
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(DIRECTION).getHorizontalIndex() + state.getValue(COMPUTER_STATE).ordinal()*4;
-	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(DIRECTION, EnumFacing.getHorizontal(meta % 4)).withProperty(COMPUTER_STATE, EnumComputerState.values()[meta / 4]);
 	}
-	
+
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	public int getMetaFromState(IBlockState state)
 	{
-		int l = MathHelper.floor((double)(placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		
-		EnumFacing facing = new EnumFacing[]{EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST}[l];
-		
-		worldIn.setBlockState(pos, state.withProperty(DIRECTION, facing), 2);
+		return state.getValue(DIRECTION).getHorizontalIndex() + state.getValue(COMPUTER_STATE).ordinal() * 4;
 	}
-	
+
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
+
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return BlockDecor.modifyAABBForDirection(state.getValue(DIRECTION), AABBS[0]);
-	}
-	
-	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
-	{
-		for(AxisAlignedBB bb : AABBS)
-		{
-			bb = BlockDecor.modifyAABBForDirection(state.getValue(DIRECTION), bb).offset(pos);
-			if(entityBox.intersects(bb))
-				collidingBoxes.add(bb);
-		}
 	}
 
 	@Override
@@ -118,39 +79,57 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 	{
 		return BlockFaceShape.UNDEFINED;
 	}
-	
+
 	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state)
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
 	{
-		return EnumPushReaction.BLOCK;
+		for (AxisAlignedBB bb : AABBS)
+		{
+			bb = BlockDecor.modifyAABBForDirection(state.getValue(DIRECTION), bb).offset(pos);
+			if (entityBox.intersects(bb))
+				collidingBoxes.add(bb);
+		}
+	}
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
+
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
+		dropItems(worldIn, pos.getX(), pos.getY(), pos.getZ(), state);
+		super.breakBlock(worldIn, pos, state);
 	}
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-	                                EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+									EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		TileEntityComputer tileEntity = (TileEntityComputer) worldIn.getTileEntity(pos);
 
 		if (tileEntity == null || playerIn.isSneaking())
 			return false;
 
-		if(state.getValue(COMPUTER_STATE) == EnumComputerState.OFF)
+		if (state.getValue(COMPUTER_STATE) == EnumComputerState.OFF)
 		{
 			ItemStack heldItem = playerIn.getHeldItem(hand);
-			if(!EnumFacing.UP.equals(facing) || !heldItem.isEmpty() && ComputerProgram.getProgramID(heldItem) == -2)
+			if (!EnumFacing.UP.equals(facing) || !heldItem.isEmpty() && ComputerProgram.getProgramID(heldItem) == -2)
 				return false;
-			if(!worldIn.isRemote)
+			if (!worldIn.isRemote)
 				worldIn.setBlockState(pos, state.withProperty(COMPUTER_STATE, EnumComputerState.ON), 2);
 			tileEntity.owner = IdentifierHandler.encode(playerIn);
 		}
 
 		int id = ComputerProgram.getProgramID(playerIn.getHeldItem(hand));
-		if(id != -2 && !tileEntity.hasProgram(id) && tileEntity.installedPrograms.size() < 2 && !tileEntity.hasProgram(-1))
+		if (id != -2 && !tileEntity.hasProgram(id) && tileEntity.installedPrograms.size() < 2 && !tileEntity.hasProgram(-1))
 		{
-			if(worldIn.isRemote)
+			if (worldIn.isRemote)
 				return true;
 			playerIn.setHeldItem(hand, ItemStack.EMPTY);
-			if(id == -1)
+			if (id == -1)
 			{
 				tileEntity.closeAll();
 				worldIn.setBlockState(pos, state.withProperty(COMPUTER_STATE, EnumComputerState.BSOD), 2);
@@ -161,16 +140,38 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 			return true;
 		}
 
-		if(worldIn.isRemote && SkaiaClient.requestData(tileEntity))
+		if (worldIn.isRemote && SkaiaClient.requestData(tileEntity))
 			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.COMPUTER.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 
 		return true;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2)
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
 	{
-		return new TileEntityComputer();
+		int l = MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+		EnumFacing facing = new EnumFacing[]{EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST}[l];
+
+		worldIn.setBlockState(pos, state.withProperty(DIRECTION, facing), 2);
+	}
+
+	@Override
+	public EnumPushReaction getMobilityFlag(IBlockState state)
+	{
+		return EnumPushReaction.BLOCK;
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, DIRECTION, COMPUTER_STATE);
+	}
+
+	@Override
+	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
+	{
+		return false;
 	}
 
 	@Override
@@ -180,13 +181,6 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 		list.add(new ItemStack(MinestuckBlocks.sburbComputer));
 
 		return list;
-	}
-
-	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-	{
-		dropItems(worldIn, pos.getX(), pos.getY(), pos.getZ(), state);
-		super.breakBlock(worldIn, pos, state);
 	}
 
 	private void dropItems(World world, int x, int y, int z, IBlockState state)
@@ -204,7 +198,7 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 		while (it.hasNext())
 		{
 			Map.Entry<Integer, Boolean> pairs = it.next();
-			if(!pairs.getValue())
+			if (!pairs.getValue())
 				continue;
 			int program = pairs.getKey();
 
@@ -217,7 +211,7 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 			entityItem.motionZ = rand.nextGaussian() * factor;
 			world.spawnEntity(entityItem);
 		}
-		if(state.getValue(COMPUTER_STATE) == EnumComputerState.BSOD)
+		if (state.getValue(COMPUTER_STATE) == EnumComputerState.BSOD)
 		{
 			float rx = rand.nextFloat() * 0.8F + 0.1F;
 			float ry = rand.nextFloat() * 0.8F + 0.1F;
@@ -230,6 +224,12 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 		}
 	}
 
+	@Override
+	public TileEntity createNewTileEntity(World var1, int var2)
+	{
+		return new TileEntityComputer();
+	}
+
 	public enum EnumComputerState implements IStringSerializable
 	{
 		OFF("off"),
@@ -237,13 +237,15 @@ public class BlockComputer extends MSBlockBase implements ITileEntityProvider
 		BSOD("bsod");
 
 		final String name;
+
 		EnumComputerState(String name)
 		{
 			this.name = name;
 		}
 
 		@Override
-		public String getName() {
+		public String getName()
+		{
 			return name;
 		}
 	}

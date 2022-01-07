@@ -22,47 +22,25 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MinestuckGuiHandler implements IGuiHandler
 {
-	public enum GuiId
-	{
-		MACHINE,
-		COMPUTER,
-		TRANSPORTALIZER,
-		COLOR,
-		MERCHANT,
-		ALCHEMITER,
-		STONE_TABLET,
-		MACHINE_CHASSIS,
-		AUTO_CAPTCHA,
-		PORKHOLLOW_ATM,
-		BOONDOLLAR_REGISTER,
-		STRIFE_CARD,
-		MODUS_CONTROL_DECK,
-		FETCH_MODUS,
-		MEDITATE,
-		ITEM_VOID,
-		HOARD_SELECTOR,
-		SASH,
-	}
-	
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
 	{
 		TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 
-		switch(GuiId.values()[id])
+		switch (GuiId.values()[id])
 		{
 			case MACHINE:
-				if(tileEntity instanceof TileEntityMiniAlchemiter)
+				if (tileEntity instanceof TileEntityMiniAlchemiter)
 					return new ContainerMiniAlchemiter(player.inventory, (TileEntityMiniAlchemiter) tileEntity);
-				if(tileEntity instanceof TileEntityMiniCruxtruder)
+				if (tileEntity instanceof TileEntityMiniCruxtruder)
 					return new ContainerMiniCruxtruder(player.inventory, (TileEntityMiniCruxtruder) tileEntity);
-				if(tileEntity instanceof TileEntityMiniTotemLathe)
+				if (tileEntity instanceof TileEntityMiniTotemLathe)
 					return new ContainerMiniTotemLathe(player.inventory, (TileEntityMiniTotemLathe) tileEntity);
-				if(tileEntity instanceof TileEntityMiniPunchDesignix)
+				if (tileEntity instanceof TileEntityMiniPunchDesignix)
 					return new ContainerMiniPunchDesignix(player.inventory, (TileEntityMiniPunchDesignix) tileEntity);
-				else if(tileEntity instanceof TileEntityGristWidget)
+				else if (tileEntity instanceof TileEntityGristWidget)
 					return new ContainerGristWidget(player.inventory, (TileEntityGristWidget) tileEntity);
-				else if(tileEntity instanceof TileEntityUraniumCooker)
+				else if (tileEntity instanceof TileEntityUraniumCooker)
 					return new ContainerUraniumCooker(player.inventory, (TileEntityUraniumCooker) tileEntity);
 				break;
 			case MERCHANT:
@@ -81,24 +59,24 @@ public class MinestuckGuiHandler implements IGuiHandler
 	//returns an instance of the Gui you made earlier
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world,
-			int x, int y, int z)
+									  int x, int y, int z)
 	{
 		TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 
-		switch(GuiId.values()[id])
+		switch (GuiId.values()[id])
 		{
 			case MACHINE:
-				if(tileEntity instanceof TileEntityMiniAlchemiter)
+				if (tileEntity instanceof TileEntityMiniAlchemiter)
 					return new GuiMiniAlchemiter(player.inventory, (TileEntityMiniAlchemiter) tileEntity);
-				if(tileEntity instanceof TileEntityMiniCruxtruder)
+				if (tileEntity instanceof TileEntityMiniCruxtruder)
 					return new GuiMiniCruxtruder(player.inventory, (TileEntityMiniCruxtruder) tileEntity);
-				if(tileEntity instanceof TileEntityMiniTotemLathe)
+				if (tileEntity instanceof TileEntityMiniTotemLathe)
 					return new GuiMiniTotemLathe(player.inventory, (TileEntityMiniTotemLathe) tileEntity);
-				if(tileEntity instanceof TileEntityMiniPunchDesignix)
+				if (tileEntity instanceof TileEntityMiniPunchDesignix)
 					return new GuiMiniPunchDesignix(player.inventory, (TileEntityMiniPunchDesignix) tileEntity);
-				else if(tileEntity instanceof TileEntityGristWidget)
+				else if (tileEntity instanceof TileEntityGristWidget)
 					return new GuiGristWidget(player.inventory, (TileEntityGristWidget) tileEntity);
-				else if(tileEntity instanceof TileEntityUraniumCooker)
+				else if (tileEntity instanceof TileEntityUraniumCooker)
 					return new GuiUraniumCooker(player.inventory, (TileEntityUraniumCooker) tileEntity);
 				break;
 			case COMPUTER:
@@ -116,14 +94,14 @@ public class MinestuckGuiHandler implements IGuiHandler
 				ItemStack stack = player.getHeldItemMainhand();
 				ItemStack tablet = new ItemStack(MinestuckItems.stoneTablet);
 				String text = "";
-				if(!stack.isItemEqual(tablet))
+				if (!stack.isItemEqual(tablet))
 				{
 					hand = EnumHand.MAIN_HAND;
-					if(!(stack = player.getHeldItemOffhand()).isItemEqual(tablet))
+					if (!(stack = player.getHeldItemOffhand()).isItemEqual(tablet))
 						return null;
 				}
 
-				if(stack.hasTagCompound())
+				if (stack.hasTagCompound())
 				{
 					text = stack.getTagCompound().getString("text");
 				}
@@ -148,7 +126,7 @@ public class MinestuckGuiHandler implements IGuiHandler
 				ItemStack modusStack = player.getHeldItemMainhand();
 				if (modusStack.isEmpty() || !(modusStack.getItem() instanceof ItemModus))
 					return null;
-				return ((ItemModus)modusStack.getItem()).getModus().getSettingsGui(modusStack);
+				return ((ItemModus) modusStack.getItem()).getModus().getSettingsGui(modusStack);
 
 			case MEDITATE:
 				return new GuiGodTierMeditation(player);
@@ -157,10 +135,12 @@ public class MinestuckGuiHandler implements IGuiHandler
 			case ITEM_VOID:
 				return new GuiItemVoid(player);
 			case HOARD_SELECTOR:
-				return new GuiGristSelector(new IGristSelectable() {
+				return new GuiGristSelector(new IGristSelectable()
+				{
 					@Override
 					@SideOnly(Side.CLIENT)
 					public void select(Grist grist) { }
+
 					@Override
 					@SideOnly(Side.CLIENT)
 					public void cancel() { }
@@ -169,7 +149,29 @@ public class MinestuckGuiHandler implements IGuiHandler
 
 
 		return null;
-		
+
 	}
-	
+
+	public enum GuiId
+	{
+		MACHINE,
+		COMPUTER,
+		TRANSPORTALIZER,
+		COLOR,
+		MERCHANT,
+		ALCHEMITER,
+		STONE_TABLET,
+		MACHINE_CHASSIS,
+		AUTO_CAPTCHA,
+		PORKHOLLOW_ATM,
+		BOONDOLLAR_REGISTER,
+		STRIFE_CARD,
+		MODUS_CONTROL_DECK,
+		FETCH_MODUS,
+		MEDITATE,
+		ITEM_VOID,
+		HOARD_SELECTOR,
+		SASH,
+	}
+
 }

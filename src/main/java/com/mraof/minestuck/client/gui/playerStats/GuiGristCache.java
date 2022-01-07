@@ -1,7 +1,7 @@
 package com.mraof.minestuck.client.gui.playerStats;
 
-import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.editmode.ClientEditHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -33,7 +33,7 @@ public class GuiGristCache extends GuiPlayerStats
 		super.initGui();
 		this.previousButton = new GuiButtonExt(1, this.xOffset + 8, this.yOffset + 8, 16, 16, "<");
 		this.nextButton = new GuiButtonExt(2, this.xOffset + guiWidth - 24, this.yOffset + 8, 16, 16, ">");
-		if(Grist.REGISTRY.getValues().size() > rows * columns)
+		if (Grist.REGISTRY.getValues().size() > rows * columns)
 		{
 			this.buttonList.add(this.nextButton);
 		}
@@ -76,20 +76,24 @@ public class GuiGristCache extends GuiPlayerStats
 		if (button == previousButton && page > 0)
 		{
 			page--;
-			if(page == 0) {
+			if (page == 0)
+			{
 				this.buttonList.remove(previousButton);
 			}
-			if(!this.buttonList.contains(nextButton)) {
+			if (!this.buttonList.contains(nextButton))
+			{
 				this.addButton(nextButton);
 			}
 		}
 		else if (button == nextButton && page < maxPage)
 		{
 			page++;
-			if(page == maxPage) {
+			if (page == maxPage)
+			{
 				this.buttonList.remove(nextButton);
 			}
-			if(!this.buttonList.contains(previousButton)) {
+			if (!this.buttonList.contains(previousButton))
+			{
 				this.addButton(previousButton);
 			}
 		}

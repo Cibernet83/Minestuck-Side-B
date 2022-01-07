@@ -23,7 +23,7 @@ public class PropertyFlamingArrow extends WeaponProperty implements IPropertyArr
 	@Override
 	public boolean onEntityImpact(EntityMSUArrow arrow, RayTraceResult result)
 	{
-		if(arrow.isBurning())
+		if (arrow.isBurning())
 			result.entityHit.setFire(fireTime);
 		return true;
 	}
@@ -31,13 +31,14 @@ public class PropertyFlamingArrow extends WeaponProperty implements IPropertyArr
 	@Override
 	public EntityArrow customizeArrow(EntityArrow arrow, float chargeTime)
 	{
-		if(chargeTime >= drawTime)
+		if (chargeTime >= drawTime)
 			arrow.setFire(600);
 		return arrow;
 	}
 
 	@Override
-	public Boolean canEnchantWith(ItemStack stack, Enchantment enchantment) {
+	public Boolean canEnchantWith(ItemStack stack, Enchantment enchantment)
+	{
 		return enchantment == Enchantments.FLAME ? false : null;
 	}
 }

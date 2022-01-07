@@ -21,56 +21,60 @@ import java.util.List;
 
 public class LandAspectBlobs extends TerrainLandAspect
 {
-    static Vec3d fogColor = new Vec3d(0.5D, 0.5D, 0.5D);
-    static Vec3d skyColor = new Vec3d(0.75D, 0.75D, 0.75D);
+	static Vec3d fogColor = new Vec3d(0.5D, 0.5D, 0.5D);
+	static Vec3d skyColor = new Vec3d(0.75D, 0.75D, 0.75D);
 
-    @Override
-    public void registerBlocks(StructureBlockRegistry registry)
-    {
-        registry.setBlockState("surface", Blocks.AIR.getDefaultState());
-        registry.setBlockState("upper", Blocks.AIR.getDefaultState());
-        registry.setBlockState("ground", Blocks.AIR.getDefaultState());
-        registry.setBlockState("ocean", Blocks.AIR.getDefaultState());
-        registry.setBlockState("structure_primary", Blocks.END_BRICKS.getDefaultState());
-        registry.setBlockState("structure_primary_decorative", Blocks.PURPUR_PILLAR.getDefaultState().withProperty(BlockRotatedPillar.AXIS, EnumFacing.Axis.Y));
-        registry.setBlockState("structure_primary_stairs", Blocks.PURPUR_STAIRS.getDefaultState());
-        registry.setBlockState("structure_secondary", Blocks.PURPUR_BLOCK.getDefaultState());
-        registry.setBlockState("structure_secondary_stairs", Blocks.STONE_BRICK_STAIRS.getDefaultState());
-        registry.setBlockState("fall_fluid", MinestuckBlocks.blockEnder.getDefaultState());
-        registry.setBlockState("structure_planks", Blocks.BRICK_BLOCK.getDefaultState());
-        registry.setBlockState("structure_planks_slab", Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.BRICK));
-        registry.setBlockState("village_path", MinestuckBlocks.coarseEndStone.getDefaultState());
-        registry.setBlockState("village_fence", Blocks.NETHER_BRICK_FENCE.getDefaultState());
-        registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE));
-        registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIGHT_BLUE));
-    }
+	@Override
+	public void registerBlocks(StructureBlockRegistry registry)
+	{
+		registry.setBlockState("surface", Blocks.AIR.getDefaultState());
+		registry.setBlockState("upper", Blocks.AIR.getDefaultState());
+		registry.setBlockState("ground", Blocks.AIR.getDefaultState());
+		registry.setBlockState("ocean", Blocks.AIR.getDefaultState());
+		registry.setBlockState("structure_primary", Blocks.END_BRICKS.getDefaultState());
+		registry.setBlockState("structure_primary_decorative", Blocks.PURPUR_PILLAR.getDefaultState().withProperty(BlockRotatedPillar.AXIS, EnumFacing.Axis.Y));
+		registry.setBlockState("structure_primary_stairs", Blocks.PURPUR_STAIRS.getDefaultState());
+		registry.setBlockState("structure_secondary", Blocks.PURPUR_BLOCK.getDefaultState());
+		registry.setBlockState("structure_secondary_stairs", Blocks.STONE_BRICK_STAIRS.getDefaultState());
+		registry.setBlockState("fall_fluid", MinestuckBlocks.blockEnder.getDefaultState());
+		registry.setBlockState("structure_planks", Blocks.BRICK_BLOCK.getDefaultState());
+		registry.setBlockState("structure_planks_slab", Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.BRICK));
+		registry.setBlockState("village_path", MinestuckBlocks.coarseEndStone.getDefaultState());
+		registry.setBlockState("village_fence", Blocks.NETHER_BRICK_FENCE.getDefaultState());
+		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE));
+		registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIGHT_BLUE));
+	}
 
-    @Override
-    public List<ILandDecorator> getDecorators()
-    {
-        ArrayList<ILandDecorator> list = new ArrayList();
-        list.add(new BlockBlobDecorator(Blocks.STONE.getDefaultState(), 8, 5, new Biome[]{MinestuckBiomes.mediumRough}));
-        list.add(new BlockBlobDecorator(Blocks.CLAY.getDefaultState(), 8, 5, new Biome[]{MinestuckBiomes.mediumNormal}));
-        return list;
-    }
+	@Override
+	public List<ILandDecorator> getDecorators()
+	{
+		ArrayList<ILandDecorator> list = new ArrayList();
+		list.add(new BlockBlobDecorator(Blocks.STONE.getDefaultState(), 8, 5, MinestuckBiomes.mediumRough));
+		list.add(new BlockBlobDecorator(Blocks.CLAY.getDefaultState(), 8, 5, MinestuckBiomes.mediumNormal));
+		return list;
+	}
 
-    @Override
-    public Vec3d getFogColor() {
-        return fogColor;
-    }
+	@Override
+	public Vec3d getFogColor()
+	{
+		return fogColor;
+	}
 
-    @Override
-    public EnumConsort getConsortType() {
-        return EnumConsort.SALAMANDER;
-    }
+	@Override
+	public EnumConsort getConsortType()
+	{
+		return EnumConsort.SALAMANDER;
+	}
 
-    @Override
-    public String getPrimaryName() {
-        return "blobs";
-    }
+	@Override
+	public String getPrimaryName()
+	{
+		return "blobs";
+	}
 
-    @Override
-    public String[] getNames() {
-        return new String[]{"blobs","floaty_things"};
-    }
+	@Override
+	public String[] getNames()
+	{
+		return new String[]{"blobs", "floaty_things"};
+	}
 }

@@ -32,7 +32,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckBlocks
@@ -66,11 +69,11 @@ public class MinestuckBlocks
 	public static final Block miniCruxtruder = new BlockMiniCruxtruder();
 
 	//Computers
-	public static final Block sburbComputer = new BlockComputer("sburbComputer", new AxisAlignedBB(1/16D, 0.0D, 1/16D, 15/16D, 3/16D, 15/16D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
-	public static final Block blockLaptop = new BlockComputer("laptop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
-	public static final Block blockHubtop = new BlockComputer("hubtop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
-	public static final Block blockCrockertop = new BlockComputer("crockertop", new AxisAlignedBB(1/32D, 0.0D, 7/32D, 31/32D, 0.5/16D, 24.8/32D), new AxisAlignedBB(0.5/16D, 0.5D/16, 11.8/16D, 15.5/16D, 9.5/16D, 12.4/16D));
-	public static final Block blockLunchtop = new BlockComputer("lunchtop", new AxisAlignedBB(5/16d, 0, 5/16d, 11/16d, 3.5/16d, 10/16d));
+	public static final Block sburbComputer = new BlockComputer("sburbComputer", new AxisAlignedBB(1 / 16D, 0.0D, 1 / 16D, 15 / 16D, 3 / 16D, 15 / 16D), new AxisAlignedBB(0.5 / 16D, 0.5D / 16, 11.8 / 16D, 15.5 / 16D, 9.5 / 16D, 12.4 / 16D));
+	public static final Block blockLaptop = new BlockComputer("laptop", new AxisAlignedBB(1 / 32D, 0.0D, 7 / 32D, 31 / 32D, 0.5 / 16D, 24.8 / 32D), new AxisAlignedBB(0.5 / 16D, 0.5D / 16, 11.8 / 16D, 15.5 / 16D, 9.5 / 16D, 12.4 / 16D));
+	public static final Block blockHubtop = new BlockComputer("hubtop", new AxisAlignedBB(1 / 32D, 0.0D, 7 / 32D, 31 / 32D, 0.5 / 16D, 24.8 / 32D), new AxisAlignedBB(0.5 / 16D, 0.5D / 16, 11.8 / 16D, 15.5 / 16D, 9.5 / 16D, 12.4 / 16D));
+	public static final Block blockCrockertop = new BlockComputer("crockertop", new AxisAlignedBB(1 / 32D, 0.0D, 7 / 32D, 31 / 32D, 0.5 / 16D, 24.8 / 32D), new AxisAlignedBB(0.5 / 16D, 0.5D / 16, 11.8 / 16D, 15.5 / 16D, 9.5 / 16D, 12.4 / 16D));
+	public static final Block blockLunchtop = new BlockComputer("lunchtop", new AxisAlignedBB(5 / 16d, 0, 5 / 16d, 11 / 16d, 3.5 / 16d, 10 / 16d));
 
 	//Machines
 	public static final Block modusControlDeck = new BlockModusControlDeck();
@@ -121,10 +124,10 @@ public class MinestuckBlocks
 	public static final MSBlockBase zillyStone = (MSBlockBase) new MSBlockBase("zillystone", Material.ROCK).setResistance(999F).setHardness(5.5F);
 
 	//Decor
-	public static final Block blender = new BlockDecor("blender", SoundType.METAL, new AxisAlignedBB(3/16D,0D,3/16D,13/16D,1.0D,13/16D));
-	public static final Block chessboard = new BlockDecor("chessboard", new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/16D, 1.0D));
-	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica", new AxisAlignedBB(1/32D,0.0D,3/32D,31/32D,15/16D,29/32D));
-	public static final BlockDecor wizardStatue = new BlockDecor("wizardStatue", new AxisAlignedBB(3/16D, 0.0D, 3/16D, 13/16D, 1D, 12/16D));
+	public static final Block blender = new BlockDecor("blender", SoundType.METAL, new AxisAlignedBB(3 / 16D, 0D, 3 / 16D, 13 / 16D, 1.0D, 13 / 16D));
+	public static final Block chessboard = new BlockDecor("chessboard", new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1 / 16D, 1.0D));
+	public static final Block frogStatueReplica = new BlockDecor("frogStatueReplica", new AxisAlignedBB(1 / 32D, 0.0D, 3 / 32D, 31 / 32D, 15 / 16D, 29 / 32D));
+	public static final BlockDecor wizardStatue = new BlockDecor("wizardStatue", new AxisAlignedBB(3 / 16D, 0.0D, 3 / 16D, 13 / 16D, 1D, 12 / 16D));
 	public static final MSBlockBase netherReactorCore = (MSBlockBase) new MSBlockBase("netherReactorCore", Material.ROCK).setHardness(30.0F).setResistance(6);
 	public static final MSBlockBase sbahjTree = new BlockSbahjTree("kringlefucker");
 	public static final BlockLayered layeredSand = new BlockLayered("layeredSand", Blocks.SAND.getDefaultState());
@@ -373,19 +376,6 @@ public class MinestuckBlocks
 			block.register(registry);
 	}
 
-	private static Fluid createFluid(String name, ResourceLocation still, ResourceLocation flowing, String unlocalizedName)
-	{
-		Fluid fluid = new Fluid(name, still, flowing);
-
-		boolean useFluid = FluidRegistry.registerFluid(fluid);
-
-		if (useFluid)
-			fluid.setUnlocalizedName(unlocalizedName);
-		else fluid = FluidRegistry.getFluid(name);
-
-		return fluid;
-	}
-
 	private static Block stairs(Block block)
 	{
 		IBlockState blockState = block.getDefaultState();
@@ -402,14 +392,6 @@ public class MinestuckBlocks
 		return block;
 	}
 
-	private static Block walls(Block block)
-	{
-		IBlockState blockState = block.getDefaultState();
-		String name = blockState.getBlock().getUnlocalizedName().substring(5); // unloc name starts with an extra "tile."
-		walls.put(block, new MSBlockWall(name + "Wall", blockState));
-		return block;
-	}
-
 	private static void generateHeroStones(EnumAspect aspect)
 	{
 		heroStones.put(aspect, new BlockHeroStone(aspect, false));
@@ -417,11 +399,32 @@ public class MinestuckBlocks
 		heroStoneWalls.put(aspect, new BlockHeroStoneWall(heroStones.get(aspect).getDefaultState()));
 		spectralHeroStones.put(aspect, new BlockSpectralHeroStone(aspect));
 
-		aspectPlanks.put(aspect, new BlockFlamable("aspectPlanks"+aspect.getName().toLowerCase().replaceFirst(aspect.getName().charAt(0)+"", aspect.getName().toUpperCase().charAt(0)+""),
+		aspectPlanks.put(aspect, new BlockFlamable("aspectPlanks" + aspect.getName().toLowerCase().replaceFirst(aspect.getName().charAt(0) + "", aspect.getName().toUpperCase().charAt(0) + ""),
 				Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F).setCreativeTab(MinestuckTabs.godTier));
-		aspectLogs.put(aspect, new BlockFlamable("logAspect"+aspect.getName().toLowerCase().replaceFirst(aspect.getName().charAt(0)+"", aspect.getName().toUpperCase().charAt(0)+""),
+		aspectLogs.put(aspect, new BlockFlamable("logAspect" + aspect.getName().toLowerCase().replaceFirst(aspect.getName().charAt(0) + "", aspect.getName().toUpperCase().charAt(0) + ""),
 				Material.WOOD, MapColor.WOOD, SoundType.WOOD).setFireInfo(5, 20).setHardness(2.0F).setCreativeTab(MinestuckTabs.godTier));
 		aspectSaplings.put(aspect, new BlockAspectSapling(aspect));
 
+	}
+
+	private static Fluid createFluid(String name, ResourceLocation still, ResourceLocation flowing, String unlocalizedName)
+	{
+		Fluid fluid = new Fluid(name, still, flowing);
+
+		boolean useFluid = FluidRegistry.registerFluid(fluid);
+
+		if (useFluid)
+			fluid.setUnlocalizedName(unlocalizedName);
+		else fluid = FluidRegistry.getFluid(name);
+
+		return fluid;
+	}
+
+	private static Block walls(Block block)
+	{
+		IBlockState blockState = block.getDefaultState();
+		String name = blockState.getBlock().getUnlocalizedName().substring(5); // unloc name starts with an extra "tile."
+		walls.put(block, new MSBlockWall(name + "Wall", blockState));
+		return block;
 	}
 }

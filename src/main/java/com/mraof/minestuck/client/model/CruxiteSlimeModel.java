@@ -7,15 +7,23 @@ import net.minecraft.entity.Entity;
 
 public class CruxiteSlimeModel extends ModelBase
 {
-	/** The slime's bodies, both the inside box and the outside box */
+	/**
+	 * The slime's bodies, both the inside box and the outside box
+	 */
 	ModelRenderer slimeBodies;
-	/** The slime's right eye */
+	/**
+	 * The slime's right eye
+	 */
 	ModelRenderer slimeRightEye;
-	/** The slime's left eye */
+	/**
+	 * The slime's left eye
+	 */
 	ModelRenderer slimeLeftEye;
-	/** The slime's mouth */
+	/**
+	 * The slime's mouth
+	 */
 	ModelRenderer slimeMouth;
-	
+
 	public CruxiteSlimeModel(int p_i1157_1_)
 	{
 		if (p_i1157_1_ > 0)
@@ -35,7 +43,7 @@ public class CruxiteSlimeModel extends ModelBase
 			this.slimeBodies.addBox(-4.0F, 16.0F, -4.0F, 8, 8, 8);
 		}
 	}
-	
+
 	/**
 	 * Sets the models various rotation angles then renders the model.
 	 */
@@ -44,7 +52,7 @@ public class CruxiteSlimeModel extends ModelBase
 		this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
 		GlStateManager.translate(0.0F, 0.001F, 0.0F);
 		this.slimeBodies.render(scale);
-		
+
 		if (this.slimeRightEye != null)
 		{
 			this.slimeRightEye.render(scale);

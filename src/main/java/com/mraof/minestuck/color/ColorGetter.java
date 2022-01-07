@@ -1,7 +1,6 @@
 package com.mraof.minestuck.color;
 
 import com.google.common.base.Preconditions;
-import io.netty.util.internal.MathUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -74,13 +73,25 @@ public final class ColorGetter
 		return defaultColors;
 	}
 
-	public static int compare(Color color1, Color color2)
+	public static String getMostCommon(Color color)
 	{
-		int diff = 0;
-		diff += Math.abs(color1.getBlue()-color2.getBlue());
-		diff += Math.abs(color1.getGreen()-color2.getGreen());
-		diff += Math.abs(color1.getRed()-color2.getRed());
-		return diff;
+		String mostCommon = "";
+		int mostCommonTracker = 770;
+		for (int i = 0; i < defaultColors.length; i++)
+		{
+			String hex = defaultColors[i].substring(defaultColors[i].length() - 6);
+			Color color2 = new Color(
+					Integer.valueOf(hex.substring(0, 2), 16),
+					Integer.valueOf(hex.substring(2, 4), 16),
+					Integer.valueOf(hex.substring(4, 6), 16));
+			int compare = compare(color, color2);
+			if (compare <= mostCommonTracker)
+			{
+				mostCommonTracker = compare;
+				mostCommon = defaultColors[i].substring(0, defaultColors[i].length() - 7);
+			}
+		}
+		return mostCommon;
 	}
 
 	/*
@@ -117,25 +128,13 @@ public final class ColorGetter
 	}
 	*/
 
-	public static String getMostCommon(Color color)
+	public static int compare(Color color1, Color color2)
 	{
-		String mostCommon = "";
-		int mostCommonTracker = 770;
-		for(int i = 0 ; i < defaultColors.length ; i ++)
-		{
-			String hex = defaultColors[i].substring(defaultColors[i].length()-6);
-			Color color2 = new Color(
-					Integer.valueOf( hex.substring( 0, 2 ), 16 ),
-					Integer.valueOf( hex.substring( 2, 4 ), 16 ),
-					Integer.valueOf( hex.substring( 4, 6 ), 16 ) );
-			int compare = compare(color, color2);
-			if(compare <= mostCommonTracker)
-			{
-				mostCommonTracker = compare;
-				mostCommon = defaultColors[i].substring(0, defaultColors[i].length()-7);
-			}
-		}
-		return mostCommon;
+		int diff = 0;
+		diff += Math.abs(color1.getBlue() - color2.getBlue());
+		diff += Math.abs(color1.getGreen() - color2.getGreen());
+		diff += Math.abs(color1.getRed() - color2.getRed());
+		return diff;
 	}
 
 	public static List<Color> getColors(ItemStack itemStack, int colorCount)
@@ -144,7 +143,7 @@ public final class ColorGetter
 		{
 			return ColorGetter.unsafeGetColors(itemStack, colorCount);
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			return Collections.emptyList();
 		}
@@ -153,12 +152,12 @@ public final class ColorGetter
 	public static List<Color> unsafeGetColors(ItemStack itemStack, int colorCount)
 	{
 		Item item = itemStack.getItem();
-		if(itemStack.isEmpty())
+		if (itemStack.isEmpty())
 			return Collections.emptyList();
-		if(!(item instanceof ItemBlock))
+		if (!(item instanceof ItemBlock))
 			return ColorGetter.getItemColors(itemStack, colorCount);
 		Block block = ((ItemBlock) item).getBlock();
-		if(block != null)
+		if (block != null)
 			return ColorGetter.getBlockColors(itemStack, block, colorCount);
 		return Collections.emptyList();
 	}
@@ -178,7 +177,8 @@ public final class ColorGetter
 		try
 		{
 			blockState = block.getStateFromMeta(meta);
-		} catch (LinkageError | RuntimeException ignored)
+		}
+		catch (LinkageError | RuntimeException ignored)
 		{
 			blockState = block.getDefaultState();
 		}
@@ -219,7 +219,8 @@ public final class ColorGetter
 	}
 
 	@Nullable
-	private static BufferedImage getBufferedImage(TextureAtlasSprite textureAtlasSprite) {
+	private static BufferedImage getBufferedImage(TextureAtlasSprite textureAtlasSprite)
+	{
 		int iconWidth = textureAtlasSprite.getIconWidth();
 		int iconHeight = textureAtlasSprite.getIconHeight();
 		int frameCount = textureAtlasSprite.getFrameCount();
@@ -231,7 +232,8 @@ public final class ColorGetter
 			return null;
 		BufferedImage bufferedImage = new BufferedImage(iconWidth, iconHeight * frameCount, 6);
 		int i = 0;
-		while (i < frameCount) {
+		while (i < frameCount)
+		{
 			int[][] frameTextureData = textureAtlasSprite.getFrameTextureData(i);
 			int[] largestMipMapTextureData = frameTextureData[0];
 			bufferedImage.setRGB(0, i * iconHeight, iconWidth, iconHeight, largestMipMapTextureData, 0, iconWidth);
@@ -241,7 +243,8 @@ public final class ColorGetter
 	}
 
 	@Nullable
-	private static TextureAtlasSprite getTextureAtlasSprite(IBlockState blockState) {
+	private static TextureAtlasSprite getTextureAtlasSprite(IBlockState blockState)
+	{
 		Minecraft minecraft = Minecraft.getMinecraft();
 		BlockRendererDispatcher blockRendererDispatcher = minecraft.getBlockRendererDispatcher();
 		BlockModelShapes blockModelShapes = blockRendererDispatcher.getBlockModelShapes();
@@ -250,7 +253,8 @@ public final class ColorGetter
 		return null;
 	}
 
-	private static TextureAtlasSprite getTextureAtlasSprite(ItemStack itemStack) {
+	private static TextureAtlasSprite getTextureAtlasSprite(ItemStack itemStack)
+	{
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		ItemModelMesher itemModelMesher = renderItem.getItemModelMesher();
 		IBakedModel itemModel = itemModelMesher.getItemModel(itemStack);

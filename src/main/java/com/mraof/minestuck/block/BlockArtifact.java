@@ -26,7 +26,8 @@ import java.util.Random;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BlockArtifact extends MSBlockBase
 {
-	public BlockArtifact(String name, Material fire, MapColor purple) {
+	public BlockArtifact(String name, Material fire, MapColor purple)
+	{
 		super(name, fire, purple);
 
 		setHardness(0);
@@ -35,9 +36,32 @@ public class BlockArtifact extends MSBlockBase
 		setTickRandomly(true);
 	}
 
+	@SubscribeEvent
+	public static void onAlchemize(AlchemizeItemEvent event)
+	{
+		if (event.getResultItem().getItem() instanceof ItemBlock && ((ItemBlock) event.getResultItem().getItem()).getBlock() instanceof BlockArtifact)
+		{
+			BlockPos pos = null;
+
+			if (event instanceof AlchemizeItemAlchemiterEvent)
+				pos = ((AlchemizeItemAlchemiterEvent) event).getItemPos().down();
+			else if (event instanceof AlchemizeItemMinichemiterEvent)
+				pos = ((AlchemizeItemMinichemiterEvent) event).getAlchemiter().getPos();
+
+			if (pos != null)
+			{
+				event.getWorld().setBlockState(pos, ((ItemBlock) event.getResultItem().getItem()).getBlock().getDefaultState(), 3);
+				event.setCanceled(true);
+			}
+		}
+
+	}
+
+	@Nullable
 	@Override
-	public int tickRate(World worldIn) {
-		return 10;
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
+	{
+		return NULL_AABB;
 	}
 
 	@Override
@@ -47,13 +71,19 @@ public class BlockArtifact extends MSBlockBase
 
 		if (!worldIn.isAreaLoaded(pos, 2)) return;
 
-		for(EnumFacing face : EnumFacing.values())
+		for (EnumFacing face : EnumFacing.values())
 		{
 			BlockPos targetPos = pos.offset(face);
 			float chance = getBlockEncouragement(worldIn, targetPos);
-			if(chance >= 1 || (chance > 0 && worldIn.rand.nextFloat() < chance))
+			if (chance >= 1 || (chance > 0 && worldIn.rand.nextFloat() < chance))
 				worldIn.setBlockState(targetPos, getDefaultState(), 3);
 		}
+	}
+
+	@Override
+	public int tickRate(World worldIn)
+	{
+		return 10;
 	}
 
 	@Override
@@ -64,77 +94,51 @@ public class BlockArtifact extends MSBlockBase
 	}
 
 	@Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor)
+	public int quantityDropped(Random random)
 	{
-		super.onNeighborChange(world, pos, neighbor);
+		return 0;
+	}
 
-		if(world instanceof World)
-		for(EnumFacing face : EnumFacing.values())
-		{
-			BlockPos targetPos = pos.offset(face);
-			float chance = getBlockEncouragement((World) world, targetPos);
-			if(chance >= 1 || (chance > 0 && ((World)world).rand.nextFloat() < chance))
-				((World)world).setBlockState(targetPos, getDefaultState(), 3);
-		}
+	@Override
+	public BlockRenderLayer getBlockLayer()
+	{
+		return BlockRenderLayer.TRANSLUCENT;
 	}
 
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {}
 
 	@Override
-	public int quantityDropped(Random random) {
-		return 0;
-	}
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor)
+	{
+		super.onNeighborChange(world, pos, neighbor);
 
-	@Nullable
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-		return NULL_AABB;
+		if (world instanceof World)
+			for (EnumFacing face : EnumFacing.values())
+			{
+				BlockPos targetPos = pos.offset(face);
+				float chance = getBlockEncouragement((World) world, targetPos);
+				if (chance >= 1 || (chance > 0 && ((World) world).rand.nextFloat() < chance))
+					((World) world).setBlockState(targetPos, getDefaultState(), 3);
+			}
 	}
-
-	@Override
-	public BlockRenderLayer getBlockLayer() {
-		return BlockRenderLayer.TRANSLUCENT;
-	}
-
 
 	private float getBlockEncouragement(World worldIn, BlockPos pos)
 	{
 		if (worldIn.isAirBlock(pos))
 			return 0;
 		IBlockState state = worldIn.getBlockState(pos);
-		float hardness =  state.getBlockHardness(worldIn, pos);
+		float hardness = state.getBlockHardness(worldIn, pos);
 
-		if(state.getBlock() instanceof BlockMiniAlchemiter ||
-		   state.getBlock() instanceof BlockMiniCruxtruder ||
-		   state.getBlock() instanceof BlockMiniPunchDesignix ||
-		   state.getBlock() instanceof BlockMiniTotemLathe ||
-		   state.getBlock() instanceof BlockLargeMachine || hardness == 0)
+		if (state.getBlock() instanceof BlockMiniAlchemiter ||
+					state.getBlock() instanceof BlockMiniCruxtruder ||
+					state.getBlock() instanceof BlockMiniPunchDesignix ||
+					state.getBlock() instanceof BlockMiniTotemLathe ||
+					state.getBlock() instanceof BlockLargeMachine || hardness == 0)
 			return 1;
-		if(state.getBlock() instanceof BlockArtifact || hardness < 0)
+		if (state.getBlock() instanceof BlockArtifact || hardness < 0)
 			return 0;
 
-		return Math.min(0.2f, 0.25f/state.getBlockHardness(worldIn, pos));
-	}
-
-	@SubscribeEvent
-	public static void onAlchemize(AlchemizeItemEvent event)
-	{
-		if(event.getResultItem().getItem() instanceof ItemBlock && ((ItemBlock) event.getResultItem().getItem()).getBlock() instanceof BlockArtifact)
-		{
-			BlockPos pos = null;
-
-			if(event instanceof AlchemizeItemAlchemiterEvent)
-				pos = ((AlchemizeItemAlchemiterEvent) event).getItemPos().down();
-			else if(event instanceof AlchemizeItemMinichemiterEvent)
-				pos = ((AlchemizeItemMinichemiterEvent) event).getAlchemiter().getPos();
-
-			if(pos != null)
-			{
-				event.getWorld().setBlockState(pos, ((ItemBlock) event.getResultItem().getItem()).getBlock().getDefaultState(), 3);
-				event.setCanceled(true);
-			}
-		}
-
+		return Math.min(0.2f, 0.25f / state.getBlockHardness(worldIn, pos));
 	}
 }

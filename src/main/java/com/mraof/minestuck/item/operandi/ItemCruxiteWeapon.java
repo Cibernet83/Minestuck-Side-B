@@ -18,14 +18,14 @@ public class ItemCruxiteWeapon extends ItemCruxiteTool
 	{
 		super(name, toolClass, attackDamageIn, attackSpeedIn, efficiency, maxUses, isEntryArtifact);
 	}
-	
+
 	public float getDestroySpeed(ItemStack stack, IBlockState state)
 	{
-		if(!toolClass.isEmpty())
+		if (!toolClass.isEmpty())
 			return super.getDestroySpeed(stack, state);
-		
+
 		Block block = state.getBlock();
-		
+
 		if (block == Blocks.WEB)
 		{
 			return 15.0F;
@@ -36,36 +36,36 @@ public class ItemCruxiteWeapon extends ItemCruxiteTool
 			return material != Material.PLANTS && material != Material.VINE && material != Material.CORAL && material != Material.LEAVES && material != Material.GOURD ? 1.0F : 1.5F;
 		}
 	}
-	
-	
+
+
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
 	{
 		ICaptchalogueable storedStack = ModusStorage.getStoredItem(stack);
 		stack.damageItem(1, attacker);
-		
-		if(stack.isEmpty())
+
+		if (stack.isEmpty())
 		{
-			if(isEntryArtifact() && attacker instanceof EntityPlayer)
+			if (isEntryArtifact() && attacker instanceof EntityPlayer)
 			{
 				getTeleporter().onArtifactActivated((EntityPlayer) attacker);
 				return true;
 			}
 
 			attacker.world.playSound(null, attacker.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
-			
-			if((attacker instanceof EntityPlayer))
+
+			if ((attacker instanceof EntityPlayer))
 				storedStack.fetch((EntityPlayer) attacker);
 			else storedStack.drop(attacker);
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean canHarvestBlock(IBlockState blockIn)
 	{
 		return toolClass.isEmpty() ? blockIn.getBlock() == Blocks.WEB : super.canHarvestBlock(blockIn);
 	}
-	
-	
+
+
 }

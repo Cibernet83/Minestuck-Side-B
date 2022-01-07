@@ -7,8 +7,7 @@ public interface IBeamStats
 {
 	float getBeamRadius(ItemStack stack);
 	int getBeamHurtTime(ItemStack stack);
-
-	void setBeamTexture(String name);
 	void setCustomBeamTexture();
 	ResourceLocation getBeamTexture();
+	void setBeamTexture(String name);
 }

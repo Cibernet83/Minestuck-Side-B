@@ -23,32 +23,33 @@ public class PropertyCandyWeapon extends WeaponProperty implements IPropertyArro
 	{
 		DamageSource source = event.getSource();
 
-		if(source.getImmediateSource() instanceof EntityLivingBase)
+		if (source.getImmediateSource() instanceof EntityLivingBase)
 		{
 			ItemStack stack = ((EntityLivingBase) source.getImmediateSource()).getHeldItemMainhand();
-			if(!(stack.getItem() instanceof  IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyCandyWeapon.class, stack)))
+			if (!(stack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyCandyWeapon.class, stack)))
 				return;
 		}
-		else if(source.getImmediateSource() instanceof EntityMSUArrow)
+		else if (source.getImmediateSource() instanceof EntityMSUArrow)
 		{
 			ItemStack stack = ((EntityMSUArrow) source.getImmediateSource()).getBowStack();
-			if(!(stack.getItem() instanceof  IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyCandyWeapon.class, stack)))
+			if (!(stack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyCandyWeapon.class, stack)))
 				return;
-		} else if(source.getImmediateSource() instanceof EntityMSUThrowable)
+		}
+		else if (source.getImmediateSource() instanceof EntityMSUThrowable)
 		{
 			ItemStack stack = ((EntityMSUThrowable) source.getImmediateSource()).getStack();
-			if(!(stack.getItem() instanceof  IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyCandyWeapon.class, stack)))
+			if (!(stack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyCandyWeapon.class, stack)))
 				return;
 		}
 
 		GristSet newSpoils = new GristSet();
-		for(GristAmount gristType : event.getSpoils().getArray())
+		for (GristAmount gristType : event.getSpoils().getArray())
 		{
-			int candy = (gristType.getAmount() + 2)/4;
-			int gristAmount = gristType.getAmount() - candy*2;
+			int candy = (gristType.getAmount() + 2) / 4;
+			int gristAmount = gristType.getAmount() - candy * 2;
 			ItemStack candyItem = gristType.getType().getCandyItem();
 			candyItem.setCount(candy);
-			if(candy > 0)
+			if (candy > 0)
 				event.getDrops().add(candyItem);
 			newSpoils.addGrist(gristType.getType(), gristAmount);
 		}

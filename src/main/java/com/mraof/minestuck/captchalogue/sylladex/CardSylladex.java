@@ -20,6 +20,12 @@ public class CardSylladex implements ISylladex
 	private ICaptchalogueable object;
 	private boolean markedForDeletion = false;
 
+	public CardSylladex(BottomSylladex owner, NBTTagCompound nbt)
+	{
+		this(owner, (ICaptchalogueable) null);
+		readFromNBT(nbt);
+	}
+
 	public CardSylladex(BottomSylladex owner, ICaptchalogueable object)
 	{
 		this.player = owner.player;
@@ -27,13 +33,10 @@ public class CardSylladex implements ISylladex
 		this.object = object;
 	}
 
-	public CardSylladex(BottomSylladex owner, NBTTagCompound nbt)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
-		this(owner, (ICaptchalogueable) null);
-		readFromNBT(nbt);
-	}
-
-	@Override
+		object = ICaptchalogueable.readFromNBT(nbt);
+	}	@Override
 	public ICaptchalogueable get(int[] slots, int index, boolean asCard)
 	{
 		checkSlots(slots, index);
@@ -140,10 +143,7 @@ public class CardSylladex implements ISylladex
 		return ICaptchalogueable.writeToNBT(object);
 	}
 
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		object = ICaptchalogueable.readFromNBT(nbt);
-	}
+
 
 	@Override
 	@SideOnly(Side.CLIENT)

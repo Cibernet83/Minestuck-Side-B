@@ -27,38 +27,38 @@ public class MessageInventoryChanged implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeBoolean(less);
-		buf.writeBoolean(more);
-		for(ItemStack stack : inventory)
-			ByteBufUtils.writeItemStack(buf, stack);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		less = buf.readBoolean();
 		more = buf.readBoolean();
 		inventory = new ArrayList<>();
-		while(buf.readableBytes() > 0)
+		while (buf.readableBytes() > 0)
 			inventory.add(ByteBufUtils.readItemStack(buf));
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeBoolean(less);
+		buf.writeBoolean(more);
+		for (ItemStack stack : inventory)
+			ByteBufUtils.writeItemStack(buf, stack);
 	}
 
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(player.openContainer instanceof ContainerEditmode)
+		if (player.openContainer instanceof ContainerEditmode)
 		{
-			for(int i = 0; i < inventory.size(); i++)
+			for (int i = 0; i < inventory.size(); i++)
 			{
-				((ContainerEditmode)player.openContainer).inventoryItemStacks.set(i, inventory.get(i) == null ? null : inventory.get(i).copy());
-				((ContainerEditmode)player.openContainer).inventory.setInventorySlotContents(i, inventory.get(i));
+				((ContainerEditmode) player.openContainer).inventoryItemStacks.set(i, inventory.get(i) == null ? null : inventory.get(i).copy());
+				((ContainerEditmode) player.openContainer).inventory.setInventorySlotContents(i, inventory.get(i));
 			}
-			if(FMLClientHandler.instance().getClient().currentScreen instanceof GuiInventoryEditmode)
+			if (FMLClientHandler.instance().getClient().currentScreen instanceof GuiInventoryEditmode)
 			{
-				((GuiInventoryEditmode)FMLClientHandler.instance().getClient().currentScreen).less = less;
-				((GuiInventoryEditmode)FMLClientHandler.instance().getClient().currentScreen).more = more;
+				((GuiInventoryEditmode) FMLClientHandler.instance().getClient().currentScreen).less = less;
+				((GuiInventoryEditmode) FMLClientHandler.instance().getClient().currentScreen).more = more;
 			}
 		}
 	}

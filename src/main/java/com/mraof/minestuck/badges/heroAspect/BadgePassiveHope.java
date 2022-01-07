@@ -17,16 +17,19 @@ import java.util.List;
 
 public class BadgePassiveHope extends BadgeHeroAspect
 {
-	public BadgePassiveHope() {
+	protected static final int RADIUS = 20;
+
+	public BadgePassiveHope()
+	{
 		super(EnumAspect.HOPE, EnumRole.PASSIVE, EnumAspect.LIGHT);
 	}
 
-	protected static final int RADIUS = 20;
-
 	@Override
-	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time) {
+	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	{
 
-		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 8) {
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
+		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
@@ -34,7 +37,7 @@ public class BadgePassiveHope extends BadgeHeroAspect
 		if (state == GodKeyStates.KeyState.NONE || time > 40)
 			return false;
 
-		if(time == 20)
+		if (time == 20)
 		{
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.HOPE, 10);
 
@@ -50,7 +53,8 @@ public class BadgePassiveHope extends BadgeHeroAspect
 			Potion negativeEffect = potionPoolNeg.get(world.rand.nextInt(potionPoolNeg.size()));
 			Potion positiveEffect = potionPoolPos.get(world.rand.nextInt(potionPoolPos.size()));
 
-			for (EntityPlayer target : world.getEntitiesWithinAABB(EntityPlayer.class, player.getEntityBoundingBox().grow(RADIUS), target -> target != player)) {
+			for (EntityPlayer target : world.getEntitiesWithinAABB(EntityPlayer.class, player.getEntityBoundingBox().grow(RADIUS), target -> target != player))
+			{
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, 10);
 
 				Potion potion = Math.signum(target.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getTotalKarma()) == Math.signum(player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getTotalKarma()) ? positiveEffect : negativeEffect;
@@ -63,19 +67,20 @@ public class BadgePassiveHope extends BadgeHeroAspect
 			if (state == GodKeyStates.KeyState.NONE || time >= 19)
 				return false;
 
-			if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 6) {
+			if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 6)
+			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 				return false;
 			}
 		}
-		if(time < 40)
+		if (time < 40)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, time < 20 ? 2 : 6);
 		else
 		{
 			List<Potion> potionPoolPos = new ArrayList<>();
 			Potion.REGISTRY.forEach(potion ->
 			{
-				if(!potion.isBadEffect())
+				if (!potion.isBadEffect())
 					potionPoolPos.add(potion);
 			});
 

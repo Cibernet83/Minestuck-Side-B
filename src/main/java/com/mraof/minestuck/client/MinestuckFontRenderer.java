@@ -15,12 +15,9 @@ public class MinestuckFontRenderer extends FontRenderer
 	private int width, height;
 	private float textureSize;
 
-	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, int charWidth, int charHeight, int textureSize)
+	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn)
 	{
-		super(gameSettingsIn, location, textureManagerIn, false);
-		this.width = charWidth;
-		this.height = charHeight;
-		this.textureSize = textureSize;
+		this(gameSettingsIn, location, textureManagerIn, 8, 8);
 	}
 
 	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, int charWidth, int charHeight)
@@ -28,9 +25,12 @@ public class MinestuckFontRenderer extends FontRenderer
 		this(gameSettingsIn, location, textureManagerIn, charWidth, charHeight, 128);
 	}
 
-	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn)
+	public MinestuckFontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, int charWidth, int charHeight, int textureSize)
 	{
-		this(gameSettingsIn, location, textureManagerIn, 8, 8);
+		super(gameSettingsIn, location, textureManagerIn, false);
+		this.width = charWidth;
+		this.height = charHeight;
+		this.textureSize = textureSize;
 	}
 
 	public static void registerFonts()

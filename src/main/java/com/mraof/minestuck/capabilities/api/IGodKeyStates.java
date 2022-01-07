@@ -1,7 +1,7 @@
 package com.mraof.minestuck.capabilities.api;
 
-import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.IMinestuckCapabilityBase;
+import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import net.minecraft.entity.player.EntityPlayer;
 
 public interface IGodKeyStates extends IMinestuckCapabilityBase<EntityPlayer>

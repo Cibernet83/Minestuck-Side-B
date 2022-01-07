@@ -25,12 +25,18 @@ public class StructureQuestBed extends WorldGenerator
 	public static final int top = 154;
 	public static final int radius = 32;
 
+	public static BlockPos getQuestBedPos(World world)
+	{
+		ChunkPos chunkPos = getQuestBedChunk(world, new Random());
+		return new BlockPos(chunkPos.x * 16, 128, chunkPos.z * 16);
+	}
+
 	@Override
 	public boolean generate(World worldIn, Random rand, BlockPos position)
 	{
 		ChunkPos chunk = getQuestBedChunk(worldIn, rand);
 
-		if(worldIn.provider.createChunkGenerator() instanceof ChunkProviderLands && position.getX()/16 == chunk.x && position.getZ()/16 == chunk.z)
+		if (worldIn.provider.createChunkGenerator() instanceof ChunkProviderLands && position.getX() / 16 == chunk.x && position.getZ() / 16 == chunk.z)
 		{
 			position = position.add(-2, 0, -1);
 
@@ -43,57 +49,59 @@ public class StructureQuestBed extends WorldGenerator
 			IBlockState ground = getMountainMaterial(landGenerator);
 
 			double j = 1;
-			for(double i = 1; i < top-bottom; i = i > 32 ? Math.floor(i+1) : i + Math.min(1, i/32d))
+			for (double i = 1; i < top - bottom; i = i > 32 ? Math.floor(i + 1) : i + Math.min(1, i / 32d))
 			{
-				int blockSize = Math.max(3, 16 - (int)(i*10d/(top-bottom)));
+				int blockSize = Math.max(3, 16 - (int) (i * 10d / (top - bottom)));
 
-				int x = (int) (position.getX() + Math.cos(j/8d *(Math.PI*2d)) * Math.max(5, radius-i*0.3d));
-				int z = (int) (position.getZ() + Math.sin(j/8d *(Math.PI*2d)) * Math.max(5, radius-i*0.3d));
-				int y = bottom + (int)i;
+				int x = (int) (position.getX() + Math.cos(j / 8d * (Math.PI * 2d)) * Math.max(5, radius - i * 0.3d));
+				int z = (int) (position.getZ() + Math.sin(j / 8d * (Math.PI * 2d)) * Math.max(5, radius - i * 0.3d));
+				int y = bottom + (int) i;
 
-				for(int w = 0; w < blockSize; w++) for (int d = 0; d < blockSize; d++) for (int h = 0; h < Math.min(32, 9+i); h++)
-					if(ground.isOpaqueCube() || (!ground.isOpaqueCube() && !worldIn.getBlockState(new BlockPos(x+w, y-h, z+d)).getMaterial().blocksMovement()))
-						setBlockAndNotifyAdequately(worldIn, new BlockPos(x+w, y-h, z+d), ground);
+				for (int w = 0; w < blockSize; w++)
+					for (int d = 0; d < blockSize; d++)
+						for (int h = 0; h < Math.min(32, 9 + i); h++)
+							if (ground.isOpaqueCube() || (!ground.isOpaqueCube() && !worldIn.getBlockState(new BlockPos(x + w, y - h, z + d)).getMaterial().blocksMovement()))
+								setBlockAndNotifyAdequately(worldIn, new BlockPos(x + w, y - h, z + d), ground);
 
-				j += j/48d;
+				j += j / 48d;
 			}
 
-			for(int yOff = 1; yOff <= 16; yOff++)
-				for(int xOff = -7; xOff <= 7; xOff++)
+			for (int yOff = 1; yOff <= 16; yOff++)
+				for (int xOff = -7; xOff <= 7; xOff++)
 				{
-					int z2 = (int)Math.sqrt(Math.pow(7, 2) - Math.pow(xOff, 2));
-					for(int zOff = -z2; zOff < z2; zOff++)
-						setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()+xOff+2, top-yOff, position.getZ()+zOff+2), ground);
+					int z2 = (int) Math.sqrt(Math.pow(7, 2) - Math.pow(xOff, 2));
+					for (int zOff = -z2; zOff < z2; zOff++)
+						setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() + xOff + 2, top - yOff, position.getZ() + zOff + 2), ground);
 				}
 
 			position = position.add(2, 0, 1);
 
-			for(int xOff = -1; xOff <= 1; xOff++)
-				for(int zOff = -1; zOff <= 2; zOff++)
+			for (int xOff = -1; xOff <= 1; xOff++)
+				for (int zOff = -1; zOff <= 2; zOff++)
 					setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() + xOff, top, position.getZ() + zOff), (
 							xOff == 0 && zOff == 0 ?
 									(aspect == null ? MinestuckBlocks.wildcardChiseledHeroStone : MinestuckBlocks.chiseledHeroStones.get(aspect)) :
 									(aspect == null ? MinestuckBlocks.wildcardHeroStone : MinestuckBlocks.heroStones.get(aspect))
-							).getDefaultState());
+					).getDefaultState());
 
 
-			for(int yOff = 0; yOff < 2; yOff++)
-				for(int xOff = -1; xOff <= 1; xOff++)
-					setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()+xOff, top+yOff, position.getZ()-2), wall);
+			for (int yOff = 0; yOff < 2; yOff++)
+				for (int xOff = -1; xOff <= 1; xOff++)
+					setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() + xOff, top + yOff, position.getZ() - 2), wall);
 
-			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX(), top+2, position.getZ()-2), wall);
+			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX(), top + 2, position.getZ() - 2), wall);
 
-			for(int yOff = 0; yOff < 7; yOff++)
+			for (int yOff = 0; yOff < 7; yOff++)
 			{
-				setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()-2, top+yOff, position.getZ()+3), wall);
-				setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()+2, top+yOff, position.getZ()+3), wall);
-				setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()+2, top+yOff, position.getZ()-2), wall);
-				setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()-2, top+yOff, position.getZ()-2), wall);
+				setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() - 2, top + yOff, position.getZ() + 3), wall);
+				setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() + 2, top + yOff, position.getZ() + 3), wall);
+				setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() + 2, top + yOff, position.getZ() - 2), wall);
+				setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() - 2, top + yOff, position.getZ() - 2), wall);
 			}
-			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()-2, top+7, position.getZ()+3), light);
-			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()+2, top+7, position.getZ()+3), light);
-			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()+2, top+7, position.getZ()-2), light);
-			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX()-2, top+7, position.getZ()-2), light);
+			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() - 2, top + 7, position.getZ() + 3), light);
+			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() + 2, top + 7, position.getZ() + 3), light);
+			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() + 2, top + 7, position.getZ() - 2), light);
+			setBlockAndNotifyAdequately(worldIn, new BlockPos(position.getX() - 2, top + 7, position.getZ() - 2), light);
 
 			return true;
 		}
@@ -105,32 +113,26 @@ public class StructureQuestBed extends WorldGenerator
 	{
 		TerrainLandAspect terrain = generator.aspect1;
 
-		if(terrain instanceof LandAspectSandstone || terrain instanceof LandAspectWood)
+		if (terrain instanceof LandAspectSandstone || terrain instanceof LandAspectWood)
 			return generator.getUpperBlock();
 
-		if(terrain instanceof LandAspectShade)
+		if (terrain instanceof LandAspectShade)
 			return Blocks.STAINED_HARDENED_CLAY.getStateFromMeta(11);
-		if(terrain instanceof LandAspectRainbow)
+		if (terrain instanceof LandAspectRainbow)
 			return Blocks.STAINED_GLASS.getStateFromMeta(0);
-		if(terrain instanceof LandAspectFrost)
+		if (terrain instanceof LandAspectFrost)
 			return Blocks.PACKED_ICE.getDefaultState();
 
 		return generator.getGroundBlock();
-	}
-
-	public static BlockPos getQuestBedPos(World world)
-	{
-		ChunkPos chunkPos = getQuestBedChunk(world, new Random());
-		return new BlockPos(chunkPos.x*16, 128, chunkPos.z*16);
 	}
 
 	public static ChunkPos getQuestBedChunk(World world, Random rand)
 	{
 		rand.setSeed(world.getSeed() * world.provider.getDimension());
 
-		int r = (rand.nextInt(MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS)/16;
+		int r = (rand.nextInt(MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS) / 16;
 		double a = rand.nextDouble() * Math.PI * 2d;
 
-		return new ChunkPos((int)(Math.cos(a)*r), (int)(Math.sin(a)*r));
+		return new ChunkPos((int) (Math.cos(a) * r), (int) (Math.sin(a) * r));
 	}
 }

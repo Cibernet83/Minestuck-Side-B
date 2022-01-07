@@ -19,64 +19,71 @@ import java.util.Random;
 
 public class BlockLayered extends MSBlockBase
 {
-	protected static final AxisAlignedBB[] LAYERED_AABB = {new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 2/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 3/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 5/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 6/8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 7/8D, 1.0D)};
-	
-	public IBlockState sourceBlock;
 	public static final PropertyInteger SIZE = PropertyInteger.create("size", 1, 7);
-	
+	protected static final AxisAlignedBB[] LAYERED_AABB = {new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1 / 8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 2 / 8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 3 / 8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4 / 8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 5 / 8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 6 / 8D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 7 / 8D, 1.0D)};
+	public IBlockState sourceBlock;
+
 	public BlockLayered(String name, IBlockState iconBlock)
 	{
 		super(name, iconBlock.getMaterial());
-		
+
 		this.setCreativeTab(MinestuckTabs.minestuck);
 		this.sourceBlock = iconBlock;
 		setSoundType(sourceBlock.getBlock().getSoundType());
 	}
-	
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, SIZE);
-	}
-	
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(SIZE) - 1;
-	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(SIZE, meta + 1);
 	}
-	
+
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public int getMetaFromState(IBlockState state)
 	{
-		int size = state.getValue(SIZE);
-		
-		return LAYERED_AABB[size - 1];
+		return state.getValue(SIZE) - 1;
 	}
-	
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-	
+
 	@Override
 	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}
-	
+
+	@Override
+	public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos)
+	{
+		int meta = worldIn.getBlockState(pos).getValue(SIZE);
+		return meta >= 7 && blockMaterial.isReplaceable();
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	{
+		int size = state.getValue(SIZE);
+
+		return LAYERED_AABB[size - 1];
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+	{
+		return side == EnumFacing.UP || super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+	}
+
 	@Override
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
-	
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
+
 	/**
 	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, pos
 	 */
@@ -90,31 +97,23 @@ public class BlockLayered extends MSBlockBase
 			return false;
 		return underneathBlock.getBlock().getMaterial(underneathBlock).blocksMovement();
 	}
-	
+
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+	protected BlockStateContainer createBlockState()
 	{
-		return side == EnumFacing.UP ? true : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+		return new BlockStateContainer(this, SIZE);
 	}
-	
+
 	@Override
 	public int quantityDropped(IBlockState state, int fortune, Random random)
 	{
 		return state.getValue(SIZE) & 7;
 	}
-	
-	@Override
-	public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos)
-	{
-		int meta = worldIn.getBlockState(pos).getValue(SIZE);
-		return meta >= 7 && blockMaterial.isReplaceable();
-	}
 
 	public boolean changeHeight(World world, BlockPos pos, int metadata)
 	{
 		IBlockState block = (metadata <= 7 ? getDefaultState().withProperty(SIZE, metadata) : this.sourceBlock);
-		return  world.setBlockState(pos, block, 3);
+		return world.setBlockState(pos, block, 3);
 	}
 
 	@Override

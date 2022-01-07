@@ -8,12 +8,13 @@ import net.minecraft.world.World;
 public class ItemSound extends MSItemBase
 {
 	protected SoundEvent sound;
+
 	public ItemSound(String name, SoundEvent sound)
 	{
 		super(name);
 		this.sound = sound;
 	}
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
 	{

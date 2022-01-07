@@ -28,7 +28,8 @@ public class BadgeWitch extends BadgeHeroClass
 		if (state == GodKeyStates.KeyState.NONE)
 			return false;
 
-		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 8) {
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
+		{
 			if (state == GodKeyStates.KeyState.HELD)
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -40,7 +41,7 @@ public class BadgeWitch extends BadgeHeroClass
 			return true;
 		}
 
-		if(time < 20)
+		if (time < 20)
 			return false;
 
 		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);

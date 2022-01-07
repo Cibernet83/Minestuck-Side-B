@@ -1,8 +1,8 @@
 package com.mraof.minestuck.captchalogue.modus;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,10 +23,11 @@ public class ModusArray extends Modus
 		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 42);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	public int getDarkerColor()
 	{
-		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/array_modus.png"));
+		return 0x1093D8;
 	}
 
 	@Override
@@ -36,11 +37,10 @@ public class ModusArray extends Modus
 		return 0x06B6FF;
 	}
 
-	@Override
 	@SideOnly(Side.CLIENT)
-	public int getDarkerColor()
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
 	{
-		return 0x1093D8;
+		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/array_modus.png"));
 	}
 
 	@Override

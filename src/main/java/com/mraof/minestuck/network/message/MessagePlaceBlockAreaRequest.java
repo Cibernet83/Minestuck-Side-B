@@ -42,6 +42,16 @@ public class MessagePlaceBlockAreaRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		pos1 = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		pos2 = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		hitVec = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+		face = EnumFacing.values()[buf.readInt()];
+
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(pos1.getX());
@@ -57,28 +67,17 @@ public class MessagePlaceBlockAreaRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		pos1 = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		pos2 = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		hitVec = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
-		face = EnumFacing.values()[buf.readInt()];
-
-	}
-
-	@Override
 	public void execute(EntityPlayer player)
 	{
 		EnumHand hand = player.getHeldItemMainhand().getItem() instanceof ItemBlock ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
 		ItemStack stack = player.getHeldItem(hand);
 
-		if(!(stack.getItem() instanceof ItemBlock))
+		if (!(stack.getItem() instanceof ItemBlock))
 			return;
 
-		float f = (float)(hitVec.x - (double)pos1.getX());
-		float f1 = (float)(hitVec.y - (double)pos1.getY());
-		float f2 = (float)(hitVec.z - (double)pos1.getZ());
-
+		float f = (float) (hitVec.x - (double) pos1.getX());
+		float f1 = (float) (hitVec.y - (double) pos1.getY());
+		float f2 = (float) (hitVec.z - (double) pos1.getZ());
 
 
 		boolean swingArm = false;
@@ -86,65 +85,65 @@ public class MessagePlaceBlockAreaRequest implements MinestuckMessage
 			for (int y = Math.min(pos1.getY(), pos2.getY()); y <= Math.max(pos1.getY(), pos2.getY()); y++)
 				for (int z = Math.min(pos1.getZ(), pos2.getZ()); z <= Math.max(pos1.getZ(), pos2.getZ()); z++)
 				{
-					if(stack.isEmpty())
+					if (stack.isEmpty())
 						return;
-
 
 
 					int c = stack.getCount();
 					BlockPos pos = new BlockPos(x, y, z);
-					if(player.world.getBlockState(pos).getBlock().isReplaceable(player.world, pos) && editModePlaceCheck(player.world, player, hand) && stack.onItemUse(player, player.world, pos, hand, face, f, f1, f2) == EnumActionResult.SUCCESS)
+					if (player.world.getBlockState(pos).getBlock().isReplaceable(player.world, pos) && editModePlaceCheck(player.world, player, hand) && stack.onItemUse(player, player.world, pos, hand, face, f, f1, f2) == EnumActionResult.SUCCESS)
 					{
-						if(player.isCreative())
+						if (player.isCreative())
 							stack.setCount(c);
 						swingArm = true;
 					}
 				}
 
-		if(swingArm)
+		if (swingArm)
 			player.swingArm(hand);
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.SERVER;
 	}
-	
+
 	private static boolean editModePlaceCheck(World world, EntityPlayer player, EnumHand hand)
 	{
-		if(!world.isRemote && ServerEditHandler.getData(player) != null)
+		if (!world.isRemote && ServerEditHandler.getData(player) != null)
 		{
 			EditData data = ServerEditHandler.getData(player);
 			SburbConnection connection = ObfuscationReflectionHelper.getPrivateValue(EditData.class, data, "connection");
 
 			ItemStack stack = player.getHeldItemMainhand();
 
-			if(stack.isEmpty() || !isBlockItem(stack.getItem()) || hand.equals(EnumHand.OFF_HAND))
+			if (stack.isEmpty() || !isBlockItem(stack.getItem()) || hand.equals(EnumHand.OFF_HAND))
 				return false;
 
 			DeployList.DeployEntry entry = DeployList.getEntryForItem(stack, connection);
-			if(entry != null)
+			if (entry != null)
 			{
 				GristSet cost = connection.givenItems()[DeployList.getOrdinal(entry.getName())]
-						? entry.getSecondaryGristCost(connection) : entry.getPrimaryGristCost(connection);
-				if(!GristHelper.canAfford(MinestuckPlayerData.getGristSet(connection.getClientIdentifier()), cost))
+										? entry.getSecondaryGristCost(connection) : entry.getPrimaryGristCost(connection);
+				if (!GristHelper.canAfford(MinestuckPlayerData.getGristSet(connection.getClientIdentifier()), cost))
 				{
 					StringBuilder str = new StringBuilder();
-					if(cost != null)
+					if (cost != null)
 					{
-						for(GristAmount grist : cost.getArray())
+						for (GristAmount grist : cost.getArray())
 						{
-							if(cost.getArray().indexOf(grist) != 0)
+							if (cost.getArray().indexOf(grist) != 0)
 								str.append(", ");
-							str.append(grist.getAmount()+" "+grist.getType().getDisplayName());
+							str.append(grist.getAmount() + " " + grist.getType().getDisplayName());
 						}
-						player.sendStatusMessage(new TextComponentTranslation("grist.missing",str.toString()), true);
+						player.sendStatusMessage(new TextComponentTranslation("grist.missing", str.toString()), true);
 					}
 					return false;
 				}
 			}
-			else if(!isBlockItem(stack.getItem()) || !GristHelper.canAfford(connection.getClientIdentifier(), stack, false))
-				return false;
+			else
+				return isBlockItem(stack.getItem()) && GristHelper.canAfford(connection.getClientIdentifier(), stack, false);
 		}
 		return true;
 	}

@@ -1,10 +1,10 @@
 package com.mraof.minestuck.tileentity;
 
 import com.mraof.minestuck.advancements.MinestuckCriteriaTriggers;
+import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.block.BlockPunchDesignix;
 import com.mraof.minestuck.block.BlockPunchDesignix.EnumParts;
 import com.mraof.minestuck.item.MinestuckItems;
-import com.mraof.minestuck.alchemy.CombinationRegistry;
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.Debug;
 import net.minecraft.block.state.IBlockState;
@@ -29,31 +29,31 @@ public class TileEntityPunchDesignix extends TileEntity
 {
 	public boolean broken = false;
 	protected ItemStack card = ItemStack.EMPTY;
-	
+
 	//constructor
 	public TileEntityPunchDesignix()
 	{
 	}
-	
+
+	@Nonnull
+	public ItemStack getCard()
+	{
+		return card;
+	}
+
 	public void setCard(ItemStack card)
 	{
 		if (card.getItem() == MinestuckItems.captchaCard || card.isEmpty())
 		{
 			this.card = card;
-			if(world != null)
+			if (world != null)
 			{
 				IBlockState state = world.getBlockState(pos);
 				world.notifyBlockUpdate(pos, state, state, 2);
 			}
 		}
 	}
-	
-	@Nonnull
-	public ItemStack getCard()
-	{
-		return card;
-	}
-	
+
 	public void onRightClick(EntityPlayerMP player, IBlockState clickedState)
 	{
 		EnumParts part = clickedState.getValue(PART);
@@ -64,11 +64,11 @@ public class TileEntityPunchDesignix extends TileEntity
 			else if (!player.inventory.addItemStackToInventory(card))
 				dropItem(false);
 			else player.inventoryContainer.detectAndSendChanges();
-			
+
 			setCard(ItemStack.EMPTY);
 			return;
 		}
-		
+
 		if (isUseable(clickedState))
 		{
 			ItemStack heldStack = player.getHeldItemMainhand();
@@ -76,37 +76,39 @@ public class TileEntityPunchDesignix extends TileEntity
 			{
 				if (!heldStack.isEmpty() && heldStack.getItem() == MinestuckItems.captchaCard)
 					setCard(heldStack.splitStack(1));    //Insert card into the punch slot
-				
-			} else if (part.equals(EnumParts.TOP_RIGHT) || part.equals(EnumParts.BOTTOM_RIGHT))
+
+			}
+			else if (part.equals(EnumParts.TOP_RIGHT) || part.equals(EnumParts.BOTTOM_RIGHT))
 			{
 				if (heldStack.isEmpty() || heldStack.getItem() != MinestuckItems.captchaCard)
 					return;    //Not a valid item in hand
-				
+
 				if (!card.isEmpty() && card.getItem() == MinestuckItems.captchaCard &&
-						heldStack.hasTagCompound() && heldStack.getTagCompound().hasKey("contentID"))
+							heldStack.hasTagCompound() && heldStack.getTagCompound().hasKey("contentID"))
 				{
 					ItemStack output = AlchemyUtils.getDecodedItem(heldStack);
 					if (!output.isEmpty())
 					{
-						if(output.getItem().isDamageable())
+						if (output.getItem().isDamageable())
 							output.setItemDamage(0);
-						
-						if(AlchemyUtils.isPunchedCard(card))
+
+						if (AlchemyUtils.isPunchedCard(card))
 						{    //|| combination
 							output = CombinationRegistry.getCombination(output, AlchemyUtils.getDecodedItem(card), CombinationRegistry.Mode.MODE_OR);
-							if(!output.isEmpty())
+							if (!output.isEmpty())
 							{
 								MinestuckCriteriaTriggers.PUNCH_DESIGNIX.trigger(player, AlchemyUtils.getDecodedItem(heldStack), AlchemyUtils.getDecodedItem(card), output);
 								setCard(AlchemyUtils.createCard(output, true));
 								effects(true);
 								return;
 							}
-						} else    //Just punch the card regularly
+						}
+						else    //Just punch the card regularly
 						{
 							MinestuckCriteriaTriggers.PUNCH_DESIGNIX.trigger(player, output, ItemStack.EMPTY, output);
 							setCard(AlchemyUtils.createCard(output, true));
 							effects(true);
-							
+
 							return;
 						}
 					}
@@ -115,7 +117,7 @@ public class TileEntityPunchDesignix extends TileEntity
 			}
 		}
 	}
-	
+
 	private void effects(boolean success)
 	{
 		world.playEvent(success ? 1000 : 1001, pos, 0);
@@ -126,36 +128,36 @@ public class TileEntityPunchDesignix extends TileEntity
 			world.playEvent(2000, pos, i);
 		}
 	}
-	
+
 	private boolean isUseable(IBlockState state)
 	{
 		IBlockState currentState = getWorld().getBlockState(getPos());
-		if(!broken)
+		if (!broken)
 		{
 			checkStates();
-			if(broken)
+			if (broken)
 				Debug.warnf("Failed to notice a block being broken or misplaced at the punch designix at %s", getPos());
 		}
-		if(!state.getValue(DIRECTION).equals(currentState.getValue(DIRECTION)))
+		if (!state.getValue(DIRECTION).equals(currentState.getValue(DIRECTION)))
 			return false;
 		return !broken;
 	}
-	
+
 	public void checkStates()
 	{
 		if (broken)
 			return;
-		
+
 		IBlockState currentState = getWorld().getBlockState(getPos());
 		EnumFacing hOffset = currentState.getValue(DIRECTION).rotateYCCW();
 		if (!world.getBlockState(getPos().offset(hOffset)).equals(currentState.withProperty(PART, EnumParts.TOP_RIGHT)) ||
-				!world.getBlockState(getPos().down()).equals(currentState.withProperty(PART, EnumParts.BOTTOM_LEFT)) ||
-				!world.getBlockState(getPos().down().offset(hOffset)).equals(currentState.withProperty(PART, EnumParts.BOTTOM_RIGHT)))
+					!world.getBlockState(getPos().down()).equals(currentState.withProperty(PART, EnumParts.BOTTOM_LEFT)) ||
+					!world.getBlockState(getPos().down().offset(hOffset)).equals(currentState.withProperty(PART, EnumParts.BOTTOM_RIGHT)))
 		{
 			broken = true;
 		}
 	}
-	
+
 	public void dropItem(boolean inBlock)
 	{
 		EnumFacing direction = inBlock ? null : world.getBlockState(this.pos).getValue(DIRECTION);
@@ -167,11 +169,11 @@ public class TileEntityPunchDesignix extends TileEntity
 		else if (!world.getBlockState(this.pos.up()).isBlockNormalCube())
 			dropPos = this.pos.up();
 		else dropPos = this.pos;
-		
+
 		InventoryHelper.spawnItemStack(world, dropPos.getX(), dropPos.getY(), dropPos.getZ(), card);
 		setCard(ItemStack.EMPTY);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound)
 	{
@@ -179,7 +181,7 @@ public class TileEntityPunchDesignix extends TileEntity
 		broken = tagCompound.getBoolean("broken");
 		setCard(new ItemStack(tagCompound.getCompoundTag("card")));
 	}
-	
+
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound)
 	{
@@ -188,7 +190,15 @@ public class TileEntityPunchDesignix extends TileEntity
 		tagCompound.setTag("card", card.writeToNBT(new NBTTagCompound()));
 		return tagCompound;
 	}
-	
+
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket()
+	{
+		SPacketUpdateTileEntity packet;
+		packet = new SPacketUpdateTileEntity(this.pos, 0, getUpdateTag());
+		return packet;
+	}
+
 	@Override
 	public NBTTagCompound getUpdateTag()
 	{
@@ -197,21 +207,13 @@ public class TileEntityPunchDesignix extends TileEntity
 		nbt.setTag("card", card.writeToNBT(new NBTTagCompound()));
 		return nbt;
 	}
-	
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		SPacketUpdateTileEntity packet;
-		packet = new SPacketUpdateTileEntity(this.pos, 0, getUpdateTag());
-		return packet;
-	}
-	
+
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
 		handleUpdateTag(pkt.getNbtCompound());
 	}
-	
+
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
 	{

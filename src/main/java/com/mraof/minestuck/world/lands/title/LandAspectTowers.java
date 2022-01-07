@@ -10,19 +10,19 @@ import net.minecraft.item.EnumDyeColor;
 
 public class LandAspectTowers extends TitleLandAspect
 {
-	
+
 	@Override
 	public String getPrimaryName()
 	{
 		return "towers";
 	}
-	
+
 	@Override
 	public String[] getNames()
 	{
-		return new String[] {"tower"};
+		return new String[]{"tower"};
 	}
-	
+
 	@Override
 	public void prepareChunkProviderServer(ChunkProviderLands chunkProvider)
 	{
@@ -32,5 +32,5 @@ public class LandAspectTowers extends TitleLandAspect
 		chunkProvider.decorators.add(new PillarDecorator("structure_primary", 1, true, MinestuckBiomes.mediumRough));
 		chunkProvider.sortDecorators();
 	}
-	
+
 }

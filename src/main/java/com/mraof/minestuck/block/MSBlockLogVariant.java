@@ -32,87 +32,56 @@ public class MSBlockLogVariant extends MSBlockLog implements IRegistryBlock
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, new IProperty[] {VARIANT, LOG_AXIS});
-	}
-	
-	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockType.values()[meta&3]);
-		iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.values()[(meta>>2)&3]);
-		
+		IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockType.values()[meta & 3]);
+		iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.values()[(meta >> 2) & 3]);
+
 		return iblockstate;
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
 		int i = state.getValue(VARIANT).ordinal();
-		
-		i |= state.getValue(LOG_AXIS).ordinal()<<2;
-		
+
+		i |= state.getValue(LOG_AXIS).ordinal() << 2;
+
 		return i;
 	}
-	
+
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, VARIANT, LOG_AXIS);
+	}
+
 	@Override
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		BlockType type = state.getValue(VARIANT);
-		if(state.getValue(LOG_AXIS).equals(EnumAxis.Y))
+		if (state.getValue(LOG_AXIS).equals(EnumAxis.Y))
 			return type.topColor;
 		else return type.sideColor;
 	}
-	
-	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
-	{
-		for(BlockType type : BlockType.values())
-			items.add(new ItemStack(this, 1, type.ordinal()));
-	}
-	
-	@Override
-	protected ItemStack getSilkTouchDrop(IBlockState state)
-	{
-		return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).ordinal());
-	}
-	
+
 	@Override
 	public int damageDropped(IBlockState state)
 	{
 		return state.getValue(VARIANT).ordinal();
 	}
-	
-	public enum BlockType implements IUnlocSerializable
-	{
-		VINE_OAK("vineOak", MapColor.WOOD, MapColor.OBSIDIAN),
-		FLOWERY_VINE_OAK("floweryVineOak", MapColor.WOOD, MapColor.OBSIDIAN),
-		FROST("frost", MapColor.ICE, MapColor.ICE),
-		RAINBOW("rainbow", MapColor.WOOD, MapColor.WOOD);
-		
-		private final String name, regName;
-		private final MapColor topColor, sideColor;
-		
-		BlockType(String name, MapColor topColor, MapColor sideColor)
-		{
-			this.name = name;
-			this.regName = IRegistryObject.unlocToReg(name);
-			this.topColor = topColor;
-			this.sideColor = sideColor;
-		}
-		
-		@Override
-		public String getName()
-		{
-			return regName;
-		}
 
-		@Override
-		public String getUnlocalizedName()
-		{
-			return name;
-		}
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
+	{
+		for (BlockType type : BlockType.values())
+			items.add(new ItemStack(this, 1, type.ordinal()));
+	}
+
+	@Override
+	protected ItemStack getSilkTouchDrop(IBlockState state)
+	{
+		return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).ordinal());
 	}
 
 	@Override
@@ -128,5 +97,36 @@ public class MSBlockLogVariant extends MSBlockLog implements IRegistryBlock
 				ModelLoader.setCustomStateMapper(MSBlockLogVariant.this, (new StateMap.Builder()).withName(MSBlockLogVariant.VARIANT).withSuffix("_log").build());
 			}
 		};
+	}
+
+	public enum BlockType implements IUnlocSerializable
+	{
+		VINE_OAK("vineOak", MapColor.WOOD, MapColor.OBSIDIAN),
+		FLOWERY_VINE_OAK("floweryVineOak", MapColor.WOOD, MapColor.OBSIDIAN),
+		FROST("frost", MapColor.ICE, MapColor.ICE),
+		RAINBOW("rainbow", MapColor.WOOD, MapColor.WOOD);
+
+		private final String name, regName;
+		private final MapColor topColor, sideColor;
+
+		BlockType(String name, MapColor topColor, MapColor sideColor)
+		{
+			this.name = name;
+			this.regName = IRegistryObject.unlocToReg(name);
+			this.topColor = topColor;
+			this.sideColor = sideColor;
+		}
+
+		@Override
+		public String getName()
+		{
+			return regName;
+		}
+
+		@Override
+		public String getUnlocalizedName()
+		{
+			return name;
+		}
 	}
 }

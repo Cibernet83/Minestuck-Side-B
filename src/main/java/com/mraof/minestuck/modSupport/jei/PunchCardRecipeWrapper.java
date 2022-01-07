@@ -11,19 +11,19 @@ import java.util.List;
  */
 public abstract class PunchCardRecipeWrapper implements IRecipeWrapper
 {
-    private final List<List<ItemStack>> inputs;
-    private final ItemStack result;
+	private final List<List<ItemStack>> inputs;
+	private final ItemStack result;
 
-    PunchCardRecipeWrapper(List<List<ItemStack>> inputs, ItemStack result)
-    {
-        this.inputs = inputs;
-        this.result = result;
-    }
+	PunchCardRecipeWrapper(List<List<ItemStack>> inputs, ItemStack result)
+	{
+		this.inputs = inputs;
+		this.result = result;
+	}
 
-    @Override
-    public void getIngredients(IIngredients ingredients)
-    {
-        ingredients.setInputLists(ItemStack.class, inputs);
-        ingredients.setOutput(ItemStack.class, result);
-    }
+	@Override
+	public void getIngredients(IIngredients ingredients)
+	{
+		ingredients.setInputLists(ItemStack.class, inputs);
+		ingredients.setOutput(ItemStack.class, result);
+	}
 }

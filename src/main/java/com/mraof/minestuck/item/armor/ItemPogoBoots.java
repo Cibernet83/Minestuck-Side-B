@@ -4,8 +4,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 
 public class ItemPogoBoots extends MSArmorBase
 {
-	boolean isSolar = false;
 	public final float power;
+	boolean isSolar = false;
 
 	public ItemPogoBoots(String name, float power, ArmorMaterial material)
 	{
@@ -18,7 +18,6 @@ public class ItemPogoBoots extends MSArmorBase
 		super(name, material, EntityEquipmentSlot.FEET, maxUses);
 		this.power = power;
 	}
-
 
 
 	public ItemPogoBoots setSolar()

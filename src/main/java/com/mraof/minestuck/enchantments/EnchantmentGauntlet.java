@@ -17,6 +17,15 @@ public class EnchantmentGauntlet extends EnchantmentKnockback
 		setName(Minestuck.MODID + ".superpunch");
 	}
 
+	/**
+	 * Calculates the additional damage that will be dealt by an item with this enchantment. This alternative to
+	 * calcModifierDamage is sensitive to the targets EnumCreatureAttribute.
+	 */
+	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType)
+	{
+		return 1.0F + (float) Math.max(0, getMaxLevel() - level) * 0.5F;
+	}
+
 	public boolean canApplyTogether(Enchantment ench)
 	{
 		return !(ench instanceof EnchantmentDamage);
@@ -28,17 +37,9 @@ public class EnchantmentGauntlet extends EnchantmentKnockback
 		return stack.getItem() instanceof IClassedTool && ((IClassedTool) stack.getItem()).getToolClass() != null && ((IClassedTool) stack.getItem()).getToolClass().canEnchantWith(this);
 	}
 
-	/**
-	 * Calculates the additional damage that will be dealt by an item with this enchantment. This alternative to
-	 * calcModifierDamage is sensitive to the targets EnumCreatureAttribute.
-	 */
-	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType)
-	{
-		return 1.0F + (float)Math.max(0, getMaxLevel() - level) * 0.5F;
-	}
-
 	@Override
-	public int getMaxLevel() {
+	public int getMaxLevel()
+	{
 		return 5;
 	}
 }

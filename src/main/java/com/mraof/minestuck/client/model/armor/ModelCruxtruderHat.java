@@ -16,10 +16,10 @@ public class ModelCruxtruderHat extends ModelBiped
 		textureHeight = 64;
 
 		lid = new ModelRenderer(this);
-		lid.setRotationPoint(0,0,0);
-		lid.cubeList.add(new ModelBox(lid, 0, 0, -6, -10, -6, 12, 5, 12, 0,false));
-		lid.cubeList.add(new ModelBox(lid, 0, 0, -6, -10, -6, 12, 5, 12, 0,false));
-		lid.cubeList.add(new ModelBox(lid, 0, 17, -4, -8, -4, 8, 8, 8, 0.5f,false));
+		lid.setRotationPoint(0, 0, 0);
+		lid.cubeList.add(new ModelBox(lid, 0, 0, -6, -10, -6, 12, 5, 12, 0, false));
+		lid.cubeList.add(new ModelBox(lid, 0, 0, -6, -10, -6, 12, 5, 12, 0, false));
+		lid.cubeList.add(new ModelBox(lid, 0, 17, -4, -8, -4, 8, 8, 8, 0.5f, false));
 		bipedHead.addChild(lid);
 
 		bipedHead.cubeList.remove(0);
@@ -33,7 +33,7 @@ public class ModelCruxtruderHat extends ModelBiped
 
 		if (entityIn instanceof EntityArmorStand)
 		{
-			EntityArmorStand entityarmorstand = (EntityArmorStand)entityIn;
+			EntityArmorStand entityarmorstand = (EntityArmorStand) entityIn;
 			bipedHead.rotateAngleX = 0.017453292F * entityarmorstand.getHeadRotation().getX();
 			bipedHead.rotateAngleY = 0.017453292F * entityarmorstand.getHeadRotation().getY();
 			bipedHead.rotateAngleZ = 0.017453292F * entityarmorstand.getHeadRotation().getZ();

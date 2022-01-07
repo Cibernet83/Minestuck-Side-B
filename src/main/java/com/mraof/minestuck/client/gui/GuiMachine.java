@@ -16,15 +16,15 @@ import java.io.IOException;
 
 public abstract class GuiMachine extends GuiContainer
 {
-	private TileEntityMachine te;
 	protected GuiButton goButton;
-	
+	private TileEntityMachine te;
+
 	public GuiMachine(Container inventorySlotsIn, TileEntityMachine tileEntity)
 	{
 		super(inventorySlotsIn);
 		this.te = tileEntity;
 	}
-	
+
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException
 	{

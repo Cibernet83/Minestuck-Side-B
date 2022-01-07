@@ -57,17 +57,15 @@ import java.util.UUID;
 @SideOnly(Side.CLIENT)
 public class ClientEventHandler
 {
+	private static final UUID WEIGHT_MODUS_SPEED_UUID = MathHelper.getRandomUUID(ThreadLocalRandom.current());
 	private static int shake = 0;
 	private static int shakeCooldown = 0;
 	private static int prevSelectedSlot = 0;
-
 	private static int eightBallMessage = -1;
 	private static int maxEightBallMsgs = 20;
 
-	private static final UUID WEIGHT_MODUS_SPEED_UUID = MathHelper.getRandomUUID(ThreadLocalRandom.current());
-
 	@SubscribeEvent
-	public static void onConnectedToServer(ClientConnectedToServerEvent event)	//Reset all static client-side data here
+	public static void onConnectedToServer(ClientConnectedToServerEvent event)    //Reset all static client-side data here
 	{
 		GuiPlayerStats.normalTab = GuiPlayerStats.NormalGuiType.CAPTCHA_DECK;
 		GuiPlayerStats.editmodeTab = GuiPlayerStats.EditmodeGuiType.DEPLOY_LIST;
@@ -80,24 +78,24 @@ public class ClientEventHandler
 		GuiEcheladder.animatedRung = 0;
 		SkaiaClient.clear();
 	}
-	
+
 	@SubscribeEvent
 	public static void onClientTick(TickEvent.ClientTickEvent event)
 	{
-		if(event.phase == TickEvent.Phase.END)
+		if (event.phase == TickEvent.Phase.END)
 		{
-			if(ColorCollector.displaySelectionGui && Minecraft.getMinecraft().currentScreen == null)
+			if (ColorCollector.displaySelectionGui && Minecraft.getMinecraft().currentScreen == null)
 			{
 				ColorCollector.displaySelectionGui = false;
-				if(MinestuckConfig.loginColorSelector)
+				if (MinestuckConfig.loginColorSelector)
 					Minecraft.getMinecraft().displayGuiScreen(new GuiColorSelector(true));
 			}
-			
+
 		}
 
 		EntityPlayer player = Minecraft.getMinecraft().player;
 
-		if(player == null || event.phase != TickEvent.Phase.START)
+		if (player == null || event.phase != TickEvent.Phase.START)
 			return;
 
 		/*Modus modus = SylladexUtils.clientSideModus;
@@ -129,80 +127,80 @@ public class ClientEventHandler
 		if(modus instanceof CycloneModus)
 			((CycloneModus) modus).cycle();*/ // TODO: Weight and cyclone modi
 
-		if(prevSelectedSlot != player.inventory.currentItem)
+		if (prevSelectedSlot != player.inventory.currentItem)
 			shakeCooldown = 1;
 
-		float currentCameraAvg = (player.rotationPitch + player.rotationYawHead)/2f;
-		float prevCameraAvg = (player.prevRotationPitch + player.prevRotationYawHead)/2f;
+		float currentCameraAvg = (player.rotationPitch + player.rotationYawHead) / 2f;
+		float prevCameraAvg = (player.prevRotationPitch + player.prevRotationYawHead) / 2f;
 
-		if(Math.abs(currentCameraAvg - prevCameraAvg) > 10)
+		if (Math.abs(currentCameraAvg - prevCameraAvg) > 10)
 		{
 			shake++;
 			shakeCooldown = 16;
 		}
-		else if(shakeCooldown == 1)
+		else if (shakeCooldown == 1)
 		{
 			shake = 0;
 			shakeCooldown--;
 			eightBallMessage = -1;
 		}
-		else if(shakeCooldown > 0) shakeCooldown--;
+		else if (shakeCooldown > 0) shakeCooldown--;
 
-		if(player.getHeldItemMainhand().getItem().equals(MinestuckItems.eightBall))
+		if (player.getHeldItemMainhand().getItem().equals(MinestuckItems.eightBall))
 		{
-			if(shake > 30)
+			if (shake > 30)
 			{
-				if(eightBallMessage == -1)
+				if (eightBallMessage == -1)
 					eightBallMessage = player.world.rand.nextInt(maxEightBallMsgs);
 				ITextComponent msg = new TextComponentTranslation("status.eightBallMessage." + eightBallMessage).setStyle(new Style().setColor(TextFormatting.BLUE));
 				ICaptchalogueable storedStack = ModusStorage.getStoredItem(player.getHeldItemMainhand());
 				player.sendStatusMessage(storedStack == null ? msg : storedStack.getTextComponent().setStyle(new Style().setColor(TextFormatting.BLUE)), true);
 			}
 		}
-		else if(player.getHeldItemOffhand().getItem().equals(MinestuckItems.eightBall))
+		else if (player.getHeldItemOffhand().getItem().equals(MinestuckItems.eightBall))
 		{
-			if(shake > 30)
+			if (shake > 30)
 			{
-				if(eightBallMessage == -1)
+				if (eightBallMessage == -1)
 					eightBallMessage = player.world.rand.nextInt(maxEightBallMsgs);
-				ITextComponent msg = new TextComponentTranslation("status.eightBallMessage."+eightBallMessage).setStyle(new Style().setColor(TextFormatting.BLUE));
+				ITextComponent msg = new TextComponentTranslation("status.eightBallMessage." + eightBallMessage).setStyle(new Style().setColor(TextFormatting.BLUE));
 				ICaptchalogueable storedStack = ModusStorage.getStoredItem(player.getHeldItemOffhand());
 				player.sendStatusMessage(storedStack == null ? msg : storedStack.getTextComponent().setStyle(new Style().setColor(TextFormatting.BLUE)), true);
 			}
 		}
-		else if( shakeCooldown > 0) shakeCooldown = 0;
+		else if (shakeCooldown > 0) shakeCooldown = 0;
 
 		prevSelectedSlot = player.inventory.currentItem;
 	}
-	
-	@SubscribeEvent(priority=EventPriority.HIGHEST)
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void addCustomTooltip(ItemTooltipEvent event)
 	{
 		//Add config check
 		{
 			ItemStack stack = event.getItemStack();
-			if(event.getEntityPlayer() != null && event.getEntityPlayer().openContainer instanceof ContainerConsortMerchant
-					&& event.getEntityPlayer().openContainer.getInventory().contains(stack))
+			if (event.getEntityPlayer() != null && event.getEntityPlayer().openContainer instanceof ContainerConsortMerchant
+						&& event.getEntityPlayer().openContainer.getInventory().contains(stack))
 			{
 				String unlocalized = stack.getUnlocalizedName();
-				if(stack.getItem() instanceof ItemPotion)
+				if (stack.getItem() instanceof ItemPotion)
 					unlocalized = PotionUtils.getPotionFromItem(stack).getNamePrefixed("potion.");
-				
-				EnumConsort type = ((ContainerConsortMerchant)event.getEntityPlayer().openContainer).inventory.getConsortType();
+
+				EnumConsort type = ((ContainerConsortMerchant) event.getEntityPlayer().openContainer).inventory.getConsortType();
 				String arg1 = I18n.format("entity.minestuck." + type.getName() + ".name");
-				
-				String name = "store."+unlocalized+".name";
-				String tooltip = "store."+unlocalized+".tooltip";
+
+				String name = "store." + unlocalized + ".name";
+				String tooltip = "store." + unlocalized + ".tooltip";
 				event.getToolTip().clear();
-				if(I18n.hasKey(name))
+				if (I18n.hasKey(name))
 					event.getToolTip().add(I18n.format(name, arg1));
 				else event.getToolTip().add(stack.getDisplayName());
-				if(I18n.hasKey(tooltip))
+				if (I18n.hasKey(tooltip))
 					event.getToolTip().add(I18n.format(tooltip, arg1));
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public static void onFogRender(EntityViewRenderEvent.FogDensity event)
 	{
@@ -213,13 +211,13 @@ public class ClientEventHandler
 			GlStateManager.setFog(GlStateManager.FogMode.EXP);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public static void onModelBake(ModelBakeEvent event)
 	{
-		Debug.info(event.getModelManager().getModel(new ModelResourceLocation(Minestuck.MODID+":alchemiter#facing=east,has_dowel=true,part=totem_pad")));
+		Debug.info(event.getModelManager().getModel(new ModelResourceLocation(Minestuck.MODID + ":alchemiter#facing=east,has_dowel=true,part=totem_pad")));
 	}
-	
+
 	@SubscribeEvent
 	public static void onBlockColorsInit(ColorHandlerEvent.Block e)
 	{
@@ -228,7 +226,7 @@ public class ClientEventHandler
 		{
 			public int colorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex)
 			{
-				int age = ((Integer)state.getValue(BlockStem.AGE)).intValue();
+				int age = state.getValue(BlockStem.AGE).intValue();
 				int red = age * 32;
 				int green = 255 - age * 8;
 				int blue = age * 4;

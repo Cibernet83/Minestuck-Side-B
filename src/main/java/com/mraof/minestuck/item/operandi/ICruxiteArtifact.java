@@ -10,7 +10,7 @@ public interface ICruxiteArtifact
 
 	default int getCruxiteColor(ItemStack stack)
 	{
-		if(stack.hasTagCompound() && stack.getTagCompound().hasKey("ColorID") && stack.getTagCompound().getInteger("ColorID") < ColorCollector.getColorSize() && stack.getTagCompound().getInteger("ColorID") >= 0)
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("ColorID") && stack.getTagCompound().getInteger("ColorID") < ColorCollector.getColorSize() && stack.getTagCompound().getInteger("ColorID") >= 0)
 			return ColorCollector.getColor(stack.getTagCompound().getInteger("ColorID"));
 		else return 0x99D9EA;
 	}

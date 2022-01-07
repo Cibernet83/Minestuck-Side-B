@@ -2,8 +2,8 @@ package com.mraof.minestuck.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.client.resources.Language;
+import net.minecraft.client.resources.LanguageManager;
 
 import java.util.Locale;
 

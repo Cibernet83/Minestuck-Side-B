@@ -1,8 +1,8 @@
 package com.mraof.minestuck.client.gui;
 
-import com.mraof.minestuck.client.util.GuiUtil;
-import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.Grist;
+import com.mraof.minestuck.alchemy.GristSet;
+import com.mraof.minestuck.client.util.GuiUtil;
 import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -11,7 +11,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -52,7 +54,7 @@ public abstract class GuiScreenMinestuck extends GuiScreen
 				showName = true;
 			}
 			if (!String.valueOf(clientGrist.getGrist(type)).equals(amount)
-					&& this.isPointInRegion(gristXOffset + gristCountX - 1, gristYOffset + gristCountY - 1, 35, 10, xcor, ycor))
+						&& this.isPointInRegion(gristXOffset + gristCountX - 1, gristYOffset + gristCountY - 1, 35, 10, xcor, ycor))
 			{
 				tooltipType = type;
 				showName = false;
@@ -60,7 +62,7 @@ public abstract class GuiScreenMinestuck extends GuiScreen
 
 			this.drawIcon(gristXOffset + gristIconX, gristYOffset + gristIconY, type.getIcon());
 			mc.fontRenderer.drawString(amount, gristXOffset + gristCountX, gristYOffset + gristCountY, 0xddddee);
-			
+
 			offset++;
 		}
 		if (tooltipType != null)

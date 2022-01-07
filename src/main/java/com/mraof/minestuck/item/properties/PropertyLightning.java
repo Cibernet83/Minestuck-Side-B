@@ -35,7 +35,7 @@ public class PropertyLightning extends WeaponProperty
 	@Override
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
-		if(!onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1))
+		if (!onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1))
 			doLightning(player.world, player, target.posX, target.posY, target.posZ, damage, causeFire);
 	}
 
@@ -43,7 +43,7 @@ public class PropertyLightning extends WeaponProperty
 	public float onCrit(ItemStack stack, EntityPlayer player, EntityLivingBase target, float damageModifier)
 	{
 
-		if(onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(player) >= 1))
+		if (onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(player) >= 1))
 			doLightning(player.world, player, target.posX, target.posY, target.posZ, damage, causeFire);
 
 		return super.onCrit(stack, player, target, damageModifier);

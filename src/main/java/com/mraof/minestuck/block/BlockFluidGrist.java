@@ -13,25 +13,26 @@ import net.minecraftforge.registries.IForgeRegistry;
  */
 public class BlockFluidGrist extends BlockFluidClassic implements IRegistryBlock
 {
-    private final String regName;
+	private final String regName;
 
-    public BlockFluidGrist(String grist, Fluid fluid, Material material) {
-        super(fluid, material);
-        setUnlocalizedName("liquid_"+grist);
-        regName = IRegistryObject.unlocToReg("liquid_"+grist);
-        MinestuckBlocks.blocks.add(this);
-    }
+	public BlockFluidGrist(String grist, Fluid fluid, Material material)
+	{
+		super(fluid, material);
+		setUnlocalizedName("liquid_" + grist);
+		regName = IRegistryObject.unlocToReg("liquid_" + grist);
+		MinestuckBlocks.blocks.add(this);
+	}
 
-    @Override
-    public void register(IForgeRegistry<Block> registry)
-    {
-        setRegistryName(regName);
-        registry.register(this);
-    }
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
 
-    @Override
-    public MSItemBlock getItemBlock()
-    {
-        return new MSItemBlock(this);
-    }
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this);
+	}
 }

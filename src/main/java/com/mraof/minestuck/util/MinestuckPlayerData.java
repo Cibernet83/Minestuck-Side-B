@@ -40,36 +40,39 @@ public class MinestuckPlayerData
 
 	//Server sided
 
-	public static GristSet getClientGrist()
-	{
-		return ClientEditHandler.isActive() ? sessionClientGrist : clientData.gristCache;
-	}
-
-	public static GristSet getGristSet(PlayerIdentifier player)
-	{
-		return getData(player).gristCache;
-	}
-
 	public static void setGrist(PlayerIdentifier player, GristSet set)
 	{
 		getData(player).gristCache = set;
+	}
+
+	public static PlayerData getData(PlayerIdentifier player)
+	{
+		Objects.requireNonNull(player);
+		if (!dataMap.containsKey(player))
+		{
+			PlayerData data = new PlayerData();
+			data.player = player;
+			data.echeladder = new Echeladder(player);
+			dataMap.put(player, data);
+		}
+		return dataMap.get(player);
 	}
 
 	public static Title getTitle(PlayerIdentifier player)
 	{
 		return getData(player).title;
 	}
-	
+
 	public static boolean getEffectToggle(PlayerIdentifier player)
 	{
 		return getData(player).effectToggle;
 	}
-	
+
 	public static void setEffectToggle(PlayerIdentifier player, boolean toggle)
 	{
 		getData(player).effectToggle = toggle;
 	}
-	
+
 	public static void writeToNBT(NBTTagCompound nbt)
 	{
 		NBTTagList list = new NBTTagList();
@@ -106,40 +109,37 @@ public class MinestuckPlayerData
 		return getData(IdentifierHandler.encode(player));
 	}
 
-	public static PlayerData getData(PlayerIdentifier player)
-	{
-		Objects.requireNonNull(player);
-		if (!dataMap.containsKey(player))
-		{
-			PlayerData data = new PlayerData();
-			data.player = player;
-			data.echeladder = new Echeladder(player);
-			dataMap.put(player, data);
-		}
-		return dataMap.get(player);
-	}
-
 	public static GristSet getGristSet(EntityPlayer player)
 	{
 		if (player.world.isRemote)
 			return getClientGrist();
 		else return getGristSet(IdentifierHandler.encode(player));
 	}
-	
+
+	public static GristSet getClientGrist()
+	{
+		return ClientEditHandler.isActive() ? sessionClientGrist : clientData.gristCache;
+	}
+
+	public static GristSet getGristSet(PlayerIdentifier player)
+	{
+		return getData(player).gristCache;
+	}
+
 	public static boolean addBoondollars(EntityPlayer player, long boons)
 	{
 		return addBoondollars(IdentifierHandler.encode(player), boons);
 	}
-	
+
 	public static boolean addBoondollars(PlayerIdentifier id, long boons)
 	{
 		PlayerData data = MinestuckPlayerData.getData(id);
-		if(data.boondollars + boons < 0)
+		if (data.boondollars + boons < 0)
 			return false;
 		data.boondollars += boons;
-		
+
 		EntityPlayer player = id.getPlayer();
-		if(player != null)
+		if (player != null)
 			MinestuckNetwork.sendTo(new MessageBoondollars(data.boondollars), player);
 		return true;
 	}
@@ -154,7 +154,7 @@ public class MinestuckPlayerData
 
 		return tC != null && tC.enteredGame();
 	}
-	
+
 	public static class PlayerData
 	{
 
@@ -165,7 +165,7 @@ public class MinestuckPlayerData
 		public long boondollars;
 		public Echeladder echeladder;
 		public boolean effectToggle = true;
-		
+
 		private void readFromNBT(NBTTagCompound nbt)
 		{
 			this.player = IdentifierHandler.load(nbt, "player");
@@ -176,27 +176,27 @@ public class MinestuckPlayerData
 				{
 					int[] array = nbt.getIntArray("grist");
 					this.gristCache = new GristSet()
-							.addGrist(MinestuckGrist.amber, array[0])
-							.addGrist(MinestuckGrist.amethyst, array[1])
-							.addGrist(MinestuckGrist.artifact, array[2])
-							.addGrist(MinestuckGrist.build, array[3])
-							.addGrist(MinestuckGrist.caulk, array[4])
-							.addGrist(MinestuckGrist.chalk, array[5])
-							.addGrist(MinestuckGrist.cobalt, array[6])
-							.addGrist(MinestuckGrist.diamond, array[7])
-							.addGrist(MinestuckGrist.garnet, array[8])
-							.addGrist(MinestuckGrist.gold, array[9])
-							.addGrist(MinestuckGrist.iodine, array[10])
-							.addGrist(MinestuckGrist.marble, array[11])
-							.addGrist(MinestuckGrist.mercury, array[12])
-							.addGrist(MinestuckGrist.quartz, array[13])
-							.addGrist(MinestuckGrist.ruby, array[14])
-							.addGrist(MinestuckGrist.rust, array[15])
-							.addGrist(MinestuckGrist.shale, array[16])
-							.addGrist(MinestuckGrist.sulfur, array[17])
-							.addGrist(MinestuckGrist.tar, array[18])
-							.addGrist(MinestuckGrist.uranium, array[19])
-							.addGrist(MinestuckGrist.zillium, array[20]);
+											  .addGrist(MinestuckGrist.amber, array[0])
+											  .addGrist(MinestuckGrist.amethyst, array[1])
+											  .addGrist(MinestuckGrist.artifact, array[2])
+											  .addGrist(MinestuckGrist.build, array[3])
+											  .addGrist(MinestuckGrist.caulk, array[4])
+											  .addGrist(MinestuckGrist.chalk, array[5])
+											  .addGrist(MinestuckGrist.cobalt, array[6])
+											  .addGrist(MinestuckGrist.diamond, array[7])
+											  .addGrist(MinestuckGrist.garnet, array[8])
+											  .addGrist(MinestuckGrist.gold, array[9])
+											  .addGrist(MinestuckGrist.iodine, array[10])
+											  .addGrist(MinestuckGrist.marble, array[11])
+											  .addGrist(MinestuckGrist.mercury, array[12])
+											  .addGrist(MinestuckGrist.quartz, array[13])
+											  .addGrist(MinestuckGrist.ruby, array[14])
+											  .addGrist(MinestuckGrist.rust, array[15])
+											  .addGrist(MinestuckGrist.shale, array[16])
+											  .addGrist(MinestuckGrist.sulfur, array[17])
+											  .addGrist(MinestuckGrist.tar, array[18])
+											  .addGrist(MinestuckGrist.uranium, array[19])
+											  .addGrist(MinestuckGrist.zillium, array[20]);
 				}
 				else
 				{
@@ -205,7 +205,7 @@ public class MinestuckPlayerData
 					{
 						NBTTagCompound gristTag = (NBTTagCompound) nbtBase;
 						Grist type = Grist.getTypeFromString(gristTag.getString("id"));
-						if(type != null)
+						if (type != null)
 							this.gristCache.setGrist(type, gristTag.getInteger("amount"));
 					}
 				}
@@ -216,7 +216,7 @@ public class MinestuckPlayerData
 				this.color = nbt.getInteger("color");
 			boondollars = nbt.getLong("boondollars");
 			effectToggle = nbt.getBoolean("effectToggle");
-			
+
 			echeladder = new Echeladder(player);
 			echeladder.loadEcheladder(nbt);
 		}
@@ -245,7 +245,7 @@ public class MinestuckPlayerData
 			nbt.setInteger("color", this.color);
 			nbt.setLong("boondollars", boondollars);
 			nbt.setBoolean("effectToggle", effectToggle);
-			
+
 			echeladder.saveEcheladder(nbt);
 			return nbt;
 		}

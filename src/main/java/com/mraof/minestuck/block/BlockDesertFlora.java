@@ -1,8 +1,6 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
-
-import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -18,7 +16,7 @@ public class BlockDesertFlora extends BlockBush implements IRegistryBlock
 {
 	private final String regName;
 
-	public BlockDesertFlora(String name) 
+	public BlockDesertFlora(String name)
 	{
 		super(Material.PLANTS);
 		regName = IRegistryObject.unlocToReg(name);
@@ -29,12 +27,14 @@ public class BlockDesertFlora extends BlockBush implements IRegistryBlock
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
+	{
 		IBlockState soil = worldIn.getBlockState(pos.down());
 		return canSustainBush(soil);
 	}
-	
-	public boolean canSustainBush(IBlockState state) {
+
+	public boolean canSustainBush(IBlockState state)
+	{
 		return state.getBlock() == Blocks.SAND;
 	}
 

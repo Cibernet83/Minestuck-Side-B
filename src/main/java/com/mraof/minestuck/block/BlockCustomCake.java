@@ -1,7 +1,7 @@
 package com.mraof.minestuck.block;
 
-import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.item.MinestuckTabs;
+import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCake;
@@ -38,7 +38,7 @@ public abstract class BlockCustomCake extends BlockCake implements IRegistryBloc
 	{
 		return new ItemStack(Item.getItemFromBlock(this), 1, this.damageDropped(state));
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
@@ -52,7 +52,7 @@ public abstract class BlockCustomCake extends BlockCake implements IRegistryBloc
 			return this.eatCake(worldIn, pos, state, playerIn) || itemstack.isEmpty();
 		}
 	}
-	
+
 	public boolean eatCake(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
 		if (!player.canEat(false))
@@ -64,7 +64,7 @@ public abstract class BlockCustomCake extends BlockCake implements IRegistryBloc
 			player.addStat(StatList.CAKE_SLICES_EATEN);
 			applyEffects(worldIn, pos, state, player);
 			int i = state.getValue(BITES);
-			
+
 			if (i < 6)
 			{
 				worldIn.setBlockState(pos, state.withProperty(BITES, i + 1), 3);
@@ -73,11 +73,11 @@ public abstract class BlockCustomCake extends BlockCake implements IRegistryBloc
 			{
 				worldIn.setBlockToAir(pos);
 			}
-			
+
 			return true;
 		}
 	}
-	
+
 	protected abstract void applyEffects(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player);
 
 	@Override

@@ -9,12 +9,14 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 
-public class ModelScarf extends ModelBiped {
+public class ModelScarf extends ModelBiped
+{
 	private final ModelRenderer Scarf;
 	private final ModelRenderer Tail;
 	private final ModelRenderer TailSub;
 
-	public ModelScarf() {
+	public ModelScarf()
+	{
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -42,7 +44,8 @@ public class ModelScarf extends ModelBiped {
 		bipedHead.addChild(Scarf);
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
@@ -55,17 +58,17 @@ public class ModelScarf extends ModelBiped {
 
 
 		Tail.rotateAngleX = Math.max(isSneak ? 0.5f : 0, -bipedHead.rotateAngleX);
-		TailSub.rotationPointZ = (float) Math.max(0, -bipedHead.rotateAngleX*Math.PI/2f);
+		TailSub.rotationPointZ = (float) Math.max(0, -bipedHead.rotateAngleX * Math.PI / 2f);
 		Tail.rotateAngleX += Math.max(0,
-				((float) Math.sqrt(Math.pow((entityIn.posX - entityIn.prevPosX), 2) + Math.pow(Math.max(0, entityIn.posY - entityIn.prevPosY), 2) + Math.pow((entityIn.posZ - entityIn.prevPosZ), 2)) * limbSwingAmount)-
-				Math.max(0, bipedHead.rotateAngleX));
+				((float) Math.sqrt(Math.pow((entityIn.posX - entityIn.prevPosX), 2) + Math.pow(Math.max(0, entityIn.posY - entityIn.prevPosY), 2) + Math.pow((entityIn.posZ - entityIn.prevPosZ), 2)) * limbSwingAmount) -
+						Math.max(0, bipedHead.rotateAngleX));
 
-		if(isSneak)
-			TailSub.rotationPointZ += Math.PI/2f;
+		if (isSneak)
+			TailSub.rotationPointZ += Math.PI / 2f;
 
 		if (entityIn instanceof EntityArmorStand)
 		{
-			EntityArmorStand entityarmorstand = (EntityArmorStand)entityIn;
+			EntityArmorStand entityarmorstand = (EntityArmorStand) entityIn;
 			bipedHead.rotateAngleX = 0.017453292F * entityarmorstand.getHeadRotation().getX();
 			bipedHead.rotateAngleY = 0.017453292F * entityarmorstand.getHeadRotation().getY();
 			bipedHead.rotateAngleZ = 0.017453292F * entityarmorstand.getHeadRotation().getZ();

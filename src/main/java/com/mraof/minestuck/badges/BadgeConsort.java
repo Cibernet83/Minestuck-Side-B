@@ -8,18 +8,20 @@ import net.minecraft.world.World;
 
 public class BadgeConsort extends BadgeLevel
 {
-    public BadgeConsort(String unlocName, int requiredLevel) {
-        super(unlocName, requiredLevel);
-    }
+	public BadgeConsort(String unlocName, int requiredLevel)
+	{
+		super(unlocName, requiredLevel);
+	}
 
-    @Override
-    public boolean canUse(World world, EntityPlayer player) {
-        return true;
-    }
+	@Override
+	public boolean canUse(World world, EntityPlayer player)
+	{
+		return true;
+	}
 
-    @Override
-    public ResourceLocation getTextureLocation()
-    {
-        return new ResourceLocation(getRegistryName().getResourceDomain(), "textures/gui/badges/" + getRegistryName().getResourcePath() + "_" + (Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getConsortType() == null ? "salamander" : Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getConsortType().getName().toLowerCase()) + ".png");
-    }
+	@Override
+	public ResourceLocation getTextureLocation()
+	{
+		return new ResourceLocation(getRegistryName().getResourceDomain(), "textures/gui/badges/" + getRegistryName().getResourcePath() + "_" + (Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getConsortType() == null ? "salamander" : Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getConsortType().getName().toLowerCase()) + ".png");
+	}
 }

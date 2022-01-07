@@ -10,45 +10,45 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntityAIMoveToBattle extends EntityAIBase
 {
-	
-	private EntityCarapacian target;
+
 	protected Vec3d destination;
-	
+	private EntityCarapacian target;
+
 	public EntityAIMoveToBattle(EntityCarapacian entity)
 	{
 		this.target = entity;
 		setMutexBits(1);
 	}
-	
+
 	@Override
 	public boolean shouldExecute()
-	{	//TODO When the castles are fixed, make the entity possibly head for one if it's closer
-		
-		if(target.dimension != MinestuckDimensionHandler.skaiaDimensionId || this.target.getAttackTarget() != null && !this.target.getNavigator().noPath())
+	{    //TODO When the castles are fixed, make the entity possibly head for one if it's closer
+
+		if (target.dimension != MinestuckDimensionHandler.skaiaDimensionId || this.target.getAttackTarget() != null && !this.target.getNavigator().noPath())
 			return false;
-		
+
 		EnumEntityKingdom type = target.getKingdom();
-		
-		if(type == EnumEntityKingdom.DERSITE && target.posX >= 0 || type == EnumEntityKingdom.PROSPITIAN && target.posX <= 0)
+
+		if (type == EnumEntityKingdom.DERSITE && target.posX >= 0 || type == EnumEntityKingdom.PROSPITIAN && target.posX <= 0)
 			return false;
-		
+
 		BlockPos pos = target.world.getHeight(new BlockPos(type == EnumEntityKingdom.DERSITE ? 5 : -5, 0, target.posY));
 		destination = RandomPositionGenerator.findRandomTargetBlockTowards(target, 10, 7, new Vec3d(pos.getX(), pos.getY(), pos.getZ()));
-		
+
 		return destination != null;
 	}
-	
-	@Override
-	public void startExecuting()
-	{
-		
-		this.target.getNavigator().tryMoveToXYZ(destination.x, destination.y, destination.z, target.getWanderSpeed());
-	}
-	
+
 	@Override
 	public boolean shouldContinueExecuting()
 	{
 		return !this.target.getNavigator().noPath();
 	}
-	
+
+	@Override
+	public void startExecuting()
+	{
+
+		this.target.getNavigator().tryMoveToXYZ(destination.x, destination.y, destination.z, target.getWanderSpeed());
+	}
+
 }

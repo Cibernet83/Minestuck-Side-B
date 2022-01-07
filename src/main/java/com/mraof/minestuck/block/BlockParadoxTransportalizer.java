@@ -28,6 +28,7 @@ import java.util.List;
 public class BlockParadoxTransportalizer extends BlockContainer implements IRegistryObject<Block>
 {
 	protected static final AxisAlignedBB TRANSPORTALIZER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
+
 	public BlockParadoxTransportalizer()
 	{
 		super(Material.IRON, MapColor.IRON);
@@ -37,53 +38,60 @@ public class BlockParadoxTransportalizer extends BlockContainer implements IRegi
 		setCreativeTab(MinestuckTabs.minestuck);
 	}
 
-	@Override
-	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
+	public EnumBlockRenderType getRenderType(IBlockState state)
 	{
-		String key = getUnlocalizedName()+".tooltip";
-		if(!I18n.translateToLocal(key).equals(key))
-			tooltip.add(I18n.translateToLocal(key));
-		super.addInformation(stack, player, tooltip, advanced);
-	}
-
-
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return TRANSPORTALIZER_AABB;
-	}
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-		return BlockFaceShape.UNDEFINED;
-	}
-	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
 	}
-	
+
 	@Override
 	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}
-	
+
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	{
+		return TRANSPORTALIZER_AABB;
+	}
+
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
+	{
+		return BlockFaceShape.UNDEFINED;
+	}
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
-	
+
 	@Override
 	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity)
 	{
 		if (!world.isRemote && entity.getRidingEntity() == null && entity.getPassengers().isEmpty())
 		{
-			TileEntityParadoxTransportalizer te = (TileEntityParadoxTransportalizer)world.getTileEntity(pos);
-			if(te != null)
-				if (entity.timeUntilPortal == 0) {
+			TileEntityParadoxTransportalizer te = (TileEntityParadoxTransportalizer) world.getTileEntity(pos);
+			if (te != null)
+				if (entity.timeUntilPortal == 0)
+				{
 					te.teleport(world, pos, entity);
-				} else {
+				}
+				else
+				{
 					entity.timeUntilPortal = entity.getPortalCooldown();
 				}
 		}
 	}
-	
+
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
+	{
+		String key = getUnlocalizedName() + ".tooltip";
+		if (!I18n.translateToLocal(key).equals(key))
+			tooltip.add(I18n.translateToLocal(key));
+		super.addInformation(stack, player, tooltip, advanced);
+	}
+
 	@Nullable
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)

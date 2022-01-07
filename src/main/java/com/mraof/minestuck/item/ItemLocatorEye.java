@@ -1,10 +1,10 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.world.gen.structure.StructureQuestBed;
 import com.mraof.minestuck.entity.EntityLocatorEye;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SburbHandler;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
+import com.mraof.minestuck.world.gen.structure.StructureQuestBed;
 import com.mraof.minestuck.world.lands.LandAspectRegistry;
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import net.minecraft.client.resources.I18n;
@@ -41,36 +41,14 @@ public class ItemLocatorEye extends MSItemBase
 	{
 		super.addInformation(stack, world, tooltip, flagIn);
 
-		if(stack.hasTagCompound() && stack.getTagCompound().hasKey("Dimension") && MinestuckDimensionHandler.isLandDimension(stack.getTagCompound().getInteger("Dimension")))
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("Dimension") && MinestuckDimensionHandler.isLandDimension(stack.getTagCompound().getInteger("Dimension")))
 		{
 			LandAspectRegistry.AspectCombination aspects = MinestuckDimensionHandler.getAspects(world.provider.getDimension());
-			ChunkProviderLands chunkProvider = (ChunkProviderLands)world.provider.createChunkGenerator();
-			String aspect1 = I18n.format("land." + aspects.aspectTerrain.getNames()[chunkProvider.nameIndex1], new Object[0]);
-			String aspect2 = I18n.format("land." + aspects.aspectTitle.getNames()[chunkProvider.nameIndex2], new Object[0]);
+			ChunkProviderLands chunkProvider = (ChunkProviderLands) world.provider.createChunkGenerator();
+			String aspect1 = I18n.format("land." + aspects.aspectTerrain.getNames()[chunkProvider.nameIndex1]);
+			String aspect2 = I18n.format("land." + aspects.aspectTitle.getNames()[chunkProvider.nameIndex2]);
 			tooltip.add(I18n.format("item.denizenEye.tooltip", I18n.format("land.format", aspect1, aspect2)));
 		}
-	}
-
-	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-	{
-		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-
-		if(worldIn.isRemote || !(entityIn instanceof EntityPlayer))
-			return;
-
-		if(!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-
-
-
-		if(!(worldIn.provider.createChunkGenerator() instanceof ChunkProviderLands))
-		{
-			((EntityPlayer) entityIn).renderBrokenItemStack(stack.copy());
-			stack.setCount(0);
-		}
-		else if(!stack.getTagCompound().hasKey("Dimension"))
-			stack.getTagCompound().setInteger("Dimension", worldIn.provider.getDimension());
 	}
 
 	@Override
@@ -88,10 +66,10 @@ public class ItemLocatorEye extends MSItemBase
 				float chance = 0.95f;
 
 				SburbConnection c = SburbHandler.getConnectionForDimension(stack.getTagCompound().getInteger("Dimension"));
-				if(c != null && !c.getClientIdentifier().equals(c.getServerIdentifier()))
-					chance = Math.min(0.95f, Math.max(0.0f, 0.95f-SburbHandler.availableTier(c.getClientIdentifier())*0.05f));
+				if (c != null && !c.getClientIdentifier().equals(c.getServerIdentifier()))
+					chance = Math.min(0.95f, Math.max(0.0f, 0.95f - SburbHandler.availableTier(c.getClientIdentifier()) * 0.05f));
 
-				EntityLocatorEye entityEye = new EntityLocatorEye(worldIn, playerIn.posX, playerIn.posY + (double)(playerIn.height / 2.0F), playerIn.posZ);
+				EntityLocatorEye entityEye = new EntityLocatorEye(worldIn, playerIn.posX, playerIn.posY + (double) (playerIn.height / 2.0F), playerIn.posZ);
 				entityEye.moveTowards(blockpos, chance);
 				worldIn.spawnEntity(entityEye);
 
@@ -108,5 +86,26 @@ public class ItemLocatorEye extends MSItemBase
 
 		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 
+	}
+
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+
+		if (worldIn.isRemote || !(entityIn instanceof EntityPlayer))
+			return;
+
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+
+
+		if (!(worldIn.provider.createChunkGenerator() instanceof ChunkProviderLands))
+		{
+			((EntityPlayer) entityIn).renderBrokenItemStack(stack.copy());
+			stack.setCount(0);
+		}
+		else if (!stack.getTagCompound().hasKey("Dimension"))
+			stack.getTagCompound().setInteger("Dimension", worldIn.provider.getDimension());
 	}
 }

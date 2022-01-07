@@ -22,22 +22,22 @@ public class BadgePrince extends BadgeHeroClass
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state == GodKeyStates.KeyState.NONE)
+		if (state == GodKeyStates.KeyState.NONE)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 9)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 9)
 		{
-			if(state.equals(GodKeyStates.KeyState.HELD))
+			if (state.equals(GodKeyStates.KeyState.HELD))
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(state.equals(GodKeyStates.KeyState.RELEASED))
+		if (state.equals(GodKeyStates.KeyState.RELEASED))
 		{
 			EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
-			float dmg = 10 * Math.min(3.0f, Math.max(1.0f, time/40f));
+			float dmg = 10 * Math.min(3.0f, Math.max(1.0f, time / 40f));
 
-			if(target != null)
+			if (target != null)
 			{
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.PRINCE, 20);
 				target.attackEntityFrom(new EntityCritDamageSource("princeDmg", player).setCrit(), dmg);
@@ -46,7 +46,7 @@ public class BadgePrince extends BadgeHeroClass
 			}
 
 		}
-		else if((int) (time % (120f / Math.max(time, 1f))) == 0)
+		else if ((int) (time % (120f / Math.max(time, 1f))) == 0)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.PRINCE, 2);
 
 		return true;

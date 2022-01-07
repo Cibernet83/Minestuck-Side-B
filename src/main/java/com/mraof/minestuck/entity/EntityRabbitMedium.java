@@ -13,16 +13,16 @@ public class EntityRabbitMedium extends EntityRabbit
 	}
 
 	@Override
-	protected boolean canDespawn()
-	{
-		return true;
-	}
-
-	@Override
 	public boolean getCanSpawnHere()
 	{
 		// Gotta override all the way down :/
 		IBlockState iblockstate = this.world.getBlockState((new BlockPos(this)).down());
 		return iblockstate.canEntitySpawn(this);
+	}
+
+	@Override
+	protected boolean canDespawn()
+	{
+		return true;
 	}
 }

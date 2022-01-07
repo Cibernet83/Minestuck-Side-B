@@ -13,19 +13,27 @@ import net.minecraft.world.biome.Biome;
 
 public class LandAspectRabbits extends TitleLandAspect
 {
-	
+
 	@Override
 	public String getPrimaryName()
 	{
 		return "rabbits";
 	}
-	
+
 	@Override
 	public String[] getNames()
 	{
-		return new String[] {"rabbit", "bunny"};
+		return new String[]{"rabbit", "bunny"};
 	}
-	
+
+	@Override
+	public boolean isAspectCompatible(TerrainLandAspect aspect)
+	{
+		StructureBlockRegistry registry = new StructureBlockRegistry();
+		aspect.registerBlocks(registry);
+		return registry.getBlockState("ocean").getMaterial() != Material.LAVA;
+	}
+
 	@Override
 	public void prepareChunkProviderServer(ChunkProviderLands chunkProvider)
 	{
@@ -36,13 +44,5 @@ public class LandAspectRabbits extends TitleLandAspect
 
 		chunkProvider.sortDecorators();
 	}
-	
-	@Override
-	public boolean isAspectCompatible(TerrainLandAspect aspect)
-	{
-		StructureBlockRegistry registry = new StructureBlockRegistry();
-		aspect.registerBlocks(registry);
-		return registry.getBlockState("ocean").getMaterial() != Material.LAVA;
-	}
-	
+
 }

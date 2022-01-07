@@ -35,58 +35,67 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeUtilRage extends BadgeHeroAspectUtil
 {
-	protected static final int RADIUS = 16;
-
 	public static final AttributeModifier ATTACK_MOD = new AttributeModifier(UUID.fromString("a10e3486-c1dd-4a74-acfc-9be5d8bcaecc"), "rage_util_boost", 4, 0).setSaved(true);
+	protected static final int RADIUS = 16;
 
 	public BadgeUtilRage()
 	{
 		super(EnumAspect.RAGE, new ItemStack(Items.GHAST_TEAR, 200));
 	}
 
+	@SubscribeEvent
+	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
+	{
+		if (event.getEntity().world.isRemote || !(event.getEntityLiving() instanceof EntityCreature))
+			return;
+
+		if (event.getEntityLiving().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isRageShiftDirty())
+			BadgeUtilRage.enableRageShift((EntityCreature) event.getEntityLiving());
+	}
+
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state == GodKeyStates.KeyState.NONE)
+		if (state == GodKeyStates.KeyState.NONE)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 3)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 3)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(time == 1)
+		if (time == 1)
 		{
 			EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 
-			if(!(target instanceof EntityCreature))
+			if (!(target instanceof EntityCreature))
 				return false;
 
 			toggleRageShift((EntityCreature) target);
 			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
-			if(!player.isCreative())
-				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-3);
+			if (!player.isCreative())
+				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 3);
 		}
-		else if(time == 40)
+		else if (time == 40)
 		{
 			int count = 0;
 			List<EntityCreature> list = world.getEntitiesWithinAABB(EntityCreature.class, player.getEntityBoundingBox().grow(RADIUS));
 
-			for(EntityLivingBase target : list)
+			for (EntityLivingBase target : list)
 			{
-				if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 3)
+				if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 3)
 					break;
 
 				toggleRageShift((EntityCreature) target);
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
 				count++;
 
-				if(!player.isCreative())
-					player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-3);
+				if (!player.isCreative())
+					player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 3);
 			}
 
-			if(count > 0 || list.isEmpty())
+			if (count > 0 || list.isEmpty())
 				badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.RAGE, list.isEmpty() ? 1 : 4);
 			else
 			{
@@ -102,7 +111,7 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 	{
 		IBadgeEffects badgeEffects = entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null);
 
-		if(!badgeEffects.isRageShifted())
+		if (!badgeEffects.isRageShifted())
 			enableRageShift(entity);
 		else
 			disableRageShift(entity);
@@ -115,36 +124,36 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 		boolean hasHostileTask = false;
 		boolean hasAttackAI = false;
 
-		for(EntityAITasks.EntityAITaskEntry entry : new LinkedHashSet<>(entity.targetTasks.taskEntries))
+		for (EntityAITasks.EntityAITaskEntry entry : new LinkedHashSet<>(entity.targetTasks.taskEntries))
 		{
-			if(entry.action instanceof EntityAINearestAttackableTarget || entry.action instanceof EntityAINearestAttackableTargetWithHeight)
+			if (entry.action instanceof EntityAINearestAttackableTarget || entry.action instanceof EntityAINearestAttackableTargetWithHeight)
 			{
 				entity.targetTasks.removeTask(entry.action);
 				hasHostileTask = true;
 			}
 		}
-		for(EntityAITasks.EntityAITaskEntry entry : new LinkedHashSet<>(entity.tasks.taskEntries))
+		for (EntityAITasks.EntityAITaskEntry entry : new LinkedHashSet<>(entity.tasks.taskEntries))
 		{
-			if(!hasAttackAI && (entry.action instanceof EntityAIAttackRanged || entry.action instanceof EntityAIAttackMelee))
+			if (!hasAttackAI && (entry.action instanceof EntityAIAttackRanged || entry.action instanceof EntityAIAttackMelee))
 				hasAttackAI = true;
 
-			if(entry.action instanceof EntityAICreeperSwell)
+			if (entry.action instanceof EntityAICreeperSwell)
 			{
 				entity.targetTasks.removeTask(entry.action);
 				hasHostileTask = true;
 			}
 		}
 
-		if(!hasHostileTask)
+		if (!hasHostileTask)
 		{
 			entity.targetTasks.addTask(3, new EntityAINearestAttackableTarget(entity, EntityPlayer.class, true));
 			entity.targetTasks.addTask(3, new EntityAINearestAttackableTarget(entity, EntityIronGolem.class, true));
 
-			if(!hasAttackAI)
-				entity.tasks.addTask(2, new EntityAIAttackRageShifted(entity,1.5D,false));
+			if (!hasAttackAI)
+				entity.tasks.addTask(2, new EntityAIAttackRageShifted(entity, 1.5D, false));
 		}
 		else if (entity.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE) != null &&
-				!entity.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).hasModifier(ATTACK_MOD))
+						 !entity.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).hasModifier(ATTACK_MOD))
 			entity.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(ATTACK_MOD);
 
 		entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).cleanRageShift();
@@ -153,9 +162,9 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 	@SuppressWarnings("deprecation")
 	public static void disableRageShift(EntityCreature entity)
 	{
-		for(EntityAITasks.EntityAITaskEntry entry : new LinkedHashSet<>(entity.targetTasks.taskEntries))
+		for (EntityAITasks.EntityAITaskEntry entry : new LinkedHashSet<>(entity.targetTasks.taskEntries))
 			entity.targetTasks.removeTask(entry.action);
-		for(EntityAITasks.EntityAITaskEntry entry : new LinkedHashSet<>(entity.tasks.taskEntries))
+		for (EntityAITasks.EntityAITaskEntry entry : new LinkedHashSet<>(entity.tasks.taskEntries))
 			entity.tasks.removeTask(entry.action);
 
 		try
@@ -175,15 +184,5 @@ public class BadgeUtilRage extends BadgeHeroAspectUtil
 		}
 
 		entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).cleanRageShift();
-	}
-
-	@SubscribeEvent
-	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
-	{
-		if (event.getEntity().world.isRemote || !(event.getEntityLiving() instanceof EntityCreature))
-			return;
-
-		if (event.getEntityLiving().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isRageShiftDirty())
-			BadgeUtilRage.enableRageShift((EntityCreature) event.getEntityLiving());
 	}
 }

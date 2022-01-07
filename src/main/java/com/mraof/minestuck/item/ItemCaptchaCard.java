@@ -25,57 +25,59 @@ import java.util.List;
 
 public class ItemCaptchaCard extends MSItemBase
 {
-	
+
 	public ItemCaptchaCard()
 	{
 		super("captchaCard", true);
 	}
-	
+
 	@Override
-	public int getItemStackLimit(ItemStack stack)
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
-		if(AlchemyUtils.containsObject(stack))
-			return 16;
-		else return 64;
-	}
-	
-	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-	{
-		if(this.isInCreativeTab(tab))
-		{
-			items.add(new ItemStack(this));
-			items.add(AlchemyUtils.createCard(new CaptchalogueableItemStack(new ItemStack(MinestuckItems.cruxiteApple)), true));
-		}
-	}
-	
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-		
+
 		NBTTagCompound nbt = playerIn.getHeldItem(handIn).getTagCompound();
 		ItemStack stack = playerIn.getHeldItem(handIn);
-		
-		if(playerIn.isSneaking() && stack.hasTagCompound() && ((nbt.getInteger("contentSize") <= 0 && !nbt.getBoolean("punched") && AlchemyUtils.getDecodedItem(stack) != ItemStack.EMPTY) || nbt.getTag("contentID") == null || nbt.getTag("contentMeta") == null))
+
+		if (playerIn.isSneaking() && stack.hasTagCompound() && ((nbt.getInteger("contentSize") <= 0 && !nbt.getBoolean("punched") && AlchemyUtils.getDecodedItem(stack) != ItemStack.EMPTY) || nbt.getTag("contentID") == null || nbt.getTag("contentMeta") == null))
 		{
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(playerIn.getHeldItem(handIn).getItem(), playerIn.getHeldItem(handIn).getCount()));
 		}
 		else
 			return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
 	}
-	
+
+	@Override
+	public int getItemStackLimit(ItemStack stack)
+	{
+		if (AlchemyUtils.containsObject(stack))
+			return 16;
+		else return 64;
+	}
+
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 	{
-		if(stack.hasTagCompound())
+		if (stack.hasTagCompound())
 		{
 			ICaptchalogueable content = AlchemyUtils.getCardContents(stack);
 			tooltip.add("(" + (content == null ? net.minecraft.client.resources.I18n.format("item.captchaCard.empty") : content.getDisplayName()) + ")");
 
-			if(AlchemyUtils.isPunchedCard(stack))
-				tooltip.add("("+I18n.translateToLocal("item.captchaCard.punched")+")");
-		} else
-			tooltip.add("("+I18n.translateToLocal("item.captchaCard.empty")+")");
-		
+			if (AlchemyUtils.isPunchedCard(stack))
+				tooltip.add("(" + I18n.translateToLocal("item.captchaCard.punched") + ")");
+		}
+		else
+			tooltip.add("(" + I18n.translateToLocal("item.captchaCard.empty") + ")");
+
+	}
+
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+		if (this.isInCreativeTab(tab))
+		{
+			items.add(new ItemStack(this));
+			items.add(AlchemyUtils.createCard(new CaptchalogueableItemStack(new ItemStack(MinestuckItems.cruxiteApple)), true));
+		}
 	}
 
 	@Override

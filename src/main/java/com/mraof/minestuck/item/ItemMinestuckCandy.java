@@ -30,12 +30,12 @@ public class ItemMinestuckCandy extends ItemFood
 
 		candyMap.put(0, new Candy(2, 0.3F, "Corn"));
 	}
-	
+
 	public void updateCandy()
 	{
 		for (Grist type : Grist.REGISTRY.getValues())
 		{
-			if(type.getCandyItem().isEmpty())
+			if (type.getCandyItem().isEmpty())
 			{
 				float saturationModifier = type == MinestuckGrist.build ? 0.0F : 0.6F - type.getRarity(); //Perhaps change build to 0.1 or 0.05
 				String name = type.getName();
@@ -44,15 +44,16 @@ public class ItemMinestuckCandy extends ItemFood
 			}
 		}
 	}
-	
-	private Candy getCandy(int id) {
-		return candyMap.getOrDefault(id, invalidCandy);
-	}
 
 	@Override
 	public int getHealAmount(ItemStack stack)
 	{
 		return getCandy(stack.getItemDamage()).healAmount;
+	}
+
+	private Candy getCandy(int id)
+	{
+		return candyMap.getOrDefault(id, invalidCandy);
 	}
 
 	@Override
@@ -75,6 +76,16 @@ public class ItemMinestuckCandy extends ItemFood
 				items.add(new ItemStack(this, 1, id));
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerModel()
+	{
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "candy_corn"), "inventory"));
+		List<Grist> grists = Grist.REGISTRY.getValues();
+		for (int i = 0; i < grists.size(); i++)
+			ModelLoader.setCustomModelResourceLocation(this, i + 1, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy_" + grists.get(i).getName()), "inventory"));
+	}
+
 	private static class Candy
 	{
 		private final int healAmount;
@@ -87,15 +98,5 @@ public class ItemMinestuckCandy extends ItemFood
 			this.saturation = saturation;
 			this.name = "item.candy" + name;
 		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerModel()
-	{
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "candy_corn"), "inventory"));
-		List<Grist> grists = Grist.REGISTRY.getValues();
-		for (int i = 0; i < grists.size(); i++)
-			ModelLoader.setCustomModelResourceLocation(this, i + 1, new ModelResourceLocation(new ResourceLocation(Minestuck.MODID, "grist_candy_" + grists.get(i).getName()), "inventory"));
 	}
 }

@@ -15,35 +15,36 @@ import net.minecraft.world.World;
 
 public class BadgeMaid extends BadgeHeroClass
 {
-	public BadgeMaid() {
+	public BadgeMaid()
+	{
 		super(EnumClass.MAID);
 	}
 
-    @Override
-    public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
-    {
-	    if(state == GodKeyStates.KeyState.NONE || time > 40)
-		    return false;
+	@Override
+	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	{
+		if (state == GodKeyStates.KeyState.NONE || time > 40)
+			return false;
 
-	    if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 2)
-	    {
-		    player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
-		    return false;
-	    }
-
-        EnumAspect aspect = MinestuckPlayerData.getTitle(IdentifierHandler.encode(player)).getHeroAspect();
-
-		if(time == 39)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 2)
 		{
-			if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
+			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
+			return false;
+		}
+
+		EnumAspect aspect = MinestuckPlayerData.getTitle(IdentifierHandler.encode(player)).getHeroAspect();
+
+		if (time == 39)
+		{
+			if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
 			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 				return false;
 			}
 
-			for(EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(5,1,5), (entity) -> entity != player))
+			for (EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(5, 1, 5), (entity) -> entity != player))
 			{
-				if(!(target instanceof EntityPlayer))
+				if (!(target instanceof EntityPlayer))
 				{
 					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, aspect, 10);
 					target.addPotionEffect(new PotionEffect(GodTierEventHandler.aspectEffects[aspect.ordinal()], 2400, 3));
@@ -51,7 +52,7 @@ public class BadgeMaid extends BadgeHeroClass
 				}
 				EnumAspect targetAspect = MinestuckPlayerData.getTitle(IdentifierHandler.encode((EntityPlayer) target)).getHeroAspect();
 
-				if(targetAspect == EnumAspect.HOPE || targetAspect == EnumAspect.MIND || targetAspect == EnumAspect.VOID)
+				if (targetAspect == EnumAspect.HOPE || targetAspect == EnumAspect.MIND || targetAspect == EnumAspect.VOID)
 				{
 					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, aspect, 10);
 					target.addPotionEffect(new PotionEffect(MinestuckPotions.GOD_TIER_COMEBACK, 1200, 0));
@@ -67,25 +68,25 @@ public class BadgeMaid extends BadgeHeroClass
 
 
 		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
-		if(time <= 36)
+		if (time <= 36)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumClass.MAID, target == null ? 1 : 5);
 		else
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumClass.MAID, 20);
-		if(state != GodKeyStates.KeyState.PRESS)
+		if (state != GodKeyStates.KeyState.PRESS)
 			return true;
 
-		if(target != null)
+		if (target != null)
 		{
 			if (!player.isCreative())
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 2);
-			if(!(target instanceof EntityPlayer))
+			if (!(target instanceof EntityPlayer))
 			{
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, aspect, 10);
 				target.addPotionEffect(new PotionEffect(GodTierEventHandler.aspectEffects[aspect.ordinal()], 2400, 3));
 				return true;
 			}
 			EnumAspect targetAspect = MinestuckPlayerData.getTitle(IdentifierHandler.encode((EntityPlayer) target)).getHeroAspect();
-			if(targetAspect == EnumAspect.HOPE || targetAspect == EnumAspect.MIND || targetAspect == EnumAspect.VOID)
+			if (targetAspect == EnumAspect.HOPE || targetAspect == EnumAspect.MIND || targetAspect == EnumAspect.VOID)
 			{
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, aspect, 10);
 				target.addPotionEffect(new PotionEffect(MinestuckPotions.GOD_TIER_COMEBACK, 1200, 0));

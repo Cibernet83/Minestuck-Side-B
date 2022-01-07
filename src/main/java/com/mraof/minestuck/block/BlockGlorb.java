@@ -24,88 +24,96 @@ import java.util.Random;
 
 public class BlockGlorb extends MSBlockBase
 {
-    public static final AxisAlignedBB EMPTY_AABB = new AxisAlignedBB(0,0,0,0,0,0);
-    public static final AxisAlignedBB AABB = new AxisAlignedBB(5/16D,5/16D,5/16D,11/16D,11/16D,11/16D);
+	public static final AxisAlignedBB EMPTY_AABB = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
+	public static final AxisAlignedBB AABB = new AxisAlignedBB(5 / 16D, 5 / 16D, 5 / 16D, 11 / 16D, 11 / 16D, 11 / 16D);
 
-    public static final SoundType SOUND_TYPE = new SoundType(0.7F, 1.8F, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundEvents.BLOCK_FIRE_AMBIENT, SoundEvents.BLOCK_FIRE_AMBIENT, SoundEvents.BLOCK_FIRE_AMBIENT, SoundEvents.BLOCK_FIRE_AMBIENT);
+	public static final SoundType SOUND_TYPE = new SoundType(0.7F, 1.8F, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundEvents.BLOCK_FIRE_AMBIENT, SoundEvents.BLOCK_FIRE_AMBIENT, SoundEvents.BLOCK_FIRE_AMBIENT, SoundEvents.BLOCK_FIRE_AMBIENT);
 
-    public BlockGlorb()
-    {
-        super("glowOrb", Material.FIRE);
-        setSoundType(SOUND_TYPE);
-        setLightLevel(1);
-    }
+	public BlockGlorb()
+	{
+		super("glowOrb", Material.FIRE);
+		setSoundType(SOUND_TYPE);
+		setLightLevel(1);
+	}
 
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
-        super.breakBlock(worldIn, pos, state);
-        worldIn.playEvent(1009, pos, 0);
-    }
+	@Override
+	public boolean isFullBlock(IBlockState state)
+	{
+		return false;
+	}
 
-    @Override
-    public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
-        return true;
-    }
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
 
-    @Override
-    public boolean addLandingEffects(IBlockState state, WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
-        return true;
-    }
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	{
+		return AABB;
+	}
 
-    @Override
-    public boolean addRunningEffects(IBlockState state, World world, BlockPos pos, Entity entity) {
-        return true;
-    }
+	@Nullable
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
+	{
+		return NULL_AABB;
+	}
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager)
-    {
-        MinestuckParticles.spawnAuraParticles(world, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0xFFFDDE, 8);
-        return true;
-    }
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
 
-    @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return AABB;
-    }
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
+	{
+		if (rand.nextInt(4) == 0)
+			MinestuckParticles.spawnAuraParticles(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0xFFFDDE, Math.max(1, rand.nextInt(6) - 3));
+	}
 
-    @Nullable
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-        return NULL_AABB;
-    }
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
+		super.breakBlock(worldIn, pos, state);
+		worldIn.playEvent(1009, pos, 0);
+	}
 
-    @Override
-    public boolean isFullBlock(IBlockState state) {
-        return false;
-    }
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer()
+	{
+		return BlockRenderLayer.TRANSLUCENT;
+	}
 
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
-    {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
+	@Override
+	public boolean addLandingEffects(IBlockState state, WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles)
+	{
+		return true;
+	}
 
-    public boolean isFullCube(IBlockState state)
-    {
-        return false;
-    }
-    public boolean isOpaqueCube(IBlockState state)
-    {
-        return false;
-    }
+	@Override
+	public boolean addRunningEffects(IBlockState state, World world, BlockPos pos, Entity entity)
+	{
+		return true;
+	}
 
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
-    {
-        if(rand.nextInt(4) == 0)
-            MinestuckParticles.spawnAuraParticles(worldIn, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0xFFFDDE, Math.max(1, rand.nextInt(6)-3));
-    }
+	@Override
+	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager)
+	{
+		return true;
+	}
 
-    @Override
-    public MSItemBlock getItemBlock() {
-        return null;
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager)
+	{
+		MinestuckParticles.spawnAuraParticles(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0xFFFDDE, 8);
+		return true;
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return null;
+	}
 }

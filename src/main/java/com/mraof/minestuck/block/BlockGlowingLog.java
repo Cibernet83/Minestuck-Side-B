@@ -26,42 +26,42 @@ public class BlockGlowingLog extends BlockLog implements IRegistryBlock
 		regName = IRegistryObject.unlocToReg("logGlowing");
 		MinestuckBlocks.blocks.add(this);
 	}
-	
+
 	@Override
 	public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
 		return false;
 	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
 		IBlockState state = getDefaultState();
-		EnumAxis axis = EnumAxis.values()[meta&3];
+		EnumAxis axis = EnumAxis.values()[meta & 3];
 		state = state.withProperty(LOG_AXIS, axis);
 		return state;
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		EnumAxis axis = (EnumAxis) state.getValue(LOG_AXIS);
+		EnumAxis axis = state.getValue(LOG_AXIS);
 		int meta = axis.ordinal();
 		return meta;
 	}
-	
+
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[] {LOG_AXIS});
+		return new BlockStateContainer(this, LOG_AXIS);
 	}
-	
+
 	@Override
 	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{
 		return 5;
 	}
-	
+
 	@Override
 	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{

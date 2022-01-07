@@ -14,14 +14,7 @@ public class ComputerData
 	PlayerIdentifier owner;
 	@SideOnly(Side.CLIENT)
 	private int ownerId;
-	
-	public static ComputerData createData(TileEntityComputer te)
-	{
-		if(!te.getWorld().isRemote)
-			return new ComputerData(te.owner, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ(), te.getWorld().provider.getDimension());
-		else return new ComputerData(te.ownerId, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ(), te.getWorld().provider.getDimension());
-	}
-	
+
 	private ComputerData(int ownerId, int x, int y, int z, int dimension)
 	{
 		this.ownerId = ownerId;
@@ -30,7 +23,7 @@ public class ComputerData
 		this.z = z;
 		this.dimension = dimension;
 	}
-	
+
 	public ComputerData(PlayerIdentifier owner, int x, int y, int z, int dimension)
 	{
 		this.owner = owner;
@@ -42,7 +35,15 @@ public class ComputerData
 
 	public ComputerData()
 	{}
-	
+
+	public static ComputerData createData(TileEntityComputer te)
+	{
+		if (!te.getWorld().isRemote)
+			return new ComputerData(te.owner, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ(), te.getWorld().provider.getDimension());
+		else
+			return new ComputerData(te.ownerId, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ(), te.getWorld().provider.getDimension());
+	}
+
 	public void read(NBTTagCompound nbt)
 	{
 		owner = IdentifierHandler.load(nbt, "name");
@@ -62,23 +63,29 @@ public class ComputerData
 		c.setInteger("dim", dimension);
 		return c;
 	}
-	
-	public int getX(){return x;}
-	public int getY(){return y;}
+
+	public int getX() {return x;}
+
+	public int getY() {return y;}
+
 	public int getZ() {return z;}
+
 	public int getDimension() {return dimension;}
+
 	public PlayerIdentifier getOwner() {return owner;}
-	@SideOnly(Side.CLIENT) public int getOwnerId() {return ownerId;}
-	
+
+	@SideOnly(Side.CLIENT)
+	public int getOwnerId() {return ownerId;}
+
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(obj instanceof ComputerData)
+		if (obj instanceof ComputerData)
 		{
 			ComputerData otherData = (ComputerData) obj;
 			return this.owner.equals(otherData.owner) && this.x == otherData.x && this.y == otherData.y && this.z == otherData.z && this.dimension == otherData.dimension;
 		}
 		return false;
 	}
-	
+
 }

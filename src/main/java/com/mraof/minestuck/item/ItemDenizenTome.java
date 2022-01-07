@@ -35,6 +35,25 @@ public class ItemDenizenTome extends MSItemBase
 		this.setMaxStackSize(1);
 	}
 
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	{
+		if (stack.getMetadata() == 1 && Minecraft.getMinecraft().player != null)
+		{
+			IdentifierHandler.PlayerIdentifier pid = IdentifierHandler.encode(Minecraft.getMinecraft().player);
+			SburbConnection c = SkaianetHandler.getClientConnection(pid);
+
+			if (c != null && c.getServerIdentifier().equals(pid))
+			{
+				tooltip.add(I18n.format("item.tomeOfTheAncients.tooltip.deadSession"));
+				return;
+			}
+		}
+		if (stack.getMetadata() < 2)
+			tooltip.add(I18n.format("item.tomeOfTheAncients.tooltip"));
+	}
+
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
@@ -47,33 +66,12 @@ public class ItemDenizenTome extends MSItemBase
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack)
-	{
-		return super.getUnlocalizedName() + "." + stack.getMetadata();
-	}
-
 	@SideOnly(Side.CLIENT)
-	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	public void registerModel()
 	{
-		if(stack.getMetadata() == 1 && Minecraft.getMinecraft().player != null)
-		{
-			IdentifierHandler.PlayerIdentifier pid = IdentifierHandler.encode(Minecraft.getMinecraft().player);
-			SburbConnection c = SkaianetHandler.getClientConnection(pid);
-
-			if(c != null && c.getServerIdentifier().equals(pid))
-			{
-				tooltip.add(I18n.format("item.tomeOfTheAncients.tooltip.deadSession"));
-				return;
-			}
-		}
-		if(stack.getMetadata() < 2)
-			tooltip.add(I18n.format("item.tomeOfTheAncients.tooltip"));
-	}
-
-	@Override
-	public boolean hasEffect(ItemStack stack) {
-		return stack.getMetadata() == 2;
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "sealed_tome"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "server_sealed_tome"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 2, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "tome_of_the_ancients"), "inventory"));
 	}
 
 	@Override
@@ -81,38 +79,38 @@ public class ItemDenizenTome extends MSItemBase
 	{
 		ItemStack stack = playerIn.getHeldItem(handIn);
 
-		if(stack.getMetadata() >= 2)
+		if (stack.getMetadata() >= 2)
 			return super.onItemRightClick(worldIn, playerIn, handIn);
 
-		if(worldIn.isRemote)
+		if (worldIn.isRemote)
 			return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 
 		IdentifierHandler.PlayerIdentifier pid = IdentifierHandler.encode(playerIn);
 
-		if(SkaianetHandler.getClientConnection(pid) == null)
+		if (SkaianetHandler.getClientConnection(pid) == null)
 		{
 			playerIn.sendStatusMessage(new TextComponentTranslation("status.tome.reject"), true);
 			return new ActionResult<>(EnumActionResult.FAIL, stack);
 		}
 
-		if(stack.getMetadata() == 1 && stack.hasTagCompound())
+		if (stack.getMetadata() == 1 && stack.hasTagCompound())
 		{
 			IdentifierHandler.PlayerIdentifier clientPid = IdentifierHandler.load(stack.getTagCompound(), "Client");
 
-			if(clientPid == null || SkaianetHandler.getClientConnection(clientPid) == null || clientPid.equals(SkaianetHandler.getClientConnection(clientPid).getServerIdentifier()))
+			if (clientPid == null || SkaianetHandler.getClientConnection(clientPid) == null || clientPid.equals(SkaianetHandler.getClientConnection(clientPid).getServerIdentifier()))
 			{
 				playerIn.sendStatusMessage(new TextComponentTranslation("status.tome.reject"), true);
 				return new ActionResult<>(EnumActionResult.FAIL, stack);
 			}
 
-			if(pid.equals(SkaianetHandler.getClientConnection(clientPid).getServerIdentifier()))
+			if (pid.equals(SkaianetHandler.getClientConnection(clientPid).getServerIdentifier()))
 			{
 				stack.setItemDamage(2);
 				playerIn.renderBrokenItemStack(stack);
 				return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 			}
 
-			if(pid.equals(clientPid))
+			if (pid.equals(clientPid))
 			{
 				playerIn.sendStatusMessage(new TextComponentTranslation("status.tome.server"), true);
 				return new ActionResult<>(EnumActionResult.FAIL, stack);
@@ -132,11 +130,14 @@ public class ItemDenizenTome extends MSItemBase
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerModel()
+	public String getUnlocalizedName(ItemStack stack)
 	{
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "sealed_tome"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID  + ":" + "server_sealed_tome"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(this, 2, new ModelResourceLocation(new ModelResourceLocation(Minestuck.MODID + ":" + "tome_of_the_ancients"), "inventory"));
+		return super.getUnlocalizedName() + "." + stack.getMetadata();
+	}
+
+	@Override
+	public boolean hasEffect(ItemStack stack)
+	{
+		return stack.getMetadata() == 2;
 	}
 }

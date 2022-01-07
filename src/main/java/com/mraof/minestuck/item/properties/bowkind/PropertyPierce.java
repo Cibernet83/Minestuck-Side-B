@@ -30,7 +30,7 @@ public class PropertyPierce extends WeaponProperty implements IPropertyArrow
 	{
 		Entity entity = result.entityHit;
 
-		if(arrow.getDamage() <= 0)
+		if (arrow.getDamage() <= 0)
 			return true;
 
 		NBTTagCompound data = arrow.getProjectileData();
@@ -39,19 +39,19 @@ public class PropertyPierce extends WeaponProperty implements IPropertyArrow
 		{
 			NBTTagList pierced = data.getTagList("PiercedEntities", 10);
 
-			for(int i = 0; i < pierced.tagCount(); i++)
+			for (int i = 0; i < pierced.tagCount(); i++)
 			{
 				NBTTagCompound entry = pierced.getCompoundTagAt(i);
 
-				if(entry.getInteger("Time") <= 1)
+				if (entry.getInteger("Time") <= 1)
 				{
 					pierced.removeTag(i);
 					i--;
 					continue;
 				}
 
-				entry.setInteger("Time", entry.getInteger("Time")-1);
-				if(entity.getUniqueID().equals(entry.getUniqueId("Entity")))
+				entry.setInteger("Time", entry.getInteger("Time") - 1);
+				if (entity.getUniqueID().equals(entry.getUniqueId("Entity")))
 					return false;
 			}
 
@@ -76,7 +76,8 @@ public class PropertyPierce extends WeaponProperty implements IPropertyArrow
 				{
 					EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
 
-					if (arrow.shootingEntity instanceof EntityLivingBase) {
+					if (arrow.shootingEntity instanceof EntityLivingBase)
+					{
 						EnchantmentHelper.applyThornEnchantments(entitylivingbase, arrow.shootingEntity);
 						EnchantmentHelper.applyArthropodEnchantments((EntityLivingBase) arrow.shootingEntity, entitylivingbase);
 					}
@@ -87,9 +88,9 @@ public class PropertyPierce extends WeaponProperty implements IPropertyArrow
 
 				arrow.playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (arrow.world.rand.nextFloat() * 0.2F + 0.9F));
 
-				arrow.setDamage(arrow.getDamage()*damageReduction);
+				arrow.setDamage(arrow.getDamage() * damageReduction);
 
-				if(!data.hasKey("PiercedEntities", 10))
+				if (!data.hasKey("PiercedEntities", 10))
 					data.setTag("PiercedEntities", new NBTTagList());
 
 				NBTTagCompound pierceEntry = new NBTTagCompound();

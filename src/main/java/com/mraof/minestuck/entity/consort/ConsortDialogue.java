@@ -21,22 +21,22 @@ import net.minecraft.util.text.ITextComponent;
 import java.util.*;
 
 import static com.mraof.minestuck.entity.consort.MessageType.*;
-import static com.mraof.minestuck.world.storage.loot.MinestuckLoot.CONSORT_FOOD_STOCK;
-import static com.mraof.minestuck.world.storage.loot.MinestuckLoot.CONSORT_GENERAL_STOCK;
 import static com.mraof.minestuck.world.lands.LandAspectRegistry.fromNameTerrain;
 import static com.mraof.minestuck.world.lands.LandAspectRegistry.fromNameTitle;
+import static com.mraof.minestuck.world.storage.loot.MinestuckLoot.CONSORT_FOOD_STOCK;
+import static com.mraof.minestuck.world.storage.loot.MinestuckLoot.CONSORT_GENERAL_STOCK;
 
 /**
  * Handles message registry, message selection and contains the main message
  * class, which combines conditioning and a MessageType
- * 
+ *
  * @author Kirderf1
  */
 public class ConsortDialogue
 {
-	
+
 	private static final List<DialogueWrapper> messages = new LinkedList<DialogueWrapper>();
-	
+
 	/**
 	 * Make sure to call after land registry
 	 */
@@ -49,7 +49,7 @@ public class ConsortDialogue
 		addMessage("murderRain").landTitle(fromNameTitle("pulse"));
 		addMessage("swimming").landTitle(fromNameTitle("pulse")).consort(EnumConsort.IGUANA, EnumConsort.TURTLE);
 		addMessage("bloodSurprise").landTitle(fromNameTitle("pulse")).consort(EnumConsort.IGUANA, EnumConsort.NAKAGATOR);
-		
+
 		// Thunder
 		addMessage("skeletonHorse").landTitle(fromNameTitle("thunder"));
 		addMessage("blueMoon").landTitle(fromNameTitle("thunder")).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA);
@@ -58,7 +58,7 @@ public class ConsortDialogue
 		addMessage(new ChainMessage(new SingleMessage("thunderDeath.1"), new SingleMessage("thunderDeath.2"))).landTitle(fromNameTitle("thunder")).landTerrain(fromNameTerrain("wood"));
 		addMessage("hardcore").landTitle(fromNameTitle("thunder")).landTerrain(fromNameTerrain("heat"));
 		addMessage(new ChainMessage(new SingleMessage("thunderThrow.1"), new SingleMessage("thunderThrow.2"))).landTitle(fromNameTitle("thunder")).consort(EnumConsort.TURTLE, EnumConsort.SALAMANDER);
-		
+
 		//Rabbits
 		addMessage("bunnyBirthday").landTitle(fromNameTitle("rabbits")).consort(EnumConsort.NAKAGATOR, EnumConsort.SALAMANDER);
 		addMessage("rabbitEating").landTitle(fromNameTitle("rabbits")).consort(EnumConsort.TURTLE, EnumConsort.SALAMANDER);
@@ -68,33 +68,33 @@ public class ConsortDialogue
 		addMessage(new ChainMessage(0, "rabbit.food.1", new SingleMessage("rabbit.food.1"), new SingleMessage("rabbit.food.2a"))).landTitle(fromNameTitle("rabbits")).landTerrain(fromNameTerrain("rock"), fromNameTerrain("sandstone"));
 		addMessage(new ChainMessage(0, "rabbit.food.2", new SingleMessage("rabbit.food.1"), new SingleMessage("rabbit.food.2a"), new SingleMessage("rabbit.food.3a"))).landTitle(fromNameTitle("rabbits")).landTerrain(fromNameTerrain("sand"));
 		addMessage(new ChainMessage(0, "rabbit.food.3", new SingleMessage("rabbit.food.1"), new SingleMessage("rabbit.food.2b"))).landTitle(fromNameTitle("rabbits")).landTerrain(fromNameTerrain("wood"), fromNameTerrain("shade"));
-		
+
 		//Monsters
 		addMessage(new SingleMessage("petZombie")).landTitle(fromNameTitle("monsters")).consort(EnumConsort.NAKAGATOR, EnumConsort.SALAMANDER);
 		addMessage("spiderRaid").landTitleSpecific(fromNameTitle("monsters"));
 		addMessage("monstersona").landTitle(fromNameTitle("monsters")).consort(EnumConsort.IGUANA, EnumConsort.NAKAGATOR);
-		
+
 		//Towers
 		addMessage("bugTreasure").landTitleSpecific(fromNameTitle("towers")).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA);
 		addMessage("towerGone").landTitleSpecific(fromNameTitle("towers")).consort(EnumConsort.TURTLE, EnumConsort.SALAMANDER);
 		addMessage("noTowerTreasure").landTitle(fromNameTitle("towers")).consort(EnumConsort.IGUANA, EnumConsort.NAKAGATOR);
-		
+
 		//Thought
 		addMessage("glassBooks").landTitleSpecific(fromNameTitle("thought")).consort(EnumConsort.TURTLE, EnumConsort.IGUANA);
 		addMessage("bookFood").landTitleSpecific(fromNameTitle("thought")).consort(EnumConsort.SALAMANDER, EnumConsort.NAKAGATOR);
 		addMessage("toEat").landTitle(fromNameTitle("thought")).consort(EnumConsort.IGUANA, EnumConsort.NAKAGATOR);
-		
+
 		//Cake
 		addMessage("mysteryRecipe").landTitleSpecific(fromNameTitle("cake")).consort(EnumConsort.TURTLE, EnumConsort.NAKAGATOR);
 		addMessage("cakeRegen").landTitleSpecific(fromNameTitle("cake")).consort(EnumConsort.TURTLE, EnumConsort.SALAMANDER);
 		addMessage("cakeRecipe").landTitleSpecific(fromNameTitle("cake")).consort(EnumConsort.IGUANA, EnumConsort.SALAMANDER);
 		addMessage("frosting").landTitleSpecific(fromNameTitle("cake")).landTerrain(fromNameTerrain("frost"));
-		
+
 		//Clockwork
 		addMessage("gearTechnology").landTitleSpecific(fromNameTitle("clockwork")).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA);
 		addMessage("evilGears").landTitleSpecific(fromNameTitle("clockwork")).consort(EnumConsort.NAKAGATOR, EnumConsort.IGUANA);
 		addMessage("ticking").landTitleSpecific(fromNameTitle("clockwork")).consort(EnumConsort.TURTLE, EnumConsort.SALAMANDER);
-		
+
 		//Frogs
 		addMessage("frogCreation").landTitleSpecific(fromNameTitle("frogs"));
 		addMessage("frogImitation").landTitleSpecific(fromNameTitle("frogs"));
@@ -102,13 +102,13 @@ public class ConsortDialogue
 		addMessage("frogHatred").landTitleSpecific(fromNameTitle("frogs"));
 		addMessage(new ChainMessage(new SingleMessage("grasshopperFishing1"), new SingleMessage("grasshopperFishing2"))).landTitleSpecific(fromNameTitle("frogs")).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA);
 		addMessage("gayFrogs").landTitleSpecific(fromNameTitle("frogs")).landTerrainSpecific(fromNameTerrain("rainbow"));
-		
+
 		//Buckets
 		addMessage("lewdBuckets").landTitleSpecific(fromNameTitle("buckets"));
 		addMessage("waterBuckets").landTitleSpecific(fromNameTitle("buckets")).landTerrain(fromNameTerrain("sand"));
 		addMessage("warmBuckets").landTitleSpecific(fromNameTitle("buckets")).landTerrain(fromNameTerrain("frost"));
 		addMessage(new ChainMessage(new SingleMessage("oilBuckets.1"), new SingleMessage("oilBuckets.2"))).landTitleSpecific(fromNameTitle("buckets")).landTerrain(fromNameTerrain("shade"));
-		
+
 		//Light
 		addMessage("blindness").landTitleSpecific(fromNameTitle("light"));
 		addMessage("doctorsInside").landTitleSpecific(fromNameTitle("light")).consort(EnumConsort.TURTLE);
@@ -118,20 +118,20 @@ public class ConsortDialogue
 		addMessage("glimmeringSnow").landTitleSpecific(fromNameTitle("light")).landTerrain(fromNameTerrain("frost"));
 		addMessage("glimmeringSand").landTitleSpecific(fromNameTitle("light")).landTerrain(fromNameTerrain("sand"));
 		addMessage("lightPillars").landTitleSpecific(fromNameTitle("light")).consort(EnumConsort.IGUANA, EnumConsort.TURTLE);
-		
+
 		//Silence
 		addMessage("murderSilence").landTitleSpecific(fromNameTitle("silence")).consort(EnumConsort.NAKAGATOR, EnumConsort.SALAMANDER);
 		addMessage("silentUnderlings").landTitleSpecific(fromNameTitle("silence"));
 		addMessage(new ChainMessage(new SingleMessage("listening.1"), new SingleMessage("listening.2"))).landTitle(fromNameTitle("silence")).consort(EnumConsort.IGUANA, EnumConsort.SALAMANDER);
 		addMessage("calmness").landTitleSpecific(fromNameTitle("silence")).consort(EnumConsort.TURTLE, EnumConsort.IGUANA);
-		
+
 		//Towers
 		addMessage("climbHigh").landTitleSpecific(fromNameTitle("towers"), fromNameTitle("wind")).consort(EnumConsort.IGUANA);
 		addMessage(new ConditionedMessage((EntityConsort consort, EntityPlayer player) -> consort.posY < 78, new ChainMessage(new SingleMessage("heightFear.towers.1"), new SingleMessage("heightFear.towers.2")),
 				new SingleMessage("heightFear.panic"))).landTitle(fromNameTitle("towers")).consort(EnumConsort.TURTLE);
 		addMessage(new ConditionedMessage((EntityConsort consort, EntityPlayer player) -> consort.posY < 78, new ChainMessage(new SingleMessage("heightFear.rock.1"), new SingleMessage("heightFear.rock.2")),
 				new SingleMessage("heightFear.panic"))).landTitle(fromNameTitle("wind")).consort(EnumConsort.TURTLE);
-		
+
 		//Shade
 		addMessage(new ChainMessage(2, new SingleMessage("mushFarm.1"), new SingleMessage("mushFarm.2"), new SingleMessage("mushFarm.3"),
 				new SingleMessage("mushFarm.4"), new SingleMessage("mushFarm.5"), new SingleMessage("mushFarm.6"),
@@ -143,11 +143,11 @@ public class ConsortDialogue
 		addMessage("gettingHot").landTerrain(fromNameTerrain("heat"));
 		addMessage("stepIntoFire").landTerrain(fromNameTerrain("heat"));
 		addMessage("lavaCrickets").landTerrain(fromNameTerrain("heat"));
-		
+
 		//Wood
 		addMessage("woodTreatments").landTerrain(fromNameTerrain("wood"));
 		addMessage(new ChainMessage(new SingleMessage("splinters.1"), new SingleMessage("splinters.2"))).landTerrain(fromNameTerrain("wood"));
-		
+
 		//Sand & Sandstone
 		addMessage("sandSurfing").landTerrain(fromNameTerrain("sand"));
 		addMessage(new ChoiceMessage(new SingleMessage("camel"), new SingleMessage[]{new SingleMessage("camel.yes"), new SingleMessage("camel.no")},
@@ -156,7 +156,7 @@ public class ConsortDialogue
 		addMessage(new ChainMessage(new SingleMessage("sandless.1", "denizen"), new SingleMessage("sandless.2"))).landTerrain(fromNameTerrain("sandstone"));
 		addMessage("redBetter").landTerrainSpecific(fromNameTerrain("sand_red"), fromNameTerrain("sandstone_red"));
 		addMessage("yellowBetter").landTerrainSpecific(fromNameTerrain("sand"), fromNameTerrain("sandstone"));
-		
+
 		//Frost
 		addMessage(new ChainMessage(new SingleMessage("frozen1"), new DescriptionMessage("frozen2"))).landTerrain(fromNameTerrain("frost"));
 		addMessage(new ChoiceMessage(new SingleMessage("furCoat"), new SingleMessage[]{new SingleMessage("furCoat.pay"), new SingleMessage("furCoat.ignore")},
@@ -167,7 +167,7 @@ public class ConsortDialogue
 		addMessage("rockfu", "landName").landTerrain(fromNameTerrain("rock"));
 		addMessage("allTrees").landTerrain(fromNameTerrain("forest"));
 		addMessage("reallyLikesTrees").landTerrain(fromNameTerrain("forest"));
-		
+
 		//Fungi
 		addMessage(new ChainMessage(new SingleMessage("mycelium1"), new SingleMessage("mycelium2"))).landTerrain(fromNameTerrain("fungi"));
 		addMessage(new ChainMessage(new SingleMessage("adaptation1"), new SingleMessage("adaptation2"))).landTerrain(fromNameTerrain("fungi"));
@@ -175,7 +175,7 @@ public class ConsortDialogue
 		addMessage("jacket").landTerrain(fromNameTerrain("fungi"));
 		addMessage("mildew").landTerrain(fromNameTerrain("fungi"));
 		addMessage("fungusDestroyer", "playerTitle", "denizen").landTerrain(fromNameTerrain("fungi"));
-		
+
 		//Rainbow Terrain
 		addMessage("genericGreen").landTerrain(fromNameTerrain("rainbow"));
 		addMessage("overwhelmingColors").landTerrain(fromNameTerrain("rainbow"));
@@ -188,7 +188,7 @@ public class ConsortDialogue
 				new SingleMessage("typesOfColors.9"), new SingleMessage("typesOfColors.10"), new SingleMessage("typesOfColors.11"), new SingleMessage("typesOfColors.12"), new SingleMessage("typesOfColors.13"),
 				new SingleMessage("typesOfColors.14"), new SingleMessage("typesOfColors.15"), new SingleMessage("typesOfColors.16"), new SingleMessage("typesOfColors.17"), new SingleMessage("typesOfColors.18")))
 				.landTerrain(fromNameTerrain("rainbow"));
-		
+
 		//End Terrain
 		addMessage("atTheEnd").landTerrain(fromNameTerrain("end"));
 		addMessage("chorusFruit").landTerrain(fromNameTerrain("end"));
@@ -196,14 +196,14 @@ public class ConsortDialogue
 		addMessage("grassCurse", "denizen").landTerrain(fromNameTerrain("end"));
 		addMessage("uselessPogo").landTerrain(fromNameTerrain("end"));
 		addMessage("uselessElytra").landTerrain(fromNameTerrain("end"));
-		
+
 		//Rain terrain
 		addMessage("emptyOcean", "denizen").landTerrain(fromNameTerrain("rain"));
 		addMessage("forbiddenSnack").landTerrain(fromNameTerrain("rain"));
 		addMessage("cottonCandy").landTerrain(fromNameTerrain("rain"));
 		addMessage("monstersBelow").landTerrain(fromNameTerrain("rain"));
 		addMessage("keepSwimming").landTerrain(fromNameTerrain("rain"));
-		
+
 		//Flora Terrain
 		addMessage("battleSite").landTerrain(fromNameTerrain("flora"));
 		addMessage("bloodOceans").landTerrain(fromNameTerrain("flora"));
@@ -226,52 +226,52 @@ public class ConsortDialogue
 		addMessage(new ConditionedMessage((EntityConsort consort, EntityPlayer player) -> SburbHandler.hasEntered((EntityPlayerMP) player),
 				new SingleMessage("heroicStench"), new SingleMessage("leechStench"))).reqLand();
 		addMessage(new SingleMessage("fireCakes")).landTerrain(fromNameTerrain("heat")).landTitle(fromNameTitle("cake"));
-		
+
 		MessageType raps = new RandomMessage("rapBattles", RandomKeepResult.KEEP_CONSORT,
-				new DelayMessage(new int[] {17, 17, 30},
-					new SingleMessage("rapBattle.A1"), new SingleMessage("rapBattle.A2"),
-					new SingleMessage("rapBattle.A3"), new SingleMessage("rapBattle.A4")
-				), new DelayMessage(new int[] {25},
-					new SingleMessage("rapBattle.B1"),new SingleMessage("rapBattle.B2"),
-					new SingleMessage("rapBattle.B3"),new SingleMessage("rapBattle.B4")
-				), new DelayMessage(new int[] {17},
-					new SingleMessage("rapBattle.C1"),new SingleMessage("rapBattle.C2"),
-					new SingleMessage("rapBattle.C3", "consortSound"), new SingleMessage("rapBattle.C4")
-				), new DelayMessage(new int[] {25, 20, 30},
-					new SingleMessage("rapBattle.D1"),new SingleMessage("rapBattle.D2"),
-					new SingleMessage("rapBattle.D3"),new SingleMessage("rapBattle.D4")
-				), new DelayMessage(new int[] {17, 20, 30},
-					new SingleMessage("rapBattle.E1"),new SingleMessage("rapBattle.E2"),
-					new SingleMessage("rapBattle.E3"),new SingleMessage("rapBattle.E4")
-				), new DelayMessage(new int[] {25},
-					new SingleMessage("rapBattle.F1"),new SingleMessage("rapBattle.F2"),
-					new SingleMessage("rapBattle.F3"),new SingleMessage("rapBattle.F4")));
+				new DelayMessage(new int[]{17, 17, 30},
+						new SingleMessage("rapBattle.A1"), new SingleMessage("rapBattle.A2"),
+						new SingleMessage("rapBattle.A3"), new SingleMessage("rapBattle.A4")
+				), new DelayMessage(new int[]{25},
+				new SingleMessage("rapBattle.B1"), new SingleMessage("rapBattle.B2"),
+				new SingleMessage("rapBattle.B3"), new SingleMessage("rapBattle.B4")
+		), new DelayMessage(new int[]{17},
+				new SingleMessage("rapBattle.C1"), new SingleMessage("rapBattle.C2"),
+				new SingleMessage("rapBattle.C3", "consortSound"), new SingleMessage("rapBattle.C4")
+		), new DelayMessage(new int[]{25, 20, 30},
+				new SingleMessage("rapBattle.D1"), new SingleMessage("rapBattle.D2"),
+				new SingleMessage("rapBattle.D3"), new SingleMessage("rapBattle.D4")
+		), new DelayMessage(new int[]{17, 20, 30},
+				new SingleMessage("rapBattle.E1"), new SingleMessage("rapBattle.E2"),
+				new SingleMessage("rapBattle.E3"), new SingleMessage("rapBattle.E4")
+		), new DelayMessage(new int[]{25},
+				new SingleMessage("rapBattle.F1"), new SingleMessage("rapBattle.F2"),
+				new SingleMessage("rapBattle.F3"), new SingleMessage("rapBattle.F4")));
 		addMessage(new ChoiceMessage(false, new SingleMessage("rapBattle"),
-				new SingleMessage[]
-				{
-					new SingleMessage("rapBattle.accept"),
-					new SingleMessage("rapBattle.deny")
-				},
-				new MessageType[] {
-					//If you accepted the challenge
-					new ChoiceMessage(false,
-							new DescriptionMessage(raps, "rapBattle.rapsDesc"),
-							new SingleMessage[] {
-									new SingleMessage("rapBattleSchool"),
-									new SingleMessage("rapBattleConcede")
-							},
-							new MessageType[] {
-									new DoubleMessage(new DescriptiveMessage("rapBattleSchool.rap", "playerTitle", "landName"),
-											new SingleMessage("rapBattleSchool.final", "consortSound")).setSayFirstOnce(),
-									new SingleMessage("rapBattleConcede.final", "consortSound")
-							}
-					),
-					//If you didn't accept the challenge
-					new SingleMessage("rapBattle.denyAnswer")
-				}
-			).setAcceptNull()
+						new SingleMessage[]
+								{
+										new SingleMessage("rapBattle.accept"),
+										new SingleMessage("rapBattle.deny")
+								},
+						new MessageType[]{
+								//If you accepted the challenge
+								new ChoiceMessage(false,
+										new DescriptionMessage(raps, "rapBattle.rapsDesc"),
+										new SingleMessage[]{
+												new SingleMessage("rapBattleSchool"),
+												new SingleMessage("rapBattleConcede")
+										},
+										new MessageType[]{
+												new DoubleMessage(new DescriptiveMessage("rapBattleSchool.rap", "playerTitle", "landName"),
+														new SingleMessage("rapBattleSchool.final", "consortSound")).setSayFirstOnce(),
+												new SingleMessage("rapBattleConcede.final", "consortSound")
+										}
+								),
+								//If you didn't accept the challenge
+								new SingleMessage("rapBattle.denyAnswer")
+						}
+				).setAcceptNull()
 		).consort(EnumConsort.NAKAGATOR, EnumConsort.IGUANA);
-		
+
 		addMessage("awaitHero", "landName", "consortTypes", "playerTitleLand").reqLand();
 		addMessage(new ConditionedMessage("skaia", (EntityConsort consort, EntityPlayer player) -> !consort.visitedSkaia, new SingleMessage("watchSkaia"),
 				new ConditionedMessage((EntityConsort consort, EntityPlayer player) -> MinestuckDimensionHandler.isSkaia(consort.dimension),
@@ -279,7 +279,7 @@ public class ConsortDialogue
 		addMessage(new ConditionedMessage("skaiaTurtle", (EntityConsort consort, EntityPlayer player) -> !consort.visitedSkaia, new SingleMessage("watchSkaia"),
 				new ConditionedMessage((EntityConsort consort, EntityPlayer player) -> MinestuckDimensionHandler.isSkaia(consort.dimension),
 						new SingleMessage("atSkaia.2"), new SingleMessage("visitedSkaia")))).consort(EnumConsort.TURTLE).reqLand();
-		
+
 		addMessage(new SingleMessage("zazzerpan")).consort(EnumConsort.TURTLE);
 		addMessage(new SingleMessage("texasHistory", "landName")).consort(EnumConsort.TURTLE);
 		addMessage(new SingleMessage("disks")).consort(EnumConsort.IGUANA);
@@ -294,28 +294,28 @@ public class ConsortDialogue
 		addMessage(new ChainMessage(1, new SingleMessage("cult.1", "playerTitle"), new SingleMessage("cult.2"))).consort(EnumConsort.TURTLE, EnumConsort.SALAMANDER);
 
 		addMessage(new ChoiceMessage(new DescriptionMessage("peppyOffer"),
-				new SingleMessage[] { new SingleMessage("peppyOffer.buy"), new SingleMessage("peppyOffer.deny") },
-				new MessageType[] {
+				new SingleMessage[]{new SingleMessage("peppyOffer.buy"), new SingleMessage("peppyOffer.deny")},
+				new MessageType[]{
 						new PurchaseMessage(false, MinestuckLoot.CONSORT_JUNK_REWARD, 1000, "purchase",
 								new ChainMessage(1, new SingleMessage("peppyOffer.item"), new SingleMessage("peppyOffer.purchase"))),
 						new ChoiceMessage(new SingleMessage("peppyOffer.next"),
-								new SingleMessage[] { new SingleMessage("peppyOffer.denyAgain"), new SingleMessage("peppyOffer.buy2") },
-								new MessageType[] { new SingleMessage("dots"),
+								new SingleMessage[]{new SingleMessage("peppyOffer.denyAgain"), new SingleMessage("peppyOffer.buy2")},
+								new MessageType[]{new SingleMessage("dots"),
 										new PurchaseMessage(false, MinestuckLoot.CONSORT_JUNK_REWARD, 500, "purchase",
-												new SingleMessage("peppyOffer.purchase")) }) })).type(MerchantType.SHADY).consort(EnumConsort.NAKAGATOR, EnumConsort.IGUANA);
+												new SingleMessage("peppyOffer.purchase"))})})).type(MerchantType.SHADY).consort(EnumConsort.NAKAGATOR, EnumConsort.IGUANA);
 
 
 		addMessage(new ChoiceMessage(true, new SingleMessage("titlePresence", "playerTitle"),
-				new SingleMessage[] { new SingleMessage("titlePresence.iam", "playerTitle"), new SingleMessage("titlePresence.agree") },
-				new MessageType[] { new SingleMessage("titlePresence.iamAnswer", "consortSound2"), new SingleMessage("thanks") })).consort(EnumConsort.IGUANA, EnumConsort.SALAMANDER).reqLand();
-		
+				new SingleMessage[]{new SingleMessage("titlePresence.iam", "playerTitle"), new SingleMessage("titlePresence.agree")},
+				new MessageType[]{new SingleMessage("titlePresence.iamAnswer", "consortSound2"), new SingleMessage("thanks")})).consort(EnumConsort.IGUANA, EnumConsort.SALAMANDER).reqLand();
+
 		addMessage(new ChoiceMessage(new DescriptionMessage("shadyOffer"),
 				new SingleMessage[]
 						{
 								new SingleMessage("shadyOffer.buy"),
 								new SingleMessage("shadyOffer.deny")
 						},
-				new MessageType[] {
+				new MessageType[]{
 						new PurchaseMessage(false, MinestuckLoot.CONSORT_JUNK_REWARD, 1000, "purchase",
 								new ChainMessage(1,
 										new SingleMessage("shadyOffer.item"),
@@ -324,52 +324,52 @@ public class ConsortDialogue
 						),
 						new ChoiceMessage(new SingleMessage("shadyOffer.next", "consortSound"),
 								new SingleMessage[]
-								{
-										new SingleMessage("shadyOffer.denyAgain"),
-										new SingleMessage("shadyOffer.buy2")
-								},
+										{
+												new SingleMessage("shadyOffer.denyAgain"),
+												new SingleMessage("shadyOffer.buy2")
+										},
 								new MessageType[]
-								{
-										new SingleMessage("dots"),
-										new PurchaseMessage(false, MinestuckLoot.CONSORT_JUNK_REWARD, 500, "purchase",
-												new SingleMessage("shadyOffer.purchase")
-										)
-								}
+										{
+												new SingleMessage("dots"),
+												new PurchaseMessage(false, MinestuckLoot.CONSORT_JUNK_REWARD, 500, "purchase",
+														new SingleMessage("shadyOffer.purchase")
+												)
+										}
 						)
 				}
 		)).type(MerchantType.SHADY).consort(EnumConsort.SALAMANDER, EnumConsort.TURTLE);
-		
+
 		addMessage(new ChoiceMessage(true, new SingleMessage("denizen", "denizen"),
-				new SingleMessage[] { new SingleMessage("denizen.what"), new SingleMessage("denizen.askAlignment") },
-				new MessageType[] { new SingleMessage("denizen.explain", "playerClassLand"), new SingleMessage("denizen.alignment") })).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA, EnumConsort.TURTLE).reqLand();
-		
+				new SingleMessage[]{new SingleMessage("denizen.what"), new SingleMessage("denizen.askAlignment")},
+				new MessageType[]{new SingleMessage("denizen.explain", "playerClassLand"), new SingleMessage("denizen.alignment")})).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA, EnumConsort.TURTLE).reqLand();
+
 		List<ItemStack> hungryList = ImmutableList.of(new ItemStack(Items.COOKIE), new ItemStack(MinestuckItems.bugOnAStick),
 				new ItemStack(MinestuckItems.grasshopper), new ItemStack(MinestuckItems.chocolateBeetle),
 				new ItemStack(MinestuckItems.coneOfFlies));
 		addMessage(new ItemRequirement(hungryList, false, true, new SingleMessage("hungry"),
-						new ChoiceMessage(new SingleMessage("hungry.askFood", "nbtItem:hungry.item"),
-								new SingleMessage[] { new SingleMessage("hungry.accept"), new SingleMessage("hungry.deny") },
-								new MessageType[] { new GiveItemMessage("hungry.item", 0, new SingleMessage("hungry.thanks")),
-										new SingleMessage("sadface") }))).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA);
+				new ChoiceMessage(new SingleMessage("hungry.askFood", "nbtItem:hungry.item"),
+						new SingleMessage[]{new SingleMessage("hungry.accept"), new SingleMessage("hungry.deny")},
+						new MessageType[]{new GiveItemMessage("hungry.item", 0, new SingleMessage("hungry.thanks")),
+								new SingleMessage("sadface")}))).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA);
 		addMessage(new ItemRequirement("hungry2", hungryList, false, true, false,
-						new SingleMessage(
-								"hungry"),
-						new ChoiceMessage(
-								new SingleMessage("hungry.askFood",
-										"nbtItem:hungry2.item"),
-								new SingleMessage[] {
-										new SingleMessage(
-												"hungry.accept"),
-										new SingleMessage("hungry.deny") },
-								new MessageType[] { new GiveItemMessage("hungry2.item", 0, new SingleMessage("hungry.thanks")),
-										new ChoiceMessage(new SingleMessage("hungry.starving"),
-												new SingleMessage[] { new SingleMessage("hungry.agree"),
-														new SingleMessage("hungry.tooCheap") },
-												new MessageType[] { new GiveItemMessage("hungry.sellItem", "hungry2.item", 10,
-														new ChainMessage(1, new DescriptionMessage("hungry.finally", "nbtItem:hungry2.item"),
-																new SingleMessage("hungry.finally"))),
-														new SingleMessage("hungry.end") }) }))).consort(EnumConsort.SALAMANDER, EnumConsort.NAKAGATOR);
-		
+				new SingleMessage(
+						"hungry"),
+				new ChoiceMessage(
+						new SingleMessage("hungry.askFood",
+								"nbtItem:hungry2.item"),
+						new SingleMessage[]{
+								new SingleMessage(
+										"hungry.accept"),
+								new SingleMessage("hungry.deny")},
+						new MessageType[]{new GiveItemMessage("hungry2.item", 0, new SingleMessage("hungry.thanks")),
+								new ChoiceMessage(new SingleMessage("hungry.starving"),
+										new SingleMessage[]{new SingleMessage("hungry.agree"),
+												new SingleMessage("hungry.tooCheap")},
+										new MessageType[]{new GiveItemMessage("hungry.sellItem", "hungry2.item", 10,
+												new ChainMessage(1, new DescriptionMessage("hungry.finally", "nbtItem:hungry2.item"),
+														new SingleMessage("hungry.finally"))),
+												new SingleMessage("hungry.end")})}))).consort(EnumConsort.SALAMANDER, EnumConsort.NAKAGATOR);
+
 		addMessage(new MerchantGuiMessage(new SingleMessage("foodShop"), CONSORT_FOOD_STOCK)).type(MerchantType.FOOD).consort(EnumConsort.SALAMANDER);
 		addMessage(new MerchantGuiMessage(new SingleMessage("fastFood"), CONSORT_FOOD_STOCK)).type(MerchantType.FOOD).consort(EnumConsort.NAKAGATOR);
 		addMessage(new MerchantGuiMessage(new SingleMessage("groceryStore"), CONSORT_FOOD_STOCK)).type(MerchantType.FOOD).consort(EnumConsort.IGUANA);
@@ -389,7 +389,7 @@ public class ConsortDialogue
 		addMessage(new MerchantGuiMessage(new SingleMessage("rageFoodShop"), CONSORT_FOOD_STOCK)).type(MerchantType.FOOD).landTitle(fromNameTitle("monsters"));
 		addMessage(new MerchantGuiMessage(new DescriptionMessage("hopeFoodShop"), CONSORT_FOOD_STOCK)).type(MerchantType.FOOD).landTitle(fromNameTitle("towers"));
 		addMessage(new MerchantGuiMessage(new SingleMessage("bucketsFoodShop"), CONSORT_FOOD_STOCK)).type(MerchantType.FOOD).landTitle(fromNameTitle("buckets"));
-		
+
 		addMessage(new MerchantGuiMessage(new SingleMessage("generalShop"), CONSORT_GENERAL_STOCK)).type(MerchantType.GENERAL);
 		addMessage(new MerchantGuiMessage(new SingleMessage("gotTheGoods"), CONSORT_GENERAL_STOCK)).type(MerchantType.GENERAL);
 		addMessage(new MerchantGuiMessage(new SingleMessage("risingShop"), CONSORT_GENERAL_STOCK)).type(MerchantType.GENERAL);
@@ -407,14 +407,15 @@ public class ConsortDialogue
 		addMessage(new MerchantGuiMessage(new SingleMessage("rageGeneralShop"), CONSORT_GENERAL_STOCK)).type(MerchantType.GENERAL).landTitle(fromNameTitle("monsters"));
 		addMessage(new MerchantGuiMessage(new DescriptionMessage("hopeGeneralShop"), CONSORT_GENERAL_STOCK)).type(MerchantType.GENERAL).landTitle(fromNameTitle("towers"));
 		addMessage(new MerchantGuiMessage(new SingleMessage("bucketsGeneralShop"), CONSORT_GENERAL_STOCK)).type(MerchantType.GENERAL).landTitle(fromNameTitle("buckets"));
-		
+
 		addMessage(new MerchantGuiMessage(new SingleMessage("boringShop"), CONSORT_GENERAL_STOCK)).type(MerchantType.GENERAL).landTerrain(fromNameTerrain("rainbow"));
 	}
-	
+
 	public static DialogueWrapper addMessage(String message, String... args)
 	{
 		return addMessage(new SingleMessage(message, args));
 	}
+
 	public static DialogueWrapper addMessage(MessageType message)
 	{
 		DialogueWrapper msg = new DialogueWrapper();
@@ -422,11 +423,12 @@ public class ConsortDialogue
 		messages.add(msg);
 		return msg;
 	}
-	
+
 	public static TitleLandAspect[] allExcept(TitleLandAspect... aspects)
 	{
 		Set<TitleLandAspect> set = new HashSet<>();
-		names: for (String name : LandAspectRegistry.getNamesTitle())
+		names:
+		for (String name : LandAspectRegistry.getNamesTitle())
 		{
 			for (TitleLandAspect aspect : aspects)
 				if (aspect.getPrimaryName().equals(name))
@@ -435,57 +437,55 @@ public class ConsortDialogue
 		}
 		return set.toArray(new TitleLandAspect[set.size()]);
 	}
-	
+
 	public static DialogueWrapper getRandomMessage(EntityConsort consort, EntityPlayer player)
 	{
 		LandAspectRegistry.AspectCombination aspects = MinestuckDimensionHandler.getAspects(consort.homeDimension);
-		
+
 		List<DialogueWrapper> list = new ArrayList<>();
-		
-		for(DialogueWrapper message : messages)
+
+		for (DialogueWrapper message : messages)
 		{
-			if(message.reqLand && aspects == null)
+			if (message.reqLand && aspects == null)
 				continue;
-			if(message.consortRequirement != null && !message.consortRequirement.contains(consort.getConsortType()))
+			if (message.consortRequirement != null && !message.consortRequirement.contains(consort.getConsortType()))
 				continue;
-			if(message.aspect1Requirement != null && !message.aspect1Requirement.contains(aspects.aspectTerrain.getPrimaryVariant()))
+			if (message.aspect1Requirement != null && !message.aspect1Requirement.contains(aspects.aspectTerrain.getPrimaryVariant()))
 				continue;
-			if(message.aspect2Requirement != null && !message.aspect2Requirement.contains(aspects.aspectTitle.getPrimaryVariant()))
+			if (message.aspect2Requirement != null && !message.aspect2Requirement.contains(aspects.aspectTitle.getPrimaryVariant()))
 				continue;
-			if(message.aspect1RequirementS != null && !message.aspect1RequirementS.contains(aspects.aspectTerrain))
+			if (message.aspect1RequirementS != null && !message.aspect1RequirementS.contains(aspects.aspectTerrain))
 				continue;
-			if(message.aspect2RequirementS != null && !message.aspect2RequirementS.contains(aspects.aspectTitle))
+			if (message.aspect2RequirementS != null && !message.aspect2RequirementS.contains(aspects.aspectTitle))
 				continue;
-			if(message.merchantRequirement == null && consort.merchantType != EnumConsort.MerchantType.NONE
-					|| message.merchantRequirement != null && !message.merchantRequirement.contains(consort.merchantType))
+			if (message.merchantRequirement == null && consort.merchantType != EnumConsort.MerchantType.NONE
+						|| message.merchantRequirement != null && !message.merchantRequirement.contains(consort.merchantType))
 				continue;
-			if(message.additionalRequirement != null && !message.additionalRequirement.apply(consort))
+			if (message.additionalRequirement != null && !message.additionalRequirement.apply(consort))
 				continue;
 			list.add(message);
 		}
-		
+
 		return WeightedRandom.getRandomItem(consort.world.rand, list);
 	}
-	
+
 	public static DialogueWrapper getMessageFromString(String name)
 	{
-		for(DialogueWrapper message : messages)
-			if(message.getString().equals(name))
+		for (DialogueWrapper message : messages)
+			if (message.getString().equals(name))
 				return message;
 		return null;
 	}
-	
+
+	public interface ConsortRequirement
+	{
+		boolean apply(EntityConsort consort);
+	}
+
 	public static class DialogueWrapper extends WeightedRandom.Item
 	{
-		private DialogueWrapper()
-		{
-			super(10);
-		}
-		
 		private boolean reqLand;
-		
 		private MessageType messageStart;
-		
 		private Set<TerrainLandAspect> aspect1Requirement;
 		private Set<TitleLandAspect> aspect2Requirement;
 		private Set<TerrainLandAspect> aspect1RequirementS;
@@ -493,17 +493,21 @@ public class ConsortDialogue
 		private EnumSet<EnumConsort> consortRequirement;
 		private EnumSet<MerchantType> merchantRequirement;
 		private ConsortRequirement additionalRequirement;
-		
+		private DialogueWrapper()
+		{
+			super(10);
+		}
+
 		public DialogueWrapper reqLand()
 		{
 			reqLand = true;
 			return this;
 		}
-		
+
 		public DialogueWrapper landTerrain(TerrainLandAspect... aspects)
 		{
-			for(TerrainLandAspect aspect : aspects)
-				if(aspect == null)
+			for (TerrainLandAspect aspect : aspects)
+				if (aspect == null)
 				{
 					Debug.warn("Land aspect is null for consort message " + messageStart.getString() + ", this is probably not intended");
 					break;
@@ -512,11 +516,11 @@ public class ConsortDialogue
 			aspect1Requirement = Sets.newHashSet(aspects);
 			return this;
 		}
-		
+
 		public DialogueWrapper landTerrainSpecific(TerrainLandAspect... aspects)
 		{
-			for(TerrainLandAspect aspect : aspects)
-				if(aspect == null)
+			for (TerrainLandAspect aspect : aspects)
+				if (aspect == null)
 				{
 					Debug.warn("Land aspect is null for consort message " + messageStart.getString() + ", this is probably not intended");
 					break;
@@ -525,11 +529,11 @@ public class ConsortDialogue
 			aspect1RequirementS = Sets.newHashSet(aspects);
 			return this;
 		}
-		
+
 		public DialogueWrapper landTitle(TitleLandAspect... aspects)
 		{
-			for(TitleLandAspect aspect : aspects)
-				if(aspect == null)
+			for (TitleLandAspect aspect : aspects)
+				if (aspect == null)
 				{
 					Debug.warn("Land aspect is null for consort message " + messageStart.getString() + ", this is probably not intended");
 					break;
@@ -538,11 +542,11 @@ public class ConsortDialogue
 			aspect2Requirement = Sets.newHashSet(aspects);
 			return this;
 		}
-		
+
 		public DialogueWrapper landTitleSpecific(TitleLandAspect... aspects)
 		{
-			for(TitleLandAspect aspect : aspects)
-				if(aspect == null)
+			for (TitleLandAspect aspect : aspects)
+				if (aspect == null)
 				{
 					Debug.warn("Land aspect is null for consort message " + messageStart.getString() + ", this is probably not intended");
 					break;
@@ -551,49 +555,44 @@ public class ConsortDialogue
 			aspect2RequirementS = Sets.newHashSet(aspects);
 			return this;
 		}
-		
+
 		public DialogueWrapper consort(EnumConsort... types)
 		{
 			consortRequirement = EnumSet.of(types[0], types);
 			return this;
 		}
-		
+
 		public DialogueWrapper type(MerchantType... types)
 		{
 			merchantRequirement = EnumSet.of(types[0], types);
 			return this;
 		}
-		
+
 		public DialogueWrapper consortReq(ConsortRequirement req)
 		{
 			additionalRequirement = req;
 			return this;
 		}
-		
+
 		public DialogueWrapper weight(int weight)
 		{
 			itemWeight = weight;
 			return this;
 		}
-		
+
 		public ITextComponent getMessage(EntityConsort consort, EntityPlayer player)
 		{
 			return messageStart.getMessage(consort, player, "");
 		}
-		
+
 		public ITextComponent getFromChain(EntityConsort consort, EntityPlayer player, String fromChain)
 		{
 			return messageStart.getFromChain(consort, player, "", fromChain);
 		}
-		
+
 		public String getString()
 		{
 			return messageStart.getString();
 		}
-	}
-	
-	public interface ConsortRequirement
-	{
-		boolean apply(EntityConsort consort);
 	}
 }

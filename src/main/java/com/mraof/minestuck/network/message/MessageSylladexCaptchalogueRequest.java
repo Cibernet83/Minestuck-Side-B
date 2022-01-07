@@ -19,21 +19,21 @@ public class MessageSylladexCaptchalogueRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeByte(slotIndex);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		slotIndex = buf.readByte();
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeByte(slotIndex);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		SylladexUtils.captchalouge(slotIndex, (EntityPlayerMP)player);
+		SylladexUtils.captchalouge(slotIndex, (EntityPlayerMP) player);
 	}
 
 	@Override

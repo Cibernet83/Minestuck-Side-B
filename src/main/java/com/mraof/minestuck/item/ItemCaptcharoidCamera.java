@@ -38,7 +38,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
-public class ItemCaptcharoidCamera extends MSItemBase {
+public class ItemCaptcharoidCamera extends MSItemBase
+{
 
 	public ItemCaptcharoidCamera()
 	{
@@ -47,39 +48,48 @@ public class ItemCaptcharoidCamera extends MSItemBase {
 		this.setMaxDamage(64);
 	}
 
-	@Override
-	protected boolean isInCreativeTab(CreativeTabs targetTab)
+	@SubscribeEvent
+	public static void onEntityInteract(PlayerInteractEvent.EntityInteract event)
 	{
-		return targetTab == CreativeTabs.SEARCH || targetTab == MinestuckTabs.minestuck;
+		if (!(event.getEntityPlayer().getHeldItem(event.getHand()).getItem() instanceof ItemCaptcharoidCamera) || event.getEntityPlayer().isSneaking())
+			return;
+
+		EntityPlayer player = event.getEntityPlayer();
+		ICaptchalogueable item;
+
+		if (event.getTarget() instanceof EntityItemFrame)
+		{
+			ItemStack stack = ((EntityItemFrame) event.getTarget()).getDisplayedItem();
+			if (stack.isEmpty()) stack = new ItemStack(Items.ITEM_FRAME);
+			item = new CaptchalogueableItemStack(stack);
+
+		}
+		else if (event.getTarget() instanceof EntityItem) //probably never going to happen but might as well
+			item = new CaptchalogueableItemStack(((EntityItem) event.getTarget()).getItem());
+		else item = new CaptchalogueableEntity(event.getTarget());
+
+		ItemStack card = createCard(item);
+		if (!player.inventory.addItemStackToInventory(card))
+			player.dropItem(card, false);
+		player.getHeldItem(event.getHand()).damageItem(1, player);
+		event.setCancellationResult(EnumActionResult.SUCCESS);
+		event.setCanceled(true);
 	}
-	
-	@Override
-	public CreativeTabs[] getCreativeTabs()
-	{
-		return new CreativeTabs[] {MinestuckTabs.minestuck};
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean isFull3D()
-	{
-		return true;
-	}
-	
+
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+									  EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		//pos.offset(facing).offset(facing.rotateY()).up(), pos.offset(facing.getOpposite()).offset(facing.rotateYCCW()).down()
-		if(!worldIn.isRemote) 
+		if (!worldIn.isRemote)
 		{
 			{
 				IBlockState state = worldIn.getBlockState(pos);
 
-				if(ItemGhost.containsKey(state.getBlock()))
+				if (ItemGhost.containsKey(state.getBlock()))
 				{
 					ItemStack stack = new ItemStack(ItemGhost.get(state.getBlock()));
-					if(!player.inventory.addItemStackToInventory(createCard(new CaptchalogueableItemStack(stack))))
+					if (!player.inventory.addItemStackToInventory(createCard(new CaptchalogueableItemStack(stack))))
 						player.dropItem(stack, false);
 					player.getHeldItem(hand).damageItem(1, player);
 				}
@@ -89,17 +99,17 @@ public class ItemCaptcharoidCamera extends MSItemBase {
 					int meta = state.getBlock().damageDropped(state);
 					block.setItemDamage(meta);
 
-					if(worldIn.getBlockState(pos).getBlock() instanceof BlockLargeMachine)
+					if (worldIn.getBlockState(pos).getBlock() instanceof BlockLargeMachine)
 						block = new ItemStack(((BlockLargeMachine) worldIn.getBlockState(pos).getBlock()).getItemFromMachine());
 
-					if(!player.inventory.addItemStackToInventory(createCard(new CaptchalogueableItemStack(block))))
+					if (!player.inventory.addItemStackToInventory(createCard(new CaptchalogueableItemStack(block))))
 						player.dropItem(block, false);
 					player.getHeldItem(hand).damageItem(1, player);
 				}
 			}
 			return EnumActionResult.SUCCESS;
 		}
-		
+
 		return EnumActionResult.SUCCESS;
 	}
 
@@ -112,73 +122,64 @@ public class ItemCaptcharoidCamera extends MSItemBase {
 		ItemStack camera = player.getHeldItem(handIn);
 		ItemStack stack = ItemStack.EMPTY;
 
-		if(MinestuckDimensionHandler.isLandDimension(world.provider.getDimension()) && player.rotationPitch < -75)
+		if (MinestuckDimensionHandler.isLandDimension(world.provider.getDimension()) && player.rotationPitch < -75)
 			stack = new ItemStack(MinestuckItems.skaia);
-		else if(world.provider.getDimension() == 0)
+		else if (world.provider.getDimension() == 0)
 		{
 			Vec3d playerPosVec = new Vec3d(player.posX, player.posY, player.posZ);
 			Vec3d playerLookVec = player.getLookVec();
 
 			RayTraceResult rayTrace = world.rayTraceBlocks(playerPosVec, playerPosVec.add(playerLookVec.scale(200)), true, true, false);
 
-			if(rayTrace != null)
+			if (rayTrace != null)
 				super.onItemRightClick(worldIn, player, handIn);
 
-			for(Entity weatherEffect : world.weatherEffects)
-				if(weatherEffect instanceof EntityLightningBolt)
+			for (Entity weatherEffect : world.weatherEffects)
+				if (weatherEffect instanceof EntityLightningBolt)
 					stack = new ItemStack(MinestuckItems.lightning);
 
-			if(stack.isEmpty() && !world.isThundering())
+			if (stack.isEmpty() && !world.isThundering())
 			{
 				playerLookVec = CommonEventHandler.getVecFromRotation(-player.rotationPitch, player.rotationYaw);
-				float celestialAngle = (world.getCelestialAngle(0)*360f + 90f) % 360f;
+				float celestialAngle = (world.getCelestialAngle(0) * 360f + 90f) % 360f;
 				Vec3d sunVec = CommonEventHandler.getVecFromRotation(celestialAngle, -90);
-				Vec3d moonVec = CommonEventHandler.getVecFromRotation((celestialAngle+180f) % 360f, -90);
+				Vec3d moonVec = CommonEventHandler.getVecFromRotation((celestialAngle + 180f) % 360f, -90);
 
-				if(playerLookVec.squareDistanceTo(sunVec) < 0.07f)
+				if (playerLookVec.squareDistanceTo(sunVec) < 0.07f)
 					stack = new ItemStack(MinestuckItems.sun);
-				else if(playerLookVec.distanceTo(moonVec) < 0.07f)
+				else if (playerLookVec.distanceTo(moonVec) < 0.07f)
 					stack = new ItemStack(MinestuckItems.moon);
 			}
 		}
 
-		if(!player.inventory.addItemStackToInventory(createCard(new CaptchalogueableItemStack(stack))))
+		if (!player.inventory.addItemStackToInventory(createCard(new CaptchalogueableItemStack(stack))))
 			player.dropItem(stack, false);
 		camera.damageItem(1, player);
 		return ActionResult.newResult(EnumActionResult.SUCCESS, camera);
 	}
 
-	@SubscribeEvent
-	public static void onEntityInteract(PlayerInteractEvent.EntityInteract event)
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean isFull3D()
 	{
-		if(!(event.getEntityPlayer().getHeldItem(event.getHand()).getItem() instanceof ItemCaptcharoidCamera) || event.getEntityPlayer().isSneaking())
-			return;
+		return true;
+	}
 
-		EntityPlayer player = event.getEntityPlayer();
-		ICaptchalogueable item;
+	@Override
+	protected boolean isInCreativeTab(CreativeTabs targetTab)
+	{
+		return targetTab == CreativeTabs.SEARCH || targetTab == MinestuckTabs.minestuck;
+	}
 
-		if(event.getTarget() instanceof EntityItemFrame)
-		{
-			ItemStack stack = ((EntityItemFrame)event.getTarget()).getDisplayedItem();
-			if(stack.isEmpty()) stack = new ItemStack(Items.ITEM_FRAME);
-			item = new CaptchalogueableItemStack(stack);
-
-		}
-		else if(event.getTarget() instanceof EntityItem) //probably never going to happen but might as well
-			item = new CaptchalogueableItemStack(((EntityItem) event.getTarget()).getItem());
-		else item = new CaptchalogueableEntity(event.getTarget());
-
-		ItemStack card = createCard(item);
-		if(!player.inventory.addItemStackToInventory(card))
-			player.dropItem(card, false);
-		player.getHeldItem(event.getHand()).damageItem(1, player);
-		event.setCancellationResult(EnumActionResult.SUCCESS);
-		event.setCanceled(true);
+	@Override
+	public CreativeTabs[] getCreativeTabs()
+	{
+		return new CreativeTabs[]{MinestuckTabs.minestuck};
 	}
 
 	@Nonnull
 	public static ItemStack createCard(ICaptchalogueable item)
 	{
-		return AlchemyUtils.setCardModi(AlchemyUtils.createCard(new CaptchalogueableGhost(item), false), new Modus[]{ MinestuckModi.hashtable, MinestuckModi.queue });
+		return AlchemyUtils.setCardModi(AlchemyUtils.createCard(new CaptchalogueableGhost(item), false), new Modus[]{MinestuckModi.hashtable, MinestuckModi.queue});
 	}
 }

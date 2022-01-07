@@ -44,8 +44,8 @@ public class MinestuckKindAbstrata
 	public static KindAbstratus potionkind = new KindAbstratus("potion").addItemClasses(ItemPotion.class, ItemCruxitePotion.class).addItemTools(getItem("botania", "brewvial"), getItem("botania", "brewflask"),
 			getItem("botania", "incensestick"), getItem("botania", "manabottle"));
 	public static KindAbstratus throwkind = new KindAbstratus("projectile").setPreventRightClick(true).addKeywords("shuriken").addItemClasses(MSThrowableBase.class).addItemTools(
-					MinestuckItems.dragonCharge, Items.SNOWBALL, Items.EGG, Items.ENDER_PEARL, Items.ENDER_EYE, Items.EXPERIENCE_BOTTLE, Items.SPLASH_POTION, Items.LINGERING_POTION,
-					getItem("botania", "chakram"));
+			MinestuckItems.dragonCharge, Items.SNOWBALL, Items.EGG, Items.ENDER_PEARL, Items.ENDER_EYE, Items.EXPERIENCE_BOTTLE, Items.SPLASH_POTION, Items.LINGERING_POTION,
+			getItem("botania", "chakram"));
 
 	public static KindAbstratus clawkind = new KindAbstratus("claw", MinestuckItems.toolClaws).addKeywords("katar");
 	public static KindAbstratus glovekind = new KindAbstratus("glove", MinestuckItems.toolGauntlet).addKeywords("glove", "gauntlet", "fist").addItemTools(getItem("thaumcraft", "caster_basic"));
@@ -53,7 +53,7 @@ public class MinestuckKindAbstrata
 	public static KindAbstratus shieldkind = new KindAbstratus("shield").addItemClasses(ItemShield.class, MSShieldBase.class).setConditional((i, itemStack, res) -> res || i.isShield(itemStack, null));
 	public static KindAbstratus bowkind = new KindAbstratus("bow").setPreventRightClick(true).addItemClasses(ItemBow.class, MSBowBase.class, ItemMechanicalCrossbow.class).setConditional(((item, stack, res) -> res && !PropertyBreakableItem.isBroken(item, stack))).addItemTools(
 			getItem("botania", "livingwood_bow"), getItem("botania", "crystal_bow")
-																																																																				   );
+	);
 	public static KindAbstratus dicekind = new KindAbstratus("dice").addItemTools(MinestuckItems.dice, MinestuckItems.fluoriteOctet);
 
 	public static KindAbstratus pistolkind = new KindAbstratus("pistol").setPreventRightClick(true).addItemTools(getItem("botania", "managun"), getItem("bibliocraft", "bibliodrill"), getItem("immersiveengineering", "revolver"));
@@ -81,7 +81,7 @@ public class MinestuckKindAbstrata
 			getItem("vending", "vendingmachinewrench"), getItem("ic2", "electric_wrench"), getItem("morphtool", "tool"));
 	public static KindAbstratus knifekind = new KindAbstratus("knife").addKeywords("knife", "dagger", "katar", "knive", "kunai", "sai").addItemTools(getItem("actuallyadditions", "item_knife"), getItem("cfm", "item_knife"),
 			getItem("mysticalworld", "amethyst_knife"), getItem("mysticalworld", "copper_knife"), getItem("mysticalworld", "silver_knife"), getItem("mysticalworld", "wood_knife"),
-			getItem("mowziesmobs","naga_fang_dagger"),
+			getItem("mowziesmobs", "naga_fang_dagger"),
 			getItem("mysticalworld", "stone_knife"), getItem("mysticalworld", "iron_knife"), getItem("mysticalworld", "diamond_knife"), getItem("mysticalworld", "gold_knife"));
 	public static KindAbstratus keykind = new KindAbstratus("key").addItemTools(getItem("locks", "key"), getItem("locks", "key_blank"),
 			getItem("locks", "key_ring"), getItem("locks", "master_key"),
@@ -104,11 +104,11 @@ public class MinestuckKindAbstrata
 	public static KindAbstratus fistkind = new KindAbstratus("fist").setFist(true);
 	public static KindAbstratus jokerkind = new KindAbstratus("joker").setConditional((i, stack, res) -> res || !stack.isEmpty()).setHidden(true);
 	public static KindAbstratus sbahjkind = new KindAbstratus("sbahj")
-			.addItemTools(MinestuckItems.sbahjWhip, MinestuckItems.unrealAir, MinestuckItems.batleacks, MinestuckItems.sord, MinestuckItems.sbahjPoster,
-						  Item.getItemFromBlock(MinestuckBlocks.sbahjBedrock), Item.getItemFromBlock(MinestuckBlocks.sbahjTree))
-			.setConditional((i, stack, res) -> res || i.getRegistryName().getResourcePath().equals("sbahjaddon")).setHidden(true);
+													.addItemTools(MinestuckItems.sbahjWhip, MinestuckItems.unrealAir, MinestuckItems.batleacks, MinestuckItems.sord, MinestuckItems.sbahjPoster,
+															Item.getItemFromBlock(MinestuckBlocks.sbahjBedrock), Item.getItemFromBlock(MinestuckBlocks.sbahjTree))
+													.setConditional((i, stack, res) -> res || i.getRegistryName().getResourcePath().equals("sbahjaddon")).setHidden(true);
 	public static KindAbstratus bunnykind = new KindAbstratus("bunny").addKeywords("bunny", "rabbit", "hare")
-			.addItemTools(MinestuckItems.bunnySlippers, Items.RABBIT, Items.COOKED_RABBIT, Items.RABBIT_FOOT, Items.RABBIT_HIDE, Items.RABBIT_STEW).setHidden(true);
+													.addItemTools(MinestuckItems.bunnySlippers, Items.RABBIT, Items.COOKED_RABBIT, Items.RABBIT_FOOT, Items.RABBIT_HIDE, Items.RABBIT_STEW).setHidden(true);
 
 	@SubscribeEvent
 	public static void register(RegistryEvent.Register<KindAbstratus> event)
@@ -118,9 +118,9 @@ public class MinestuckKindAbstrata
 		for (KindAbstratus kindAbstratus : kindAbstrata)
 			kindAbstratus.register(registry);
 
-		if(Minestuck.isArsenalLoaded)
+		if (Minestuck.isArsenalLoaded)
 			registerArsenalApi();
-		if(Minestuck.isVcLoaded)
+		if (Minestuck.isVcLoaded)
 			registerVariedCommoditiesApi();
 
 		keykind.setHidden(keykind.getToolItems().isEmpty());
@@ -161,7 +161,7 @@ public class MinestuckKindAbstrata
 		wandkind.addItemTools(getItem("minestuckarsenal", "needle_wands"));
 
 		ArrayList<Item> lipstickChainsaws = new ArrayList<>();
-		for(Item i : new Item[]{getItem("minestuckarsenal", "lipstick_chainsaw"), getItem("minestuckarsenal", "demonbane_ragripper")})
+		for (Item i : new Item[]{getItem("minestuckarsenal", "lipstick_chainsaw"), getItem("minestuckarsenal", "demonbane_ragripper")})
 			lipstickChainsaws.add(i);
 
 		chainsawkind.addItemTools(getItem("minestuckarsenal", "dainty_disembowler"), getItem("minestuckarsenal", "uranium_chainsaw"))
@@ -181,6 +181,10 @@ public class MinestuckKindAbstrata
 
 	}
 
+	public static Item getItem(String modid, String regName)
+	{
+		return Item.REGISTRY.getObject(new ResourceLocation(modid, regName));
+	}
 
 	protected static void registerVariedCommoditiesApi()
 	{
@@ -207,11 +211,5 @@ public class MinestuckKindAbstrata
 				getItem("variedcommodities", "emerald_staff"), getItem("variedcommodities", "demonic_staff"), getItem("variedcommodities", "frost_staff"),
 				getItem("variedcommodities", "mithril_staff"), getItem("variedcommodities", "elemental_staff"));
 
-	}
-
-
-	public static Item getItem(String modid, String regName)
-	{
-		return Item.REGISTRY.getObject(new ResourceLocation(modid, regName));
 	}
 }

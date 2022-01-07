@@ -12,7 +12,7 @@ public class PropertyPlantMend extends WeaponProperty
 	{
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 
-		if(!worldIn.isRemote && worldIn.getTotalWorldTime() % 80 == 0 && worldIn.getLightFor(EnumSkyBlock.SKY, entityIn.getPosition()) > 7)
-			stack.setItemDamage(stack.getItemDamage()-1);
+		if (!worldIn.isRemote && worldIn.getTotalWorldTime() % 80 == 0 && worldIn.getLightFor(EnumSkyBlock.SKY, entityIn.getPosition()) > 7)
+			stack.setItemDamage(stack.getItemDamage() - 1);
 	}
 }

@@ -41,9 +41,33 @@ public class TileEntityMiniPunchDesignix extends TileEntityMiniSburbMachine
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
 	{
-		if(index == 0)
-			return !inv.get(2).isEmpty();	//Same but for the punch designix
+		if (index == 0)
+			return !inv.get(2).isEmpty();    //Same but for the punch designix
 		return true;
+	}
+
+	@Override
+	public boolean contentsValid()
+	{
+		if (!this.inv.get(0).isEmpty() && !inv.get(1).isEmpty())
+		{
+			ItemStack output = AlchemyUtils.getDecodedItemDesignix(inv.get(0));
+			if (inv.get(1).hasTagCompound() && inv.get(1).getTagCompound().getBoolean("punched"))
+			{
+				output = CombinationRegistry.getCombination(output,
+						AlchemyUtils.getDecodedItem(inv.get(1)), CombinationRegistry.Mode.MODE_OR);
+			}
+			if (output.isEmpty())
+				return false;
+			if (output.getItem().isDamageable())
+				output.setItemDamage(0);
+			output = AlchemyUtils.createCard(output, true);
+			return (inv.get(2).isEmpty() || inv.get(2).getCount() < 16 && ItemStack.areItemStackTagsEqual(inv.get(2), output));
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	@Override
@@ -73,30 +97,6 @@ public class TileEntityMiniPunchDesignix extends TileEntityMiniSburbMachine
 		if (!(inv.get(0).hasTagCompound() && inv.get(0).getTagCompound().hasKey("contentID")))
 			decrStackSize(0, 1);
 		decrStackSize(1, 1);
-	}
-
-	@Override
-	public boolean contentsValid()
-	{
-		if (!this.inv.get(0).isEmpty() && !inv.get(1).isEmpty())
-		{
-			ItemStack output = AlchemyUtils.getDecodedItemDesignix(inv.get(0));
-			if (inv.get(1).hasTagCompound() && inv.get(1).getTagCompound().getBoolean("punched"))
-			{
-				output = CombinationRegistry.getCombination(output,
-															AlchemyUtils.getDecodedItem(inv.get(1)), CombinationRegistry.Mode.MODE_OR);
-			}
-			if (output.isEmpty())
-				return false;
-			if (output.getItem().isDamageable())
-				output.setItemDamage(0);
-			output = AlchemyUtils.createCard(output, true);
-			return (inv.get(2).isEmpty() || inv.get(2).getCount() < 16 && ItemStack.areItemStackTagsEqual(inv.get(2), output));
-		}
-		else
-		{
-			return false;
-		}
 	}
 
 	@Override

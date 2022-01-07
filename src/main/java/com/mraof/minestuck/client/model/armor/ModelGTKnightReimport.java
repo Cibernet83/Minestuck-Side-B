@@ -58,11 +58,11 @@ public class ModelGTKnightReimport extends ModelBiped
 		leftFoot = new ModelRenderer(this);
 		rightFoot = new ModelRenderer(this);
 
-		
+
 		neck.setRotationPoint(0.0F, 0.0F, 0.0F);
 		neck.cubeList.add(new ModelBox(neck, 44, 35, -4.0F, -0.0F, -3.0F, 8, 2, 1, 0.0F, false));
 		neck.cubeList.add(new ModelBox(neck, 44, 38, -4.0F, -0.0F, 2.2F, 8, 2, 1, 0.0F, false));
-		
+
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
 		head.cubeList.add(new ModelBox(head, 34, 34, 4.0F, -9.0F, -4.0F, 1, 8, 8, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 42, 0, -5.0F, -9.0F, 4.0F, 10, 8, 1, 0.0F, false));
@@ -98,7 +98,8 @@ public class ModelGTKnightReimport extends ModelBiped
 		rightFoot.cubeList.add(new ModelBox(rightFoot, 16, 59, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, false));
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;

@@ -22,7 +22,7 @@ public class PropertyShieldDeflect extends WeaponProperty implements IPropertySh
 	@Override
 	public boolean onShieldParry(ItemStack stack, EntityLivingBase player, DamageSource source, float damage)
 	{
-		for(Entity target : player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().grow(deflectRadius)))
+		for (Entity target : player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().grow(deflectRadius)))
 		{
 			Vec3d vec3d = new Vec3d(target.posX, target.posY, target.posZ);
 
@@ -32,14 +32,14 @@ public class PropertyShieldDeflect extends WeaponProperty implements IPropertySh
 
 			if (vec3d2.dotProduct(vec3d1) < 0.0D)
 			{
-				Vec3d vec = new Vec3d(player.posX-target.posX, player.posY-target.posY, player.posZ-target.posZ).normalize()
-						.scale(Math.sqrt(target.motionX*target.motionX + target.motionY*target.motionY + target.motionZ*target.motionZ) * -deflectStrength);
+				Vec3d vec = new Vec3d(player.posX - target.posX, player.posY - target.posY, player.posZ - target.posZ).normalize()
+									.scale(Math.sqrt(target.motionX * target.motionX + target.motionY * target.motionY + target.motionZ * target.motionZ) * -deflectStrength);
 				target.isAirBorne = true;
 				target.motionX = vec.x;
 				target.motionY = vec.y;
-				target.motionZ = vec.z ;
+				target.motionZ = vec.z;
 
-				if(target instanceof EntityFireball)
+				if (target instanceof EntityFireball)
 				{
 					((EntityFireball) target).accelerationX = target.motionX * 0.1D;
 					((EntityFireball) target).accelerationY = target.motionY * 0.1D;

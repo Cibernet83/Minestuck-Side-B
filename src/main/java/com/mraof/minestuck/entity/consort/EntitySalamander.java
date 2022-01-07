@@ -11,28 +11,28 @@ public class EntitySalamander extends EntityConsort
 	{
 		super(world);
 	}
-	
+
 	protected SoundEvent getAmbientSound()
 	{
 		return MinestuckSoundHandler.soundSalamanderAmbient;
 	}
-	
+
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
 	{
 		return MinestuckSoundHandler.soundSalamanderHurt;
 	}
-	
+
 	protected SoundEvent getDeathSound()
 	{
 		return MinestuckSoundHandler.soundSalamanderDeath;
 	}
-	
+
 	@Override
 	public String getTexture()
 	{
 		return "textures/mobs/salamander.png";
 	}
-	
+
 	@Override
 	public EnumConsort getConsortType()
 	{

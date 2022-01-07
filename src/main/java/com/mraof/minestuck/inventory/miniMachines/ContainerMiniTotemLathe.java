@@ -30,6 +30,7 @@ public class ContainerMiniTotemLathe extends ContainerMiniSburbMachine
 		addSlotToContainer(new SlotInput(tileEntity, 2, latheDowelX, latheDowelY, MinestuckItems.cruxiteDowel));
 		addSlotToContainer(new SlotOutput(tileEntity, 3, latheOutputX, latheOutputY));
 	}
+
 	@Nonnull
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber)
@@ -47,21 +48,21 @@ public class ContainerMiniTotemLathe extends ContainerMiniSburbMachine
 			if (slotNumber <= 3)
 			{
 				//if it's a machine slot
-				result = mergeItemStack(itemstackOrig,4, allSlots,false);
+				result = mergeItemStack(itemstackOrig, 4, allSlots, false);
 			}
 			else if (slotNumber > 3)
 			{
 				//if it's an inventory slot with valid contents
 				if (itemstackOrig.getItem() == MinestuckItems.captchaCard)
-					result = mergeItemStack(itemstackOrig,0,2,false);
+					result = mergeItemStack(itemstackOrig, 0, 2, false);
 				else if (itemstackOrig.getItem() == MinestuckItems.cruxiteDowel)
-					result = mergeItemStack(itemstackOrig,2,3,false);
+					result = mergeItemStack(itemstackOrig, 2, 3, false);
 			}
 
 			if (!result)
 				return ItemStack.EMPTY;
 
-			if(!itemstackOrig.isEmpty())
+			if (!itemstackOrig.isEmpty())
 				slot.onSlotChanged();
 		}
 

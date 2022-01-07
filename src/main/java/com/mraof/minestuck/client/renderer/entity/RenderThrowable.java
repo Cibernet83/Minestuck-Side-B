@@ -17,69 +17,70 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderThrowable extends Render<EntityMSUThrowable>
 {
 
-    private final RenderItem itemRenderer;
+	private final RenderItem itemRenderer;
 
-    public RenderThrowable(RenderManager renderManagerIn)
-    {
-        super(renderManagerIn);
-        this.itemRenderer = Minecraft.getMinecraft().getRenderItem();
-    }
+	public RenderThrowable(RenderManager renderManagerIn)
+	{
+		super(renderManagerIn);
+		this.itemRenderer = Minecraft.getMinecraft().getRenderItem();
+	}
 
-    public void doRender(EntityMSUThrowable entity, double x, double y, double z, float entityYaw, float partialTicks)
-    {
-        GlStateManager.pushMatrix();
-        GlStateManager.translate((float)x, (float)y, (float)z);
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.scale(entity.getProjectileSize(), entity.getProjectileSize(), entity.getProjectileSize());
-        GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate((float)(this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-        GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-        this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+	public void doRender(EntityMSUThrowable entity, double x, double y, double z, float entityYaw, float partialTicks)
+	{
+		GlStateManager.pushMatrix();
+		GlStateManager.translate((float) x, (float) y, (float) z);
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.scale(entity.getProjectileSize(), entity.getProjectileSize(), entity.getProjectileSize());
+		GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate((float) (this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+		this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-        IRenderProperties properties = entity.getRenderProperties();
+		IRenderProperties properties = entity.getRenderProperties();
 
-        if(properties != null)
-            properties.pre(entity, partialTicks);
+		if (properties != null)
+			properties.pre(entity, partialTicks);
 
-        if (this.renderOutlines)
-        {
-            GlStateManager.enableColorMaterial();
-            GlStateManager.enableOutlineMode(this.getTeamColor(entity));
-        }
+		if (this.renderOutlines)
+		{
+			GlStateManager.enableColorMaterial();
+			GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+		}
 
-        this.itemRenderer.renderItem(this.getStackToRender(entity), ItemCameraTransforms.TransformType.GROUND);
+		this.itemRenderer.renderItem(this.getStackToRender(entity), ItemCameraTransforms.TransformType.GROUND);
 
-        if (this.renderOutlines)
-        {
-            GlStateManager.disableOutlineMode();
-            GlStateManager.disableColorMaterial();
-        }
+		if (this.renderOutlines)
+		{
+			GlStateManager.disableOutlineMode();
+			GlStateManager.disableColorMaterial();
+		}
 
-        if(properties != null)
-            properties.post(entity, partialTicks);
+		if (properties != null)
+			properties.post(entity, partialTicks);
 
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.popMatrix();
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
-    }
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.popMatrix();
+		super.doRender(entity, x, y, z, entityYaw, partialTicks);
+	}
 
-    public ItemStack getStackToRender(EntityMSUThrowable entityIn) {
-        return entityIn.getStack();
-    }
+	public ItemStack getStackToRender(EntityMSUThrowable entityIn)
+	{
+		return entityIn.getStack();
+	}
 
-    @Override
-    protected ResourceLocation getEntityTexture(EntityMSUThrowable entity)
-    {
-        return TextureMap.LOCATION_BLOCKS_TEXTURE;
-    }
+	@Override
+	protected ResourceLocation getEntityTexture(EntityMSUThrowable entity)
+	{
+		return TextureMap.LOCATION_BLOCKS_TEXTURE;
+	}
 
-    public interface IRenderProperties
-    {
-        void pre(EntityMSUThrowable entity, float partialTicks);
+	public interface IRenderProperties
+	{
+		void pre(EntityMSUThrowable entity, float partialTicks);
 
-        default void post(EntityMSUThrowable entity, float partialTicks)
-        {
+		default void post(EntityMSUThrowable entity, float partialTicks)
+		{
 
-        }
-    }
+		}
+	}
 }

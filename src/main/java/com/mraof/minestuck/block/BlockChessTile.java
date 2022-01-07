@@ -21,63 +21,74 @@ import static com.mraof.minestuck.block.MinestuckBlocks.chessTile;
 public class BlockChessTile extends MSBlockBase
 {
 	public static final PropertyEnum VARIANT = PropertyEnum.create("block_type", BlockType.class);
-	
+
 	public BlockChessTile()
 	{
-		super("chessTile",Material.GROUND);
+		super("chessTile", Material.GROUND);
 		setHardness(0.5F);
 
 		setDefaultState(getDefaultState().withProperty(VARIANT, BlockType.BLACK));
 	}
-	
+
 	@Override
-	protected BlockStateContainer createBlockState()
+	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		return new BlockStateContainer(this, VARIANT);
+		switch ((BlockType) state.getValue(VARIANT))
+		{
+			case WHITE:
+				return MapColor.SNOW;
+			case LIGHT_GREY:
+				return MapColor.SILVER;
+			case DARK_GREY:
+				return MapColor.GRAY;
+			case BLACK:
+				return MapColor.BLACK;
+			default:
+				return super.getMapColor(state, worldIn, pos);
+		}
 	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(VARIANT, BlockType.values()[meta]);
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
 		return ((BlockType) state.getValue(VARIANT)).ordinal();
 	}
-	
+
 	@Override
 	public int damageDropped(IBlockState state)
 	{
 		return getMetaFromState(state);
 	}
-	
+
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
 	{
-		for(int i = 0; i < BlockType.values().length; i++)
+		for (int i = 0; i < BlockType.values().length; i++)
 			items.add(new ItemStack(this, 1, i));
 	}
-	
+
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, VARIANT);
+	}
+
 	@Override
 	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, SpawnPlacementType type)
 	{
 		return true;
 	}
-	
+
 	@Override
-	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+	public MSItemBlock getItemBlock()
 	{
-		switch((BlockType) state.getValue(VARIANT))
-		{
-			case WHITE: return MapColor.SNOW;
-			case LIGHT_GREY: return MapColor.SILVER;
-			case DARK_GREY: return MapColor.GRAY;
-			case BLACK: return MapColor.BLACK;
-			default: return super.getMapColor(state, worldIn, pos);
-		}
+		return new MSItemBlockMultiTexture(chessTile, BlockType.values());
 	}
 
 	public enum BlockType implements IUnlocSerializable
@@ -87,26 +98,23 @@ public class BlockChessTile extends MSBlockBase
 		DARK_GREY("darkGrey"),
 		LIGHT_GREY("lightGrey");
 		public final String name, regName;
+
 		BlockType(String name)
 		{
 			this.name = name;
 			this.regName = IRegistryObject.unlocToReg(name);
 		}
+
 		@Override
 		public String getName()
 		{
 			return regName;
 		}
+
 		@Override
 		public String getUnlocalizedName()
 		{
 			return name;
 		}
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlockMultiTexture(chessTile, BlockType.values());
 	}
 }

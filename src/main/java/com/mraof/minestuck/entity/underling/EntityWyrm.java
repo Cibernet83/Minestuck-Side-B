@@ -1,8 +1,8 @@
 package com.mraof.minestuck.entity.underling;
 
-import com.mraof.minestuck.entity.IEntityMultiPart;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
+import com.mraof.minestuck.entity.IEntityMultiPart;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -15,27 +15,10 @@ public class EntityWyrm extends EntityUnderling implements IEntityMultiPart
 {
 	public ArrayList<EntityLiving> parts = new ArrayList<EntityLiving>();
 	public ArrayList<Integer> partIds = new ArrayList<Integer>();
+
 	public EntityWyrm(World world)
 	{
 		super(world);
-	}
-	
-	@Override
-	protected String getUnderlingName()
-	{
-		return "wyrm";
-	}
-	
-	@Override
-	public void writeSpawnData(ByteBuf buffer)
-	{
-		super.writeSpawnData(buffer);
-	}
-
-	@Override
-	public void readSpawnData(ByteBuf buffer)
-	{
-		super.readSpawnData(buffer);
 	}
 
 	@Override
@@ -72,12 +55,6 @@ public class EntityWyrm extends EntityUnderling implements IEntityMultiPart
 	}
 
 	@Override
-	protected float getMaximumHealth()
-	{
-		return 20; //TODO make real value
-	}
-
-	@Override
 	protected float getKnockbackResistance()
 	{
 		return 0;
@@ -88,16 +65,40 @@ public class EntityWyrm extends EntityUnderling implements IEntityMultiPart
 	{
 		return 0;
 	}
-	
+
 	@Override
 	protected double getAttackDamage()
 	{
 		return 0;
 	}
-	
+
 	@Override
 	protected int getVitalityGel()
 	{
 		return 0;
+	}
+
+	@Override
+	protected String getUnderlingName()
+	{
+		return "wyrm";
+	}
+
+	@Override
+	public void writeSpawnData(ByteBuf buffer)
+	{
+		super.writeSpawnData(buffer);
+	}
+
+	@Override
+	public void readSpawnData(ByteBuf buffer)
+	{
+		super.readSpawnData(buffer);
+	}
+
+	@Override
+	protected float getMaximumHealth()
+	{
+		return 20; //TODO make real value
 	}
 }

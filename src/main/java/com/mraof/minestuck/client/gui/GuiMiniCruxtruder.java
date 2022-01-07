@@ -33,6 +33,6 @@ public class GuiMiniCruxtruder extends GuiMiniSburbMachine
 		this.mc.getTextureManager().bindTexture(guiProgress);
 		int width = progressWidth;
 		int height = getScaledValue(te.progress, te.maxProgress, progressHeight);
-		drawModalRectWithCustomSizedTexture(x + progressX, y + progressY + progressHeight-height, 0, progressHeight-height, width, height, progressWidth, progressHeight);
+		drawModalRectWithCustomSizedTexture(x + progressX, y + progressY + progressHeight - height, 0, progressHeight - height, width, height, progressWidth, progressHeight);
 	}
 }

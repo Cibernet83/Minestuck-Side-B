@@ -23,9 +23,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem
+public class ItemMinestuckBucket extends ItemBucket implements IRegistryItem
 {
-	public ItemMinestuckBucket() 
+	public ItemMinestuckBucket()
 	{
 		super(Blocks.AIR);
 		setUnlocalizedName("minestuckBucket");
@@ -34,16 +34,16 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem
 		setHasSubtypes(true);
 		MinestuckItems.items.add(this);
 	}
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
 		ItemStack stack = playerIn.getHeldItem(handIn);
 		RayTraceResult raytraceresult = this.rayTrace(worldIn, playerIn, false);
-		
+
 		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(playerIn, worldIn, stack, raytraceresult);
 		if (ret != null) return ret;
-		
+
 		if (raytraceresult == null)
 		{
 			return new ActionResult(EnumActionResult.PASS, stack);
@@ -55,7 +55,7 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem
 		else
 		{
 			BlockPos blockpos = raytraceresult.getBlockPos();
-			
+
 			if (!worldIn.isBlockModifiable(playerIn, blockpos))
 			{
 				return new ActionResult(EnumActionResult.FAIL, stack);
@@ -64,7 +64,7 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem
 			{
 				boolean flag1 = worldIn.getBlockState(blockpos).getBlock().isReplaceable(worldIn, blockpos);
 				BlockPos blockpos1 = flag1 && raytraceresult.sideHit == EnumFacing.UP ? blockpos : blockpos.offset(raytraceresult.sideHit);
-				
+
 				if (!playerIn.canPlayerEdit(blockpos1, raytraceresult.sideHit, stack))
 				{
 					return new ActionResult(EnumActionResult.FAIL, stack);
@@ -103,23 +103,23 @@ public class ItemMinestuckBucket extends ItemBucket	implements IRegistryItem
 
 			world.playSound(player, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
 			world.setBlockState(pos, block, 3);
-			
+
 			return true;
 		}
 	}
-	
+
+	@Override
+	public String getUnlocalizedName(ItemStack par1ItemStack)
+	{
+		return getUnlocalizedName() + "." + MinestuckBlocks.fluids.get(par1ItemStack.getItemDamage()).getBlock().getUnlocalizedName().replace("tile.", "");
+	}
+
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
-		if(this.isInCreativeTab(tab))
-			for(int id = 0; id < MinestuckBlocks.fluids.size(); id++)
+		if (this.isInCreativeTab(tab))
+			for (int id = 0; id < MinestuckBlocks.fluids.size(); id++)
 				items.add(new ItemStack(this, 1, id));
-	}
-	
-	@Override
-	public String getUnlocalizedName(ItemStack par1ItemStack) 
-	{
-		return getUnlocalizedName() + "." + MinestuckBlocks.fluids.get(par1ItemStack.getItemDamage()).getBlock().getUnlocalizedName().replace("tile.", "");
 	}
 
 	@Override

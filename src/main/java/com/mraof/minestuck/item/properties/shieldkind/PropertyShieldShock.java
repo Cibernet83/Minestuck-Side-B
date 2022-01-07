@@ -1,8 +1,8 @@
 package com.mraof.minestuck.item.properties.shieldkind;
 
-import com.mraof.minestuck.item.weapon.MSShieldBase;
 import com.mraof.minestuck.item.properties.PropertyShock;
 import com.mraof.minestuck.item.properties.WeaponProperty;
+import com.mraof.minestuck.item.weapon.MSShieldBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -35,7 +35,7 @@ public class PropertyShieldShock extends WeaponProperty implements IPropertyShie
 	@Override
 	public boolean isAbilityActive(ItemStack stack, World world, EntityLivingBase player)
 	{
-		if(chanceParry > 0)
+		if (chanceParry > 0)
 			return stack.getItem() instanceof MSShieldBase && ((MSShieldBase) stack.getItem()).isParrying(stack);
 
 		return chance > 0 && stack.equals(player.getActiveItemStack());
@@ -44,14 +44,14 @@ public class PropertyShieldShock extends WeaponProperty implements IPropertyShie
 	@Override
 	public void onHitWhileShielding(ItemStack stack, EntityLivingBase player, DamageSource source, float damage, boolean blocked)
 	{
-		if(blocked && source.getImmediateSource() instanceof EntityLivingBase && (player.world.rand.nextFloat() < chance))
+		if (blocked && source.getImmediateSource() instanceof EntityLivingBase && (player.world.rand.nextFloat() < chance))
 			PropertyShock.shockTarget(player, (EntityLivingBase) source.getImmediateSource(), stunTime, stunDamage);
 	}
 
 	@Override
 	public boolean onShieldParry(ItemStack stack, EntityLivingBase player, DamageSource source, float damage)
 	{
-		if(source.getImmediateSource() instanceof EntityLivingBase && (player.world.rand.nextFloat() < chanceParry))
+		if (source.getImmediateSource() instanceof EntityLivingBase && (player.world.rand.nextFloat() < chanceParry))
 			PropertyShock.shockTarget(player, (EntityLivingBase) source.getImmediateSource(), stunTimeParry, stunDamageParry);
 		return true;
 	}

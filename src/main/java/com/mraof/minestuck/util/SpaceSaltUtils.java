@@ -1,9 +1,9 @@
 package com.mraof.minestuck.util;
 
-import com.mraof.minestuck.event.SpaceSaltEffectEvent;
 import com.mraof.minestuck.block.*;
 import com.mraof.minestuck.editmode.EditData;
 import com.mraof.minestuck.editmode.ServerEditHandler;
+import com.mraof.minestuck.event.SpaceSaltEffectEvent;
 import com.mraof.minestuck.tileentity.TileEntityAlchemiter;
 import com.mraof.minestuck.tileentity.TileEntityCruxtruder;
 import com.mraof.minestuck.tileentity.TileEntityPunchDesignix;
@@ -32,16 +32,16 @@ public class SpaceSaltUtils
 
 	public static boolean onSpaceSaltUse(World world, @Nullable EntityPlayer player, EnumHand hand, BlockPos targetPos, EnumFacing blockFace, float hitX, float hitY, float hitZ)
 	{
-		return onSpaceSaltUse(world, player, hand, targetPos, blockFace, new RayTraceResult(new Vec3d(targetPos.getX()+hitX, targetPos.getY()+hitY, targetPos.getZ()+hitZ), blockFace, targetPos));
+		return onSpaceSaltUse(world, player, hand, targetPos, blockFace, new RayTraceResult(new Vec3d(targetPos.getX() + hitX, targetPos.getY() + hitY, targetPos.getZ() + hitZ), blockFace, targetPos));
 	}
 
 	public static boolean onSpaceSaltUse(World world, @Nullable EntityPlayer player, EnumHand hand, BlockPos targetPos, EnumFacing blockFace, RayTraceResult raytrace)
 	{
-		if(!MinecraftForge.EVENT_BUS.post(new SpaceSaltEffectEvent(world, player, targetPos, blockFace, raytrace)))
+		if (!MinecraftForge.EVENT_BUS.post(new SpaceSaltEffectEvent(world, player, targetPos, blockFace, raytrace)))
 		{
-			float hitX = (float)(raytrace.hitVec.x - (double)targetPos.getX());
-			float hitY = (float)(raytrace.hitVec.y - (double)targetPos.getY());
-			float hitZ = (float)(raytrace.hitVec.z - (double)targetPos.getZ());
+			float hitX = (float) (raytrace.hitVec.x - (double) targetPos.getX());
+			float hitY = (float) (raytrace.hitVec.y - (double) targetPos.getY());
+			float hitZ = (float) (raytrace.hitVec.z - (double) targetPos.getZ());
 
 			return resizeMachine(world, targetPos, player, hand, hitX, hitY, hitZ);
 		}
@@ -59,26 +59,26 @@ public class SpaceSaltUtils
 
 		ItemStack heldStack = player == null ? ItemStack.EMPTY : player.getHeldItem(hand);
 
-		if(block instanceof BlockLargeMachine)
+		if (block instanceof BlockLargeMachine)
 		{
-			if(block instanceof BlockAlchemiter)
+			if (block instanceof BlockAlchemiter)
 			{
-				mainPos = ((BlockAlchemiter)block).getMainPos(state, targetPos, world);
+				mainPos = ((BlockAlchemiter) block).getMainPos(state, targetPos, world);
 				TileEntity te = world.getTileEntity(mainPos);
-				if(!(te instanceof TileEntityAlchemiter))
+				if (!(te instanceof TileEntityAlchemiter))
 					return false;
-				else if(((TileEntityAlchemiter)te).isBroken())
+				else if (((TileEntityAlchemiter) te).isBroken())
 					return false;
 				mchnFacing = ((TileEntityAlchemiter) te).getFacing();
 
 				mainPos = mainPos.down();
 
-				if(!world.isRemote)
+				if (!world.isRemote)
 				{
-					for(int x = 0; x < 4; x++)
-						for(int z = 0; z < 4; z++)
+					for (int x = 0; x < 4; x++)
+						for (int z = 0; z < 4; z++)
 							world.destroyBlock(mainPos.offset(mchnFacing, x).offset(mchnFacing.rotateY(), z), true);
-					for(int y = 0; y < 4; y++)
+					for (int y = 0; y < 4; y++)
 						world.destroyBlock(mainPos.up(y), true);
 
 					targetPos = new BlockPos(targetPos.getX(), mainPos.getY(), targetPos.getZ());
@@ -87,34 +87,34 @@ public class SpaceSaltUtils
 
 				return true;
 			}
-			else if(block instanceof BlockTotemLathe)
+			else if (block instanceof BlockTotemLathe)
 			{
-				mainPos = ((BlockTotemLathe)block).getMainPos(state, targetPos);
+				mainPos = ((BlockTotemLathe) block).getMainPos(state, targetPos);
 				TileEntity te = world.getTileEntity(mainPos);
-				if(!(te instanceof TileEntityTotemLathe))
+				if (!(te instanceof TileEntityTotemLathe))
 					return false;
-				else if(((TileEntityTotemLathe)te).isBroken())
+				else if (((TileEntityTotemLathe) te).isBroken())
 					return false;
 				mchnFacing = ((TileEntityTotemLathe) world.getTileEntity(mainPos)).getFacing();
-				if(!world.isRemote)
+				if (!world.isRemote)
 				{
 					TileEntity teLathe = world.getTileEntity(mainPos);
-					for(int x = 0; x < 4; x++)
-						for(int y = 0; y < 3; y++)
+					for (int x = 0; x < 4; x++)
+						for (int y = 0; y < 3; y++)
 						{
 							//TODO lathe dowel not dropping for some reason
 							BlockPos pos1 = mainPos.up(y).offset(mchnFacing.rotateYCCW(), x);
-							if(x == 2 && y == 1)
-								if(!((TileEntityTotemLathe) teLathe).getDowel().isEmpty())
+							if (x == 2 && y == 1)
+								if (!((TileEntityTotemLathe) teLathe).getDowel().isEmpty())
 									InventoryHelper.spawnItemStack(world, pos1.getX(), pos1.getY(), pos1.getZ(), ((TileEntityTotemLathe) teLathe).getDowel());
-							if(x == 0 && y == 0)
+							if (x == 0 && y == 0)
 							{
-								if(!((TileEntityTotemLathe) teLathe).getCard1().isEmpty())
+								if (!((TileEntityTotemLathe) teLathe).getCard1().isEmpty())
 									InventoryHelper.spawnItemStack(world, pos1.getX(), pos1.getY(), pos1.getZ(), ((TileEntityTotemLathe) teLathe).getCard1());
-								if(!((TileEntityTotemLathe) teLathe).getCard2().isEmpty())
+								if (!((TileEntityTotemLathe) teLathe).getCard2().isEmpty())
 									InventoryHelper.spawnItemStack(world, pos1.getX(), pos1.getY(), pos1.getZ(), ((TileEntityTotemLathe) teLathe).getCard2());
 							}
-							if(world.getBlockState(pos1).getBlock() instanceof BlockTotemLathe)
+							if (world.getBlockState(pos1).getBlock() instanceof BlockTotemLathe)
 								world.destroyBlock(pos1, true);
 						}
 
@@ -123,55 +123,57 @@ public class SpaceSaltUtils
 					world.setBlockState(targetPos, MinestuckBlocks.miniTotemLathe.getDefaultState().withProperty(MSFacingBase.FACING, mchnFacing));
 				}
 				return true;
-			}else if(block instanceof BlockPunchDesignix)
+			}
+			else if (block instanceof BlockPunchDesignix)
 			{
-				mainPos = ((BlockPunchDesignix)block).getMainPos(state, targetPos);
-				mchnFacing = (EnumFacing)state.getValue(BlockPunchDesignix.DIRECTION);
+				mainPos = ((BlockPunchDesignix) block).getMainPos(state, targetPos);
+				mchnFacing = state.getValue(BlockPunchDesignix.DIRECTION);
 
 				TileEntity te = world.getTileEntity(mainPos);
-				if(!(te instanceof TileEntityPunchDesignix))
+				if (!(te instanceof TileEntityPunchDesignix))
 					return false;
-				else if(((TileEntityPunchDesignix)te).broken)
+				else if (((TileEntityPunchDesignix) te).broken)
 					return false;
-				if(!world.isRemote)
+				if (!world.isRemote)
 				{
-					for(int x = 0; x < 2; x++)
-						for(int y = 0; y < 2; y++)
+					for (int x = 0; x < 2; x++)
+						for (int y = 0; y < 2; y++)
 							world.destroyBlock(mainPos.down(y).offset(mchnFacing.rotateYCCW(), x), true);
 
-					targetPos = new BlockPos(targetPos.getX(), mainPos.getY()-1, targetPos.getZ());
+					targetPos = new BlockPos(targetPos.getX(), mainPos.getY() - 1, targetPos.getZ());
 
 					world.setBlockState(targetPos, MinestuckBlocks.miniPunchDesignix.getDefaultState().withProperty(MSFacingBase.FACING, mchnFacing));
 				}
 				return true;
-			}else if(block instanceof BlockCruxtruder)
+			}
+			else if (block instanceof BlockCruxtruder)
 			{
-				mchnFacing = world.getBlockState(((BlockCruxtruder)state.getBlock()).getMainPos(state, targetPos)).getValue(BlockCruxtruder.DIRECTION);
-				mainPos = ((BlockCruxtruder)block).getMainPos(state, targetPos);
+				mchnFacing = world.getBlockState(((BlockCruxtruder) state.getBlock()).getMainPos(state, targetPos)).getValue(BlockCruxtruder.DIRECTION);
+				mainPos = ((BlockCruxtruder) block).getMainPos(state, targetPos);
 				TileEntity te = world.getTileEntity(mainPos);
-				if(!(te instanceof TileEntityCruxtruder))
+				if (!(te instanceof TileEntityCruxtruder))
 					return false;
-				else if(((TileEntityCruxtruder)te).isBroken())
+				else if (((TileEntityCruxtruder) te).isBroken())
 					return false;
 
-				if(!world.isRemote)
+				if (!world.isRemote)
 				{
-					for(int x = 0; x < 3; x++)
-						for(int z = 0; z < 3; z++)
-							for(int y = 1; y < 2; y++)
+					for (int x = 0; x < 3; x++)
+						for (int z = 0; z < 3; z++)
+							for (int y = 1; y < 2; y++)
 								world.destroyBlock(mainPos.north(x - 1).east(z - 1).down(y), true);
 
 					world.destroyBlock(mainPos, true);
-					if(world.getBlockState(mainPos.up()).getBlock() instanceof BlockCruxtiteDowel)
+					if (world.getBlockState(mainPos.up()).getBlock() instanceof BlockCruxtiteDowel)
 						world.destroyBlock(mainPos.up(), true);
 
-					targetPos = new BlockPos(targetPos.getX(), mainPos.getY()-1,targetPos.getZ());
+					targetPos = new BlockPos(targetPos.getX(), mainPos.getY() - 1, targetPos.getZ());
 					world.setBlockState(targetPos, MinestuckBlocks.miniCruxtruder.getDefaultState().withProperty(MSFacingBase.FACING, mchnFacing.getOpposite()));
 				}
 				return true;
 			}
 		}
-		else if(block instanceof MSFacingBase)
+		else if (block instanceof MSFacingBase)
 		{
 			mchnFacing = state.getValue(MSFacingBase.FACING);
 			boolean canPlace;
@@ -192,7 +194,8 @@ public class SpaceSaltUtils
 				{
 					world.destroyBlock(targetPos, true);
 					SpaceSaltUtils.placeAlchemiter(world, placePos, mchnFacing.rotateYCCW());
-				} else return false;
+				}
+				else return false;
 
 			}
 			else if (state.getBlock() instanceof BlockMiniCruxtruder)
@@ -204,14 +207,15 @@ public class SpaceSaltUtils
 				{
 					world.destroyBlock(targetPos, true);
 					SpaceSaltUtils.placeCruxtruder(player, world, placePos, mchnFacing.getOpposite(), false);
-				} else return false;
+				}
+				else return false;
 			}
 			else if (state.getBlock() instanceof BlockMiniTotemLathe)
 			{
 				placePos = targetPos.offset(mchnFacing.rotateY());
 
 				if (mchnFacing.getFrontOffsetX() > 0 && hitZ >= 0.5F || mchnFacing.getFrontOffsetX() < 0 && hitZ < 0.5F
-					|| mchnFacing.getFrontOffsetZ() > 0 && hitX < 0.5F || mchnFacing.getFrontOffsetZ() < 0 && hitX >= 0.5F)
+							|| mchnFacing.getFrontOffsetZ() > 0 && hitX < 0.5F || mchnFacing.getFrontOffsetZ() < 0 && hitX >= 0.5F)
 					placePos = placePos.offset(mchnFacing.rotateY());
 				canPlace = player == null || SpaceSaltUtils.canPlaceTotemLathe(heldStack, player, world, placePos, mchnFacing, targetPos);
 
@@ -219,7 +223,8 @@ public class SpaceSaltUtils
 				{
 					world.destroyBlock(targetPos, true);
 					SpaceSaltUtils.placeTotemLathe(world, placePos, mchnFacing);
-				} else return false;
+				}
+				else return false;
 			}
 			else // Puch Designix
 			{
@@ -234,7 +239,8 @@ public class SpaceSaltUtils
 				{
 					world.destroyBlock(targetPos, true);
 					SpaceSaltUtils.placePunchDesignix(world, placePos, mchnFacing);
-				} else return false;
+				}
+				else return false;
 			}
 
 			return true;
@@ -245,24 +251,24 @@ public class SpaceSaltUtils
 
 	public static boolean canPlacePunchDesignix(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, BlockPos machinePos)
 	{
-		for(int x = 0; x < 2; ++x)
+		for (int x = 0; x < 2; ++x)
 		{
 			if (!player.canPlayerEdit(pos.offset(facing.rotateYCCW(), x), EnumFacing.UP, stack) && !machinePos.equals(pos.offset(facing.rotateYCCW(), x)))
 				return false;
-			
-			
-			for(int y = 0; y < 2; ++y)
+
+
+			for (int y = 0; y < 2; ++y)
 			{
-				if (!world.mayPlace(MinestuckBlocks.punchDesignix, pos.offset(facing.rotateYCCW(), x).up(y), false, EnumFacing.UP, (Entity)null)
-						&& !machinePos.equals(pos.offset(facing.rotateYCCW(), x).up(y)))
+				if (!world.mayPlace(MinestuckBlocks.punchDesignix, pos.offset(facing.rotateYCCW(), x).up(y), false, EnumFacing.UP, null)
+							&& !machinePos.equals(pos.offset(facing.rotateYCCW(), x).up(y)))
 					return false;
-				
+
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	public static boolean canPlaceTotemLathe(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, BlockPos machinePos)
 	{
 		for (int x = 0; x < 4; x++)
@@ -277,45 +283,57 @@ public class SpaceSaltUtils
 		}
 		return true;
 	}
-	
-	public static boolean canPlaceCruxtruder(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, BlockPos machinePos) {
-		for(int x = 0; x < 3; ++x) {
-			if (!player.canPlayerEdit(pos.offset(facing.rotateYCCW(), x), EnumFacing.UP, stack)) {
+
+	public static boolean canPlaceCruxtruder(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, BlockPos machinePos)
+	{
+		for (int x = 0; x < 3; ++x)
+		{
+			if (!player.canPlayerEdit(pos.offset(facing.rotateYCCW(), x), EnumFacing.UP, stack))
+			{
 				return false;
 			}
-			
-			for(int y = 0; y < 3; ++y) {
-				for(int z = 0; z < 3; ++z) {
-					if (!world.mayPlace(MinestuckBlocks.cruxtruder, pos.offset(facing.getOpposite(), z).offset(facing.rotateYCCW(), x).up(y), false, EnumFacing.UP, (Entity)null)
-						&& !pos.offset(facing.getOpposite(), z).offset(facing.rotateYCCW(), x).up(y).equals(machinePos)) {
+
+			for (int y = 0; y < 3; ++y)
+			{
+				for (int z = 0; z < 3; ++z)
+				{
+					if (!world.mayPlace(MinestuckBlocks.cruxtruder, pos.offset(facing.getOpposite(), z).offset(facing.rotateYCCW(), x).up(y), false, EnumFacing.UP, null)
+								&& !pos.offset(facing.getOpposite(), z).offset(facing.rotateYCCW(), x).up(y).equals(machinePos))
+					{
 						return false;
 					}
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
-	public static boolean canPlaceAlchemiter(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, BlockPos machinePos) {
-		for(int x = 0; x < 4; ++x) {
-			if (!player.canPlayerEdit(pos.offset(facing.rotateYCCW(), x), EnumFacing.UP, stack)) {
+
+	public static boolean canPlaceAlchemiter(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, BlockPos machinePos)
+	{
+		for (int x = 0; x < 4; ++x)
+		{
+			if (!player.canPlayerEdit(pos.offset(facing.rotateYCCW(), x), EnumFacing.UP, stack))
+			{
 				return false;
 			}
-			
-			for(int y = 0; y < 4; ++y) {
-				for(int z = 0; z < 4; ++z) {
-					if (!world.mayPlace(MinestuckBlocks.alchemiter[0], pos.offset(facing.getOpposite(), z).offset(facing.rotateYCCW(), x).up(y), false, EnumFacing.UP, (Entity)null)
-						&& !pos.offset(facing.getOpposite(), z).offset(facing.rotateYCCW(), x).up(y).equals(machinePos)) {
+
+			for (int y = 0; y < 4; ++y)
+			{
+				for (int z = 0; z < 4; ++z)
+				{
+					if (!world.mayPlace(MinestuckBlocks.alchemiter[0], pos.offset(facing.getOpposite(), z).offset(facing.rotateYCCW(), x).up(y), false, EnumFacing.UP, null)
+								&& !pos.offset(facing.getOpposite(), z).offset(facing.rotateYCCW(), x).up(y).equals(machinePos))
+					{
 						return false;
 					}
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	public static boolean placeAlchemiter(World world, BlockPos pos, EnumFacing side)
 	{
 		EnumFacing facing = side;
@@ -343,10 +361,12 @@ public class SpaceSaltUtils
 		}
 		return true;
 	}
-	
-	public static boolean placeTotemLathe(World world, BlockPos pos, EnumFacing side) {
+
+	public static boolean placeTotemLathe(World world, BlockPos pos, EnumFacing side)
+	{
 		EnumFacing facing = side;
-		if (!world.isRemote) {
+		if (!world.isRemote)
+		{
 			world.setBlockState(pos, BlockTotemLathe.getState(BlockTotemLathe.EnumParts.BOTTOM_LEFT, facing));
 			world.setBlockState(pos.offset(facing.rotateYCCW(), 1), BlockTotemLathe.getState(BlockTotemLathe.EnumParts.BOTTOM_MIDLEFT, facing));
 			world.setBlockState(pos.offset(facing.rotateYCCW(), 2), BlockTotemLathe.getState(BlockTotemLathe.EnumParts.BOTTOM_MIDRIGHT, facing));
@@ -358,25 +378,29 @@ public class SpaceSaltUtils
 			world.setBlockState(pos.offset(facing.rotateYCCW(), 1).up(2), BlockTotemLathe.getState(BlockTotemLathe.EnumParts.TOP_MIDLEFT, facing));
 			world.setBlockState(pos.offset(facing.rotateYCCW(), 2).up(2), BlockTotemLathe.getState(BlockTotemLathe.EnumParts.TOP_MIDRIGHT, facing));
 		}
-		
+
 		return true;
 	}
-	
-	public static boolean placePunchDesignix(World world, BlockPos pos, EnumFacing side) {
+
+	public static boolean placePunchDesignix(World world, BlockPos pos, EnumFacing side)
+	{
 		EnumFacing facing = side;
 		IBlockState newState = MinestuckBlocks.punchDesignix.getDefaultState().withProperty(BlockPunchDesignix.DIRECTION, facing);
 		world.setBlockState(pos, newState, 11);
 		world.setBlockState(pos.offset(facing.rotateYCCW()), newState.withProperty(BlockPunchDesignix.PART, BlockPunchDesignix.EnumParts.BOTTOM_RIGHT), 11);
 		world.setBlockState(pos.up().offset(facing.rotateYCCW()), newState.withProperty(BlockPunchDesignix.PART, BlockPunchDesignix.EnumParts.TOP_RIGHT), 11);
 		world.setBlockState(pos.up(), newState.withProperty(BlockPunchDesignix.PART, BlockPunchDesignix.EnumParts.TOP_LEFT), 11);
-		
+
 		return true;
 	}
-	
-	public static boolean placeCruxtruder(EntityPlayer player, World world, BlockPos pos, EnumFacing side, boolean withLid) {
-		if (!world.isRemote) {
+
+	public static boolean placeCruxtruder(EntityPlayer player, World world, BlockPos pos, EnumFacing side, boolean withLid)
+	{
+		if (!world.isRemote)
+		{
 			EnumFacing facing = side;
-			switch(facing) {
+			switch (facing)
+			{
 				case EAST:
 					pos = pos.north(2).west(2);
 					break;
@@ -387,9 +411,9 @@ public class SpaceSaltUtils
 					pos = pos.north(2);
 				case WEST:
 			}
-			
+
 			IBlockState newState = MinestuckBlocks.cruxtruder.getDefaultState();
-			
+
 			world.setBlockState(pos.south(0).up(0).east(0), newState.withProperty(BlockCruxtruder.PART, BlockCruxtruder.EnumParts.BASE_CORNER).withProperty(BlockCruxtruder.DIRECTION, EnumFacing.NORTH));
 			world.setBlockState(pos.south(0).up(0).east(1), newState.withProperty(BlockCruxtruder.PART, BlockCruxtruder.EnumParts.BASE_SIDE).withProperty(BlockCruxtruder.DIRECTION, EnumFacing.NORTH));
 			world.setBlockState(pos.south(0).up(0).east(2), newState.withProperty(BlockCruxtruder.PART, BlockCruxtruder.EnumParts.BASE_CORNER).withProperty(BlockCruxtruder.DIRECTION, EnumFacing.EAST));
@@ -400,24 +424,30 @@ public class SpaceSaltUtils
 			world.setBlockState(pos.south(1).up(0).east(0), newState.withProperty(BlockCruxtruder.PART, BlockCruxtruder.EnumParts.BASE_SIDE).withProperty(BlockCruxtruder.DIRECTION, EnumFacing.WEST));
 			world.setBlockState(pos.south(1).up(0).east(1), newState.withProperty(BlockCruxtruder.PART, BlockCruxtruder.EnumParts.CENTER).withProperty(BlockCruxtruder.DIRECTION, facing));
 			world.setBlockState(pos.south(1).up(1).east(1), newState.withProperty(BlockCruxtruder.PART, BlockCruxtruder.EnumParts.TUBE).withProperty(BlockCruxtruder.DIRECTION, facing));
-			if(withLid) world.setBlockState(pos.south().up(2).east(), MinestuckBlocks.cruxtruderLid.getDefaultState());
+			if (withLid) world.setBlockState(pos.south().up(2).east(), MinestuckBlocks.cruxtruderLid.getDefaultState());
 			TileEntity te = world.getTileEntity(pos.add(1, 1, 1));
-			if (te instanceof TileEntityCruxtruder) {
+			if (te instanceof TileEntityCruxtruder)
+			{
 				EditData editData = ServerEditHandler.getData(player);
 				int color;
-				if (editData != null) {
+				if (editData != null)
+				{
 					color = MinestuckPlayerData.getData(editData.getTarget()).color;
-				} else {
+				}
+				else
+				{
 					color = MinestuckPlayerData.getData(player).color;
 				}
-				
-				((TileEntityCruxtruder)te).setColor(color);
-			} else {
-				Debug.warnf("Placed cruxtruder, but can't find tile entity. Instead found %s.", new Object[]{te});
+
+				((TileEntityCruxtruder) te).setColor(color);
 			}
-			
+			else
+			{
+				Debug.warnf("Placed cruxtruder, but can't find tile entity. Instead found %s.", te);
+			}
+
 		}
-		
+
 		return true;
 	}
 }

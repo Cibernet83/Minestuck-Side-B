@@ -28,61 +28,66 @@ public abstract class BlockLargeMachine extends MSBlockContainer
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	public IBlockState getStateFromMeta(int meta)
 	{
-		return new BlockStateContainer(this, DIRECTION);
+		return getDefaultState();
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube(IBlockState state)
+	{
 		return false;
 	}
 
-	//keeps the blocks from dropping something
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world,BlockPos pos,IBlockState state,int fortune)
-	{
-		return null;	
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta) 
-	{
-	    return getDefaultState();
-	}
-	
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state){
-		return EnumBlockRenderType.MODEL;
-	}
-	@Override
-	public boolean isOpaqueCube(IBlockState state){
-		return false;
-	}
-	
 	@Override
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
 	}
-	
+
 	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state)
+	public boolean isOpaqueCube(IBlockState state)
 	{
-		return EnumPushReaction.BLOCK;
+		return false;
 	}
-	
+
+	//keep the game from crashing when a machine is blown up
+	@Override
+	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
+	{
+
+	}
+
 	@Override
 	public BlockRenderLayer getBlockLayer()
 	{
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
-	//keep the game from crashing when a machine is blown up
+
 	@Override
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
-    {
-    	
-    }
-	
+	public EnumPushReaction getMobilityFlag(IBlockState state)
+	{
+		return EnumPushReaction.BLOCK;
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, DIRECTION);
+	}
+
+	//keeps the blocks from dropping something
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+	{
+		return null;
+	}
+
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state)
+	{
+		return EnumBlockRenderType.MODEL;
+	}
+
 	public abstract Item getItemFromMachine();
 }

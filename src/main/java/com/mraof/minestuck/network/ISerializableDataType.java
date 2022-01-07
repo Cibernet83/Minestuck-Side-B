@@ -17,11 +17,6 @@ import java.util.function.Function;
 
 public interface ISerializableDataType<T>
 {
-	void serialize(NBTTagCompound tag);
-	void serialize(ByteBuf buf);
-	T getValue();
-	default void initialize(World world) { }
-
 	LinkedHashMap<Class<? extends ISerializableDataType>, Tuple<Function<NBTTagCompound, ? extends ISerializableDataType>, Function<ByteBuf, ? extends ISerializableDataType>>> REGISTRY = new LinkedHashMap<>();
 	Tuple<Boolean, Boolean> COOL_BEANS = new Tuple<Boolean, Boolean>(false, false)
 	{{
@@ -33,25 +28,24 @@ public interface ISerializableDataType<T>
 		register(EntityData.class, EntityData::new, EntityData::new);
 		register(DataTypeData.class, DataTypeData::new, DataTypeData::new);
 	}};
-
 	static <T extends ISerializableDataType> void register(Class<T> dataType, Function<NBTTagCompound, T> tagReader, Function<ByteBuf, T> byteBufReader)
 	{
-		if(REGISTRY.containsKey(dataType))
+		if (REGISTRY.containsKey(dataType))
 			throw new IllegalArgumentException(dataType + " already exists.");
 		REGISTRY.put(dataType, new Tuple<>(tagReader, byteBufReader));
 	}
-
-
 	static <T extends ISerializableDataType> T deserialize(NBTTagCompound tag, Class<T> dataType)
 	{
-		return (T)REGISTRY.get(dataType).getFirst().apply(tag);
+		return (T) REGISTRY.get(dataType).getFirst().apply(tag);
 	}
-
 	static <T extends ISerializableDataType> T deserialize(ByteBuf buf, Class<T> dataType)
 	{
-		return (T)REGISTRY.get(dataType).getSecond().apply(buf);
+		return (T) REGISTRY.get(dataType).getSecond().apply(buf);
 	}
-
+	void serialize(NBTTagCompound tag);
+	void serialize(ByteBuf buf);
+	T getValue();
+	default void initialize(World world) { }
 
 	class IntegerData implements ISerializableDataType<Integer>
 	{
@@ -351,18 +345,18 @@ public interface ISerializableDataType<T>
 		}
 
 		@Override
+		public EntityLivingBase getValue()
+		{
+			return value;
+		}
+
+		@Override
 		public void initialize(World world)
 		{
 			if (uuid == null)
 				value = (EntityLivingBase) world.getEntityByID(id);
 			else
 				value = world.getEntities(EntityLivingBase.class, (entity) -> entity.getUniqueID().equals(uuid)).get(0);
-		}
-
-		@Override
-		public EntityLivingBase getValue()
-		{
-			return value;
 		}
 
 		@Override
@@ -437,16 +431,16 @@ public interface ISerializableDataType<T>
 		}
 
 		@Override
+		public ISerializableDataType getValue()
+		{
+			return value;
+		}
+
+		@Override
 		public void initialize(World world)
 		{
 			if (value != null)
 				value.initialize(world);
-		}
-
-		@Override
-		public ISerializableDataType getValue()
-		{
-			return value;
 		}
 
 		@Override

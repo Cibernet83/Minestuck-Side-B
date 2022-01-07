@@ -9,7 +9,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 
-public class ModelArchmageHat extends ModelBiped {
+public class ModelArchmageHat extends ModelBiped
+{
 	private final ModelRenderer wizardHat;
 	private final ModelRenderer whRim;
 	private final ModelRenderer cube_r1;
@@ -74,7 +75,8 @@ public class ModelArchmageHat extends ModelBiped {
 	private final ModelRenderer wizardStar;
 	private final ModelRenderer bottom;
 
-	public ModelArchmageHat() {
+	public ModelArchmageHat()
+	{
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -464,7 +466,8 @@ public class ModelArchmageHat extends ModelBiped {
 	}
 
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
@@ -478,7 +481,7 @@ public class ModelArchmageHat extends ModelBiped {
 
 		if (entityIn instanceof EntityArmorStand)
 		{
-			EntityArmorStand entityarmorstand = (EntityArmorStand)entityIn;
+			EntityArmorStand entityarmorstand = (EntityArmorStand) entityIn;
 			bipedHead.rotateAngleX = 0.017453292F * entityarmorstand.getHeadRotation().getX();
 			bipedHead.rotateAngleY = 0.017453292F * entityarmorstand.getHeadRotation().getY();
 			bipedHead.rotateAngleZ = 0.017453292F * entityarmorstand.getHeadRotation().getZ();

@@ -16,13 +16,12 @@ public class PropertyKnockback extends WeaponProperty
 	}
 
 
-
 	@Override
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
-		if(player instanceof EntityPlayer && CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1)
+		if (player instanceof EntityPlayer && CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1)
 		{
-			Vec3d vec = new Vec3d(player.posX-target.posX, player.posY-target.posY, player.posZ-target.posZ).normalize();
+			Vec3d vec = new Vec3d(player.posX - target.posX, player.posY - target.posY, player.posZ - target.posZ).normalize();
 
 			target.knockBack(player, strength, vec.x, vec.z);
 			target.velocityChanged = true;

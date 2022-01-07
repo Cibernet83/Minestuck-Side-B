@@ -32,10 +32,10 @@ public class BadgeActiveLight extends BadgeHeroAspect
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state.equals(GodKeyStates.KeyState.PRESS))
+		if (state.equals(GodKeyStates.KeyState.PRESS))
 		{
 			EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
-			if(target != null)
+			if (target != null)
 			{
 				PotionEffect effect = new PotionEffect(MobEffects.GLOWING, 1200, 0);
 				effect.setCurativeItems(Collections.emptyList());
@@ -45,25 +45,25 @@ public class BadgeActiveLight extends BadgeHeroAspect
 			}
 		}
 
-        if(state == GodKeyStates.KeyState.NONE || time > 15)
-            return false;
+		if (state == GodKeyStates.KeyState.NONE || time > 15)
+			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(time > 13)
+		if (time > 13)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.LIGHT, 20);
 		else
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIGHT, 10);
 
-		if(time == 15)
+		if (time == 15)
 		{
-			for(EntityLivingBase target : world.getEntities(EntityLivingBase.class, (entity) -> entity != player && entity.isPotionActive(MobEffects.GLOWING)))
+			for (EntityLivingBase target : world.getEntities(EntityLivingBase.class, (entity) -> entity != player && entity.isPotionActive(MobEffects.GLOWING)))
 			{
-				if(player.isOnSameTeam(target))
+				if (player.isOnSameTeam(target))
 					continue;
 
 				EntityLightningBolt lightning = new EntityLightningBolt(world, target.posX, target.posY, target.posZ, true);

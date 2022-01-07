@@ -22,7 +22,8 @@ public class CommandGlobalSay extends CommandBase
 	}
 
 	@Override
-	public String getUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender)
+	{
 		return "commands.globalsay.usage";
 	}
 
@@ -33,12 +34,12 @@ public class CommandGlobalSay extends CommandBase
 	{
 		if (args.length <= 0)
 		{
-			throw new WrongUsageException("commands.globalsay.usage", new Object[0]);
+			throw new WrongUsageException("commands.globalsay.usage");
 		}
 		else
 		{
 			ITextComponent itextcomponent = getChatComponentFromNthArg(sender, args, 0, !(sender instanceof EntityPlayer));
-			server.getPlayerList().getPlayers().forEach((entityPlayerMP -> entityPlayerMP.sendStatusMessage(new TextComponentTranslation("chat.type.emote", new Object[] {sender.getDisplayName(), itextcomponent}), false)));
+			server.getPlayerList().getPlayers().forEach((entityPlayerMP -> entityPlayerMP.sendStatusMessage(new TextComponentTranslation("chat.type.emote", sender.getDisplayName(), itextcomponent), false)));
 		}
 	}
 

@@ -21,21 +21,21 @@ public class MessageSylladexFetchRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeByte((byte)slots.length);
-		for (int slot : slots)
-			buf.writeByte(slot);
-		buf.writeBoolean(asCard);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		slots = new int[buf.readByte() & 0xff];
 		for (int i = 0; i < slots.length; i++)
 			slots[i] = buf.readByte() & 0xff;
 		asCard = buf.readBoolean();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeByte((byte) slots.length);
+		for (int slot : slots)
+			buf.writeByte(slot);
+		buf.writeBoolean(asCard);
 	}
 
 	@Override

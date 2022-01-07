@@ -18,24 +18,25 @@ public class ItemOperandiBlock extends MSItemBlock //TODO turn into cruxite arti
 	public ItemOperandiBlock(String name, Block block)
 	{
 		super(block);
-		
+
 		setUnlocalizedName(name);
-		
+
 		setCreativeTab(MinestuckTabs.minestuck);
 		setMaxStackSize(1);
 
 		//OperandiModus.itemPool.add(this);
 	}
-	
+
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState)
 	{
 		if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState))
 		{
-			TileEntityItemStack te = (TileEntityItemStack)world.getTileEntity(pos);
+			TileEntityItemStack te = (TileEntityItemStack) world.getTileEntity(pos);
 			ICaptchalogueable newStack = ModusStorage.getStoredItem(stack);
 			//te.setStack(newStack); TODO TileEntityCaptchaStorage
 			return true;
-		} else return false;
+		}
+		else return false;
 	}
 }

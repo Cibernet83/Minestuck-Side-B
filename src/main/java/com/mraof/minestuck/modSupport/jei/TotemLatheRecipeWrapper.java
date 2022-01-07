@@ -11,23 +11,25 @@ import java.util.List;
  */
 class TotemLatheRecipeWrapper extends PunchCardRecipeWrapper
 {
-    private static final List<ItemStack> dowel;
-    static {
-        dowel = new ArrayList<>();
-        dowel.add(new ItemStack(MinestuckItems.cruxiteDowel));
-    }
+	private static final List<ItemStack> dowel;
 
-    TotemLatheRecipeWrapper(List<ItemStack> first, List<ItemStack> second, ItemStack result)
-    {
-        super(makeInputs(first, second), result);
-    }
+	static
+	{
+		dowel = new ArrayList<>();
+		dowel.add(new ItemStack(MinestuckItems.cruxiteDowel));
+	}
 
-    private static List<List<ItemStack>> makeInputs(List<ItemStack> first, List<ItemStack> second)
-    {
-        ArrayList<List<ItemStack>> inputs = new ArrayList<>();
-        inputs.add(first);
-        inputs.add(second);
-        inputs.add(dowel);
-        return inputs;
-    }
+	TotemLatheRecipeWrapper(List<ItemStack> first, List<ItemStack> second, ItemStack result)
+	{
+		super(makeInputs(first, second), result);
+	}
+
+	private static List<List<ItemStack>> makeInputs(List<ItemStack> first, List<ItemStack> second)
+	{
+		ArrayList<List<ItemStack>> inputs = new ArrayList<>();
+		inputs.add(first);
+		inputs.add(second);
+		inputs.add(dowel);
+		return inputs;
+	}
 }

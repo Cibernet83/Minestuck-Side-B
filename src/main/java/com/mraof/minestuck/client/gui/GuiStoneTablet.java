@@ -23,18 +23,18 @@ import java.util.List;
 
 public class GuiStoneTablet extends GuiScreen
 {
-	private static final ResourceLocation TABLET_GUI_TEXTURES = new ResourceLocation(Minestuck.MODID,"textures/gui/stone_tablet.png");
+	private static final ResourceLocation TABLET_GUI_TEXTURES = new ResourceLocation(Minestuck.MODID, "textures/gui/stone_tablet.png");
 	private final boolean canEdit;
-	private boolean isModified;
-	private NBTTagString text;
-	private int updateCount;
-	private List<ITextComponent> cachedComponents;
 	//Player
 	private final EntityPlayer editingPlayer;
 	private final ItemStack tablet;
 	//GUI size
 	private final int guiWidth = 192;
 	private final int guiHeight = 192;
+	private boolean isModified;
+	private NBTTagString text;
+	private int updateCount;
+	private List<ITextComponent> cachedComponents;
 	//GUI buttons
 	private GuiButton buttonDone;
 	private GuiButton buttonCancel;
@@ -45,86 +45,6 @@ public class GuiStoneTablet extends GuiScreen
 		this.tablet = tablet;
 		this.canEdit = canEdit;
 		setText(text, false);
-	}
-
-	/**
-	 * Called from the main game loop to update the screen.
-	 */
-	public void updateScreen()
-	{
-		super.updateScreen();
-		++this.updateCount;
-	}
-
-	/**
-	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
-	 * window resizes, the buttonList is cleared beforehand.
-	 */
-	public void initGui()
-	{
-		this.buttonList.clear();
-		Keyboard.enableRepeatEvents(true);
-
-		if (this.canEdit)
-		{
-			this.buttonDone = this.addButton(new GuiButton(0, this.width / 2 - 100, 196, 98, 20, I18n.format("gui.done")));
-			this.buttonCancel = this.addButton(new GuiButton(4, this.width / 2 + 2, 196, 98, 20, I18n.format("gui.cancel")));
-		}
-		else
-		{
-			this.buttonDone = this.addButton(new GuiButton(0, this.width / 2 - 100, 196, 200, 20, I18n.format("gui.done")));
-		}
-	}
-
-	/**
-	 * Called when the screen is unloaded. Used to disable keyboard repeat events
-	 */
-	public void onGuiClosed()
-	{
-		Keyboard.enableRepeatEvents(false);
-	}
-
-	/**
-	 * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
-	 */
-	protected void actionPerformed(GuiButton button) throws IOException
-	{
-		if (button.enabled)
-		{
-			if (button.id == 0)
-			{
-				this.mc.displayGuiScreen(null);
-				this.sendTabletToServer();
-			}
-			else if (button.id == 4)
-			{
-				this.mc.displayGuiScreen(null);
-			}
-		}
-	}
-
-	private void sendTabletToServer() throws IOException
-	{
-		if (this.isModified)
-		{
-			if (this.text != null)
-			{
-				MinestuckNetwork.sendToServer(new MessageStoneTabletRequest(this.text.getString()));
-				this.mc.displayGuiScreen(null);
-			}
-		}
-	}
-
-	/**
-	 * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
-	 * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
-	 */
-	protected void keyTyped(char typedChar, int keyCode) throws IOException
-	{
-		super.keyTyped(typedChar, keyCode);
-
-		if(canEdit)
-			this.keyTypedInTablet(typedChar, keyCode);
 	}
 
 	/**
@@ -163,22 +83,6 @@ public class GuiStoneTablet extends GuiScreen
 		}
 	}
 
-	private String getText()
-	{
-		return this.text.getString();
-	}
-
-	public void setText(String in, boolean modify)
-	{
-		this.text = new NBTTagString(in);
-		this.isModified = modify;
-	}
-
-	public void setText(String in)
-	{
-		setText(in, true);
-	}
-
 	private void insertText(String in)
 	{
 		String s = this.getText();
@@ -190,7 +94,6 @@ public class GuiStoneTablet extends GuiScreen
 			this.setText(s1);
 		}
 	}
-
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
@@ -244,6 +147,24 @@ public class GuiStoneTablet extends GuiScreen
 	}
 
 	/**
+	 * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
+	 * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
+	 */
+	protected void keyTyped(char typedChar, int keyCode) throws IOException
+	{
+		super.keyTyped(typedChar, keyCode);
+
+		if (canEdit)
+			this.keyTypedInTablet(typedChar, keyCode);
+	}
+
+	public void setText(String in, boolean modify)
+	{
+		this.text = new NBTTagString(in);
+		this.isModified = modify;
+	}
+
+	/**
 	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
 	 */
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
@@ -259,6 +180,84 @@ public class GuiStoneTablet extends GuiScreen
 		}
 
 		super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+	 */
+	protected void actionPerformed(GuiButton button) throws IOException
+	{
+		if (button.enabled)
+		{
+			if (button.id == 0)
+			{
+				this.mc.displayGuiScreen(null);
+				this.sendTabletToServer();
+			}
+			else if (button.id == 4)
+			{
+				this.mc.displayGuiScreen(null);
+			}
+		}
+	}
+
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+	 * window resizes, the buttonList is cleared beforehand.
+	 */
+	public void initGui()
+	{
+		this.buttonList.clear();
+		Keyboard.enableRepeatEvents(true);
+
+		if (this.canEdit)
+		{
+			this.buttonDone = this.addButton(new GuiButton(0, this.width / 2 - 100, 196, 98, 20, I18n.format("gui.done")));
+			this.buttonCancel = this.addButton(new GuiButton(4, this.width / 2 + 2, 196, 98, 20, I18n.format("gui.cancel")));
+		}
+		else
+		{
+			this.buttonDone = this.addButton(new GuiButton(0, this.width / 2 - 100, 196, 200, 20, I18n.format("gui.done")));
+		}
+	}
+
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
+	public void updateScreen()
+	{
+		super.updateScreen();
+		++this.updateCount;
+	}
+
+	/**
+	 * Called when the screen is unloaded. Used to disable keyboard repeat events
+	 */
+	public void onGuiClosed()
+	{
+		Keyboard.enableRepeatEvents(false);
+	}
+
+	private void sendTabletToServer() throws IOException
+	{
+		if (this.isModified)
+		{
+			if (this.text != null)
+			{
+				MinestuckNetwork.sendToServer(new MessageStoneTabletRequest(this.text.getString()));
+				this.mc.displayGuiScreen(null);
+			}
+		}
+	}
+
+	private String getText()
+	{
+		return this.text.getString();
+	}
+
+	public void setText(String in)
+	{
+		setText(in, true);
 	}
 
 	@Nullable
@@ -290,7 +289,7 @@ public class GuiStoneTablet extends GuiScreen
 						{
 							if (itextcomponent1 instanceof TextComponentString)
 							{
-								i1 += this.mc.fontRenderer.getStringWidth(((TextComponentString)itextcomponent1).getText());
+								i1 += this.mc.fontRenderer.getStringWidth(((TextComponentString) itextcomponent1).getText());
 
 								if (i1 > i)
 								{

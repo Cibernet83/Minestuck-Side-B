@@ -28,7 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockMiniPunchDesignix extends MSFacingBase
 {
-	private static final AxisAlignedBB[] PUNCH_DESIGNIX_AABB = {new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 5/8D), new AxisAlignedBB(3/8D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 3/8D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 5/8D, 1.0D, 1.0D)};
+	private static final AxisAlignedBB[] PUNCH_DESIGNIX_AABB = {new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 5 / 8D), new AxisAlignedBB(3 / 8D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 3 / 8D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 5 / 8D, 1.0D, 1.0D)};
 
 	public BlockMiniPunchDesignix()
 	{
@@ -48,6 +48,35 @@ public class BlockMiniPunchDesignix extends MSFacingBase
 	}
 
 	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+									EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		if (!(tileEntity instanceof TileEntityMiniSburbMachine) || playerIn.isSneaking())
+			return false;
+
+		if (!worldIn.isRemote)
+			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+		return true;
+	}
+
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+	{
+		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
+
+		boolean b = super.removedByPlayer(state, world, pos, player, willHarvest);
+
+		if (!world.isRemote && willHarvest && te != null)
+		{
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1);
+			spawnAsEntity(world, pos, stack);
+		}
+
+		return b;
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing)
 	{
@@ -62,10 +91,10 @@ public class BlockMiniPunchDesignix extends MSFacingBase
 		//EnumFacing placedFacing = player.getHorizontalFacing().getOpposite();
 		double hitX = rayTraceResult.hitVec.x - pos.getX(), hitZ = rayTraceResult.hitVec.z - pos.getZ();
 		boolean r = placedFacing.getAxis() == EnumFacing.Axis.Z;
-		boolean f = placedFacing== EnumFacing.NORTH || placedFacing==EnumFacing.EAST;
-		double d1 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
-		double d2 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
-		double d3 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
+		boolean f = placedFacing == EnumFacing.NORTH || placedFacing == EnumFacing.EAST;
+		double d1 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
+		double d2 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
+		double d3 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
 
 		boolean placeable;
 		AxisAlignedBB boundingBox;
@@ -73,7 +102,7 @@ public class BlockMiniPunchDesignix extends MSFacingBase
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.glLineWidth(2.0F);
 		GlStateManager.disableTexture2D();
-		GlStateManager.depthMask(false);	//GL stuff was copied from the standard mouseover bounding box drawing, which is likely why the alpha isn't working
+		GlStateManager.depthMask(false);    //GL stuff was copied from the standard mouseover bounding box drawing, which is likely why the alpha isn't working
 		BlockPos mchnPos = pos;
 
 		if (placedFacing.getFrontOffsetX() > 0 && hitZ >= 0.5F || placedFacing.getFrontOffsetX() < 0 && hitZ < 0.5F
@@ -99,34 +128,5 @@ public class BlockMiniPunchDesignix extends MSFacingBase
 	public MSItemBlock getItemBlock()
 	{
 		return new ItemMiniSburbMachine(this);
-	}
-
-	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-	{
-		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
-
-		boolean b = super.removedByPlayer(state, world, pos, player, willHarvest);
-
-		if(!world.isRemote && willHarvest && te != null)
-		{
-			ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1);
-			spawnAsEntity(world, pos, stack);
-		}
-
-		return b;
-	}
-
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-	{
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (!(tileEntity instanceof TileEntityMiniSburbMachine) || playerIn.isSneaking())
-			return false;
-
-		if(!worldIn.isRemote)
-			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-		return true;
 	}
 }

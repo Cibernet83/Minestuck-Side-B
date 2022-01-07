@@ -30,16 +30,16 @@ public class PropertyBlockSwap extends WeaponProperty
 		BlockMetaPair pair = new BlockMetaPair(state.getBlock(), state.getBlock().getMetaFromState(state));
 		BlockMetaPair transformTo = TRANSFORM_MAP.get(pair);
 
-		for(Map.Entry<BlockMetaPair, BlockMetaPair> entry : TRANSFORM_MAP.entrySet())
+		for (Map.Entry<BlockMetaPair, BlockMetaPair> entry : TRANSFORM_MAP.entrySet())
 		{
-			if(entry.getKey().equals(pair))
+			if (entry.getKey().equals(pair))
 			{
 				transformTo = entry.getValue();
 				break;
 			}
 		}
 
-		if(transformTo != null)
+		if (transformTo != null)
 		{
 			worldIn.setBlockState(pos, transformTo.block.getStateFromMeta(transformTo.meta == -1 ? state.getBlock().getMetaFromState(state) : transformTo.meta));
 			worldIn.playEvent(2005, pos, 0);

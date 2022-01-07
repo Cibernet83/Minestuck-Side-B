@@ -24,9 +24,10 @@ public abstract class EntityRook extends EntityCarapacian implements IMob
 	}
 
 	@Override
-	public float getWanderSpeed()
+	public boolean attackEntityAsMob(Entity entity)
 	{
-		return .3F;
+		float damage = this.getAttackStrength(entity);
+		return entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
 	}
 
 	public float getAttackStrength(Entity entity)
@@ -35,29 +36,28 @@ public abstract class EntityRook extends EntityCarapacian implements IMob
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity entity)
-	{
-		float damage = this.getAttackStrength(entity);
-		return entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
-	}
-
-//	@Override
-//	protected void attackEntity(Entity entity, float par2)
-//	{
-//		if(this.attackTime <= 0	&& par2 < 2F && entity.boundingBox.maxY > this.boundingBox.minY && entity.boundingBox.minY < this.boundingBox.maxY)
-//		{
-//			this.attackTime = 20;
-//			this.attackEntityAsMob(entity);
-//		}
-//	}
-
-	@Override
 	public void setCombatTask()
 	{
-		if(this.entityAIAttackOnCollide == null)
+		if (this.entityAIAttackOnCollide == null)
 			entityAIAttackOnCollide = new EntityAIAttackMelee(this, .4F, false);
 		this.tasks.removeTask(this.entityAIAttackOnCollide);
 		this.tasks.addTask(4, this.entityAIAttackOnCollide);
+	}
+
+	//	@Override
+	//	protected void attackEntity(Entity entity, float par2)
+	//	{
+	//		if(this.attackTime <= 0	&& par2 < 2F && entity.boundingBox.maxY > this.boundingBox.minY && entity.boundingBox.minY < this.boundingBox.maxY)
+	//		{
+	//			this.attackTime = 20;
+	//			this.attackEntityAsMob(entity);
+	//		}
+	//	}
+
+	@Override
+	public float getWanderSpeed()
+	{
+		return .3F;
 	}
 
 }

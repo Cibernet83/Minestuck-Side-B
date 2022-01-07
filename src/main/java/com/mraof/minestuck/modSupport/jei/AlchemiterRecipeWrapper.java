@@ -18,42 +18,42 @@ import java.util.List;
  */
 public class AlchemiterRecipeWrapper implements IRecipeWrapper
 {
-    private final ItemStack stack;
-    private final GristSet grist;
+	private final ItemStack stack;
+	private final GristSet grist;
 
-    AlchemiterRecipeWrapper(ItemStack stack, GristSet grist)
-    {
-        this.stack = stack;
-        this.grist = grist;
-    }
+	AlchemiterRecipeWrapper(ItemStack stack, GristSet grist)
+	{
+		this.stack = stack;
+		this.grist = grist;
+	}
 
-    @Override
-    public void getIngredients(IIngredients ingredients)
-    {
-        ingredients.setInput(ItemStack.class, AlchemyUtils.createEncodedItem(stack, new ItemStack(MinestuckItems.cruxiteDowel)));
-        ingredients.setInputs(GristAmount.class, grist.getArray());
-        ingredients.setOutput(ItemStack.class, stack);
-    }
+	@Override
+	public void getIngredients(IIngredients ingredients)
+	{
+		ingredients.setInput(ItemStack.class, AlchemyUtils.createEncodedItem(stack, new ItemStack(MinestuckItems.cruxiteDowel)));
+		ingredients.setInputs(GristAmount.class, grist.getArray());
+		ingredients.setOutput(ItemStack.class, stack);
+	}
 
-    @Override
-    public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
-    {
-        GuiUtil.drawGristBoard(grist, GuiUtil.GristboardMode.ALCHEMITER, 1, 30, minecraft.fontRenderer);
-    }
+	@Override
+	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
+	{
+		GuiUtil.drawGristBoard(grist, GuiUtil.GristboardMode.ALCHEMITER, 1, 30, minecraft.fontRenderer);
+	}
 
-    @Nullable
-    @Override
-    public List<String> getTooltipStrings(int mouseX, int mouseY)
-    {
-        return GuiUtil.getGristboardTooltip(grist, mouseX, mouseY, 1, 30, Minecraft.getMinecraft().fontRenderer);
-    }
+	@Nullable
+	@Override
+	public List<String> getTooltipStrings(int mouseX, int mouseY)
+	{
+		return GuiUtil.getGristboardTooltip(grist, mouseX, mouseY, 1, 30, Minecraft.getMinecraft().fontRenderer);
+	}
 
-    @Override
-    public String toString()
-    {
-        return "AlchemiterRecipeWrapper{" +
-                "stack=" + stack +
-                ", grist=" + grist +
-                '}';
-    }
+	@Override
+	public String toString()
+	{
+		return "AlchemiterRecipeWrapper{" +
+					   "stack=" + stack +
+					   ", grist=" + grist +
+					   '}';
+	}
 }

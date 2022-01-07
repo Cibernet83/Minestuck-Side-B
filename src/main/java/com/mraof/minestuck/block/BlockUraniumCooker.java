@@ -27,8 +27,8 @@ import net.minecraft.world.World;
 
 public class BlockUraniumCooker extends MSBlockContainer
 {
-	protected static final AxisAlignedBB URANIUM_COOKER_AABB = new AxisAlignedBB(1/4D, 0.0D, 1/4D, 3/4D, 11/32D, 3/4D);
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	protected static final AxisAlignedBB URANIUM_COOKER_AABB = new AxisAlignedBB(1 / 4D, 0.0D, 1 / 4D, 3 / 4D, 11 / 32D, 3 / 4D);
 
 	protected BlockUraniumCooker()
 	{
@@ -38,24 +38,6 @@ public class BlockUraniumCooker extends MSBlockContainer
 		setDefaultState(getDefaultState());
 	}
 
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, FACING);
-	}
-	
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(FACING).ordinal() - 2;
-	}
-	
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(FACING, EnumFacing.values()[meta + 2]);
-	}
-	
 	public static void setDefaultDirection(World world, int x, int y, int z)
 	{
 		if (!world.isRemote)
@@ -85,92 +67,110 @@ public class BlockUraniumCooker extends MSBlockContainer
 			{
 				b0 = 4;
 			}
-			
-			if(b0 == 0)
+
+			if (b0 == 0)
 				b0 = (byte) (block3.isFullBlock() ? 2 : 5);
-			
+
 			world.setBlockState(new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)).withProperty(FACING, EnumFacing.values()[b0]), 2);
 		}
-	}
-	
-	@Override
-	public boolean isFullCube(IBlockState state)
+	}	@Override
+	protected BlockStateContainer createBlockState()
 	{
-		return false;
+		return new BlockStateContainer(this, FACING);
 	}
-	
+
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state)
 	{
 		return EnumBlockRenderType.MODEL;
-	}
-	
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
+	}	@Override
+	public int getMetaFromState(IBlockState state)
 	{
-		return false;
+		return state.getValue(FACING).ordinal() - 2;
 	}
-	
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-	{
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		
-		if (!(tileEntity instanceof TileEntityUraniumCooker) || playerIn.isSneaking())
-			return false;
-		
-		if(!worldIn.isRemote)
-		{
-			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-		}
-		return true;
-	}
-	
+
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{
 		TileEntityMachine te = (TileEntityMachine) worldIn.getTileEntity(pos);
-		if(te != null) InventoryHelper.dropInventoryItems(worldIn, pos, te);
-		
+		if (te != null) InventoryHelper.dropInventoryItems(worldIn, pos, te);
+
 		super.breakBlock(worldIn, pos, state);
-	}
-	
-	
-	@Override
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+	}	@Override
+	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getStateFromMeta(meta);
+		return getDefaultState().withProperty(FACING, EnumFacing.values()[meta + 2]);
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
 		return new TileEntityUraniumCooker();
 	}
-	
+
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
+
+
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+									EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+		if (!(tileEntity instanceof TileEntityUraniumCooker) || playerIn.isSneaking())
+			return false;
+
+		if (!worldIn.isRemote)
+		{
+			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+		}
+		return true;
+	}
+
+
+
+
+	@Override
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+	{
+		return this.getStateFromMeta(meta);
+	}
+
+
+
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
 	{
-		int l = MathHelper.floor((double)(placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		
+		int l = MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
 		EnumFacing facing = new EnumFacing[]{EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST}[l];
-		
+
 		worldIn.setBlockState(pos, state.withProperty(FACING, facing), 2);
 	}
-	
+
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return URANIUM_COOKER_AABB;
 	}
-	
+
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
 	{
 		return new ItemStack(Item.getItemFromBlock(this), 1);
 	}
-	
+
 	@Override
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{

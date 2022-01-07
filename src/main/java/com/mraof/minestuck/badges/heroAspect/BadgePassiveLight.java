@@ -17,19 +17,19 @@ import java.util.Collections;
 
 public class BadgePassiveLight extends BadgeHeroAspect
 {
+	protected static final int RADIUS = 64;
+
 	public BadgePassiveLight()
 	{
 		super(EnumAspect.LIGHT, EnumRole.PASSIVE, EnumAspect.MIND);
 	}
 
-	protected static final int RADIUS = 64;
-
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state == GodKeyStates.KeyState.PRESS)
+		if (state == GodKeyStates.KeyState.PRESS)
 		{
-			if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
+			if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
 			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 				return false;
@@ -37,7 +37,7 @@ public class BadgePassiveLight extends BadgeHeroAspect
 
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.LIGHT, 10);
 
-			for(EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(RADIUS), (entity) -> (entity instanceof EntityPlayer)))
+			for (EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(RADIUS), (entity) -> (entity instanceof EntityPlayer)))
 			{
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.LIGHT, 10);
 				PotionEffect effect = new PotionEffect(MobEffects.GLOWING, 600, 0);
@@ -49,23 +49,23 @@ public class BadgePassiveLight extends BadgeHeroAspect
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 4);
 		}
 
-		if(state == GodKeyStates.KeyState.NONE || time >= 19)
+		if (state == GodKeyStates.KeyState.NONE || time >= 19)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(time > 15)
+		if (time > 15)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.LIGHT, 20);
 		else
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIGHT, 10);
 
-		if(time >= 18)
+		if (time >= 18)
 		{
-			for(EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(RADIUS), (entity) -> entity != player))
+			for (EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(RADIUS), (entity) -> entity != player))
 			{
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.LIGHT, 10);
 				PotionEffect effect = new PotionEffect(MobEffects.GLOWING, 600, 0);

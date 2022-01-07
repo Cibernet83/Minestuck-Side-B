@@ -2,16 +2,17 @@ package com.mraof.minestuck.client.model.armor;//Made by Ishumire
 //Paste this code into your mod.
 
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityArmorStand;
 
 public class ModelFrogHat extends ModelBiped
 {
 	private final ModelRenderer froghat;
 
-	public ModelFrogHat() {
+	public ModelFrogHat()
+	{
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -47,7 +48,7 @@ public class ModelFrogHat extends ModelBiped
 
 		if (entityIn instanceof EntityArmorStand)
 		{
-			EntityArmorStand entityarmorstand = (EntityArmorStand)entityIn;
+			EntityArmorStand entityarmorstand = (EntityArmorStand) entityIn;
 			bipedHead.rotateAngleX = 0.017453292F * entityarmorstand.getHeadRotation().getX();
 			bipedHead.rotateAngleY = 0.017453292F * entityarmorstand.getHeadRotation().getY();
 			bipedHead.rotateAngleZ = 0.017453292F * entityarmorstand.getHeadRotation().getZ();
@@ -73,7 +74,8 @@ public class ModelFrogHat extends ModelBiped
 		}
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;

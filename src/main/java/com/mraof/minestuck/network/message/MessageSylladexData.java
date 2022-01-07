@@ -25,15 +25,15 @@ public class MessageSylladexData implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		ByteBufUtils.writeTag(buf, nbt);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		nbt = ByteBufUtils.readTag(buf);
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		ByteBufUtils.writeTag(buf, nbt);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class MessageSylladexData implements MinestuckMessage
 			MultiSylladex sylladex = ISylladex.readFromNBT(player, nbt);
 			SylladexUtils.setSylladex(Minecraft.getMinecraft().player, sylladex);
 			if (Minecraft.getMinecraft().currentScreen instanceof GuiSylladex)
-				((GuiSylladex)Minecraft.getMinecraft().currentScreen).updateSylladex(sylladex);
+				((GuiSylladex) Minecraft.getMinecraft().currentScreen).updateSylladex(sylladex);
 		}
 		else
 		{

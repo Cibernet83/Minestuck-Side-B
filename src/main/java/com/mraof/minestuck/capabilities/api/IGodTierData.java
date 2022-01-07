@@ -1,12 +1,12 @@
 package com.mraof.minestuck.capabilities.api;
 
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.badges.Badge;
 import com.mraof.minestuck.badges.MasterBadge;
-import com.mraof.minestuck.util.EnumLunarSway;
-import com.mraof.minestuck.alchemy.Grist;
-import com.mraof.minestuck.capabilities.caps.GodTierData;
 import com.mraof.minestuck.capabilities.IMinestuckCapabilityBase;
+import com.mraof.minestuck.capabilities.caps.GodTierData;
 import com.mraof.minestuck.entity.consort.EnumConsort;
+import com.mraof.minestuck.util.EnumLunarSway;
 import com.mraof.minestuck.util.Title;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -46,8 +46,8 @@ public interface IGodTierData extends IMinestuckCapabilityBase<EntityPlayer>
 	int getSkillAttributeOperationType(GodTierData.SkillType skill);
 
 	float getTempKarma();
-	int getStaticKarma();
 	void setTempKarma(float tempKarma);
+	int getStaticKarma();
 	void setStaticKarma(int staticKarma);
 	int getTotalKarma();
 

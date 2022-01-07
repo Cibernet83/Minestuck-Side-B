@@ -33,9 +33,10 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 		stack = new ItemStack(nbt);
 	}
 
-	public ItemStack getStack()
+	@Override
+	public NBTTagCompound writeData()
 	{
-		return stack;
+		return stack.writeToNBT(new NBTTagCompound());
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	{
 		if (!isCompatibleWith(other))
 			return;
-		SylladexUtils.moveItemStack(((CaptchalogueableItemStack)other).getStack(), stack);
+		SylladexUtils.moveItemStack(((CaptchalogueableItemStack) other).getStack(), stack);
 	}
 
 	@Override
@@ -57,8 +58,13 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	{
 		if (!(other instanceof CaptchalogueableItemStack))
 			return false;
-		ItemStack otherStack = ((CaptchalogueableItemStack)other).getStack();
+		ItemStack otherStack = ((CaptchalogueableItemStack) other).getStack();
 		return SylladexUtils.areItemStacksCompatible(stack, otherStack);
+	}
+
+	public ItemStack getStack()
+	{
+		return stack;
 	}
 
 	@Override
@@ -66,7 +72,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	{
 		ItemStack handStack = player.getHeldItemMainhand().copy();
 
-		if(handStack.isEmpty())
+		if (handStack.isEmpty())
 			player.setHeldItem(EnumHand.MAIN_HAND, stack);
 		else if (!player.addItemStackToInventory(stack))
 			SylladexUtils.launchItem(player, stack);
@@ -75,7 +81,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	@Override
 	public void eject(BottomSylladex fromSylladex, int index, EntityPlayer player)
 	{
-		if(fromSylladex != null && AlchemyUtils.isAppendable(stack))
+		if (fromSylladex != null && AlchemyUtils.isAppendable(stack))
 			while (!stack.isEmpty()) // FIXME: Make these move up a stack when popping over the 256 card limit
 			{
 				if (fromSylladex.autoBalanceNewCards)
@@ -84,7 +90,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 					fromSylladex.addCard(index, AlchemyUtils.getCardContents(stack), player);
 				stack.shrink(1);
 			}
-		if(!stack.isEmpty())
+		if (!stack.isEmpty())
 			eject(player);
 	}
 
@@ -112,7 +118,7 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	public void drop(World world, double posX, double posY, double posZ)
 	{
 		EntityItem item = new EntityItem(world, posX, posY, posZ, stack);
-		item.motionY = (world.rand.nextGaussian() * 0.05 + 0.2)/2.0;
+		item.motionY = (world.rand.nextGaussian() * 0.05 + 0.2) / 2.0;
 		item.setDefaultPickupDelay();
 		world.spawnEntity(item);
 	}
@@ -130,16 +136,10 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
-	public NBTTagCompound writeData()
-	{
-		return stack.writeToNBT(new NBTTagCompound());
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
 	{
-		if(!stack.isEmpty())
+		if (!stack.isEmpty())
 		{
 			int x = 2;
 			int y = 7;
@@ -157,13 +157,15 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public String getDisplayName() {
+	public String getDisplayName()
+	{
 		return (stack.getCount() <= 1 ? "" : (stack.getCount() + "x ")) + stack.getDisplayName();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ITextComponent getTextComponent() {
+	public ITextComponent getTextComponent()
+	{
 		return stack.getTextComponent();
 	}
 

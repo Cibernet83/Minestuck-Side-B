@@ -1,7 +1,6 @@
 package com.mraof.minestuck.world.lands.structure;
 
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
-
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -10,7 +9,7 @@ import net.minecraft.world.World;
  */
 public class DefaultGatePlacement implements IGateStructure
 {
-	
+
 	@Override
 	public BlockPos generateGateStructure(World world, BlockPos pos, ChunkProviderLands provider)
 	{

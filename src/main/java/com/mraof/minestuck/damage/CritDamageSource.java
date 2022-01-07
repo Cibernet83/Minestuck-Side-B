@@ -10,7 +10,7 @@ public class CritDamageSource extends DamageSource implements IMSGTDamage
 
 	public CritDamageSource(String damageTypeIn)
 	{
-		super(Minestuck.MODID+"."+damageTypeIn);
+		super(Minestuck.MODID + "." + damageTypeIn);
 	}
 
 	@Override
@@ -21,7 +21,8 @@ public class CritDamageSource extends DamageSource implements IMSGTDamage
 	}
 
 	@Override
-	public boolean isCrit() {
+	public boolean isCrit()
+	{
 		return isCrit;
 	}
 
@@ -33,7 +34,8 @@ public class CritDamageSource extends DamageSource implements IMSGTDamage
 	}
 
 	@Override
-	public boolean isGodproof() {
+	public boolean isGodproof()
+	{
 		return godproof;
 	}
 }

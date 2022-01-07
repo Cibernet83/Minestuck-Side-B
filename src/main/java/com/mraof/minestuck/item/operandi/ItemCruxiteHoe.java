@@ -35,9 +35,9 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem, ICruxiteAr
 		setUnlocalizedName(name);
 		setCreativeTab(MinestuckTabs.minestuck);
 
-		if(isEntryArtifact)
+		if (isEntryArtifact)
 		{
-			teleporter =  new CruxiteArtifactTeleporter();
+			teleporter = new CruxiteArtifactTeleporter();
 			MinestuckItems.cruxiteArtifacts.add(this);
 		}
 		else
@@ -47,39 +47,26 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem, ICruxiteAr
 		}
 		MinestuckItems.items.add(this);
 	}
-	
-	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-	{
-	}
-	
+
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
 	{
-		stack.damageItem(getMaxDamage(stack)+1, attacker);
+		stack.damageItem(getMaxDamage(stack) + 1, attacker);
 		return true;
 	}
-	
-	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
-	{
-		stack.damageItem(getMaxDamage(stack)+1, entityLiving);
-		return true;
-	}
-	
-	
+
 	protected void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state)
 	{
 		worldIn.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-		
+
 		if (!worldIn.isRemote)
 		{
 			worldIn.setBlockState(pos, state, 11);
 			stack.damageItem(1, player);
 		}
-		if(stack.isEmpty())
+		if (stack.isEmpty())
 		{
-			if(isEntryArtifact())
+			if (isEntryArtifact())
 			{
 				getTeleporter().onArtifactActivated(player);
 				return;
@@ -93,18 +80,33 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem, ICruxiteAr
 	}
 
 	@Override
-	public void register(IForgeRegistry<Item> registry) {
-		setRegistryName(regName);
-		registry.register(this);
-	}
-
-	@Override
-	public boolean isEntryArtifact() {
+	public boolean isEntryArtifact()
+	{
 		return teleporter != null;
 	}
 
 	@Override
-	public CruxiteArtifactTeleporter getTeleporter() {
+	public CruxiteArtifactTeleporter getTeleporter()
+	{
 		return teleporter;
+	}
+
+	@Override
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
+	{
+		stack.damageItem(getMaxDamage(stack) + 1, entityLiving);
+		return true;
+	}
+
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+	}
+
+	@Override
+	public void register(IForgeRegistry<Item> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
 	}
 }

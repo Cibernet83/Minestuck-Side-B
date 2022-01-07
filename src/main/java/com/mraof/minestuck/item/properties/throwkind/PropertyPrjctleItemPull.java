@@ -19,7 +19,7 @@ public class PropertyPrjctleItemPull extends WeaponProperty implements IProperty
 	@Override
 	public void onProjectileUpdate(EntityMSUThrowable projectile)
 	{
-		for(EntityItem target : projectile.world.getEntitiesWithinAABB(EntityItem.class, projectile.getEntityBoundingBox().grow(radius)))
-			PropertyHookshot.moveTowards(target, projectile, strength*2f);
+		for (EntityItem target : projectile.world.getEntitiesWithinAABB(EntityItem.class, projectile.getEntityBoundingBox().grow(radius)))
+			PropertyHookshot.moveTowards(target, projectile, strength * 2f);
 	}
 }

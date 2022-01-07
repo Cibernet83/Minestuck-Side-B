@@ -24,10 +24,10 @@ public class BadgeRogue extends BadgeHeroClass
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state == GodKeyStates.KeyState.NONE || time > 60)
+		if (state == GodKeyStates.KeyState.NONE || time > 60)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -35,19 +35,19 @@ public class BadgeRogue extends BadgeHeroClass
 
 		ArrayList<PotionEffect> appliedPotions = new ArrayList<>();
 
-		for(PotionEffect effect : player.getActivePotionEffects())
+		for (PotionEffect effect : player.getActivePotionEffects())
 			appliedPotions.add(new PotionEffect(effect.getPotion(), Math.min(effect.getDuration(), 6000), effect.getAmplifier(), effect.getIsAmbient(), true));
 
-		if(time > 59)
+		if (time > 59)
 		{
-			if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
+			if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 8)
 			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 				return false;
 			}
 
-			for(EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(5,1,5), (entity) -> entity != player))
-				for(PotionEffect effect : appliedPotions)
+			for (EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(5, 1, 5), (entity) -> entity != player))
+				for (PotionEffect effect : appliedPotions)
 				{
 					target.addPotionEffect(effect);
 					target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.ROGUE, 3);
@@ -57,16 +57,16 @@ public class BadgeRogue extends BadgeHeroClass
 		}
 
 		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
-		if(time < 57)
+		if (time < 57)
 			badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.ROGUE, target != null ? 5 : 1);
 		else
 			badgeEffects.oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumClass.ROGUE, 20);
-		if(!state.equals(GodKeyStates.KeyState.PRESS))
+		if (!state.equals(GodKeyStates.KeyState.PRESS))
 			return true;
 
-		if(target != null)
+		if (target != null)
 		{
-			for(PotionEffect effect : appliedPotions)
+			for (PotionEffect effect : appliedPotions)
 				target.addPotionEffect(effect);
 			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumClass.ROGUE, 3);
 			if (!player.isCreative())

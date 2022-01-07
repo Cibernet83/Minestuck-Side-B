@@ -1,7 +1,10 @@
 package com.mraof.minestuck.tileentity;
 
 import com.mraof.minestuck.MinestuckConfig;
-import com.mraof.minestuck.alchemy.*;
+import com.mraof.minestuck.alchemy.GristAmount;
+import com.mraof.minestuck.alchemy.GristHelper;
+import com.mraof.minestuck.alchemy.GristRegistry;
+import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.event.AlchemizeItemEvent;
 import com.mraof.minestuck.event.AlchemizeItemMinichemiterEvent;
@@ -24,6 +27,12 @@ public class TileEntityMiniAlchemiter extends TileEntityMiniSburbMachine
 	}
 
 	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack)
+	{
+		return i == 0 && itemstack.getItem() == MinestuckItems.cruxiteDowel;
+	}
+
+	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound)
 	{
 		super.writeToNBT(tagCompound);
@@ -34,21 +43,85 @@ public class TileEntityMiniAlchemiter extends TileEntityMiniSburbMachine
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack)
+	public boolean contentsValid()
 	{
-		return i == 0 && itemstack.getItem() == MinestuckItems.cruxiteDowel;
+		if (!world.isBlockPowered(this.getPos()) && !this.inv.get(0).isEmpty() && this.owner != null)
+		{
+			//Check owner's cache: Do they have everything they need?
+			ItemStack newItem = AlchemyUtils.getDecodedItem(this.inv.get(0));
+			if (newItem.isEmpty())
+				if (!inv.get(0).hasTagCompound() || !inv.get(0).getTagCompound().hasKey("contentID"))
+					newItem = new ItemStack(MinestuckBlocks.genericObject);
+				else return false;
+			if (!inv.get(1).isEmpty() && (inv.get(1).getItem() != newItem.getItem() || inv.get(1).getItemDamage() != newItem.getItemDamage() || inv.get(1).getMaxStackSize() <= inv.get(1).getCount()))
+			{
+				return false;
+			}
+			GristSet cost = GristRegistry.getGristConversion(newItem);
+			if (newItem.getItem() == MinestuckItems.captchaCard)
+				cost = new GristSet(selectedGrist, MinestuckConfig.cardCost);
+			if (cost != null && newItem.isItemDamaged())
+			{
+				float multiplier = 1 - newItem.getItem().getDamage(newItem) / ((float) newItem.getMaxDamage());
+				for (GristAmount amount : cost.getArray())
+				{
+					cost.setGrist(amount.getType(), (int) Math.ceil(amount.getAmount() * multiplier));
+				}
+			}
+			return GristHelper.canAfford(MinestuckPlayerData.getGristSet(this.owner), cost);
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	@Override
+	public void processContents()
+	{
+		ItemStack newItem = AlchemyUtils.getDecodedItem(this.inv.get(0));
+
+		if (newItem.isEmpty())
+			newItem = new ItemStack(MinestuckBlocks.genericObject);
+
+		GristSet cost = GristRegistry.getGristConversion(newItem);
+
+		AlchemizeItemEvent alchemizeItemEvent = new AlchemizeItemMinichemiterEvent(world, inv.get(0), newItem, this);
+		if (MinecraftForge.EVENT_BUS.post(alchemizeItemEvent))
+			return;
+		newItem = alchemizeItemEvent.getResultItem();
+
+		if (inv.get(1).isEmpty())
+		{
+			setInventorySlotContents(1, newItem);
+		}
+		else
+		{
+			this.inv.get(1).grow(1);
+		}
+
+		EntityPlayerMP player = owner.getPlayer();
+		if (player != null)
+			AlchemyUtils.giveAlchemyExperience(newItem, player);
+
+		if (newItem.getItem() == MinestuckItems.captchaCard)
+			cost = new GristSet(selectedGrist, MinestuckConfig.cardCost);
+		if (newItem.isItemDamaged())
+		{
+			float multiplier = 1 - newItem.getItem().getDamage(newItem) / ((float) newItem.getMaxDamage());
+			for (GristAmount amount : cost.getArray())
+			{
+				cost.setGrist(amount.getType(), (int) Math.ceil(amount.getAmount() * multiplier));
+			}
+		}
+		GristHelper.decrease(owner, cost);
+		MinestuckPlayerTracker.updateGristCache(owner);
 	}
 
 	@Override
 	public boolean allowOverrideStop()
 	{
 		return true;
-	}
-
-	@Override
-	public void markDirty()
-	{
-		super.markDirty();
 	}
 
 	@Override
@@ -102,55 +175,6 @@ public class TileEntityMiniAlchemiter extends TileEntityMiniSburbMachine
 	}
 
 	@Override
-	public int[] getSlotsForFace(EnumFacing side)
-	{
-		if (side == EnumFacing.DOWN)
-			return new int[]{1};
-		else return new int[]{0};
-	}
-
-	@Override
-	public void processContents()
-	{
-		ItemStack newItem = AlchemyUtils.getDecodedItem(this.inv.get(0));
-
-		if (newItem.isEmpty())
-			newItem = new ItemStack(MinestuckBlocks.genericObject);
-
-		GristSet cost = GristRegistry.getGristConversion(newItem);
-
-		AlchemizeItemEvent alchemizeItemEvent = new AlchemizeItemMinichemiterEvent(world, inv.get(0), newItem, this);
-		if (MinecraftForge.EVENT_BUS.post(alchemizeItemEvent))
-			return;
-		newItem = alchemizeItemEvent.getResultItem();
-
-		if (inv.get(1).isEmpty())
-		{
-			setInventorySlotContents(1, newItem);
-		} else
-		{
-			this.inv.get(1).grow(1);
-		}
-
-		EntityPlayerMP player = owner.getPlayer();
-		if (player != null)
-			AlchemyUtils.giveAlchemyExperience(newItem, player);
-
-		if (newItem.getItem() == MinestuckItems.captchaCard)
-			cost = new GristSet(selectedGrist, MinestuckConfig.cardCost);
-		if (newItem.isItemDamaged())
-		{
-			float multiplier = 1 - newItem.getItem().getDamage(newItem) / ((float) newItem.getMaxDamage());
-			for (GristAmount amount : cost.getArray())
-			{
-				cost.setGrist(amount.getType(), (int) Math.ceil(amount.getAmount() * multiplier));
-			}
-		}
-		GristHelper.decrease(owner, cost);
-		MinestuckPlayerTracker.updateGristCache(owner);
-	}
-
-	@Override
 	public void update()
 	{
 		if (this.ticks_since_update == 20)
@@ -166,37 +190,17 @@ public class TileEntityMiniAlchemiter extends TileEntityMiniSburbMachine
 	}
 
 	@Override
-	public boolean contentsValid()
+	public void markDirty()
 	{
-		if (!world.isBlockPowered(this.getPos()) && !this.inv.get(0).isEmpty() && this.owner != null)
-		{
-			//Check owner's cache: Do they have everything they need?
-			ItemStack newItem = AlchemyUtils.getDecodedItem(this.inv.get(0));
-			if (newItem.isEmpty())
-				if (!inv.get(0).hasTagCompound() || !inv.get(0).getTagCompound().hasKey("contentID"))
-					newItem = new ItemStack(MinestuckBlocks.genericObject);
-				else return false;
-				if (!inv.get(1).isEmpty() && (inv.get(1).getItem() != newItem.getItem() || inv.get(1).getItemDamage() != newItem.getItemDamage() || inv.get(1).getMaxStackSize() <= inv.get(1).getCount()))
-				{
-					return false;
-				}
-				GristSet cost = GristRegistry.getGristConversion(newItem);
-				if (newItem.getItem() == MinestuckItems.captchaCard)
-					cost = new GristSet(selectedGrist, MinestuckConfig.cardCost);
-				if (cost != null && newItem.isItemDamaged())
-				{
-					float multiplier = 1 - newItem.getItem().getDamage(newItem) / ((float) newItem.getMaxDamage());
-					for (GristAmount amount : cost.getArray())
-					{
-						cost.setGrist(amount.getType(), (int) Math.ceil(amount.getAmount() * multiplier));
-					}
-				}
-				return GristHelper.canAfford(MinestuckPlayerData.getGristSet(this.owner), cost);
-		}
-		else
-			{
-				return false;
-			}
+		super.markDirty();
+	}
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing side)
+	{
+		if (side == EnumFacing.DOWN)
+			return new int[]{1};
+		else return new int[]{0};
 	}
 
 	@Override

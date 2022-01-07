@@ -13,8 +13,9 @@ public class MSBlockStairs extends BlockStairs implements IRegistryBlock
 
 	public MSBlockStairs(String name, IBlockState blockState)
 	{
-		super(blockState);setHardness(blockState.getBlockHardness(null, null));
-		setResistance(blockState.getBlock().getExplosionResistance(null) * 5f/3f);
+		super(blockState);
+		setHardness(blockState.getBlockHardness(null, null));
+		setResistance(blockState.getBlock().getExplosionResistance(null) * 5f / 3f);
 		setHarvestLevel(blockState.getBlock().getHarvestTool(blockState), blockState.getBlock().getHarvestLevel(blockState));
 		setUnlocalizedName(name);
 		this.regName = IRegistryObject.unlocToReg(name);

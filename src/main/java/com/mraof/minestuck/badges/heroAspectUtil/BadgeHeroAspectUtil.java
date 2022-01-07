@@ -28,31 +28,56 @@ public abstract class BadgeHeroAspectUtil extends BadgeLevel
 
 	protected final ItemStack[] requiredItems;
 
+	public BadgeHeroAspectUtil(EnumAspect heroAspect, ItemStack... requiredItems)
+	{
+		this(heroAspect, 6, requiredItems);
+	}
+
 	public BadgeHeroAspectUtil(EnumAspect heroAspect, int requiredLevel, ItemStack... requiredItems)
 	{
-		super("util" + heroAspect.name().substring(0,1).toUpperCase() + heroAspect.name().substring(1).toLowerCase(), requiredLevel);
+		super("util" + heroAspect.name().substring(0, 1).toUpperCase() + heroAspect.name().substring(1).toLowerCase(), requiredLevel);
 		this.heroAspect = heroAspect;
 		HERO_ASPECT_UTIL_BADGES.add(this);
 
 		this.requiredItems = requiredItems;
 	}
 
-	public BadgeHeroAspectUtil(EnumAspect heroAspect, ItemStack... requiredItems)
+	@Override
+	public String getDisplayTooltip()
 	{
-		this(heroAspect, 6, requiredItems);
+		String keyName = "GOD TIER UTIL";
+		if (Side.CLIENT.equals(FMLCommonHandler.instance().getSide()))
+			keyName = MSGTKeyHandler.keyBindings[GodKeyStates.Key.UTIL.ordinal()].getDisplayName();
+
+		return I18n.format(getUnlocalizedName() + ".tooltip", keyName);
 	}
 
+	@Override
+	public boolean canAppearOnList(World world, EntityPlayer player)
+	{
+		if (!super.canAppearOnList(world, player))
+			return false;
+
+		EnumAspect playerAspect;
+
+		if (world.isRemote)
+			playerAspect = MinestuckPlayerData.clientData.title.getHeroAspect();
+		else
+			playerAspect = MinestuckPlayerData.getData(player).title.getHeroAspect();
+
+		return heroAspect.equals(playerAspect);
+	}
 
 	@Override
 	public boolean canUnlock(World world, EntityPlayer player)
 	{
-		for(ItemStack stack : requiredItems)
-			if(!Badge.findItem(player, stack, false))
+		for (ItemStack stack : requiredItems)
+			if (!Badge.findItem(player, stack, false))
 				return false;
 
-		if(Badge.findItem(player, new ItemStack(MinestuckItems.heroStoneShards.get(heroAspect), 128), false))
+		if (Badge.findItem(player, new ItemStack(MinestuckItems.heroStoneShards.get(heroAspect), 128), false))
 		{
-			for(ItemStack stack : requiredItems)
+			for (ItemStack stack : requiredItems)
 				Badge.findItem(player, stack, true);
 			Badge.findItem(player, new ItemStack(MinestuckItems.heroStoneShards.get(heroAspect), 128), true);
 			return true;
@@ -65,32 +90,6 @@ public abstract class BadgeHeroAspectUtil extends BadgeLevel
 	public boolean canUse(World world, EntityPlayer player)
 	{
 		return !(player.isPotionActive(MinestuckPotions.GOD_TIER_LOCK) && player.getActivePotionEffect(MinestuckPotions.GOD_TIER_LOCK).getAmplifier() >= 1);
-	}
-
-	@Override
-	public boolean canAppearOnList(World world, EntityPlayer player)
-	{
-		if(!super.canAppearOnList(world, player))
-			return false;
-
-		EnumAspect playerAspect;
-
-		if(world.isRemote)
-			playerAspect = MinestuckPlayerData.clientData.title.getHeroAspect();
-		else
-			playerAspect = MinestuckPlayerData.getData(player).title.getHeroAspect();
-
-		return heroAspect.equals(playerAspect);
-	}
-
-	@Override
-	public String getDisplayTooltip()
-	{
-		String keyName = "GOD TIER UTIL";
-		if(Side.CLIENT.equals(FMLCommonHandler.instance().getSide()))
-			keyName = MSGTKeyHandler.keyBindings[GodKeyStates.Key.UTIL.ordinal()].getDisplayName();
-
-		return I18n.format(getUnlocalizedName()+".tooltip", keyName);
 	}
 
 	public Badge setRegistryName()

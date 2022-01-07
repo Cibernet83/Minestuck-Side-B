@@ -25,82 +25,83 @@ import java.util.Random;
 
 public class BlockSbahjTree extends MSBlockBase
 {
-    protected static final AxisAlignedBB BUSH_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
+	protected static final AxisAlignedBB BUSH_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
 
-    public BlockSbahjTree(String name)
-    {
-        super(name, Material.PLANTS, MapColor.MAGENTA);
-        this.setTickRandomly(true);
-    }
+	public BlockSbahjTree(String name)
+	{
+		super(name, Material.PLANTS, MapColor.MAGENTA);
+		this.setTickRandomly(true);
+	}
 
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
-    {
-        if(MSUCalendarUtil.isChristmas())
-            tooltip.add(I18n.translateToLocal(getUnlocalizedName()+".christmas"));
-        else super.addInformation(stack, player, tooltip, advanced);
-    }
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
+	{
+		if (MSUCalendarUtil.isChristmas())
+			tooltip.add(I18n.translateToLocal(getUnlocalizedName() + ".christmas"));
+		else super.addInformation(stack, player, tooltip, advanced);
+	}
 
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
-    {
-        return super.canPlaceBlockAt(worldIn, pos) && !worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.AIR);
-    }
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
 
-    @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
-    {
-        super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
-        this.checkAndDropBlock(worldIn, pos, state);
-    }
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	{
+		return BUSH_AABB;
+	}
 
-    @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
-    {
-        this.checkAndDropBlock(worldIn, pos, state);
-    }
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
+	{
+		return BlockFaceShape.UNDEFINED;
+	}
 
-    protected void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
-        if (worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.AIR))
-        {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
-            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-        }
-    }
+	@Nullable
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
+	{
+		return NULL_AABB;
+	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	 */
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
 
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {
-        return BUSH_AABB;
-    }
-    @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
-    {
-        return NULL_AABB;
-    }
+	@Override
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+	{
+		this.checkAndDropBlock(worldIn, pos, state);
+	}
 
-    /**
-     * Used to determine ambient occlusion and culling when rebuilding chunks for render
-     */
-    @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
-        return false;
-    }
-    @Override
-    public boolean isFullCube(IBlockState state)
-    {
-        return false;
-    }
+	@Override
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+	{
+		super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+		this.checkAndDropBlock(worldIn, pos, state);
+	}
 
+	protected void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
+		if (worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.AIR))
+		{
+			this.dropBlockAsItem(worldIn, pos, state, 0);
+			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+		}
+	}
 
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
-    {
-        return BlockRenderLayer.CUTOUT;
-    }
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
-    {
-        return BlockFaceShape.UNDEFINED;
-    }
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer()
+	{
+		return BlockRenderLayer.CUTOUT;
+	}
+
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
+	{
+		return super.canPlaceBlockAt(worldIn, pos) && !worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.AIR);
+	}
 }

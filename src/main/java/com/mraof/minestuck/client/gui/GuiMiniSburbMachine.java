@@ -33,8 +33,20 @@ public abstract class GuiMiniSburbMachine extends GuiMachine
 		super(container, tileEntity);
 		this.te = tileEntity;
 		this.name = name;
-		guiBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/"+name+".png");
-		guiProgress = new ResourceLocation(Minestuck.MODID, "textures/gui/progress/"+name+".png");
+		guiBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/" + name + ".png");
+		guiProgress = new ResourceLocation(Minestuck.MODID, "textures/gui/progress/" + name + ".png");
+	}
+
+	@Override
+	public void initGui()
+	{
+		super.initGui();
+
+		if (!te.isAutomatic())
+		{
+			goButton = new GuiButtonExt(1, (width - xSize) / 2 + goX, (height - ySize) / 2 + goY, 30, 12, te.overrideStop ? "STOP" : "GO");
+			buttonList.add(goButton);
+		}
 	}
 
 	@Override
@@ -72,18 +84,6 @@ public abstract class GuiMiniSburbMachine extends GuiMachine
 	}
 
 	@Override
-	public void initGui()
-	{
-		super.initGui();
-
-		if (!te.isAutomatic())
-		{
-			goButton = new GuiButtonExt(1, (width - xSize) / 2 + goX, (height - ySize) / 2 + goY, 30, 12, te.overrideStop ? "STOP" : "GO");
-			buttonList.add(goButton);
-		}
-	}
-
-	@Override
 	protected void mouseClicked(int par1, int par2, int par3) throws IOException
 	{
 		super.mouseClicked(par1, par2, par3);
@@ -95,6 +95,19 @@ public abstract class GuiMiniSburbMachine extends GuiMachine
 				this.actionPerformed(goButton);
 			}
 		}
+	}
+
+	/**
+	 * Returns a number to be used in calculation of progress bar length.
+	 *
+	 * @param progress the progress done.
+	 * @param max      The maximum amount of progress.
+	 * @param imageMax The length of the progress bar image to scale to
+	 * @return The length the progress bar should be shown to
+	 */
+	public int getScaledValue(int progress, int max, int imageMax)
+	{
+		return Math.round((float) imageMax * ((float) progress / (float) max));
 	}
 
 	/**
@@ -111,18 +124,5 @@ public abstract class GuiMiniSburbMachine extends GuiMachine
 		render.pos(par1 + par5, par2, this.zLevel).tex((par3 + par5) * f, (par4) * f1).endVertex();
 		render.pos(par1, par2, this.zLevel).tex((par3) * f, (par4) * f1).endVertex();
 		Tessellator.getInstance().draw();
-	}
-
-	/**
-	 * Returns a number to be used in calculation of progress bar length.
-	 *
-	 * @param progress the progress done.
-	 * @param max      The maximum amount of progress.
-	 * @param imageMax The length of the progress bar image to scale to
-	 * @return The length the progress bar should be shown to
-	 */
-	public int getScaledValue(int progress, int max, int imageMax)
-	{
-		return Math.round((float) imageMax * ((float) progress / (float) max));
 	}
 }

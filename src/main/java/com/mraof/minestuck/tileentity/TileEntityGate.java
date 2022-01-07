@@ -18,15 +18,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityGate extends TileEntity
 {
-	
+
 	@SideOnly(Side.CLIENT)
 	public int colorIndex;
 
 	public int gateCount;
-	
+
 	public void teleportEntity(World world, EntityPlayerMP player, Block block)
 	{
-		if(block == MinestuckBlocks.returnNode)
+		if (block == MinestuckBlocks.returnNode)
 		{
 			BlockPos pos = world.provider.getRandomizedSpawnPoint();
 			Teleport.localTeleport(player, null, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
@@ -36,43 +36,37 @@ public class TileEntityGate extends TileEntity
 			player.motionZ = 0;
 			player.fallDistance = 0;
 			//player.addStat(MinestuckAchievementHandler.returnNode);
-		} else
+		}
+		else
 		{
 			GateHandler.teleport(gateCount, world.provider.getDimension(), player);
 		}
 	}
-	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox()
-	{
-		return new AxisAlignedBB(this.getPos().add(-1, 0, -1), this.getPos().add(1, 1, 1));
-	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound)
 	{
 		super.readFromNBT(compound);
-		if(compound.hasKey("gateCount"))
+		if (compound.hasKey("gateCount"))
 			this.gateCount = compound.getInteger("gateCount");
 	}
-	
+
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
 		super.writeToNBT(compound);
-		if(this.gateCount != 0)
+		if (this.gateCount != 0)
 			compound.setInteger("gateCount", gateCount);
 		return compound;
 	}
-	
+
+	@SideOnly(Side.CLIENT)
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public double getMaxRenderDistanceSquared()
 	{
-		NBTTagCompound nbt = super.getUpdateTag();
-		nbt.setInteger("color", SburbHandler.getColorForDimension(this.world.provider.getDimension()));
-		return nbt;
+		return isGate() ? 65536.0D : 4096.0D;
 	}
-	
+
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
@@ -80,29 +74,36 @@ public class TileEntityGate extends TileEntity
 		nbt.setInteger("color", SburbHandler.getColorForDimension(this.world.provider.getDimension()));
 		return new SPacketUpdateTileEntity(this.pos, 0, nbt);
 	}
-	
+
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public NBTTagCompound getUpdateTag()
 	{
-		this.colorIndex = tag.getInteger("color");
+		NBTTagCompound nbt = super.getUpdateTag();
+		nbt.setInteger("color", SburbHandler.getColorForDimension(this.world.provider.getDimension()));
+		return nbt;
 	}
-	
+
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
 		handleUpdateTag(pkt.getNbtCompound());
 	}
-	
+
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag)
+	{
+		this.colorIndex = tag.getInteger("color");
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return new AxisAlignedBB(this.getPos().add(-1, 0, -1), this.getPos().add(1, 1, 1));
+	}
+
 	public boolean isGate()
 	{
 		return this.world != null ? this.world.getBlockState(this.getPos()).getBlock() != MinestuckBlocks.returnNode : this.gateCount != 0;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public double getMaxRenderDistanceSquared()
-	{
-		return isGate() ? 65536.0D : 4096.0D;
 	}
 
 }

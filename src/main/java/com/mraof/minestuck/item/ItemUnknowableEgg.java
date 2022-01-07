@@ -8,20 +8,24 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
-public class ItemUnknowableEgg extends ItemFood {
-    public ItemUnknowableEgg(int amount, float saturation, boolean isWolfFood, String name) {
-        super(name, amount, saturation, isWolfFood);
-        setCreativeTab(MinestuckTabs.minestuck);
-        setMaxStackSize(16);
-    }
+public class ItemUnknowableEgg extends ItemFood
+{
+	public ItemUnknowableEgg(int amount, float saturation, boolean isWolfFood, String name)
+	{
+		super(name, amount, saturation, isWolfFood);
+		setCreativeTab(MinestuckTabs.minestuck);
+		setMaxStackSize(16);
+	}
 
-    @Override
-    protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
-        if(worldIn.isRemote != true) {
-            player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 160, 2));
-            player.addPotionEffect(new PotionEffect(MobEffects.POISON, 160, 2));
-            player.world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, MinestuckSoundHandler.soundWhispers, SoundCategory.AMBIENT, 1.0F, 0.8F);
-        }
-        super.onFoodEaten(stack, worldIn, player);
-    }
+	@Override
+	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
+	{
+		if (worldIn.isRemote != true)
+		{
+			player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 160, 2));
+			player.addPotionEffect(new PotionEffect(MobEffects.POISON, 160, 2));
+			player.world.playSound(null, player.posX, player.posY, player.posZ, MinestuckSoundHandler.soundWhispers, SoundCategory.AMBIENT, 1.0F, 0.8F);
+		}
+		super.onFoodEaten(stack, worldIn, player);
+	}
 }

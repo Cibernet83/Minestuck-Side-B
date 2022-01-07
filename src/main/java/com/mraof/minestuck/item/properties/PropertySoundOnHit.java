@@ -13,6 +13,11 @@ public class PropertySoundOnHit extends WeaponProperty
 	Value pitch;
 	Value volume;
 
+	public PropertySoundOnHit(SoundEvent sound, float pitch, float volume)
+	{
+		this(new SoundEvent[]{sound}, pitch, volume);
+	}
+
 	public PropertySoundOnHit(SoundEvent[] soundPool, float pitch, float volume)
 	{
 		this(soundPool, ((stack, target, player) -> pitch), ((stack, target, player) -> volume));
@@ -25,11 +30,6 @@ public class PropertySoundOnHit extends WeaponProperty
 		this.volume = volume;
 	}
 
-	public PropertySoundOnHit(SoundEvent sound, float pitch, float volume)
-	{
-		this(new SoundEvent[]{sound}, pitch, volume);
-	}
-
 	public PropertySoundOnHit(SoundEvent sound, Value pitch, Value volume)
 	{
 		this(new SoundEvent[]{sound}, pitch, volume);
@@ -39,7 +39,7 @@ public class PropertySoundOnHit extends WeaponProperty
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
 		super.onEntityHit(stack, target, player);
-		if(!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength((EntityPlayer) player) >= 0.9f )
+		if (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength((EntityPlayer) player) >= 0.9f)
 			player.world.playSound(null, player.posX, player.posY, player.posZ, soundPool[player.getRNG().nextInt(soundPool.length)], SoundCategory.PLAYERS, volume.consume(stack, target, player), pitch.consume(stack, target, player));
 	}
 

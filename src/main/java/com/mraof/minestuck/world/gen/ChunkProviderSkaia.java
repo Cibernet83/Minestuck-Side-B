@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mraof.minestuck.world.gen;
 
@@ -30,24 +30,21 @@ import java.util.Random;
  */
 public class ChunkProviderSkaia implements IChunkGenerator
 {
-	World skaiaWorld;
-	Random random;
-	private NoiseGeneratorOctaves noiseGen1;
-	private NoiseGeneratorOctaves noiseGen2;
-	private NoiseGeneratorOctaves noiseGen3;
 	public NoiseGeneratorOctaves noiseGen4;
 	public NoiseGeneratorOctaves noiseGen5;
-
-	private MapGenCastle castleGenerator = new MapGenCastle();
-
+	World skaiaWorld;
+	Random random;
 	double[] noiseData1;
 	double[] noiseData2;
 	double[] noiseData3;
 	double[] noiseData4;
 	double[] noiseData5;
-
 	List<SpawnListEntry> spawnableWhiteList;
 	List<SpawnListEntry> spawnableBlackList;
+	private NoiseGeneratorOctaves noiseGen1;
+	private NoiseGeneratorOctaves noiseGen2;
+	private NoiseGeneratorOctaves noiseGen3;
+	private MapGenCastle castleGenerator = new MapGenCastle();
 
 	public ChunkProviderSkaia(World world, long seed, boolean structures)
 	{
@@ -73,9 +70,9 @@ public class ChunkProviderSkaia implements IChunkGenerator
 		this.noiseGen3 = noiseGens.getPerlin();
 		this.noiseGen4 = noiseGens.getScale();
 		this.noiseGen5 = noiseGens.getDepth();
-		
+
 	}
-	
+
 	@Override
 	public Chunk generateChunk(int x, int z)
 	{
@@ -85,62 +82,62 @@ public class ChunkProviderSkaia implements IChunkGenerator
 		double[] generated2 = new double[256];
 		int[] topBlock = new int[256];
 
-		generated0 = this.noiseGen1.generateNoiseOctaves(generated0, x*16, 10, z*16, 16, 1, 16, .1, 0, .1);
-		generated1 = this.noiseGen5.generateNoiseOctaves(generated1, x*16, 10, z*16, 16, 1, 16, .04, 0, .04);
-		generated2 = this.noiseGen2.generateNoiseOctaves(generated2, x*16, 10, z*16, 16, 1, 16, .01, 0, .01);
-		for(int i = 0; i < 256; i++)
+		generated0 = this.noiseGen1.generateNoiseOctaves(generated0, x * 16, 10, z * 16, 16, 1, 16, .1, 0, .1);
+		generated1 = this.noiseGen5.generateNoiseOctaves(generated1, x * 16, 10, z * 16, 16, 1, 16, .04, 0, .04);
+		generated2 = this.noiseGen2.generateNoiseOctaves(generated2, x * 16, 10, z * 16, 16, 1, 16, .01, 0, .01);
+		for (int i = 0; i < 256; i++)
 		{
-			int y = (int)(128 + generated0[i] + generated1[i] + generated2[i]);
-			topBlock[i] = (y&511)<=255  ? y&255 : 255 - y&255;
+			int y = (int) (128 + generated0[i] + generated1[i] + generated2[i]);
+			topBlock[i] = (y & 511) <= 255 ? y & 255 : 255 - y & 255;
 		}
 		byte chessTileMetadata = (byte) ((Math.abs(x) + Math.abs(z)) % 2);
 		IBlockState block = MinestuckBlocks.chessTile.getDefaultState().withProperty(BlockChessTile.VARIANT, BlockChessTile.BlockType.values()[chessTileMetadata]);
-		for(int posX = 0; posX < 16; posX++)
-			for(int posZ = 0; posZ < 16; posZ++)
-				for(int posY = 0; posY <= topBlock[posX * 16 + posZ]; posY++)
+		for (int posX = 0; posX < 16; posX++)
+			for (int posZ = 0; posZ < 16; posZ++)
+				for (int posY = 0; posY <= topBlock[posX * 16 + posZ]; posY++)
 				{
 					primer.setBlockState(posX, posY, posZ, block);
 				}
 		//y * 256, z * 16, x
 		Chunk chunk = new Chunk(this.skaiaWorld, primer, x, z);
-//		this.castleGenerator.generate(skaiaWorld, x, z, primer);
+		//		this.castleGenerator.generate(skaiaWorld, x, z, primer);
 		chunk.generateSkylightMap();
 		return chunk;
 	}
-	
+
 	@Override
-	public void populate(int var2, int var3) 
+	public void populate(int var2, int var3)
 	{
-//		this.castleGenerator.generateStructure(skaiaWorld, random, new ChunkPos(var2, var3));	//was called "generateStructuresInChunk"
+		//		this.castleGenerator.generateStructure(skaiaWorld, random, new ChunkPos(var2, var3));	//was called "generateStructuresInChunk"
 	}
-	
+
 	@Override
 	public boolean generateStructures(Chunk chunkIn, int x, int z)
 	{
 		return false;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos)
 	{
 		return (creatureType == EnumCreatureType.MONSTER || creatureType == EnumCreatureType.CREATURE) ? (pos.getX() < 0 ? this.spawnableBlackList : this.spawnableWhiteList) : null;
 	}
-	
+
 	@Nullable
 	@Override
 	public BlockPos getNearestStructurePos(World worldIn, String structureName, BlockPos position, boolean findUnexplored)
 	{
 		return null;
 	}
-	
+
+	@Override
+	public void recreateStructures(Chunk chunk, int p_180514_2_, int p_180514_3_) {}
+
 	@Override
 	public boolean isInsideStructure(World worldIn, String structureName, BlockPos pos)
 	{
 		return false;
 	}
-	
-	@Override
-	public void recreateStructures(Chunk chunk, int p_180514_2_, int p_180514_3_) {}
-	
+
 }

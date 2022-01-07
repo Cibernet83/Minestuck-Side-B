@@ -15,17 +15,17 @@ public class BlockGoldTransportalizer extends BlockCustomTransportalizer
 	{
 		super(MapColor.GOLD, "goldenTransportalizer");
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata)
 	{
 		return new TileEntityTransportalizer();
 	}
-	
+
 	@Override
 	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity)
 	{
-		if(entity instanceof EntityPlayer)
+		if (entity instanceof EntityPlayer)
 			super.onEntityCollidedWithBlock(world, pos, state, entity);
 	}
 }

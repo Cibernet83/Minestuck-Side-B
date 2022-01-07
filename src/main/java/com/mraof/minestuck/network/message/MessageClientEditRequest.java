@@ -30,7 +30,17 @@ public class MessageClientEditRequest implements MinestuckMessage
 		username = computer.ownerId;
 		target = computer.getData(program).getInteger("connectedClient");
 	}
-	
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		if (buf.readableBytes() == 0)
+			return;
+
+		username = buf.readInt();
+		target = buf.readInt();
+	}
+
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
@@ -42,44 +52,35 @@ public class MessageClientEditRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		if(buf.readableBytes() == 0)
-			return;
-
-		username = buf.readInt();
-		target = buf.readInt();
-	}
-
-	@Override
 	public void execute(EntityPlayer player)
 	{
 		UserListOpsEntry opsEntry = player == null ? null : player.getServer().getPlayerList().getOppedPlayers().getEntry(player.getGameProfile());
-		if(!MinestuckConfig.giveItems)
+		if (!MinestuckConfig.giveItems)
 		{
-			if(username == -1)
+			if (username == -1)
 				ServerEditHandler.onPlayerExit(player);
-			else if(!MinestuckConfig.privateComputers || IdentifierHandler.encode(player).getId() == this.username || opsEntry != null && opsEntry.getPermissionLevel() >= 2)
+			else if (!MinestuckConfig.privateComputers || IdentifierHandler.encode(player).getId() == this.username || opsEntry != null && opsEntry.getPermissionLevel() >= 2)
 				ServerEditHandler.newServerEditor((EntityPlayerMP) player, IdentifierHandler.getById(username), IdentifierHandler.getById(target));
 			return;
 		}
-		
+
 		EntityPlayerMP playerMP = IdentifierHandler.getById(target).getPlayer();
-		
-		if(playerMP != null && (!MinestuckConfig.privateComputers || IdentifierHandler.getById(username).appliesTo(player)) || opsEntry != null && opsEntry.getPermissionLevel() >= 2)
+
+		if (playerMP != null && (!MinestuckConfig.privateComputers || IdentifierHandler.getById(username).appliesTo(player)) || opsEntry != null && opsEntry.getPermissionLevel() >= 2)
 		{
 			SburbConnection c = SkaianetHandler.getClientConnection(IdentifierHandler.getById(target));
-			if(c == null || c.getServerIdentifier().getId() != username || !(c.isMain() || SkaianetHandler.giveItems(IdentifierHandler.getById(target))))
+			if (c == null || c.getServerIdentifier().getId() != username || !(c.isMain() || SkaianetHandler.giveItems(IdentifierHandler.getById(target))))
 				return;
-			for(int i = 0; i < 5; i++)
-				if(i == 4)
+			for (int i = 0; i < 5; i++)
+				if (i == 4)
 				{
-					if(c.enteredGame())
+					if (c.enteredGame())
 						continue;
 					ItemStack card = AlchemyUtils.createCard(SburbHandler.getEntryItem(c.getClientIdentifier()), true);
-					if(!playerMP.inventory.hasItemStack(card))
+					if (!playerMP.inventory.hasItemStack(card))
 						c.givenItems()[i] = playerMP.inventory.addItemStackToInventory(card) || c.givenItems()[i];
-				} else
+				}
+				else
 				{
 					Block block;
 					switch (i)
@@ -98,9 +99,9 @@ public class MessageClientEditRequest implements MinestuckMessage
 							break;
 					}
 					ItemStack machine = new ItemStack(block, 1);
-					if(i == 1 && !c.enteredGame())
+					if (i == 1 && !c.enteredGame())
 						continue;
-					if(!playerMP.inventory.hasItemStack(machine))
+					if (!playerMP.inventory.hasItemStack(machine))
 						c.givenItems()[i] = playerMP.inventory.addItemStackToInventory(machine) || c.givenItems()[i];
 				}
 			player.getServer().getPlayerList().syncPlayerInventory(playerMP);

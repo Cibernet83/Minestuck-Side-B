@@ -17,15 +17,15 @@ public class MessageCurrentItem implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(currentItem);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		currentItem = buf.readInt();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(currentItem);
 	}
 
 	@Override
@@ -35,7 +35,8 @@ public class MessageCurrentItem implements MinestuckMessage
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.CLIENT;
 	}
 }

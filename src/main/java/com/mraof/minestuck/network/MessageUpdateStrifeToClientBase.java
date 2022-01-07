@@ -23,13 +23,33 @@ public abstract class MessageUpdateStrifeToClientBase extends MessageEntityEncod
 		super(entity);
 	}
 
-	public abstract Consumer<ByteBuf> getEncoder(IStrifeData cap);
-	public abstract Consumer<ByteBuf> getDecoder(IStrifeData cap);
-
 	@Override
 	public Consumer<ByteBuf> getEncoder(EntityLivingBase entity)
 	{
 		return getEncoder(entity.getCapability(MinestuckCapabilities.STRIFE_DATA, null));
+	}
+
+	public abstract Consumer<ByteBuf> getEncoder(IStrifeData cap);
+
+	@Override
+	public void execute(EntityPlayer player)
+	{
+		super.execute(player);
+
+		IStrifeData cap = decodingEntity.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
+		if (cap.isArmed())
+		{
+			EnumHand hand = StrifeEventHandler.isStackAssigned(decodingEntity.getHeldItemOffhand()) ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
+			if (StrifeEventHandler.isStackAssigned(decodingEntity.getHeldItem(hand)) &&
+						cap.getPortfolio().length <= 0 || cap.getSelectedSpecibusIndex() < 0 || cap.getSelectedWeaponIndex() < 0
+						|| cap.getPortfolio()[cap.getSelectedSpecibusIndex()] == null || cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getContents().isEmpty()
+						|| cap.getSelectedWeaponIndex() >= cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getContents().size()
+						|| !ItemStack.areItemStacksEqual(cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getContents().get(cap.getSelectedWeaponIndex()), decodingEntity.getHeldItem(hand)))
+			{
+				decodingEntity.setHeldItem(hand, ItemStack.EMPTY);
+				cap.setArmed(false);
+			}
+		}
 	}
 
 	@Override
@@ -39,26 +59,7 @@ public abstract class MessageUpdateStrifeToClientBase extends MessageEntityEncod
 		return getDecoder(entity.getCapability(MinestuckCapabilities.STRIFE_DATA, null));
 	}
 
-	@Override
-	public void execute(EntityPlayer player)
-	{
-		super.execute(player);
-
-		IStrifeData cap = decodingEntity.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
-		if(cap.isArmed())
-		{
-			EnumHand hand = StrifeEventHandler.isStackAssigned(decodingEntity.getHeldItemOffhand()) ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
-			if(StrifeEventHandler.isStackAssigned(decodingEntity.getHeldItem(hand)) &&
-					   cap.getPortfolio().length <= 0 || cap.getSelectedSpecibusIndex() < 0 || cap.getSelectedWeaponIndex() < 0
-					   || cap.getPortfolio()[cap.getSelectedSpecibusIndex()] == null || cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getContents().isEmpty()
-					   || cap.getSelectedWeaponIndex() >= cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getContents().size()
-					   || !ItemStack.areItemStacksEqual(cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getContents().get(cap.getSelectedWeaponIndex()), decodingEntity.getHeldItem(hand)))
-			{
-				decodingEntity.setHeldItem(hand, ItemStack.EMPTY);
-				cap.setArmed(false);
-			}
-		}
-	}
+	public abstract Consumer<ByteBuf> getDecoder(IStrifeData cap);
 
 	@Override
 	public Side toSide()

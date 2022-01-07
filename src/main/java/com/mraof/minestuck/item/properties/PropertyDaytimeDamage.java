@@ -17,17 +17,17 @@ public class PropertyDaytimeDamage extends WeaponProperty
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-	{
-		if(!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-
-		stack.getTagCompound().setBoolean("DaytimeBoosted", daytime == worldIn.isDaytime());
-	}
-
-	@Override
 	public double getAttackDamage(ItemStack stack, double dmg)
 	{
 		return dmg * (stack.hasTagCompound() && stack.getTagCompound().getBoolean("DaytimeBoosted") ? multiplier : 1);
+	}
+
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+
+		stack.getTagCompound().setBoolean("DaytimeBoosted", daytime == worldIn.isDaytime());
 	}
 }

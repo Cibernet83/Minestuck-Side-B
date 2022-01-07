@@ -1,16 +1,14 @@
 package com.mraof.minestuck.util;
 
-import com.mraof.minestuck.util.EnumAspect;
-
-import static com.mraof.minestuck.util.EnumAspect.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AspectColorHandler 
+import static com.mraof.minestuck.util.EnumAspect.*;
+
+public class AspectColorHandler
 {
 	public static final AspectColor[] defaultSet = createColorSet(0xB9B9B9, 0x484848, 0x979797, 0xAEFE00, 0xC50128, 0xAEFE00, 0x5CCB00);
-	
+
 	public static final HashMap<EnumAspect, AspectColor[]> aspectColors = new HashMap<EnumAspect, AspectColor[]>()
 	{{
 		put(BLOOD, createColorSet(0x3D190A, 0x290704, 0x5C2913, 0xB90F15, 0x583980));   //blood
@@ -26,65 +24,66 @@ public class AspectColorHandler
 		put(TIME, createColorSet(11996430, 5309958, 9311510, 16720134, 1973794, 16720134, 0xAB4032));   //time
 		put(VOID, createColorSet(9062, 2050176, 1204608, 571, 71038341, 0x004CB0, 0x043476));           //void
 	}};
-	
+
 	private static AspectColor[] createColorSet(int shirt, int primary, int secondary, int symbol, int shoes)
 	{
 		return createColorSet(shirt, primary, secondary, symbol, shoes, symbol, shirt);
 	}
-	
+
 	private static AspectColor[] createColorSet(int shirt, int primary, int secondary, int symbol, int shoes, int detailA, int detailB)
 	{
 		ArrayList<AspectColor> aspectColors = new ArrayList<>();
-		
-		for(int c : new int[] {shirt, primary, secondary, symbol, shoes, detailA, detailB, 0xFFFFFF})
+
+		for (int c : new int[]{shirt, primary, secondary, symbol, shoes, detailA, detailB, 0xFFFFFF})
 			aspectColors.add(new AspectColor(c));
-		
+
 		return aspectColors.toArray(new AspectColor[aspectColors.size()]);
 	}
-	
+
 	public static int getAspectColor(int aspectId, EnumColor color)
 	{
-		if(aspectId >= 0 && aspectId < values().length)
+		if (aspectId >= 0 && aspectId < values().length)
 			return getAspectColor(values()[aspectId], color);
 		return defaultSet[color.ordinal()].hex;
 	}
-	
+
 	public static int getAspectColor(EnumAspect aspect, EnumColor color)
 	{
-		if(aspect == null)
+		if (aspect == null)
 			return defaultSet[color.ordinal()].hex;
 		return aspectColors.get(aspect)[color.ordinal()].hex;
 	}
-	
+
 	public static AspectColor[] getAspectColorSet(int aspectId)
 	{
-		if(aspectId >= 0 && aspectId < values().length)
+		if (aspectId >= 0 && aspectId < values().length)
 			return getAspectColorSet(values()[aspectId]);
 		return defaultSet;
 	}
-	
+
 	public static AspectColor[] getAspectColorSet(EnumAspect aspect)
 	{
-		if(aspect == null)
+		if (aspect == null)
 			return defaultSet;
 		return aspectColors.get(aspect);
 	}
+
 	public static float[] getAspectColorRBG(int aspectId, EnumColor color)
 	{
-		if(aspectId >= 0 && aspectId < values().length)
+		if (aspectId >= 0 && aspectId < values().length)
 			return getAspectColorRGB(values()[aspectId], color);
 		AspectColor aspectColor = defaultSet[color.ordinal()];
-		return new float[] {aspectColor.r, aspectColor.g, aspectColor.b};
+		return new float[]{aspectColor.r, aspectColor.g, aspectColor.b};
 	}
-	
+
 	public static float[] getAspectColorRGB(EnumAspect aspect, EnumColor color)
 	{
 		AspectColor aspectColor = defaultSet[color.ordinal()];
-		if(aspect != null)
+		if (aspect != null)
 			aspectColor = aspectColors.get(aspect)[color.ordinal()];
-		return new float[] {aspectColor.r, aspectColor.g, aspectColor.b};
+		return new float[]{aspectColor.r, aspectColor.g, aspectColor.b};
 	}
-	
+
 	public enum EnumColor
 	{
 		SHIRT,
@@ -95,21 +94,21 @@ public class AspectColorHandler
 		DETAIL_PRIMARY,
 		DETAIL_SECONDARY
 	}
-	
+
 	public static class AspectColor
 	{
 		public final int hex;
 		public final float r;
 		public final float g;
 		public final float b;
-		
+
 		public AspectColor(int hex)
 		{
 			this.hex = hex;
-			
-			r = (float)((hex & 16711680) >> 16) / 255.0F;
-			g = (float)((hex & '\uff00') >> 8) / 255.0F;
-			b = (float)((hex & 255) >> 0) / 255.0F;
+
+			r = (float) ((hex & 16711680) >> 16) / 255.0F;
+			g = (float) ((hex & '\uff00') >> 8) / 255.0F;
+			b = (float) ((hex & 255) >> 0) / 255.0F;
 		}
 	}
 }

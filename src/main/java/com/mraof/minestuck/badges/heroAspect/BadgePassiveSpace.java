@@ -29,7 +29,7 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(player.isSneaking() && badgeEffects.hasWarpPoint() && badgeEffects.getWarpPointDim() == player.world.provider.getDimension())
+		if (player.isSneaking() && badgeEffects.hasWarpPoint() && badgeEffects.getWarpPointDim() == player.world.provider.getDimension())
 			MinestuckNetwork.sendTo(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, badgeEffects.getWarpPoint().x, badgeEffects.getWarpPoint().y, badgeEffects.getWarpPoint().z, 0x4BEC13, 3), player);
 
 		if (state != GodKeyStates.KeyState.PRESS)
@@ -52,7 +52,7 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 		}
 		else
 		{
-			if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 6)
+			if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 6)
 			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 				return false;
@@ -69,7 +69,7 @@ public class BadgePassiveSpace extends BadgeHeroAspect
 					for (int i = 0; i < 16; i++)
 					{
 						double attemptX = player.posX + (target.getRNG().nextDouble() - 0.5D) * (double) (RANGE * 2);
-						double attemptY = MathHelper.clamp(player.posY + (target.getRNG().nextDouble() - 0.5D) * (double) (RANGE * 2), 0d, (double)(world.getActualHeight() - 1));
+						double attemptY = MathHelper.clamp(player.posY + (target.getRNG().nextDouble() - 0.5D) * (double) (RANGE * 2), 0d, (double) (world.getActualHeight() - 1));
 						double attemptZ = player.posZ + (target.getRNG().nextDouble() - 0.5D) * (double) (RANGE * 2);
 
 						if (target.attemptTeleport(attemptX, attemptY, attemptZ))

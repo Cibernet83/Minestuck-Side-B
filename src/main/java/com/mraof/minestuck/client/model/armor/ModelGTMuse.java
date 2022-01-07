@@ -11,7 +11,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-public class ModelGTMuse extends ModelGTAbstract {
+public class ModelGTMuse extends ModelGTAbstract
+{
 	private final ModelRenderer hood;
 	private final ModelRenderer neckLeft;
 	private final ModelRenderer neckRight;
@@ -24,14 +25,14 @@ public class ModelGTMuse extends ModelGTAbstract {
 		textureHeight = 128;
 
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F+0.2f, -5.0F, 10, 1, 10, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F+0.2f, 4.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F+0.2f, -5.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 20, 4.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 40, 0, -5.0F, -10.0F+0.2f, -4.0F, 10, 1, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 36, -5.0F, -10.0F+0.2f, 4.0F, 10, 1, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 36, -4.0F, -10.0F+0.2f, -5.0F, 8, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F + 0.2f, -5.0F, 10, 1, 10, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F + 0.2f, 4.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F + 0.2f, -5.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 18, 20, 4.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 40, 0, -5.0F, -10.0F + 0.2f, -4.0F, 10, 1, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 36, -5.0F, -10.0F + 0.2f, 4.0F, 10, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 18, 36, -4.0F, -10.0F + 0.2f, -5.0F, 8, 1, 1, 0.0F, false));
 
 		hood = new ModelRenderer(this);
 		hood.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -87,18 +88,6 @@ public class ModelGTMuse extends ModelGTAbstract {
 	}
 
 	@Override
-	public EntityEquipmentSlot getSkirtSlot() {
-		return EntityEquipmentSlot.CHEST;
-	}
-
-	@Override
-	public void addExtraInfo(EntityLivingBase entityLiving, ItemStack stack, EntityEquipmentSlot armorSlot)
-	{
-		neckLeft.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-		neckRight.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-	}
-
-	@Override
 	protected void renderExtras(float scale)
 	{
 		neckRight.render(scale);
@@ -111,6 +100,19 @@ public class ModelGTMuse extends ModelGTAbstract {
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 		copyModelAngles(leftArm, neckLeft);
 		copyModelAngles(rightArm, neckRight);
+	}
+
+	@Override
+	public EntityEquipmentSlot getSkirtSlot()
+	{
+		return EntityEquipmentSlot.CHEST;
+	}
+
+	@Override
+	public void addExtraInfo(EntityLivingBase entityLiving, ItemStack stack, EntityEquipmentSlot armorSlot)
+	{
+		neckLeft.showModel = armorSlot == EntityEquipmentSlot.HEAD;
+		neckRight.showModel = armorSlot == EntityEquipmentSlot.HEAD;
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)

@@ -27,44 +27,56 @@ public abstract class BadgeHeroClass extends BadgeLevel
 	protected final int requiredXp;
 	protected final EnumClass heroClass;
 
-	public BadgeHeroClass(EnumClass heroClass, int requiredLevel, int requiredXp) {
+	public BadgeHeroClass(EnumClass heroClass)
+	{
+		this(heroClass, 5, 50);
+	}
+
+	public BadgeHeroClass(EnumClass heroClass, int requiredLevel, int requiredXp)
+	{
 		super(heroClass.name().toLowerCase(), requiredLevel);
 		this.requiredXp = requiredXp;
 		this.heroClass = heroClass;
 		HERO_CLASS_BADGES.add(this);
 	}
 
-	public BadgeHeroClass(EnumClass heroClass) {
-		this(heroClass, 5, 50);
-	}
-
 	public abstract boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time);
-
-	@Override
-	public boolean canUse(World world, EntityPlayer player)
-	{
-		return !(player.isPotionActive(MinestuckPotions.GOD_TIER_LOCK) && player.getActivePotionEffect(MinestuckPotions.GOD_TIER_LOCK).getAmplifier() >= 1);
-	}
 
 	@Override
 	public String getDisplayTooltip()
 	{
 		String keyName = "CLASS ACTION";
-		if(Side.CLIENT.equals(FMLCommonHandler.instance().getSide()))
+		if (Side.CLIENT.equals(FMLCommonHandler.instance().getSide()))
 			keyName = MSGTKeyHandler.keyBindings[GodKeyStates.Key.CLASS.ordinal()].getDisplayName();
 
-		return I18n.format(getUnlocalizedName()+".tooltip", keyName);
+		return I18n.format(getUnlocalizedName() + ".tooltip", keyName);
 	}
 
 	@Override
-	public String getUnlockRequirements() {
+	public String getUnlockRequirements()
+	{
 		return I18n.format("badge.class.unlock", requiredXp);
+	}
+
+	@Override
+	public boolean canAppearOnList(World world, EntityPlayer player)
+	{
+		if (!super.canAppearOnList(world, player))
+			return false;
+
+		EnumClass playerClass;
+
+		if (world.isRemote)
+			playerClass = MinestuckPlayerData.clientData.title.getHeroClass();
+		else playerClass = MinestuckPlayerData.getData(player).title.getHeroClass();
+
+		return heroClass.equals(playerClass);
 	}
 
 	@Override
 	public boolean canUnlock(World world, EntityPlayer player)
 	{
-		if(player.experienceLevel >= requiredXp)
+		if (player.experienceLevel >= requiredXp)
 		{
 			player.experienceLevel -= requiredXp;
 			MinestuckNetwork.sendTo(new MessageAddXp(-requiredXp), player);
@@ -74,18 +86,9 @@ public abstract class BadgeHeroClass extends BadgeLevel
 	}
 
 	@Override
-	public boolean canAppearOnList(World world, EntityPlayer player)
+	public boolean canUse(World world, EntityPlayer player)
 	{
-		if(!super.canAppearOnList(world, player))
-			return false;
-
-		EnumClass playerClass;
-
-		if(world.isRemote)
-			playerClass = MinestuckPlayerData.clientData.title.getHeroClass();
-		else playerClass = MinestuckPlayerData.getData(player).title.getHeroClass();
-
-		return heroClass.equals(playerClass);
+		return !(player.isPotionActive(MinestuckPotions.GOD_TIER_LOCK) && player.getActivePotionEffect(MinestuckPotions.GOD_TIER_LOCK).getAmplifier() >= 1);
 	}
 
 	public Badge setRegistryName()

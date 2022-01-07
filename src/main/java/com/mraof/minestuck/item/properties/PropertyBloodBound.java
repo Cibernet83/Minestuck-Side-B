@@ -16,8 +16,29 @@ import net.minecraft.world.World;
 public class PropertyBloodBound extends WeaponProperty implements IEnchantableProperty
 {
 	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
-		return EnumAction.BOW;
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		if (entityIn instanceof EntityLivingBase && stack.equals(((EntityLivingBase) entityIn).getActiveItemStack()))
+		{
+			int useTime = 72000 - ((EntityLivingBase) entityIn).getItemInUseCount();
+
+			if (useTime >= 40 && (useTime % 20) == 0)
+			{
+				if (entityIn.isSneaking())
+				{
+					if (stack.isItemDamaged())
+					{
+						entityIn.attackEntityFrom(new DamageSource(Minestuck.MODID + ".bloodSword").setDamageIsAbsolute(), 1);
+						stack.setItemDamage(Math.max(0, stack.getItemDamage() - 5));
+					}
+				}
+				else if (((EntityLivingBase) entityIn).getHealth() < ((EntityLivingBase) entityIn).getMaxHealth())
+				{
+					stack.damageItem(5, (EntityLivingBase) entityIn);
+					((EntityLivingBase) entityIn).heal(1);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -27,38 +48,18 @@ public class PropertyBloodBound extends WeaponProperty implements IEnchantablePr
 	}
 
 	@Override
-	public EnumActionResult onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	public EnumActionResult onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
 
 		playerIn.setActiveHand(handIn);
 		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		if(entityIn instanceof EntityLivingBase && stack.equals(((EntityLivingBase) entityIn).getActiveItemStack()))
-		{
-			int useTime = 72000-((EntityLivingBase) entityIn).getItemInUseCount();
-
-			if(useTime >= 40 && (useTime % 20) == 0)
-			{
-				if(entityIn.isSneaking())
-				{
-					if(stack.isItemDamaged())
-					{
-						entityIn.attackEntityFrom(new DamageSource(Minestuck.MODID + ".bloodSword").setDamageIsAbsolute(), 1);
-						stack.setItemDamage(Math.max(0, stack.getItemDamage()-5));
-					}
-				}
-				else if(((EntityLivingBase) entityIn).getHealth() < ((EntityLivingBase) entityIn).getMaxHealth())
-				{
-					stack.damageItem(5, (EntityLivingBase) entityIn);
-					((EntityLivingBase) entityIn).heal(1);
-				}
-			}
-		}
+		return EnumAction.BOW;
 	}
-
 
 	@Override
 	public Boolean canEnchantWith(ItemStack stack, Enchantment enchantment)

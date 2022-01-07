@@ -18,17 +18,21 @@ public class BlockCruxiteOre extends MSBlockCustomOre
 	}
 
 	@Override
+	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
+	{
+		return MathHelper.getInt(MinestuckRandom.getRandom(), 2, 5);
+	}	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
 		return MinestuckItems.rawCruxite;
 	}
-	
+
 	@Override
 	public int quantityDropped(Random random)
 	{
 		return 2 + random.nextInt(4);
 	}
-	
+
 	@Override
 	public int quantityDroppedWithBonus(int par1, Random par2Random)
 	{
@@ -46,10 +50,6 @@ public class BlockCruxiteOre extends MSBlockCustomOre
 		else
 			return this.quantityDropped(par2Random);
 	}
-	
-	@Override
-	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
-	{
-		return MathHelper.getInt(MinestuckRandom.getRandom(), 2, 5);
-	}
+
+
 }

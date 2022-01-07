@@ -28,6 +28,44 @@ public class GodKeyStates implements IGodKeyStates
 		resetKeyStates();
 	}
 
+	@SubscribeEvent
+	public static void onWorldJoin(EntityJoinWorldEvent event)
+	{
+		if (event.getEntity().hasCapability(MinestuckCapabilities.GOD_KEY_STATES, null))
+			event.getEntity().getCapability(MinestuckCapabilities.GOD_KEY_STATES, null).resetKeyStates();
+	}
+
+	@SubscribeEvent
+	public static void onPlayerTick(TickEvent.PlayerTickEvent event)
+	{
+		if (event.player.world.isRemote || event.phase == TickEvent.Phase.END)
+			return;
+
+		IGodTierData data = event.player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
+		List<Badge> badgeList = data.getAllBadges();
+
+		IBadgeEffects badgeEffects = event.player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null);
+		IGodKeyStates keyStates = event.player.getCapability(MinestuckCapabilities.GOD_KEY_STATES, null);
+
+		if (!event.player.isSpectator())
+			for (Badge badge : badgeList)
+			{
+				boolean isActive = false;
+				if (data.isBadgeActive(badge))
+					if (badge instanceof BadgeHeroClass)
+						isActive = ((BadgeHeroClass) badge).onBadgeTick(event.player.world, event.player, badgeEffects, keyStates.getKeyState(Key.CLASS), keyStates.getKeyTime(Key.CLASS));
+					else if (badge instanceof BadgeHeroAspect)
+						isActive = ((BadgeHeroAspect) badge).onBadgeTick(event.player.world, event.player, badgeEffects, keyStates.getKeyState(Key.ASPECT), keyStates.getKeyTime(Key.ASPECT));
+					else if (badge instanceof BadgeHeroAspectUtil)
+						isActive = ((BadgeHeroAspectUtil) badge).onBadgeTick(event.player.world, event.player, badgeEffects, keyStates.getKeyState(Key.UTIL), keyStates.getKeyTime(Key.UTIL));
+
+				if (!isActive)
+					badgeEffects.stopPowerParticles(badge.getClass());
+			}
+
+		keyStates.tickKeyStates();
+	}
+
 	@Override
 	public void updateKeyState(Key key, boolean pressed)
 	{
@@ -57,9 +95,9 @@ public class GodKeyStates implements IGodKeyStates
 	{
 		for (int i = 0; i < keyStates.length; i++)
 		{
-			if(keyStates[i] == KeyState.PRESS)
+			if (keyStates[i] == KeyState.PRESS)
 				keyStates[i] = KeyState.HELD;
-			else if(keyStates[i] == KeyState.RELEASED)
+			else if (keyStates[i] == KeyState.RELEASED)
 				keyStates[i] = KeyState.NONE;
 
 			keyTimes[i]++;
@@ -67,22 +105,13 @@ public class GodKeyStates implements IGodKeyStates
 	}
 
 	@Override
-	public void resetKeyStates() {
+	public void resetKeyStates()
+	{
 		keyStates = new KeyState[Key.values().length];
-		keyTimes  = new int[Key.values().length];
+		keyTimes = new int[Key.values().length];
 
 		for (int i = 0; i < keyStates.length; i++)
 			keyStates[i] = KeyState.NONE;
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		for (int i = 0; i < keyStates.length; i++)
-		{
-			keyStates[i] = KeyState.values()[nbt.getInteger(i + "State")];
-			keyTimes[i] = nbt.getInteger(i + "Time");
-		}
 	}
 
 	@Override
@@ -97,7 +126,18 @@ public class GodKeyStates implements IGodKeyStates
 		return nbt;
 	}
 
-	public enum Key {
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		for (int i = 0; i < keyStates.length; i++)
+		{
+			keyStates[i] = KeyState.values()[nbt.getInteger(i + "State")];
+			keyTimes[i] = nbt.getInteger(i + "Time");
+		}
+	}
+
+	public enum Key
+	{
 		CLASS,
 		ASPECT,
 		UTIL
@@ -109,43 +149,5 @@ public class GodKeyStates implements IGodKeyStates
 		HELD,
 		RELEASED,
 		NONE
-	}
-
-	@SubscribeEvent
-	public static void onWorldJoin(EntityJoinWorldEvent event)
-	{
-		if(event.getEntity().hasCapability(MinestuckCapabilities.GOD_KEY_STATES, null))
-			event.getEntity().getCapability(MinestuckCapabilities.GOD_KEY_STATES, null).resetKeyStates();
-	}
-
-	@SubscribeEvent
-	public static void onPlayerTick(TickEvent.PlayerTickEvent event)
-	{
-		if(event.player.world.isRemote || event.phase == TickEvent.Phase.END)
-			return;
-
-		IGodTierData data = event.player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
-		List<Badge> badgeList = data.getAllBadges();
-
-		IBadgeEffects badgeEffects = event.player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null);
-		IGodKeyStates keyStates = event.player.getCapability(MinestuckCapabilities.GOD_KEY_STATES, null);
-
-		if(!event.player.isSpectator())
-			for(Badge badge : badgeList)
-			{
-				boolean isActive = false;
-				if(data.isBadgeActive(badge))
-					if(badge instanceof BadgeHeroClass)
-						isActive = ((BadgeHeroClass) badge).onBadgeTick(event.player.world, event.player, badgeEffects, keyStates.getKeyState(Key.CLASS), keyStates.getKeyTime(Key.CLASS));
-					else if(badge instanceof BadgeHeroAspect)
-						isActive = ((BadgeHeroAspect) badge).onBadgeTick(event.player.world, event.player, badgeEffects, keyStates.getKeyState(Key.ASPECT), keyStates.getKeyTime(Key.ASPECT));
-					else if(badge instanceof BadgeHeroAspectUtil)
-						isActive = ((BadgeHeroAspectUtil) badge).onBadgeTick(event.player.world, event.player, badgeEffects, keyStates.getKeyState(Key.UTIL), keyStates.getKeyTime(Key.UTIL));
-
-				if (!isActive)
-					badgeEffects.stopPowerParticles(badge.getClass());
-			}
-
-		keyStates.tickKeyStates();
 	}
 }

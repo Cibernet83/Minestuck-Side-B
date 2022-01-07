@@ -23,13 +23,9 @@ import java.util.Collections;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeActiveBlood extends BadgeHeroAspect
 {
-	public BadgeActiveBlood() {
+	public BadgeActiveBlood()
+	{
 		super(EnumAspect.BLOOD, EnumRole.ACTIVE, EnumAspect.RAGE);
-	}
-
-	@Override
-	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time) {
-		return false;
 	}
 
 	@SubscribeEvent
@@ -41,15 +37,21 @@ public class BadgeActiveBlood extends BadgeHeroAspect
 		EntityPlayer sourcePlayer = event.getSource().getTrueSource() instanceof EntityPlayer ? (EntityPlayer) event.getSource().getTrueSource() : null;
 		IGodTierData sourceData = sourcePlayer != null ? sourcePlayer.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null) : null;
 
-		if(event.getEntityLiving() != null && sourcePlayer != null && sourcePlayer.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_ACTIVE_BLOOD))
+		if (event.getEntityLiving() != null && sourcePlayer != null && sourcePlayer.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_ACTIVE_BLOOD))
 		{
-			if(sourcePlayer.world.rand.nextFloat() < Math.min(0.8f, (sourcePlayer.getLuck()/25f)))
+			if (sourcePlayer.world.rand.nextFloat() < Math.min(0.8f, (sourcePlayer.getLuck() / 25f)))
 			{
 				event.getEntityLiving().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.BLOOD, 5);
-				PotionEffect effect = new PotionEffect(MinestuckPotions.BLEEDING, (int) ((int) sourcePlayer.getHealth()/sourcePlayer.getMaxHealth()*600), (int) Math.min(5, sourceData.getSkillLevel(GodTierData.SkillType.ATTACK)/5f));
+				PotionEffect effect = new PotionEffect(MinestuckPotions.BLEEDING, (int) ((int) sourcePlayer.getHealth() / sourcePlayer.getMaxHealth() * 600), (int) Math.min(5, sourceData.getSkillLevel(GodTierData.SkillType.ATTACK) / 5f));
 				effect.setCurativeItems(Collections.emptyList());
 				event.getEntityLiving().addPotionEffect(effect);
 			}
 		}
+	}
+
+	@Override
+	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	{
+		return false;
 	}
 }

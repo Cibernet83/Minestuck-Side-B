@@ -87,6 +87,7 @@ public class CardGuiContainer extends SylladexGuiContainer
 		public final Modus modus;
 		public final ResourceLocation texture;
 		public final int index;
+
 		public CardTextureIndex(Modus modus, ResourceLocation texture, int index)
 		{
 			this.modus = modus;

@@ -16,17 +16,17 @@ public class PropertyFirePrjctle extends WeaponProperty implements IPropertyThro
 	}
 
 	@Override
-	public void onProjectileUpdate(EntityMSUThrowable projectile)
+	public boolean onEntityImpact(EntityMSUThrowable projectile, RayTraceResult result)
 	{
-		if(visualFire && !projectile.isBurning() && !projectile.isInWater())
-			projectile.setFire(1000);
+		if (!projectile.isInWater())
+			result.entityHit.setFire(fireSeconds);
+		return true;
 	}
 
 	@Override
-	public boolean onEntityImpact(EntityMSUThrowable projectile, RayTraceResult result)
+	public void onProjectileUpdate(EntityMSUThrowable projectile)
 	{
-		if(!projectile.isInWater())
-			result.entityHit.setFire(fireSeconds);
-		return true;
+		if (visualFire && !projectile.isBurning() && !projectile.isInWater())
+			projectile.setFire(1000);
 	}
 }

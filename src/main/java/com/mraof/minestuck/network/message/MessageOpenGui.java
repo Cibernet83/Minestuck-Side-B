@@ -20,15 +20,15 @@ public class MessageOpenGui implements MinestuckMessage // EntityPlayer$openGui 
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(type);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		type = buf.readInt();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(type);
 	}
 
 	@Override

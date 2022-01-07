@@ -30,21 +30,48 @@ public class PropertyGristSetter extends WeaponProperty
 		this.grist = type;
 	}
 
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void onLivingDamage(LivingDamageEvent event)
+	{
+		if (event.getSource() instanceof EntityDamageSource && event.getSource().getTrueSource() instanceof EntityLivingBase)
+		{
+			EntityLivingBase source = ((EntityLivingBase) event.getSource().getTrueSource());
+			ItemStack stack = source.getHeldItemMainhand();
+
+			//On frog initial hit
+			if (stack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyGristSetter.class, stack))
+			{
+				Grist grist = ((PropertyGristSetter) ((IPropertyWeapon) stack.getItem()).getProperty(PropertyGristSetter.class, stack)).grist;
+				int frogType = -1;
+				if (grist == MinestuckGrist.gold)
+					frogType = 5;
+				if (grist == MinestuckGrist.ruby)
+					frogType = 2;
+				if (grist == MinestuckGrist.artifact)
+					frogType = 6;
+
+				if (event.getEntityLiving() instanceof EntityFrog && (((EntityFrog) event.getEntityLiving()).getType() != frogType || ((EntityFrog) event.getEntityLiving()).getType() == 4))
+					event.setAmount(0);
+			}
+
+		}
+	}
+
 	@Override
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
 		int frogType = -1;
-		if(grist == MinestuckGrist.gold)
+		if (grist == MinestuckGrist.gold)
 			frogType = 5;
-		if(grist == MinestuckGrist.ruby)
+		if (grist == MinestuckGrist.ruby)
 			frogType = 2;
-		if(grist == MinestuckGrist.artifact)
+		if (grist == MinestuckGrist.artifact)
 			frogType = target.world.rand.nextInt(100) == 0 ? 6 : 4;
 
-		if(frogType != -1 && target instanceof EntityFrog && ((EntityFrog) target).getType() != frogType && ((EntityFrog) target).getType() != 4)
+		if (frogType != -1 && target instanceof EntityFrog && ((EntityFrog) target).getType() != frogType && ((EntityFrog) target).getType() != 4)
 		{
-			((WorldServer)target.world).spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, target.posX, target.posY + target.height/2f, target.posZ, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
-			((WorldServer)target.world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, target.posX, target.posY + target.height/2f, target.posZ, 5, 0.2D, 0.2D, 0.2D, 0.5D,
+			((WorldServer) target.world).spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, target.posX, target.posY + target.height / 2f, target.posZ, 1, 0.0D, 0.0D, 0.0D, 0.0D);
+			((WorldServer) target.world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, target.posX, target.posY + target.height / 2f, target.posZ, 5, 0.2D, 0.2D, 0.2D, 0.5D,
 					Block.getStateId(MinestuckBlocks.gristBlocks.get(grist).getDefaultState()));
 			target.playSound(SoundEvents.BLOCK_ANVIL_LAND, 0.7f, ((target.world.rand.nextFloat() - target.world.rand.nextFloat()) * 0.2F + 1.0F) * 0.8F);
 
@@ -52,41 +79,14 @@ public class PropertyGristSetter extends WeaponProperty
 			nbt.setInteger("Type", frogType);
 			target.readFromNBT(nbt);
 		}
-		if(target instanceof EntityUnderling && ((EntityUnderling) target).getGristType() != grist)
+		if (target instanceof EntityUnderling && ((EntityUnderling) target).getGristType() != grist)
 		{
-			((WorldServer)target.world).spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, target.posX, target.posY + target.height/2f, target.posZ, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
-			((WorldServer)target.world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, target.posX, target.posY + target.height/2f, target.posZ, 5, target.width/2f, target.height/2f, target.width/2f, 0.5D,
+			((WorldServer) target.world).spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, target.posX, target.posY + target.height / 2f, target.posZ, 1, 0.0D, 0.0D, 0.0D, 0.0D);
+			((WorldServer) target.world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, target.posX, target.posY + target.height / 2f, target.posZ, 5, target.width / 2f, target.height / 2f, target.width / 2f, 0.5D,
 					Block.getStateId(MinestuckBlocks.gristBlocks.get(grist).getDefaultState()));
 			target.playSound(SoundEvents.BLOCK_ANVIL_LAND, 0.7f, ((target.world.rand.nextFloat() - target.world.rand.nextFloat()) * 0.2F + 1.0F) * 0.8F);
 
 			((EntityUnderling) target).applyGristType(grist, false);
-		}
-	}
-
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void onLivingDamage(LivingDamageEvent event)
-	{
-		if(event.getSource() instanceof EntityDamageSource && event.getSource().getTrueSource() instanceof EntityLivingBase)
-		{
-			EntityLivingBase source = ((EntityLivingBase) event.getSource().getTrueSource());
-			ItemStack stack = source.getHeldItemMainhand();
-
-			//On frog initial hit
-			if(stack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) stack.getItem()).hasProperty(PropertyGristSetter.class, stack))
-			{
-				Grist grist = ((PropertyGristSetter) ((IPropertyWeapon) stack.getItem()).getProperty(PropertyGristSetter.class, stack)).grist;
-				int frogType = -1;
-				if(grist == MinestuckGrist.gold)
-					frogType = 5;
-				if(grist == MinestuckGrist.ruby)
-					frogType = 2;
-				if(grist == MinestuckGrist.artifact)
-					frogType = 6;
-
-				if(event.getEntityLiving() instanceof EntityFrog && (((EntityFrog) event.getEntityLiving()).getType() != frogType || ((EntityFrog) event.getEntityLiving()).getType() == 4))
-					event.setAmount(0);
-			}
-
 		}
 	}
 }

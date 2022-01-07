@@ -25,7 +25,8 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiMiniAlchemiter extends GuiMiniSburbMachine implements IGristSelectable
 {
-	public GuiMiniAlchemiter(InventoryPlayer inventoryPlayer, TileEntityMiniAlchemiter tileEntity) {
+	public GuiMiniAlchemiter(InventoryPlayer inventoryPlayer, TileEntityMiniAlchemiter tileEntity)
+	{
 		super("alchemiter", new ContainerMiniAlchemiter(inventoryPlayer, tileEntity), tileEntity);
 
 		progressX = 54;
@@ -82,8 +83,8 @@ public class GuiMiniAlchemiter extends GuiMiniSburbMachine implements IGristSele
 			}
 		}
 		else if (par3 == 0 && mc.player.inventory.getItemStack().isEmpty()
-				&& te.getStackInSlot(0) != null && AlchemyUtils.getDecodedItem(te.getStackInSlot(0)).getItem() == MinestuckItems.captchaCard
-				&& par1 >= guiLeft + 9 && par1 < guiLeft + 167 && par2 >= guiTop + 45 && par2 < guiTop + 70)
+						 && te.getStackInSlot(0) != null && AlchemyUtils.getDecodedItem(te.getStackInSlot(0)).getItem() == MinestuckItems.captchaCard
+						 && par1 >= guiLeft + 9 && par1 < guiLeft + 167 && par2 >= guiTop + 45 && par2 < guiTop + 70)
 		{
 			mc.currentScreen = new GuiGristSelector(this);
 			mc.currentScreen.setWorldAndResolution(mc, width, height);

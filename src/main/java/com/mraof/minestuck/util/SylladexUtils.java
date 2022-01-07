@@ -25,14 +25,27 @@ import java.util.Random;
 public class SylladexUtils
 {
 	public static Random rand;
-	
-	public static void launchItem(EntityPlayer player, ItemStack item)
+
+	public static void captchalouge(int slotIndex, EntityPlayerMP player)
 	{
-		EntityItem entity = new EntityItem(player.world, player.posX, player.posY+1, player.posZ, item);
-		entity.motionX = rand.nextDouble() - 0.5;
-		entity.motionZ = rand.nextDouble() - 0.5;
-		entity.setDefaultPickupDelay();
-		player.world.spawnEntity(entity);
+		if (getSylladex(player) == null)
+			return;
+
+		// This statement is so that the server knows whether the item is in the hotbar or not because apparently THE "openContainer" CANT EDIT THE HOTBAR SLOTS.
+		if (player.openContainer == player.inventoryContainer && InventoryPlayer.isHotbar(slotIndex))
+		{
+			int hotbarIndex = slotIndex;
+			ItemStack stack = player.inventory.mainInventory.get(hotbarIndex);
+			captchalogue(new CaptchalogueableItemStack(stack), player);
+			player.inventory.setInventorySlotContents(hotbarIndex, ItemStack.EMPTY);
+		}
+		else
+		{
+			Slot slot = player.openContainer.getSlot(slotIndex);
+			ItemStack stack = slot.getStack();
+			captchalogue(new CaptchalogueableItemStack(stack), player);
+			slot.putStack(ItemStack.EMPTY);
+		}
 	}
 
 	public static void captchalogue(ICaptchalogueable object, EntityPlayerMP player)
@@ -56,31 +69,16 @@ public class SylladexUtils
 
 		MinestuckNetwork.sendTo(new MessageSylladexData(player), player);
 	}
-	
-	public static void captchalouge(int slotIndex, EntityPlayerMP player) {
-		if (getSylladex(player) == null)
-			return;
 
-		// This statement is so that the server knows whether the item is in the hotbar or not because apparently THE "openContainer" CANT EDIT THE HOTBAR SLOTS.
-		if(player.openContainer == player.inventoryContainer && InventoryPlayer.isHotbar(slotIndex)) {
-			int hotbarIndex = slotIndex;
-			ItemStack stack = player.inventory.mainInventory.get(hotbarIndex);
-			captchalogue(new CaptchalogueableItemStack(stack), player);
-			player.inventory.setInventorySlotContents(hotbarIndex, ItemStack.EMPTY);
-		}
-		else
-		{
-			Slot slot = player.openContainer.getSlot(slotIndex);
-			ItemStack stack = slot.getStack();
-			captchalogue(new CaptchalogueableItemStack(stack), player);
-			slot.putStack(ItemStack.EMPTY);
-		}
+	public static MultiSylladex getSylladex(EntityPlayer player)
+	{
+		return player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).getSylladex();
 	}
 
 	public static void fetch(EntityPlayerMP player, int[] slotStack, boolean asCard)
 	{
 		MultiSylladex sylladex = getSylladex(player);
-		if(sylladex == null)
+		if (sylladex == null)
 			return;
 
 		boolean fetched = false;
@@ -104,14 +102,6 @@ public class SylladexUtils
 			MinestuckNetwork.sendTo(new MessageSylladexData(player), player);
 	}
 
-	public static boolean areItemStacksCompatible(ItemStack stackA, ItemStack stackB)
-	{
-		return stackA.getItem() == stackB.getItem() &&
-					   (!stackA.getHasSubtypes() || stackA.getMetadata() == stackB.getMetadata()) &&
-					   ItemStack.areItemStackTagsEqual(stackA, stackB) &&
-					   stackA.isStackable();
-	}
-
 	public static boolean moveItemStack(ItemStack stack, ItemStack into)
 	{
 		if (!areItemStacksCompatible(stack, into))
@@ -128,10 +118,18 @@ public class SylladexUtils
 		return true;
 	}
 
+	public static boolean areItemStacksCompatible(ItemStack stackA, ItemStack stackB)
+	{
+		return stackA.getItem() == stackB.getItem() &&
+					   (!stackA.getHasSubtypes() || stackA.getMetadata() == stackB.getMetadata()) &&
+					   ItemStack.areItemStackTagsEqual(stackA, stackB) &&
+					   stackA.isStackable();
+	}
+
 	public static void dropSylladexOnDeath(EntityPlayer player) // TODO: instead of dropping items add them to the player drops list
 	{
 		MultiSylladex sylladex = getSylladex(player);
-		if(sylladex == null)
+		if (sylladex == null)
 			return;
 
 		boolean asCards = MinestuckConfig.dropItemsInCards && MinestuckConfig.sylladexDropMode != 0;
@@ -149,12 +147,16 @@ public class SylladexUtils
 
 		setSylladex(player, ISylladex.newSylladex(player, sylladex.getModusLayers()));
 	}
-	
-	public static MultiSylladex getSylladex(EntityPlayer player)
+
+	public static void launchItem(EntityPlayer player, ItemStack item)
 	{
-		return player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).getSylladex();
+		EntityItem entity = new EntityItem(player.world, player.posX, player.posY + 1, player.posZ, item);
+		entity.motionX = rand.nextDouble() - 0.5;
+		entity.motionZ = rand.nextDouble() - 0.5;
+		entity.setDefaultPickupDelay();
+		player.world.spawnEntity(entity);
 	}
-	
+
 	public static void setSylladex(EntityPlayer player, MultiSylladex sylladex)
 	{
 		player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).setSylladex(sylladex); // FIXME: ded server really doesn't like it when you don't have a sylladex :/

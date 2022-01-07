@@ -27,7 +27,8 @@ public class TimetableEffectEvent extends Event
 	}
 
 	@Override
-	public boolean isCancelable() {
+	public boolean isCancelable()
+	{
 		return true;
 	}
 

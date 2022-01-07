@@ -4,7 +4,6 @@ import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,13 +15,13 @@ public class EntityOperandiEightBall extends EntityAbstractOperandiThrowable
 	{
 		super(worldIn);
 	}
-	
+
 	public EntityOperandiEightBall(World worldIn, EntityLivingBase throwerIn, ICaptchalogueable stack)
 	{
 		super(worldIn, throwerIn, stack);
 	}
 
-	
+
 	/**
 	 * Handler for {@link World#setEntityState}
 	 */
@@ -32,7 +31,7 @@ public class EntityOperandiEightBall extends EntityAbstractOperandiThrowable
 		if (id == 3)
 		{
 			for (int i = 0; i < 8; ++i)
-				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(MinestuckItems.operandiEightBall));
+				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(MinestuckItems.operandiEightBall));
 		}
 	}
 }

@@ -1,31 +1,10 @@
 package com.mraof.minestuck.entity;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.entity.carapacian.EntityBlackBishop;
-import com.mraof.minestuck.entity.carapacian.EntityBlackPawn;
-import com.mraof.minestuck.entity.carapacian.EntityBlackRook;
-import com.mraof.minestuck.entity.carapacian.EntityWhiteBishop;
-import com.mraof.minestuck.entity.carapacian.EntityWhitePawn;
-import com.mraof.minestuck.entity.carapacian.EntityWhiteRook;
-import com.mraof.minestuck.entity.consort.EntityIguana;
-import com.mraof.minestuck.entity.consort.EntityNakagator;
-import com.mraof.minestuck.entity.consort.EntitySalamander;
-import com.mraof.minestuck.entity.consort.EntityTurtle;
-import com.mraof.minestuck.entity.consort.EnumConsort;
-import com.mraof.minestuck.entity.item.EntityCrewPoster;
-import com.mraof.minestuck.entity.item.EntityGrist;
-import com.mraof.minestuck.entity.item.EntityHologram;
-import com.mraof.minestuck.entity.item.EntityMetalBoat;
-import com.mraof.minestuck.entity.item.EntitySbahjPoster;
-import com.mraof.minestuck.entity.item.EntityShopPoster;
-import com.mraof.minestuck.entity.item.EntityVitalityGel;
-import com.mraof.minestuck.entity.underling.EntityBasilisk;
-import com.mraof.minestuck.entity.underling.EntityGiclops;
-import com.mraof.minestuck.entity.underling.EntityImp;
-import com.mraof.minestuck.entity.underling.EntityLich;
-import com.mraof.minestuck.entity.underling.EntityOgre;
-import com.mraof.minestuck.entity.underling.EntityWyrm;
-
+import com.mraof.minestuck.entity.carapacian.*;
+import com.mraof.minestuck.entity.consort.*;
+import com.mraof.minestuck.entity.item.*;
+import com.mraof.minestuck.entity.underling.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -55,7 +34,7 @@ public final class MinestuckEntities
 		registerEntity(EntityWhiteBishop.class, "prospitianBishop", "prospitian_bishop");
 		registerEntity(EntityBlackRook.class, "dersiteRook", "dersite_rook");
 		registerEntity(EntityWhiteRook.class, "prospitianRook", "prospitian_rook");
-		registerEntity(EntityDecoy.class, "playerDecoy",  "player_decoy");
+		registerEntity(EntityDecoy.class, "playerDecoy", "player_decoy");
 		registerEntity(EntityMetalBoat.class, "metalBoat", "metal_boat");
 		registerEntity(EntityGrist.class, "grist", "grist", 512, 1, true);
 		registerEntity(EntityVitalityGel.class, "vitalityGel", "vitality_gel", 512, 1, true);
@@ -76,18 +55,24 @@ public final class MinestuckEntities
 		registerEntity(EntityHopeGolem.class, "hope_golem");
 		registerEntity(EntityLocatorEye.class, "denizen_eye");
 	}
-	
-	
+
+
 	public static void registerEntity(Class<? extends Entity> entityClass, String name)
 	{
 		registerEntity(entityClass, name, name, 80, 3, true);
 	}
-	
+
 	public static void registerEntity(Class<? extends Entity> entityClass, String name, int eggPrimary, int eggSecondary)
 	{
 		registerEntity(entityClass, name, name, 80, 3, true, eggPrimary, eggSecondary);
 	}
-	
+
+	public static void registerEntity(Class<? extends Entity> entityClass, String name, String registryName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates, int eggPrimary, int eggSecondary)
+	{
+		EntityRegistry.registerModEntity(new ResourceLocation("minestuck", registryName), entityClass, "minestuck." + name, currentEntityIdOffset, Minestuck.instance, trackingRange, updateFrequency, sendsVelocityUpdates, eggPrimary, eggSecondary);
+		currentEntityIdOffset++;
+	}
+
 	//registers entity with forge and minecraft, and increases currentEntityIdOffset by one in order to prevent id collision
 	public static void registerEntity(Class<? extends Entity> entityClass, String name, String registryName)
 	{
@@ -100,10 +85,4 @@ public final class MinestuckEntities
 		currentEntityIdOffset++;
 	}
 
-	public static void registerEntity(Class<? extends Entity> entityClass, String name, String registryName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates, int eggPrimary, int eggSecondary)
-	{
-		EntityRegistry.registerModEntity(new ResourceLocation("minestuck", registryName), entityClass, "minestuck." + name, currentEntityIdOffset, Minestuck.instance, trackingRange, updateFrequency, sendsVelocityUpdates, eggPrimary, eggSecondary);
-		currentEntityIdOffset++;
-	}
-	
 }

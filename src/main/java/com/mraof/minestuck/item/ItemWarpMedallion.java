@@ -1,9 +1,9 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.tileentity.TileEntityRedTransportalizer;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.network.skaianet.SburbConnection;
 import com.mraof.minestuck.network.skaianet.SkaianetHandler;
+import com.mraof.minestuck.tileentity.TileEntityRedTransportalizer;
 import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
 import com.mraof.minestuck.util.*;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
@@ -34,256 +34,264 @@ import java.util.List;
 
 public class ItemWarpMedallion extends MSItemBase
 {
-    protected EnumTeleportType teleportType;
+	protected EnumTeleportType teleportType;
 
-    public ItemWarpMedallion(String name, EnumTeleportType type, int uses)
-    {
-        super(name);
-        this.teleportType = type;
+	public ItemWarpMedallion(String name, EnumTeleportType type, int uses)
+	{
+		super(name);
+		this.teleportType = type;
 
-        if(uses >= 0)
-            setMaxDamage(uses);
+		if (uses >= 0)
+			setMaxDamage(uses);
 
-        setMaxStackSize(1);
-    }
+		setMaxStackSize(1);
+	}
 
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
-        if(teleportType == EnumTeleportType.TRANSPORTALIZER && stack.hasTagCompound())
-        {
-            if(stack.getTagCompound().getBoolean("IsHidden"))
-                tooltip.add(I18n.translateToLocalFormatted("item.teleportMedallion.transportalizerOwner", IdentifierHandler.load(stack.getTagCompound(), "Player").getUsername()));
-            else if(stack.getTagCompound().hasKey("Code"))
-                tooltip.add("[" + stack.getTagCompound().getString("Code") + "]");
-            else super.addInformation(stack, worldIn, tooltip, flagIn);
-        }
-        else super.addInformation(stack, worldIn, tooltip, flagIn);
-    }
+	@SideOnly(Side.CLIENT)
+	public static int getColor(ItemStack stack)
+	{
+		int colorIndex = ColorCollector.getColor(MinestuckPlayerData.getData(Minecraft.getMinecraft().player).color);
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("Color"))
+			colorIndex = stack.getTagCompound().getInteger("Color");
 
-    @Override
-    public EnumAction getItemUseAction(ItemStack stack)
-    {
-        return EnumAction.BOW;
-    }
+		return colorIndex <= -1 || colorIndex >= ColorCollector.getColorSize() ? 0x99D9EA : ColorCollector.getColor(colorIndex);
+	}
 
-    @Override
-    public int getMaxItemUseDuration(ItemStack stack)
-    {
-        return 32;
-    }
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	{
+		if (teleportType == EnumTeleportType.TRANSPORTALIZER && stack.hasTagCompound())
+		{
+			if (stack.getTagCompound().getBoolean("IsHidden"))
+				tooltip.add(I18n.translateToLocalFormatted("item.teleportMedallion.transportalizerOwner", IdentifierHandler.load(stack.getTagCompound(), "Player").getUsername()));
+			else if (stack.getTagCompound().hasKey("Code"))
+				tooltip.add("[" + stack.getTagCompound().getString("Code") + "]");
+			else super.addInformation(stack, worldIn, tooltip, flagIn);
+		}
+		else super.addInformation(stack, worldIn, tooltip, flagIn);
+	}
 
-    @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-    {
-        super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if (teleportType == EnumTeleportType.TRANSPORTALIZER)
+		{
+			if (worldIn.getTileEntity(pos) instanceof TileEntityTransportalizer)
+			{
+				TileEntityTransportalizer te = (TileEntityTransportalizer) worldIn.getTileEntity(pos);
+				ItemStack stack = player.getHeldItem(hand);
 
-        if(teleportType == EnumTeleportType.RETURN)
-        {
-            if(stack.getTagCompound() == null)
-                stack.setTagCompound(new NBTTagCompound());
-            if(!stack.getTagCompound().hasUniqueId("Player"))
-            {
-                IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode((EntityPlayer)entityIn);
-                if(!worldIn.isRemote)
-                stack.getTagCompound().setInteger("Color", MinestuckPlayerData.getData(id).color);
-                id.saveToNBT(stack.getTagCompound(), "Player");
-            }
-        }
-    }
+				if (stack.getTagCompound() == null)
+					stack.setTagCompound(new NBTTagCompound());
 
-    @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-    {
-        if(teleportType == EnumTeleportType.TRANSPORTALIZER)
-        {
-            if(worldIn.getTileEntity(pos) instanceof TileEntityTransportalizer)
-            {
-                TileEntityTransportalizer te = (TileEntityTransportalizer) worldIn.getTileEntity(pos);
-                ItemStack stack = player.getHeldItem(hand);
+				if (te instanceof TileEntityRedTransportalizer)
+				{
+					if (player.equals(((TileEntityRedTransportalizer) te).owner.getPlayer()))
+					{
+						stack.getTagCompound().setBoolean("IsHidden", true);
+						IdentifierHandler.encode(player).saveToNBT(stack.getTagCompound(), "Player");
+					}
+					else
+					{
+						player.sendStatusMessage(new TextComponentTranslation("message.transportalizer.notOwner"), true);
+						return EnumActionResult.SUCCESS;
+					}
+				}
 
-                if(stack.getTagCompound() == null)
-                    stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setString("Code", te.getId());
+				return EnumActionResult.SUCCESS;
+			}
+		}
 
-                if(te instanceof TileEntityRedTransportalizer)
-                {
-                    if(player.equals(((TileEntityRedTransportalizer) te).owner.getPlayer()))
-                    {
-                        stack.getTagCompound().setBoolean("IsHidden", true);
-                        IdentifierHandler.encode(player).saveToNBT(stack.getTagCompound(), "Player");
-                    }
-                    else
-                    {
-                        player.sendStatusMessage(new TextComponentTranslation("message.transportalizer.notOwner"), true);
-                        return EnumActionResult.SUCCESS;
-                    }
-                }
+		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+	}
 
-                stack.getTagCompound().setString("Code", te.getId());
-                return EnumActionResult.SUCCESS;
-            }
-        }
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
+		playerIn.setActiveHand(handIn);
+		return new ActionResult<>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+	}
 
-        return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
-    }
+	@Override
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+	{
+		if (!worldIn.isRemote)
+		{
+			if (teleport(stack, worldIn, entityLiving))
+			{
+				stack.damageItem(1, entityLiving);
+				entityLiving.motionX = 0;
+				entityLiving.motionY = 0;
+				entityLiving.motionZ = 0;
+				entityLiving.fallDistance = 0;
+			}
+			else if (entityLiving instanceof EntityPlayer)
+				((EntityPlayer) entityLiving).sendStatusMessage(new TextComponentTranslation("message.medallion.error"), true);
+		}
+		return super.onItemUseFinish(stack, worldIn, entityLiving);
+	}
 
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-    {
-        playerIn.setActiveHand(handIn);
-        return new ActionResult<>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
-    }
+		if (teleportType == EnumTeleportType.RETURN)
+		{
+			if (stack.getTagCompound() == null)
+				stack.setTagCompound(new NBTTagCompound());
+			if (!stack.getTagCompound().hasUniqueId("Player"))
+			{
+				IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode((EntityPlayer) entityIn);
+				if (!worldIn.isRemote)
+					stack.getTagCompound().setInteger("Color", MinestuckPlayerData.getData(id).color);
+				id.saveToNBT(stack.getTagCompound(), "Player");
+			}
+		}
+	}
 
-    @SideOnly(Side.CLIENT)
-    public static int getColor(ItemStack stack)
-    {
-        int colorIndex = ColorCollector.getColor(MinestuckPlayerData.getData(Minecraft.getMinecraft().player).color);
-        if(stack.hasTagCompound() && stack.getTagCompound().hasKey("Color"))
-            colorIndex = stack.getTagCompound().getInteger("Color");
+	@Override
+	public EnumAction getItemUseAction(ItemStack stack)
+	{
+		return EnumAction.BOW;
+	}
 
-        return colorIndex <= -1 || colorIndex >= ColorCollector.getColorSize() ? 0x99D9EA : ColorCollector.getColor(colorIndex);
-    }
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack)
+	{
+		return 32;
+	}
 
-    @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
-    {
-        if(!worldIn.isRemote) {
-            if (teleport(stack, worldIn, entityLiving)) {
-                stack.damageItem(1, entityLiving);
-                entityLiving.motionX = 0;
-                entityLiving.motionY = 0;
-                entityLiving.motionZ = 0;
-                entityLiving.fallDistance = 0;
-            } else if(entityLiving instanceof EntityPlayer)
-                ((EntityPlayer) entityLiving).sendStatusMessage(new TextComponentTranslation("message.medallion.error"), true);
-        }
-        return super.onItemUseFinish(stack, worldIn, entityLiving);
-    }
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+	{
+		return repair.getItem() == MinestuckItems.rawUranium;
+	}
 
-    private boolean teleport(ItemStack medallion, World worldIn, EntityLivingBase entityLiving)
-    {
-        BlockPos pos;
+	@Override
+	public boolean isRepairable()
+	{
+		return true;
+	}
 
-        switch (teleportType)
-        {
-            case SKAIA:
+	private boolean teleport(ItemStack medallion, World worldIn, EntityLivingBase entityLiving)
+	{
+		BlockPos pos;
 
-                int dimId = MinestuckDimensionHandler.skaiaDimensionId == worldIn.provider.getDimension() ? 0 : MinestuckDimensionHandler.skaiaDimensionId;
-                WorldServer dimWorld = entityLiving.getServer().getWorld(dimId);
-                pos = dimWorld.provider.getRandomizedSpawnPoint();
-                //pos = dimWorld.getTopSolidOrLiquidBlock(new BlockPos(entityLiving)).up(5); TODO config maybe?
+		switch (teleportType)
+		{
+			case SKAIA:
 
-            return Teleport.teleportEntity(entityLiving, dimId, null, pos);
+				int dimId = MinestuckDimensionHandler.skaiaDimensionId == worldIn.provider.getDimension() ? 0 : MinestuckDimensionHandler.skaiaDimensionId;
+				WorldServer dimWorld = entityLiving.getServer().getWorld(dimId);
+				pos = dimWorld.provider.getRandomizedSpawnPoint();
+				//pos = dimWorld.getTopSolidOrLiquidBlock(new BlockPos(entityLiving)).up(5); TODO config maybe?
 
-            case TRANSPORTALIZER:
+				return Teleport.teleportEntity(entityLiving, dimId, null, pos);
 
-                if(!medallion.hasTagCompound() || !medallion.getTagCompound().hasKey("Code"))
-                    return false;
-            return tpToTransportalizer(medallion.getTagCompound().getString("Code"), worldIn, entityLiving, false);
+			case TRANSPORTALIZER:
 
-            case RETURN:
+				if (!medallion.hasTagCompound() || !medallion.getTagCompound().hasKey("Code"))
+					return false;
+				return tpToTransportalizer(medallion.getTagCompound().getString("Code"), worldIn, entityLiving, false);
 
-                if(!medallion.hasTagCompound() || !medallion.getTagCompound().hasUniqueId("Player"))
-                    return false;
-                IdentifierHandler.PlayerIdentifier identifier = IdentifierHandler.load(medallion.getTagCompound(), "Player");
-                if(identifier == null)
-                    return false;
+			case RETURN:
 
-                SburbConnection c = SkaianetHandler.getMainConnection(identifier, true);
-                if(c == null)
-                    return false;
+				if (!medallion.hasTagCompound() || !medallion.getTagCompound().hasUniqueId("Player"))
+					return false;
+				IdentifierHandler.PlayerIdentifier identifier = IdentifierHandler.load(medallion.getTagCompound(), "Player");
+				if (identifier == null)
+					return false;
 
-                WorldServer world = entityLiving.getServer().getWorld(c.getClientDimension());
-                pos = world.provider.getRandomizedSpawnPoint();
-                Teleport.teleportEntity(entityLiving, c.getClientDimension(), null, pos);
-                return true;
-        }
+				SburbConnection c = SkaianetHandler.getMainConnection(identifier, true);
+				if (c == null)
+					return false;
 
-        return false;
-    }
+				WorldServer world = entityLiving.getServer().getWorld(c.getClientDimension());
+				pos = world.provider.getRandomizedSpawnPoint();
+				Teleport.teleportEntity(entityLiving, c.getClientDimension(), null, pos);
+				return true;
+		}
 
+		return false;
+	}
 
-    public boolean tpToTransportalizer(String destId, World world, Entity entity, boolean bypassDimBan)
-    {
-        Location location = (Location)TileEntityTransportalizer.transportalizers.get(destId);
-        if (location != null && location.pos.getY() != -1)
-        {
-            WorldServer destWorld = entity.getServer().getWorld(location.dim);
-            TileEntityTransportalizer destTransportalizer = (TileEntityTransportalizer)destWorld.getTileEntity(location.pos);
-            if (destTransportalizer == null) {
-                Debug.warn("Invalid transportalizer in map: " + destId + " at " + location);
-                TileEntityTransportalizer.transportalizers.remove(destId);
-                destId = "";
-                return false;
-            }
+	public boolean tpToTransportalizer(String destId, World world, Entity entity, boolean bypassDimBan)
+	{
+		Location location = TileEntityTransportalizer.transportalizers.get(destId);
+		if (location != null && location.pos.getY() != -1)
+		{
+			WorldServer destWorld = entity.getServer().getWorld(location.dim);
+			TileEntityTransportalizer destTransportalizer = (TileEntityTransportalizer) destWorld.getTileEntity(location.pos);
+			if (destTransportalizer == null)
+			{
+				Debug.warn("Invalid transportalizer in map: " + destId + " at " + location);
+				TileEntityTransportalizer.transportalizers.remove(destId);
+				destId = "";
+				return false;
+			}
 
-            if (!destTransportalizer.getEnabled()) {
-                return false;
-            }
+			if (!destTransportalizer.getEnabled())
+			{
+				return false;
+			}
 
-            int[] var5 = bypassDimBan ? new int[0] : MinestuckConfig.forbiddenDimensionsTpz;
-            int var6 = var5.length;
-            int var7 = 0;
+			int[] var5 = bypassDimBan ? new int[0] : MinestuckConfig.forbiddenDimensionsTpz;
+			int var6 = var5.length;
+			int var7 = 0;
 
-            while(true) {
-                if (var7 >= var6)
-                {
-                       IBlockState block0 = destWorld.getBlockState(location.pos.up());
-                       IBlockState block1 = destWorld.getBlockState(location.pos.up(2));
+			while (true)
+			{
+				if (var7 >= var6)
+				{
+					IBlockState block0 = destWorld.getBlockState(location.pos.up());
+					IBlockState block1 = destWorld.getBlockState(location.pos.up(2));
 
-                        if (!block0.getMaterial().blocksMovement() && !block1.getMaterial().blocksMovement())
-                        {
-                            Teleport.teleportEntity(entity, location.dim, (Teleport.ITeleporter)null, (double)destTransportalizer.getPos().getX() + 0.5D, (double)destTransportalizer.getPos().getY() + 0.6D, (double)destTransportalizer.getPos().getZ() + 0.5D);
-                            entity.timeUntilPortal = entity.getPortalCooldown();
-                            break;
-                        }
+					if (!block0.getMaterial().blocksMovement() && !block1.getMaterial().blocksMovement())
+					{
+						Teleport.teleportEntity(entity, location.dim, null, (double) destTransportalizer.getPos().getX() + 0.5D, (double) destTransportalizer.getPos().getY() + 0.6D, (double) destTransportalizer.getPos().getZ() + 0.5D);
+						entity.timeUntilPortal = entity.getPortalCooldown();
+						break;
+					}
 
-                        entity.timeUntilPortal = entity.getPortalCooldown();
-                        if (entity instanceof EntityPlayerMP) {
-                            entity.sendMessage(new TextComponentTranslation("message.transportalizer.destinationBlocked", new Object[0]));
-                        }
+					entity.timeUntilPortal = entity.getPortalCooldown();
+					if (entity instanceof EntityPlayerMP)
+					{
+						entity.sendMessage(new TextComponentTranslation("message.transportalizer.destinationBlocked"));
+					}
 
-                        return false;
-                }
+					return false;
+				}
 
-                int id = var5[var7];
-                if (world.provider.getDimension() == id || location.dim == id) {
-                    entity.timeUntilPortal = entity.getPortalCooldown();
-                    if (entity instanceof EntityPlayerMP) {
-                        entity.sendMessage(new TextComponentTranslation(world.provider.getDimension() == id ? "message.transportalizer.forbidden" : "message.transportalizer.forbiddenDest", new Object[0]));
-                    }
+				int id = var5[var7];
+				if (world.provider.getDimension() == id || location.dim == id)
+				{
+					entity.timeUntilPortal = entity.getPortalCooldown();
+					if (entity instanceof EntityPlayerMP)
+					{
+						entity.sendMessage(new TextComponentTranslation(world.provider.getDimension() == id ? "message.transportalizer.forbidden" : "message.transportalizer.forbiddenDest"));
+					}
 
-                    return false;
-                }
+					return false;
+				}
 
-                ++var7;
-            }
-        }
-        else
-        {
-            entity.sendMessage(new TextComponentTranslation("message.transportalizer.destinationInvalid", new Object[0]));
-            return false;
-        }
-        return true;
-    }
+				++var7;
+			}
+		}
+		else
+		{
+			entity.sendMessage(new TextComponentTranslation("message.transportalizer.destinationInvalid"));
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
-    {
-        return repair.getItem() == MinestuckItems.rawUranium;
-    }
-
-    @Override
-    public boolean isRepairable() {
-        return true;
-    }
-
-    public enum EnumTeleportType
-    {
-        RETURN,
-        TRANSPORTALIZER,
-        SKAIA,
-        NONE
-    }
+	public enum EnumTeleportType
+	{
+		RETURN,
+		TRANSPORTALIZER,
+		SKAIA,
+		NONE
+	}
 }

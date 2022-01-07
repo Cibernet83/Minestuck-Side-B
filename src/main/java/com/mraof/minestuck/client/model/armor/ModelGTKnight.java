@@ -8,23 +8,24 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class ModelGTKnight extends ModelGTAbstract
 {
-	public ModelGTKnight() {
-		super(128,128, EnumClass.KNIGHT);
+	public ModelGTKnight()
+	{
+		super(128, 128, EnumClass.KNIGHT);
 		addColorIgnores(6, 7, 8);
-		
+
 		neck.setRotationPoint(0.0F, 0.0F, 0.0F);
 		neck.cubeList.add(new ModelBox(neck, 44, 35, -4.0F, -0.0F, -3.0F, 8, 2, 1, 0.0F, false));
 		neck.cubeList.add(new ModelBox(neck, 44, 38, -4.0F, -0.0F, 2.2F, 8, 2, 1, 0.0F, false));
-		
+
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		head.cubeList.add(new ModelBox(head, 34, 34, 4.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 42, 0, -5.0F, -9.0F+0.2f, 4.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 50, 9, -5.0F, -9.0F+0.2f, -5.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F+0.2f, -5.0F, 10, 1, 10, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 32, 3, -5.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -10.0F+0.2f, -4.0F, 10, 1, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 16, 52, -4.0F, -10.0F+0.2f, 4.0F, 8, 1, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 34, 50, -4.0F, -10.0F+0.2f, -5.0F, 8, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 34, 34, 4.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 42, 0, -5.0F, -9.0F + 0.2f, 4.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 50, 9, -5.0F, -9.0F + 0.2f, -5.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F + 0.2f, -5.0F, 10, 1, 10, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 32, 3, -5.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -10.0F + 0.2f, -4.0F, 10, 1, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 16, 52, -4.0F, -10.0F + 0.2f, 4.0F, 8, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 34, 50, -4.0F, -10.0F + 0.2f, -5.0F, 8, 1, 1, 0.0F, false));
 
 		torso.setRotationPoint(0.0F, 0.0F, 0.0F);
 		torso.cubeList.add(new ModelBox(torso, 18, 20, -4.0F, -0.0F, -2.0F, 8, 12, 4, 0.251F, false));
@@ -51,7 +52,8 @@ public class ModelGTKnight extends ModelGTAbstract
 		rightFoot.cubeList.add(new ModelBox(rightFoot, 16, 59, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, false));
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;

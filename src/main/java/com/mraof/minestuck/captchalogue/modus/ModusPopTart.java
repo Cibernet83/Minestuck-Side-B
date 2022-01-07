@@ -23,25 +23,46 @@ public class ModusPopTart extends Modus
 		super(name);
 	}
 
+	public static ItemFood.FoodItemConsumer getConsumer()
+	{
+		return (stack, worldIn, player) ->
+		{
+			ICaptchalogueable storedStack = ModusStorage.getStoredItem(stack);
+
+			if (storedStack != null && !storedStack.isEmpty())
+			{
+				boolean isHandEmpty = player.getHeldItemMainhand().isEmpty();
+				storedStack.fetch(player);
+				if (!worldIn.isRemote)
+					player.sendStatusMessage(new TextComponentTranslation("status.popTartEat", storedStack.getDisplayName()), true);
+				if (isHandEmpty && !player.getHeldItemMainhand().isEmpty())
+					return player.getHeldItemMainhand();
+			}
+			return null;
+		};
+	}
+
 	@Override
 	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
 	{
 		ICaptchalogueable item = super.get(sylladices, settings, slots, i, asCard);
 
-		if(asCard)
+		if (asCard)
 			return item;
 
 		return new CaptchalogueableItemStack(ModusStorage.storeItem(new ItemStack(MinestuckItems.popTart), item));
 	}
 
 	@Override
-	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings) {
-		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 7);
+	public String getName(boolean alone, boolean prefix, boolean plural)
+	{
+		return super.getName(alone, prefix, plural);
 	}
 
 	@Override
-	public GuiModusSettings getSettingsGui(ItemStack modusStack) {
-		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/pop_tart_modus.png"));
+	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
+	{
+		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 7);
 	}
 
 	@Override
@@ -51,32 +72,14 @@ public class ModusPopTart extends Modus
 	}
 
 	@Override
-	public int getTextColor()
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
 	{
-		return 0xE5E5E5;
+		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/pop_tart_modus.png"));
 	}
 
 	@Override
-	public String getName(boolean alone, boolean prefix, boolean plural) {
-		return super.getName(alone, prefix, plural);
-	}
-
-	public static ItemFood.FoodItemConsumer getConsumer()
+	public int getTextColor()
 	{
-		return (stack, worldIn, player) ->
-		{
-			ICaptchalogueable storedStack = ModusStorage.getStoredItem(stack);
-
-			if(storedStack != null && !storedStack.isEmpty())
-			{
-				boolean isHandEmpty = player.getHeldItemMainhand().isEmpty();
-				storedStack.fetch(player);
-				if(!worldIn.isRemote)
-					player.sendStatusMessage(new TextComponentTranslation("status.popTartEat", storedStack.getDisplayName()), true);
-				if(isHandEmpty && !player.getHeldItemMainhand().isEmpty())
-					return player.getHeldItemMainhand();
-			}
-			return null;
-		};
+		return 0xE5E5E5;
 	}
 }

@@ -10,7 +10,10 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -39,7 +42,7 @@ public class ItemEightBall extends MSItemBase
 		{
 			ICaptchalogueable storedItem = getStoredItem(stack);
 
-			if(storedItem != null)
+			if (storedItem != null)
 				tooltip.add("(" + getStoredItem(stack).getDisplayName() + ")");
 		}
 	}
@@ -48,12 +51,12 @@ public class ItemEightBall extends MSItemBase
 	{
 		ItemStack stack = playerIn.getHeldItem(handIn);
 
-		worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, MinestuckSounds.eightBallThrow, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, MinestuckSounds.eightBallThrow, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-		worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
 		playerIn.getCooldownTracker().setCooldown(this, 10);
-		
+
 		if (!worldIn.isRemote)
 		{
 			EntityThrowable ball = isCrystal ? new EntityCrystalEightBall(worldIn, playerIn, getStoredItem(stack)) : new EntityEightBall(worldIn, playerIn, getStoredItem(stack));

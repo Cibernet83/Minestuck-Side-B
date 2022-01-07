@@ -24,10 +24,10 @@ public class ModelGTSeer extends ModelGTAbstract
 
 		skirtFront.setRotationPoint(0.0F, 10.0F, -2.252F);
 		skirtFront.cubeList.add(new ModelBox(skirtFront, 77, 115, -4.0F, 0.0F, -0F, 8, 12, 0, 0.0F, false));
-		
+
 		rightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
 		rightArm.cubeList.add(new ModelBox(rightArm, 16, 56, -3.0F, -2.0F, -2.0F, 4, 12, 4, 0.251F, false));
-		
+
 		leftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
 		leftArm.cubeList.add(new ModelBox(leftArm, 0, 56, -1.0F, -2.0F, -2.0F, 4, 12, 4, 0.251F, false));
 
@@ -44,14 +44,14 @@ public class ModelGTSeer extends ModelGTAbstract
 		leftFoot.cubeList.add(new ModelBox(leftFoot, 0, 112, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, false));
 
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F+0.2f, -5.0F, 10, 1, 10, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F+0.2f, 4.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F+0.2f, -5.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 20, 4.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 40, 0, -5.0F, -10.0F+0.2f, -4.0F, 10, 1, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 36, -4.0F, -10.0F+0.2f, 4.0F, 8, 1, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 36, -4.0F, -10.0F+0.2f, -5.0F, 8, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F + 0.2f, -5.0F, 10, 1, 10, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F + 0.2f, 4.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F + 0.2f, -5.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 18, 20, 4.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 40, 0, -5.0F, -10.0F + 0.2f, -4.0F, 10, 1, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 36, -4.0F, -10.0F + 0.2f, 4.0F, 8, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 18, 36, -4.0F, -10.0F + 0.2f, -5.0F, 8, 1, 1, 0.0F, false));
 
 		neck.setRotationPoint(0.0F, 0.0F, 0.0F);
 		neck.cubeList.add(new ModelBox(neck, 84, 0, -5.0F, 0.0F, -3.0F, 10, 2, 1, 0.0F, false));
@@ -61,12 +61,13 @@ public class ModelGTSeer extends ModelGTAbstract
 		cape.cubeList.add(new ModelBox(cape, 110, 102, -4.0F, 1.0F, 2.0F, 8, 7, 1, 0.0F, false));
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-	
+
 	@Override
 	public EntityEquipmentSlot getSkirtSlot()
 	{

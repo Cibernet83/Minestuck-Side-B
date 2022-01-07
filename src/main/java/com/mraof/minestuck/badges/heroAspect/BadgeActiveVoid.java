@@ -32,45 +32,6 @@ public class BadgeActiveVoid extends BadgeHeroAspect
 		super(EnumAspect.VOID, EnumRole.ACTIVE, EnumAspect.BREATH);
 	}
 
-	@Override
-	public void onBadgeUnlocked(World world, EntityPlayer player) {
-		super.onBadgeUnlocked(world, player);
-		player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setVoidstepping(true);
-	}
-
-	@Override
-	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
-	{
-		if (state == GodKeyStates.KeyState.PRESS)
-		{
-			badgeEffects.setVoidstepping(!badgeEffects.isVoidstepping());
-			player.sendStatusMessage(new TextComponentTranslation(badgeEffects.isVoidstepping() ? "status.badgeEnabled" : "status.badgeDisabled", getDisplayComponent()), true);
-		}
-
-		if(!(badgeEffects.isVoidstepping() && (player.capabilities.isFlying || badgeEffects.isDoingWimdyThing())))
-			return false;
-
-		if(!player.isCreative() && player.ticksExisted % 40 == 1)
-		{
-			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-1);
-			if(player.getFoodStats().getFoodLevel() < 1)
-			{
-				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
-				return false;
-			}
-		}
-
-		if(!player.isPotionActive(MinestuckPotions.VOID_CONCEAL))
-			MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, player, (player.ticksExisted % 2) == 0 ? 0x104EA2 : 0x001856, 1), player);
-
-		return true;
-	}
-
-	@Override
-	public boolean canUse(World world, EntityPlayer player) {
-		return player.getFoodStats().getFoodLevel() > 0 && super.canUse(world, player);
-	}
-
 	@SubscribeEvent
 	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
 	{
@@ -88,8 +49,8 @@ public class BadgeActiveVoid extends BadgeHeroAspect
 		if (!(event.getEntity() instanceof EntityPlayer))
 			return;
 
-		if(event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isVoidstepping()
-				   && (((EntityPlayer) event.getEntity()).capabilities.isFlying || event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isDoingWimdyThing()))
+		if (event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isVoidstepping()
+					&& (((EntityPlayer) event.getEntity()).capabilities.isFlying || event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isDoingWimdyThing()))
 			event.getCollisionBoxesList().clear();
 	}
 
@@ -97,7 +58,7 @@ public class BadgeActiveVoid extends BadgeHeroAspect
 	@SideOnly(Side.CLIENT)
 	public static void onPlayerPushOutOfBlocks(PlayerSPPushOutOfBlocksEvent event)
 	{
-		if(event.getEntity() != null && event.getEntityPlayer().isUser() && event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isVoidstepping())
+		if (event.getEntity() != null && event.getEntityPlayer().isUser() && event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isVoidstepping())
 			event.setCanceled(true);
 	}
 
@@ -105,7 +66,48 @@ public class BadgeActiveVoid extends BadgeHeroAspect
 	@SideOnly(Side.CLIENT)
 	public static void renderBlockOverlay(RenderBlockOverlayEvent event)
 	{
-		if(Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isVoidstepping())
+		if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isVoidstepping())
 			event.setCanceled(true);
+	}
+
+	@Override
+	public void onBadgeUnlocked(World world, EntityPlayer player)
+	{
+		super.onBadgeUnlocked(world, player);
+		player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setVoidstepping(true);
+	}
+
+	@Override
+	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	{
+		if (state == GodKeyStates.KeyState.PRESS)
+		{
+			badgeEffects.setVoidstepping(!badgeEffects.isVoidstepping());
+			player.sendStatusMessage(new TextComponentTranslation(badgeEffects.isVoidstepping() ? "status.badgeEnabled" : "status.badgeDisabled", getDisplayComponent()), true);
+		}
+
+		if (!(badgeEffects.isVoidstepping() && (player.capabilities.isFlying || badgeEffects.isDoingWimdyThing())))
+			return false;
+
+		if (!player.isCreative() && player.ticksExisted % 40 == 1)
+		{
+			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 1);
+			if (player.getFoodStats().getFoodLevel() < 1)
+			{
+				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
+				return false;
+			}
+		}
+
+		if (!player.isPotionActive(MinestuckPotions.VOID_CONCEAL))
+			MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, player, (player.ticksExisted % 2) == 0 ? 0x104EA2 : 0x001856, 1), player);
+
+		return true;
+	}
+
+	@Override
+	public boolean canUse(World world, EntityPlayer player)
+	{
+		return player.getFoodStats().getFoodLevel() > 0 && super.canUse(world, player);
 	}
 }

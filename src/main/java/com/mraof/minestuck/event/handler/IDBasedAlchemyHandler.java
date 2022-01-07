@@ -20,56 +20,56 @@ public class IDBasedAlchemyHandler
 	@SubscribeEvent
 	public static void onAlchemyCombo(AlchemyCombinationEvent event)
 	{
-		if(!MinestuckConfig.IDAlchemy)
+		if (!MinestuckConfig.IDAlchemy)
 			return;
 
-		if(event.getResultItem().isEmpty() && !event.getItemB().isEmpty() && !event.getItemB().isEmpty())
+		if (event.getResultItem().isEmpty() && !event.getItemB().isEmpty() && !event.getItemB().isEmpty())
 		{
 			int idA = getItemAlchemyID(event.getItemA().getItem());
 			int idB = getItemAlchemyID(event.getItemB().getItem());
 
-			if(idA < 0 || idB < 0)
+			if (idA < 0 || idB < 0)
 				return;
 
 			Item result = null;
 
-			if(event.getMode() == CombinationRegistry.Mode.MODE_AND)
+			if (event.getMode() == CombinationRegistry.Mode.MODE_AND)
 			{
 				result = getItemFromAlchemyID(idA & idB);
 			}
-			else if(event.getMode() == CombinationRegistry.Mode.MODE_OR)
+			else if (event.getMode() == CombinationRegistry.Mode.MODE_OR)
 			{
 				result = getItemFromAlchemyID(idA | idB);
 			}
 
-			if(result != null)
+			if (result != null)
 				event.setResultItem(new ItemStack(result));
 		}
 	}
 
 	public static int getItemAlchemyID(Item item)
 	{
-		if(item == Item.getItemFromBlock(MinestuckBlocks.genericObject))
+		if (item == Item.getItemFromBlock(MinestuckBlocks.genericObject))
 			return 0;
-		if(item == Item.getItemFromBlock(MinestuckBlocks.uniqueObject))
+		if (item == Item.getItemFromBlock(MinestuckBlocks.uniqueObject))
 			return MAX_ID;
-		if(item == Item.getItemFromBlock(MinestuckBlocks.artifact))
+		if (item == Item.getItemFromBlock(MinestuckBlocks.artifact))
 			return -1;
 		return Item.REGISTRY.getIDForObject(item);
 	}
 
 	public static Item getItemFromAlchemyID(int id)
 	{
-		if(id == 0)
+		if (id == 0)
 			return Item.getItemFromBlock(MinestuckBlocks.genericObject);
-		if(id > MAX_ID)
+		if (id > MAX_ID)
 			return Item.getItemFromBlock(MinestuckBlocks.uniqueObject);
 
 		Item result = Item.REGISTRY.getObjectById(id);
 
-		if(result == Item.getItemFromBlock(MinestuckBlocks.uniqueObject))
+		if (result == Item.getItemFromBlock(MinestuckBlocks.uniqueObject))
 			result = null;
-		if(result == Item.getItemFromBlock(MinestuckBlocks.artifact))
+		if (result == Item.getItemFromBlock(MinestuckBlocks.artifact))
 			result = null;
 
 		return result == null ? Item.getItemFromBlock(MinestuckBlocks.artifact) : result;
@@ -79,10 +79,10 @@ public class IDBasedAlchemyHandler
 	public static void calculateMaxID()
 	{
 		Iterator<Item> iter = Item.REGISTRY.iterator();
-		while(iter.hasNext())
+		while (iter.hasNext())
 		{
 			int itemID = Item.REGISTRY.getIDForObject(iter.next());
-			if(itemID > MAX_ID)
+			if (itemID > MAX_ID)
 				MAX_ID = itemID;
 		}
 	}

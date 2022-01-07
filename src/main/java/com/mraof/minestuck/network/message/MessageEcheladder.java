@@ -27,6 +27,14 @@ public class MessageEcheladder implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		rung = buf.readInt();
+		progress = buf.readFloat();
+		jumpToRung = buf.readBoolean();
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(rung);
@@ -34,14 +42,6 @@ public class MessageEcheladder implements MinestuckMessage
 		buf.writeBoolean(jumpToRung);
 	}
 
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		rung = buf.readInt();
-		progress = buf.readFloat();
-		jumpToRung = buf.readBoolean();
-	}
-	
 	@Override
 	public void execute(EntityPlayer player)
 	{
@@ -54,13 +54,13 @@ public class MessageEcheladder implements MinestuckMessage
 		if (jumpToRung)
 			GuiEcheladder.animatedRung = GuiEcheladder.lastRung = rung;
 		else
-			for(prevRung++; prevRung <= rung; prevRung++)
+			for (prevRung++; prevRung <= rung; prevRung++)
 			{
-				String s = I18n.canTranslate("echeladder.rung"+prevRung) ? I18n.translateToLocal("echeladder.rung"+prevRung) : String.valueOf(prevRung+1);
-				player.sendMessage(new TextComponentString("You reached rung "+s+'!'));
+				String s = I18n.canTranslate("echeladder.rung" + prevRung) ? I18n.translateToLocal("echeladder.rung" + prevRung) : String.valueOf(prevRung + 1);
+				player.sendMessage(new TextComponentString("You reached rung " + s + '!'));
 			}
 	}
-	
+
 	@Override
 	public Side toSide()
 	{

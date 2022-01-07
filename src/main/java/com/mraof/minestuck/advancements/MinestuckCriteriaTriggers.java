@@ -14,7 +14,7 @@ public class MinestuckCriteriaTriggers
 	public static final TreeModusRootTrigger TREE_MODUS_ROOT = new TreeModusRootTrigger();
 	public static final ConsortItemTrigger CONSORT_ITEM = new ConsortItemTrigger();
 	public static final ConsortTalkTrigger CONSORT_TALK = new ConsortTalkTrigger();
-	
+
 	public static void register()
 	{
 		CriteriaTriggers.register(SBURB_CONNECTION);

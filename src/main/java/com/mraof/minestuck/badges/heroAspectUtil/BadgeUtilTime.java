@@ -23,7 +23,8 @@ public class BadgeUtilTime extends BadgeHeroAspectUtil
 {
 	private static final Random random = new Random();
 
-	public BadgeUtilTime() {
+	public BadgeUtilTime()
+	{
 		super(EnumAspect.TIME, new ItemStack(Items.CLOCK, 100));
 	}
 
@@ -31,7 +32,7 @@ public class BadgeUtilTime extends BadgeHeroAspectUtil
 	public boolean canUnlock(World world, EntityPlayer player)
 	{
 		if (Badge.findItem(player, new ItemStack(MinestuckItems.heroStoneShards.get(EnumAspect.TIME), 128), false) &&
-			Badge.findItem(player, new ItemStack(Items.CLOCK, 100), false))
+					Badge.findItem(player, new ItemStack(Items.CLOCK, 100), false))
 		{
 			Badge.findItem(player, new ItemStack(MinestuckItems.heroStoneShards.get(EnumAspect.TIME), 128), true);
 			Badge.findItem(player, new ItemStack(Items.CLOCK, 100), true);
@@ -41,11 +42,12 @@ public class BadgeUtilTime extends BadgeHeroAspectUtil
 	}
 
 	@Override
-	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time) {
-		if(!state.equals(GodKeyStates.KeyState.HELD))
+	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	{
+		if (!state.equals(GodKeyStates.KeyState.HELD))
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 1)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 1)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -63,7 +65,7 @@ public class BadgeUtilTime extends BadgeHeroAspectUtil
 
 		TileEntity tileEntity = world.getTileEntity(target);
 		if (tileEntity instanceof ITickable)
-			((ITickable)tileEntity).update();
+			((ITickable) tileEntity).update();
 
 		if (time % 20 == 0 && !player.isCreative())
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 1);

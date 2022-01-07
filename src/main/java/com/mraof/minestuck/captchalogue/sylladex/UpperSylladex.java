@@ -39,6 +39,34 @@ public class UpperSylladex extends MultiSylladex
 	}
 
 	@Override
+	public void ejectAll(boolean asCards, boolean onlyFull)
+	{
+		for (ISylladex sylladex : sylladices)
+			sylladex.ejectAll(asCards, onlyFull);
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+
+		nbt.setTag("Modus", modi.writeToNBT());
+
+		NBTTagList sylladicesTag = new NBTTagList();
+		for (MultiSylladex sylladex : sylladices)
+			sylladicesTag.appendTag(sylladex.writeToNBT());
+		nbt.setTag("Sylladices", sylladicesTag);
+
+		return nbt;
+	}
+
+	@Override
+	protected SylladexList<MultiSylladex> getSylladices()
+	{
+		return sylladices;
+	}
+
+	@Override
 	public void addCard(ICaptchalogueable object)
 	{
 		int leastSlots = 257;
@@ -59,13 +87,6 @@ public class UpperSylladex extends MultiSylladex
 	}
 
 	@Override
-	public void ejectAll(boolean asCards, boolean onlyFull)
-	{
-		for (ISylladex sylladex : sylladices)
-			sylladex.ejectAll(asCards, onlyFull);
-	}
-
-	@Override
 	protected void getModusLayers(List<ModusLayer> modusLayers)
 	{
 		modusLayers.add(modi);
@@ -73,36 +94,15 @@ public class UpperSylladex extends MultiSylladex
 	}
 
 	@Override
-	protected SylladexList<MultiSylladex> getSylladices()
+	@SideOnly(Side.CLIENT)
+	public String getName(boolean plural)
 	{
-		return sylladices;
+		return I18n.format("modus.nameCombob", modi.getName(plural), sylladices.getFirst().getName(true));
 	}
 
 	@Override
 	public BottomSylladex getFirstBottomSylladex()
 	{
 		return sylladices.getFirst().getFirstBottomSylladex();
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT()
-	{
-		NBTTagCompound nbt = new NBTTagCompound();
-
-		nbt.setTag("Modus", modi.writeToNBT());
-
-		NBTTagList sylladicesTag = new NBTTagList();
-		for (MultiSylladex sylladex : sylladices)
-			sylladicesTag.appendTag(sylladex.writeToNBT());
-		nbt.setTag("Sylladices", sylladicesTag);
-
-		return nbt;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getName(boolean plural)
-	{
-		return I18n.format("modus.nameCombob", modi.getName(plural), sylladices.getFirst().getName(true));
 	}
 }

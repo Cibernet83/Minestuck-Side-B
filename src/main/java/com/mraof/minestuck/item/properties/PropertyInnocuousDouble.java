@@ -25,31 +25,31 @@ public class PropertyInnocuousDouble extends WeaponProperty
 	@Override
 	public EnumActionResult onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
-		EnumHand oppositeHand = EnumHand.values()[(handIn.ordinal()+1)%EnumHand.values().length];
-		if((onSneak && !playerIn.isSneaking()) || (!dualWielded && dualDouble && !playerIn.getHeldItem(oppositeHand).isEmpty())
-		|| (dualWielded && !playerIn.getHeldItem(oppositeHand).getItem().equals(playerIn.getHeldItem(handIn).getItem())))
+		EnumHand oppositeHand = EnumHand.values()[(handIn.ordinal() + 1) % EnumHand.values().length];
+		if ((onSneak && !playerIn.isSneaking()) || (!dualWielded && dualDouble && !playerIn.getHeldItem(oppositeHand).isEmpty())
+					|| (dualWielded && !playerIn.getHeldItem(oppositeHand).getItem().equals(playerIn.getHeldItem(handIn).getItem())))
 			return super.onItemRightClick(worldIn, playerIn, handIn);
 
 		ItemStack stack = playerIn.getHeldItem(handIn);
 		ItemStack newStack = new ItemStack(innocuousDouble);
 
-		if(stack.hasTagCompound())
+		if (stack.hasTagCompound())
 			newStack.setTagCompound(stack.getTagCompound().copy());
 
-		if(innocuousDouble.isDamageable())
+		if (innocuousDouble.isDamageable())
 		{
-			if(stack.hasTagCompound() && stack.getTagCompound().hasKey("InnocuousDamage"))
-				newStack.setItemDamage((int) (stack.getTagCompound().getFloat("InnocuousDamage")*newStack.getMaxDamage()));
-			else newStack.setItemDamage(stack.getItemDamage()/stack.getMaxDamage() * newStack.getMaxDamage());
+			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("InnocuousDamage"))
+				newStack.setItemDamage((int) (stack.getTagCompound().getFloat("InnocuousDamage") * newStack.getMaxDamage()));
+			else newStack.setItemDamage(stack.getItemDamage() / stack.getMaxDamage() * newStack.getMaxDamage());
 		}
 		else if (stack.getItem().isDamageable())
-			newStack.getTagCompound().setFloat("InnocuousDamage", stack.getItemDamage()/stack.getMaxDamage());
+			newStack.getTagCompound().setFloat("InnocuousDamage", stack.getItemDamage() / stack.getMaxDamage());
 
 		playerIn.setHeldItem(handIn, newStack);
 
-		if(dualDouble)
+		if (dualDouble)
 			playerIn.setHeldItem(oppositeHand, newStack.copy());
-		else if(dualWielded)
+		else if (dualWielded)
 			playerIn.setHeldItem(oppositeHand, ItemStack.EMPTY);
 
 		return EnumActionResult.SUCCESS;

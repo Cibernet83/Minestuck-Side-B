@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelOgre extends ModelBase 
+public class ModelOgre extends ModelBase
 {
 	private ModelRenderer head;
 	private ModelRenderer leftLeg;
@@ -14,7 +14,7 @@ public class ModelOgre extends ModelBase
 	private ModelRenderer leftArm;
 	private ModelRenderer rightArm;
 
-	public ModelOgre() 
+	public ModelOgre()
 	{
 		float offsetY = -72 + 24;
 		this.textureWidth = 192;
@@ -47,6 +47,7 @@ public class ModelOgre extends ModelBase
 		rightLeg.setRotationPoint(-13F, 52F + offsetY, 0F);
 		rightLeg.mirror = true;
 	}
+
 	@Override
 	public void render(Entity entity, float par2, float par3, float par4, float par5, float par6, float par7)
 	{
@@ -58,20 +59,21 @@ public class ModelOgre extends ModelBase
 		this.leftLeg.render(par7);
 		this.head.render(par7);
 	}
+
 	/**
 	 * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
 	 * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
 	 * "far" arms and legs can swing at most.
 	 */
 	@Override
-	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity) 
+	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
 	{
-		this.head.rotateAngleY = par4 / (180F / (float)Math.PI);
-		this.head.rotateAngleX = (par5) / (180F / (float)Math.PI);
+		this.head.rotateAngleY = par4 / (180F / (float) Math.PI);
+		this.head.rotateAngleX = (par5) / (180F / (float) Math.PI);
 		this.leftLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 0.7F * par2;
-		this.rightLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 0.7F * par2;
+		this.rightLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 0.7F * par2;
 		this.leftArm.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.2F * par2 * 0.5F;
-		this.rightArm.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.2F * par2 * 0.5F;
+		this.rightArm.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.2F * par2 * 0.5F;
 	}
 
 }

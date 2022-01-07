@@ -28,8 +28,9 @@ public class MinestuckTabs
 	public static final CreativeTabs weapons = new CreativeTabs("minestuckWeapons")
 	{
 		@Override
-		public ItemStack getTabIconItem() {
-			return  new ItemStack(MinestuckItems.pogoHammer);
+		public ItemStack getTabIconItem()
+		{
+			return new ItemStack(MinestuckItems.pogoHammer);
 		}
 	};
 	public static final CreativeTabs godTier = new CreativeTabs("minestuckGodTier")
@@ -40,7 +41,7 @@ public class MinestuckTabs
 		{
 			ItemStack stack = new ItemStack(MinestuckItems.gtArmorKit);
 
-			if(Minecraft.getMinecraft().player != null)
+			if (Minecraft.getMinecraft().player != null)
 			{
 				Title title = MinestuckPlayerData.getTitle(IdentifierHandler.encode(Minecraft.getMinecraft().player));
 
@@ -48,7 +49,7 @@ public class MinestuckTabs
 				stack.getTagCompound().setInteger("aspect", title != null ? title.getHeroAspect().ordinal() : -1);
 			}
 
-			return  stack;
+			return stack;
 		}
 	};
 	public static final CreativeTabs fetchModi = new CreativeTabs("minestuckFetchModi")
@@ -56,15 +57,16 @@ public class MinestuckTabs
 		@Override
 		public ItemStack getIconItemStack()
 		{
-			if(Minecraft.getMinecraft().player == null)
+			if (Minecraft.getMinecraft().player == null)
 				return getTabIconItem();
 
 			NonNullList<ItemStack> modi = OreDictionary.getOres("modus");
-			return modi.get((int) ((System.currentTimeMillis()/1000d - Minestuck.startTime) % modi.size()));
+			return modi.get((int) ((System.currentTimeMillis() / 1000d - Minestuck.startTime) % modi.size()));
 		}
 
 		@Override
-		public ItemStack getTabIconItem() {
+		public ItemStack getTabIconItem()
+		{
 			return new ItemStack(MinestuckItems.modi.get(MinestuckModi.stack));
 		}
 	};

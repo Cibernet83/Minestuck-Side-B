@@ -40,27 +40,32 @@ public class TileEntityComputer extends TileEntity
 	@SideOnly(Side.CLIENT)
 	public ComputerProgram program;
 
-	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound) 
+	public void closeAll()
 	{
-		super.readFromNBT(par1NBTTagCompound);	
-		if (par1NBTTagCompound.getCompoundTag("programs") != null) 
+		for (Entry<Integer, Boolean> entry : installedPrograms.entrySet())
+			if (entry.getValue() && entry.getKey() != -1 && ComputerProgram.getProgram(entry.getKey()) != null)
+				ComputerProgram.getProgram(entry.getKey()).onClosed(this);
+	}	@Override
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	{
+		super.readFromNBT(par1NBTTagCompound);
+		if (par1NBTTagCompound.getCompoundTag("programs") != null)
 		{
 			NBTTagCompound programs = par1NBTTagCompound.getCompoundTag("programs");
-			for (Object name : programs.getKeySet()) 
+			for (Object name : programs.getKeySet())
 			{
-				installedPrograms.put(programs.getInteger((String)name), true);
+				installedPrograms.put(programs.getInteger((String) name), true);
 			}
 		}
 
 		latestmessage.clear();
-		for(Entry<Integer,Boolean> e : installedPrograms.entrySet())
-			if(e.getValue())
+		for (Entry<Integer, Boolean> e : installedPrograms.entrySet())
+			if (e.getValue())
 				latestmessage.put(e.getKey(), par1NBTTagCompound.getString("text" + e.getKey()));
 
 		programData = par1NBTTagCompound.getCompoundTag("programData");
 
-		if(!par1NBTTagCompound.hasKey("programData")) 
+		if (!par1NBTTagCompound.hasKey("programData"))
 		{
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setBoolean("connectedToServer", par1NBTTagCompound.getBoolean("connectServer"));
@@ -71,89 +76,16 @@ public class TileEntityComputer extends TileEntity
 			nbt.setBoolean("isOpen", par1NBTTagCompound.getBoolean("serverOpen"));
 			programData.setTag("program_1", nbt);
 		}
-		if(par1NBTTagCompound.hasKey("ownerId"))
+		if (par1NBTTagCompound.hasKey("ownerId"))
 			ownerId = par1NBTTagCompound.getInteger("ownerId");
 		else this.owner = IdentifierHandler.load(par1NBTTagCompound, "owner");
-		if(gui != null)
+		if (gui != null)
 			gui.updateGui();
-	}
-	
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) 
-	{
-		super.writeToNBT(tagCompound);
-		NBTTagCompound programs = new NBTTagCompound();
-		Iterator<Entry<Integer, Boolean>> it = this.installedPrograms.entrySet().iterator();
-		//int place = 0;
-		while (it.hasNext()) 
-		{
-			Map.Entry<Integer, Boolean> pairs = it.next();
-			int program = pairs.getKey();
-			programs.setInteger("program" + program,program);
-			//place++;
-		}
-		for(Entry<Integer, String> e : latestmessage.entrySet())
-			tagCompound.setString("text" + e.getKey(), e.getValue());
-		tagCompound.setTag("programs",programs);
-		tagCompound.setTag("programData", (NBTTagCompound) programData.copy());
-		if (owner != null) 
-			owner.saveToNBT(tagCompound, "owner");
-		return tagCompound;
-	}
-	
-	@Override
-	public NBTTagCompound getUpdateTag()
-	{
-		NBTTagCompound tagCompound = new NBTTagCompound();
-		this.writeToNBT(tagCompound);
-		tagCompound.removeTag("owner");
-		tagCompound.removeTag("ownerMost");
-		tagCompound.removeTag("ownerLeast");
-		if(owner != null)
-			tagCompound.setInteger("ownerId", owner.getId());
-		if(hasProgram(1))
-		{
-			SburbConnection c = SkaianetHandler.getServerConnection(ComputerData.createData(this));
-			if(c != null)
-				tagCompound.getCompoundTag("programData").getCompoundTag("program_1").setInteger("connectedClient", c.getClientIdentifier().getId());
-		}
-		return tagCompound;
-	}
-	
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		return new SPacketUpdateTileEntity(this.pos, 2, getUpdateTag());
-	}
-	
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) 
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	public boolean hasProgram(int id) 
-	{
-		return installedPrograms.get(id) == null ? false:installedPrograms.get(id);
-	}
-
-	public NBTTagCompound getData(int id) 
-	{
-		if(!programData.hasKey("program_"+id))
-			programData.setTag("program_" + id, new NBTTagCompound());
-		return programData.getCompoundTag("program_" + id);
-	}
-
-	public void closeAll() 
-	{
-		for(Entry<Integer, Boolean> entry : installedPrograms.entrySet())
-			if(entry.getValue() && entry.getKey() != -1 && ComputerProgram.getProgram(entry.getKey()) != null)
-				ComputerProgram.getProgram(entry.getKey()).onClosed(this);
 	}
 
 	public void connected(PlayerIdentifier player, boolean isClient)
 	{
-		if(isClient)
+		if (isClient)
 		{
 			getData(0).setBoolean("isResuming", false);
 			getData(0).setBoolean("connectedToServer", true);
@@ -162,18 +94,86 @@ public class TileEntityComputer extends TileEntity
 		{
 			this.getData(1).setBoolean("isOpen", false);
 		}
+	}	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound)
+	{
+		super.writeToNBT(tagCompound);
+		NBTTagCompound programs = new NBTTagCompound();
+		Iterator<Entry<Integer, Boolean>> it = this.installedPrograms.entrySet().iterator();
+		//int place = 0;
+		while (it.hasNext())
+		{
+			Map.Entry<Integer, Boolean> pairs = it.next();
+			int program = pairs.getKey();
+			programs.setInteger("program" + program, program);
+			//place++;
+		}
+		for (Entry<Integer, String> e : latestmessage.entrySet())
+			tagCompound.setString("text" + e.getKey(), e.getValue());
+		tagCompound.setTag("programs", programs);
+		tagCompound.setTag("programData", programData.copy());
+		if (owner != null)
+			owner.saveToNBT(tagCompound, "owner");
+		return tagCompound;
 	}
-	
+
+	public NBTTagCompound getData(int id)
+	{
+		if (!programData.hasKey("program_" + id))
+			programData.setTag("program_" + id, new NBTTagCompound());
+		return programData.getCompoundTag("program_" + id);
+	}	@Override
+	public NBTTagCompound getUpdateTag()
+	{
+		NBTTagCompound tagCompound = new NBTTagCompound();
+		this.writeToNBT(tagCompound);
+		tagCompound.removeTag("owner");
+		tagCompound.removeTag("ownerMost");
+		tagCompound.removeTag("ownerLeast");
+		if (owner != null)
+			tagCompound.setInteger("ownerId", owner.getId());
+		if (hasProgram(1))
+		{
+			SburbConnection c = SkaianetHandler.getServerConnection(ComputerData.createData(this));
+			if (c != null)
+				tagCompound.getCompoundTag("programData").getCompoundTag("program_1").setInteger("connectedClient", c.getClientIdentifier().getId());
+		}
+		return tagCompound;
+	}
+
+	public void markBlockForUpdate()
+	{
+		IBlockState state = world.getBlockState(pos);
+		this.world.notifyBlockUpdate(pos, state, state, 3);
+	}	@Override
+	public SPacketUpdateTileEntity getUpdatePacket()
+	{
+		return new SPacketUpdateTileEntity(this.pos, 2, getUpdateTag());
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	{
+		this.readFromNBT(pkt.getNbtCompound());
+	}
+
+	public boolean hasProgram(int id)
+	{
+		return installedPrograms.get(id) == null ? false : installedPrograms.get(id);
+	}
+
+
+
+
+
+
+
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
 	{
 		return oldState.getBlock() != newState.getBlock();
 	}
-	
-	public void markBlockForUpdate()
-	{
-		IBlockState state = world.getBlockState(pos);
-		this.world.notifyBlockUpdate(pos, state, state, 3);
-	}
-	
+
+
+
 }

@@ -11,40 +11,40 @@ import java.util.List;
 
 public class TileEntityGristHopper extends TileEntity implements ITickable
 {
-    public IdentifierHandler.PlayerIdentifier owner;
+	public IdentifierHandler.PlayerIdentifier owner;
 
-    @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
-        super.readFromNBT(compound);
-        this.owner = IdentifierHandler.load(compound, "owner");
-    }
+	@Override
+	public void readFromNBT(NBTTagCompound compound)
+	{
+		super.readFromNBT(compound);
+		this.owner = IdentifierHandler.load(compound, "owner");
+	}
 
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
-        if(owner != null)
-            this.owner.saveToNBT(compound, "owner");
-        return super.writeToNBT(compound);
-    }
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	{
+		if (owner != null)
+			this.owner.saveToNBT(compound, "owner");
+		return super.writeToNBT(compound);
+	}
 
-    @Override
-    public void update()
-    {
+	@Override
+	public void update()
+	{
 
-        List<EntityGrist> entities = world.getEntitiesWithinAABB(EntityGrist.class, new AxisAlignedBB(pos.up()));
-        if(world != null && !entities.isEmpty() && !world.getBlockState(pos.up()).isFullBlock())
-        {
-            if(owner != null && !world.isRemote)
-            {
-                for(EntityGrist grist : entities)
-                {
-                    if(grist.isEntityAlive())
-                        grist.consumeGrist(owner, false);
-                }
-            }
-        }
+		List<EntityGrist> entities = world.getEntitiesWithinAABB(EntityGrist.class, new AxisAlignedBB(pos.up()));
+		if (world != null && !entities.isEmpty() && !world.getBlockState(pos.up()).isFullBlock())
+		{
+			if (owner != null && !world.isRemote)
+			{
+				for (EntityGrist grist : entities)
+				{
+					if (grist.isEntityAlive())
+						grist.consumeGrist(owner, false);
+				}
+			}
+		}
 
-    }
+	}
 
 }

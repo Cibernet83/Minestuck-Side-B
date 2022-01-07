@@ -15,16 +15,16 @@ public abstract class MessageByteBufEncoderBase implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		data = buf.copy();
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeBytes(data);
 		data.release();
-	}
-
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		data = buf.copy();
 	}
 
 	public void encode(Consumer<ByteBuf> encoder)

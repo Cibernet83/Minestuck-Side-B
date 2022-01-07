@@ -1,7 +1,7 @@
 package com.mraof.minestuck.capabilities.api;
 
-import com.mraof.minestuck.capabilities.IMinestuckCapabilityBase;
 import com.mraof.minestuck.capabilities.Beam;
+import com.mraof.minestuck.capabilities.IMinestuckCapabilityBase;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;

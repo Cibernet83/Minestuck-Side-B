@@ -32,15 +32,10 @@ public class ItemMechanicalCrossbow extends MSWeaponBase
 	}
 
 	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
-		return HashMultimap.create();
-	}
-
-	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer entityplayer, EnumHand handIn)
 	{
 		ActionResult<ItemStack> result = super.onItemRightClick(worldIn, entityplayer, handIn);
-		if(result.getType() != EnumActionResult.PASS)
+		if (result.getType() != EnumActionResult.PASS)
 			return result;
 
 		ItemStack stack = entityplayer.getHeldItem(handIn);
@@ -48,7 +43,7 @@ public class ItemMechanicalCrossbow extends MSWeaponBase
 		boolean flag = entityplayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
 		ItemStack itemstack = this.findAmmo(entityplayer);
 
-		int i = (int) (power*20);
+		int i = (int) (power * 20);
 		i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, entityplayer, i, !itemstack.isEmpty() || flag);
 		if (i < 0) return ActionResult.newResult(EnumActionResult.PASS, stack);
 
@@ -61,13 +56,13 @@ public class ItemMechanicalCrossbow extends MSWeaponBase
 
 			float f = ItemBow.getArrowVelocity(i);
 
-			if ((double)f >= 0.1D)
+			if ((double) f >= 0.1D)
 			{
 				boolean flag1 = entityplayer.capabilities.isCreativeMode || (itemstack.getItem() instanceof ItemArrow && ((ItemArrow) itemstack.getItem()).isInfinite(itemstack, stack, entityplayer));
 
 				if (!worldIn.isRemote)
 				{
-					ItemArrow itemarrow = (ItemArrow)(itemstack.getItem() instanceof ItemArrow ? itemstack.getItem() : Items.ARROW);
+					ItemArrow itemarrow = (ItemArrow) (itemstack.getItem() instanceof ItemArrow ? itemstack.getItem() : Items.ARROW);
 					EntityArrow entityarrow = itemarrow.createArrow(worldIn, itemstack, entityplayer);
 					entityarrow.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw, 0.0F, f * 3.0F, 1.0F);
 
@@ -80,7 +75,7 @@ public class ItemMechanicalCrossbow extends MSWeaponBase
 
 					if (j > 0)
 					{
-						entityarrow.setDamage(entityarrow.getDamage() + (double)j * 0.5D + 0.5D);
+						entityarrow.setDamage(entityarrow.getDamage() + (double) j * 0.5D + 0.5D);
 					}
 
 					int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
@@ -105,7 +100,7 @@ public class ItemMechanicalCrossbow extends MSWeaponBase
 					worldIn.spawnEntity(entityarrow);
 				}
 
-				worldIn.playSound((EntityPlayer)null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+				worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
 				if (!flag1 && !entityplayer.capabilities.isCreativeMode)
 				{
@@ -125,9 +120,10 @@ public class ItemMechanicalCrossbow extends MSWeaponBase
 		return ActionResult.newResult(EnumActionResult.FAIL, stack);
 	}
 
-	protected boolean isArrow(ItemStack stack)
+	@Override
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
 	{
-		return stack.getItem() instanceof ItemArrow;
+		return HashMultimap.create();
 	}
 
 	protected ItemStack findAmmo(EntityPlayer player)
@@ -154,5 +150,10 @@ public class ItemMechanicalCrossbow extends MSWeaponBase
 
 			return ItemStack.EMPTY;
 		}
+	}
+
+	protected boolean isArrow(ItemStack stack)
+	{
+		return stack.getItem() instanceof ItemArrow;
 	}
 }

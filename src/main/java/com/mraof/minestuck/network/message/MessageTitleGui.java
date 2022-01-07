@@ -24,13 +24,6 @@ public class MessageTitleGui implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(clazz == null ? -1 : clazz.ordinal());
-		buf.writeInt(aspect == null ? -1 : aspect.ordinal());
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		int clazzOrdinal = buf.readInt();
@@ -38,18 +31,25 @@ public class MessageTitleGui implements MinestuckMessage
 		int aspectOrdinal = buf.readInt();
 		aspect = aspectOrdinal < 0 ? null : EnumAspect.values()[aspectOrdinal];
 	}
-	
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(clazz == null ? -1 : clazz.ordinal());
+		buf.writeInt(aspect == null ? -1 : aspect.ordinal());
+	}
+
 	@Override
 	public void execute(EntityPlayer player)
 	{
 		Title title;
-		if(clazz != null && aspect != null)
+		if (clazz != null && aspect != null)
 			title = new Title(clazz, aspect);
 		else
 			title = null;
 		FMLClientHandler.instance().showGuiScreen(new GuiTitleSelector(title));
 	}
-	
+
 	@Override
 	public Side toSide()
 	{

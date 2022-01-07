@@ -19,49 +19,54 @@ import javax.annotation.Nullable;
 public class BlockGristHopper extends MSBlockBase implements ITileEntityProvider
 {
 
-    public BlockGristHopper()
-    {
-        super("gristHopper", Material.IRON, MapColor.EMERALD);
-        setHarvestLevel("pickaxe", 0);
-        setHardness(3.0F);
-    }
+	public BlockGristHopper()
+	{
+		super("gristHopper", Material.IRON, MapColor.EMERALD);
+		setHarvestLevel("pickaxe", 0);
+		setHardness(3.0F);
+	}
 
-    @Override
-    public boolean hasTileEntity(IBlockState state) {
-        return true;
-    }
+	@Override
+	public boolean isTopSolid(IBlockState state) { return true; }
 
-    @Nullable
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
 
-    @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
-    {
-        TileEntityGristHopper te = (TileEntityGristHopper)worldIn.getTileEntity(pos);
+	public EnumBlockRenderType getRenderType(IBlockState state)
+	{
+		return EnumBlockRenderType.MODEL;
+	}
 
-        if(te != null && placer instanceof EntityPlayer)
-            te.owner = IdentifierHandler.encode((EntityPlayer) placer);
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
 
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-    }
-    @Override
-    public boolean isTopSolid(IBlockState state) { return true; }
+	@Nullable
 
-    public EnumBlockRenderType getRenderType(IBlockState state)
-    {
-        return EnumBlockRenderType.MODEL;
-    }
-    public boolean isFullCube(IBlockState state)
-    {
-        return false;
-    }
-    public boolean isOpaqueCube(IBlockState state)
-    {
-        return false;
-    }
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	{
+		TileEntityGristHopper te = (TileEntityGristHopper) worldIn.getTileEntity(pos);
 
-    @Nullable
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityGristHopper();
-    }
+		if (te != null && placer instanceof EntityPlayer)
+			te.owner = IdentifierHandler.encode((EntityPlayer) placer);
+
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+	}
+
+	@Override
+	public boolean hasTileEntity(IBlockState state)
+	{
+		return true;
+	}
+
+	@Nullable
+	@Override
+	public TileEntity createNewTileEntity(World worldIn, int meta)
+	{
+		return new TileEntityGristHopper();
+	}
 }
