@@ -53,6 +53,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 
 	private int mousePosX, mousePosY;
 	private boolean mousePressed;
+	private int[] currentHitSlots;
 
 	private GuiButton emptySylladex;
 
@@ -146,10 +147,13 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 
 		cardGuiContainer.draw(this, mouseX, mouseY, partialTicks);
 
-		ArrayList<Integer> hitSlots = cardGuiContainer.hit(mouseX, mouseY);
-		int[] slots = hitSlots == null ? new int[0] : hitSlots.stream().mapToInt(Integer::intValue).toArray();
-		if (slots.length > 0)
-			cardGuiContainer.drawPeek(slots, 0, this, mouseX, mouseY, partialTicks);
+		if (currentHitSlots == null || !cardGuiContainer.isHitting(currentHitSlots, 0, mouseX, mouseY))
+		{
+			ArrayList<Integer> hitSlots = cardGuiContainer.hit(mouseX, mouseY);
+			currentHitSlots = hitSlots == null ? null : hitSlots.stream().mapToInt(Integer::intValue).toArray();
+		}
+		if (currentHitSlots != null)
+			cardGuiContainer.drawPeek(currentHitSlots, 0, this, mouseX, mouseY, partialTicks);
 
 		// Finish map
 		GlStateManager.popMatrix();
@@ -167,9 +171,9 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 
 		super.drawScreen(mx, my, partialTicks);
 
-		if (slots.length > 0 && isMouseInContainer(mx, my))
+		if (currentHitSlots != null && isMouseInContainer(mx, my))
 		{
-			ICaptchalogueable object = sylladex.peek(slots, 0);
+			ICaptchalogueable object = sylladex.peek(currentHitSlots, 0);
 			if (object != null)
 				object.renderTooltip(this, mx, my);
 		}
@@ -197,21 +201,13 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	@Override
 	protected void mouseClicked(int mx, int my, int mouseButton) throws IOException
 	{
-		if (isMouseInContainer(mx, my))
+		if (currentHitSlots != null && isMouseInContainer(mx, my))
 		{
-			float guiX = (width - GUI_WIDTH) / 2f;
-			float guiY = (height - GUI_HEIGHT) / 2f;
-			float mouseX = (mx - guiX - X_OFFSET) * scroll - mapX;
-			float mouseY = (my - guiY - Y_OFFSET) * scroll - mapY;
-			ArrayList<Integer> hitSlots = cardGuiContainer.hit(mouseX, mouseY);
-			if (hitSlots != null)
-			{
-				int[] slots = hitSlots.stream().mapToInt(Integer::intValue).toArray();
-				MinestuckNetwork.sendToServer(new MessageSylladexFetchRequest(slots, mouseButton != 0));
-				return;
-			}
+			MinestuckNetwork.sendToServer(new MessageSylladexFetchRequest(currentHitSlots, mouseButton != 0));
+			currentHitSlots = null;
 		}
-		super.mouseClicked(mx, my, mouseButton);
+		else
+			super.mouseClicked(mx, my, mouseButton);
 	}
 
 	@Override

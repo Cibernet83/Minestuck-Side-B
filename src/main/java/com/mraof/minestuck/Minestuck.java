@@ -39,7 +39,7 @@ public class Minestuck
 	 */
 	public static volatile boolean isServerRunning;
 	// The instance of your mod that Forge uses.
-	@Instance("minestuck")
+	@Instance(MODID)
 	public static Minestuck instance;
 	@SidedProxy(clientSide = "com.mraof.minestuck.client.ClientProxy", serverSide = "com.mraof.minestuck.CommonProxy")
 	public static CommonProxy proxy;

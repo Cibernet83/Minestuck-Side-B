@@ -112,7 +112,7 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 		if (x < 0 || x > width || y < 0 || y > height)
 			return null;
 
-		for (int i = 0; i < containers.size(); i++)
+		for (int i = containers.size() - 1; i >= 0; i--)
 		{
 			ArrayList<Integer> hitSlots = containers.get(i).hit(x, y);
 			if (hitSlots != null)
@@ -122,6 +122,18 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isHitting(int[] slots, int index, float x, float y)
+	{
+		x -= this.x;
+		y -= this.y;
+
+		if (x < 0 || x > width || y < 0 || y > height)
+			return false;
+
+		return containers.get(slots[index]).isHitting(slots, index + 1, x, y);
 	}
 
 	@Override

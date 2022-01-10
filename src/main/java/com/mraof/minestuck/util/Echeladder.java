@@ -252,11 +252,4 @@ public class Echeladder
 		for (int i = 0; i < alchemyBonuses.length && i + ALCHEMY_BONUS_OFFSET < bonuses.length; i++)
 			alchemyBonuses[i] = bonuses[i + ALCHEMY_BONUS_OFFSET] != 0;
 	}
-
-	@Deprecated
-	public void setByCommand(int rung, double progress)
-	{
-		setProgress(rung, progress);
-	}
-
 }
