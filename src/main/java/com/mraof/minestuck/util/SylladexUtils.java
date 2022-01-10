@@ -159,7 +159,7 @@ public class SylladexUtils
 
 	public static void setSylladex(EntityPlayer player, MultiSylladex sylladex)
 	{
-		player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).setSylladex(sylladex); // FIXME: ded server really doesn't like it when you don't have a sylladex :/
+		player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).setSylladex(sylladex);
 
 		if (player instanceof EntityPlayerMP)
 			MinestuckNetwork.sendTo(new MessageSylladexData(player), player);
@@ -188,5 +188,16 @@ public class SylladexUtils
 			return layers[i].getModi();
 		}
 		return null;
+	}
+
+	public static void changeModi(EntityPlayer player, ModusLayer... modusLayers)
+	{
+		MultiSylladex sylladex = getSylladex(player);
+		sylladex.ejectAll(false, true);
+		int cards = sylladex.getTotalSlots();
+
+		sylladex = ISylladex.newSylladex(player, modusLayers);
+		sylladex.addCards(cards);
+		setSylladex(player, sylladex);
 	}
 }

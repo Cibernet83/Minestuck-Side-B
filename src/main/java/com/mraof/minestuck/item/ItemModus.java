@@ -3,7 +3,12 @@ package com.mraof.minestuck.item;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.modus.Modus;
 import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
+import com.mraof.minestuck.network.MinestuckNetwork;
+import com.mraof.minestuck.network.message.MessageModusSyncRequest;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -33,8 +38,16 @@ public class ItemModus extends MSItemBase
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
-		BlockPos pos = player.getPosition();
-		player.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.FETCH_MODUS.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+		if (player.isSneaking())
+		{
+			MinestuckNetwork.sendToServer(new MessageModusSyncRequest());
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+		}
+		else
+		{
+			BlockPos pos = player.getPosition();
+			player.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.FETCH_MODUS.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+		}
 		return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}
 
