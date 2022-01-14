@@ -2,7 +2,8 @@ package com.mraof.minestuck.captchalogue;
 
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainer;
@@ -42,7 +43,7 @@ public class ModusLayer
 		return length;
 	}
 
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, int[] slots, int index, boolean asCard)
+	public ICaptchalogueable get(SylladexList<? extends Sylladex> sylladices, int[] slots, int index, boolean asCard)
 	{
 		for (ModusSettings modus : MinestuckUtils.reverse(modi))
 			if (modus.canGet(sylladices, slots, index))
@@ -50,7 +51,7 @@ public class ModusLayer
 		return null;
 	}
 
-	public <SYLLADEX extends ISylladex> boolean canGet(SylladexList<SYLLADEX> sylladices, int[] slots, int index)
+	public boolean canGet(SylladexList<? extends Sylladex> sylladices, int[] slots, int index)
 	{
 		for (ModusSettings modus : MinestuckUtils.reverse(modi))
 			if (modus.canGet(sylladices, slots, index))
@@ -58,17 +59,25 @@ public class ModusLayer
 		return false;
 	}
 
-	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
+	public boolean canGet(SylladexList<? extends Sylladex> sylladices, int index)
+	{
+		for (ModusSettings modus : MinestuckUtils.reverse(modi))
+			if (modus.canGet(sylladices, index))
+				return true;
+		return false;
+	}
+
+	public void put(SylladexList<? extends Sylladex> sylladexes, ICaptchalogueable object)
 	{
 		modi[modi.length - 1].put(sylladexes, object);
 	}
 
-	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
+	public void grow(SylladexList<? extends Sylladex> sylladexes, ICaptchalogueable object)
 	{
 		modi[modi.length - 1].grow(sylladexes, object);
 	}
 
-	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladexes)
+	public void eject(SylladexList<? extends Sylladex> sylladexes)
 	{
 		modi[modi.length - 1].eject(sylladexes);
 	}
@@ -115,9 +124,9 @@ public class ModusLayer
 	}
 
 	@SideOnly(Side.CLIENT)
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices)
+	public MultiSylladexGuiContainer getGuiContainer(MultiSylladex<? extends Sylladex> sylladex, CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
-		return modi[0].getGuiContainer(sylladices, slots, index, textureIndices, getTextureIndices());
+		return modi[0].getGuiContainer(sylladex, textureIndices, getTextureIndices());
 	}
 
 	@SideOnly(Side.CLIENT)

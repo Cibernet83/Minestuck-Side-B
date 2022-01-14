@@ -69,7 +69,8 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	public void updateSylladex(MultiSylladex sylladex)
 	{
 		this.sylladex = sylladex;
-		this.cardGuiContainer = sylladex.generateSubContainer(new int[sylladex.getModusLayers().length], 0, null);
+		this.cardGuiContainer = sylladex.generateSubContainer();
+		this.currentHitSlots = null;
 	}
 
 	@Override
@@ -202,10 +203,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	protected void mouseClicked(int mx, int my, int mouseButton) throws IOException
 	{
 		if (currentHitSlots != null && isMouseInContainer(mx, my))
-		{
 			MinestuckNetwork.sendToServer(new MessageSylladexFetchRequest(currentHitSlots, mouseButton != 0));
-			currentHitSlots = null;
-		}
 		else
 			super.mouseClicked(mx, my, mouseButton);
 	}

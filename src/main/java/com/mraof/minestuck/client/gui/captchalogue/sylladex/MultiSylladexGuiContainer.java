@@ -1,104 +1,67 @@
 package com.mraof.minestuck.client.gui.captchalogue.sylladex;
 
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
-import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
+import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
-public class MultiSylladexGuiContainer extends SylladexGuiContainer
+public abstract class MultiSylladexGuiContainer extends SylladexGuiContainer
 {
-	protected final SylladexList<? extends ISylladex> sylladices;
-	protected final ArrayList<SylladexGuiContainer> containers = new ArrayList<>();
+	private final MultiSylladex sylladex;
+	private final ArrayList<SylladexGuiContainer> containers = new ArrayList<>();
 
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer(SylladexList<SYLLADEX> sylladices, int[] slots, int index, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
+	protected MultiSylladexGuiContainer(MultiSylladex<? extends Sylladex> sylladex, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
 	{
-		this.sylladices = sylladices;
+		this.sylladex = sylladex;
 
-		int i = 0;
-		for (ISylladex sylladex : sylladices)
+		for (Sylladex subsylladex : sylladex)
+			containers.add(subsylladex.generateSubContainer(firstTextureIndices != null && subsylladex == sylladex.getFirst() ? firstTextureIndices : lowerTextureIndices));
+	}
+
+	protected void constrainBounds()
+	{
+		width = height = 0;
+		float xOffset = 0, yOffset = 0;
+
+		for (SylladexGuiContainer container : containers)
 		{
-			slots[index] = i++;
-			containers.add(sylladex.generateSubContainer(slots, index + 1, firstTextureIndices != null && sylladex == sylladices.getFirstWithSlots() ? firstTextureIndices : lowerTextureIndices));
+			xOffset = Math.min(xOffset, container.x);
+			yOffset = Math.min(yOffset, container.y);
+			width = Math.max(width, container.x + container.width);
+			height = Math.max(height, container.y + container.height);
+		}
+		width -= xOffset;
+		height -= yOffset;
+		for (SylladexGuiContainer container : containers)
+		{
+			container.x -= xOffset;
+			container.y -= yOffset;
 		}
 	}
 
 	@Override
-	public void update(int depth, float partialTicks)
-	{
-		if (!containers.isEmpty())
-		{
-			float theta = (-depth + 1) * (float) Math.PI / 3f;
-			if (theta < 0)
-				theta += (float) Math.PI;
-			float moveX = MathHelper.cos(theta);
-			float moveY = MathHelper.sin(theta);
-			float slope = moveY / moveX;
-
-			float distanceX = 0;
-			float distanceY = 0;
-			for (SylladexGuiContainer container : containers)
-			{
-				if (container.isEmpty())
-					continue;
-				container.update(depth + 1, partialTicks);
-				container.x = distanceX;
-				if (slope < 0) container.x -= container.width;
-				container.y = distanceY;
-
-				float containerSlope = container.height / container.width;
-				float relaxedMetric = (Math.abs(slope) < containerSlope ? container.width : container.height) * 0.9f;
-				distanceX += moveX * relaxedMetric;
-				distanceY += moveY * relaxedMetric;
-			}
-
-			// Constrain bounding box
-			width = height = 0;
-			if (slope < 0) // Origin is at top-left, backwards
-			{
-				for (SylladexGuiContainer container : containers)
-				{
-					width = Math.min(width, container.x);
-					height = Math.max(height, container.y + container.height);
-				}
-				width = -width;
-				for (SylladexGuiContainer container : containers) // Fix origin
-					container.x += width;
-			}
-			else // Origin is at top-right, how it should be
-			{
-				for (SylladexGuiContainer container : containers)
-				{
-					width = Math.max(width, container.x + container.width);
-					height = Math.max(height, container.y + container.height);
-				}
-			}
-		}
-	}
-
-	@Override
-	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks, boolean fetchable)
 	{
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
 
-		for (SylladexGuiContainer container : containers)
-			container.draw(gui, mouseX - x, mouseY - y, partialTicks);
+		for (int i = 0; i < containers.size(); i++)
+			containers.get(i).draw(gui, mouseX - x, mouseY - y, partialTicks, fetchable && sylladex.canGet(i));
 
 		GlStateManager.popMatrix();
 	}
 
 	@Override
-	public void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	public void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks, boolean fetchable)
 	{
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
 
-		containers.get(slots[index]).drawPeek(slots, index + 1, gui, mouseX, mouseY, partialTicks);
+		containers.get(slots[index]).drawPeek(slots, index + 1, gui, mouseX, mouseY, partialTicks, fetchable && sylladex.canGet(slots[index]));
 
 		GlStateManager.popMatrix();
 	}
@@ -143,5 +106,15 @@ public class MultiSylladexGuiContainer extends SylladexGuiContainer
 			if (!container.isEmpty())
 				return false;
 		return true;
+	}
+
+	protected MultiSylladex getSylladex()
+	{
+		return sylladex;
+	}
+
+	protected ArrayList<SylladexGuiContainer> getContainers()
+	{
+		return containers;
 	}
 }

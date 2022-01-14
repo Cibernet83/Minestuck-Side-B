@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class UpperSylladex extends MultiSylladex
+public class UpperSylladex extends MultiSylladex<MultiSylladex>
 {
 	private final SylladexList<MultiSylladex> sylladices = new SylladexList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
 
@@ -29,7 +29,7 @@ public class UpperSylladex extends MultiSylladex
 
 		NBTTagList sylladicesTag = nbt.getTagList("Sylladices", 10);
 		for (NBTBase sylladexTagBase : sylladicesTag)
-			this.sylladices.add(ISylladex.readFromNBT(player, (NBTTagCompound) sylladexTagBase));
+			this.sylladices.add(Sylladex.readFromNBT(player, (NBTTagCompound) sylladexTagBase));
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class UpperSylladex extends MultiSylladex
 	@Override
 	public void ejectAll(boolean asCards, boolean onlyFull)
 	{
-		for (ISylladex sylladex : sylladices)
+		for (Sylladex sylladex : sylladices)
 			sylladex.ejectAll(asCards, onlyFull);
 	}
 
@@ -81,7 +81,7 @@ public class UpperSylladex extends MultiSylladex
 			}
 		}
 		if (leastSlots == 256)
-			object.eject(player);
+			object.eject(getPlayer());
 		else
 			leastSlotsSylladex.addCard(object);
 	}

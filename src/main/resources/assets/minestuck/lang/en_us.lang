@@ -2721,6 +2721,10 @@ modus.popTart.alone.singular=Pop Tart
 modus.popTart.prefix=Pop
 modus.popTart.suffix.singular=tart
 
+modus.cyclone.alone.singular=Cyclone
+modus.cyclone.prefix=Cy
+modus.cyclone.suffix.singular=clone
+
 property.item.broken=Broken %s
 
 status.wildMagicRoll=You rolled a %s!

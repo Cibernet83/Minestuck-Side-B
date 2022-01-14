@@ -52,7 +52,7 @@ public class MinestuckModi
 	//public static final Modus set = new ModusSet("set");
 
 	//side-b
-	//public static final Modus cyclone = new ModusCyclone("cyclone");
+	public static final Modus cyclone = new ModusCyclone("cyclone");
 	//public static final Modus weight = new ModusWeight("weight");
 	//public static final Modus wildMagic = new ModusWildMagic("wildMagic");
 	//public static final Modus book = new ModusBook("book");

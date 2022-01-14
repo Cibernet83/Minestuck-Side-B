@@ -2,7 +2,7 @@ package com.mraof.minestuck.captchalogue.modus;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiStackModusSettings;
@@ -23,7 +23,7 @@ public class ModusQueue extends Modus
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
+	public <SYLLADEX extends Sylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
 	{
 		SYLLADEX sylladex = sylladices.removeLastWithSlots();
 		sylladices.addFirst(sylladex);
@@ -32,20 +32,19 @@ public class ModusQueue extends Modus
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> boolean canGet(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i)
+	public <SYLLADEX extends Sylladex> boolean canGet(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int i)
 	{
-		SYLLADEX last = sylladices.getLastWithSlots();
-		return slots[i] == sylladices.indexOf(last) && last.canGet(slots, i + 1);
+		return i == sylladices.indexOf(sylladices.getLastWithSlots());
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object)
+	public <SYLLADEX extends Sylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object)
 	{
 		getSylladexToPutInto(sylladices, settings).put(object);
 	}
 
 	@Override
-	protected <SYLLADEX extends ISylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
+	protected <SYLLADEX extends Sylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
 	{
 		SYLLADEX freeSylladex = getMostFreeSlotsSylladex(sylladices, settings);
 
@@ -65,7 +64,7 @@ public class ModusQueue extends Modus
 	}
 
 	@Override
-	protected <SYLLADEX extends ISylladex> SYLLADEX getMostFreeSlotsSylladex(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
+	protected <SYLLADEX extends Sylladex> SYLLADEX getMostFreeSlotsSylladex(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
 	{
 		int mostFreeSlots = 0;
 		SYLLADEX freeSylladex = null;
@@ -82,7 +81,7 @@ public class ModusQueue extends Modus
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
+	public <SYLLADEX extends Sylladex> void grow(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable other)
 	{
 		SYLLADEX first = sylladices.getFirstWithObject();
 		if (first != null)
@@ -100,6 +99,12 @@ public class ModusQueue extends Modus
 	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{
 		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 54);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	{
+		return new GuiStackModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/queue_modus.png"), false);
 	}
 
 	@Override
@@ -121,12 +126,6 @@ public class ModusQueue extends Modus
 	public int getLighterColor()
 	{
 		return 0xFF8135;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public GuiModusSettings getSettingsGui(ItemStack modusStack)
-	{
-		return new GuiStackModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/queue_modus.png"), false);
 	}
 
 	@Override

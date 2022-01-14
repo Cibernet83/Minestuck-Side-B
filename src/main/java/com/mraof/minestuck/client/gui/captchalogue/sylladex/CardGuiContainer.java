@@ -15,13 +15,11 @@ public class CardGuiContainer extends SylladexGuiContainer
 {
 	private final ICaptchalogueable object;
 	private final CardTextureIndex[] textureIndices;
-	private final boolean fetchable;
 
-	public CardGuiContainer(CardTextureIndex[] textureIndices, ICaptchalogueable object, boolean fetchable)
+	public CardGuiContainer(CardTextureIndex[] textureIndices, ICaptchalogueable object)
 	{
 		this.textureIndices = textureIndices;
 		this.object = object;
-		this.fetchable = fetchable;
 		this.width = 21;
 		this.height = 26;
 	}
@@ -30,7 +28,7 @@ public class CardGuiContainer extends SylladexGuiContainer
 	public void update(int depth, float partialTicks) { }
 
 	@Override
-	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks) // TODO: Darken unusable cards
+	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks, boolean fetchable)
 	{
 		int width = (int) this.width;
 		int height = (int) this.height;
@@ -38,7 +36,9 @@ public class CardGuiContainer extends SylladexGuiContainer
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
 
-		if (!fetchable)
+		if (fetchable)
+			GlStateManager.color(1f, 1f, 1f);
+		else
 			GlStateManager.color(0.8f, 0.8f, 0.8f);
 
 		for (int i = 0; i < textureIndices.length; i++)
@@ -52,16 +52,14 @@ public class CardGuiContainer extends SylladexGuiContainer
 		if (object != null)
 			object.draw(gui, mouseX, mouseY, partialTicks);
 
-		if (!fetchable)
-			GlStateManager.color(1f, 1f, 1f);
-
+		GlStateManager.color(1f, 1f, 1f);
 		GlStateManager.popMatrix();
 	}
 
 	@Override
-	public void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	public void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks, boolean fetchable)
 	{
-		draw(gui, mouseX, mouseY, partialTicks);
+		draw(gui, mouseX, mouseY, partialTicks, fetchable);
 	}
 
 	@Override

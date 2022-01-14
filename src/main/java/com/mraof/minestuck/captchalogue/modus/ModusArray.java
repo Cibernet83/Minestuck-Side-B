@@ -17,10 +17,18 @@ public class ModusArray extends Modus
 		super(name);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{
 		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 42);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	{
+		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/array_modus.png"));
 	}
 
 	@Override
@@ -35,12 +43,6 @@ public class ModusArray extends Modus
 	public int getPrimaryColor()
 	{
 		return 0x06B6FF;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public GuiModusSettings getSettingsGui(ItemStack modusStack)
-	{
-		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/array_modus.png"));
 	}
 
 	@Override

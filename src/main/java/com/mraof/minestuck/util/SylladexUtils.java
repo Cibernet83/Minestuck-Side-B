@@ -7,7 +7,7 @@ import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.network.MinestuckNetwork;
@@ -145,7 +145,7 @@ public class SylladexUtils
 			launchItem(player, new ItemStack(MinestuckItems.captchaCard, toDrop));
 		}
 
-		setSylladex(player, ISylladex.newSylladex(player, sylladex.getModusLayers()));
+		setSylladex(player, Sylladex.newSylladex(player, sylladex.getModusLayers()));
 	}
 
 	public static void launchItem(EntityPlayer player, ItemStack item)
@@ -196,7 +196,7 @@ public class SylladexUtils
 		sylladex.ejectAll(false, true);
 		int cards = sylladex.getTotalSlots();
 
-		sylladex = ISylladex.newSylladex(player, modusLayers);
+		sylladex = Sylladex.newSylladex(player, modusLayers);
 		sylladex.addCards(cards);
 		setSylladex(player, sylladex);
 	}

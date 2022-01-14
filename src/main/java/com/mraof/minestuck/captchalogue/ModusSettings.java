@@ -2,7 +2,8 @@ package com.mraof.minestuck.captchalogue;
 
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
+import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainer;
@@ -33,27 +34,32 @@ public class ModusSettings
 		return modus;
 	}
 
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, int[] slots, int index, boolean asCard)
+	public ICaptchalogueable get(SylladexList<? extends Sylladex> sylladices, int[] slots, int index, boolean asCard)
 	{
 		return modus.get(sylladices, settings, slots, index, asCard);
 	}
 
-	public <SYLLADEX extends ISylladex> boolean canGet(SylladexList<SYLLADEX> sylladices, int[] slots, int index)
+	public boolean canGet(SylladexList<? extends Sylladex> sylladices, int[] slots, int index)
 	{
 		return modus.canGet(sylladices, settings, slots, index);
 	}
 
-	public <SYLLADEX extends ISylladex> void put(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
+	public boolean canGet(SylladexList<? extends Sylladex> sylladices, int index)
+	{
+		return modus.canGet(sylladices, settings, index);
+	}
+
+	public void put(SylladexList<? extends Sylladex> sylladexes, ICaptchalogueable object)
 	{
 		modus.put(sylladexes, settings, object);
 	}
 
-	public <SYLLADEX extends ISylladex> void grow(SylladexList<SYLLADEX> sylladexes, ICaptchalogueable object)
+	public void grow(SylladexList<? extends Sylladex> sylladexes, ICaptchalogueable object)
 	{
 		modus.grow(sylladexes, settings, object);
 	}
 
-	public <SYLLADEX extends ISylladex> void eject(SylladexList<SYLLADEX> sylladexes)
+	public void eject(SylladexList<? extends Sylladex> sylladexes)
 	{
 		modus.eject(sylladexes, settings);
 	}
@@ -67,9 +73,9 @@ public class ModusSettings
 	}
 
 	@SideOnly(Side.CLIENT)
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, int[] slots, int index, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
+	public MultiSylladexGuiContainer getGuiContainer(MultiSylladex<? extends Sylladex> sylladex, CardGuiContainer.CardTextureIndex[] firstTextureIndices, CardGuiContainer.CardTextureIndex[] lowerTextureIndices)
 	{
-		return modus.getGuiContainer(sylladices, settings, slots, index, firstTextureIndices, lowerTextureIndices);
+		return modus.getGuiContainer(sylladex, firstTextureIndices, lowerTextureIndices);
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -11,9 +11,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class BottomSylladex extends MultiSylladex
+public class BottomSylladex extends MultiSylladex<CardSylladex>
 {
-	private final SylladexList<CardSylladex> cards = new SylladexList<>(); // Keep these as LL instead of array because we have to add/remove cards :/
+	private final SylladexList<CardSylladex> cards = new SylladexList<>();
 
 	BottomSylladex(EntityPlayer player, ModusLayer modi)
 	{
