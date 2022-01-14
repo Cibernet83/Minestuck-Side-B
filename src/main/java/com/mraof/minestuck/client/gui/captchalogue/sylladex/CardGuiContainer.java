@@ -25,7 +25,7 @@ public class CardGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
-	public void update(int depth, float partialTicks) { }
+	public void update(int depth, float directionAngle, float partialTicks) { }
 
 	@Override
 	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks, boolean fetchable)

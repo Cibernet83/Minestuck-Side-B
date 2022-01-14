@@ -10,7 +10,7 @@ public abstract class SylladexGuiContainer
 {
 	protected float x, y, width, height;
 
-	public abstract void update(int depth, float partialTicks);
+	public abstract void update(int depth, float directionAngle, float partialTicks);
 	protected abstract void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks, boolean fetchable);
 	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
 	{

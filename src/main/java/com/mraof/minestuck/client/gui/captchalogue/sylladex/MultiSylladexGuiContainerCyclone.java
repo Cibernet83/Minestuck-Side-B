@@ -19,30 +19,41 @@ public class MultiSylladexGuiContainerCyclone extends MultiSylladexGuiContainer
 	}
 
 	@Override
-	public void update(int depth, float partialTicks)
+	public void update(int depth, float directionAngle, float partialTicks)
 	{
 		ArrayList<SylladexGuiContainer> containers = getContainers();
 		if (getContainers().isEmpty())
 			return;
 
 		int size = (int)containers.stream().filter((container) -> !container.isEmpty()).count();
-
 		float theta = (Minecraft.getMinecraft().player.ticksExisted + partialTicks) * ModusCyclone.CYCLE_SPEED;
-		float radius = size == 1 ? 0 : size <= 4 ? 26 : 18 / MathHelper.sin((float)Math.PI/size);
 
-		for(int i = 0, ai = 0; i < containers.size(); ++i)
+		float length = 0;
+		for(int i = 0, ai = 0; i < containers.size(); i++)
 		{
 			SylladexGuiContainer container = containers.get(i);
 			if (container.isEmpty())
 				continue;
 
-			container.update(depth + 1, partialTicks);
-
 			float angle = ((theta + ai++ + 0.5f) / size - 0.25f) * (2f * (float)Math.PI);
-			container.x = MathHelper.cos(angle) * radius + radius;
-			container.y = MathHelper.sin(angle) * radius + radius;
+			container.update(depth + 1, angle, partialTicks);
+			length = Math.max(length, Math.abs(MathHelper.cos(angle)) * container.width + Math.abs(MathHelper.sin(angle)) * container.height);
 		}
 
-		constrainBounds();
+		float tan = MathHelper.sin((float)Math.PI / size) / MathHelper.cos((float)Math.PI / size);
+		float radius = size == 1 ? 0 : size == 2 ? 6 : length / 2f / tan;
+
+		for(int i = 0, ai = 0; i < containers.size(); i++)
+		{
+			SylladexGuiContainer container = containers.get(i);
+			if (container.isEmpty())
+				continue;
+
+			float angle = ((theta + ai++ + 0.5f) / size - 0.25f) * (2f * (float)Math.PI);
+			container.x = MathHelper.cos(angle) * radius + (MathHelper.cos(angle) - 1) / 2 * container.width;
+			container.y = MathHelper.sin(angle) * radius + (MathHelper.sin(angle) - 1) / 2 * container.height;
+		}
+
+		//constrainBounds();
 	}
 }

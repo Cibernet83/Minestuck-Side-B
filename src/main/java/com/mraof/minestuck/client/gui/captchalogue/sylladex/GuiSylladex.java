@@ -76,12 +76,12 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 	@Override
 	public void drawScreen(int mx, int my, float partialTicks)
 	{
-		cardGuiContainer.update(0, partialTicks);
+		cardGuiContainer.update(0, (float)Math.PI / 3f, partialTicks);
 
 		if (!updatedOnce)
 		{
-			mapX = cardGuiContainer.width < MAP_WIDTH ? (MAP_WIDTH - cardGuiContainer.width) / 2f : 20;
-			mapY = cardGuiContainer.height < MAP_HEIGHT ? (MAP_HEIGHT - cardGuiContainer.height) / 2f : 20;
+			mapX = MAP_WIDTH / 2f;
+			mapY = MAP_HEIGHT / 2f;
 			updatedOnce = true;
 		}
 
@@ -129,8 +129,8 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 		else
 			mousePressed = false;
 
-		float mouseX = (mx - guiX - X_OFFSET) * scroll - mapX;
-		float mouseY = (my - guiY - Y_OFFSET) * scroll - mapY;
+		float mouseX = (mx - guiX - X_OFFSET) * scroll - mapX + cardGuiContainer.width / 2f;
+		float mouseY = (my - guiY - Y_OFFSET) * scroll - mapY + cardGuiContainer.height / 2f;
 
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(guiX, guiY, 0);
@@ -144,7 +144,7 @@ public class GuiSylladex extends GuiScreen implements GuiYesNoCallback
 		drawRect(0, 0, (int) mapWidth, (int) mapHeight, 0xFF8B8B8B);
 
 		GlStateManager.color(1F, 1F, 1F, 1F);
-		GlStateManager.translate(mapX, mapY, 0);
+		GlStateManager.translate(mapX - cardGuiContainer.width / 2f, mapY - cardGuiContainer.height / 2f, 0);
 
 		cardGuiContainer.draw(this, mouseX, mouseY, partialTicks);
 
