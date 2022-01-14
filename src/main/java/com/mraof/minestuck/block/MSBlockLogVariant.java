@@ -6,7 +6,6 @@ import com.mraof.minestuck.util.IRegistryObject;
 import com.mraof.minestuck.util.IUnlocSerializable;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.MapColor;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -94,7 +93,7 @@ public class MSBlockLogVariant extends MSBlockLog implements IRegistryBlock
 			public void registerModel()
 			{
 				super.registerModel();
-				ModelLoader.setCustomStateMapper(MSBlockLogVariant.this, (new StateMap.Builder()).withName(MSBlockLogVariant.VARIANT).withSuffix("_log").build());
+				ModelLoader.setCustomStateMapper(MSBlockLogVariant.this, (new StateMap.Builder()).withName(VARIANT).withSuffix("_log").build());
 			}
 		};
 	}

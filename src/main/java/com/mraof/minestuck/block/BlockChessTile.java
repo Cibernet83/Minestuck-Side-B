@@ -20,7 +20,7 @@ import static com.mraof.minestuck.block.MinestuckBlocks.chessTile;
 
 public class BlockChessTile extends MSBlockBase
 {
-	public static final PropertyEnum VARIANT = PropertyEnum.create("block_type", BlockType.class);
+	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", BlockType.class);
 
 	public BlockChessTile()
 	{

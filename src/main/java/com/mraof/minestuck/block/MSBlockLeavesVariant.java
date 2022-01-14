@@ -5,7 +5,6 @@ import com.mraof.minestuck.item.block.MSItemBlockMultiTexture;
 import com.mraof.minestuck.util.IRegistryObject;
 import com.mraof.minestuck.util.IUnlocSerializable;
 import net.minecraft.block.material.MapColor;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MSBlockLeavesVariant extends MSBlockLeaves implements IRegistryBlock
+public class MSBlockLeavesVariant extends MSBlockLeaves
 {
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
 
