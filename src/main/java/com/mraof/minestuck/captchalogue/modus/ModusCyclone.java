@@ -41,7 +41,7 @@ public class ModusCyclone extends Modus
 	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{
-		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 26);
+		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 27);
 	}
 
 	@Override

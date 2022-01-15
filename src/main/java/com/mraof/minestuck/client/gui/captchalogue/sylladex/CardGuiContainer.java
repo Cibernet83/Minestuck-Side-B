@@ -5,6 +5,7 @@ import com.mraof.minestuck.captchalogue.modus.Modus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -87,6 +88,16 @@ public class CardGuiContainer extends SylladexGuiContainer
 	public boolean isEmpty()
 	{
 		return false;
+	}
+
+	@Override
+	protected float getLongestDistanceToLine(float x, float y, float angle)
+	{
+		float length = 0;
+		for (float a : new float[]{-x, -x + width})
+			for (float b : new float[]{-y, -y + height})
+				length = Math.max(length, Math.abs(b * MathHelper.cos(angle) - a * MathHelper.sin(angle)));
+		return length;
 	}
 
 	public static class CardTextureIndex

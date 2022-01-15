@@ -37,11 +37,14 @@ public class MultiSylladexGuiContainerCyclone extends MultiSylladexGuiContainer
 
 			float angle = ((theta + ai++ + 0.5f) / size - 0.25f) * (2f * (float)Math.PI);
 			container.update(depth + 1, angle, partialTicks);
-			length = Math.max(length, Math.abs(MathHelper.cos(angle)) * container.width + Math.abs(MathHelper.sin(angle)) * container.height);
+			container.x = (MathHelper.cos(angle) - 1) / 2 * container.width;
+			container.y = (MathHelper.sin(angle) - 1) / 2 * container.height;
+
+			length = Math.max(length, container.getLongestDistanceToLine(-container.x, -container.y, angle));
 		}
 
 		float tan = MathHelper.sin((float)Math.PI / size) / MathHelper.cos((float)Math.PI / size);
-		float radius = size == 1 ? 0 : size == 2 ? 6 : length / 2f / tan;
+		float radius = size == 1 ? 0 : size == 2 ? 6 : length / tan;
 
 		for(int i = 0, ai = 0; i < containers.size(); i++)
 		{
@@ -50,10 +53,10 @@ public class MultiSylladexGuiContainerCyclone extends MultiSylladexGuiContainer
 				continue;
 
 			float angle = ((theta + ai++ + 0.5f) / size - 0.25f) * (2f * (float)Math.PI);
-			container.x = MathHelper.cos(angle) * radius + (MathHelper.cos(angle) - 1) / 2 * container.width;
-			container.y = MathHelper.sin(angle) * radius + (MathHelper.sin(angle) - 1) / 2 * container.height;
+			container.x += MathHelper.cos(angle) * radius;
+			container.y += MathHelper.sin(angle) * radius;
 		}
 
-		//constrainBounds();
+		constrainBounds();
 	}
 }

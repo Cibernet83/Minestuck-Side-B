@@ -111,6 +111,15 @@ public abstract class MultiSylladexGuiContainer extends SylladexGuiContainer
 		return true;
 	}
 
+	@Override
+	protected float getLongestDistanceToLine(float x, float y, float angle)
+	{
+		float length = 0;
+		for (SylladexGuiContainer container : getContainers())
+			length = Math.max(length, container.getLongestDistanceToLine(x - container.x, y - container.y, angle));
+		return length;
+	}
+
 	protected MultiSylladex getSylladex()
 	{
 		return sylladex;

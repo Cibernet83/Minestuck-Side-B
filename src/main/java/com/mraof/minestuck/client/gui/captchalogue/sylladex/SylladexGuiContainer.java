@@ -24,4 +24,5 @@ public abstract class SylladexGuiContainer
 	public abstract ArrayList<Integer> hit(float x, float y);
 	public abstract boolean isHitting(int[] slots, int index, float x, float y);
 	public abstract boolean isEmpty();
+	protected abstract float getLongestDistanceToLine(float x, float y, float angle);
 }
