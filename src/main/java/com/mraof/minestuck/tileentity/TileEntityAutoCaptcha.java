@@ -1,9 +1,9 @@
 package com.mraof.minestuck.tileentity;
 
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
+import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.MinestuckUtils;
-import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -23,16 +23,15 @@ import javax.annotation.Nullable;
 
 public class TileEntityAutoCaptcha extends TileEntity implements ITickable, ISidedInventory
 {
-	protected NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
+	public static final int totalTime = 50;
+	private static final int[] SLOTS_TOP = new int[]{0};
+	private static final int[] SLOTS_BOTTOM = new int[]{2, 1};
+	private static final int[] SLOTS_SIDES = new int[]{1};
 	public int timer;
 	public boolean powered = false;
+	protected NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
 	private String customName;
-	public static final int totalTime = 50;
-	
-	private static final int[] SLOTS_TOP = new int[] {0};
-	private static final int[] SLOTS_BOTTOM = new int[] {2, 1};
-	private static final int[] SLOTS_SIDES = new int[] {1};
-	
+
 	@Override
 	public int[] getSlotsForFace(EnumFacing side)
 	{
@@ -41,198 +40,206 @@ public class TileEntityAutoCaptcha extends TileEntity implements ITickable, ISid
 		else
 			return side == EnumFacing.UP ? SLOTS_TOP : SLOTS_SIDES;
 	}
-	
+
 	@Override
 	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction)
 	{
 		return this.isItemValidForSlot(index, itemStackIn);
 	}
-	
+
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
 	{
 		return index == 2;
 	}
-	
-	@Override
+
+	public void setCustomName(String name) {this.customName = name;}	@Override
 	public int getSizeInventory()
 	{
 		return 3;
 	}
-	
-	@Override
-	public boolean isEmpty()
-	{
-		return inventory.get(0).isEmpty();
-	}
-	
-	@Override
-	public ItemStack getStackInSlot(int index)
-	{
-		return inventory.get(index);
-	}
-	
-	@Override
-	public ItemStack decrStackSize(int index, int count)
-	{
-		return ItemStackHelper.getAndSplit(inventory, index, count);
-	}
-	
-	@Override
-	public ItemStack removeStackFromSlot(int index)
-	{
-		return ItemStackHelper.getAndRemove(inventory, index);
-	}
-	
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack)
-	{
-		ItemStack stackInSlot = inventory.get(index);
-		inventory.set(index, stack);
-		
-		if(stack.getCount() > getInventoryStackLimit())
-			stack.setCount(getInventoryStackLimit());
-	}
-	
-	@Override
-	public int getInventoryStackLimit()
-	{
-		return 64;
-	}
-	
-	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
-		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
-	}
-	
-	@Override
-	public void openInventory(EntityPlayer player) {}
-	
-	@Override
-	public void closeInventory(EntityPlayer player) {}
-	
-	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack)
-	{
-		return (index != 2) && (index == 0 || (index == 1 && stack.getItem() == MinestuckItems.captchaCard && !stack.hasTagCompound()));
-	}
-	
-	@Override
-	public int getField(int id)
-	{
-		return timer;
-	}
-	
-	@Override
-	public void setField(int id, int value)
-	{
-		timer = value;
-	}
-	
-	@Override
-	public int getFieldCount()
-	{
-		return 1;
-	}
-	
-	@Override
-	public void clear() {
-		inventory.clear();
-	}
-	
-	@Override
-	public String getName() {
-		return this.hasCustomName() ? this.customName : I18n.translateToLocal("tile.autoCaptcha.name");
-	}
-	
-	@Override
-	public boolean hasCustomName() {
-		return this.customName != null && !this.customName.isEmpty();
-	}
-	
-	public void setCustomName(String name) {this.customName = name;}
-	
-	@Nullable
-	@Override
-	public ITextComponent getDisplayName()
-	{
-		return new TextComponentString(this.getName());
-	}
-	
+
 	@Override
 	public void update()
 	{
 		powered = world.isBlockPowered(getPos());
-		
-		if(canProcess() && !powered)
+
+		if (canProcess() && !powered)
 		{
-				timer--;
-			if(timer <= 0)
+			timer--;
+			if (timer <= 0)
 				processContents();
 		}
 		else timer = totalTime;
+	}	@Override
+	public boolean isEmpty()
+	{
+		return inventory.get(0).isEmpty();
 	}
-	
+
 	public boolean canProcess()
 	{
 		ItemStack in = inventory.get(0);
 		ItemStack out = AlchemyUtils.createCard(new CaptchalogueableItemStack(in), false);
 		return (MinestuckUtils.compareCards(out, inventory.get(2), false) || inventory.get(2).isEmpty()) && !inventory.get(1).isEmpty() && !in.isEmpty();
+	}	@Override
+	public ItemStack getStackInSlot(int index)
+	{
+		return inventory.get(index);
 	}
-	
+
 	public void processContents()
 	{
 		timer = totalTime;
 		ItemStackHelper.getAndSplit(this.inventory, 1, 1);
 		ItemStack in = ItemStackHelper.getAndSplit(this.inventory, 0, 64);
 		ItemStack out = AlchemyUtils.createCard(new CaptchalogueableItemStack(in), false);
-		
-		if(MinestuckUtils.compareCards(out, inventory.get(2), false))
+
+		if (MinestuckUtils.compareCards(out, inventory.get(2), false))
 			inventory.get(2).grow(1);
 		else inventory.set(2, out);
+	}	@Override
+	public ItemStack decrStackSize(int index, int count)
+	{
+		return ItemStackHelper.getAndSplit(inventory, index, count);
 	}
-	
+
+	@Override
+	public ItemStack removeStackFromSlot(int index)
+	{
+		return ItemStackHelper.getAndRemove(inventory, index);
+	}
+
+	@Override
+	public void setInventorySlotContents(int index, ItemStack stack)
+	{
+		ItemStack stackInSlot = inventory.get(index);
+		inventory.set(index, stack);
+
+		if (stack.getCount() > getInventoryStackLimit())
+			stack.setCount(getInventoryStackLimit());
+	}
+
+	@Override
+	public int getInventoryStackLimit()
+	{
+		return 64;
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player)
+	{
+		return this.world.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {}
+
+	@Override
+	public boolean isItemValidForSlot(int index, ItemStack stack)
+	{
+		return (index != 2) && (index == 0 || (index == 1 && stack.getItem() == MinestuckItems.captchaCard && !stack.hasTagCompound()));
+	}
+
+	@Override
+	public int getField(int id)
+	{
+		return timer;
+	}
+
+	@Override
+	public void setField(int id, int value)
+	{
+		timer = value;
+	}
+
+	@Override
+	public int getFieldCount()
+	{
+		return 1;
+	}
+
+	@Override
+	public void clear()
+	{
+		inventory.clear();
+	}
+
+	@Override
+	public String getName()
+	{
+		return this.hasCustomName() ? this.customName : I18n.translateToLocal("tile.autoCaptcha.name");
+	}
+
+	@Override
+	public boolean hasCustomName()
+	{
+		return this.customName != null && !this.customName.isEmpty();
+	}
+
+
+
+	@Nullable
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return new TextComponentString(this.getName());
+	}
+
+
+
+
+
+
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound)
 	{
 		super.readFromNBT(compound);
-		
-		this.inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+
+		this.inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(compound, this.inventory);
 		timer = compound.getInteger("timer");
-		
+
 		if (compound.hasKey("CustomName", 8))
 			this.customName = compound.getString("CustomName");
 	}
-	
+
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
-		compound.setInteger("timer", (short)this.timer);
+		compound.setInteger("timer", (short) this.timer);
 		ItemStackHelper.saveAllItems(compound, this.inventory);
-		
+
 		if (this.hasCustomName())
 			compound.setString("CustomName", this.customName);
-		
+
 		return super.writeToNBT(compound);
 	}
-	
-	
-	public NBTTagCompound getUpdateTag() {
+
+
+	public NBTTagCompound getUpdateTag()
+	{
 		return this.writeToNBT(new NBTTagCompound());
 	}
-	
-	public SPacketUpdateTileEntity getUpdatePacket() {
+
+	public SPacketUpdateTileEntity getUpdatePacket()
+	{
 		NBTTagCompound tagCompound = this.getUpdateTag();
 		return new SPacketUpdateTileEntity(this.pos, 2, tagCompound);
 	}
-	
-	public void handleUpdateTag(NBTTagCompound tag) {
+
+	public void handleUpdateTag(NBTTagCompound tag)
+	{
 		this.readFromNBT(tag);
 	}
-	
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	{
 		this.handleUpdateTag(pkt.getNbtCompound());
 	}
-	
+
 }

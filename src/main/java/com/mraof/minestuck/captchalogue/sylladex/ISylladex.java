@@ -11,6 +11,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface ISylladex
 {
+	static MultiSylladex readFromNBT(EntityPlayer player, NBTTagCompound nbt)
+	{
+		return nbt.hasKey("Modus") ? nbt.getBoolean("IsBottom") ? new BottomSylladex(player, nbt) : new UpperSylladex(player, nbt) : null;
+	}
+	static MultiSylladex newSylladex(EntityPlayer player, ModusLayer... modusLayers)
+	{
+		return modusLayers[0].getLength() < 0 ? new BottomSylladex(player, modusLayers[0]) : new UpperSylladex(player, modusLayers, 0);
+	}
 	ICaptchalogueable get(int[] slots, int index, boolean asCard);
 	boolean canGet(int[] slots, int index);
 	ICaptchalogueable peek(int[] slots, int index);
@@ -25,14 +33,4 @@ public interface ISylladex
 	NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)
 	SylladexGuiContainer generateSubContainer(int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices);
-
-	static MultiSylladex readFromNBT(EntityPlayer player, NBTTagCompound nbt)
-	{
-		return nbt.hasKey("Modus") ? nbt.getBoolean("IsBottom") ? new BottomSylladex(player, nbt) : new UpperSylladex(player, nbt) : null;
-	}
-
-	static MultiSylladex newSylladex(EntityPlayer player, ModusLayer... modusLayers)
-	{
-		return modusLayers[0].getLength() < 0 ? new BottomSylladex(player, modusLayers[0]) : new UpperSylladex(player, modusLayers, 0);
-	}
 }

@@ -18,17 +18,17 @@ public class MessageStoneTabletRequest implements MinestuckMessage
 	public MessageStoneTabletRequest(String text) { }
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		if (text != null)
-			ByteBufUtils.writeUTF8String(buf, text);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		if (buf.readableBytes() > 0)
 			text = ByteBufUtils.readUTF8String(buf);
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		if (text != null)
+			ByteBufUtils.writeUTF8String(buf, text);
 	}
 
 	@Override
@@ -37,17 +37,17 @@ public class MessageStoneTabletRequest implements MinestuckMessage
 		ItemStack stack = player.getHeldItemMainhand();
 		ItemStack tablet = new ItemStack(MinestuckItems.stoneTablet);
 
-		if(!stack.hasTagCompound())
+		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound nbt = stack.getTagCompound();
 
-		if(!stack.isItemEqual(tablet))
-			if(!(stack = player.getHeldItemOffhand()).isItemEqual(tablet))
+		if (!stack.isItemEqual(tablet))
+			if (!(stack = player.getHeldItemOffhand()).isItemEqual(tablet))
 				return;
 
-		if(!text.trim().isEmpty())
+		if (!text.trim().isEmpty())
 			nbt.setString("text", text);
-		else if(nbt.hasKey("text"))
+		else if (nbt.hasKey("text"))
 			nbt.removeTag("text");
 		stack.setTagCompound(nbt.hasNoTags() ? null : nbt);
 	}

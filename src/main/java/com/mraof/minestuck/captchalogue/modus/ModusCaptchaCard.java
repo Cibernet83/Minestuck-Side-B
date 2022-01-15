@@ -15,27 +15,27 @@ public class ModusCaptchaCard extends Modus
 	}
 
 	@Override
-	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
-	{
-		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 37);
-	}
-
-	@Override
-	public GuiModusSettings getSettingsGui(ItemStack modusStack)
-	{
-		return null;
-	}
-
-	@Override
 	public ItemModus makeItem()
 	{
 		return null;
 	}
 
 	@Override
+	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
+	{
+		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 37);
+	}
+
+	@Override
 	public int getPrimaryColor()
 	{
 		return 0xFF0000;
+	}
+
+	@Override
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	{
+		return null;
 	}
 
 	@Override

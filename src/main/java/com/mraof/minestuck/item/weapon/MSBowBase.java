@@ -1,11 +1,11 @@
 package com.mraof.minestuck.item.weapon;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.mraof.minestuck.entity.EntityMSUArrow;
 import com.mraof.minestuck.item.properties.IEnchantableProperty;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.properties.bowkind.IPropertyArrow;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -18,7 +18,10 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.ItemArrow;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -29,16 +32,20 @@ import javax.annotation.Nullable;
 
 public class MSBowBase extends MSWeaponBase
 {
-	protected ResourceLocation arrowTexture = new ResourceLocation("textures/entity/projectiles/arrow.png");
-	protected IIsArrow arrowCheck = stack -> stack.getItem() instanceof ItemArrow;
-
 	public int drawTime;
 	public float arrowVelocity;
 	public float inaccuracy;
 	public float arrowDamage;
 	public boolean firesCustom;
+	protected ResourceLocation arrowTexture = new ResourceLocation("textures/entity/projectiles/arrow.png");
+	protected IIsArrow arrowCheck = stack -> stack.getItem() instanceof ItemArrow;
 
-	public MSBowBase(String name, int maxUses, double damageVsEntity, double weaponSpeed, float arrowDamage, int drawTime, float arrowVel, float inaccuracy,  int enchantability, boolean usesArrowProperties)
+	public MSBowBase(String name, int maxUses, float arrowDamage, int drawSpeed, float arrowVel, float inaccuracy, int enchantability, boolean firesCustom)
+	{
+		this(name, maxUses, 0, 0, arrowDamage, drawSpeed, arrowVel, inaccuracy, enchantability, firesCustom);
+	}
+
+	public MSBowBase(String name, int maxUses, double damageVsEntity, double weaponSpeed, float arrowDamage, int drawTime, float arrowVel, float inaccuracy, int enchantability, boolean usesArrowProperties)
 	{
 		super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
 
@@ -56,7 +63,8 @@ public class MSBowBase extends MSWeaponBase
 
 				if (entityIn == null)
 					return 0.0F;
-				else return !(entityIn.getActiveItemStack().getItem() instanceof MSBowBase) ? 0.0F : (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / (float)getDrawTime(entityIn, stack);
+				else
+					return !(entityIn.getActiveItemStack().getItem() instanceof MSBowBase) ? 0.0F : (float) (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / (float) getDrawTime(entityIn, stack);
 			}
 		});
 		this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter()
@@ -69,54 +77,19 @@ public class MSBowBase extends MSWeaponBase
 		});
 	}
 
-	public MSBowBase(String name, int maxUses, float arrowDamage, int drawSpeed, float arrowVel, float inaccuracy,  int enchantability, boolean firesCustom)
-	{
-		this(name, maxUses, 0, 0, arrowDamage, drawSpeed, arrowVel, inaccuracy, enchantability, firesCustom);
-	}
-
 	private int getDrawTime(EntityLivingBase entityIn, ItemStack stack)
 	{
 		int result = drawTime;
-		for(WeaponProperty p : getProperties(stack))
-			if(p instanceof IPropertyArrow)
-				result = ((IPropertyArrow)p).getDrawTime(entityIn, stack, result);
+		for (WeaponProperty p : getProperties(stack))
+			if (p instanceof IPropertyArrow)
+				result = ((IPropertyArrow) p).getDrawTime(entityIn, stack, result);
 		return result;
 	}
 
 	@Override
-	public int getMaxItemUseDuration(ItemStack stack)
+	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		int result = 72000;
-		for(WeaponProperty p : getProperties(stack))
-			result = p.getMaxItemUseDuration(stack, result);
-		return result;
-	}
-
-	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
 		return EnumAction.BOW;
-	}
-
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-	{
-		ActionResult<ItemStack> result = super.onItemRightClick(worldIn, playerIn, handIn);
-		if(result.getType() != EnumActionResult.PASS)
-			return result;
-
-		ItemStack itemstack = playerIn.getHeldItem(handIn);
-		boolean flag = !requiresAmmo() || !this.findAmmo(playerIn).isEmpty();
-
-		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, worldIn, playerIn, handIn, flag);
-		if (ret != null) return ret;
-
-		if (!playerIn.capabilities.isCreativeMode && !flag)
-			return flag ? new ActionResult(EnumActionResult.PASS, itemstack) : new ActionResult(EnumActionResult.FAIL, itemstack);
-		else
-		{
-			playerIn.setActiveHand(handIn);
-			return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
-		}
 	}
 
 	@Override
@@ -124,7 +97,7 @@ public class MSBowBase extends MSWeaponBase
 	{
 		if (entityLiving instanceof EntityPlayer)
 		{
-			EntityPlayer entityplayer = (EntityPlayer)entityLiving;
+			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
 			boolean flag = !requiresAmmo() || entityplayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
 			ItemStack itemstack = requiresAmmo() ? this.findAmmo(entityplayer) : ItemStack.EMPTY;
 
@@ -136,13 +109,13 @@ public class MSBowBase extends MSWeaponBase
 			{
 				float f = getArrowVelocity(entityLiving, stack, i);
 
-				if ((double)f >= 0.1D)
+				if ((double) f >= 0.1D)
 				{
 					boolean flag1 = entityplayer.capabilities.isCreativeMode || (itemstack.getItem() instanceof ItemArrow && ((ItemArrow) itemstack.getItem()).isInfinite(itemstack, stack, entityplayer));
 
 					if (!worldIn.isRemote)
 					{
-						ItemArrow itemarrow = (ItemArrow)(itemstack.getItem() instanceof ItemArrow ? itemstack.getItem() : Items.ARROW);
+						ItemArrow itemarrow = (ItemArrow) (itemstack.getItem() instanceof ItemArrow ? itemstack.getItem() : Items.ARROW);
 
 						ItemStack copiedStack = itemstack.copy();
 						copiedStack.setCount(1);
@@ -151,8 +124,8 @@ public class MSBowBase extends MSWeaponBase
 						if (f == 1.0F)
 							entityarrow.setIsCritical(true);
 
-						entityarrow = this.customizeArrow(entityarrow, i/(float)getDrawTime(entityLiving, stack));
-						if(entityarrow == null)
+						entityarrow = this.customizeArrow(entityarrow, i / (float) getDrawTime(entityLiving, stack));
+						if (entityarrow == null)
 							return;
 
 						entityarrow.setDamage(arrowDamage);
@@ -161,7 +134,7 @@ public class MSBowBase extends MSWeaponBase
 						int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
 
 						if (j > 0)
-							entityarrow.setDamage(entityarrow.getDamage() + (double)j * 0.5D + 0.5D);
+							entityarrow.setDamage(entityarrow.getDamage() + (double) j * 0.5D + 0.5D);
 
 						int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
 
@@ -196,16 +169,48 @@ public class MSBowBase extends MSWeaponBase
 	}
 
 	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+	public int getMaxItemUseDuration(ItemStack stack)
+	{
+		int result = 72000;
+		for (WeaponProperty p : getProperties(stack))
+			result = p.getMaxItemUseDuration(stack, result);
+		return result;
+	}
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
+		ActionResult<ItemStack> result = super.onItemRightClick(worldIn, playerIn, handIn);
+		if (result.getType() != EnumActionResult.PASS)
+			return result;
+
+		ItemStack itemstack = playerIn.getHeldItem(handIn);
+		boolean flag = !requiresAmmo() || !this.findAmmo(playerIn).isEmpty();
+
+		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, worldIn, playerIn, handIn, flag);
+		if (ret != null) return ret;
+
+		if (!playerIn.capabilities.isCreativeMode && !flag)
+			return flag ? new ActionResult(EnumActionResult.PASS, itemstack) : new ActionResult(EnumActionResult.FAIL, itemstack);
+		else
+		{
+			playerIn.setActiveHand(handIn);
+			return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+		}
+	}
+
+	@Override
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
+	{
 		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 		if (slot == EntityEquipmentSlot.MAINHAND)
 		{
 			double dmg = this.getAttackDamage(stack);
 			double spd = this.getAttackSpeed(stack);
-			if(dmg != 0)
+			if (dmg != 0)
 				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", dmg, 0));
-			if(spd != 0)
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", spd, 0));
+			if (spd != 0)
+				multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", spd, 0));
 		}
 
 		return multimap;
@@ -214,50 +219,27 @@ public class MSBowBase extends MSWeaponBase
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
 	{
-		if(enchantment.type.equals(EnumEnchantmentType.BREAKABLE))
+		if (enchantment.type.equals(EnumEnchantmentType.BREAKABLE))
 			return !unbreakable;
 
-		if(Enchantments.INFINITY.equals(enchantment) && !requiresAmmo())
+		if (Enchantments.INFINITY.equals(enchantment) && !requiresAmmo())
 			return false;
 
-		for(WeaponProperty p : getProperties(stack))
-			if(p instanceof IEnchantableProperty)
+		for (WeaponProperty p : getProperties(stack))
+			if (p instanceof IEnchantableProperty)
 			{
 				Boolean bool = ((IEnchantableProperty) p).canEnchantWith(stack, enchantment);
-				if(bool != null)
+				if (bool != null)
 					return bool;
 			}
 
-		if(enchantment.type.equals(EnumEnchantmentType.BOW))
+		if (enchantment.type.equals(EnumEnchantmentType.BOW))
 			return true;
 
-		if(getTool() == null)
+		if (getTool() == null)
 			return enchantment.type.canEnchantItem(stack.getItem());
 
 		return getTool().canEnchantWith(enchantment);
-	}
-
-	private EntityArrow customizeArrow(EntityArrow arrow, float chargeTime)
-	{
-		for(WeaponProperty p : getProperties())
-			if(p instanceof IPropertyArrow)
-				arrow = ((IPropertyArrow)p).customizeArrow(arrow, chargeTime);
-		return arrow;
-	}
-
-	public float getArrowVelocity(EntityLivingBase player, ItemStack stack, int charge)
-	{
-		float f = (float)charge / (float) getDrawTime(player, stack);
-		f = (f * f + f * 2.0F) / 3.0F;
-
-		if (f > 1.0F)
-			f = 1.0F;
-
-		for(WeaponProperty p : getProperties(stack))
-			if(p instanceof IPropertyArrow)
-				f = ((IPropertyArrow)p).getArrowVelocity(stack, charge, f);
-
-		return f;
 	}
 
 	protected ItemStack findAmmo(EntityPlayer player)
@@ -291,6 +273,34 @@ public class MSBowBase extends MSWeaponBase
 		return arrowCheck.check(stack);
 	}
 
+	public boolean requiresAmmo()
+	{
+		return arrowCheck != null;
+	}
+
+	private EntityArrow customizeArrow(EntityArrow arrow, float chargeTime)
+	{
+		for (WeaponProperty p : getProperties())
+			if (p instanceof IPropertyArrow)
+				arrow = ((IPropertyArrow) p).customizeArrow(arrow, chargeTime);
+		return arrow;
+	}
+
+	public float getArrowVelocity(EntityLivingBase player, ItemStack stack, int charge)
+	{
+		float f = (float) charge / (float) getDrawTime(player, stack);
+		f = (f * f + f * 2.0F) / 3.0F;
+
+		if (f > 1.0F)
+			f = 1.0F;
+
+		for (WeaponProperty p : getProperties(stack))
+			if (p instanceof IPropertyArrow)
+				f = ((IPropertyArrow) p).getArrowVelocity(stack, charge, f);
+
+		return f;
+	}
+
 	public MSBowBase setArrowCheck(IIsArrow check)
 	{
 		arrowCheck = check;
@@ -303,11 +313,6 @@ public class MSBowBase extends MSWeaponBase
 		return this;
 	}
 
-	public boolean requiresAmmo()
-	{
-		return arrowCheck != null;
-	}
-
 	public ResourceLocation getArrowTexture()
 	{
 		return arrowTexture;
@@ -315,7 +320,7 @@ public class MSBowBase extends MSWeaponBase
 
 	public MSBowBase setArrowTexture(String fileName)
 	{
-		arrowTexture = new ResourceLocation(getRegistryName().getResourceDomain(), "textures/entity/projectiles/"+fileName+".png");
+		arrowTexture = new ResourceLocation(getRegistryName().getResourceDomain(), "textures/entity/projectiles/" + fileName + ".png");
 		return this;
 	}
 

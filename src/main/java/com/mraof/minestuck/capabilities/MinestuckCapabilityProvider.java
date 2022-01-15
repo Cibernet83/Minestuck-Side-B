@@ -21,14 +21,21 @@ public class MinestuckCapabilityProvider<HANDLER extends IMinestuckCapabilityBas
 		this.instance.setOwner(owner);
 	}
 
+	public Capability<HANDLER> getCapability()
+	{
+		return capability;
+	}
+
 	@Override
-	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing)
+	{
 		return capability == getCapability();
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing)
+	{
 		return capability == getCapability() ? getCapability().cast(instance) : null;
 	}
 
@@ -51,11 +58,6 @@ public class MinestuckCapabilityProvider<HANDLER extends IMinestuckCapabilityBas
 	public void deserializeNBT(NBTTagCompound nbt)
 	{
 		getCapability().readNBT(instance, null, nbt);
-	}
-
-	public Capability<HANDLER> getCapability()
-	{
-		return capability;
 	}
 
 	public static class Storage<H extends IMinestuckCapabilityBase> implements Capability.IStorage<H>

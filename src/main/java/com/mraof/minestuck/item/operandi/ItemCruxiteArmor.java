@@ -14,8 +14,8 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 {
-	public static final ArmorMaterial OPERANDI_MATERIAL = EnumHelper.addArmorMaterial("OPERANDI", Minestuck.MODID + ":operandi", 1, new int[] {1, 1, 1, 1}, -1, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0);
-	public static final ArmorMaterial CRUXITE_MATERIAL = EnumHelper.addArmorMaterial("CRUXITE", Minestuck.MODID + ":cruxite", 1, new int[] {1, 1, 1, 1}, -1, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0);
+	public static final ArmorMaterial OPERANDI_MATERIAL = EnumHelper.addArmorMaterial("OPERANDI", Minestuck.MODID + ":operandi", 1, new int[]{1, 1, 1, 1}, -1, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0);
+	public static final ArmorMaterial CRUXITE_MATERIAL = EnumHelper.addArmorMaterial("CRUXITE", Minestuck.MODID + ":cruxite", 1, new int[]{1, 1, 1, 1}, -1, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0);
 
 	private final CruxiteArtifactTeleporter teleporter;
 
@@ -25,9 +25,9 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 
 		setCreativeTab(MinestuckTabs.minestuck);
 
-		if(isEntryArtifact)
+		if (isEntryArtifact)
 		{
-			teleporter =  new CruxiteArtifactTeleporter();
+			teleporter = new CruxiteArtifactTeleporter();
 			MinestuckItems.cruxiteArtifacts.add(this);
 		}
 		else
@@ -36,52 +36,58 @@ public class ItemCruxiteArmor extends MSArmorBase implements ICruxiteArtifact
 			//OperandiModus.itemPool.add(this);
 		}
 	}
-	
-	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-	{
-	}
-	
-	@Override
-	public boolean isRepairable()
-	{
-		return false;
-	}
-	
+
 	@Override
 	public boolean isEnchantable(ItemStack stack)
 	{
 		return false;
 	}
-	
+
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+	}
+
+	@Override
+	public boolean isRepairable()
+	{
+		return false;
+	}
+
 	@Override
 	public void setDamage(ItemStack stack, int damage)
 	{
-		if(damage > getMaxDamage(stack))
+		if (damage > getMaxDamage(stack))
 			super.setDamage(stack, damage);
 	}
 
 	@Override
-	public boolean isEntryArtifact() {
+	public boolean hasColor(ItemStack stack)
+	{
+		return isEntryArtifact();
+	}
+
+	@Override
+	public boolean isEntryArtifact()
+	{
 		return teleporter != null;
 	}
 
 	@Override
-	public CruxiteArtifactTeleporter getTeleporter() {
+	public CruxiteArtifactTeleporter getTeleporter()
+	{
 		return teleporter;
 	}
 
 	@Override
-	public boolean hasColor(ItemStack stack) {
-		return isEntryArtifact();
-	}
-	@Override
-	public boolean hasOverlay(ItemStack stack) {
-		return isEntryArtifact();
+	public int getColor(ItemStack stack)
+	{
+		return getCruxiteColor(stack);
 	}
 
 	@Override
-	public int getColor(ItemStack stack) {
-		return getCruxiteColor(stack);
+	public boolean hasOverlay(ItemStack stack)
+	{
+		return isEntryArtifact();
 	}
 }

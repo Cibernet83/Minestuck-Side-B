@@ -47,15 +47,6 @@ public class MSItemBlockSlab extends MSItemBlock
 	}
 
 	/**
-	 * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
-	 * different names based on their damage or NBT.
-	 */
-	public String getUnlocalizedName(ItemStack stack)
-	{
-		return this.singleSlab.getUnlocalizedName(stack.getMetadata());
-	}
-
-	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
@@ -86,7 +77,7 @@ public class MSItemBlockSlab extends MSItemBlock
 
 						if (player instanceof EntityPlayerMP)
 						{
-							CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP)player, pos, itemstack);
+							CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, itemstack);
 						}
 					}
 
@@ -122,7 +113,16 @@ public class MSItemBlockSlab extends MSItemBlock
 
 		pos = pos.offset(side);
 		IBlockState iblockstate1 = worldIn.getBlockState(pos);
-		return iblockstate1.getBlock() == this.singleSlab && comparable == iblockstate1.getValue(iproperty) ? true : super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
+		return iblockstate1.getBlock() == this.singleSlab && comparable == iblockstate1.getValue(iproperty) || super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
+	}
+
+	/**
+	 * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
+	 * different names based on their damage or NBT.
+	 */
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		return this.singleSlab.getUnlocalizedName(stack.getMetadata());
 	}
 
 	private boolean tryPlace(EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos, Object itemSlabType)
@@ -154,7 +154,7 @@ public class MSItemBlockSlab extends MSItemBlock
 
 	protected <T extends Comparable<T>> IBlockState makeState(IProperty<T> p_185055_1_, Comparable<?> p_185055_2_)
 	{
-		return this.doubleSlab.getDefaultState().withProperty(p_185055_1_, (T)p_185055_2_);
+		return this.doubleSlab.getDefaultState().withProperty(p_185055_1_, (T) p_185055_2_);
 	}
 
 	@Override

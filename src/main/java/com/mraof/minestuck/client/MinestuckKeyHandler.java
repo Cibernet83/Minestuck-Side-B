@@ -27,12 +27,12 @@ public class MinestuckKeyHandler
 	public KeyBinding effectToggleKey;
 	public KeyBinding sylladexKey;
 	boolean captchaKeyPressed = false;
-	
+
 	public void registerKeys()
 	{
-		if(statKey != null)
+		if (statKey != null)
 			throw new IllegalStateException("Minestucck keys have already been registered!");
-		
+
 		statKey = new KeyBinding("key.statsGui", Keyboard.KEY_G, "key.categories.minestuck");
 		ClientRegistry.registerKeyBinding(statKey);
 		editKey = new KeyBinding("key.exitEdit", Keyboard.KEY_X, "key.categories.minestuck");
@@ -44,45 +44,47 @@ public class MinestuckKeyHandler
 		sylladexKey = new KeyBinding("key.sylladex", Keyboard.KEY_NONE, "key.categories.minestuck");
 		ClientRegistry.registerKeyBinding(sylladexKey);
 	}
-	
+
 	@SubscribeEvent
-	public void onKeyInput(InputEvent.KeyInputEvent event)	//This is only called during the game, when no gui is active
+	public void onKeyInput(InputEvent.KeyInputEvent event)    //This is only called during the game, when no gui is active
 	{
-		while(statKey.isPressed())
+		while (statKey.isPressed())
 			GuiPlayerStats.openGui(false);
-		
-		while(editKey.isPressed())
+
+		while (editKey.isPressed())
 			ClientEditHandler.onKeyPressed();
-		
-		while(captchaKey.isPressed())
-			if(!Minecraft.getMinecraft().player.getHeldItemMainhand().isEmpty())
+
+		while (captchaKey.isPressed())
+			if (!Minecraft.getMinecraft().player.getHeldItemMainhand().isEmpty())
 				MinestuckNetwork.sendToServer(new MessageSylladexCaptchalogueRequest(Minecraft.getMinecraft().player.inventory.currentItem));
-		
-		while(effectToggleKey.isPressed())
+
+		while (effectToggleKey.isPressed())
 			MinestuckNetwork.sendToServer(new MessageEffectToggle());
-		
-		while(sylladexKey.isPressed())
-			if(SylladexUtils.getSylladex(Minecraft.getMinecraft().player) != null)
+
+		while (sylladexKey.isPressed())
+			if (SylladexUtils.getSylladex(Minecraft.getMinecraft().player) != null)
 				Minecraft.getMinecraft().displayGuiScreen(SylladexUtils.getSylladex(Minecraft.getMinecraft().player).getGuiHandler());
 	}
-	
+
 	@SubscribeEvent
 	public void onTick(TickEvent.ClientTickEvent event)
 	{
 		try
 		{
-			if(Keyboard.isKeyDown(captchaKey.getKeyCode()) && !captchaKeyPressed)
+			if (Keyboard.isKeyDown(captchaKey.getKeyCode()) && !captchaKeyPressed)
 			{
 				//This statement is here because for some reason 'slotNumber' always returns as 0 if it is referenced inside the creative inventory.
-				if(Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative && Minecraft.getMinecraft().player.openContainer instanceof GuiContainerCreative.ContainerCreative && ((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse() != null && ((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse().getHasStack())
+				if (Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative && Minecraft.getMinecraft().player.openContainer instanceof GuiContainerCreative.ContainerCreative && ((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse() != null && ((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse().getHasStack())
 					MinestuckNetwork.sendToServer(new MessageSylladexCaptchalogueRequest(((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse().getSlotIndex()));
-				else if(Minecraft.getMinecraft().currentScreen instanceof GuiContainer && ((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse() != null && ((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse().getHasStack())
+				else if (Minecraft.getMinecraft().currentScreen instanceof GuiContainer && ((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse() != null && ((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse().getHasStack())
 					MinestuckNetwork.sendToServer(new MessageSylladexCaptchalogueRequest(((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse().slotNumber));
 			}
-			
+
 			captchaKeyPressed = Keyboard.isKeyDown(captchaKey.getKeyCode());
-		} catch(IndexOutOfBoundsException ignored)
-		{}
+		}
+		catch (IndexOutOfBoundsException ignored)
+		{
+		}
 	}
-	
+
 }

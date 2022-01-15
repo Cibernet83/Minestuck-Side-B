@@ -27,39 +27,39 @@ public class LandAspectPulse extends TitleLandAspect
 	{
 		return new String[]{"pulse", "blood"};
 	}
-	
+
+	@Override
+	public boolean isAspectCompatible(TerrainLandAspect aspect)
+	{
+		StructureBlockRegistry registry = new StructureBlockRegistry();
+		aspect.registerBlocks(registry);
+		return registry.getBlockState("ocean").getMaterial() != Material.LAVA;    //Lava is likely a too important part of the terrain aspect to be replaced
+	}
+
 	@Override
 	public void prepareWorldProvider(WorldProviderLands worldProvider)
 	{
 		worldProvider.mergeFogColor(new Vec3d(0.8, 0, 0), 0.8F);
 	}
-	
+
 	@Override
 	public void prepareChunkProvider(ChunkProviderLands chunkProvider)
 	{
-	
+
 	}
-	
+
 	@Override
 	public void prepareChunkProviderServer(ChunkProviderLands chunkProvider)
 	{
 		chunkProvider.blockRegistry.setBlockState("structure_wool_2", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.RED));
 		chunkProvider.blockRegistry.setBlockState("carpet", Blocks.CARPET.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.BROWN));
 		chunkProvider.oceanChance = Math.max(chunkProvider.oceanChance, 0.2F);
-		
+
 		chunkProvider.blockRegistry.setBlockState("ocean", MinestuckBlocks.blockBlood.getDefaultState());
 		chunkProvider.blockRegistry.setBlockState("river", MinestuckBlocks.blockBlood.getDefaultState());
 		chunkProvider.blockRegistry.setBlockState("slime", MinestuckBlocks.coagulatedBlood.getDefaultState());
-		
+
 		chunkProvider.decorators.add(new SurfaceDecoratorVein(MinestuckBlocks.coagulatedBlood.getDefaultState(), 25, 30, MinestuckBiomes.mediumRough));
 	}
-	
-	@Override
-	public boolean isAspectCompatible(TerrainLandAspect aspect)
-	{
-		StructureBlockRegistry registry = new StructureBlockRegistry();
-		aspect.registerBlocks(registry);
-		return registry.getBlockState("ocean").getMaterial() != Material.LAVA;	//Lava is likely a too important part of the terrain aspect to be replaced
-	}
-	
+
 }

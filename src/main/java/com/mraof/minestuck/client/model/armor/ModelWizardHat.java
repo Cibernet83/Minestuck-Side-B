@@ -9,7 +9,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 
-public class ModelWizardHat extends ModelBiped {
+public class ModelWizardHat extends ModelBiped
+{
 	private final ModelRenderer Head;
 	private final ModelRenderer wizardHat;
 	private final ModelRenderer whRim;
@@ -73,7 +74,8 @@ public class ModelWizardHat extends ModelBiped {
 	private final ModelRenderer cube_r50;
 	private final ModelRenderer cube_r51;
 
-	public ModelWizardHat() {
+	public ModelWizardHat()
+	{
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -457,7 +459,8 @@ public class ModelWizardHat extends ModelBiped {
 		bipedHead.addChild(Head);
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
@@ -471,7 +474,7 @@ public class ModelWizardHat extends ModelBiped {
 
 		if (entityIn instanceof EntityArmorStand)
 		{
-			EntityArmorStand entityarmorstand = (EntityArmorStand)entityIn;
+			EntityArmorStand entityarmorstand = (EntityArmorStand) entityIn;
 			bipedHead.rotateAngleX = 0.017453292F * entityarmorstand.getHeadRotation().getX();
 			bipedHead.rotateAngleY = 0.017453292F * entityarmorstand.getHeadRotation().getY();
 			bipedHead.rotateAngleZ = 0.017453292F * entityarmorstand.getHeadRotation().getZ();

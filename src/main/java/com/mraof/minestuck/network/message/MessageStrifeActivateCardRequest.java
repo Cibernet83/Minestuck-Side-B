@@ -25,13 +25,6 @@ public class MessageStrifeActivateCardRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(index);
-		buf.writeBoolean(isSpecibus);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		index = buf.readInt();
@@ -39,20 +32,27 @@ public class MessageStrifeActivateCardRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(index);
+		buf.writeBoolean(isSpecibus);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(!player.hasCapability(MinestuckCapabilities.STRIFE_DATA, null))
+		if (!player.hasCapability(MinestuckCapabilities.STRIFE_DATA, null))
 			return;
 
 		IStrifeData cap = player.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
-		if(isSpecibus)
+		if (isSpecibus)
 		{
 			cap.setSelectedSpecibusIndex(index);
 			cap.setArmed(false);
 
-			if(StrifeEventHandler.isStackAssigned(player.getHeldItemMainhand()))
+			if (StrifeEventHandler.isStackAssigned(player.getHeldItemMainhand()))
 				player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
-			if(StrifeEventHandler.isStackAssigned(player.getHeldItemOffhand()))
+			if (StrifeEventHandler.isStackAssigned(player.getHeldItemOffhand()))
 				player.setHeldItem(EnumHand.OFF_HAND, ItemStack.EMPTY);
 		}
 		else cap.setSelectedWeaponIndex(index);
@@ -61,7 +61,8 @@ public class MessageStrifeActivateCardRequest implements MinestuckMessage
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.SERVER;
 	}
 }

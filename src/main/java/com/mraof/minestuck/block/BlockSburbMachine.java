@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 public abstract class BlockSburbMachine extends MSBlockContainer
 {
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
-	
+
 	public BlockSburbMachine(String name)
 	{
 		super(name, Material.ROCK);
@@ -44,57 +44,67 @@ public abstract class BlockSburbMachine extends MSBlockContainer
 		this.setCreativeTab(MinestuckTabs.minestuck);
 
 	}
-	
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, FACING);
-	}
-	
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(FACING).getHorizontalIndex()*4;
-	}
-	
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta/4));
-	}
 
-
-	@Override
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
-	
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state)
 	{
 		return EnumBlockRenderType.MODEL;
+	}	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, FACING);
 	}
-	
+
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
+		TileEntityMachine te = (TileEntityMachine) worldIn.getTileEntity(pos);
+		if (te != null) InventoryHelper.dropInventoryItems(worldIn, pos, te);
+
+		super.breakBlock(worldIn, pos, state);
+	}	@Override
+	public int getMetaFromState(IBlockState state)
+	{
+		return state.getValue(FACING).getHorizontalIndex() * 4;
+	}
+
+	public abstract boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing);	@Override
+	public IBlockState getStateFromMeta(int meta)
+	{
+		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta / 4));
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new ItemMiniSburbMachine(this);
+	}	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
+
+
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+									EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		if (!(tileEntity instanceof TileEntityMiniSburbMachine) || playerIn.isSneaking())
 			return false;
-		
-		if(!worldIn.isRemote)
+
+		if (!worldIn.isRemote)
 			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
-	
+
 	// Inform the game that this object has a comparator value.
 	@Override
 	public boolean hasComparatorInputOverride(IBlockState state) { return true; }
@@ -105,65 +115,54 @@ public abstract class BlockSburbMachine extends MSBlockContainer
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos)
 	{
 		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
-		if(te != null)
+		if (te != null)
 			return te.comparatorValue();
 		return 0;
 	}
-	
+
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side)
 	{
-		return side!=null;
+		return side != null;
 	}
 
-	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-	{
-		TileEntityMachine te = (TileEntityMachine) worldIn.getTileEntity(pos);
-		if(te != null) InventoryHelper.dropInventoryItems(worldIn, pos, te);
-		
-		super.breakBlock(worldIn, pos, state);
-	}
-	
+
+
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
 	{
 		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
-		
+
 		boolean b = super.removedByPlayer(state, world, pos, player, willHarvest);
-		
-		if(!world.isRemote && willHarvest && te != null)
+
+		if (!world.isRemote && willHarvest && te != null)
 		{
 			ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1);
 			spawnAsEntity(world, pos, stack);
 		}
-		
+
 		return b;
 	}
-	
+
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
 		return this.getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
-	
+
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
 	{
 		return new ItemStack(Item.getItemFromBlock(this), 1);
 	}
-	
+
 	@Override
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
 	}
 
-	public abstract boolean renderCheckItem(EntityPlayerSP player, ItemStack stack, RenderGlobal render, RayTraceResult rayTraceResult, float partialTicks, EnumFacing placedFacing);
 
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new ItemMiniSburbMachine(this);
-	}
+
+
 }

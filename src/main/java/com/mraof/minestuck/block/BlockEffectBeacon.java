@@ -12,30 +12,32 @@ import javax.annotation.Nullable;
 
 public class BlockEffectBeacon extends MSBlockBase
 {
-    protected final PotionEffect effect;
+	protected final PotionEffect effect;
 
-    public BlockEffectBeacon(String name, MapColor blockMapColorIn, PotionEffect effect)
-    {
-        super(name, Material.IRON, blockMapColorIn);
-        this.effect = effect;
-        setBlockUnbreakable();
-        setResistance(6000000.0F);
-        disableStats();
-    }
+	public BlockEffectBeacon(String name, MapColor blockMapColorIn, PotionEffect effect)
+	{
+		super(name, Material.IRON, blockMapColorIn);
+		this.effect = effect;
+		setBlockUnbreakable();
+		setResistance(6000000.0F);
+		disableStats();
+	}
 
-    @Override
-    public boolean hasTileEntity(IBlockState state) {
-        return true;
-    }
+	@Override
+	public boolean hasTileEntity(IBlockState state)
+	{
+		return true;
+	}
 
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileEntityEffectBeacon();
-    }
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state)
+	{
+		return new TileEntityEffectBeacon();
+	}
 
-    public PotionEffect getEffect()
-    {
-        return new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles());
-    }
+	public PotionEffect getEffect()
+	{
+		return new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles());
+	}
 }

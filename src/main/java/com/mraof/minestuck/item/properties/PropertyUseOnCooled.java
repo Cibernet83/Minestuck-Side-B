@@ -19,7 +19,7 @@ public class PropertyUseOnCooled extends WeaponProperty
 	@Override
 	public void onStopUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
 	{
-		if(entityLiving instanceof EntityPlayer)
-		((EntityPlayer)entityLiving).resetCooldown();
+		if (entityLiving instanceof EntityPlayer)
+			((EntityPlayer) entityLiving).resetCooldown();
 	}
 }

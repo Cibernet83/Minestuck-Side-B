@@ -11,7 +11,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckEnchantments
 {
-	public static final Enchantment SUPERPUNCH = new EnchantmentGauntlet(Enchantment.Rarity.RARE, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
+	public static final Enchantment SUPERPUNCH = new EnchantmentGauntlet(Enchantment.Rarity.RARE, EntityEquipmentSlot.MAINHAND);
 
 	@SubscribeEvent
 	public static void register(RegistryEvent.Register<Enchantment> event)

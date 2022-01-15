@@ -17,15 +17,15 @@ public class MessageAddXp implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(levels);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		levels = buf.readInt();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(levels);
 	}
 
 	@Override

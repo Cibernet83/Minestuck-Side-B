@@ -21,17 +21,17 @@ public class MessageStrifeSwapOffhandRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(specibusIndex);
-		buf.writeInt(weaponIndex);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		specibusIndex = buf.readInt();
 		weaponIndex = buf.readInt();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(specibusIndex);
+		buf.writeInt(weaponIndex);
 	}
 
 	@Override

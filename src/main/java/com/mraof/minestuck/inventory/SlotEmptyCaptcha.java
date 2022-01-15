@@ -11,6 +11,7 @@ public class SlotEmptyCaptcha extends Slot
 	{
 		super(inventoryIn, index, xPosition, yPosition);
 	}
+
 	public boolean isItemValid(ItemStack itemStack)
 	{
 		return itemStack.getItem() == MinestuckItems.captchaCard && !itemStack.hasTagCompound();

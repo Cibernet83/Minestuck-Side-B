@@ -34,7 +34,7 @@ public class BadgeActiveLife extends BadgeHeroAspect
 		if (state != GodKeyStates.KeyState.PRESS)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -50,7 +50,7 @@ public class BadgeActiveLife extends BadgeHeroAspect
 			player.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400));
 			player.heal(4);
 
-			if(target.hasCapability(MinestuckCapabilities.BADGE_EFFECTS, null))
+			if (target.hasCapability(MinestuckCapabilities.BADGE_EFFECTS, null))
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 5);
 
 			if (!player.isCreative())
@@ -67,7 +67,7 @@ public class BadgeActiveLife extends BadgeHeroAspect
 
 		public LifeDamageSource(Entity damageSourceEntityIn)
 		{
-			super(Minestuck.MODID+".lifeforceLeech");
+			super(Minestuck.MODID + ".lifeforceLeech");
 			this.damageSourceEntity = damageSourceEntityIn;
 			setDamageBypassesArmor();
 		}
@@ -79,7 +79,7 @@ public class BadgeActiveLife extends BadgeHeroAspect
 
 		public ITextComponent getDeathMessage(EntityLivingBase entityLivingBaseIn)
 		{
-			return  new TextComponentTranslation("death.attack." + this.damageType, new Object[] {entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName()});
+			return new TextComponentTranslation("death.attack." + this.damageType, entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName());
 		}
 
 		/**

@@ -30,21 +30,6 @@ public class MessageSkaianetData implements MinestuckMessage
 		this.openServers = openServers;
 		this.connections = connections;
 	}
-	
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(playerId);
-		buf.writeBoolean(isClientResuming);
-		buf.writeBoolean(isServerResuming);
-		buf.writeInt(openServers.size());
-		openServers.forEach((Integer id, String username) -> {
-			buf.writeInt(id);
-			ByteBufUtils.writeUTF8String(buf, username);
-		});
-		for(SburbConnection connection : connections)
-			connection.writeBytes(buf);
-	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
@@ -69,13 +54,30 @@ public class MessageSkaianetData implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(playerId);
+		buf.writeBoolean(isClientResuming);
+		buf.writeBoolean(isServerResuming);
+		buf.writeInt(openServers.size());
+		openServers.forEach((Integer id, String username) ->
+		{
+			buf.writeInt(id);
+			ByteBufUtils.writeUTF8String(buf, username);
+		});
+		for (SburbConnection connection : connections)
+			connection.writeBytes(buf);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
 		SkaiaClient.setSkaianetData(playerId, isClientResuming, isServerResuming, openServers, connections);
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.CLIENT;
 	}
 }

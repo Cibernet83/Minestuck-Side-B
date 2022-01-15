@@ -26,10 +26,10 @@ import static net.minecraft.init.Items.*;
 public class ConsortRewardHandler
 {
 	private static final Map<ItemStack, PriceVariation> prices = Maps.newHashMap();
-	
+
 	public static void registerMinestuckPrices()
 	{
-		
+
 		ConsortRewardHandler.registerPrice(new ItemStack(onion), 9, 15);
 		ConsortRewardHandler.registerPrice(new ItemStack(jarOfBugs), 12, 18);
 		ConsortRewardHandler.registerPrice(new ItemStack(bugOnAStick), 4, 6);
@@ -47,18 +47,19 @@ public class ConsortRewardHandler
 		ConsortRewardHandler.registerPrice(new ItemStack(rockCookie), 15, 20);
 		ConsortRewardHandler.registerPrice(new ItemStack(strawberryChunk), 100, 150);
 		ConsortRewardHandler.registerPrice(new ItemStack(beverage, 1, 0), 200, 200);
-		for(int i = 1; i <= 9; i++)
+		for (int i = 1; i <= 9; i++)
 			ConsortRewardHandler.registerPrice(new ItemStack(beverage, 1, i), 100, 100);
 		ConsortRewardHandler.registerPrice(new ItemStack(goldSeeds), 300, 400);
 		ConsortRewardHandler.registerPrice(new ItemStack(appleCake), 100, 140);
 		ConsortRewardHandler.registerPrice(new ItemStack(irradiatedSteak), 70, 80);
-		ConsortRewardHandler.registerPrice(new ItemStack(candy,1 ,0), 100, 150);
+		ConsortRewardHandler.registerPrice(new ItemStack(candy, 1, 0), 100, 150);
 		ConsortRewardHandler.registerPrice(new ItemStack(MinestuckItems.candy, 1, 21), 500, 600);
-		for(Grist type : Grist.values())
-			if(type.equals(MinestuckGrist.build))
+		for (Grist type : Grist.values())
+			if (type.equals(MinestuckGrist.build))
 				ConsortRewardHandler.registerPrice(new ItemStack(candy, 1, type.getId()), 90, 120);
-			else ConsortRewardHandler.registerPrice(new ItemStack(candy, 1, type.getId()), (int) ((1 - type.getRarity())*250), (int) ((1 - type.getRarity())*300));
-		
+			else
+				ConsortRewardHandler.registerPrice(new ItemStack(candy, 1, type.getId()), (int) ((1 - type.getRarity()) * 250), (int) ((1 - type.getRarity()) * 300));
+
 		ConsortRewardHandler.registerPrice(new ItemStack(carvingTool), 60, 90);
 		ConsortRewardHandler.registerPrice(new ItemStack(frogStatueReplica), 200, 250);
 		ConsortRewardHandler.registerPrice(new ItemStack(stoneTablet), 20, 30);
@@ -101,7 +102,7 @@ public class ConsortRewardHandler
 		ConsortRewardHandler.registerPrice(new ItemStack(morelMushroom), 40, 80);
 		ConsortRewardHandler.registerPrice(new ItemStack(paradisesPortabello), 400, 600);
 		ConsortRewardHandler.registerPrice(new ItemStack(bugNet), 500, 600);
-		
+
 		ConsortRewardHandler.registerPrice(new ItemStack(WATERLILY), 24, 31);
 		ConsortRewardHandler.registerPrice(new ItemStack(POTATO), 12, 15);
 		ConsortRewardHandler.registerPrice(new ItemStack(MUSHROOM_STEW), 95, 130);
@@ -189,42 +190,17 @@ public class ConsortRewardHandler
 		ConsortRewardHandler.registerPrice(new ItemStack(MinestuckItems.tomeOfTheAncients), 10000, 10000);
 		ConsortRewardHandler.registerPrice(new ItemStack(MinestuckItems.candy, 1, 21), 500, 600);
 	}
-	
-	public static void registerPrice(ItemStack stack, int min, int max)	//Maybe add json support at some point too
+
+	public static void registerPrice(ItemStack stack, int min, int max)    //Maybe add json support at some point too
 	{
 		registerPrice(stack, new PriceVariation(min, max));
 	}
-	
+
 	public static void registerPrice(ItemStack stack, PriceVariation prize)
 	{
 		prices.put(stack, prize);
 	}
-	
-	public static int getPrice(ItemStack stack, Random rand)
-	{
-		for(Map.Entry<ItemStack, PriceVariation> entry : prices.entrySet())
-			if(entry.getKey().getItem() == stack.getItem() && (entry.getKey().getMetadata() == OreDictionary.WILDCARD_VALUE
-					|| entry.getKey().getMetadata() == stack.getMetadata()))
-				return entry.getValue().generatePrice(rand);
-		return -1;
-	}
-	
-	public static class PriceVariation
-	{
-		public int min, max;
-		
-		public PriceVariation(int min, int max)
-		{
-			this.min = min;
-			this.max = max;
-		}
-		
-		public int generatePrice(Random rand)
-		{
-			return min + rand.nextInt(max - min + 1);
-		}
-	}
-	
+
 	public static List<Tuple<ItemStack, Integer>> generateStock(ResourceLocation lootTable, EntityConsort consort, Random rand)
 	{
 		LootContext.Builder contextBuilder = new LootContext.Builder((WorldServer) consort.world).withLootedEntity(consort);
@@ -249,5 +225,30 @@ public class ConsortRewardHandler
 				Debug.warn("Couldn't find a boondollar price for " + stack);
 		}
 		return itemPriceList;
+	}
+
+	public static int getPrice(ItemStack stack, Random rand)
+	{
+		for (Map.Entry<ItemStack, PriceVariation> entry : prices.entrySet())
+			if (entry.getKey().getItem() == stack.getItem() && (entry.getKey().getMetadata() == OreDictionary.WILDCARD_VALUE
+																		|| entry.getKey().getMetadata() == stack.getMetadata()))
+				return entry.getValue().generatePrice(rand);
+		return -1;
+	}
+
+	public static class PriceVariation
+	{
+		public int min, max;
+
+		public PriceVariation(int min, int max)
+		{
+			this.min = min;
+			this.max = max;
+		}
+
+		public int generatePrice(Random rand)
+		{
+			return min + rand.nextInt(max - min + 1);
+		}
 	}
 }

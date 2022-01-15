@@ -7,7 +7,8 @@ import net.minecraft.client.model.ModelIronGolem;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 
-public class LayerHopeGolemSkin implements LayerRenderer<EntityHopeGolem> {
+public class LayerHopeGolemSkin implements LayerRenderer<EntityHopeGolem>
+{
 
 	final RenderHopeGolem golemRenderer;
 	final ModelIronGolem golemModel;
@@ -28,7 +29,7 @@ public class LayerHopeGolemSkin implements LayerRenderer<EntityHopeGolem> {
 		{
 			this.golemRenderer.bindTexture(golemRenderer.getEntityTexture(golem));
 
-			float a = Math.max(0.1f, (float)golem.getHopeTicks()/(float)(EntityHopeGolem.MAX_HOPE_TICKS/2) + 0.1f);
+			float a = Math.max(0.1f, (float) golem.getHopeTicks() / (float) (EntityHopeGolem.MAX_HOPE_TICKS / 2) + 0.1f);
 
 			GlStateManager.color(1, 1, 1, a);
 			GlStateManager.enableNormalize();
@@ -46,7 +47,8 @@ public class LayerHopeGolemSkin implements LayerRenderer<EntityHopeGolem> {
 	}
 
 	@Override
-	public boolean shouldCombineTextures() {
+	public boolean shouldCombineTextures()
+	{
 		return false;
 	}
 }

@@ -8,23 +8,23 @@ public class PropertyBoomerang extends WeaponProperty implements IPropertyThrowa
 {
 	float angle;
 
-	public PropertyBoomerang(float angle)
-	{
-		this.angle = angle;
-	}
-
 	public PropertyBoomerang()
 	{
 		this(8f);
+	}
+
+	public PropertyBoomerang(float angle)
+	{
+		this.angle = angle;
 	}
 
 	@Override
 	public void onProjectileUpdate(EntityMSUThrowable projectile)
 	{
 		Vec3d motionVec = new Vec3d(
-				Math.cos(Math.toRadians(angle))*projectile.motionX - Math.sin(Math.toRadians(angle))*projectile.motionZ,
+				Math.cos(Math.toRadians(angle)) * projectile.motionX - Math.sin(Math.toRadians(angle)) * projectile.motionZ,
 				projectile.motionY,
-				Math.sin(Math.toRadians(angle))*projectile.motionX + Math.cos(Math.toRadians(angle))*projectile.motionZ);
+				Math.sin(Math.toRadians(angle)) * projectile.motionX + Math.cos(Math.toRadians(angle)) * projectile.motionZ);
 
 		projectile.motionX = motionVec.x;
 		projectile.motionY = motionVec.y;

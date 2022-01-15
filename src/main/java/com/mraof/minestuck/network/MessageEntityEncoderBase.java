@@ -19,7 +19,6 @@ public abstract class MessageEntityEncoderBase extends MessageByteBufEncoderBase
 	}
 
 	public abstract Consumer<ByteBuf> getEncoder(EntityLivingBase entity);
-	public abstract Consumer<ByteBuf> getDecoder(EntityLivingBase entity);
 
 	@Override
 	public void toBytes(ByteBuf buf)
@@ -41,4 +40,6 @@ public abstract class MessageEntityEncoderBase extends MessageByteBufEncoderBase
 		EntityLivingBase entity = (EntityLivingBase) player.world.getEntityByID(entityId);
 		decode(getDecoder(entity));
 	}
+
+	public abstract Consumer<ByteBuf> getDecoder(EntityLivingBase entity);
 }

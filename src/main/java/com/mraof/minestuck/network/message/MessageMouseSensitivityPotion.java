@@ -19,16 +19,16 @@ public class MessageMouseSensitivityPotion implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(potion == null ? -1 : Potion.getIdFromPotion(potion));
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		int id = buf.readInt();
 		potion = id < 0 ? null : (PotionMouseSensitivityAdjusterBase) Potion.getPotionById(id);
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(potion == null ? -1 : Potion.getIdFromPotion(potion));
 	}
 
 	@Override

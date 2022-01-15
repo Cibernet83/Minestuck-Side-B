@@ -17,20 +17,22 @@ public class BlockMetaPair implements Comparable<BlockMetaPair>
 	}
 
 	@Override
+	public boolean equals(Object obj)
+	{
+		return obj instanceof BlockMetaPair && compareTo((BlockMetaPair) obj) == 0;
+	}
+
+	@Override
 	public int compareTo(BlockMetaPair o)
 	{
-		if(meta == -1 || o.meta == -1)
+		if (meta == -1 || o.meta == -1)
 			return Block.REGISTRY.getIDForObject(block) - Block.REGISTRY.getIDForObject(o.block);
-		return Block.REGISTRY.getIDForObject(block)*(meta+2) - Block.REGISTRY.getIDForObject(o.block)*(o.meta+2);
+		return Block.REGISTRY.getIDForObject(block) * (meta + 2) - Block.REGISTRY.getIDForObject(o.block) * (o.meta + 2);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		return obj instanceof BlockMetaPair ? compareTo((BlockMetaPair) obj) == 0 : false;
-	}
-
-	@Override
-	public String toString() {
+	public String toString()
+	{
 		return block.getRegistryName() + ":" + meta;
 	}
 
@@ -40,6 +42,7 @@ public class BlockMetaPair implements Comparable<BlockMetaPair>
 		{
 			put(new BlockMetaPair(k, -1), new BlockMetaPair(v, -1));
 		}
+
 		public void put(Block k, int kMeta, Block v, int vMeta)
 		{
 			put(new BlockMetaPair(k, kMeta), new BlockMetaPair(v, vMeta));

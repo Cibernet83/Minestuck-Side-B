@@ -46,57 +46,56 @@ import java.util.stream.StreamSupport;
 public class CommonEventHandler
 {
 	public static long lastDay;
-	
+
 	public static List<PostEntryTask> tickTasks = new ArrayList<PostEntryTask>();
+	//Gets reset after AttackEntityEvent but before LivingHurtEvent, but is used in determining if it's a critical hit
+	private static float cachedCooledAttackStrength = 0;
 
 	@SubscribeEvent
 	public static void onWorldTick(TickEvent.WorldTickEvent event)
 	{
-		if(event.phase == TickEvent.Phase.END)
+		if (event.phase == TickEvent.Phase.END)
 		{
-			
-			if(!MinestuckConfig.hardMode && event.world.provider.getDimension() == 0)
+
+			if (!MinestuckConfig.hardMode && event.world.provider.getDimension() == 0)
 			{
 				long time = event.world.getWorldTime() / 24000L;
-				if(time != lastDay)
+				if (time != lastDay)
 				{
 					lastDay = time;
 					SkaianetHandler.resetGivenItems();
 				}
 			}
-			
+
 			Iterator<PostEntryTask> iter = tickTasks.iterator();
-			while(iter.hasNext())
-				if(iter.next().onTick(event.world.getMinecraftServer()))
+			while (iter.hasNext())
+				if (iter.next().onTick(event.world.getMinecraftServer()))
 					iter.remove();
 		}
 	}
-	
-	@SubscribeEvent(priority=EventPriority.LOWEST, receiveCanceled=false)
+
+	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public static void onEntityDeath(LivingDeathEvent event)
 	{
-		if(event.getEntity() instanceof IMob && event.getSource().getTrueSource() instanceof EntityPlayerMP && !(event.getSource().getTrueSource() instanceof FakePlayer))
+		if (event.getEntity() instanceof IMob && event.getSource().getTrueSource() instanceof EntityPlayerMP && !(event.getSource().getTrueSource() instanceof FakePlayer))
 		{
 			EntityPlayerMP player = (EntityPlayerMP) event.getSource().getTrueSource();
 			int exp = 0;
-			if(event.getEntity() instanceof EntityZombie || event.getEntity() instanceof EntitySkeleton)
+			if (event.getEntity() instanceof EntityZombie || event.getEntity() instanceof EntitySkeleton)
 				exp = 6;
-			else if(event.getEntity() instanceof EntityCreeper || event.getEntity() instanceof EntitySpider || event.getEntity() instanceof EntitySilverfish)
+			else if (event.getEntity() instanceof EntityCreeper || event.getEntity() instanceof EntitySpider || event.getEntity() instanceof EntitySilverfish)
 				exp = 5;
-			else if(event.getEntity() instanceof EntityEnderman || event.getEntity() instanceof EntityBlaze || event.getEntity() instanceof EntityWitch || event.getEntity() instanceof EntityGuardian)
+			else if (event.getEntity() instanceof EntityEnderman || event.getEntity() instanceof EntityBlaze || event.getEntity() instanceof EntityWitch || event.getEntity() instanceof EntityGuardian)
 				exp = 12;
-			else if(event.getEntity() instanceof EntitySlime)
+			else if (event.getEntity() instanceof EntitySlime)
 				exp = ((EntitySlime) event.getEntity()).getSlimeSize() - 1;
-			
-			if(exp > 0)
+
+			if (exp > 0)
 				Echeladder.increaseProgress(player, exp);
 		}
-		if(event.getEntity() instanceof EntityPlayerMP && !(event.getSource().getTrueSource() instanceof FakePlayer))
+		if (event.getEntity() instanceof EntityPlayerMP && !(event.getSource().getTrueSource() instanceof FakePlayer))
 			SburbHandler.stopEntry((EntityPlayerMP) event.getEntity());
 	}
-
-	//Gets reset after AttackEntityEvent but before LivingHurtEvent, but is used in determining if it's a critical hit
-	private static float cachedCooledAttackStrength = 0;
 
 	@SubscribeEvent
 	public static void onPlayerAttack(AttackEntityEvent event) //TODO merge into MSU's cooldown thing
@@ -104,10 +103,10 @@ public class CommonEventHandler
 		cachedCooledAttackStrength = event.getEntityPlayer().getCooledAttackStrength(0.5F);
 	}
 
-	@SubscribeEvent(priority=EventPriority.NORMAL)
+	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public static void onEntityAttack(LivingHurtEvent event)
 	{
-		if(event.getSource().getTrueSource() != null)
+		if (event.getSource().getTrueSource() != null)
 		{
 			Entity trueSource = event.getSource().getTrueSource();
 			if (trueSource instanceof EntityPlayerMP && !(trueSource instanceof FakePlayer))
@@ -117,30 +116,31 @@ public class CommonEventHandler
 				{    //Increase damage to underling
 					double modifier = MinestuckPlayerData.getData(player).echeladder.getUnderlingDamageModifier();
 					event.setAmount((float) (event.getAmount() * modifier));
-				}			}
+				}
+			}
 			else if (event.getEntityLiving() instanceof EntityPlayerMP && !(event.getEntityLiving() instanceof FakePlayer) && trueSource instanceof EntityUnderling)
 			{    //Decrease damage to player
-					EntityPlayerMP player = (EntityPlayerMP) event.getEntityLiving();
-					double modifier = MinestuckPlayerData.getData(player).echeladder.getUnderlingProtectionModifier();
-					event.setAmount((float) (event.getAmount() * modifier));
+				EntityPlayerMP player = (EntityPlayerMP) event.getEntityLiving();
+				double modifier = MinestuckPlayerData.getData(player).echeladder.getUnderlingProtectionModifier();
+				event.setAmount((float) (event.getAmount() * modifier));
 			}
 		}
 	}
-	
+
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public static void onEntityDamage(LivingHurtEvent event)
 	{
-		if(event.getEntityLiving() instanceof EntityUnderling)
+		if (event.getEntityLiving() instanceof EntityUnderling)
 		{
 			((EntityUnderling) event.getEntityLiving()).onEntityDamaged(event.getSource(), event.getAmount());
 		}
 	}
-	
+
 	@SubscribeEvent
 	public static void playerChangedDimension(PlayerChangedDimensionEvent event)
 	{
 		SburbHandler.stopEntry(event.player);
-		
+
 		MinestuckPlayerData.getData(event.player).echeladder.resendAttributes(event.player);
 	}
 
@@ -153,24 +153,24 @@ public class CommonEventHandler
 			((HashmapModus) modus).onChatMessage(event.getMessage());
 	}
 	*/
-	
+
 	//This functionality uses an event to maintain compatibility with mod items having hoe functionality but not extending ItemHoe, like TiCon mattocks.
 	@SubscribeEvent
 	public static void onPlayerUseHoe(UseHoeEvent event)
 	{
-		if(event.getWorld().getBlockState(event.getPos()).getBlock()==MinestuckBlocks.coarseEndStone)
+		if (event.getWorld().getBlockState(event.getPos()).getBlock() == MinestuckBlocks.coarseEndStone)
 		{
 			event.getWorld().setBlockState(event.getPos(), Blocks.END_STONE.getDefaultState());
-			event.getWorld().playSound(null, event.getPos(), SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 	1.0F);
+			event.getWorld().playSound(null, event.getPos(), SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
 			event.setResult(Result.ALLOW);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public static void onGetItemBurnTime(FurnaceFuelBurnTimeEvent event)
 	{
-		if(event.getItemStack().getItem() == Item.getItemFromBlock(MinestuckBlocks.treatedPlanks))
-			event.setBurnTime(50);	//Do not set this number to 0.
+		if (event.getItemStack().getItem() == Item.getItemFromBlock(MinestuckBlocks.treatedPlanks))
+			event.setBurnTime(50);    //Do not set this number to 0.
 	}
 
 	/*@SubscribeEvent
@@ -212,15 +212,15 @@ public class CommonEventHandler
 																	 .spliterator(), false)
 												.filter(entity -> entity instanceof EntityMob && (((EntityMob) entity).getHeldItemMainhand().getItem().equals(MinestuckItems.chasityKey) || ((EntityMob) entity).getHeldItemOffhand().getItem().equals(MinestuckItems.chasityKey)))
 												.collect(Collectors.toList());
-		for(Entity entity : mobsWithKeysList)
+		for (Entity entity : mobsWithKeysList)
 		{
 
 			ItemStack stack = ((EntityMob) entity).getHeldItemMainhand();
-			if(!stack.getItem().equals(MinestuckItems.chasityKey))
-				stack = ((EntityMob)entity).getHeldItemOffhand();
+			if (!stack.getItem().equals(MinestuckItems.chasityKey))
+				stack = ((EntityMob) entity).getHeldItemOffhand();
 
 			NBTTagCompound nbt = stack.getTagCompound();
-			if(nbt == null)
+			if (nbt == null)
 			{
 				nbt = new NBTTagCompound();
 				stack.setTagCompound(nbt);
@@ -228,9 +228,9 @@ public class CommonEventHandler
 
 			int glowTimer = nbt.getInteger("GlowTimer");
 
-			if(glowTimer > 1200)
+			if (glowTimer > 1200)
 				entity.setGlowing(true);
-			else nbt.setInteger("GlowTimer", glowTimer+1);
+			else nbt.setInteger("GlowTimer", glowTimer + 1);
 		}
 	}
 
@@ -239,33 +239,33 @@ public class CommonEventHandler
 	{
 		ItemStack operandiArmor = ItemStack.EMPTY;
 
-		if(event.getAmount() < 1)
+		if (event.getAmount() < 1)
 			return;
 
-		for(EntityEquipmentSlot slot : EntityEquipmentSlot.values())
+		for (EntityEquipmentSlot slot : EntityEquipmentSlot.values())
 		{
-			if(slot.getSlotType().equals(EntityEquipmentSlot.Type.ARMOR) && event.getEntityLiving().getItemStackFromSlot(slot).getItem() instanceof ItemCruxiteArmor)
+			if (slot.getSlotType().equals(EntityEquipmentSlot.Type.ARMOR) && event.getEntityLiving().getItemStackFromSlot(slot).getItem() instanceof ItemCruxiteArmor)
 			{
 				operandiArmor = event.getEntityLiving().getItemStackFromSlot(slot);
 				break;
 			}
 		}
 
-		if(!operandiArmor.isEmpty())
+		if (!operandiArmor.isEmpty())
 		{
 			ItemCruxiteArmor item = ((ItemCruxiteArmor) operandiArmor.getItem());
 			ICaptchalogueable storedStack = ModusStorage.getStoredItem(operandiArmor);
-			operandiArmor.damageItem(operandiArmor.getMaxDamage()+1, event.getEntityLiving());
+			operandiArmor.damageItem(operandiArmor.getMaxDamage() + 1, event.getEntityLiving());
 
-			if(event.getAmount() < event.getEntityLiving().getHealth())
+			if (event.getAmount() < event.getEntityLiving().getHealth())
 			{
-				if(item.isEntryArtifact() && (event.getEntityLiving() instanceof EntityPlayer))
+				if (item.isEntryArtifact() && (event.getEntityLiving() instanceof EntityPlayer))
 					item.getTeleporter().onArtifactActivated((EntityPlayer) event.getEntityLiving());
 				else
 				{
 					event.getEntityLiving().world.playSound(null, event.getEntityLiving().getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-					if((event.getEntityLiving() instanceof EntityPlayer))
+					if ((event.getEntityLiving() instanceof EntityPlayer))
 						storedStack.fetch((EntityPlayer) event.getEntityLiving());
 					else storedStack.drop(event.getEntity());
 				}

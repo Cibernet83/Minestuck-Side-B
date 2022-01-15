@@ -36,12 +36,12 @@ public class EntityCrystalEightBall extends EntityThrowable
 		super(worldIn, x, y, z);
 		storedItem = stored;
 	}
-	
+
 	public static void registerFixes(DataFixer fixer)
 	{
 		EntityThrowable.registerFixesThrowable(fixer, "CrystalEightBall");
 	}
-	
+
 	/**
 	 * Handler for {@link World#setEntityState}
 	 */
@@ -51,12 +51,12 @@ public class EntityCrystalEightBall extends EntityThrowable
 		if (id == 3)
 		{
 			for (int i = 0; i < 8; ++i)
-				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(MinestuckItems.crystalEightBall));
+				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(MinestuckItems.crystalEightBall));
 			//for (int i = 0; i < 16; ++i)
 			//	FMPParticles.spawnInkParticle(posX, posY, posZ, 0, 0, 0, 0x0000FF, 2);
 		}
 	}
-	
+
 	/**
 	 * Called when this EntityThrowable hits a block or entity.
 	 */
@@ -64,7 +64,7 @@ public class EntityCrystalEightBall extends EntityThrowable
 	{
 		if (result.entityHit != null)
 			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 1F);
-		
+
 		if (!this.world.isRemote)
 		{
 			try
@@ -72,19 +72,20 @@ public class EntityCrystalEightBall extends EntityThrowable
 				if (thrower != null && this.rand.nextInt(4) == 0)
 				{
 					int amp = 0;
-					if(thrower.getActivePotionEffect(MobEffects.UNLUCK) != null)
+					if (thrower.getActivePotionEffect(MobEffects.UNLUCK) != null)
 						amp += thrower.getActivePotionEffect(MobEffects.UNLUCK).getAmplifier();
-					if(amp > 4 )
+					if (amp > 4)
 						thrower.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 1200, 1));
 					else thrower.addPotionEffect(new PotionEffect(MobEffects.UNLUCK, 2400, amp));
 				}
-			} catch (Throwable t)
+			}
+			catch (Throwable t)
 			{
 				t.printStackTrace();
 			}
 
 			storedItem.drop(this);
-			this.world.setEntityState(this, (byte)3);
+			this.world.setEntityState(this, (byte) 3);
 			this.setDead();
 		}
 	}

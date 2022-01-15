@@ -102,10 +102,11 @@ public class ModusQueue extends Modus
 		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 54);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	public int getDarkerColor()
 	{
-		return new GuiStackModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/queue_modus.png"), false);
+		return 0xCF560C;
 	}
 
 	@Override
@@ -117,16 +118,15 @@ public class ModusQueue extends Modus
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getDarkerColor()
-	{
-		return 0xCF560C;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
 	public int getLighterColor()
 	{
 		return 0xFF8135;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	{
+		return new GuiStackModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/queue_modus.png"), false);
 	}
 
 	@Override

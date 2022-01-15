@@ -14,42 +14,31 @@ import net.minecraft.world.World;
 public class PropertyPogo extends WeaponProperty
 {
 	private double pogoMotion;
-	
+
 	public PropertyPogo(double pogoMotion)
 	{
 		this.pogoMotion = pogoMotion;
 	}
-	
+
 	@Override
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
 		hitEntity(stack, target, player, getPogoMotion(stack));
 	}
-	
+
 	private double getPogoMotion(ItemStack stack)
 	{
-//		return 0.5 + EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, stack)*0.1;
+		//		return 0.5 + EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, stack)*0.1;
 		return pogoMotion;
 	}
-	
+
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
 									  EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		return onItemUse(player, worldIn, pos, hand, facing, getPogoMotion(player.getHeldItem(hand)));
 	}
-	
-	public static void hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player, double pogoMotion)
-	{
-		if (player.fallDistance > 0.0F && !player.onGround && !player.isOnLadder() && !player.isInWater() && !player.isRiding())
-		{
-			double knockbackModifier = 1D - target.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).getAttributeValue();
-			target.motionY = Math.max(target.motionY, knockbackModifier * Math.min(pogoMotion * 2, Math.abs(player.motionY) + target.motionY + pogoMotion));
-			player.motionY = 0;
-			player.fallDistance = 0;
-		}
-	}
-	
+
 	public static EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, double pogoMotion)
 	{
 		ItemStack stack = player.getHeldItem(hand);
@@ -78,5 +67,16 @@ public class PropertyPogo extends WeaponProperty
 			return EnumActionResult.SUCCESS;
 		}
 		return EnumActionResult.PASS;
+	}
+
+	public static void hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player, double pogoMotion)
+	{
+		if (player.fallDistance > 0.0F && !player.onGround && !player.isOnLadder() && !player.isInWater() && !player.isRiding())
+		{
+			double knockbackModifier = 1D - target.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).getAttributeValue();
+			target.motionY = Math.max(target.motionY, knockbackModifier * Math.min(pogoMotion * 2, Math.abs(player.motionY) + target.motionY + pogoMotion));
+			player.motionY = 0;
+			player.fallDistance = 0;
+		}
 	}
 }

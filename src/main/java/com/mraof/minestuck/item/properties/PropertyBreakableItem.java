@@ -14,44 +14,7 @@ public class PropertyBreakableItem extends WeaponProperty
 {
 	public static boolean isBroken(Item item, ItemStack stack)
 	{
-		return item instanceof IPropertyWeapon && ((IPropertyWeapon)item).hasProperty(PropertyBreakableItem.class, stack) && stack.isItemStackDamageable() && stack.getItemDamage() >= stack.getMaxDamage();
-	}
-
-	@Override
-	public String getItemStackDisplayName(ItemStack stack, String name)
-	{
-		return stack.getItemDamage() >= stack.getMaxDamage() ?
-				I18n.translateToLocalFormatted("property.item.broken", super.getItemStackDisplayName(stack, name)) : name;
-	}
-
-	@Override
-	public int onDurabilityChanged(ItemStack stack, int damage)
-	{
-		return Math.min(stack.getMaxDamage(), super.onDurabilityChanged(stack, damage));
-	}
-
-	@Override
-	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
-	{
-		if(stack.getItemDamage() == stack.getMaxDamage()-1)
-			player.renderBrokenItemStack(stack);
-	}
-
-	@Override
-	public void onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
-	{
-		if(stack.getItemDamage() == stack.getMaxDamage()-1)
-			entityLiving.renderBrokenItemStack(stack);
-	}
-
-	@Override
-	public double getAttackDamage(ItemStack stack, double dmg) {
-		return stack.getItemDamage() >= stack.getMaxDamage() ? 0 : super.getAttackDamage(stack, dmg);
-	}
-
-	@Override
-	public double getAttackSpeed(ItemStack stack, double speed) {
-		return stack.getItemDamage() >= stack.getMaxDamage() ? 0 : super.getAttackSpeed(stack, speed);
+		return item instanceof IPropertyWeapon && ((IPropertyWeapon) item).hasProperty(PropertyBreakableItem.class, stack) && stack.isItemStackDamageable() && stack.getItemDamage() >= stack.getMaxDamage();
 	}
 
 	public static ItemStack getBrokenStack(Item item)
@@ -62,5 +25,44 @@ public class PropertyBreakableItem extends WeaponProperty
 	public static IItemPropertyGetter getPropertyOverride()
 	{
 		return ((stack, worldIn, entityIn) -> stack.getItemDamage() >= stack.getMaxDamage() ? 1 : 0);
+	}
+
+	@Override
+	public String getItemStackDisplayName(ItemStack stack, String name)
+	{
+		return stack.getItemDamage() >= stack.getMaxDamage() ?
+					   I18n.translateToLocalFormatted("property.item.broken", super.getItemStackDisplayName(stack, name)) : name;
+	}
+
+	@Override
+	public double getAttackDamage(ItemStack stack, double dmg)
+	{
+		return stack.getItemDamage() >= stack.getMaxDamage() ? 0 : super.getAttackDamage(stack, dmg);
+	}
+
+	@Override
+	public double getAttackSpeed(ItemStack stack, double speed)
+	{
+		return stack.getItemDamage() >= stack.getMaxDamage() ? 0 : super.getAttackSpeed(stack, speed);
+	}
+
+	@Override
+	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
+	{
+		if (stack.getItemDamage() == stack.getMaxDamage() - 1)
+			player.renderBrokenItemStack(stack);
+	}
+
+	@Override
+	public void onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
+	{
+		if (stack.getItemDamage() == stack.getMaxDamage() - 1)
+			entityLiving.renderBrokenItemStack(stack);
+	}
+
+	@Override
+	public int onDurabilityChanged(ItemStack stack, int damage)
+	{
+		return Math.min(stack.getMaxDamage(), super.onDurabilityChanged(stack, damage));
 	}
 }

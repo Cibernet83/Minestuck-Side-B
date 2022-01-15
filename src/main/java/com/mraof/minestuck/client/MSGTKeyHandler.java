@@ -36,13 +36,13 @@ public class MSGTKeyHandler
 	@SubscribeEvent
 	public static void onInput(InputEvent event)
 	{
-		for(int i = 0; i < keyBindings.length; i++)
+		for (int i = 0; i < keyBindings.length; i++)
 		{
 			if (keyBindings[i].isKeyDown() ^ downs[i])
 			{
 				downs[i] = !downs[i];
 				MinestuckNetwork.sendToServer(new MessageGodKeyInputRequest(GodKeyStates.Key.values()[i], downs[i]));
-				if(Minecraft.getMinecraft().player != null)
+				if (Minecraft.getMinecraft().player != null)
 					Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_KEY_STATES, null).updateKeyState(GodKeyStates.Key.values()[i], downs[i]);
 			}
 		}

@@ -16,6 +16,7 @@ public class ModelBasilisk extends ModelBase
 	private ModelRenderer tail0;
 	private ModelRenderer tail1;
 	private ModelRenderer tail2;
+
 	public ModelBasilisk()
 	{
 		this.textureWidth = 128;
@@ -51,7 +52,7 @@ public class ModelBasilisk extends ModelBase
 		tail2.addBox(-3, 0, -2, 4, 4, 20);
 		tail2.setRotationPoint(0F, -15 + offsetY, 54F);
 	}
-	
+
 	@Override
 	public void render(Entity entity, float par2, float par3, float par4, float par5, float par6, float par7)
 	{
@@ -66,22 +67,22 @@ public class ModelBasilisk extends ModelBase
 		this.tail1.render(par7);
 		this.tail2.render(par7);
 	}
-	
+
 	@Override
 	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
 	{
-		this.head.rotateAngleY = par4 / 2 / (180F / (float)Math.PI);
-		this.head.rotateAngleX = (par5) / (180F / (float)Math.PI);
+		this.head.rotateAngleY = par4 / 2 / (180F / (float) Math.PI);
+		this.head.rotateAngleX = (par5) / (180F / (float) Math.PI);
 		this.leftFrontLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 0.7F * par2;
-		this.rightFrontLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 0.7F * par2;
+		this.rightFrontLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 0.7F * par2;
 		this.leftBackLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.2F * par2 * 0.5F;
-		this.rightBackLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.2F * par2 * 0.5F;
-		this.tail0.rotateAngleY = MathHelper.cos(par1 + (float)Math.PI) * par2 / 2;
+		this.rightBackLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.2F * par2 * 0.5F;
+		this.tail0.rotateAngleY = MathHelper.cos(par1 + (float) Math.PI) * par2 / 2;
 		this.tail1.rotationPointX = this.tail0.rotationPointX + 18 * MathHelper.sin(this.tail0.rotateAngleY);
 		this.tail1.rotationPointZ = this.tail0.rotationPointZ + 18 * MathHelper.cos(this.tail0.rotateAngleY);
-//		this.tail1.rotateAngleY = MathHelper.cos(par1 + (float)Math.PI) * -par2 / 2;
+		//		this.tail1.rotateAngleY = MathHelper.cos(par1 + (float)Math.PI) * -par2 / 2;
 		this.tail2.rotationPointX = this.tail1.rotationPointX + 18 * MathHelper.sin(this.tail1.rotateAngleY);
 		this.tail2.rotationPointZ = this.tail1.rotationPointZ + 18 * MathHelper.cos(this.tail1.rotateAngleY);
-		this.tail2.rotateAngleY = MathHelper.cos(par1 + (float)Math.PI) * -par2;
+		this.tail2.rotateAngleY = MathHelper.cos(par1 + (float) Math.PI) * -par2;
 	}
 }

@@ -39,28 +39,40 @@ public class BottomSylladex extends MultiSylladex
 	}
 
 	@Override
-	public ICaptchalogueable tryGetEmptyCard(int[] slots, int index)
-	{
-		ICaptchalogueable rtn = cards.get(slots[index]).tryGetEmptyCard(slots, index + 1);
-		cleanUpMarkedCards(slots, index);
-		return rtn;
-	}
-
-	@Override
 	public void put(ICaptchalogueable object)
 	{
 		modi.put(cards, object);
 	}
 
 	@Override
-	public void ejectAll(boolean asCards, boolean onlyFull)
+	protected SylladexList<CardSylladex> getSylladices()
 	{
-		for (int i = 0; i < cards.size(); i++)
-		{
-			cards.get(i).ejectAll(asCards, onlyFull);
-			if (asCards)
-				cleanUpMarkedCards(i);
-		}
+		return cards;
+	}
+
+	@Override
+	public void addCard(ICaptchalogueable object)
+	{
+		cards.add(new CardSylladex(this, object));
+	}
+
+	@Override
+	protected void getModusLayers(List<ModusLayer> modusLayers)
+	{
+		modusLayers.add(modi);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public String getName(boolean plural)
+	{
+		return modi.getName(plural);
+	}
+
+	@Override
+	public BottomSylladex getFirstBottomSylladex()
+	{
+		return this;
 	}
 
 	private void cleanUpMarkedCards(int[] slots, int i)
@@ -81,32 +93,22 @@ public class BottomSylladex extends MultiSylladex
 	}
 
 	@Override
-	public void addCard(ICaptchalogueable object)
+	public ICaptchalogueable tryGetEmptyCard(int[] slots, int index)
 	{
-		cards.add(new CardSylladex(this, object));
-	}
-
-	public void addCard(int index, ICaptchalogueable object, EntityPlayer player)
-	{
-		cards.add(index, new CardSylladex(this, object));
+		ICaptchalogueable rtn = cards.get(slots[index]).tryGetEmptyCard(slots, index + 1);
+		cleanUpMarkedCards(slots, index);
+		return rtn;
 	}
 
 	@Override
-	protected void getModusLayers(List<ModusLayer> modusLayers)
+	public void ejectAll(boolean asCards, boolean onlyFull)
 	{
-		modusLayers.add(modi);
-	}
-
-	@Override
-	protected SylladexList<CardSylladex> getSylladices()
-	{
-		return cards;
-	}
-
-	@Override
-	public BottomSylladex getFirstBottomSylladex()
-	{
-		return this;
+		for (int i = 0; i < cards.size(); i++)
+		{
+			cards.get(i).ejectAll(asCards, onlyFull);
+			if (asCards)
+				cleanUpMarkedCards(i);
+		}
 	}
 
 	@Override
@@ -126,10 +128,8 @@ public class BottomSylladex extends MultiSylladex
 		return nbt;
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getName(boolean plural)
+	public void addCard(int index, ICaptchalogueable object, EntityPlayer player)
 	{
-		return modi.getName(plural);
+		cards.add(index, new CardSylladex(this, object));
 	}
 }

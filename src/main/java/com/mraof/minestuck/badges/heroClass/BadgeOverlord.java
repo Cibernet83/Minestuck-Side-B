@@ -34,70 +34,33 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class BadgeOverlord extends BadgeHeroClass
 {
 	public static final int REQ_SKILL_LEVEL = 80;
-	
+
 	public BadgeOverlord()
 	{
 		super(EnumClass.LORD, REQ_SKILL_LEVEL, 0);
 		setUnlocalizedName("overlord");
 	}
 
-	@Override
-	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean canUnlock(World world, EntityPlayer player) {
-		return false;
-	}
-
-	@Override
-	public boolean isReadable(World world, EntityPlayer player) {
-		return false;
-	}
-
-	@Override
-	public boolean canAppearOnList(World world, EntityPlayer player) {
-		return false;
-	}
-
-	@Override
-	public Badge setRegistryName()
-	{
-		return setRegistryName(Minestuck.MODID,  "overlord_badge");
-	}
-
-	@Override
-	public String getReadRequirements() {
-		return  I18n.format("badge.secret.read");
-	}
-
-	@Override
-	public boolean canUse(World world, EntityPlayer player) {
-		return !(player.isPotionActive(MinestuckPotions.GOD_TIER_LOCK) && player.getActivePotionEffect(MinestuckPotions.GOD_TIER_LOCK).getAmplifier() >= 2);
-	}
-
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onLivingDeath(LivingDeathEvent event)
 	{
-		if(!event.getEntity().world.isRemote && event.getEntityLiving() instanceof EntityPlayer)
+		if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 			IdentifierHandler.PlayerIdentifier identifier = IdentifierHandler.encode(player);
 			SburbConnection c = SkaianetHandler.getMainConnection(identifier, true);
 			MinestuckPlayerData.PlayerData data = MinestuckPlayerData.getData(identifier);
 
-			if(c != null && c.enteredGame() && player.world.getBlockState(new BlockPos(player.posX, player.posY - 0.1, player.posZ)).getBlock() instanceof IGodTierBlock)
+			if (c != null && c.enteredGame() && player.world.getBlockState(new BlockPos(player.posX, player.posY - 0.1, player.posZ)).getBlock() instanceof IGodTierBlock)
 			{
 				IGodTierBlock block = (IGodTierBlock) player.world.getBlockState(new BlockPos(player.posX, player.posY - 0.1, player.posZ)).getBlock();
 
-				if(data.title.getHeroClass() == EnumClass.LORD && block.canGodTier() && ((block.getAspect() == null || block.getAspect().equals(data.title.getHeroAspect()))))
+				if (data.title.getHeroClass() == EnumClass.LORD && block.canGodTier() && ((block.getAspect() == null || block.getAspect().equals(data.title.getHeroAspect()))))
 				{
 					IGodTierData gtData = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
-					if(gtData.getSkillLevel(GodTierData.SkillType.GENERAL) < REQ_SKILL_LEVEL)
+					if (gtData.getSkillLevel(GodTierData.SkillType.GENERAL) < REQ_SKILL_LEVEL)
 						player.sendStatusMessage(new TextComponentTranslation("status.overlordSkillLevel", REQ_SKILL_LEVEL).setStyle(new Style().setColor(TextFormatting.LIGHT_PURPLE)), false);
-					else if(!(event.getSource().getTrueSource() instanceof EntityPlayer))
+					else if (!(event.getSource().getTrueSource() instanceof EntityPlayer))
 						player.sendStatusMessage(new TextComponentTranslation("status.overlordPvpDeath").setStyle(new Style().setColor(TextFormatting.LIGHT_PURPLE)), false);
 					else
 					{
@@ -116,5 +79,47 @@ public class BadgeOverlord extends BadgeHeroClass
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean canUse(World world, EntityPlayer player)
+	{
+		return !(player.isPotionActive(MinestuckPotions.GOD_TIER_LOCK) && player.getActivePotionEffect(MinestuckPotions.GOD_TIER_LOCK).getAmplifier() >= 2);
+	}
+
+	@Override
+	public boolean canUnlock(World world, EntityPlayer player)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean canAppearOnList(World world, EntityPlayer player)
+	{
+		return false;
+	}
+
+	@Override
+	public Badge setRegistryName()
+	{
+		return setRegistryName(Minestuck.MODID, "overlord_badge");
+	}
+
+	@Override
+	public String getReadRequirements()
+	{
+		return I18n.format("badge.secret.read");
+	}
+
+	@Override
+	public boolean isReadable(World world, EntityPlayer player)
+	{
+		return false;
 	}
 }

@@ -14,8 +14,39 @@ import net.minecraft.world.World;
 public class PropertyXpMend extends WeaponProperty implements IEnchantableProperty
 {
 	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
-		return EnumAction.BOW;
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		if (entityIn instanceof EntityPlayer && stack.equals(((EntityLivingBase) entityIn).getActiveItemStack()))
+		{
+			EntityPlayer player = (EntityPlayer) entityIn;
+			int useTime = 72000 - player.getItemInUseCount();
+
+			if (useTime >= 40)
+			{
+				if (player.isSneaking())
+				{
+					if (useTime % 4 == 0)
+					{
+						stack.damageItem(1, player);
+						player.addExperience(1);
+					}
+				}
+				else if (stack.isItemDamaged() && useTime % 2 == 0)
+				{
+					player.experience -= 1 / (float) player.xpBarCap();
+					player.experienceTotal--;
+
+					if (player.experience < 0)
+					{
+						player.experience += 1;
+						player.addExperienceLevel(-1);
+					}
+
+					if (useTime % 10 == 0)
+						stack.setItemDamage(Math.max(0, stack.getItemDamage() - 4));
+				}
+			}
+		}
 	}
 
 	@Override
@@ -25,46 +56,17 @@ public class PropertyXpMend extends WeaponProperty implements IEnchantableProper
 	}
 
 	@Override
-	public EnumActionResult onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	public EnumActionResult onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
 
 		playerIn.setActiveHand(handIn);
 		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		if(entityIn instanceof EntityPlayer && stack.equals(((EntityLivingBase) entityIn).getActiveItemStack()))
-		{
-			EntityPlayer player = (EntityPlayer) entityIn;
-			int useTime = 72000-player.getItemInUseCount();
-
-			if(useTime >= 40)
-			{
-				if(player.isSneaking())
-				{
-					if(useTime % 4 == 0)
-					{
-						stack.damageItem(1, player);
-						player.addExperience(1);
-					}
-				}
-				else if(stack.isItemDamaged() && useTime % 2 == 0)
-				{
-					player.experience -= 1/(float)player.xpBarCap();
-					player.experienceTotal --;
-
-					if(player.experience < 0)
-					{
-						player.experience += 1;
-						player.addExperienceLevel(-1);
-					}
-
-					if(useTime % 10 == 0)
-						stack.setItemDamage(Math.max(0, stack.getItemDamage()-4));
-				}
-			}
-		}
+		return EnumAction.BOW;
 	}
 
 	@Override

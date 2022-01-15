@@ -32,7 +32,18 @@ public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 	public int beamTime;
 	protected ResourceLocation beamTexture = new ResourceLocation(Minestuck.MODID, "textures/entity/projectiles/beam.png");
 
-	public ItemBeamWeapon(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int beamHurtTime, int enchantability) {
+	public ItemBeamWeapon(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int enchantability)
+	{
+		this(name, maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, 72000, enchantability);
+	}
+
+	public ItemBeamWeapon(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int enchantability)
+	{
+		this(name, maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, beamTime, 15, enchantability);
+	}
+
+	public ItemBeamWeapon(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int beamHurtTime, int enchantability)
+	{
 		super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
 		this.beamDamage = beamDamage;
 		this.beamRadius = beamRadius;
@@ -41,44 +52,26 @@ public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 		this.beamTime = beamTime;
 	}
 
-	public ItemBeamWeapon(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int beamTime, int enchantability) {
-		this(name, maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, beamTime,15, enchantability);
-	}
-
-	public ItemBeamWeapon(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int enchantability) {
-		this(name, maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, 72000, enchantability);
-	}
-
-	@Override
-	public int getMaxItemUseDuration(ItemStack stack) {
-		return 72000;
-	}
-
-	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
-		return EnumAction.BOW;
-	}
-
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
 		ActionResult<ItemStack> sup = super.onItemRightClick(worldIn, playerIn, handIn);
 
-		if(sup.getType() != EnumActionResult.PASS)
+		if (sup.getType() != EnumActionResult.PASS)
 			return sup;
 
 		ItemStack stack = playerIn.getHeldItem(handIn);
 
-		if(hasProperty(PropertyDualWield.class, stack) && (handIn != EnumHand.MAIN_HAND || !ItemStack.areItemsEqualIgnoreDurability(stack, playerIn.getHeldItemOffhand())))
+		if (hasProperty(PropertyDualWield.class, stack) && (handIn != EnumHand.MAIN_HAND || !ItemStack.areItemsEqualIgnoreDurability(stack, playerIn.getHeldItemOffhand())))
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
-		if(!worldIn.isRemote)
+		if (!worldIn.isRemote)
 		{
 			Beam beam = new Beam(playerIn, stack, beamSpeed);
 
 			beam.damage = beamDamage;
 
-			if(!stack.hasTagCompound())
+			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
 			stack.getTagCompound().setUniqueId("Beam", beam.getUniqueID());
 
@@ -95,26 +88,26 @@ public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 	{
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 
-		if(!worldIn.isRemote && entityIn instanceof EntityLivingBase &&
-				((EntityLivingBase) entityIn).getActiveItemStack().equals(stack) && stack.hasTagCompound() && stack.getTagCompound().hasUniqueId("Beam"))
+		if (!worldIn.isRemote && entityIn instanceof EntityLivingBase &&
+					((EntityLivingBase) entityIn).getActiveItemStack().equals(stack) && stack.hasTagCompound() && stack.getTagCompound().hasUniqueId("Beam"))
 		{
-			int useTime = getMaxItemUseDuration(stack)-((EntityLivingBase) entityIn).getItemInUseCount();
-			if(useTime % 20 == 0)
+			int useTime = getMaxItemUseDuration(stack) - ((EntityLivingBase) entityIn).getItemInUseCount();
+			if (useTime % 20 == 0)
 			{
-				if(hasProperty(PropertyDualWield.class, stack))
+				if (hasProperty(PropertyDualWield.class, stack))
 					((EntityLivingBase) entityIn).getHeldItemOffhand().damageItem(1, (EntityLivingBase) entityIn);
 				stack.damageItem(1, (EntityLivingBase) entityIn);
 			}
 
-			if(useTime > beamTime)
+			if (useTime > beamTime)
 			{
 				Beam beam = worldIn.getCapability(MinestuckCapabilities.BEAM_DATA, null).getBeam(stack.getTagCompound().getUniqueId("Beam"));
-				if(beam != null && !beam.isBeamReleased())
+				if (beam != null && !beam.isBeamReleased())
 				{
-					if(entityIn instanceof EntityPlayer)
+					if (entityIn instanceof EntityPlayer)
 						((EntityPlayer) entityIn).getCooldownTracker().setCooldown(stack.getItem(), beam.getDuration());
 					beam.releaseBeam();
-					for(EntityPlayer player : beam.world.playerEntities)
+					for (EntityPlayer player : beam.world.playerEntities)
 						MinestuckNetwork.sendTo(new MessageBeamData(beam.world), player);
 				}
 			}
@@ -123,13 +116,47 @@ public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 	}
 
 	@Override
-	public float getBeamRadius(ItemStack stack) {
+	public EnumAction getItemUseAction(ItemStack stack)
+	{
+		return EnumAction.BOW;
+	}
+
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack)
+	{
+		return 72000;
+	}
+
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
+	{
+		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
+		if (slot == EntityEquipmentSlot.MAINHAND)
+		{
+			if (getAttackDamage(stack) != 0)
+				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.getAttackDamage(stack), 0));
+			if (getAttackSpeed(stack) != 0)
+				multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", this.getAttackSpeed(stack), 0));
+		}
+
+		return multimap;
+	}
+
+	@Override
+	public float getBeamRadius(ItemStack stack)
+	{
 		return beamRadius;
 	}
 
 	@Override
-	public int getBeamHurtTime(ItemStack stack) {
+	public int getBeamHurtTime(ItemStack stack)
+	{
 		return beamHurtTime;
+	}
+
+	@Override
+	public void setCustomBeamTexture()
+	{
+		setBeamTexture(getRegistryName().getResourcePath());
 	}
 
 	@Override
@@ -141,26 +168,6 @@ public class ItemBeamWeapon extends MSWeaponBase implements IBeamStats
 	@Override
 	public void setBeamTexture(String fileName)
 	{
-		beamTexture = new ResourceLocation(getRegistryName().getResourceDomain(), "textures/entity/projectiles/"+fileName+".png");
-	}
-
-	@Override
-	public void setCustomBeamTexture()
-	{
-		setBeamTexture(getRegistryName().getResourcePath());
-	}
-
-
-	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
-		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
-		if (slot == EntityEquipmentSlot.MAINHAND)
-		{
-			if(getAttackDamage(stack) != 0)
-				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.getAttackDamage(stack), 0));
-			if(getAttackSpeed(stack) != 0)
-				multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", this.getAttackSpeed(stack), 0));
-		}
-
-		return multimap;
+		beamTexture = new ResourceLocation(getRegistryName().getResourceDomain(), "textures/entity/projectiles/" + fileName + ".png");
 	}
 }

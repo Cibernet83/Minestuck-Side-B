@@ -33,9 +33,14 @@ public abstract class BadgeHeroAspect extends BadgeLevel
 	protected final EnumAspect[] auxAxpects; // i refuse to believe this is a typo
 	protected final int requiredXp;
 
+	public BadgeHeroAspect(EnumAspect heroAspect, EnumRole heroRole, EnumAspect... auxAspects)
+	{
+		this(heroAspect, heroRole, 6, 40, auxAspects);
+	}
+
 	public BadgeHeroAspect(EnumAspect heroAspect, EnumRole heroRole, int requiredLevel, int requiredXp, EnumAspect... auxAspects)
 	{
-		super(heroRole.name().toLowerCase() + heroAspect.name().substring(0,1).toUpperCase() + heroAspect.name().substring(1).toLowerCase(), requiredLevel);
+		super(heroRole.name().toLowerCase() + heroAspect.name().substring(0, 1).toUpperCase() + heroAspect.name().substring(1).toLowerCase(), requiredLevel);
 		this.heroAspect = heroAspect;
 		this.heroRole = heroRole;
 		this.auxAxpects = auxAspects;
@@ -43,23 +48,13 @@ public abstract class BadgeHeroAspect extends BadgeLevel
 		HERO_ASPECT_BADGES.add(this);
 	}
 
-	public BadgeHeroAspect(EnumAspect heroAspect, EnumRole heroRole, EnumAspect... auxAspects) {
-		this(heroAspect, heroRole, 6, 40, auxAspects);
-	}
-
 	public abstract boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time);
-
-	@Override
-	public boolean canUse(World world, EntityPlayer player)
-	{
-		return !(player.isPotionActive(MinestuckPotions.GOD_TIER_LOCK) && player.getActivePotionEffect(MinestuckPotions.GOD_TIER_LOCK).getAmplifier() >= 1);
-	}
 
 	@Override
 	public String getDisplayTooltip()
 	{
 		String keyName = "GOD TIER ACTION";
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT)
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
 			keyName = MSGTKeyHandler.keyBindings[GodKeyStates.Key.ASPECT.ordinal()].getDisplayName();
 
 		return I18n.format(getUnlocalizedName() + ".tooltip", keyName);
@@ -68,56 +63,28 @@ public abstract class BadgeHeroAspect extends BadgeLevel
 	@Override
 	public String getUnlockRequirements()
 	{
-		if(MinestuckConfig.multiAspectUnlocks && auxAxpects.length > 0)
+		if (MinestuckConfig.multiAspectUnlocks && auxAxpects.length > 0)
 		{
-			int auxShardAmount = 32/Math.max(1, auxAxpects.length);
+			int auxShardAmount = 32 / Math.max(1, auxAxpects.length);
 
 			String entries = "";
-			for(int i = 0; i < auxAxpects.length-1; i++)
+			for (int i = 0; i < auxAxpects.length - 1; i++)
 				entries += I18n.format("badge.aspect.unlock.aux.entry", auxShardAmount, auxAxpects[i].getDisplayName());
-			return I18n.format("badge.aspect.unlock.aux", heroAspect.getDisplayName(), entries, auxShardAmount, auxAxpects[auxAxpects.length-1].getDisplayName());
+			return I18n.format("badge.aspect.unlock.aux", heroAspect.getDisplayName(), entries, auxShardAmount, auxAxpects[auxAxpects.length - 1].getDisplayName());
 		}
 		else return I18n.format("badge.aspect.unlock", heroAspect.getDisplayName());
 	}
 
 	@Override
-	public boolean canUnlock(World world, EntityPlayer player)
-	{
-		if(player.experienceLevel >= requiredXp && findShards(player, false))
-		{
-			findShards(player, true);
-			player.experienceLevel -= requiredXp;
-			MinestuckNetwork.sendTo(new MessageAddXp(-requiredXp), player);
-			return true;
-		}
-		return false;
-	}
-
-	protected boolean findShards(EntityPlayer player, boolean decr)
-	{
-		int auxShardAmount = 32/Math.max(1, auxAxpects.length);
-
-		if(!Badge.findItem(player, new ItemStack(MinestuckItems.heroStoneShards.get(heroAspect), auxAxpects.length > 0 ? 64 : 96), decr))
-			return false;
-
-		if(MinestuckConfig.multiAspectUnlocks)
-			for(EnumAspect aspect : auxAxpects)
-				if(!Badge.findItem(player, new ItemStack(MinestuckItems.heroStoneShards.get(aspect), auxShardAmount), decr))
-					return false;
-
-		return true;
-	}
-
-	@Override
 	public boolean canAppearOnList(World world, EntityPlayer player)
 	{
-		if(!super.canAppearOnList(world, player))
+		if (!super.canAppearOnList(world, player))
 			return false;
 
 		EnumAspect playerAspect;
 		EnumRole playerRole;
 
-		if(world.isRemote)
+		if (world.isRemote)
 		{
 			playerAspect = MinestuckPlayerData.clientData.title.getHeroAspect();
 			playerRole = EnumRole.getRoleFromClass(MinestuckPlayerData.clientData.title.getHeroClass());
@@ -129,6 +96,40 @@ public abstract class BadgeHeroAspect extends BadgeLevel
 		}
 
 		return heroAspect.equals(playerAspect) && heroRole.equals(playerRole);
+	}
+
+	@Override
+	public boolean canUnlock(World world, EntityPlayer player)
+	{
+		if (player.experienceLevel >= requiredXp && findShards(player, false))
+		{
+			findShards(player, true);
+			player.experienceLevel -= requiredXp;
+			MinestuckNetwork.sendTo(new MessageAddXp(-requiredXp), player);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canUse(World world, EntityPlayer player)
+	{
+		return !(player.isPotionActive(MinestuckPotions.GOD_TIER_LOCK) && player.getActivePotionEffect(MinestuckPotions.GOD_TIER_LOCK).getAmplifier() >= 1);
+	}
+
+	protected boolean findShards(EntityPlayer player, boolean decr)
+	{
+		int auxShardAmount = 32 / Math.max(1, auxAxpects.length);
+
+		if (!Badge.findItem(player, new ItemStack(MinestuckItems.heroStoneShards.get(heroAspect), auxAxpects.length > 0 ? 64 : 96), decr))
+			return false;
+
+		if (MinestuckConfig.multiAspectUnlocks)
+			for (EnumAspect aspect : auxAxpects)
+				if (!Badge.findItem(player, new ItemStack(MinestuckItems.heroStoneShards.get(aspect), auxShardAmount), decr))
+					return false;
+
+		return true;
 	}
 
 	public Badge setRegistryName()

@@ -7,7 +7,7 @@ public class SubArray<T>
 
 	public SubArray(T[] array)
 	{
-		this(array,  0, array.length);
+		this(array, 0, array.length);
 	}
 
 	private SubArray(T[] array, int start, int length)
@@ -23,6 +23,15 @@ public class SubArray<T>
 		array[start + i] = object;
 	}
 
+	private int checkIndex(int i)
+	{
+		if (i < 0)
+			i += length;
+		if (i < 0 || i >= length)
+			throw new IndexOutOfBoundsException("Index: " + i + " | Length: " + length);
+		return i;
+	}
+
 	public T get(int i)
 	{
 		i = checkIndex(i);
@@ -36,24 +45,15 @@ public class SubArray<T>
 		return new SubArray<>(array, this.start + start, length);
 	}
 
-	public int length()
-	{
-		return length;
-	}
-
-	private int checkIndex(int i)
-	{
-		if (i < 0)
-			i += length;
-		if (i < 0 || i >= length)
-			throw new IndexOutOfBoundsException("Index: " + i + " | Length: " + length);
-		return i;
-	}
-
 	private int checkLength(int start, int length)
 	{
 		if (start + length < 0 || start + length >= this.length)
 			throw new IndexOutOfBoundsException("Index, length: " + start + ", " + length + " | Length: " + this.length);
+		return length;
+	}
+
+	public int length()
+	{
 		return length;
 	}
 }

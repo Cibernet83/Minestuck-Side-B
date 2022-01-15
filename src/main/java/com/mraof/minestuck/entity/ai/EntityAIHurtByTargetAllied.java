@@ -10,7 +10,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import java.util.Iterator;
 import java.util.List;
 
-public class EntityAIHurtByTargetAllied extends EntityAITarget {
+public class EntityAIHurtByTargetAllied extends EntityAITarget
+{
 	Predicate<Entity> entitySelector;
 	private int revengeTimer;
 
@@ -39,15 +40,15 @@ public class EntityAIHurtByTargetAllied extends EntityAITarget {
 	{
 		this.taskOwner.setAttackTarget(this.taskOwner.getAttackTarget());
 		this.revengeTimer = this.taskOwner.getRevengeTimer();
-		
+
 		double d0 = this.getTargetDistance();
 		List<?> list = this.taskOwner.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(this.taskOwner.posX, this.taskOwner.posY, this.taskOwner.posZ, this.taskOwner.posX + 1.0D, this.taskOwner.posY + 1.0D, this.taskOwner.posZ + 1.0D).grow(d0, 10.0D, d0), entitySelector);
 		Iterator<?> iterator = list.iterator();
-		
+
 		while (iterator.hasNext())
 		{
-			EntityCreature entitycreature = (EntityCreature)iterator.next();
-			
+			EntityCreature entitycreature = (EntityCreature) iterator.next();
+
 			if (this.taskOwner != entitycreature && entitycreature.getAttackTarget() == null && !entitycreature.isOnSameTeam(this.taskOwner.getAttackTarget()))
 			{
 				entitycreature.setAttackTarget(this.taskOwner.getAttackTarget());

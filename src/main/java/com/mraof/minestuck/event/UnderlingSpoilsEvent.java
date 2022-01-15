@@ -16,6 +16,12 @@ public class UnderlingSpoilsEvent extends Event
 	private GristSet spoils;
 	private ArrayList<ItemStack> drops = new ArrayList<>();
 
+	public UnderlingSpoilsEvent(EntityUnderling underling, DamageSource source, GristSet spoils, ArrayList<ItemStack> drops)
+	{
+		this(underling, source, spoils);
+		this.drops.addAll(drops);
+	}
+
 	public UnderlingSpoilsEvent(EntityUnderling underling, DamageSource source, GristSet spoils)
 	{
 		this.underling = underling;
@@ -24,32 +30,31 @@ public class UnderlingSpoilsEvent extends Event
 		this.spoils = spoils;
 	}
 
-	public UnderlingSpoilsEvent(EntityUnderling underling, DamageSource source, GristSet spoils, ArrayList<ItemStack> drops)
-	{
-		this(underling, source, spoils);
-		this.drops.addAll(drops);
-	}
-
 	@Override
-	public boolean isCancelable() {
+	public boolean isCancelable()
+	{
 		return false;
 	}
 
-	public EntityUnderling getUnderling() {
+	public EntityUnderling getUnderling()
+	{
 		return underling;
 	}
 
 	public DamageSource getSource() {return source;}
 
-	public GristSet getOriginalSpoils() {
+	public GristSet getOriginalSpoils()
+	{
 		return originalSpoils;
 	}
 
-	public GristSet getSpoils() {
+	public GristSet getSpoils()
+	{
 		return spoils;
 	}
 
-	public void setSpoils(GristSet spoils) {
+	public void setSpoils(GristSet spoils)
+	{
 		this.spoils = spoils;
 	}
 

@@ -11,37 +11,37 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MSToolClass
 {
+	public final String name;
+	public List<MSToolClass> parents = new ArrayList<>();
 	protected List<Material> harvestMaterials = new ArrayList<>();
 	protected List<Enchantment> enchantments = new ArrayList<>();
 	protected List<EnumEnchantmentType> enchantmentTypes = new ArrayList<>();
 	protected List<String> baseTool = new ArrayList<>();
-	public List<MSToolClass> parents = new ArrayList<>();
 	protected boolean disablesShield = false;
-	public final String name;
+
+	public MSToolClass(String name, String... baseTools)
+	{
+		this(name);
+		for (String baseTool : baseTools)
+			this.baseTool.add(baseTool);
+	}
 
 	public MSToolClass(String name)
 	{
 		this.name = name;
 	}
 
-	public MSToolClass(String name, String... baseTools)
-	{
-		this(name);
-		for(String baseTool : baseTools)
-			this.baseTool.add(baseTool);
-	}
-	
 	public MSToolClass(String name, Material... materials)
 	{
 		this(name);
-		for(Material mat : materials)
+		for (Material mat : materials)
 			harvestMaterials.add(mat);
 	}
-	
+
 	public MSToolClass(String name, MSToolClass... classCombo)
 	{
 		this(name);
-		for(MSToolClass cls : classCombo)
+		for (MSToolClass cls : classCombo)
 		{
 			harvestMaterials.addAll(cls.harvestMaterials);
 			enchantments.addAll(cls.enchantments);
@@ -50,26 +50,27 @@ public class MSToolClass
 			parents.add(cls);
 		}
 	}
-	
+
 	public boolean canHarvest(IBlockState state)
 	{
-		if(harvestMaterials.contains(state.getMaterial()))
+		if (harvestMaterials.contains(state.getMaterial()))
 			return true;
 		AtomicBoolean effective = new AtomicBoolean(false);
-		baseTool.forEach(s -> {if(state.getBlock().isToolEffective(s, state)) effective.set(true);});
+		baseTool.forEach(s ->
+		{if (state.getBlock().isToolEffective(s, state)) effective.set(true);});
 		return effective.get();
 	}
-	
+
 	public MSToolClass addBaseTool(String... name)
 	{
-		for(String baseTool : name)
+		for (String baseTool : name)
 			this.baseTool.add(baseTool);
 		return this;
 	}
-	
+
 	public MSToolClass addEnchantments(Enchantment... enchantments)
 	{
-		for(Enchantment ench : enchantments)
+		for (Enchantment ench : enchantments)
 			this.enchantments.add(ench);
 		return this;
 	}
@@ -82,7 +83,7 @@ public class MSToolClass
 
 	public MSToolClass addEnchantments(EnumEnchantmentType... enchantmentTypes)
 	{
-		for(EnumEnchantmentType ench : enchantmentTypes)
+		for (EnumEnchantmentType ench : enchantmentTypes)
 			this.enchantmentTypes.add(ench);
 		return this;
 	}
@@ -92,30 +93,33 @@ public class MSToolClass
 		return getEnchantments().contains(enchantment) || getEnchantmentTypes().contains(enchantment.type);
 	}
 
-	public List<Material> getHarvestMaterials() {return harvestMaterials;}
 	public List<Enchantment> getEnchantments() {return enchantments;}
+
 	public List<EnumEnchantmentType> getEnchantmentTypes() {return enchantmentTypes;}
+
+	public List<Material> getHarvestMaterials() {return harvestMaterials;}
+
 	public List<String> getBaseTools() {return baseTool;}
 
 	public List<Enchantment> getAllEnchantments()
 	{
 		ArrayList<Enchantment> result = new ArrayList<>(getEnchantments());
 
-		 Enchantment.REGISTRY.forEach(ench ->
-		 {
-		 	if(!result.contains(ench) && getEnchantmentTypes().contains(ench.type))
-		 		result.add(ench);
-		 });
-		 return result;
+		Enchantment.REGISTRY.forEach(ench ->
+		{
+			if (!result.contains(ench) && getEnchantmentTypes().contains(ench.type))
+				result.add(ench);
+		});
+		return result;
 	}
 
 	public boolean isCompatibleWith(MSToolClass other)
 	{
-		if(other == null)
+		if (other == null)
 			return false;
 
-		for(MSToolClass parent : other.parents)
-			if(parent.isCompatibleWith(this))
+		for (MSToolClass parent : other.parents)
+			if (parent.isCompatibleWith(this))
 				return true;
 		return equals(other);
 	}
@@ -132,7 +136,8 @@ public class MSToolClass
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return name;
 	}
 }

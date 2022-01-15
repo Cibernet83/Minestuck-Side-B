@@ -5,34 +5,34 @@ import net.minecraft.world.gen.layer.GenLayer;
 
 public class GenLayerLandRough extends GenLayer
 {
-	
+
 	int roughChance;
 	GenLayer parent;
-	
+
 	public GenLayerLandRough(long seed, GenLayer parent)
 	{
 		super(seed);
 		this.parent = parent;
 	}
-	
+
 	public void setRoughChance(float roughChance)
 	{
-		this.roughChance = (int) (roughChance*Integer.MAX_VALUE);
+		this.roughChance = (int) (roughChance * Integer.MAX_VALUE);
 	}
-	
+
 	@Override
 	public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight)
 	{
 		//Standard generation
 		int[] biomeGen = parent.getInts(areaX, areaY, areaWidth, areaHeight);
-		
-		for(int i = 0; i < biomeGen.length; i++)
+
+		for (int i = 0; i < biomeGen.length; i++)
 		{
-			initChunkSeed(areaX + i%areaWidth, areaY + i/areaWidth);
-			if(biomeGen[i] == Biome.getIdForBiome(MinestuckBiomes.mediumNormal) && nextInt(Integer.MAX_VALUE) < roughChance)
+			initChunkSeed(areaX + i % areaWidth, areaY + i / areaWidth);
+			if (biomeGen[i] == Biome.getIdForBiome(MinestuckBiomes.mediumNormal) && nextInt(Integer.MAX_VALUE) < roughChance)
 				biomeGen[i] = Biome.getIdForBiome(MinestuckBiomes.mediumRough);
 		}
-		
+
 		//No generation by ocean
 		/*int oceanId = Biome.getIdForBiome(BiomeMinestuck.mediumOcean);
 		int width = areaWidth + 2, height = areaHeight + 2, x = areaX - 1, y = areaY - 1;
@@ -52,8 +52,8 @@ public class GenLayerLandRough extends GenLayer
 					biomeGen[biomeIndex] = Biome.getIdForBiome(BiomeMinestuck.mediumRough);
 				else biomeGen[biomeIndex] = parentGen[parentIndex];
 			}*/
-		
+
 		return biomeGen;
 	}
-	
+
 }

@@ -14,20 +14,17 @@ public class RenderRock extends RenderLivingBase<EntityRock>
 	private static final ModelRock MODEL = new ModelRock();
 	private static final ResourceLocation TEXTURE = new ResourceLocation(Minestuck.MODID, "textures/entity/rock.png");
 
-	public RenderRock(RenderManager renderManagerIn) {
+	public RenderRock(RenderManager renderManagerIn)
+	{
 		super(renderManagerIn, MODEL, 1f);
 	}
 
 	@Override
-	public void doRender(EntityRock entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void doRender(EntityRock entity, double x, double y, double z, float entityYaw, float partialTicks)
+	{
 
-		if(!entity.isDead)
-		super.doRender(entity, x, y, z, entityYaw, partialTicks);
-	}
-
-	@Override
-	protected boolean canRenderName(EntityRock entity) {
-		return entity.hasCustomName() && super.canRenderName(entity);
+		if (!entity.isDead)
+			super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
 	@Override
@@ -35,9 +32,16 @@ public class RenderRock extends RenderLivingBase<EntityRock>
 	{
 	}
 
+	@Override
+	protected boolean canRenderName(EntityRock entity)
+	{
+		return entity.hasCustomName() && super.canRenderName(entity);
+	}
+
 	@Nullable
 	@Override
-	protected ResourceLocation getEntityTexture(EntityRock entity) {
+	protected ResourceLocation getEntityTexture(EntityRock entity)
+	{
 		return TEXTURE;
 	}
 }

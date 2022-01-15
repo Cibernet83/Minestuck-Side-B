@@ -14,7 +14,8 @@ public class PropertyBreakableProjectile extends WeaponProperty implements IProp
 	}
 
 	@Override
-	public boolean dropOnImpact(EntityMSUThrowable projectile, RayTraceResult result) {
+	public boolean dropOnImpact(EntityMSUThrowable projectile, RayTraceResult result)
+	{
 		return projectile.world.rand.nextFloat() <= chance;
 	}
 }

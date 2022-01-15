@@ -34,27 +34,11 @@ import java.util.Random;
 public class MSBlockLeavesVariant extends MSBlockLeaves implements IRegistryBlock
 {
 	public static final PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
-	
+
 	public MSBlockLeavesVariant()
 	{
 		super("leaves");
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, BlockType.VINE_OAK).withProperty(CHECK_DECAY, Boolean.valueOf(true)).withProperty(DECAYABLE, Boolean.valueOf(true)));
-	}
-	
-	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
-	 */
-	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
-	{
-		for (BlockType blocktype : BlockType.values())
-			items.add(new ItemStack(this, 1, blocktype.ordinal()));
-	}
-
-	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
-	{
-		return new ItemStack(this, 1, state.getValue(VARIANT).ordinal());
 	}
 
 	/**
@@ -77,84 +61,76 @@ public class MSBlockLeavesVariant extends MSBlockLeaves implements IRegistryBloc
 	}
 
 	@Override
-	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+	public int damageDropped(IBlockState state)
+	{
+		if (state.getValue(VARIANT) == BlockType.RAINBOW)
+			return 0;
+		else
+			return BlockType.values()[getMetaFromState(state)].ordinal();
+	}
+
+	/**
+	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+	 */
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
+	{
+		for (BlockType blocktype : BlockType.values())
+			items.add(new ItemStack(this, 1, blocktype.ordinal()));
+	}
+
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+	{
+		return new ItemStack(this, 1, state.getValue(VARIANT).ordinal());
+	}
+
+	@Override
+	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune)
+	{
 		ArrayList out = new ArrayList<ItemStack>();
 		out.add(new ItemStack(this));
 		return out;
 	}
 
 	@Override
-	protected void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance)
+	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
 	{
-		if(state.getValue(VARIANT)==BlockType.RAINBOW && worldIn.rand.nextInt(chance) == 0)
-		{
-			int i = worldIn.rand.nextInt(16);
-			spawnAsEntity(worldIn, pos, new ItemStack(Items.DYE, 1, i));
-		}
+		return true;
 	}
 
 	@Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
-        return ItemStack.EMPTY.getItem();
-    }
-	
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return Blocks.LEAVES.isOpaqueCube(state);
+	}
+
 	@Override
-    public int damageDropped(IBlockState state)
-    {
-		if(state.getValue(VARIANT)==BlockType.RAINBOW)
-			return 0;
-		else
-			return BlockType.values()[getMetaFromState(state)].ordinal();
-    }
+	public Item getItemDropped(IBlockState state, Random rand, int fortune)
+	{
+		return ItemStack.EMPTY.getItem();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer()
+	{
+		return Blocks.LEAVES.getBlockLayer();
+	}
 
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[] {DECAYABLE, CHECK_DECAY, VARIANT});
+		return new BlockStateContainer(this, DECAYABLE, CHECK_DECAY, VARIANT);
 	}
-	
+
 	@Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-             return Blocks.LEAVES.getBlockLayer();
-    }
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
-                        return Blocks.LEAVES.isOpaqueCube(state);
-    }
-    
-    @Override
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        return true;
-    }
-
-	public enum BlockType implements IUnlocSerializable
+	protected void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance)
 	{
-		VINE_OAK("vineOak", MapColor.WOOD, MapColor.OBSIDIAN),
-		FLOWERY_VINE_OAK("floweryVineOak", MapColor.WOOD, MapColor.OBSIDIAN),
-		FROST("frost", MapColor.ICE, MapColor.ICE),
-		RAINBOW("rainbow", MapColor.WOOD, MapColor.WOOD);
-		private final String name, regName;
-		private final MapColor topColor, sideColor;
-		BlockType(String name, MapColor topColor, MapColor sideColor)
+		if (state.getValue(VARIANT) == BlockType.RAINBOW && worldIn.rand.nextInt(chance) == 0)
 		{
-			this.name = name;
-			this.regName = IRegistryObject.unlocToReg(name);
-			this.topColor = topColor;
-			this.sideColor = sideColor;
-		}
-		@Override
-		public String getName()
-		{
-			return regName;
-		}
-		@Override
-		public String getUnlocalizedName()
-		{
-			return name;
+			int i = worldIn.rand.nextInt(16);
+			spawnAsEntity(worldIn, pos, new ItemStack(Items.DYE, 1, i));
 		}
 	}
 
@@ -171,5 +147,35 @@ public class MSBlockLeavesVariant extends MSBlockLeaves implements IRegistryBloc
 				ModelLoader.setCustomStateMapper(MSBlockLeavesVariant.this, (new StateMap.Builder()).withName(VARIANT).withSuffix("_leaves").build());
 			}
 		};
+	}
+
+	public enum BlockType implements IUnlocSerializable
+	{
+		VINE_OAK("vineOak", MapColor.WOOD, MapColor.OBSIDIAN),
+		FLOWERY_VINE_OAK("floweryVineOak", MapColor.WOOD, MapColor.OBSIDIAN),
+		FROST("frost", MapColor.ICE, MapColor.ICE),
+		RAINBOW("rainbow", MapColor.WOOD, MapColor.WOOD);
+		private final String name, regName;
+		private final MapColor topColor, sideColor;
+
+		BlockType(String name, MapColor topColor, MapColor sideColor)
+		{
+			this.name = name;
+			this.regName = IRegistryObject.unlocToReg(name);
+			this.topColor = topColor;
+			this.sideColor = sideColor;
+		}
+
+		@Override
+		public String getName()
+		{
+			return regName;
+		}
+
+		@Override
+		public String getUnlocalizedName()
+		{
+			return name;
+		}
 	}
 }

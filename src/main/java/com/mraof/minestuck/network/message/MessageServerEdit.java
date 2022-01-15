@@ -21,6 +21,11 @@ public class MessageServerEdit implements MinestuckMessage
 		this(new boolean[0]);
 	}
 
+	public MessageServerEdit(boolean[] givenItems)
+	{
+		this.givenItems = givenItems;
+	}
+
 	public MessageServerEdit(IdentifierHandler.PlayerIdentifier target, int posX, int posZ, NBTTagCompound deployTags, boolean[] givenItems)
 	{
 		this.target = target.toString();
@@ -28,27 +33,6 @@ public class MessageServerEdit implements MinestuckMessage
 		this.posZ = posZ;
 		this.deployTags = deployTags;
 		this.givenItems = givenItems;
-	}
-
-	public MessageServerEdit(boolean[] givenItems)
-	{
-		this.givenItems = givenItems;
-	}
-	
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeBoolean(target != null);
-		if (target != null)
-		{
-			ByteBufUtils.writeUTF8String(buf, target);
-			buf.writeInt(posX);
-			buf.writeInt(posZ);
-			ByteBufUtils.writeTag(buf, deployTags);
-		}
-		buf.writeInt(givenItems.length);
-		for (boolean givenItem : givenItems)
-			buf.writeBoolean(givenItem);
 	}
 
 	@Override
@@ -64,6 +48,22 @@ public class MessageServerEdit implements MinestuckMessage
 		givenItems = new boolean[buf.readInt()];
 		for (int i = 0; i < givenItems.length; i++)
 			givenItems[i] = buf.readBoolean();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeBoolean(target != null);
+		if (target != null)
+		{
+			ByteBufUtils.writeUTF8String(buf, target);
+			buf.writeInt(posX);
+			buf.writeInt(posZ);
+			ByteBufUtils.writeTag(buf, deployTags);
+		}
+		buf.writeInt(givenItems.length);
+		for (boolean givenItem : givenItems)
+			buf.writeBoolean(givenItem);
 	}
 
 	@Override

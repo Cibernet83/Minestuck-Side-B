@@ -13,54 +13,45 @@ import java.util.Random;
  * An aspect version of <code>EnumClass</code> that works pretty much the same way as the <code>EnumClass</code> except
  * that it doesn't have any special types.
  * The <code>toString()</code> method is overridden and returns a better cased version of the aspect name.
+ *
  * @author kirderf1
  */
 public enum EnumAspect implements IUnlocSerializable
 {
-	BLOOD,BREATH,DOOM,HEART,HOPE,LIFE,LIGHT,MIND,RAGE,SPACE,TIME,VOID;
-	
+	BLOOD, BREATH, DOOM, HEART, HOPE, LIFE, LIGHT, MIND, RAGE, SPACE, TIME, VOID;
+
 	/**
 	 * This method generates one of the 12 aspects that is not specified in the
 	 * <code>unavailableAspects</code> array. Beware that this method is not compatible with duplicates in the array.
+	 *
 	 * @param unavailableAspects An <code>EnumSet&#60;EnumAspect&#62;</code> that includes the aspects that it won't choose from.
-	 * Compatible with the value null.
+	 *                           Compatible with the value null.
 	 * @return null if <code>unavailableAspects</code> contains 12 or more aspects or
 	 * an <code>EnumAspect</code> of the chosen aspect.
 	 */
 	public static EnumAspect getRandomAspect(EnumSet<EnumAspect> unavailableAspects, Random rand)
 	{
-		if(unavailableAspects == null)
+		if (unavailableAspects == null)
 			unavailableAspects = EnumSet.noneOf(EnumAspect.class);
-		if(unavailableAspects.size() == 12)
-			return null;	//No aspect available to generate
+		if (unavailableAspects.size() == 12)
+			return null;    //No aspect available to generate
 		int aspectInt = rand.nextInt(12 - unavailableAspects.size());
 		EnumAspect[] list = values();
-		for(EnumAspect aspect : list)
-			if(!unavailableAspects.contains(aspect))
+		for (EnumAspect aspect : list)
+			if (!unavailableAspects.contains(aspect))
 			{
-				if(aspectInt == 0)
+				if (aspectInt == 0)
 					return aspect;
 				aspectInt--;
 			}
 		return null;
 	}
-	
-	/**
-	 * Takes the enum name for this title-aspect and returns a lowercase version.
-	 * Aside from regular use of the method, it is useful for producing
-	 * the unlocalized name of the title-aspect using <code>"title." + titleAspect.toString()</code>
-	 * @return the name of this title-aspect
-	 */
-	@Override
-	public String toString()
-	{
-		return this.name().toLowerCase();
-	}
-	
+
 	/**
 	 * Translates and returns the proper name of this title-aspect. Should only be used client-side.
 	 * For usage in messages sent to a player from a server, use <code>asTextComponent()</code>.
 	 * For debugging purposes, use <code>toString()</code> instead.
+	 *
 	 * @return a translated string of the name.
 	 */
 	@SideOnly(Side.CLIENT)
@@ -68,10 +59,24 @@ public enum EnumAspect implements IUnlocSerializable
 	{
 		return I18n.format("title." + this.toString());
 	}
-	
+
+	/**
+	 * Takes the enum name for this title-aspect and returns a lowercase version.
+	 * Aside from regular use of the method, it is useful for producing
+	 * the unlocalized name of the title-aspect using <code>"title." + titleAspect.toString()</code>
+	 *
+	 * @return the name of this title-aspect
+	 */
+	@Override
+	public String toString()
+	{
+		return this.name().toLowerCase();
+	}
+
 	/**
 	 * Creates a text component for this title-aspect that will be translated client-side.
 	 * Used for messages from the mod that for example will be sent trough chat.
+	 *
 	 * @return a text component that will translate into the name of the title-aspect
 	 */
 	public ITextComponent asTextComponent()

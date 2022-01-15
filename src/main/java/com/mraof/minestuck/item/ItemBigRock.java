@@ -20,19 +20,19 @@ public class ItemBigRock extends MSItemBase
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-		if(facing == EnumFacing.UP)
+		if (facing == EnumFacing.UP)
 		{
-			if(!worldIn.isRemote)
+			if (!worldIn.isRemote)
 			{
 				EntityRock rock = new EntityRock(worldIn);
 				pos = pos.offset(EnumFacing.UP);
 				rock.setPosition(pos.getX(), pos.getY(), pos.getZ());
 
-				if(!rock.isEntityInsideOpaqueBlock())
+				if (!rock.isEntityInsideOpaqueBlock())
 					worldIn.spawnEntity(rock);
 			}
 
-			if(!player.isCreative())
+			if (!player.isCreative())
 				player.getHeldItem(hand).shrink(1);
 
 			return EnumActionResult.SUCCESS;
@@ -45,12 +45,12 @@ public class ItemBigRock extends MSItemBase
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem)
 	{
-		if(!entityItem.isDead && !entityItem.world.isRemote)
+		if (!entityItem.isDead && !entityItem.world.isRemote)
 		{
 			EntityRock rock = new EntityRock(entityItem.world);
 			rock.setPosition(entityItem.posX, entityItem.posY, entityItem.posZ);
 
-			if(entityItem.getThrower() != null)
+			if (entityItem.getThrower() != null)
 			{
 				rock.motionX = entityItem.motionX;
 				rock.motionY = entityItem.motionY;

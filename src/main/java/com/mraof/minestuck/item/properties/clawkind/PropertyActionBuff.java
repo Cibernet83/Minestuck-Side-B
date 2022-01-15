@@ -22,38 +22,27 @@ public class PropertyActionBuff extends WeaponProperty implements IPropertyClaw
 	@Override
 	public double getAttackDamage(ItemStack stack, double parent)
 	{
-		if(stack.hasTagCompound())
-			return parent* Math.max(1,actionMultiplier*(double)stack.getTagCompound().getInteger("ActionTime")/(double)actionTime);
+		if (stack.hasTagCompound())
+			return parent * Math.max(1, actionMultiplier * (double) stack.getTagCompound().getInteger("ActionTime") / (double) actionTime);
 		return parent;
-	}
-
-	@Override
-	public void onEntityItemUpdate(EntityItem entityItem) {
-		ItemStack stack = entityItem.getItem();
-
-		if(stack.hasTagCompound() && stack.getTagCompound().hasKey("ActionTime"))
-			stack.getTagCompound().removeTag("ActionTime");
-
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		if(stack.hasTagCompound())
-			stack.getTagCompound().setInteger("ActionTime", Math.max(0, stack.getTagCompound().getInteger("ActionTime")-1));
+		if (stack.hasTagCompound())
+			stack.getTagCompound().setInteger("ActionTime", Math.max(0, stack.getTagCompound().getInteger("ActionTime") - 1));
 	}
 
 	@Override
-	public void onStateChange(EntityPlayer player, ItemStack stack, boolean draw)
+	public void onEntityItemUpdate(EntityItem entityItem)
 	{
-		if(draw)
-		{
-			if(!stack.hasTagCompound())
-				stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setInteger("ActionTime", actionTime);
-		}
-	}
+		ItemStack stack = entityItem.getItem();
 
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("ActionTime"))
+			stack.getTagCompound().removeTag("ActionTime");
+
+	}
 
 	@Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
@@ -61,9 +50,9 @@ public class PropertyActionBuff extends WeaponProperty implements IPropertyClaw
 		ItemStack stackA = oldStack.copy();
 		ItemStack stackB = newStack.copy();
 
-		if(!stackA.hasTagCompound())
+		if (!stackA.hasTagCompound())
 			stackA.setTagCompound(new NBTTagCompound());
-		if(!stackB.hasTagCompound())
+		if (!stackB.hasTagCompound())
 			stackB.setTagCompound(new NBTTagCompound());
 
 		stackA.getTagCompound().setInteger("ActionTime", 0);
@@ -78,14 +67,25 @@ public class PropertyActionBuff extends WeaponProperty implements IPropertyClaw
 		ItemStack stackA = oldStack.copy();
 		ItemStack stackB = newStack.copy();
 
-		if(!stackA.hasTagCompound())
+		if (!stackA.hasTagCompound())
 			stackA.setTagCompound(new NBTTagCompound());
-		if(!stackB.hasTagCompound())
+		if (!stackB.hasTagCompound())
 			stackB.setTagCompound(new NBTTagCompound());
 
 		stackA.getTagCompound().setInteger("ActionTime", 0);
 		stackB.getTagCompound().setInteger("ActionTime", 0);
 
 		return super.shouldCauseBlockBreakReset(stackA, stackB);
+	}
+
+	@Override
+	public void onStateChange(EntityPlayer player, ItemStack stack, boolean draw)
+	{
+		if (draw)
+		{
+			if (!stack.hasTagCompound())
+				stack.setTagCompound(new NBTTagCompound());
+			stack.getTagCompound().setInteger("ActionTime", actionTime);
+		}
 	}
 }

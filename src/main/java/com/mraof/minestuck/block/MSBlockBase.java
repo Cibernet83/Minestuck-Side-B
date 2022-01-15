@@ -23,6 +23,16 @@ public class MSBlockBase extends Block implements IRegistryBlock
 {
 	private final String regName;
 
+	public MSBlockBase(String name, MapColor mapColor)
+	{
+		this(name, Material.ROCK, mapColor);
+	}
+
+	public MSBlockBase(String name, Material material, MapColor mapColor)
+	{
+		this(name, MinestuckTabs.minestuck, material, mapColor);
+	}
+
 	public MSBlockBase(String name, CreativeTabs tab, Material material, MapColor mapColor)
 	{
 		super(material, mapColor);
@@ -32,9 +42,9 @@ public class MSBlockBase extends Block implements IRegistryBlock
 		MinestuckBlocks.blocks.add(this);
 	}
 
-	public MSBlockBase(String name, Material material, MapColor mapColor)
+	public MSBlockBase(String name)
 	{
-		this(name, MinestuckTabs.minestuck, material, mapColor);
+		this(name, Material.ROCK);
 	}
 
 	public MSBlockBase(String name, Material material)
@@ -42,30 +52,10 @@ public class MSBlockBase extends Block implements IRegistryBlock
 		this(name, material, material.getMaterialMapColor());
 	}
 
-	public MSBlockBase(String name, MapColor mapColor)
-	{
-		this(name, Material.ROCK, mapColor);
-	}
-
-	public MSBlockBase(String name)
-	{
-		this(name, Material.ROCK);
-	}
-
 	public Block setHarvestLevelChain(String toolClass, int harvestLevel)
 	{
 		setHarvestLevel(toolClass, harvestLevel);
 		return this;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
-	{
-		String key = getUnlocalizedName()+".tooltip";
-		if(!I18n.translateToLocal(key).equals(key))
-			tooltip.add(I18n.translateToLocal(key));
-		super.addInformation(stack, player, tooltip, advanced);
 	}
 
 	@Override
@@ -76,7 +66,18 @@ public class MSBlockBase extends Block implements IRegistryBlock
 	}
 
 	@Override
-	public Block setSoundType(SoundType sound) {
+	public Block setSoundType(SoundType sound)
+	{
 		return super.setSoundType(sound);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
+	{
+		String key = getUnlocalizedName() + ".tooltip";
+		if (!I18n.translateToLocal(key).equals(key))
+			tooltip.add(I18n.translateToLocal(key));
+		super.addInformation(stack, player, tooltip, advanced);
 	}
 }

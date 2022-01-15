@@ -23,7 +23,7 @@ public class BlockCactusSpecial extends BlockCactus implements IRegistryBlock
 {
 	private final String regName;
 	private String toolType;
-	
+
 	public BlockCactusSpecial(String name, SoundType soundType, String effectiveTool)
 	{
 		super();
@@ -38,34 +38,34 @@ public class BlockCactusSpecial extends BlockCactus implements IRegistryBlock
 	@Override
 	public boolean isToolEffective(String type, IBlockState state)
 	{
-		if(type.equals(toolType))
+		if (type.equals(toolType))
 			return true;
 		else
 			return super.isToolEffective(type, state);
 	}
-	
+
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
 	{
 		super.updateTick(worldIn, pos, state, rand);
 	}
-	
+
 	@Override
 	public boolean canBlockStay(World worldIn, BlockPos pos)
 	{
-		for(EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
+		for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
 		{
 			Material material = worldIn.getBlockState(pos.offset(enumfacing)).getMaterial();
-			
-			if(material.isSolid() || material == Material.LAVA)
+
+			if (material.isSolid() || material == Material.LAVA)
 			{
 				return false;
 			}
 		}
-		
+
 		IBlockState state = worldIn.getBlockState(pos.down());
 		return state.getBlock() == this || state.getBlock().canSustainPlant(state, worldIn, pos.down(), EnumFacing.UP, this)
-				&& !worldIn.getBlockState(pos.up()).getMaterial().isLiquid();
+												   && !worldIn.getBlockState(pos.up()).getMaterial().isLiquid();
 	}
 
 	@Override

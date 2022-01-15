@@ -8,11 +8,12 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class BlockWoolTransportalizer extends BlockTransportalizer
 {
 	public EnumDyeColor color;
+
 	public BlockWoolTransportalizer(EnumDyeColor color)
 	{
 		super();
 		this.setCreativeTab(MinestuckTabs.minestuck);
-		this.setUnlocalizedName("woolTransportalizer."+color.getUnlocalizedName());
+		this.setUnlocalizedName("woolTransportalizer." + color.getUnlocalizedName());
 		this.color = color;
 
 		MinestuckBlocks.sleevedTransportalizers.put(color, this);
@@ -21,7 +22,7 @@ public class BlockWoolTransportalizer extends BlockTransportalizer
 	@Override
 	public void register(IForgeRegistry<Block> registry)
 	{
-		setRegistryName(color.getName()+"_wool_transportalizer");
+		setRegistryName(color.getName() + "_wool_transportalizer");
 		registry.register(this);
 	}
 }

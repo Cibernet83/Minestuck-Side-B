@@ -1,11 +1,11 @@
 package com.mraof.minestuck.badges.heroAspect;
 
-import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.capabilities.api.IBadgeEffects;
+import com.mraof.minestuck.capabilities.caps.GodKeyStates;
 import com.mraof.minestuck.client.particles.MinestuckParticles;
 import com.mraof.minestuck.damage.CritDamageSource;
-import com.mraof.minestuck.util.EnumRole;
 import com.mraof.minestuck.util.EnumAspect;
+import com.mraof.minestuck.util.EnumRole;
 import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,7 +31,7 @@ public class BadgeActiveDoom extends BadgeHeroAspect
 		if (state != GodKeyStates.KeyState.PRESS)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 16)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 16)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -39,8 +39,8 @@ public class BadgeActiveDoom extends BadgeHeroAspect
 
 		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 
-		float playerPctg = player.getHealth()/player.getMaxHealth();
-		float targetPctg = target == null ? 1 : target.getHealth()/target.getMaxHealth();
+		float playerPctg = player.getHealth() / player.getMaxHealth();
+		float targetPctg = target == null ? 1 : target.getHealth() / target.getMaxHealth();
 
 		if (targetPctg > 0.4f)
 		{
@@ -55,7 +55,7 @@ public class BadgeActiveDoom extends BadgeHeroAspect
 				karmakill(player, player);
 		}
 
-		if(!player.isCreative())
+		if (!player.isCreative())
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 16);
 
 		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.DOOM, 20);
@@ -88,7 +88,7 @@ public class BadgeActiveDoom extends BadgeHeroAspect
 		{
 			String s = "death.attack." + this.damageType;
 			String s1 = s + ".external";
-			return entityLivingBaseIn != damageSourceEntity && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, new Object[] {entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName()}) : new TextComponentTranslation(s, new Object[] {entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName()});
+			return entityLivingBaseIn != damageSourceEntity && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName()) : new TextComponentTranslation(s, entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName());
 		}
 
 		/**

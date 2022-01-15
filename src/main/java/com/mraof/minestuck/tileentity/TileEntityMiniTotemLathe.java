@@ -18,6 +18,12 @@ public class TileEntityMiniTotemLathe extends TileEntityMiniSburbMachine
 	}
 
 	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack)
+	{
+		return (i == 0 || i == 1) && itemstack.getItem() == MinestuckItems.captchaCard || i == 2 && itemstack.getItem() == MinestuckItems.cruxiteDowel;
+	}
+
+	@Override
 	public int[] getSlotsForFace(EnumFacing side)
 	{
 		if (side == EnumFacing.UP)
@@ -30,9 +36,35 @@ public class TileEntityMiniTotemLathe extends TileEntityMiniSburbMachine
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
 	{
-		if(index == 0 || index == 1)
-			return !inv.get(3).isEmpty();	//Only remove input cards when an output has been produced
+		if (index == 0 || index == 1)
+			return !inv.get(3).isEmpty();    //Only remove input cards when an output has been produced
 		return true;
+	}
+
+	@Override
+	public boolean contentsValid()
+	{
+		if ((!inv.get(0).isEmpty() || !inv.get(1).isEmpty()) && !inv.get(2).isEmpty() && !(inv.get(2).hasTagCompound() && inv.get(2).getTagCompound().hasKey("contentID"))
+					&& (inv.get(3).isEmpty() || inv.get(3).getCount() < inv.get(3).getMaxStackSize() && inv.get(3).getItemDamage() == inv.get(2).getItemDamage()))
+		{
+			if (!inv.get(0).isEmpty() && !inv.get(1).isEmpty())
+			{
+				if (!inv.get(0).hasTagCompound() || !inv.get(0).getTagCompound().getBoolean("punched") || !inv.get(1).hasTagCompound() || !inv.get(1).getTagCompound().getBoolean("punched"))
+					return inv.get(3).isEmpty() || !(inv.get(3).hasTagCompound() && inv.get(3).getTagCompound().hasKey("contentID"));
+				else
+				{
+					ItemStack output = CombinationRegistry.getCombination(AlchemyUtils.getDecodedItem(inv.get(0)), AlchemyUtils.getDecodedItem(inv.get(1)), CombinationRegistry.Mode.MODE_AND);
+					return !output.isEmpty() && (inv.get(3).isEmpty() || AlchemyUtils.getDecodedItem(inv.get(3)).isItemEqual(output));
+				}
+			}
+			else
+			{
+				ItemStack input = inv.get(0).isEmpty() ? inv.get(1) : inv.get(0);
+				return (inv.get(3).isEmpty() || (AlchemyUtils.getDecodedItem(inv.get(3)).isItemEqual(AlchemyUtils.getDecodedItem(input))
+														 || !(input.hasTagCompound() && input.getTagCompound().getBoolean("punched")) && !(inv.get(3).hasTagCompound() && inv.get(3).getTagCompound().hasKey("contentID"))));
+			}
+		}
+		else return false;
 	}
 
 	@Override
@@ -60,43 +92,11 @@ public class TileEntityMiniTotemLathe extends TileEntityMiniSburbMachine
 		}
 
 		ItemStack outputDowel = output.getItem().equals(Item.getItemFromBlock(MinestuckBlocks.genericObject))
-								? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyUtils.createEncodedItem(output, new ItemStack(MinestuckItems.cruxiteDowel));
+										? new ItemStack(MinestuckItems.cruxiteDowel) : AlchemyUtils.createEncodedItem(output, new ItemStack(MinestuckItems.cruxiteDowel));
 		outputDowel.setItemDamage(inv.get(2).getItemDamage());
 
 		setInventorySlotContents(3, outputDowel);
 		decrStackSize(2, 1);
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack)
-	{
-		return (i == 0 || i == 1) && itemstack.getItem() == MinestuckItems.captchaCard || i == 2 && itemstack.getItem() == MinestuckItems.cruxiteDowel;
-	}
-
-	@Override
-	public boolean contentsValid()
-	{
-		if ((!inv.get(0).isEmpty() || !inv.get(1).isEmpty()) && !inv.get(2).isEmpty() && !(inv.get(2).hasTagCompound() && inv.get(2).getTagCompound().hasKey("contentID"))
-			&& (inv.get(3).isEmpty() || inv.get(3).getCount() < inv.get(3).getMaxStackSize() && inv.get(3).getItemDamage() == inv.get(2).getItemDamage()))
-		{
-			if (!inv.get(0).isEmpty() && !inv.get(1).isEmpty())
-			{
-				if (!inv.get(0).hasTagCompound() || !inv.get(0).getTagCompound().getBoolean("punched") || !inv.get(1).hasTagCompound() || !inv.get(1).getTagCompound().getBoolean("punched"))
-					return inv.get(3).isEmpty() || !(inv.get(3).hasTagCompound() && inv.get(3).getTagCompound().hasKey("contentID"));
-				else
-				{
-					ItemStack output = CombinationRegistry.getCombination(AlchemyUtils.getDecodedItem(inv.get(0)), AlchemyUtils.getDecodedItem(inv.get(1)), CombinationRegistry.Mode.MODE_AND);
-					return !output.isEmpty() && (inv.get(3).isEmpty() || AlchemyUtils.getDecodedItem(inv.get(3)).isItemEqual(output));
-				}
-			}
-			else
-			{
-				ItemStack input = inv.get(0).isEmpty() ? inv.get(1) : inv.get(0);
-				return (inv.get(3).isEmpty() || (AlchemyUtils.getDecodedItem(inv.get(3)).isItemEqual(AlchemyUtils.getDecodedItem(input))
-												 || !(input.hasTagCompound() && input.getTagCompound().getBoolean("punched")) && !(inv.get(3).hasTagCompound() && inv.get(3).getTagCompound().hasKey("contentID"))));
-			}
-		}
-		else return false;
 	}
 
 	@Override

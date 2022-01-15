@@ -21,11 +21,6 @@ public class StrifeSpecibus
 		this.kindAbstratus = abstratus;
 	}
 
-	public static StrifeSpecibus empty()
-	{
-		return new StrifeSpecibus((KindAbstratus) null);
-	}
-
 	public StrifeSpecibus(NBTTagCompound nbt)
 	{
 		readFromNBT(nbt);
@@ -33,44 +28,69 @@ public class StrifeSpecibus
 
 	public StrifeSpecibus readFromNBT(NBTTagCompound nbt)
 	{
-		if(nbt.hasKey("KindAbstratus"))
+		if (nbt.hasKey("KindAbstratus"))
 			kindAbstratus = KindAbstratus.REGISTRY.getValue(new ResourceLocation(nbt.getString("KindAbstratus")));
 
-		if(isAssigned())
+		if (isAssigned())
 		{
 			NBTTagList inv = nbt.getTagList("Contents", 10);
 
-			for(int i = 0; i < inv.tagCount(); i++)
+			for (int i = 0; i < inv.tagCount(); i++)
 			{
 				ItemStack stack = new ItemStack(inv.getCompoundTagAt(i));
-				if(!stack.isEmpty())
+				if (!stack.isEmpty())
 					items.add(stack);
 			}
 		}
 
-		if(nbt.hasKey("CustomName"))
+		if (nbt.hasKey("CustomName"))
 			setCustomName(nbt.getString("CustomName"));
 
 		return this;
 	}
 
+	public boolean isAssigned()
+	{
+		return kindAbstratus != null;
+	}
+
+	public static StrifeSpecibus empty()
+	{
+		return new StrifeSpecibus((KindAbstratus) null);
+	}
+
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
-		if(isAssigned())
+		if (isAssigned())
 		{
 			nbt.setString("KindAbstratus", kindAbstratus.getRegistryName().toString());
 
 			NBTTagList inv = new NBTTagList();
 
-			for(ItemStack stack : items)
+			for (ItemStack stack : items)
 				inv.appendTag(stack.writeToNBT(new NBTTagCompound()));
 
 			nbt.setTag("Contents", inv);
 		}
 
-		if(hasCustomName())
+		if (hasCustomName())
 			nbt.setString("CustomName", getCustomName());
 		return nbt;
+	}
+
+	public String getCustomName()
+	{
+		return customName;
+	}
+
+	public void setCustomName(String customName)
+	{
+		this.customName = customName.trim();
+	}
+
+	public boolean hasCustomName()
+	{
+		return customName != null && !customName.isEmpty();
 	}
 
 	public boolean putItemStack(ItemStack stack)
@@ -84,12 +104,12 @@ public class StrifeSpecibus
 			return false;
 
 		boolean prevAssigned = stack.hasTagCompound() && stack.getTagCompound().getBoolean("StrifeAssigned");
-		if(!stack.hasTagCompound())
+		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setBoolean("StrifeAssigned", true);
-		if(!prevAssigned)
+		if (!prevAssigned)
 		{
-			if(slot == -1)
+			if (slot == -1)
 				items.add(stack);
 			else items.add(slot, stack);
 		}
@@ -98,14 +118,14 @@ public class StrifeSpecibus
 
 	public boolean unassign(ItemStack stack)
 	{
-		if(!items.contains(stack))
+		if (!items.contains(stack))
 			return false;
 		return unassign(items.indexOf(stack));
 	}
 
 	public boolean unassign(int index)
 	{
-		if(index < 0 || index >= items.size())
+		if (index < 0 || index >= items.size())
 			return false;
 		items.remove(index);
 		return true;
@@ -113,75 +133,61 @@ public class StrifeSpecibus
 
 	public ItemStack retrieveStack(ItemStack stack)
 	{
-		if(!items.contains(stack))
+		if (!items.contains(stack))
 			return ItemStack.EMPTY;
 		return retrieveStack(items.indexOf(stack));
 	}
 
 	public ItemStack retrieveStack(int index)
 	{
-		if(index < 0 || index >= items.size())
+		if (index < 0 || index >= items.size())
 			return ItemStack.EMPTY;
 		return items.get(index).copy();
 	}
 
 	public void switchKindAbstratus(KindAbstratus abstratus, EntityPlayer player)
 	{
-		if(abstratus == kindAbstratus)
+		if (abstratus == kindAbstratus)
 			return;
 		kindAbstratus = abstratus;
 
-		for(ItemStack stack : new ArrayList<>(getContents()))
-			if(!abstratus.isStackCompatible(stack))
+		for (ItemStack stack : new ArrayList<>(getContents()))
+			if (!abstratus.isStackCompatible(stack))
 			{
-				getContents().remove(getContents().indexOf(stack));
-				if(player != null)
+				getContents().remove(stack);
+				if (player != null)
 					SylladexUtils.launchItem(player, stack);
 			}
 	}
 
-	public LinkedList<ItemStack> getContents() {
+	public LinkedList<ItemStack> getContents()
+	{
 		return items;
 	}
 
-	public KindAbstratus getKindAbstratus() {
+	public KindAbstratus getKindAbstratus()
+	{
 		return kindAbstratus;
 	}
 
-	public boolean isAssigned()
-	{
-		return kindAbstratus != null;
-	}
-
-	public String getCustomName() {
-		return customName;
-	}
-
-	public void setCustomName(String customName) {
-		this.customName = customName.trim();
-	}
-
-	public boolean hasCustomName()
-	{
-		return customName != null && !customName.isEmpty();
-	}
-
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return kindAbstratus + " " + items;
 	}
 
 	public String getDisplayName()
 	{
-		if(hasCustomName())
+		if (hasCustomName())
 			return customName;
 		return kindAbstratus == null ? "" : kindAbstratus.getLocalizedName();
 	}
+
 	public String getDisplayNameForCard()
 	{
 		String name = (hasCustomName() ? customName : kindAbstratus == null ? "" : kindAbstratus.getDisplayName()).toLowerCase();
 
-		if(name.length() > 12)
+		if (name.length() > 12)
 			name = name.substring(0, 9) + "...";
 
 		return name;

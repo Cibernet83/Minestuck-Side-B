@@ -28,17 +28,30 @@ import net.minecraftforge.registries.RegistryBuilder;
 public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements IRegistryObject<Modus>
 {
 	public static ForgeRegistry<Modus> REGISTRY;
-
+	private final String name, regName;
 	@SideOnly(Side.CLIENT)
 	private CardGuiContainer.CardTextureIndex cardTextureIndex;
-
-	private final String name, regName;
 
 	protected Modus(String name)
 	{
 		this.name = name;
 		this.regName = IRegistryObject.unlocToReg(name);
 		MinestuckModi.modi.add(this);
+	}
+
+	@SideOnly(Side.CLIENT)
+	private static String getIfKeyExists(String key, String defaultString)
+	{
+		return I18n.hasKey(key) ? I18n.format(key) : defaultString;
+	}
+
+	@SubscribeEvent
+	public static void onNewRegistry(RegistryEvent.NewRegistry event)
+	{
+		REGISTRY = (ForgeRegistry<Modus>) new RegistryBuilder<Modus>()
+												  .setName(new ResourceLocation(Minestuck.MODID, "modus"))
+												  .setType(Modus.class)
+												  .create();
 	}
 
 	/**
@@ -171,11 +184,10 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 				return I18n.format("modus." + name + ".alone.singular");
 		else if (prefix)
 			return getIfKeyExists("modus." + name + ".prefix", getName());
+		else if (plural)
+			return getIfKeyExists("modus." + name + ".suffix.plural", I18n.format("modus.pluralize", getName(false, false, false)));
 		else
-			if (plural)
-				return getIfKeyExists("modus." + name + ".suffix.plural", I18n.format("modus.pluralize", getName(false, false, false)));
-			else
-				return getIfKeyExists("modus." + name + ".suffix.singular", getName().toLowerCase());
+			return getIfKeyExists("modus." + name + ".suffix.singular", getName().toLowerCase());
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -191,18 +203,18 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	@SideOnly(Side.CLIENT)
-	private static String getIfKeyExists(String key, String defaultString)
-	{
-		return I18n.hasKey(key) ? I18n.format(key) : defaultString;
-	}
-
-	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex getCardTextureIndex(NBTTagCompound settings)
 	{
 		if (cardTextureIndex == null)
 			cardTextureIndex = getNewCardTextureIndex(settings);
 		return cardTextureIndex;
 	}
+
+	/**
+	 * Get the index of the card texture that should be used by this modus.
+	 */
+	@SideOnly(Side.CLIENT)
+	public abstract CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings);
 
 	@SideOnly(Side.CLIENT)
 	public int getDarkerColor()
@@ -211,29 +223,17 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	}
 
 	@SideOnly(Side.CLIENT)
+	public abstract int getPrimaryColor();
+
+	@SideOnly(Side.CLIENT)
 	public int getLighterColor()
 	{
 		return MinestuckUtils.add(getPrimaryColor(), 20);
 	}
 
-	@SubscribeEvent
-	public static void onNewRegistry(RegistryEvent.NewRegistry event)
-	{
-		REGISTRY = (ForgeRegistry<Modus>) new RegistryBuilder<Modus>()
-												  .setName(new ResourceLocation(Minestuck.MODID, "modus"))
-												  .setType(Modus.class)
-												  .create();
-	}
-
-	/**
-	 * Get the index of the card texture that should be used by this modus.
-	 */
-	@SideOnly(Side.CLIENT)
-	public abstract CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings);
 	@SideOnly(Side.CLIENT)
 	public abstract GuiModusSettings getSettingsGui(ItemStack modusStack);
-	@SideOnly(Side.CLIENT)
-	public abstract int getPrimaryColor();
+
 	@SideOnly(Side.CLIENT)
 	public abstract int getTextColor();
 }

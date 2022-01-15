@@ -5,7 +5,7 @@ import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.lands.decorator.ILandDecorator;
 import com.mraof.minestuck.world.lands.structure.blocks.StructureBlockRegistry;
 import com.mraof.minestuck.world.lands.terrain.TerrainLandAspect;
-import net.minecraft.block.*;
+import net.minecraft.block.BlockColored;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.Vec3d;
@@ -52,7 +52,7 @@ public class LandAspectBedrock extends TerrainLandAspect
 	@Override
 	public Vec3d getFogColor()
 	{
-		return new Vec3d(0,0,0);
+		return new Vec3d(0, 0, 0);
 	}
 
 	@Override
@@ -70,6 +70,6 @@ public class LandAspectBedrock extends TerrainLandAspect
 	@Override
 	public String[] getNames()
 	{
-		return new String[] {"null"};
+		return new String[]{"null"};
 	}
 }

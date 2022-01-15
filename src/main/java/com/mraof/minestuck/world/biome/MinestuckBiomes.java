@@ -9,13 +9,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class MinestuckBiomes extends Biome
 {
-	
+
 	public static Biome mediumOcean, mediumNormal, mediumRough;
+
 	public MinestuckBiomes(BiomeProperties properties)
 	{
 		super(properties);
 	}
-	
+
 	@SubscribeEvent
 	public static void registerBiomes(RegistryEvent.Register<Biome> event)
 	{

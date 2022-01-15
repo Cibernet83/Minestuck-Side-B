@@ -9,7 +9,7 @@ public class PropertySlippery extends WeaponProperty
 	@Override
 	public void onEntityHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker)
 	{
-		if(attacker.world.isRemote)
+		if (attacker.world.isRemote)
 		{
 			EntityItem sord = new EntityItem(attacker.world, attacker.posX, attacker.posY, attacker.posZ, itemStack.copy());
 			sord.getItem().setCount(1);

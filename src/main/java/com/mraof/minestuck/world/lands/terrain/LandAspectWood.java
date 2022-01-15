@@ -16,10 +16,10 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LandAspectWood extends TerrainLandAspect 
+public class LandAspectWood extends TerrainLandAspect
 {
 	static Vec3d fogColor = new Vec3d(0.0D, 0.16D, 0.38D);
-	
+
 	@Override
 	public void registerBlocks(StructureBlockRegistry registry)
 	{
@@ -40,18 +40,7 @@ public class LandAspectWood extends TerrainLandAspect
 		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PURPLE));
 		registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.GREEN));
 	}
-	
-	@Override
-	public String getPrimaryName()
-	{
-		return "wood";
-	}
 
-	@Override
-	public String[] getNames() {
-		return new String[] {"wood","oak","lumber"};
-	}
-	
 	@Override
 	public List<ILandDecorator> getDecorators()
 	{
@@ -59,12 +48,12 @@ public class LandAspectWood extends TerrainLandAspect
 		list.add(new SurfaceDecoratorVein(Blocks.LEAVES.getDefaultState(), 15, 32, MinestuckBiomes.mediumRough));
 		list.add(new SurfaceDecoratorVein(MinestuckBlocks.log.getDefaultState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE), 8, 32, MinestuckBiomes.mediumNormal));
 		list.add(new SurfaceDecoratorVein(Blocks.NETHERRACK.getDefaultState(), 6, 8, MinestuckBiomes.mediumNormal));
-		
+
 		list.add(new SurfaceMushroomGenerator(Blocks.BROWN_MUSHROOM, true, 10, 64, MinestuckBiomes.mediumNormal));
 		list.add(new SurfaceMushroomGenerator(Blocks.BROWN_MUSHROOM, true, 5, 32, MinestuckBiomes.mediumRough));
 		list.add(new SurfaceMushroomGenerator(Blocks.RED_MUSHROOM, true, 10, 64, MinestuckBiomes.mediumNormal));
 		list.add(new SurfaceMushroomGenerator(Blocks.RED_MUSHROOM, true, 5, 32, MinestuckBiomes.mediumRough));
-		
+
 		list.add(new UndergroundDecoratorVein(Blocks.GRAVEL.getDefaultState(), 8, 33, 256));
 		list.add(new UndergroundDecoratorVein(Blocks.DIRT.getDefaultState(), 18, 17, 128));
 		list.add(new UndergroundDecoratorVein(Blocks.REDSTONE_ORE.getDefaultState(), 8, 7, 32));
@@ -72,40 +61,52 @@ public class LandAspectWood extends TerrainLandAspect
 		list.add(new UndergroundDecoratorVein(Blocks.EMERALD_ORE.getDefaultState(), 8, 3, 24));
 		return list;
 	}
-	
+
 	@Override
 	public float getSkylightBase()
 	{
-		return 1/2F;
+		return 1 / 2F;
 	}
-	
+
 	@Override
-	public Vec3d getFogColor() 
+	public Vec3d getFogColor()
 	{
 		return fogColor;
 	}
-	
+
 	@Override
 	public Vec3d getSkyColor()
 	{
 		return new Vec3d(0.0D, 0.3D, 0.4D);
 	}
-	
-	@Override
-	public float getTemperature()
-	{
-		return 1.0F;
-	}
-	
+
 	@Override
 	public float getRainfall()
 	{
 		return 0.6F;
 	}
-	
+
+	@Override
+	public float getTemperature()
+	{
+		return 1.0F;
+	}
+
 	@Override
 	public EnumConsort getConsortType()
 	{
 		return EnumConsort.SALAMANDER;
+	}
+
+	@Override
+	public String getPrimaryName()
+	{
+		return "wood";
+	}
+
+	@Override
+	public String[] getNames()
+	{
+		return new String[]{"wood", "oak", "lumber"};
 	}
 }

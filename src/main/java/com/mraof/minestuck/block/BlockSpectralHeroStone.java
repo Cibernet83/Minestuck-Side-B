@@ -38,60 +38,60 @@ public class BlockSpectralHeroStone extends MSBlockBase implements IGodTierBlock
 		setCreativeTab(MinestuckTabs.godTier);
 	}
 
-	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	protected static MapColor getAspectMapColor(EnumAspect aspect)
 	{
-		super.addInformation(stack, worldIn, tooltip, flagIn);
+		if (aspect == null)
+			return MapColor.SILVER;
+		switch (aspect)
+		{
+			case DOOM:
+				return MapColor.GREEN_STAINED_HARDENED_CLAY;
+			case HOPE:
+				return MapColor.SAND;
+			case LIFE:
+				return MapColor.SILVER_STAINED_HARDENED_CLAY;
+			case MIND:
+				return MapColor.GRASS;
+			case RAGE:
+				return MapColor.PURPLE;
+			case TIME:
+				return MapColor.RED;
+			case VOID:
+				return MapColor.BLUE_STAINED_HARDENED_CLAY;
+			case BLOOD:
+				return MapColor.NETHERRACK;
+			case HEART:
+				return MapColor.MAGENTA_STAINED_HARDENED_CLAY;
+			case LIGHT:
+				return MapColor.ADOBE;
+			case SPACE:
+				return MapColor.BLACK;
+			case BREATH:
+				return MapColor.LAPIS;
+			default:
+				return MapColor.SILVER;
+		}
+	}
 
-		String heroAspect = TextFormatting.OBFUSCATED + "Thing" + TextFormatting.RESET;
-
-		if(getAspect() != null)
-			heroAspect = getAspect().getDisplayName();
-
-
-		tooltip.add(heroAspect);
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState)
 	{
-		if(entityIn instanceof EntityPlayer && entityIn.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isGodTier()
-				&& (aspect == null || aspect == MinestuckPlayerData.getData((EntityPlayer) entityIn).title.getHeroAspect()))
+		if (entityIn instanceof EntityPlayer && entityIn.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isGodTier()
+					&& (aspect == null || aspect == MinestuckPlayerData.getData((EntityPlayer) entityIn).title.getHeroAspect()))
 			return;
 		super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, isActualState);
 	}
 
-	protected static MapColor getAspectMapColor(EnumAspect aspect)
-	{
-		if(aspect == null)
-			return MapColor.SILVER;
-		switch(aspect)
-		{
-			case DOOM: return MapColor.GREEN_STAINED_HARDENED_CLAY;
-			case HOPE: return MapColor.SAND;
-			case LIFE: return MapColor.SILVER_STAINED_HARDENED_CLAY;
-			case MIND: return MapColor.GRASS;
-			case RAGE: return MapColor.PURPLE;
-			case TIME: return MapColor.RED;
-			case VOID: return MapColor.BLUE_STAINED_HARDENED_CLAY;
-			case BLOOD: return MapColor.NETHERRACK;
-			case HEART: return MapColor.MAGENTA_STAINED_HARDENED_CLAY;
-			case LIGHT: return MapColor.ADOBE;
-			case SPACE: return MapColor.BLACK;
-			case BREATH: return MapColor.LAPIS;
-			default: return MapColor.SILVER;
-		}
-	}
-
 	@Override
-	public EnumAspect getAspect()
+	public boolean isOpaqueCube(IBlockState state)
 	{
-		return aspect;
-	}
-
-	@Override
-	public boolean canGodTier() {
 		return false;
 	}
 
@@ -102,19 +102,35 @@ public class BlockSpectralHeroStone extends MSBlockBase implements IGodTierBlock
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
 	public void register(IForgeRegistry<Block> registry)
 	{
 		setRegistryName("hero_stone_spectral" + (aspect == null ? "" : "_" + aspect.toString()));
 		registry.register(this);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	{
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+
+		String heroAspect = TextFormatting.OBFUSCATED + "Thing" + TextFormatting.RESET;
+
+		if (getAspect() != null)
+			heroAspect = getAspect().getDisplayName();
+
+
+		tooltip.add(heroAspect);
+	}
+
+	@Override
+	public EnumAspect getAspect()
+	{
+		return aspect;
+	}
+
+	@Override
+	public boolean canGodTier()
+	{
+		return false;
 	}
 }

@@ -9,8 +9,8 @@ import com.mraof.minestuck.client.gui.GuiGodTierMeditation;
 import com.mraof.minestuck.client.gui.IGristSelectable;
 import com.mraof.minestuck.client.gui.MinestuckGuiHandler;
 import com.mraof.minestuck.network.MinestuckNetwork;
-import com.mraof.minestuck.network.message.MessageOpenGui;
 import com.mraof.minestuck.network.message.MessageGristHoardRequest;
+import com.mraof.minestuck.network.message.MessageOpenGui;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.MinestuckPlayerData;
@@ -31,10 +31,33 @@ public class BadgeGristHoard extends BadgeLevel implements IGristSelectable
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
+	public String getDisplayTooltip()
+	{
+		String str = new TextComponentTranslation(getUnlocalizedName() + ".tooltip.any").getFormattedText();
+
+		try
+		{
+			return new TextComponentTranslation(getUnlocalizedName() + ".tooltip", hasBadge() ? new TextComponentTranslation("grist.format", getGristHoard().getDisplayName()).getFormattedText() : str).getFormattedText();
+		}
+		catch (NoClassDefFoundError error)
+		{
+			return new TextComponentTranslation(getUnlocalizedName() + ".tooltip", str).getUnformattedText();
+		}
+
+	}
+
+	@Override
+	public String getUnlockRequirements()
+	{
+		return new TextComponentTranslation(getUnlocalizedName() + ".unlock", REQ).getUnformattedText();
+	}
+
+	@Override
 	public boolean canUnlock(World world, EntityPlayer player)
 	{
-		for(Grist type : Grist.REGISTRY.getValuesCollection())
-			if(!GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), new GristSet(type, REQ)))
+		for (Grist type : Grist.REGISTRY.getValuesCollection())
+			if (!GristHelper.canAfford(MinestuckPlayerData.getGristSet(player), new GristSet(type, REQ)))
 				return false;
 
 		MinestuckNetwork.sendTo(new MessageOpenGui(MinestuckGuiHandler.GuiId.HOARD_SELECTOR), player);
@@ -44,27 +67,6 @@ public class BadgeGristHoard extends BadgeLevel implements IGristSelectable
 	@Override
 	public void onBadgeUnlocked(World world, EntityPlayer player)
 	{
-	}
-
-	@Override
-	public String getUnlockRequirements() {
-		return new TextComponentTranslation(getUnlocalizedName()+".unlock", REQ).getUnformattedText();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getDisplayTooltip()
-	{
-		String str = new TextComponentTranslation(getUnlocalizedName()+".tooltip.any").getFormattedText();
-
-		try
-		{
-			return new TextComponentTranslation(getUnlocalizedName()+".tooltip", hasBadge() ? new TextComponentTranslation("grist.format", getGristHoard().getDisplayName()).getFormattedText() : str).getFormattedText();
-		} catch (NoClassDefFoundError error)
-		{
-			return new TextComponentTranslation(getUnlocalizedName()+".tooltip", str).getUnformattedText();
-		}
-
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -86,8 +88,8 @@ public class BadgeGristHoard extends BadgeLevel implements IGristSelectable
 		Minecraft mc = Minecraft.getMinecraft();
 
 		IdentifierHandler.PlayerIdentifier pid = IdentifierHandler.encode(mc.player);
-		for(Grist type : Grist.REGISTRY.getValuesCollection())
-			if(type.getRegistryName().getResourceDomain().equals(Minestuck.MODID))
+		for (Grist type : Grist.REGISTRY.getValuesCollection())
+			if (type.getRegistryName().getResourceDomain().equals(Minestuck.MODID))
 				GristHelper.decrease(pid, new GristSet(type, REQ));
 		MinestuckPlayerTracker.updateGristCache(pid);
 

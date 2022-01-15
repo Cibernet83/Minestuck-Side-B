@@ -46,21 +46,21 @@ public class ContainerMiniPunchDesignix extends ContainerMiniSburbMachine
 			if (slotNumber <= 2)
 			{
 				//if it's a machine slot
-				result = mergeItemStack(itemstackOrig,3,allSlots,false);
+				result = mergeItemStack(itemstackOrig, 3, allSlots, false);
 			}
 			else if (slotNumber > 2)
 			{
 				//if it's an inventory slot with valid contents
 				if (itemstackOrig.getItem() == MinestuckItems.captchaCard && (itemstackOrig.getTagCompound() == null
-						|| !itemstackOrig.getTagCompound().hasKey("contentID") || itemstackOrig.getTagCompound().getBoolean("punched")))
-					result = mergeItemStack(itemstackOrig,1,2,false);
-				else result = mergeItemStack(itemstackOrig,0,1,false);
+																					  || !itemstackOrig.getTagCompound().hasKey("contentID") || itemstackOrig.getTagCompound().getBoolean("punched")))
+					result = mergeItemStack(itemstackOrig, 1, 2, false);
+				else result = mergeItemStack(itemstackOrig, 0, 1, false);
 			}
 
 			if (!result)
 				return ItemStack.EMPTY;
 
-			if(!itemstackOrig.isEmpty())
+			if (!itemstackOrig.isEmpty())
 				slot.onSlotChanged();
 		}
 

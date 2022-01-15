@@ -28,10 +28,28 @@ public class SylladexData implements ISylladexData
 	private MultiSylladex sylladex;
 	private boolean givenModus;
 
-	@Override
-	public void setOwner(EntityPlayer owner)
+	@SubscribeEvent
+	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
 	{
-		this.owner = owner;
+		EntityPlayer player = event.player;
+		ISylladexData cap = player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null);
+
+		if (cap.getSylladex() == null && MinestuckConfig.defaultModusTypes.length > 0 && !cap.wasGivenModus())
+		{
+			int index = player.world.rand.nextInt(MinestuckConfig.defaultModusTypes.length);
+			Modus modus = Modus.REGISTRY.getValue(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]));
+			if (modus != null)
+			{
+				MultiSylladex newSylladex = ISylladex.newSylladex(player, new ModusLayer(-1, new ModusSettings(modus, new NBTTagCompound())));
+				newSylladex.addCards(MinestuckConfig.initialModusSize);
+				cap.setSylladex(newSylladex);
+				MinestuckNetwork.sendTo(new MessageSylladexData(player), player);
+			}
+			else
+				Debug.warnf("Couldn't create a modus by the name %s.", MinestuckConfig.defaultModusTypes[index]);
+		}
+		else if (SylladexUtils.getSylladex(player) != null)
+			MinestuckNetwork.sendTo(new MessageSylladexData(player), player);
 	}
 
 	@Override
@@ -43,7 +61,7 @@ public class SylladexData implements ISylladexData
 	public void setSylladex(MultiSylladex sylladex)
 	{
 		this.sylladex = sylladex;
-		if(sylladex != null)
+		if (sylladex != null)
 			givenModus = true;
 	}
 
@@ -73,27 +91,9 @@ public class SylladexData implements ISylladexData
 		givenModus = nbt.getBoolean("GivenModus");
 	}
 
-	@SubscribeEvent
-	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
+	@Override
+	public void setOwner(EntityPlayer owner)
 	{
-		EntityPlayer player = event.player;
-		ISylladexData cap = player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null);
-
-		if(cap.getSylladex() == null && MinestuckConfig.defaultModusTypes.length > 0 && !cap.wasGivenModus())
-		{
-			int index = player.world.rand.nextInt(MinestuckConfig.defaultModusTypes.length);
-			Modus modus = Modus.REGISTRY.getValue(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]));
-			if(modus != null)
-			{
-				MultiSylladex newSylladex = ISylladex.newSylladex(player, new ModusLayer(-1, new ModusSettings(modus, new NBTTagCompound())));
-				newSylladex.addCards(MinestuckConfig.initialModusSize);
-				cap.setSylladex(newSylladex);
-				MinestuckNetwork.sendTo(new MessageSylladexData(player), player);
-			}
-			else
-				Debug.warnf("Couldn't create a modus by the name %s.", MinestuckConfig.defaultModusTypes[index]);
-		}
-		else if(SylladexUtils.getSylladex(player) != null)
-			MinestuckNetwork.sendTo(new MessageSylladexData(player), player);
+		this.owner = owner;
 	}
 }

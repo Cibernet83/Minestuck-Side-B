@@ -22,34 +22,34 @@ public class PropertyVariableItem extends WeaponProperty implements IPropertyThr
 		this.variations = variations;
 	}
 
+	@SubscribeEvent
+	public static void onItemPickup(EntityItemPickupEvent event)
+	{
+		ItemStack stack = event.getItem().getItem();
+		if (stack.hasTagCompound() && stack.getItem() instanceof IPropertyWeapon &&
+					((IPropertyWeapon) stack.getItem()).hasProperty(PropertyVariableItem.class, stack))
+		{
+			stack.getTagCompound().removeTag("Variant");
+			if (stack.getTagCompound().hasNoTags())
+				stack.setTagCompound(null);
+		}
+	}
+
 	@Override
 	public boolean onProjectileThrow(EntityMSUThrowable projectile, EntityLivingBase thrower, ItemStack stack)
 	{
 		ItemStack thrownStack = projectile.getStack();
 
-		if(!thrownStack.hasTagCompound())
+		if (!thrownStack.hasTagCompound())
 			thrownStack.setTagCompound(new NBTTagCompound());
 		thrownStack.getTagCompound().setInteger("Variant", stack.getCount() % variations);
 
 		return true;
 	}
 
-	@SubscribeEvent
-	public static void onItemPickup(EntityItemPickupEvent event)
-	{
-		ItemStack stack = event.getItem().getItem();
-		if(stack.hasTagCompound() && stack.getItem() instanceof IPropertyWeapon &&
-				((IPropertyWeapon) stack.getItem()).hasProperty(PropertyVariableItem.class, stack))
-		{
-			stack.getTagCompound().removeTag("Variant");
-			if(stack.getTagCompound().hasNoTags())
-				stack.setTagCompound(null);
-		}
-	}
-
 	public IItemPropertyGetter getPropertyOverride()
 	{
 		return ((stack, worldIn, entityIn) -> stack.hasTagCompound() && stack.getTagCompound().hasKey("Variant") ?
-				stack.getTagCompound().getInteger("Variant") : stack.getCount() % variations);
+													  stack.getTagCompound().getInteger("Variant") : stack.getCount() % variations);
 	}
 }

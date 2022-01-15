@@ -37,9 +37,41 @@ public class ItemManipulatedMatter extends MSItemBase
 		setMaxStackSize(1);
 	}
 
-	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+	public static void storeStructure(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos1, BlockPos pos2)
+	{
+		if (!itemStack.hasTagCompound())
+			itemStack.setTagCompound(new NBTTagCompound());
+		NBTTagCompound nbt = itemStack.getTagCompound();
 
+		nbt.setInteger("width", Math.abs(pos1.getX() - pos2.getX()));
+		nbt.setInteger("height", Math.abs(pos1.getY() - pos2.getY()));
+		nbt.setInteger("depth", Math.abs(pos1.getZ() - pos2.getZ()));
+
+		NBTTagList blockList = new NBTTagList();
+		for (int x = Math.min(pos1.getX(), pos2.getX()); x <= Math.max(pos1.getX(), pos2.getX()); x++)
+			for (int y = Math.min(pos1.getY(), pos2.getY()); y <= Math.max(pos1.getY(), pos2.getY()); y++)
+				for (int z = Math.min(pos1.getZ(), pos2.getZ()); z <= Math.max(pos1.getZ(), pos2.getZ()); z++)
+				{
+					BlockPos pos = new BlockPos(x, y, z);
+					IBlockState block = world.getBlockState(pos);
+					NBTTagCompound bnbt = new NBTTagCompound();
+					if (block.getBlock() != Blocks.AIR && (block.getBlockHardness(world, pos) >= 0 || block.getBlock() instanceof IGodTierBlock))
+					{
+						NBTUtil.writeBlockState(bnbt, block);
+
+						TileEntity te = world.getTileEntity(pos);
+						if (te != null)
+						{
+							bnbt.setTag("mmTileEntity", te.writeToNBT(new NBTTagCompound()));
+							te.invalidate();
+						}
+						world.setBlockToAir(pos);
+
+						MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, pos, 0x4bec13, 2), player);
+					}
+					blockList.appendTag(bnbt);
+				}
+		nbt.setTag("blockList", blockList);
 	}
 
 	@Override
@@ -48,6 +80,12 @@ public class ItemManipulatedMatter extends MSItemBase
 	{
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 		tooltip.add(I18n.format("item.manipulatedMatter.tooltip"));
+	}
+
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+
 	}
 
 	@Override
@@ -69,7 +107,7 @@ public class ItemManipulatedMatter extends MSItemBase
 	{
 		int w = 0, d = 0;
 
-		if(stack.hasTagCompound())
+		if (stack.hasTagCompound())
 		{
 			w = stack.getTagCompound().getInteger("width");
 			d = stack.getTagCompound().getInteger("depth");
@@ -82,9 +120,12 @@ public class ItemManipulatedMatter extends MSItemBase
 	{
 		switch (player.getHorizontalFacing())
 		{
-			case NORTH: return pos.offset(EnumFacing.NORTH, width+1);
-			case WEST: return pos.offset(EnumFacing.WEST, depth-1);
-			default: return pos;
+			case NORTH:
+				return pos.offset(EnumFacing.NORTH, width + 1);
+			case WEST:
+				return pos.offset(EnumFacing.WEST, depth - 1);
+			default:
+				return pos;
 		}
 	}
 
@@ -99,87 +140,50 @@ public class ItemManipulatedMatter extends MSItemBase
 		BlockPos pos2 = pos1.add(nbt.getInteger("width"), nbt.getInteger("height"), nbt.getInteger("depth"));
 
 		AxisAlignedBB boundingBox = new AxisAlignedBB(pos1, pos2.add(1, 1, 1));
-		if(!world.checkNoEntityCollision(boundingBox))
+		if (!world.checkNoEntityCollision(boundingBox))
 			return;
 
 		NBTTagList blockList = nbt.getTagList("blockList", 10);
 		int i = 0, j = 0;
 		for (int x = pos1.getX(); x <= pos2.getX(); x++)
-		for (int y = pos1.getY(); y <= pos2.getY(); y++)
-		for (int z = pos1.getZ(); z <= pos2.getZ(); z++)
-		{
-			BlockPos pos = new BlockPos(x, y, z);
-			NBTTagCompound bnbt = (NBTTagCompound) blockList.get(i++);
-			IBlockState block = NBTUtil.readBlockState(bnbt);
-			IBlockState oldBlock = world.getBlockState(pos);
-
-			if(block.getBlock() != Blocks.AIR)
-			{
-				if (oldBlock.getBlockHardness(world, pos) >= 0 && (block.getBlockHardness(world, pos) < 0 || oldBlock.getBlockHardness(world, pos) <= block.getBlockHardness(world, pos)))
+			for (int y = pos1.getY(); y <= pos2.getY(); y++)
+				for (int z = pos1.getZ(); z <= pos2.getZ(); z++)
 				{
-					world.playEvent(2001, pos, Block.getStateId(oldBlock));
-					oldBlock.getBlock().dropBlockAsItem(world, pos, oldBlock, 0);
-					world.setBlockState(pos, block);
+					BlockPos pos = new BlockPos(x, y, z);
+					NBTTagCompound bnbt = (NBTTagCompound) blockList.get(i++);
+					IBlockState block = NBTUtil.readBlockState(bnbt);
+					IBlockState oldBlock = world.getBlockState(pos);
 
-					TileEntity te = world.getTileEntity(pos);
-					if (te != null && bnbt.hasKey("mmTileEntity"))
+					if (block.getBlock() != Blocks.AIR)
 					{
-						NBTTagCompound tenbt = bnbt.getCompoundTag("mmTileEntity");
-						tenbt.setInteger("x", x);
-						tenbt.setInteger("y", y);
-						tenbt.setInteger("z", z);
-						te.readFromNBT(tenbt);
-					}
-					j++;
-				}
-				else
-				{
-					world.playEvent(2001, pos, Block.getStateId(block));
-					block.getBlock().dropBlockAsItem(world, pos, block, 0);
-				}
-			}
-		}
+						if (oldBlock.getBlockHardness(world, pos) >= 0 && (block.getBlockHardness(world, pos) < 0 || oldBlock.getBlockHardness(world, pos) <= block.getBlockHardness(world, pos)))
+						{
+							world.playEvent(2001, pos, Block.getStateId(oldBlock));
+							oldBlock.getBlock().dropBlockAsItem(world, pos, oldBlock, 0);
+							world.setBlockState(pos, block);
 
-		if(j > 0)
+							TileEntity te = world.getTileEntity(pos);
+							if (te != null && bnbt.hasKey("mmTileEntity"))
+							{
+								NBTTagCompound tenbt = bnbt.getCompoundTag("mmTileEntity");
+								tenbt.setInteger("x", x);
+								tenbt.setInteger("y", y);
+								tenbt.setInteger("z", z);
+								te.readFromNBT(tenbt);
+							}
+							j++;
+						}
+						else
+						{
+							world.playEvent(2001, pos, Block.getStateId(block));
+							block.getBlock().dropBlockAsItem(world, pos, block, 0);
+						}
+					}
+				}
+
+		if (j > 0)
 			world.playSound(null, pos1, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1, 1);
 
 		itemStack.shrink(1);
-	}
-
-	public static void storeStructure(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos1, BlockPos pos2)
-	{
-		if (!itemStack.hasTagCompound())
-			itemStack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbt = itemStack.getTagCompound();
-
-		nbt.setInteger("width" , Math.abs(pos1.getX() - pos2.getX()));
-		nbt.setInteger("height", Math.abs(pos1.getY() - pos2.getY()));
-		nbt.setInteger("depth" , Math.abs(pos1.getZ() - pos2.getZ()));
-
-		NBTTagList blockList = new NBTTagList();
-		for (int x = Math.min(pos1.getX(), pos2.getX()); x <= Math.max(pos1.getX(), pos2.getX()); x++)
-		for (int y = Math.min(pos1.getY(), pos2.getY()); y <= Math.max(pos1.getY(), pos2.getY()); y++)
-		for (int z = Math.min(pos1.getZ(), pos2.getZ()); z <= Math.max(pos1.getZ(), pos2.getZ()); z++)
-		{
-			BlockPos pos = new BlockPos(x, y, z);
-			IBlockState block = world.getBlockState(pos);
-			NBTTagCompound bnbt = new NBTTagCompound();
-			if (block.getBlock() != Blocks.AIR && (block.getBlockHardness(world, pos) >= 0 || block.getBlock() instanceof IGodTierBlock))
-			{
-				NBTUtil.writeBlockState(bnbt, block);
-
-				TileEntity te = world.getTileEntity(pos);
-				if (te != null)
-				{
-					bnbt.setTag("mmTileEntity", te.writeToNBT(new NBTTagCompound()));
-					te.invalidate();
-				}
-				world.setBlockToAir(pos);
-
-				MinestuckNetwork.sendToTrackingAndSelf(new MessageSendParticle(MinestuckParticles.ParticleType.AURA, pos, 0x4bec13, 2), player);
-			}
-			blockList.appendTag(bnbt);
-		}
-		nbt.setTag("blockList", blockList);
 	}
 }

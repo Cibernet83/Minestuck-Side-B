@@ -18,7 +18,7 @@ public class MinestuckSounds
 	public static SoundEvent chasityLock = new SoundEvent(new ResourceLocation(Minestuck.MODID, "chasity_lock"));
 	public static SoundEvent chasityRattle = new SoundEvent(new ResourceLocation(Minestuck.MODID, "chasity_rattle"));
 	public static SoundEvent chasityUnlock = new SoundEvent(new ResourceLocation(Minestuck.MODID, "chasity_unlock"));
-	
+
 	@SubscribeEvent
 	public static void registerSound(RegistryEvent.Register<SoundEvent> event)
 	{
@@ -32,5 +32,5 @@ public class MinestuckSounds
 		registry.register(chasityRattle.setRegistryName("chasity_rattle"));
 		registry.register(chasityUnlock.setRegistryName("chasity_unlock"));
 	}
-	
+
 }

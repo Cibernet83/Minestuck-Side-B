@@ -9,6 +9,7 @@ import com.mraof.minestuck.strife.KindAbstratus;
 import com.mraof.minestuck.util.MinestuckUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,46 +25,28 @@ import java.util.ArrayList;
 
 public class GuiStrifeCard extends GuiScreen
 {
+	private static final ResourceLocation guiStrifeSelector = new ResourceLocation(Minestuck.MODID, "textures/gui/strife_specibus/strife_selector.png");
+	private static final int columnWidth = 50, columns = 2;
+	private static final FontRenderer font = MinestuckFontRenderer.lucidaConsoleSmall;
 	private static int guiWidth = 147, guiHeight = 185;
 	private static int xOffset, yOffset;
-	private static final ResourceLocation guiStrifeSelector = new ResourceLocation(Minestuck.MODID, "textures/gui/strife_specibus/strife_selector.png");
-	private float scale = 1;
-	private static final int columnWidth = 50,columns = 2;
 	private static EntityPlayer player;
-	private static final FontRenderer font = MinestuckFontRenderer.lucidaConsoleSmall;
-
-	private final ArrayList<KindAbstratus> abstrataList;
 	private static int size = 26;
-
+	private final ArrayList<KindAbstratus> abstrataList;
 	private final int maxScroll;
+	private float scale = 1;
 	private float scrollPos = 0F;
 	private boolean isClicking = false;
 	private int extraLines = 0;
 
 	public GuiStrifeCard(EntityPlayer player)
 	{
-		this.player = player;
+		GuiStrifeCard.player = player;
 		ArrayList<KindAbstratus> list = new ArrayList<>();
-		for(KindAbstratus i : KindAbstratus.REGISTRY.getValuesCollection())
-			if(i.canSelect()) list.add(i);
+		for (KindAbstratus i : KindAbstratus.REGISTRY.getValuesCollection())
+			if (i.canSelect()) list.add(i);
 		abstrataList = list;
-		maxScroll = Math.max(0, (abstrataList.size() - size)/2);
-	}
-
-	@Override
-	public void initGui()
-	{
-		super.initGui();
-		xOffset = (width-guiWidth)/2;
-		yOffset = (height-guiHeight)/2;
-		mc = Minecraft.getMinecraft();
-
-	}
-
-	@Override
-	public boolean doesGuiPauseGame()
-	{
-		return false;
+		maxScroll = Math.max(0, (abstrataList.size() - size) / 2);
 	}
 
 	@Override
@@ -74,22 +57,22 @@ public class GuiStrifeCard extends GuiScreen
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-		this.drawRect(xOffset+27, yOffset+23, xOffset+127, yOffset+178, 0xFF000000);
+		drawRect(xOffset + 27, yOffset + 23, xOffset + 127, yOffset + 178, 0xFF000000);
 
 		int listOffsetX = xOffset + 16;
-		int listOffsetY = yOffset + 59 - extraLines*font.FONT_HEIGHT;
+		int listOffsetY = yOffset + 59 - extraLines * font.FONT_HEIGHT;
 
 
-		int itemMin = (int) (scrollPos * maxScroll * 2) - extraLines*2;
-		if(itemMin%2 == 1) itemMin--;
+		int itemMin = (int) (scrollPos * maxScroll * 2) - extraLines * 2;
+		if (itemMin % 2 == 1) itemMin--;
 
 		int i = 0, count = 0;
-		for(KindAbstratus type : abstrataList)
+		for (KindAbstratus type : abstrataList)
 		{
 			count++;
-			if(count-1 < itemMin) continue;
+			if (count - 1 < itemMin) continue;
 			i++;
-			if(i > size) break;
+			if (i > size) break;
 
 			String typeName = type.getDisplayName();
 
@@ -97,25 +80,25 @@ public class GuiStrifeCard extends GuiScreen
 			//tyPos += 36 (9540 / height)
 
 			int color = 0xFFFFFF;
-			int listX = (columnWidth*((i-1) % columns));
-			int listY = (font.FONT_HEIGHT*((i-1) / columns));
+			int listX = (columnWidth * ((i - 1) % columns));
+			int listY = (font.FONT_HEIGHT * ((i - 1) / columns));
 			int xPos = listOffsetX + listX + 11;
 			int yPos = listOffsetY + listY + 1;
-			int sxPos = (int)((listOffsetX + listX)/scale);
-			int syPos = (int)((listOffsetY + listY)/scale);
-			int txPos = (sxPos + columnWidth - font.getStringWidth(typeName))+ (int)(10/scale);
-			int tyPos = syPos + (int)(3/scale);
+			int sxPos = (int) ((listOffsetX + listX) / scale);
+			int syPos = (int) ((listOffsetY + listY) / scale);
+			int txPos = (sxPos + columnWidth - font.getStringWidth(typeName)) + (int) (10 / scale);
+			int tyPos = syPos + (int) (3 / scale);
 
-			if(MinestuckUtils.isPointInRegion(xPos, yPos, columnWidth, font.FONT_HEIGHT, mouseX, mouseY))
+			if (MinestuckUtils.isPointInRegion(xPos, yPos, columnWidth, font.FONT_HEIGHT, mouseX, mouseY))
 			{
-				drawRect(xPos, yPos, xPos+columnWidth, yPos+font.FONT_HEIGHT, 0xFFAFAFAF);
+				drawRect(xPos, yPos, xPos + columnWidth, yPos + font.FONT_HEIGHT, 0xFFAFAFAF);
 				color = 0x000000;
-				if(Mouse.getEventButtonState() && Mouse.isButtonDown(0))
+				if (Mouse.getEventButtonState() && Mouse.isButtonDown(0))
 				{
 					EnumHand hand = (player.getHeldItemMainhand().isItemEqual(new ItemStack(MinestuckItems.strifeCard)) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND);
 					ItemStack card = player.getHeldItem(hand);
 
-					if(card.isItemEqual(new ItemStack(MinestuckItems.strifeCard)))
+					if (card.isItemEqual(new ItemStack(MinestuckItems.strifeCard)))
 					{
 						MinestuckNetwork.sendToServer(new MessageStrifeAssignRequest(hand, type));
 						this.mc.displayGuiScreen(null);
@@ -127,21 +110,31 @@ public class GuiStrifeCard extends GuiScreen
 		}
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		int scroll = (int) (140*scrollPos);
+		int scroll = (int) (140 * scrollPos);
 		this.mc.getTextureManager().bindTexture(guiStrifeSelector);
 		this.drawTexturedModalRect(xOffset, yOffset, 0, 0, guiWidth, guiHeight);
-		this.drawTexturedModalRect(xOffset+128, yOffset+23+scroll, (maxScroll > 0) ? 232 : 244, 0, 12, 15);
+		this.drawTexturedModalRect(xOffset + 128, yOffset + 23 + scroll, (maxScroll > 0) ? 232 : 244, 0, 12, 15);
 
 		//96*265/width
 
 		setScale(1.8F);
 		String label = I18n.translateToLocal("gui.strifeCard.label");
-		int xLabel = (int)(-(((height+guiHeight)/2)-8)/scale);
-		int yLabel = (int)((((width+guiWidth)/2)-135)/scale);
+		int xLabel = (int) (-(((height + guiHeight) / 2) - 8) / scale);
+		int yLabel = (int) ((((width + guiWidth) / 2) - 135) / scale);
 		//178
 
 		GL11.glRotatef(270, 0, 0, 1);
 		font.drawString(label, xLabel, yLabel, 0xFFFFFF);
+
+	}
+
+	@Override
+	public void initGui()
+	{
+		super.initGui();
+		xOffset = (width - guiWidth) / 2;
+		yOffset = (height - guiHeight) / 2;
+		mc = Minecraft.getMinecraft();
 
 	}
 
@@ -156,21 +149,27 @@ public class GuiStrifeCard extends GuiScreen
 		int s = Mouse.getEventDWheel();
 
 		float sp = scrollPos;
-		if(s != 0) sp += 1.0F/maxScroll * -Math.signum(s);
-		if(MinestuckUtils.isPointInRegion(xOffset+128, yOffset+23, 12, 155, i, j) && Mouse.isButtonDown(0))
-			sp = (j-23-yOffset)/140.0F;
+		if (s != 0) sp += 1.0F / maxScroll * -Math.signum(s);
+		if (MinestuckUtils.isPointInRegion(xOffset + 128, yOffset + 23, 12, 155, i, j) && Mouse.isButtonDown(0))
+			sp = (j - 23 - yOffset) / 140.0F;
 
-		if(maxScroll <= 0) return;
+		if (maxScroll <= 0) return;
 		scrollPos = Math.min(1, Math.max(0, sp));
 
-		extraLines = (int) Math.min(4, scrollPos*maxScroll);
-		size = 26 + extraLines*2;
+		extraLines = (int) Math.min(4, scrollPos * maxScroll);
+		size = 26 + extraLines * 2;
+	}
+
+	@Override
+	public boolean doesGuiPauseGame()
+	{
+		return false;
 	}
 
 	public void setScale(float percentage)
 	{
-		float s = percentage/scale;
-		GL11.glScalef(s,s,s);
+		float s = percentage / scale;
+		GL11.glScalef(s, s, s);
 		scale = percentage;
 	}
 

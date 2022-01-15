@@ -10,12 +10,13 @@ public class AssemblyRecipeWrapper implements IRecipeWrapper
 {
 	private final List<List<ItemStack>> inputs;
 	private final ItemStack result;
-	
+
 	public AssemblyRecipeWrapper(List<List<ItemStack>> inputs, ItemStack result)
 	{
 		this.inputs = inputs;
 		this.result = result;
 	}
+
 	@Override
 	public void getIngredients(IIngredients ingredients)
 	{

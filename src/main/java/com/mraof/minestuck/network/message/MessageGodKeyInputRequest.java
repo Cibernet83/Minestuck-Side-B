@@ -21,17 +21,17 @@ public class MessageGodKeyInputRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeByte(key.ordinal());
-		buf.writeBoolean(pressed);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		key = GodKeyStates.Key.values()[buf.readByte()];
 		pressed = buf.readBoolean();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeByte(key.ordinal());
+		buf.writeBoolean(pressed);
 	}
 
 	@Override

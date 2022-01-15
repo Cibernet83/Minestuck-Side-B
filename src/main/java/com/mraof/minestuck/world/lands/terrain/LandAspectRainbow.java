@@ -30,7 +30,7 @@ public class LandAspectRainbow extends TerrainLandAspect
 {
 	static Vec3d fogColor = new Vec3d(0.0D, 0.6D, 0.8D);
 	static Vec3d skyColor = new Vec3d(0.9D, 0.6D, 0.8D);
-	
+
 	@Override
 	public void registerBlocks(StructureBlockRegistry registry)
 	{
@@ -49,46 +49,23 @@ public class LandAspectRainbow extends TerrainLandAspect
 		registry.setBlockState("fall_fluid", MinestuckBlocks.blockWatercolors.getDefaultState());
 		registry.setBlockState("light_block", MinestuckBlocks.glowingLog.getDefaultState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE));
 		IBlockState rainbow_leaves = MinestuckBlocks.leaves.getDefaultState().withProperty(MSBlockLeavesVariant.VARIANT, MSBlockLeavesVariant.BlockType.RAINBOW);
-			rainbow_leaves = rainbow_leaves.withProperty(MSBlockLeavesVariant.CHECK_DECAY, false).withProperty(MSBlockLeavesVariant.DECAYABLE, false);
+		rainbow_leaves = rainbow_leaves.withProperty(MSBlockLeavesVariant.CHECK_DECAY, false).withProperty(MSBlockLeavesVariant.DECAYABLE, false);
 		registry.setBlockState("bush", rainbow_leaves);
 		registry.setBlockState("mushroom_1", rainbow_leaves);
 		registry.setBlockState("mushroom_2", rainbow_leaves);
 		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW));
 		registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.GREEN));
 	}
-	
-	@Override
-	public ILandTerrainGen createTerrainGenerator(ChunkProviderLands chunkProvider, Random rand)
-	{
-		return new SpecialTerrainGen(chunkProvider, rand);
-	}
-	
-	@Override
-	public String getPrimaryName()
-	{
-		return "rainbow";
-	}
 
-	@Override
-	public String[] getNames() {
-		return new String[] {"rainbow", "colors"};
-	}
-	
-	@Override
-	public void prepareChunkProvider(ChunkProviderLands chunkProvider)
-	{
-		chunkProvider.waterMobsList.add(new SpawnListEntry(EntitySquid.class, 2, 3, 5));
-	}
-	
 	@Override
 	public List<ILandDecorator> getDecorators()
 	{
 		ArrayList<ILandDecorator> list = new ArrayList<ILandDecorator>();
-		
+
 		list.add(new MesaDecorator().setAltFrequency(.01F));
 		list.add(new WorldgenTreeDecorator(4, new WorldGenRainbowTree(false), MinestuckBiomes.mediumNormal));
 		list.add(new WorldgenTreeDecorator(2, new WorldGenRainbowTree(false), MinestuckBiomes.mediumRough));
-		
+
 		//Each of these is associated with one of the primary colors in Minecraft: black, red, blue, yellow, green, brown, and white
 		list.add(new UndergroundDecoratorVein(Blocks.COAL_ORE.getDefaultState(), 20, 17, 128));
 		list.add(new UndergroundDecoratorVein(Blocks.REDSTONE_ORE.getDefaultState(), 10, 8, 32));
@@ -99,34 +76,58 @@ public class LandAspectRainbow extends TerrainLandAspect
 		list.add(new UndergroundDecoratorVein(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE), 10, 8, 32));
 		return list;
 	}
-	
+
 	@Override
-	public Vec3d getFogColor() 
+	public Vec3d getFogColor()
 	{
 		return fogColor;
 	}
-	
+
 	@Override
 	public Vec3d getSkyColor()
 	{
 		return skyColor;
 	}
-	
-	@Override
-	public float getTemperature()
-	{
-		return 1.0F;
-	}
-	
+
 	@Override
 	public float getRainfall()
 	{
 		return 0.6F;
 	}
-	
+
+	@Override
+	public float getTemperature()
+	{
+		return 1.0F;
+	}
+
+	@Override
+	public ILandTerrainGen createTerrainGenerator(ChunkProviderLands chunkProvider, Random rand)
+	{
+		return new SpecialTerrainGen(chunkProvider, rand);
+	}
+
+	@Override
+	public void prepareChunkProvider(ChunkProviderLands chunkProvider)
+	{
+		chunkProvider.waterMobsList.add(new SpawnListEntry(EntitySquid.class, 2, 3, 5));
+	}
+
 	@Override
 	public EnumConsort getConsortType()
 	{
 		return EnumConsort.TURTLE;
+	}
+
+	@Override
+	public String getPrimaryName()
+	{
+		return "rainbow";
+	}
+
+	@Override
+	public String[] getNames()
+	{
+		return new String[]{"rainbow", "colors"};
 	}
 }

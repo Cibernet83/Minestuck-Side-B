@@ -22,40 +22,41 @@ public class MinestuckFluidHandler
 	@SubscribeEvent
 	public static void onBucketFill(FillBucketEvent event)
 	{
-		
-		if(event.getEmptyBucket() == null || event.getEmptyBucket().getItem() != Items.BUCKET || event.getFilledBucket() != null || event.getTarget() == null || event.getResult() == Result.DENY)
+
+		if (event.getEmptyBucket() == null || event.getEmptyBucket().getItem() != Items.BUCKET || event.getFilledBucket() != null || event.getTarget() == null || event.getResult() == Result.DENY)
 			return;
-		
+
 		ItemStack result = fillCustomBucket(event.getWorld(), event.getTarget());
-		
+
 		if (result == null)
 			return;
-		
+
 		event.setFilledBucket(result);
 		event.setResult(Result.ALLOW);
 	}
-	
+
 	private static ItemStack fillCustomBucket(World world, RayTraceResult pos)
 	{
-		ItemMinestuckBucket bucket = (ItemMinestuckBucket)(MinestuckItems.minestuckBucket);
+		ItemMinestuckBucket bucket = (MinestuckItems.minestuckBucket);
 		IBlockState block = world.getBlockState(pos.getBlockPos());
-		
+
 		//TODO add same checks as used in buckets class
 		if (MinestuckBlocks.fluids.contains(block))
 		{
 			world.setBlockToAir(pos.getBlockPos());
 			return new ItemStack(MinestuckItems.minestuckBucket, 1, MinestuckBlocks.fluids.indexOf(block));
-		} else
+		}
+		else
 			return null;
-		
+
 	}
 
 	@SubscribeEvent
 	public static void onCreateFluidSource(BlockEvent.CreateFluidSourceEvent event)
 	{
-		if(event.getState().getBlock() instanceof BlockFluidGrist)
+		if (event.getState().getBlock() instanceof BlockFluidGrist)
 		{
-		    event.setResult(Result.DENY);
+			event.setResult(Result.DENY);
 		}
 	}
 }

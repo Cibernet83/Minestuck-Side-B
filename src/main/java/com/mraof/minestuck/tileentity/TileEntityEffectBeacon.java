@@ -9,16 +9,16 @@ import net.minecraft.util.math.AxisAlignedBB;
 
 public class TileEntityEffectBeacon extends TileEntity implements ITickable
 {
-    private static final int radius = 15;
+	private static final int radius = 15;
 
-    @Override
-    public void update()
-    {
-        if(!(world.getBlockState(getPos()).getBlock() instanceof BlockEffectBeacon))
-            return;
-        PotionEffect effect = ((BlockEffectBeacon) world.getBlockState(getPos()).getBlock()).getEffect();
+	@Override
+	public void update()
+	{
+		if (!(world.getBlockState(getPos()).getBlock() instanceof BlockEffectBeacon))
+			return;
+		PotionEffect effect = ((BlockEffectBeacon) world.getBlockState(getPos()).getBlock()).getEffect();
 
-        for(EntityPlayer player : world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(getPos()).grow(radius)))
-            player.addPotionEffect(effect);
-    }
+		for (EntityPlayer player : world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(getPos()).grow(radius)))
+			player.addPotionEffect(effect);
+	}
 }

@@ -24,20 +24,21 @@ public class PropertyFire extends WeaponProperty implements IEnchantableProperty
 	@Override
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
-		if(!onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1))
+		if (!onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1))
 			target.setFire(fireSeconds);
 	}
 
 	@Override
 	public float onCrit(ItemStack stack, EntityPlayer player, EntityLivingBase target, float damageModifier)
 	{
-		if(onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1))
+		if (onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(player) >= 1))
 			target.setFire(fireSeconds);
 		return super.onCrit(stack, player, target, damageModifier);
 	}
 
 	@Override
-	public Boolean canEnchantWith(ItemStack stack, Enchantment enchantment) {
+	public Boolean canEnchantWith(ItemStack stack, Enchantment enchantment)
+	{
 		return enchantment == Enchantments.FIRE_ASPECT ? false : null;
 	}
 }

@@ -13,7 +13,7 @@ public class MinestuckLoot
 	public static final ResourceLocation CONSORT_JUNK_REWARD = new ResourceLocation("minestuck", "gameplay/consort_junk");
 	public static final ResourceLocation CONSORT_FOOD_STOCK = new ResourceLocation("minestuck", "gameplay/consort_food");
 	public static final ResourceLocation CONSORT_GENERAL_STOCK = new ResourceLocation("minestuck", "gameplay/consort_general");
-	
+
 	public static void registerLootClasses()
 	{
 		LootConditionManager.registerCondition(new LandAspectLootCondition.Serializer());

@@ -15,20 +15,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PotionConfusion extends PotionMouseSensitivityAdjusterBase
 {
-	protected PotionConfusion(String name, boolean isBadEffectIn, int liquidColorIn) {
+	protected PotionConfusion(String name, boolean isBadEffectIn, int liquidColorIn)
+	{
 		super(name, isBadEffectIn, liquidColorIn);
-	}
-
-	@Override
-	public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier)
-	{
-
-	}
-
-	@Override
-	protected float getNewMouseSensitivity(float currentSensitivity)
-	{
-		return -currentSensitivity - 2f/3f;
 	}
 
 	@SubscribeEvent
@@ -36,7 +25,7 @@ public class PotionConfusion extends PotionMouseSensitivityAdjusterBase
 	public static void onGuiOpen(GuiOpenEvent event)
 	{
 		if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.isPotionActive(MinestuckPotions.MIND_CONFUSION) && event.getGui() instanceof GuiOptions)
-				event.setCanceled(true);
+			event.setCanceled(true);
 	}
 
 	@SubscribeEvent
@@ -54,5 +43,17 @@ public class PotionConfusion extends PotionMouseSensitivityAdjusterBase
 			input.jump = input.sneak;
 			input.sneak = wasJumpDown;
 		}
+	}
+
+	@Override
+	public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier)
+	{
+
+	}
+
+	@Override
+	protected float getNewMouseSensitivity(float currentSensitivity)
+	{
+		return -currentSensitivity - 2f / 3f;
 	}
 }

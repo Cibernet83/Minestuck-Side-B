@@ -19,6 +19,11 @@ public class MessageSendParticle implements MinestuckMessage
 
 	public MessageSendParticle() { }
 
+	public MessageSendParticle(MinestuckParticles.ParticleType type, Entity entity, int color, int count)
+	{
+		this(type, entity.posX, entity.posY, entity.posZ, color, count);
+	}
+
 	public MessageSendParticle(MinestuckParticles.ParticleType type, double x, double y, double z, int color, int count)
 	{
 		this.type = type;
@@ -29,25 +34,9 @@ public class MessageSendParticle implements MinestuckMessage
 		this.count = count;
 	}
 
-	public MessageSendParticle(MinestuckParticles.ParticleType type, Entity entity, int color, int count)
-	{
-		this(type, entity.posX, entity.posY, entity.posZ, color, count);
-	}
-
 	public MessageSendParticle(MinestuckParticles.ParticleType type, BlockPos pos, int color, int count)
 	{
 		this(type, pos.getX(), pos.getY(), pos.getZ(), color, count);
-	}
-
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(type.ordinal());
-		buf.writeDouble(x);
-		buf.writeDouble(y);
-		buf.writeDouble(z);
-		buf.writeInt(color);
-		buf.writeInt(count);
 	}
 
 	@Override
@@ -59,6 +48,17 @@ public class MessageSendParticle implements MinestuckMessage
 		z = buf.readDouble();
 		color = buf.readInt();
 		count = buf.readInt();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(type.ordinal());
+		buf.writeDouble(x);
+		buf.writeDouble(y);
+		buf.writeDouble(z);
+		buf.writeInt(color);
+		buf.writeInt(count);
 	}
 
 	@Override
@@ -76,7 +76,8 @@ public class MessageSendParticle implements MinestuckMessage
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.CLIENT;
 	}
 

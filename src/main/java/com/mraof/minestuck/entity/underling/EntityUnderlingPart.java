@@ -21,6 +21,7 @@ public class EntityUnderlingPart extends EntityLiving implements IEntityAddition
 	{
 		super(world);
 	}
+
 	public EntityUnderlingPart(IEntityMultiPart par1IEntityMultiPart, int id, float par3, float par4)
 	{
 		super(par1IEntityMultiPart.getWorld());
@@ -28,23 +29,21 @@ public class EntityUnderlingPart extends EntityLiving implements IEntityAddition
 		this.baseEntity = par1IEntityMultiPart;
 		this.id = id;
 	}
-	
-	@Override
-	public String getName()
-	{
-		return ((Entity) baseEntity).getName();
-	}
-	
+
 	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 * Called when the entity is attacked.
 	 */
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) 
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
-		if(this.baseEntity != null)
-			super.writeEntityToNBT(par1NBTTagCompound);
-		else
-			this.setDead();
+		if (this.baseEntity == null || par1DamageSource == DamageSource.IN_WALL || par1DamageSource == DamageSource.DROWN || par1DamageSource == DamageSource.FALL)
+			return false;
+		return this.baseEntity.attackEntityFromPart(this, par1DamageSource, par2);
+	}
+
+	@Override
+	public void collideWithEntity(Entity par1Entity)
+	{
 	}
 
 	/**
@@ -56,21 +55,11 @@ public class EntityUnderlingPart extends EntityLiving implements IEntityAddition
 		return true;
 	}
 
-	/**
-	 * Called when the entity is attacked.
-	 */
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
-		if(this.baseEntity == null || par1DamageSource == DamageSource.IN_WALL || par1DamageSource == DamageSource.DROWN || par1DamageSource == DamageSource.FALL)
-			return false;
-		return this.baseEntity.attackEntityFromPart(this, par1DamageSource, par2);
-	}
-	@Override
-	public void onUpdate() 
+	public void onUpdate()
 	{
 		super.onUpdate();
-		if(this.baseEntity == null || ((Entity)this.baseEntity).isDead)
+		if (this.baseEntity == null || ((Entity) this.baseEntity).isDead)
 		{
 			this.setDead();
 		}
@@ -78,57 +67,24 @@ public class EntityUnderlingPart extends EntityLiving implements IEntityAddition
 			this.setBaseById(headId);
 	}
 
-	@Override
-	public void setDead() 
-	{
-		super.setDead();
-		if(this.baseEntity != null)
-			baseEntity.onPartDeath(this, this.id);
-	}
 	/**
-	 * Returns true if Entity argument is equal to this Entity
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
-	public boolean isEntityEqual(Entity par1Entity)
+	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		return this == par1Entity || this.baseEntity == par1Entity;
-	}
-	@Override
-	public boolean handleWaterMovement() 
-	{
-		return false;
-	}
-	
-	@Override
-	 protected boolean canDespawn()
-	 {
-	     return false;
-	}
-
-	@Override
-	public void writeSpawnData(ByteBuf buffer) 
-	{
-		buffer.writeInt(this.id);
-		if(this.baseEntity != null)
-			buffer.writeInt(((Entity)this.baseEntity).getEntityId());
+		if (this.baseEntity != null)
+			super.writeEntityToNBT(par1NBTTagCompound);
 		else
-			buffer.writeInt(-1);
+			this.setDead();
 	}
 
 	@Override
-	public void readSpawnData(ByteBuf additionalData) 
+	public void setDead()
 	{
-		setBaseById(additionalData.readInt());
-	}
-	
-	public void setBaseById(int baseId)
-	{
-		Entity base = this.world.getEntityByID(baseId);
-		if(base != null)
-		{
-			this.baseEntity = (IEntityMultiPart) base;
-			this.baseEntity.addPart(this, this.id);
-		}
+		super.setDead();
+		if (this.baseEntity != null)
+			baseEntity.onPartDeath(this, this.id);
 	}
 
 	@Override
@@ -138,7 +94,55 @@ public class EntityUnderlingPart extends EntityLiving implements IEntityAddition
 	}
 
 	@Override
-	public void collideWithEntity(Entity par1Entity)
+	public boolean handleWaterMovement()
 	{
+		return false;
+	}
+
+	@Override
+	public String getName()
+	{
+		return ((Entity) baseEntity).getName();
+	}
+
+	/**
+	 * Returns true if Entity argument is equal to this Entity
+	 */
+	@Override
+	public boolean isEntityEqual(Entity par1Entity)
+	{
+		return this == par1Entity || this.baseEntity == par1Entity;
+	}
+
+	@Override
+	protected boolean canDespawn()
+	{
+		return false;
+	}
+
+	public void setBaseById(int baseId)
+	{
+		Entity base = this.world.getEntityByID(baseId);
+		if (base != null)
+		{
+			this.baseEntity = (IEntityMultiPart) base;
+			this.baseEntity.addPart(this, this.id);
+		}
+	}
+
+	@Override
+	public void writeSpawnData(ByteBuf buffer)
+	{
+		buffer.writeInt(this.id);
+		if (this.baseEntity != null)
+			buffer.writeInt(((Entity) this.baseEntity).getEntityId());
+		else
+			buffer.writeInt(-1);
+	}
+
+	@Override
+	public void readSpawnData(ByteBuf additionalData)
+	{
+		setBaseById(additionalData.readInt());
 	}
 }

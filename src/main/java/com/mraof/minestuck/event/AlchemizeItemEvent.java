@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 @Cancelable
 public class AlchemizeItemEvent extends Event
 {
-	private World     world;
+	private World world;
 	private ItemStack dowel;
 	private ItemStack originalResultItem;
 	private ItemStack resultItem;

@@ -17,19 +17,22 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 {
 	public ICaptchalogueable parent;
 
-	public CaptchalogueableGhost(ICaptchalogueable parent)
-	{
-		this.parent = parent;
-	}
-
 	public CaptchalogueableGhost(NBTTagCompound nbt)
 	{
 		this(ICaptchalogueable.readFromNBT(nbt.getCompoundTag("Parent")));
 	}
 
+	public CaptchalogueableGhost(ICaptchalogueable parent)
+	{
+		this.parent = parent;
+	}
+
 	@Override
-	public ICaptchalogueable getAlchemyComponent() {
-		return parent;
+	public NBTTagCompound writeData()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setTag("Parent", ICaptchalogueable.writeToNBT(parent));
+		return nbt;
 	}
 
 	@Override
@@ -66,17 +69,15 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
-	public String getName()
+	public ICaptchalogueable getAlchemyComponent()
 	{
-		return "ghost of " + parent.getName();
+		return parent;
 	}
 
 	@Override
-	public NBTTagCompound writeData()
+	public String getName()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setTag("Parent", ICaptchalogueable.writeToNBT(parent));
-		return nbt;
+		return "ghost of " + parent.getName();
 	}
 
 	@Override

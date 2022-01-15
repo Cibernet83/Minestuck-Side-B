@@ -17,36 +17,36 @@ import java.util.List;
 public class AssemblyRecipeCategory implements IRecipeCategory<AssemblyRecipeWrapper>
 {
 	private IDrawable background;
-	
+
 	public AssemblyRecipeCategory(IGuiHelper helper)
 	{
 		background = helper.createDrawable(new ResourceLocation(Minestuck.MODID, "textures/gui/machine_chassis.png"), 0, 166, 126, 68);
 	}
-	
+
 	@Override
 	public String getUid()
 	{
 		return Minestuck.MODID + ".assembly";
 	}
-	
+
 	@Override
 	public String getTitle()
 	{
 		return I18n.format("container.machineChassis");
 	}
-	
+
 	@Override
 	public String getModName()
 	{
 		return Minestuck.NAME;
 	}
-	
+
 	@Override
 	public IDrawable getBackground()
 	{
 		return background;
 	}
-	
+
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, AssemblyRecipeWrapper recipeWrapper, IIngredients ingredients)
 	{
@@ -57,11 +57,11 @@ public class AssemblyRecipeCategory implements IRecipeCategory<AssemblyRecipeWra
 		stackGroup.init(3, true, 23, 50);
 		stackGroup.init(4, true, 0, 25);
 		stackGroup.init(5, false, 104, 25);
-		
+
 		List<List<ItemStack>> inputs = ingredients.getInputs(ItemStack.class);
-		for(int i = 0; i < inputs.size(); i++)
+		for (int i = 0; i < inputs.size(); i++)
 			stackGroup.set(i, inputs.get(i));
-		
+
 		List<ItemStack> output = new ArrayList<>(ingredients.getOutputs(ItemStack.class).get(0));
 		stackGroup.set(5, output);
 	}

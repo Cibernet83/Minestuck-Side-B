@@ -23,17 +23,17 @@ public class MessageBadgeEffectsAll implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(entityId);
-		ByteBufUtils.writeTag(buf, nbt);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		entityId = buf.readInt();
 		nbt = ByteBufUtils.readTag(buf);
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(entityId);
+		ByteBufUtils.writeTag(buf, nbt);
 	}
 
 	@Override

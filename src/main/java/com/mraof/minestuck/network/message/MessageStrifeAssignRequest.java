@@ -19,15 +19,23 @@ public class MessageStrifeAssignRequest implements MinestuckMessage
 
 	public MessageStrifeAssignRequest() { }
 
+	public MessageStrifeAssignRequest(EnumHand hand)
+	{
+		this(hand, null);
+	}
+
 	public MessageStrifeAssignRequest(EnumHand hand, KindAbstratus newType)
 	{
 		this.hand = hand;
 		this.newType = newType;
 	}
 
-	public MessageStrifeAssignRequest(EnumHand hand)
+	@Override
+	public void fromBytes(ByteBuf buf)
 	{
-		this(hand, null);
+		hand = EnumHand.values()[buf.readInt()];
+		if (buf.readableBytes() > 0)
+			newType = ByteBufUtils.readRegistryEntry(buf, KindAbstratus.REGISTRY);
 	}
 
 	@Override
@@ -39,18 +47,10 @@ public class MessageStrifeAssignRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		hand = EnumHand.values()[buf.readInt()];
-		if(buf.readableBytes() > 0)
-			newType = ByteBufUtils.readRegistryEntry(buf, KindAbstratus.REGISTRY);
-	}
-
-	@Override
 	public void execute(EntityPlayer player)
 	{
 		ItemStack heldItem = player.getHeldItem(hand);
-		if(newType != null && heldItem.getItem() instanceof ItemStrifeCard && !(heldItem.hasTagCompound() && heldItem.getTagCompound().hasKey("StrifeSpecibus"))) // No hacking for arbitrary cards lol
+		if (newType != null && heldItem.getItem() instanceof ItemStrifeCard && !(heldItem.hasTagCompound() && heldItem.getTagCompound().hasKey("StrifeSpecibus"))) // No hacking for arbitrary cards lol
 			ItemStrifeCard.injectStrifeSpecibus(new StrifeSpecibus(newType), heldItem);
 		StrifePortfolioHandler.assignStrife(player, hand);
 	}

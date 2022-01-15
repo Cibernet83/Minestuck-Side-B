@@ -24,10 +24,10 @@ public abstract class MSBlockLeaves extends MSBlockBase implements net.minecraft
 {
 	public static final PropertyBool DECAYABLE = PropertyBool.create("decayable");
 	public static final PropertyBool CHECK_DECAY = PropertyBool.create("check_decay");
-	
+
 	//@SideOnly(Side.CLIENT)
-	protected boolean leavesFancy = true;	//TODO Update this setting
-	
+	protected boolean leavesFancy = true;    //TODO Update this setting
+
 	int[] surroundings;
 
 	public MSBlockLeaves(String name)
@@ -38,68 +38,41 @@ public abstract class MSBlockLeaves extends MSBlockBase implements net.minecraft
 		this.setLightOpacity(1);
 		this.setSoundType(SoundType.PLANT);
 	}
-	
-	@Override
-	protected abstract BlockStateContainer createBlockState();
-	
+
 	@Override
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		return MapColor.FOLIAGE;
 	}
-	
+
 	@Override
-	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
+	public boolean causesSuffocation(IBlockState state)
 	{
-		return 5;
-	}
-	
-	@Override
-	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
-	{
-		return 5;
+		return false;
 	}
 
-	@Override public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos){ return true; }
-	@Override public boolean isLeaves(IBlockState state, IBlockAccess world, BlockPos pos){ return true; }
-	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+	{
+		return (this.leavesFancy || blockAccess.getBlockState(pos.offset(side)).getBlock() != this) && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+	}
+
 	/**
-	* Called serverside after this block is replaced with another in Chunk, but before the Tile Entity is updated
-	*/
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	 */
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	public boolean isOpaqueCube(IBlockState state)
 	{
-		int i = pos.getX();
-		int j = pos.getY();
-		int k = pos.getZ();
-
-		if (worldIn.isAreaLoaded(new BlockPos(i - 2, j - 2, k - 2), new BlockPos(i + 2, j + 2, k + 2)))
-		{
-			for (int i1 = -1; i1 <= 1; ++i1)
-			{
-				for (int j1 = -1; j1 <= 1; ++j1)
-				{
-					for (int k1 = -1; k1 <= 1; ++k1)
-					{
-						BlockPos blockpos = pos.add(i1, j1, k1);
-						IBlockState iblockstate = worldIn.getBlockState(blockpos);
-
-						if (iblockstate.getBlock().isLeaves(iblockstate, worldIn, blockpos))
-						{
-							iblockstate.getBlock().beginLeavesDecay(iblockstate, worldIn, blockpos);
-						}
-					}
-				}
-			}
-		}
+		return !this.leavesFancy;
 	}
-	
+
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
 	{
 		if (!worldIn.isRemote)
 		{
-			if (((Boolean)state.getValue(CHECK_DECAY)).booleanValue() && ((Boolean)state.getValue(DECAYABLE)).booleanValue())
+			if (state.getValue(CHECK_DECAY).booleanValue() && state.getValue(DECAYABLE).booleanValue())
 			{
 				int i = 4;
 				int j = 5;
@@ -219,10 +192,41 @@ public abstract class MSBlockLeaves extends MSBlockBase implements net.minecraft
 	{
 		if (worldIn.isRainingAt(pos.up()) && !worldIn.getBlockState(pos.down()).isTopSolid() && rand.nextInt(15) == 1)
 		{
-			double d0 = (double)((float)pos.getX() + rand.nextFloat());
-			double d1 = (double)pos.getY() - 0.05D;
-			double d2 = (double)((float)pos.getZ() + rand.nextFloat());
+			double d0 = (double) ((float) pos.getX() + rand.nextFloat());
+			double d1 = (double) pos.getY() - 0.05D;
+			double d2 = (double) ((float) pos.getZ() + rand.nextFloat());
 			worldIn.spawnParticle(EnumParticleTypes.DRIP_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+		}
+	}
+
+	/**
+	 * Called serverside after this block is replaced with another in Chunk, but before the Tile Entity is updated
+	 */
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
+		int i = pos.getX();
+		int j = pos.getY();
+		int k = pos.getZ();
+
+		if (worldIn.isAreaLoaded(new BlockPos(i - 2, j - 2, k - 2), new BlockPos(i + 2, j + 2, k + 2)))
+		{
+			for (int i1 = -1; i1 <= 1; ++i1)
+			{
+				for (int j1 = -1; j1 <= 1; ++j1)
+				{
+					for (int k1 = -1; k1 <= 1; ++k1)
+					{
+						BlockPos blockpos = pos.add(i1, j1, k1);
+						IBlockState iblockstate = worldIn.getBlockState(blockpos);
+
+						if (iblockstate.getBlock().isLeaves(iblockstate, worldIn, blockpos))
+						{
+							iblockstate.getBlock().beginLeavesDecay(iblockstate, worldIn, blockpos);
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -250,31 +254,6 @@ public abstract class MSBlockLeaves extends MSBlockBase implements net.minecraft
 		super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
 	}
 
-	protected abstract void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance);
-
-	protected int getSaplingDropChance(IBlockState state)
-	{
-		return 20;
-	}
-
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
-	 */
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return !this.leavesFancy;
-	}
-
-	/**
-	 * Pass true to draw this block using fancy graphics, or false for fast graphics.
-	 */
-	@SideOnly(Side.CLIENT)
-	public void setGraphicsLevel(boolean fancy)
-	{
-		this.leavesFancy = fancy;
-	}
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public BlockRenderLayer getBlockLayer()
@@ -283,24 +262,24 @@ public abstract class MSBlockLeaves extends MSBlockBase implements net.minecraft
 	}
 
 	@Override
-	public boolean causesSuffocation(IBlockState state)
+	protected abstract BlockStateContainer createBlockState();
+
+	@Override
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{
-		return false;
+		return 5;
 	}
 
 	@Override
-	public void beginLeavesDecay(IBlockState state, World world, BlockPos pos)
+	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{
-		if (!(Boolean)state.getValue(CHECK_DECAY))
-		{
-			world.setBlockState(pos, state.withProperty(CHECK_DECAY, true), 4);
-		}
+		return 5;
 	}
 
 	@Override
 	public void getDrops(net.minecraft.util.NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
 	{
-		Random rand = world instanceof World ? ((World)world).rand : new Random();
+		Random rand = world instanceof World ? ((World) world).rand : new Random();
 		int chance = this.getSaplingDropChance(state);
 
 		if (fortune > 0)
@@ -325,14 +304,38 @@ public abstract class MSBlockLeaves extends MSBlockBase implements net.minecraft
 
 		this.captureDrops(true);
 		if (world instanceof World)
-			this.dropApple((World)world, pos, state, chance);
+			this.dropApple((World) world, pos, state, chance);
 		drops.addAll(this.captureDrops(false));
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+	protected abstract void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance);
+
+	protected int getSaplingDropChance(IBlockState state)
 	{
-		return !this.leavesFancy && blockAccess.getBlockState(pos.offset(side)).getBlock() == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+		return 20;
+	}
+
+	@Override
+	public void beginLeavesDecay(IBlockState state, World world, BlockPos pos)
+	{
+		if (!state.getValue(CHECK_DECAY))
+		{
+			world.setBlockState(pos, state.withProperty(CHECK_DECAY, true), 4);
+		}
+	}
+
+	@Override
+	public boolean isLeaves(IBlockState state, IBlockAccess world, BlockPos pos) { return true; }
+
+	@Override
+	public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos) { return true; }
+
+	/**
+	 * Pass true to draw this block using fancy graphics, or false for fast graphics.
+	 */
+	@SideOnly(Side.CLIENT)
+	public void setGraphicsLevel(boolean fancy)
+	{
+		this.leavesFancy = fancy;
 	}
 }

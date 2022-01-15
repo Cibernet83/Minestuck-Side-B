@@ -22,13 +22,15 @@ public class BadgeUtilLight extends BadgeHeroAspectUtil
 	}
 
 	@Override
-	public void onBadgeUnlocked(World world, EntityPlayer player) {
+	public void onBadgeUnlocked(World world, EntityPlayer player)
+	{
 		super.onBadgeUnlocked(world, player);
 		player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setGlorbbing(true);
 	}
 
 	@Override
-	public boolean canUse(World world, EntityPlayer player) {
+	public boolean canUse(World world, EntityPlayer player)
+	{
 		return super.canUse(world, player) && player.capabilities.allowEdit;
 	}
 
@@ -41,10 +43,10 @@ public class BadgeUtilLight extends BadgeHeroAspectUtil
 			player.sendStatusMessage(new TextComponentTranslation(badgeEffects.isGlorbbing() ? "status.badgeEnabled" : "status.badgeDisabled", getDisplayComponent()), true);
 		}
 
-		if(((badgeEffects.isGlorbbing() &&
-				player.world.getLightFor(EnumSkyBlock.BLOCK, player.getPosition()) < 8)
-				|| (!player.isSneaking() && state == GodKeyStates.KeyState.PRESS)) &&
-				   player.world.getBlockState(player.getPosition()).getMaterial() == Material.AIR)
+		if (((badgeEffects.isGlorbbing() &&
+					  player.world.getLightFor(EnumSkyBlock.BLOCK, player.getPosition()) < 8)
+					 || (!player.isSneaking() && state == GodKeyStates.KeyState.PRESS)) &&
+					player.world.getBlockState(player.getPosition()).getMaterial() == Material.AIR)
 		{
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIGHT, 4);
 			player.world.setBlockState(player.getPosition(), MinestuckBlocks.glorb.getDefaultState());

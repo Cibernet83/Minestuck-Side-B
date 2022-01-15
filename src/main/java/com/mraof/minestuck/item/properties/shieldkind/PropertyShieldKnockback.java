@@ -22,12 +22,12 @@ public class PropertyShieldKnockback extends WeaponProperty implements IProperty
 	@Override
 	public void onHitWhileShielding(ItemStack stack, EntityLivingBase player, DamageSource source, float damage, boolean blocked)
 	{
-		if(blocked && onParry && source.getImmediateSource() instanceof EntityLivingBase)
+		if (blocked && onParry && source.getImmediateSource() instanceof EntityLivingBase)
 		{
 			EntityLivingBase target = (EntityLivingBase) source.getImmediateSource();
-			if(player instanceof EntityPlayer && CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1)
+			if (player instanceof EntityPlayer && CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1)
 			{
-				Vec3d vec = new Vec3d(player.posX-target.posX, player.posY-target.posY, player.posZ-target.posZ).normalize();
+				Vec3d vec = new Vec3d(player.posX - target.posX, player.posY - target.posY, player.posZ - target.posZ).normalize();
 
 				target.knockBack(player, strength, vec.x, vec.z);
 				target.velocityChanged = true;
@@ -38,12 +38,12 @@ public class PropertyShieldKnockback extends WeaponProperty implements IProperty
 	@Override
 	public boolean onShieldParry(ItemStack stack, EntityLivingBase player, DamageSource source, float damage)
 	{
-		if(onParry && source.getImmediateSource() instanceof EntityLivingBase)
+		if (onParry && source.getImmediateSource() instanceof EntityLivingBase)
 		{
 			EntityLivingBase target = (EntityLivingBase) source.getImmediateSource();
-			if(player instanceof EntityPlayer && CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1)
+			if (player instanceof EntityPlayer && CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1)
 			{
-				Vec3d vec = new Vec3d(player.posX-target.posX, player.posY-target.posY, player.posZ-target.posZ).normalize();
+				Vec3d vec = new Vec3d(player.posX - target.posX, player.posY - target.posY, player.posZ - target.posZ).normalize();
 
 				target.knockBack(player, strength, vec.x, vec.z);
 				target.velocityChanged = true;

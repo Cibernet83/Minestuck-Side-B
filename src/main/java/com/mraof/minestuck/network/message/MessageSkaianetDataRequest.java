@@ -17,17 +17,17 @@ public class MessageSkaianetDataRequest implements MinestuckMessage
 	{
 		this.playerId = playerId;
 	}
-	
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(playerId);
-	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		playerId = buf.readInt();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(playerId);
 	}
 
 	@Override
@@ -37,7 +37,8 @@ public class MessageSkaianetDataRequest implements MinestuckMessage
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.SERVER;
 	}
 

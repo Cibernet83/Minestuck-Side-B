@@ -19,12 +19,6 @@ public abstract class TileEntityMiniSburbMachine extends TileEntityMachine
 	protected int ticks_since_update = 0;
 
 	@Override
-	public boolean isAutomatic()
-	{
-		return false;
-	}
-
-	@Override
 	public boolean allowOverrideStop()
 	{
 		return false;
@@ -35,25 +29,20 @@ public abstract class TileEntityMiniSburbMachine extends TileEntityMachine
 	{
 		super.readFromNBT(tagCompound);
 
-		if(tagCompound.hasKey("gristType"))
+		if (tagCompound.hasKey("gristType"))
 		{
 			this.selectedGrist = Grist.getTypeFromString(tagCompound.getString("gristType"));
-			if(this.selectedGrist == null)
+			if (this.selectedGrist == null)
 			{
 				this.selectedGrist = MinestuckGrist.build;
 			}
 		}
 
-		if(tagCompound.hasKey("color"))
+		if (tagCompound.hasKey("color"))
 			this.color = tagCompound.getInteger("color");
 
-		if(IdentifierHandler.hasIdentifier(tagCompound, "owner"))
+		if (IdentifierHandler.hasIdentifier(tagCompound, "owner"))
 			owner = IdentifierHandler.load(tagCompound, "owner");
-	}
-
-	public int comparatorValue()
-	{
-		return 0;
 	}
 
 	// We're going to want to trigger a block update every 20 ticks to have comparators pull data from the Alchemeter.
@@ -64,19 +53,30 @@ public abstract class TileEntityMiniSburbMachine extends TileEntityMachine
 			return;
 		super.update();
 	}
-	
+
+	@Override
+	public boolean isAutomatic()
+	{
+		return false;
+	}
+
+	public int comparatorValue()
+	{
+		return 0;
+	}
+
 	@Override
 	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction)
 	{
 		return isItemValidForSlot(index, itemStackIn);
 	}
-	
+
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
 	{
 		return true;
 	}
-	
+
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
 	{

@@ -65,61 +65,20 @@ public class ClientProxy extends CommonProxy
 	{
 		Minecraft.getMinecraft().addScheduledTask(runnable);
 	}
-	
-	public static void registerRenderers() 
+
+	@SubscribeEvent
+	public static void handleModelRegistry(ModelRegistryEvent event)
 	{
-		Minecraft mc = Minecraft.getMinecraft();
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySkaiaPortal.class, new RenderSkaiaPortal());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGate.class, new RenderGate());
-//		MinecraftForgeClient.registerItemRenderer(Minestuck.captchaCard, new RenderCard());
+		ModelLoaderRegistry.registerLoader(ModelCaptchaCard.LoaderCaptchaCard.INSTANCE);
 
-		Item[] cruxiteItems = new Item[MinestuckItems.cruxiteArtifacts.size()];
-		MinestuckItems.cruxiteArtifacts.toArray(cruxiteItems);
+		for (IRegistryItem item : MinestuckItems.items)
+			item.registerModel();
 
-		mc.getItemColors().registerItemColorHandler((stack, tintIndex) ->
-				BlockColorCruxite.handleColorTint(ColorCollector.getColorFromNBT(stack), tintIndex), cruxiteItems);
-
-		mc.getBlockColors().registerBlockColorHandler(new BlockColorCruxite(), MinestuckBlocks.alchemiter[0], MinestuckBlocks.totemlathe[1], MinestuckBlocks.blockCruxiteDowel, MinestuckBlocks.ceramicPorkhollow);
-
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) ->
-						BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? 0x99D9EA : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex),
-				new Item[]{MinestuckItems.cruxiteDowel, MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey, Item.getItemFromBlock(MinestuckBlocks.ceramicPorkhollow)});
-
-		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
-			ItemFrog item = ((ItemFrog)stack.getItem());
-			int color = -1;
-
-			if((stack.getMetadata() > EntityFrog.maxTypes() || stack.getMetadata() < 1))
-			{
-				switch(tintIndex)
-				{
-				case 0: color = item.getSkinColor(stack); break;
-				case 1: color = item.getEyeColor(stack); break;
-				case 2: color = item.getBellyColor(stack); break;
-				}
-			}
-		    return color;
-		}, MinestuckItems.itemFrog);
-
-		mc.getItemColors().registerItemColorHandler(new ItemBeamBlade.BladeColorHandler(), MinestuckItems.dyedBeamBlade);
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> BlockColorCruxite.handleColorTint(ItemWarpMedallion.getColor(stack), tintIndex), MinestuckItems.returnMedallion);
-
-		mc.getItemColors().registerItemColorHandler((stack, tintIndex) ->
-		{
-			switch(tintIndex)
-			{
-				case 0: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SHIRT);
-				case 1: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.PRIMARY);
-				case 2: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SECONDARY);
-				case 3: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SHOES);
-				case 4: case 7: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SYMBOL);
-				case 5: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_PRIMARY);
-				case 6: return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_SECONDARY);
-				default: return 0xFFFFFF;
-			}
-		}, MinestuckItems.gtArmorKit, MinestuckItems.gtHood, MinestuckItems.gtShirt, MinestuckItems.gtPants, MinestuckItems.gtShoes);
+		if (MinestuckItems.splatcraftCruxiteFilter != null)
+			ModelLoader.setCustomModelResourceLocation(MinestuckItems.splatcraftCruxiteFilter, 0,
+					new ModelResourceLocation(MinestuckItems.splatcraftCruxiteFilter.getRegistryName(), "inventory"));
 	}
-	
+
 	@Override
 	public void preInit()
 	{
@@ -173,7 +132,7 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(MSGTKeyHandler.class);
 		MinecraftForge.EVENT_BUS.register(ClientProxy.class);
 	}
-	
+
 	@Override
 	public void init()
 	{
@@ -188,16 +147,73 @@ public class ClientProxy extends CommonProxy
 		MinestuckFontRenderer.registerFonts();
 	}
 
-	@SubscribeEvent
-	public static void handleModelRegistry(ModelRegistryEvent event)
+	public static void registerRenderers()
 	{
-		ModelLoaderRegistry.registerLoader(ModelCaptchaCard.LoaderCaptchaCard.INSTANCE);
+		Minecraft mc = Minecraft.getMinecraft();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySkaiaPortal.class, new RenderSkaiaPortal());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGate.class, new RenderGate());
+		//		MinecraftForgeClient.registerItemRenderer(Minestuck.captchaCard, new RenderCard());
 
-		for (IRegistryItem item : MinestuckItems.items)
-			item.registerModel();
+		Item[] cruxiteItems = new Item[MinestuckItems.cruxiteArtifacts.size()];
+		MinestuckItems.cruxiteArtifacts.toArray(cruxiteItems);
 
-		if(MinestuckItems.splatcraftCruxiteFilter != null)
-			ModelLoader.setCustomModelResourceLocation(MinestuckItems.splatcraftCruxiteFilter, 0,
-					new ModelResourceLocation(MinestuckItems.splatcraftCruxiteFilter.getRegistryName(), "inventory"));
+		mc.getItemColors().registerItemColorHandler((stack, tintIndex) ->
+															BlockColorCruxite.handleColorTint(ColorCollector.getColorFromNBT(stack), tintIndex), cruxiteItems);
+
+		mc.getBlockColors().registerBlockColorHandler(new BlockColorCruxite(), MinestuckBlocks.alchemiter[0], MinestuckBlocks.totemlathe[1], MinestuckBlocks.blockCruxiteDowel, MinestuckBlocks.ceramicPorkhollow);
+
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) ->
+																				  BlockColorCruxite.handleColorTint(stack.getMetadata() == 0 ? 0x99D9EA : ColorCollector.getColor(stack.getMetadata() - 1), tintIndex),
+				MinestuckItems.cruxiteDowel, MinestuckItems.cruxiteGel, MinestuckItems.cruxtruderGel, MinestuckItems.captchalogueBook, MinestuckItems.chasityKey, Item.getItemFromBlock(MinestuckBlocks.ceramicPorkhollow));
+
+		mc.getItemColors().registerItemColorHandler((stack, tintIndex) ->
+		{
+			ItemFrog item = ((ItemFrog) stack.getItem());
+			int color = -1;
+
+			if ((stack.getMetadata() > EntityFrog.maxTypes() || stack.getMetadata() < 1))
+			{
+				switch (tintIndex)
+				{
+					case 0:
+						color = item.getSkinColor(stack);
+						break;
+					case 1:
+						color = item.getEyeColor(stack);
+						break;
+					case 2:
+						color = item.getBellyColor(stack);
+						break;
+				}
+			}
+			return color;
+		}, MinestuckItems.itemFrog);
+
+		mc.getItemColors().registerItemColorHandler(new ItemBeamBlade.BladeColorHandler(), MinestuckItems.dyedBeamBlade);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> BlockColorCruxite.handleColorTint(ItemWarpMedallion.getColor(stack), tintIndex), MinestuckItems.returnMedallion);
+
+		mc.getItemColors().registerItemColorHandler((stack, tintIndex) ->
+		{
+			switch (tintIndex)
+			{
+				case 0:
+					return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SHIRT);
+				case 1:
+					return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.PRIMARY);
+				case 2:
+					return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SECONDARY);
+				case 3:
+					return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SHOES);
+				case 4:
+				case 7:
+					return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.SYMBOL);
+				case 5:
+					return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_PRIMARY);
+				case 6:
+					return ItemGTKit.getColor(stack, AspectColorHandler.EnumColor.DETAIL_SECONDARY);
+				default:
+					return 0xFFFFFF;
+			}
+		}, MinestuckItems.gtArmorKit, MinestuckItems.gtHood, MinestuckItems.gtShirt, MinestuckItems.gtPants, MinestuckItems.gtShoes);
 	}
 }

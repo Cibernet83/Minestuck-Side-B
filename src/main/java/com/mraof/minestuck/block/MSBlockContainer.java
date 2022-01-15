@@ -15,6 +15,16 @@ public abstract class MSBlockContainer extends BlockContainer implements IRegist
 {
 	private final String regName;
 
+	public MSBlockContainer(String name, Material material)
+	{
+		this(name, material, material.getMaterialMapColor());
+	}
+
+	public MSBlockContainer(String name, Material material, MapColor mapColor)
+	{
+		this(name, MinestuckTabs.minestuck, material, mapColor);
+	}
+
 	public MSBlockContainer(String name, CreativeTabs tab, Material material, MapColor mapColor)
 	{
 		super(material, mapColor);
@@ -24,18 +34,9 @@ public abstract class MSBlockContainer extends BlockContainer implements IRegist
 		MinestuckBlocks.blocks.add(this);
 	}
 
-	public MSBlockContainer(String name, Material material, MapColor mapColor)
-	{
-		this(name, MinestuckTabs.minestuck, material, mapColor);
-	}
-
-	public MSBlockContainer(String name, Material material)
-	{
-		this(name, material, material.getMaterialMapColor());
-	}
-
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
+	public EnumBlockRenderType getRenderType(IBlockState state)
+	{
 		return EnumBlockRenderType.MODEL;
 	}
 

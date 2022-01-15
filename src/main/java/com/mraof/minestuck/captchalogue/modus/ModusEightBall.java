@@ -26,20 +26,22 @@ public class ModusEightBall extends Modus
 	{
 		ICaptchalogueable item = super.get(sylladices, settings, slots, i, asCard);
 
-		if(asCard)
+		if (asCard)
 			return item;
 
 		return new CaptchalogueableItemStack(ModusStorage.storeItem(new ItemStack(MinestuckItems.eightBall), item));
 	}
 
 	@Override
-	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings) {
-		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 15);
+	public String getName(boolean alone, boolean prefix, boolean plural)
+	{
+		return super.getName(alone, prefix, plural);
 	}
 
 	@Override
-	public GuiModusSettings getSettingsGui(ItemStack modusStack) {
-		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/eight_ball_modus.png"));
+	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
+	{
+		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 15);
 	}
 
 	@Override
@@ -49,13 +51,14 @@ public class ModusEightBall extends Modus
 	}
 
 	@Override
-	public int getTextColor()
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
 	{
-		return 0xE5E5E5;
+		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/eight_ball_modus.png"));
 	}
 
 	@Override
-	public String getName(boolean alone, boolean prefix, boolean plural) {
-		return super.getName(alone, prefix, plural);
+	public int getTextColor()
+	{
+		return 0xE5E5E5;
 	}
 }

@@ -16,20 +16,20 @@ import net.minecraft.world.World;
 
 public class BadgePassiveVoid extends BadgeHeroAspect
 {
+	protected static final int ENERGY_USE = 2;
+
 	public BadgePassiveVoid()
 	{
 		super(EnumAspect.VOID, EnumRole.PASSIVE, EnumAspect.DOOM);
 	}
 
-	protected static final int ENERGY_USE = 2;
-
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state != GodKeyStates.KeyState.PRESS)
+		if (state != GodKeyStates.KeyState.PRESS)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -38,7 +38,7 @@ public class BadgePassiveVoid extends BadgeHeroAspect
 		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.VOID, 5);
 
-		if(target instanceof IMob || target instanceof EntityMinestuck)
+		if (target instanceof IMob || target instanceof EntityMinestuck)
 		{
 			target.setDead();
 			if (!player.isCreative() && !world.isRemote)

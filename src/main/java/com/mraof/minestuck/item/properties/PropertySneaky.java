@@ -25,10 +25,10 @@ public class PropertySneaky extends WeaponProperty
 
 		if (vec3d2.dotProduct(target.getLook(1.0F)) < 0.0D)
 			amount *= backstabDmg;
-		else if(player.isInvisible())
+		else if (player.isInvisible())
 			amount *= invisDmg;
 
-		if(player.isSneaking())
+		if (player.isSneaking())
 			amount *= sneakDmg;
 
 		return amount;

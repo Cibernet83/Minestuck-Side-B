@@ -1,20 +1,17 @@
 package com.mraof.minestuck;
 
-import com.mraof.minestuck.command.CommandGlobalSay;
-import com.mraof.minestuck.command.CommandGodTier;
 import com.mraof.minestuck.alchemy.AlchemyRecipes;
 import com.mraof.minestuck.command.*;
 import com.mraof.minestuck.editmode.DeployList;
 import com.mraof.minestuck.editmode.ServerEditHandler;
 import com.mraof.minestuck.event.CommonEventHandler;
-import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.modSupport.crafttweaker.CraftTweakerSupport;
 import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
 import com.mraof.minestuck.util.Debug;
 import com.mraof.minestuck.util.IdentifierHandler;
+import com.mraof.minestuck.util.SylladexUtils;
 import com.mraof.minestuck.world.MinestuckDimensionHandler;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -32,27 +29,21 @@ public class Minestuck
 	public static final String NAME = "Minestuck";
 	public static final String MODID = "minestuck";
 	public static final String VERSION = "@VERSION@";
-	
+	public static final double startTime = System.currentTimeMillis() / 1000d; // Yes I'm being very stupid, for render effects
 	/**
-	 * True only if the minecraft application is client-sided 
+	 * True only if the minecraft application is client-sided
 	 */
 	public static boolean isClientRunning;
 	/**
 	 * True if the minecraft application is server-sided, or if there is an integrated server running
 	 */
 	public static volatile boolean isServerRunning;
-	
 	// The instance of your mod that Forge uses.
-	@Instance("minestuck")
+	@Instance(MODID)
 	public static Minestuck instance;
-	
 	@SidedProxy(clientSide = "com.mraof.minestuck.client.ClientProxy", serverSide = "com.mraof.minestuck.CommonProxy")
 	public static CommonProxy proxy;
-
-	public static long worldSeed = 0;	//TODO proper usage of seed when generating titles, land aspects, and land dimension data
-
-	public static final double startTime = System.currentTimeMillis()/1000d; // Yes I'm being very stupid, for render effects
-
+	public static long worldSeed = 0;    //TODO proper usage of seed when generating titles, land aspects, and land dimension data
 	public static boolean isMekanismLoaded;
 	public static boolean isCyclicLoaded;
 	public static boolean isBOPLoaded;
@@ -71,7 +62,7 @@ public class Minestuck
 	public static boolean isLocksLoaded;
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) 
+	public void preInit(FMLPreInitializationEvent event)
 	{
 		isClientRunning = event.getSide().isClient();
 
@@ -95,49 +86,49 @@ public class Minestuck
 		Minestuck.isLocksLoaded = Loader.isModLoaded("locks");
 
 		Debug.logger = event.getModLog();
-		
+
 		MinestuckConfig.loadConfigFile(event.getSuggestedConfigurationFile(), event.getSide());
-		
+
 		//(new UpdateChecker()).start();
-		
+
 		proxy.preInit();
 	}
-	
+
 	@EventHandler
-	public void load(FMLInitializationEvent event) 
+	public void load(FMLInitializationEvent event)
 	{
 		//Register textures and renders
 		proxy.init();
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) 
+	public void postInit(FMLPostInitializationEvent event)
 	{
-		if(Loader.isModLoaded("crafttweaker"))
+		if (Loader.isModLoaded("crafttweaker"))
 			CraftTweakerSupport.applyRecipes();
-		
+
 		AlchemyRecipes.registerAutomaticRecipes();
 	}
 
-	@EventHandler 
+	@EventHandler
 	public void serverAboutToStart(FMLServerAboutToStartEvent event)
 	{
 		isServerRunning = true;
 		TileEntityTransportalizer.transportalizers.clear();
 		DeployList.applyConfigValues(MinestuckConfig.deployConfigurations);
 	}
-	
+
 	@EventHandler
 	public void serverStarting(FMLServerStartingEvent event)
 	{
-		if(!event.getServer().isDedicatedServer() && Minestuck.class.getAnnotation(Mod.class).version().startsWith("@"))
-			event.getServer().setOnlineMode(false);	//Makes it possible to use LAN in a development environment
-		
-		if(!event.getServer().isServerInOnlineMode() && MinestuckConfig.useUUID)
+		if (!event.getServer().isDedicatedServer() && Minestuck.class.getAnnotation(Mod.class).version().startsWith("@"))
+			event.getServer().setOnlineMode(false);    //Makes it possible to use LAN in a development environment
+
+		if (!event.getServer().isServerInOnlineMode() && MinestuckConfig.useUUID)
 			Debug.warn("Because uuids might not be consistent in an offline environment, it is not recommended to use uuids for minestuck. You should disable uuidIdentification in the minestuck config.");
-		if(event.getServer().isServerInOnlineMode() && !MinestuckConfig.useUUID)
+		if (event.getServer().isServerInOnlineMode() && !MinestuckConfig.useUUID)
 			Debug.warn("Because users may change their usernames, it is normally recommended to use uuids for minestuck. You should enable uuidIdentification in the minestuck config.");
-		
+
 		event.registerServerCommand(new CommandCheckLand());
 		event.registerServerCommand(new CommandGrist());
 		event.registerServerCommand(new CommandGristSend());
@@ -151,7 +142,7 @@ public class Minestuck
 		event.registerServerCommand(new CommandLandDebug());
 		event.registerServerCommand(new CommandGodTier());
 		event.registerServerCommand(new CommandGlobalSay());
-		
+
 		worldSeed = event.getServer().worlds[0].getSeed();
 		CommonEventHandler.lastDay = event.getServer().worlds[0].getWorldTime() / 24000L;
 		SylladexUtils.rand = new Random();
@@ -162,7 +153,7 @@ public class Minestuck
 	{
 		proxy.serverStarted();
 	}
-	
+
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event)
 	{

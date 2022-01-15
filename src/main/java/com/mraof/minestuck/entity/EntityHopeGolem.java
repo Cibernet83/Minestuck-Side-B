@@ -31,23 +31,14 @@ import java.util.UUID;
 
 public class EntityHopeGolem extends EntityIronGolem
 {
-	protected static final DataParameter<Optional<UUID>> OWNER_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(EntityHopeGolem.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	public static final int MAX_HOPE_TICKS = 6000;
+	protected static final DataParameter<Optional<UUID>> OWNER_UNIQUE_ID = EntityDataManager.createKey(EntityHopeGolem.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 	protected static final DataParameter<Integer> HOPE_TICKS = EntityDataManager.createKey(EntityHopeGolem.class, DataSerializers.VARINT);
 	protected static final DataParameter<Boolean> ANGRY = EntityDataManager.createKey(EntityHopeGolem.class, DataSerializers.BOOLEAN);
 
-	public static final int MAX_HOPE_TICKS = 6000;
-
-	public EntityHopeGolem(World worldIn) {
+	public EntityHopeGolem(World worldIn)
+	{
 		super(worldIn);
-	}
-
-	@Override
-	protected void entityInit() {
-		super.entityInit();
-
-		this.dataManager.register(OWNER_UNIQUE_ID, Optional.absent());
-		this.dataManager.register(HOPE_TICKS, MAX_HOPE_TICKS);
-		this.dataManager.register(ANGRY, false);
 	}
 
 	@Override
@@ -63,21 +54,19 @@ public class EntityHopeGolem extends EntityIronGolem
 		this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.6D));
 		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
-		this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
+		this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
 		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, false, true,
 				(Predicate<EntityLiving>) p_apply_1_ -> p_apply_1_ != null && IMob.VISIBLE_MOB_SELECTOR.apply(p_apply_1_) && !(p_apply_1_ instanceof EntityCreeper)));
 	}
 
 	@Override
-	protected boolean canDropLoot() {
-		return false;
-	}
-
-	@Override
-	public void onAddedToWorld()
+	protected void entityInit()
 	{
-		super.onAddedToWorld();
-		getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, 20);
+		super.entityInit();
+
+		this.dataManager.register(OWNER_UNIQUE_ID, Optional.absent());
+		this.dataManager.register(HOPE_TICKS, MAX_HOPE_TICKS);
+		this.dataManager.register(ANGRY, false);
 	}
 
 	@Override
@@ -85,22 +74,22 @@ public class EntityHopeGolem extends EntityIronGolem
 	{
 		super.onLivingUpdate();
 
-		if(!world.isRemote)
+		if (!world.isRemote)
 		{
 			int hopeDecay = 1;
 
-			if(hasOwner())
+			if (hasOwner())
 			{
 				EntityLivingBase owner = getOwner();
-				hopeDecay = owner.isDead ? MAX_HOPE_TICKS : Math.max(10-(int) (owner.getHealth()/owner.getMaxHealth()*10), 1);
+				hopeDecay = owner.isDead ? MAX_HOPE_TICKS : Math.max(10 - (int) (owner.getHealth() / owner.getMaxHealth() * 10), 1);
 			}
 
 			List<EntityHopeGolem> golemAllies = world.getEntitiesWithinAABB(EntityHopeGolem.class, getEntityBoundingBox().grow(128), t -> t != this && t.getOwner() == getOwner());
 
-			hopeDecay *= golemAllies.size()*2+1;
+			hopeDecay *= golemAllies.size() * 2 + 1;
 
-			setHopeTicks(getHopeTicks()-hopeDecay);
-			if(getHopeTicks() < 0)
+			setHopeTicks(getHopeTicks() - hopeDecay);
+			if (getHopeTicks() < 0)
 			{
 				getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.BURST, EnumAspect.HOPE, 20);
 				setDead();
@@ -112,7 +101,81 @@ public class EntityHopeGolem extends EntityIronGolem
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount) {
+	public void writeEntityToNBT(NBTTagCompound compound)
+	{
+		super.writeEntityToNBT(compound);
+
+		compound.setInteger("HopeTicks", getHopeTicks());
+		compound.setBoolean("Angry", isAngry());
+		if (hasOwner())
+			compound.setString("OwnerUUID", this.getOwnerId().toString());
+	}
+
+	public int getHopeTicks() { return dataManager.get(HOPE_TICKS); }
+
+	public void setHopeTicks(int v) { dataManager.set(HOPE_TICKS, v); }
+
+	public boolean isAngry() { return dataManager.get(ANGRY); }
+
+	public void setAngry(boolean v) { dataManager.set(ANGRY, v); }
+
+	public boolean hasOwner()
+	{
+		return getOwner() != null;
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound)
+	{
+		super.readEntityFromNBT(compound);
+
+		if (compound.hasKey("HopeTicks"))
+			setHopeTicks(compound.getInteger("HopeTicks"));
+		if (compound.hasKey("Angry"))
+			setAngry(compound.getBoolean("Angry"));
+
+		String s;
+		if (compound.hasKey("OwnerUUID", 8))
+			s = compound.getString("OwnerUUID");
+		else
+		{
+			String s1 = compound.getString("Owner");
+			s = PreYggdrasilConverter.convertMobOwnerIfNeeded(this.getServer(), s1);
+		}
+
+		if (!s.isEmpty())
+		{
+			try
+			{
+				this.setOwnerId(UUID.fromString(s));
+			}
+			catch (Throwable var4)
+			{
+
+			}
+		}
+
+	}
+
+	public void onDeath(DamageSource cause)
+	{
+		if (!this.world.isRemote && this.world.getGameRules().getBoolean("showDeathMessages") && this.getOwner() instanceof EntityPlayerMP)
+		{
+			this.getOwner().sendMessage(this.getCombatTracker().getDeathMessage());
+		}
+
+		super.onDeath(cause);
+	}
+
+	@Override
+	protected boolean canDropLoot()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
 		return super.attackEntityFrom(source, Math.min(amount, 6));
 	}
 
@@ -125,26 +188,14 @@ public class EntityHopeGolem extends EntityIronGolem
 		else this.setAngry(true);
 	}
 
-	public int getHopeTicks() { return dataManager.get(HOPE_TICKS); }
-	public void setHopeTicks(int v) { dataManager.set(HOPE_TICKS, v); }
-
-	public boolean isAngry() { return dataManager.get(ANGRY); }
-	public void setAngry(boolean v) { dataManager.set(ANGRY, v); }
-
-	@Nullable
-	public UUID getOwnerId()
-	{
-		return (UUID)((Optional)this.dataManager.get(OWNER_UNIQUE_ID)).orNull();
-	}
-
-	public void setOwnerId(@Nullable UUID p_184754_1_)
-	{
-		this.dataManager.set(OWNER_UNIQUE_ID, Optional.fromNullable(p_184754_1_));
-	}
-
 	public void setCreatedBy(EntityPlayer player)
 	{
 		this.setOwnerId(player.getUniqueID());
+	}
+
+	public boolean isOwner(EntityLivingBase entityIn)
+	{
+		return entityIn == this.getOwner();
 	}
 
 	@Nullable
@@ -161,15 +212,15 @@ public class EntityHopeGolem extends EntityIronGolem
 		}
 	}
 
-	public boolean isOwner(EntityLivingBase entityIn)
+	@Nullable
+	public UUID getOwnerId()
 	{
-		return entityIn == this.getOwner();
+		return (UUID) ((Optional) this.dataManager.get(OWNER_UNIQUE_ID)).orNull();
 	}
 
-
-	public boolean hasOwner()
+	public void setOwnerId(@Nullable UUID p_184754_1_)
 	{
-		return getOwner() != null;
+		this.dataManager.set(OWNER_UNIQUE_ID, Optional.fromNullable(p_184754_1_));
 	}
 
 	public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner)
@@ -197,58 +248,10 @@ public class EntityHopeGolem extends EntityIronGolem
 		return super.isOnSameTeam(entityIn);
 	}
 
-
-	public void onDeath(DamageSource cause)
-	{
-		if (!this.world.isRemote && this.world.getGameRules().getBoolean("showDeathMessages") && this.getOwner() instanceof EntityPlayerMP)
-		{
-			this.getOwner().sendMessage(this.getCombatTracker().getDeathMessage());
-		}
-
-		super.onDeath(cause);
-	}
-
 	@Override
-	public void writeEntityToNBT(NBTTagCompound compound)
+	public void onAddedToWorld()
 	{
-		super.writeEntityToNBT(compound);
-
-		compound.setInteger("HopeTicks", getHopeTicks());
-		compound.setBoolean("Angry", isAngry());
-		if(hasOwner())
-			compound.setString("OwnerUUID", this.getOwnerId().toString());
-	}
-
-	@Override
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
-		super.readEntityFromNBT(compound);
-
-		if(compound.hasKey("HopeTicks"))
-			setHopeTicks(compound.getInteger("HopeTicks"));
-		if(compound.hasKey("Angry"))
-			setAngry(compound.getBoolean("Angry"));
-
-		String s;
-		if (compound.hasKey("OwnerUUID", 8))
-			s = compound.getString("OwnerUUID");
-		else
-		{
-			String s1 = compound.getString("Owner");
-			s = PreYggdrasilConverter.convertMobOwnerIfNeeded(this.getServer(), s1);
-		}
-
-		if (!s.isEmpty())
-		{
-			try
-			{
-				this.setOwnerId(UUID.fromString(s));
-			}
-			catch (Throwable var4)
-			{
-
-			}
-		}
-
+		super.onAddedToWorld();
+		getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, 20);
 	}
 }

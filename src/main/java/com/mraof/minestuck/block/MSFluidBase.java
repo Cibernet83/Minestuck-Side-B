@@ -15,36 +15,36 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class MSFluidBase extends BlockFluidClassic implements IRegistryBlock
 {
-    private final String regName;
+	private final String regName;
 
-    public MSFluidBase(String name, Fluid fluid, Material material)
-    {
-        super(fluid, material);
-        setUnlocalizedName(name);
-        regName = IRegistryObject.unlocToReg(name);
-        MinestuckBlocks.blocks.add(this);
-        MinestuckBlocks.fluids.add(getDefaultState());
-    }
+	public MSFluidBase(String name, Fluid fluid, Material material)
+	{
+		super(fluid, material);
+		setUnlocalizedName(name);
+		regName = IRegistryObject.unlocToReg(name);
+		MinestuckBlocks.blocks.add(this);
+		MinestuckBlocks.fluids.add(getDefaultState());
+	}
 
-    @Override
-    public void register(IForgeRegistry<Block> registry)
-    {
-        setRegistryName(regName);
-        registry.register(this);
-    }
+	@Override
+	public void register(IForgeRegistry<Block> registry)
+	{
+		setRegistryName(regName);
+		registry.register(this);
+	}
 
-    @Override
-    public MSItemBlock getItemBlock()
-    {
-        return new MSItemBlock(this)
-        {
-            @Override
-            @SideOnly(Side.CLIENT)
-            public void registerModel()
-            {
-                super.registerModel();
-                ModelLoader.setCustomStateMapper(MSFluidBase.this, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
-            }
-        };
-    }
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlock(this)
+		{
+			@Override
+			@SideOnly(Side.CLIENT)
+			public void registerModel()
+			{
+				super.registerModel();
+				ModelLoader.setCustomStateMapper(MSFluidBase.this, (new StateMap.Builder()).ignore(BlockFluidBase.LEVEL).build());
+			}
+		};
+	}
 }

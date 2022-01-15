@@ -13,13 +13,13 @@ import java.util.UUID;
 
 public class PropertyLowHealthBoost extends WeaponProperty
 {
+	public final UUID attrUUID = MathHelper.getRandomUUID(ThreadLocalRandom.current());
 	IAttribute attribute;
 	String name;
 	double maxAmount;
 	double minAmount;
 	float healthThreshold;
 	int operation;
-	public final UUID attrUUID = MathHelper.getRandomUUID(ThreadLocalRandom.current());
 
 	public PropertyLowHealthBoost(IAttribute attribute, String name, double max, double min, float health, int operation)
 	{
@@ -34,13 +34,13 @@ public class PropertyLowHealthBoost extends WeaponProperty
 	@Override
 	public void getAttributeModifiers(EntityLivingBase player, ItemStack stack, Multimap<String, AttributeModifier> multimap)
 	{
-		multimap.put(attribute.getName(), new AttributeModifier(attrUUID, name,(player.getHealth()/player.getMaxHealth() <= healthThreshold) ?
-				minAmount + (maxAmount-minAmount)*Math.max(0, 1-((player.getHealth())/(player.getMaxHealth()*healthThreshold))) : 0, operation));
+		multimap.put(attribute.getName(), new AttributeModifier(attrUUID, name, (player.getHealth() / player.getMaxHealth() <= healthThreshold) ?
+																						minAmount + (maxAmount - minAmount) * Math.max(0, 1 - ((player.getHealth()) / (player.getMaxHealth() * healthThreshold))) : 0, operation));
 	}
 
 	public IItemPropertyGetter getPropertyOverride()
 	{
-		return ((stack, worldIn, entityIn) -> (entityIn != null && entityIn.getHealth()/entityIn.getMaxHealth() <= healthThreshold) ? (float)
-				(minAmount + (maxAmount-minAmount)*Math.max(0, 1-((entityIn.getHealth())/(entityIn.getMaxHealth()*healthThreshold)))) : 0);
+		return ((stack, worldIn, entityIn) -> (entityIn != null && entityIn.getHealth() / entityIn.getMaxHealth() <= healthThreshold) ? (float)
+																																				(minAmount + (maxAmount - minAmount) * Math.max(0, 1 - ((entityIn.getHealth()) / (entityIn.getMaxHealth() * healthThreshold)))) : 0);
 	}
 }

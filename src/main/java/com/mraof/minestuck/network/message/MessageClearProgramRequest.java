@@ -15,18 +15,10 @@ public class MessageClearProgramRequest implements MinestuckMessage
 
 	public MessageClearProgramRequest() { }
 
-	public MessageClearProgramRequest(ComputerData computer, int program){
+	public MessageClearProgramRequest(ComputerData computer, int program)
+	{
 		this.computer = computer;
 		this.program = program;
-	}
-	
-	@Override
-	public void toBytes(ByteBuf buf) {
-		buf.writeInt(computer.getX());
-		buf.writeInt(computer.getY());
-		buf.writeInt(computer.getZ());
-		buf.writeInt(computer.getDimension());
-		buf.writeInt(program);
 	}
 
 	@Override
@@ -37,19 +29,30 @@ public class MessageClearProgramRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(computer.getX());
+		buf.writeInt(computer.getY());
+		buf.writeInt(computer.getZ());
+		buf.writeInt(computer.getDimension());
+		buf.writeInt(program);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
 		TileEntityComputer te = SkaianetHandler.getComputer(computer);
-		
-		if(te != null)
+
+		if (te != null)
 		{
 			te.latestmessage.put(program, "");
 			te.markBlockForUpdate();
 		}
 	}
-	
+
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.SERVER;
 	}
 

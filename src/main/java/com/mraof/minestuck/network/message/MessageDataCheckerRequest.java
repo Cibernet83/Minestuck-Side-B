@@ -22,21 +22,21 @@ public class MessageDataCheckerRequest implements MinestuckMessage
 	public MessageDataCheckerRequest() { }
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeByte(index = (index + 1) % 100);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		packetIndex = buf.readByte();
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeByte(index = (index + 1) % 100);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(player instanceof EntityPlayerMP && MinestuckConfig.getDataCheckerPermissionFor((EntityPlayerMP) player))
+		if (player instanceof EntityPlayerMP && MinestuckConfig.getDataCheckerPermissionFor((EntityPlayerMP) player))
 		{
 			NBTTagCompound data = SessionHandler.createDataTag(player.getServer());
 			MinestuckNetwork.sendTo(new MessageDataChecker(packetIndex, data), player);

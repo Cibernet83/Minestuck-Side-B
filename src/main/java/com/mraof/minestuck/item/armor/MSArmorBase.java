@@ -22,119 +22,117 @@ import java.util.Collection;
 
 public class MSArmorBase extends ItemArmor implements IRegistryItem
 {
-    private final String registryName;
-    private ModelBiped model;
-    ArrayList<ItemStack> repairMaterials = new ArrayList<>();
+	private final String registryName;
+	private final ResourceLocation texture;
+	ArrayList<ItemStack> repairMaterials = new ArrayList<>();
+	private ModelBiped model;
 
-    private final ResourceLocation texture;
+	public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot)
+	{
+		this(name, material, equipmentSlot, material.getDurability(equipmentSlot));
+	}
 
-    public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses, ResourceLocation texture)
-    {
-        super(material, 0, equipmentSlot);
-        setCreativeTab(MinestuckTabs.minestuck);
-        setMaxDamage(maxUses);
-        this.texture = texture;
-        setUnlocalizedName(name);
-        registryName = IRegistryObject.unlocToReg(name);
-        MinestuckItems.items.add(this);
-    }
+	//@ Ciber on the side b discord if you're coding an addon and this is giving you a pain in the backside
+	public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses)
+	{
+		this(name, material, equipmentSlot, maxUses, new ResourceLocation(Minestuck.MODID, IRegistryObject.unlocToReg(name)));
+	}
 
-    //@ Ciber on the side b discord if you're coding an addon and this is giving you a pain in the backside
-    public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses)
-    {
-        this(name, material, equipmentSlot, maxUses, new ResourceLocation(Minestuck.MODID, IRegistryObject.unlocToReg(name)));
-    }
+	public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot, int maxUses, ResourceLocation texture)
+	{
+		super(material, 0, equipmentSlot);
+		setCreativeTab(MinestuckTabs.minestuck);
+		setMaxDamage(maxUses);
+		this.texture = texture;
+		setUnlocalizedName(name);
+		registryName = IRegistryObject.unlocToReg(name);
+		MinestuckItems.items.add(this);
+	}
 
-    public MSArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot equipmentSlot)
-    {
-        this(name, material, equipmentSlot, material.getDurability(equipmentSlot));
-    }
+	public void setArmorModel(ModelBiped model)
+	{
+		this.model = model;
+	}
 
-    public void setArmorModel(ModelBiped model)
-    {
-        this.model = model;
-    }
+	@Nullable
+	@Override
+	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
+	{
+		return texture.getResourceDomain() + ":textures/models/armor/" + texture.getResourcePath() + (type == null || type.isEmpty() ? "" : "_" + type) + ".png";
+	}
 
-    @Nullable
-    @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
-    {
-        return texture.getResourceDomain() + ":textures/models/armor/" + texture.getResourcePath() + (type == null || type.isEmpty() ? "" : "_" + type) + ".png";
-    }
+	@Override
+	public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack stack, EntityEquipmentSlot slot,
+									ModelBiped _default)
+	{
+		if (model == null) return super.getArmorModel(entity, stack, slot, _default);
 
-    @Override
-    public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack stack, EntityEquipmentSlot slot,
-                                    ModelBiped _default)
-    {
-        if(model == null) return super.getArmorModel(entity, stack, slot, _default);
+		if (!stack.isEmpty())
+		{
+			if (stack.getItem() instanceof MSArmorBase)
+			{
+				ModelBiped model = this.model;
 
-        if(!stack.isEmpty())
-        {
-            if(stack.getItem() instanceof MSArmorBase)
-            {
-                ModelBiped model = this.model;
+				model.bipedRightLeg.showModel = slot == EntityEquipmentSlot.LEGS || slot == EntityEquipmentSlot.FEET;
+				model.bipedLeftLeg.showModel = slot == EntityEquipmentSlot.LEGS || slot == EntityEquipmentSlot.FEET;
 
-                model.bipedRightLeg.showModel = slot == EntityEquipmentSlot.LEGS || slot == EntityEquipmentSlot.FEET;
-                model.bipedLeftLeg.showModel = slot == EntityEquipmentSlot.LEGS || slot == EntityEquipmentSlot.FEET;
+				model.bipedBody.showModel = slot == EntityEquipmentSlot.CHEST;
+				model.bipedLeftArm.showModel = slot == EntityEquipmentSlot.CHEST;
+				model.bipedRightArm.showModel = slot == EntityEquipmentSlot.CHEST;
 
-                model.bipedBody.showModel = slot == EntityEquipmentSlot.CHEST;
-                model.bipedLeftArm.showModel = slot == EntityEquipmentSlot.CHEST;
-                model.bipedRightArm.showModel = slot == EntityEquipmentSlot.CHEST;
-
-                model.bipedHead.showModel = slot == EntityEquipmentSlot.HEAD;
-                model.bipedHeadwear.showModel = slot == EntityEquipmentSlot.HEAD;
-
-
-                model.isSneak = _default.isSneak;
-                model.isRiding = _default.isRiding;
-                model.isChild = _default.isChild;
-
-                model.rightArmPose = _default.rightArmPose;
-                model.leftArmPose = _default.leftArmPose;
-
-                return model;
-            }
-        }
-
-        return null;
-    }
+				model.bipedHead.showModel = slot == EntityEquipmentSlot.HEAD;
+				model.bipedHeadwear.showModel = slot == EntityEquipmentSlot.HEAD;
 
 
-    public MSArmorBase setRepairMaterials(ItemStack... stacks)
-    {
-        for(ItemStack i : stacks)
-            repairMaterials.add(i);
-        return this;
-    }
+				model.isSneak = _default.isSneak;
+				model.isRiding = _default.isRiding;
+				model.isChild = _default.isChild;
 
-    public MSArmorBase setRepairMaterials(Collection<ItemStack> stacks)
-    {
-        repairMaterials.addAll(stacks);
-        return this;
-    }
+				model.rightArmPose = _default.rightArmPose;
+				model.leftArmPose = _default.leftArmPose;
 
-    public MSArmorBase setRepairMaterial(String oredic)
-    {
-        if(OreDictionary.doesOreNameExist(oredic))
-            setRepairMaterials(OreDictionary.getOres(oredic));
-        return this;
-    }
+				return model;
+			}
+		}
+
+		return null;
+	}
 
 
-    @Override
-    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
-    {
+	public MSArmorBase setRepairMaterials(ItemStack... stacks)
+	{
+		for (ItemStack i : stacks)
+			repairMaterials.add(i);
+		return this;
+	}
 
-        for(ItemStack mat : repairMaterials)
-            if (!mat.isEmpty() && OreDictionary.itemMatches(mat, repair, false)) return true;
+	public MSArmorBase setRepairMaterial(String oredic)
+	{
+		if (OreDictionary.doesOreNameExist(oredic))
+			setRepairMaterials(OreDictionary.getOres(oredic));
+		return this;
+	}
 
-        return super.getIsRepairable(toRepair, repair);
-    }
+	public MSArmorBase setRepairMaterials(Collection<ItemStack> stacks)
+	{
+		repairMaterials.addAll(stacks);
+		return this;
+	}
 
-    @Override
-    public void register(IForgeRegistry<Item> registry)
-    {
-       setRegistryName(registryName);
-       registry.register(this);
-    }
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+	{
+
+		for (ItemStack mat : repairMaterials)
+			if (!mat.isEmpty() && OreDictionary.itemMatches(mat, repair, false)) return true;
+
+		return super.getIsRepairable(toRepair, repair);
+	}
+
+	@Override
+	public void register(IForgeRegistry<Item> registry)
+	{
+		setRegistryName(registryName);
+		registry.register(this);
+	}
 }

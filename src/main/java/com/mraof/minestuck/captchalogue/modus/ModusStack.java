@@ -81,10 +81,11 @@ public class ModusStack extends Modus
 		return new CardGuiContainer.CardTextureIndex(this, GuiSylladex.CARD_TEXTURE, 53);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	public int getDarkerColor()
 	{
-		return new GuiStackModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/stack_modus.png"), true);
+		return 0x9A2547;
 	}
 
 	@Override
@@ -96,16 +97,15 @@ public class ModusStack extends Modus
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getDarkerColor()
-	{
-		return 0x9A2547;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
 	public int getLighterColor()
 	{
 		return 0xFF5D99;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public GuiModusSettings getSettingsGui(ItemStack modusStack)
+	{
+		return new GuiStackModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/stack_modus.png"), true);
 	}
 
 	@Override

@@ -11,10 +11,11 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderUnrealAir  extends Render<EntityUnrealAir>
+public class RenderUnrealAir extends Render<EntityUnrealAir>
 {
 
-	public RenderUnrealAir(RenderManager manager) {
+	public RenderUnrealAir(RenderManager manager)
+	{
 		super(manager);
 		this.shadowSize = 0.15F;
 		this.shadowOpaque = 0.75F;
@@ -25,13 +26,13 @@ public class RenderUnrealAir  extends Render<EntityUnrealAir>
 		float size = 2;
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate((float)x, (float)y + 0.2f, (float)z);
+		GlStateManager.translate((float) x, (float) y + 0.2f, (float) z);
 		this.bindEntityTexture(entity);
 		BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
 		int j = entity.getBrightnessForRender();
 		int k = j % 65536;
 		int l = j / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)k / 1.0F, (float)l / 1.0F);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) k / 1.0F, (float) l / 1.0F);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -47,7 +48,8 @@ public class RenderUnrealAir  extends Render<EntityUnrealAir>
 		GlStateManager.popMatrix();
 	}
 
-	protected ResourceLocation getEntityTexture(EntityUnrealAir entity) {
+	protected ResourceLocation getEntityTexture(EntityUnrealAir entity)
+	{
 		return new ResourceLocation(Minestuck.MODID, "textures/entity/unreal_air.png");
 	}
 }

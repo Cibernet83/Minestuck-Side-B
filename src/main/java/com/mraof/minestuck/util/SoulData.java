@@ -26,7 +26,7 @@ public class SoulData
 	public SoulData(EntityLivingBase player)
 	{
 		this.potionEffects = new ArrayList<>();
-		for(PotionEffect effect : player.getActivePotionEffects())
+		for (PotionEffect effect : player.getActivePotionEffects())
 			this.potionEffects.add(new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
 
 		this.posX = player.posX;
@@ -41,8 +41,19 @@ public class SoulData
 		this.health = player.getHealth();
 		this.decayTime = player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getDecayTime();
 
-		if(player instanceof EntityPlayer)
+		if (player instanceof EntityPlayer)
 			this.currentItem = ((EntityPlayer) player).inventory.currentItem;
+	}
+
+	public Vec3d getEntityMotion(EntityLivingBase entity)
+	{
+		Vec3d prevPos = entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getPrevPos();
+		Vec3d pos = new Vec3d(entity.posX, entity.posY, entity.posZ);
+
+		if (prevPos == null)
+			return new Vec3d(0, 0, 0);
+
+		return pos.subtract(prevPos);
 	}
 
 	public void apply(EntityLivingBase player)
@@ -58,28 +69,17 @@ public class SoulData
 		player.setHealth(this.health);
 
 		player.clearActivePotions();
-		for(PotionEffect effect : potionEffects)
+		for (PotionEffect effect : potionEffects)
 			player.addPotionEffect(effect);
 
 		player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setDecayTime(decayTime);
 
-		if(player instanceof EntityPlayer)
+		if (player instanceof EntityPlayer)
 		{
 			((EntityPlayer) player).inventory.currentItem = this.currentItem;
-			if(FMLCommonHandler.instance().getSide() == Side.SERVER)
+			if (FMLCommonHandler.instance().getSide() == Side.SERVER)
 				MinestuckNetwork.sendTo(new MessageCurrentItem(this.currentItem), (EntityPlayer) player);
 		}
 
-	}
-
-	public Vec3d getEntityMotion(EntityLivingBase entity)
-	{
-		Vec3d prevPos = entity.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getPrevPos();
-		Vec3d pos = new Vec3d(entity.posX, entity.posY, entity.posZ);
-
-		if(prevPos == null)
-			return new Vec3d(0,0,0);
-
-		return pos.subtract(prevPos);
 	}
 }

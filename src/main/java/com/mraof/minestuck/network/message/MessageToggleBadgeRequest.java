@@ -18,22 +18,15 @@ public class MessageToggleBadgeRequest implements MinestuckMessage
 
 	public MessageToggleBadgeRequest() { }
 
-	public MessageToggleBadgeRequest(Badge badge, boolean sendMessage)
-	{
-		this.badge = badge;
-		this.sendMessage = sendMessage;
-	}
-
 	public MessageToggleBadgeRequest(Badge badge)
 	{
 		this(badge, false);
 	}
 
-	@Override
-	public void toBytes(ByteBuf buf)
+	public MessageToggleBadgeRequest(Badge badge, boolean sendMessage)
 	{
-		ByteBufUtils.writeRegistryEntry(buf, badge);
-		buf.writeBoolean(sendMessage);
+		this.badge = badge;
+		this.sendMessage = sendMessage;
 	}
 
 	@Override
@@ -44,15 +37,22 @@ public class MessageToggleBadgeRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		ByteBufUtils.writeRegistryEntry(buf, badge);
+		buf.writeBoolean(sendMessage);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
 		IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
-		if(data.hasBadge(badge))
+		if (data.hasBadge(badge))
 		{
 			data.setBadgeEnabled(badge, !data.isBadgeEnabled(badge));
 			data.update();
 
-			if(sendMessage)
+			if (sendMessage)
 				player.sendStatusMessage(new TextComponentTranslation((!data.isBadgeEnabled(badge) ? "status.badgeDisabled" : "status.badgeEnabled"), badge.getDisplayComponent()), true);
 		}
 	}

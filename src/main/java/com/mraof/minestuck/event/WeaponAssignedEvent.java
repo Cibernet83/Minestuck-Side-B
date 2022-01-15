@@ -22,19 +22,23 @@ public class WeaponAssignedEvent extends Event
 		this.result = result;
 	}
 
-	public EntityLivingBase getPlayer() {
+	public EntityLivingBase getPlayer()
+	{
 		return player;
 	}
 
-	public ItemStack getStack() {
+	public ItemStack getStack()
+	{
 		return stack;
 	}
 
-	public boolean getCheckResult() {
+	public boolean getCheckResult()
+	{
 		return result;
 	}
 
-	public void setCheckResult(boolean result) {
+	public void setCheckResult(boolean result)
+	{
 		this.result = result;
 	}
 }

@@ -23,13 +23,6 @@ public class MessageBeamData implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(worldId);
-		ByteBufUtils.writeTag(buf, nbt);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		worldId = buf.readInt();
@@ -37,9 +30,16 @@ public class MessageBeamData implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(worldId);
+		ByteBufUtils.writeTag(buf, nbt);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(player.world.provider.getDimension() == worldId)
+		if (player.world.provider.getDimension() == worldId)
 			player.world.getCapability(MinestuckCapabilities.BEAM_DATA, null).readFromNBT(nbt);
 	}
 

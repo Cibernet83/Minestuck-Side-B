@@ -12,18 +12,18 @@ public class RenderShadow<T extends Entity> extends Render<T>
 		super(manager);
 		this.shadowSize = shadowSize;
 	}
-	
-	public void doRenderShadow(T entity, double d0, double d1, double d2, float f, float f1)
-	{
-		this.shadowSize = entity.width;
-	}
-	
+
 	@Override
 	public void doRender(T entity, double d0, double d1, double d2, float f, float f1)
 	{
 		this.doRenderShadow(entity, d0, d1, d2, f, f1);
 	}
-	
+
+	public void doRenderShadow(T entity, double d0, double d1, double d2, float f, float f1)
+	{
+		this.shadowSize = entity.width;
+	}
+
 	@Override
 	protected ResourceLocation getEntityTexture(T entity)
 	{

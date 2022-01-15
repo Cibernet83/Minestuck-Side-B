@@ -25,18 +25,18 @@ public abstract class EntityAbstractOperandiThrowable extends EntityThrowable
 		super(worldIn, throwerIn);
 		storedStack = stack;
 	}
-	
+
 	public EntityAbstractOperandiThrowable(World worldIn, double x, double y, double z, ICaptchalogueable stack)
 	{
 		super(worldIn, x, y, z);
 		storedStack = stack;
 	}
-	
+
 	public static void registerFixes(DataFixer fixer)
 	{
 		EntityThrowable.registerFixesThrowable(fixer, "EightBall");
 	}
-	
+
 	/**
 	 * Called when this EntityThrowable hits a block or entity.
 	 */
@@ -44,13 +44,13 @@ public abstract class EntityAbstractOperandiThrowable extends EntityThrowable
 	{
 		if (result.entityHit != null)
 			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0F);
-		
+
 		if (!this.world.isRemote)
 		{
 
 			world.playSound(null, thrower == null ? getPosition() : thrower.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 			storedStack.drop(this);
-			this.world.setEntityState(this, (byte)3);
+			this.world.setEntityState(this, (byte) 3);
 			this.setDead();
 		}
 	}

@@ -1,10 +1,10 @@
 package com.mraof.minestuck.item.weapon;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.item.properties.WeaponProperty;
 import com.mraof.minestuck.item.properties.shieldkind.IPropertyShield;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -29,6 +29,11 @@ public class MSShieldBase extends MSWeaponBase
 	protected int parryTime;
 	protected float parryDeflect;
 
+	public MSShieldBase(String name, int maxUses, int parryTimeFrame, float parryDamageDeflect, int enchantability)
+	{
+		this(name, maxUses, 0, 0, parryTimeFrame, parryDamageDeflect, enchantability);
+	}
+
 	public MSShieldBase(String name, int maxUses, double damageVsEntity, double weaponSpeed, int parryTimeFrame, float parryDamageDeflect, int enchantability)
 	{
 		super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
@@ -39,153 +44,16 @@ public class MSShieldBase extends MSWeaponBase
 
 	}
 
-	public MSShieldBase(String name, int maxUses, int parryTimeFrame, float parryDamageDeflect, int enchantability)
-	{
-		this(name, maxUses, 0, 0, parryTimeFrame, parryDamageDeflect, enchantability);
-	}
-
 	@Override
 	public boolean isShield(ItemStack stack, @Nullable EntityLivingBase entity)
 	{
-		for(WeaponProperty p : getProperties(stack))
+		for (WeaponProperty p : getProperties(stack))
 		{
-			if(p instanceof IPropertyShield && !((IPropertyShield) p).isShielding(stack, entity))
+			if (p instanceof IPropertyShield && !((IPropertyShield) p).isShielding(stack, entity))
 				return false;
 		}
 
 		return true;
-	}
-
-	@Override
-	public int getMaxItemUseDuration(ItemStack stack)
-	{
-		int result = 72000;
-		for(WeaponProperty p : getProperties(stack))
-			result = p.getMaxItemUseDuration(stack, result);
-		return result;
-	}
-
-	public EnumAction getItemUseAction(ItemStack stack)
-	{
-		for(WeaponProperty p : getProperties(stack))
-		{
-			EnumAction result = p.getItemUseAction(stack);
-			if(result != null)
-				return result;
-		}
-
-		return EnumAction.BLOCK;
-	}
-
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-	{
-		ActionResult<ItemStack> result = super.onItemRightClick(worldIn, playerIn, handIn);
-
-		if(result.getType() == EnumActionResult.PASS)
-		{
-			ItemStack itemstack = playerIn.getHeldItem(handIn);
-			playerIn.setActiveHand(handIn);
-
-			if(isParrying(itemstack))
-				setParryTime(itemstack, 0);
-
-			return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
-		}
-
-		return result;
-	}
-
-	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
-	{
-		entityLiving.resetActiveHand();
-
-		if(isShield(stack, entityLiving) && (!(entityLiving instanceof EntityPlayer) || !((EntityPlayer) entityLiving).getCooldownTracker().hasCooldown(stack.getItem())))
-			startParrying(stack);
-		super.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
-	}
-
-	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
-	{
-		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
-		if (slot == EntityEquipmentSlot.MAINHAND)
-		{
-			double dmg = this.getAttackDamage(stack);
-			double spd = this.getAttackSpeed(stack);
-
-			if(dmg != 0)
-				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", dmg, 0));
-			if(spd != 0)
-				multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", spd, 0));
-		}
-
-		return multimap;
-	}
-
-	@Override
-	public boolean onEntityItemUpdate(EntityItem entityItem)
-	{
-		ItemStack stack = entityItem.getItem();
-		if(isParrying(stack))
-			setParryTime(stack, 0);
-
-		return super.onEntityItemUpdate(entityItem);
-	}
-
-	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-	{
-		if(isParrying(stack))
-		{
-			setParryTime(stack, getParryTime(stack)-1);
-			if(getParryTime(stack) <= 0)
-				stack.getTagCompound().setBoolean("Parried", false);
-		}
-		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-	}
-
-	public void onHitWhileShielding(ItemStack stack, EntityLivingBase target, DamageSource source, float damage, boolean block)
-	{
-		for(WeaponProperty p : getProperties(stack))
-			if(p instanceof IPropertyShield)
-				((IPropertyShield) p).onHitWhileShielding(stack, target, source, damage, block);
-	}
-
-	public boolean onShieldParry(ItemStack stack, EntityLivingBase target, DamageSource source, float damage)
-	{
-		for(WeaponProperty p : getProperties(stack))
-			if(p instanceof IPropertyShield && !((IPropertyShield) p).onShieldParry(stack, target, source, damage))
-				return false;
-
-		if(source.getImmediateSource() != null)
-			source.getImmediateSource().attackEntityFrom(new ParryDamageSource(stack, target), damage*parryDeflect);
-		stack.getTagCompound().setBoolean("Parried", true);
-		return true;
-	}
-
-	public boolean isParrying(ItemStack stack)
-	{
-		return getParryTime(stack) > 0;
-	}
-
-	public int getParryTime(ItemStack stack)
-	{
-		return !stack.hasTagCompound() ? 0 : stack.getTagCompound().getInteger("ParryTime");
-	}
-
-	public void setParryTime(ItemStack stack, int time)
-	{
-		if(!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setInteger("ParryTime", time);
-
-	}
-
-	public void startParrying(ItemStack stack)
-	{
-		setParryTime(stack, parryTime);
 	}
 
 	public static boolean canBlockDamageSource(EntityLivingBase entity, DamageSource damageSourceIn)
@@ -200,26 +68,101 @@ public class MSShieldBase extends MSWeaponBase
 				Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
 				vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
 
-				if (vec3d2.dotProduct(vec3d1) < 0.0D)
-					return true;
+				return vec3d2.dotProduct(vec3d1) < 0.0D;
 			}
 		}
 
 		return false;
 	}
 
-	@Override
-	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
+	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		ItemStack stackA = oldStack.copy();
-		ItemStack stackB = newStack.copy();
+		for (WeaponProperty p : getProperties(stack))
+		{
+			EnumAction result = p.getItemUseAction(stack);
+			if (result != null)
+				return result;
+		}
 
-		if(stackA.hasTagCompound())
-			stackA.getTagCompound().removeTag("ParryTime");
-		if(stackB.hasTagCompound())
-			stackB.getTagCompound().removeTag("ParryTime");
+		return EnumAction.BLOCK;
+	}
 
-		return !ItemStack.areItemStacksEqual(stackA, stackB);
+	@Override
+	public boolean onEntityItemUpdate(EntityItem entityItem)
+	{
+		ItemStack stack = entityItem.getItem();
+		if (isParrying(stack))
+			setParryTime(stack, 0);
+
+		return super.onEntityItemUpdate(entityItem);
+	}
+
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		if (isParrying(stack))
+		{
+			setParryTime(stack, getParryTime(stack) - 1);
+			if (getParryTime(stack) <= 0)
+				stack.getTagCompound().setBoolean("Parried", false);
+		}
+		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+	}
+
+	@Override
+	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
+	{
+		entityLiving.resetActiveHand();
+
+		if (isShield(stack, entityLiving) && (!(entityLiving instanceof EntityPlayer) || !((EntityPlayer) entityLiving).getCooldownTracker().hasCooldown(stack.getItem())))
+			startParrying(stack);
+		super.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
+	}
+
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack)
+	{
+		int result = 72000;
+		for (WeaponProperty p : getProperties(stack))
+			result = p.getMaxItemUseDuration(stack, result);
+		return result;
+	}
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
+		ActionResult<ItemStack> result = super.onItemRightClick(worldIn, playerIn, handIn);
+
+		if (result.getType() == EnumActionResult.PASS)
+		{
+			ItemStack itemstack = playerIn.getHeldItem(handIn);
+			playerIn.setActiveHand(handIn);
+
+			if (isParrying(itemstack))
+				setParryTime(itemstack, 0);
+
+			return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+		}
+
+		return result;
+	}
+
+	public boolean isParrying(ItemStack stack)
+	{
+		return getParryTime(stack) > 0;
+	}
+
+	public int getParryTime(ItemStack stack)
+	{
+		return !stack.hasTagCompound() ? 0 : stack.getTagCompound().getInteger("ParryTime");
+	}
+
+	public void setParryTime(ItemStack stack, int time)
+	{
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setInteger("ParryTime", time);
+
 	}
 
 	@Override
@@ -228,9 +171,9 @@ public class MSShieldBase extends MSWeaponBase
 		ItemStack stackA = oldStack.copy();
 		ItemStack stackB = newStack.copy();
 
-		if(!stackA.hasTagCompound())
+		if (!stackA.hasTagCompound())
 			stackA.setTagCompound(new NBTTagCompound());
-		if(!stackB.hasTagCompound())
+		if (!stackB.hasTagCompound())
 			stackB.setTagCompound(new NBTTagCompound());
 
 		stackB.getTagCompound().setInteger("ParryTime", 0);
@@ -238,6 +181,62 @@ public class MSShieldBase extends MSWeaponBase
 
 
 		return super.shouldCauseBlockBreakReset(stackA, stackB);
+	}
+
+	@Override
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
+	{
+		ItemStack stackA = oldStack.copy();
+		ItemStack stackB = newStack.copy();
+
+		if (stackA.hasTagCompound())
+			stackA.getTagCompound().removeTag("ParryTime");
+		if (stackB.hasTagCompound())
+			stackB.getTagCompound().removeTag("ParryTime");
+
+		return !ItemStack.areItemStacksEqual(stackA, stackB);
+	}
+
+	@Override
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
+	{
+		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
+		if (slot == EntityEquipmentSlot.MAINHAND)
+		{
+			double dmg = this.getAttackDamage(stack);
+			double spd = this.getAttackSpeed(stack);
+
+			if (dmg != 0)
+				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", dmg, 0));
+			if (spd != 0)
+				multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", spd, 0));
+		}
+
+		return multimap;
+	}
+
+	public void startParrying(ItemStack stack)
+	{
+		setParryTime(stack, parryTime);
+	}
+
+	public void onHitWhileShielding(ItemStack stack, EntityLivingBase target, DamageSource source, float damage, boolean block)
+	{
+		for (WeaponProperty p : getProperties(stack))
+			if (p instanceof IPropertyShield)
+				((IPropertyShield) p).onHitWhileShielding(stack, target, source, damage, block);
+	}
+
+	public boolean onShieldParry(ItemStack stack, EntityLivingBase target, DamageSource source, float damage)
+	{
+		for (WeaponProperty p : getProperties(stack))
+			if (p instanceof IPropertyShield && !((IPropertyShield) p).onShieldParry(stack, target, source, damage))
+				return false;
+
+		if (source.getImmediateSource() != null)
+			source.getImmediateSource().attackEntityFrom(new ParryDamageSource(stack, target), damage * parryDeflect);
+		stack.getTagCompound().setBoolean("Parried", true);
+		return true;
 	}
 
 	public static class ParryDamageSource extends EntityDamageSource
@@ -254,7 +253,7 @@ public class MSShieldBase extends MSWeaponBase
 		{
 			String s = "death.attack." + this.damageType;
 			String s1 = s + ".item";
-			return !shield.isEmpty() && shield.hasDisplayName() && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, new Object[] {entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName(), shield.getTextComponent()}) : new TextComponentTranslation(s, new Object[] {entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName()});
+			return !shield.isEmpty() && shield.hasDisplayName() && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName(), shield.getTextComponent()) : new TextComponentTranslation(s, entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName());
 		}
 
 	}

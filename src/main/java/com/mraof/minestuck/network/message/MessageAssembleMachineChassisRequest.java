@@ -9,42 +9,43 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class MessageAssembleMachineChassisRequest implements MinestuckMessage
 {
-    private BlockPos pos;
+	private BlockPos pos;
 
-    public MessageAssembleMachineChassisRequest() { }
+	public MessageAssembleMachineChassisRequest() { }
 
-    public MessageAssembleMachineChassisRequest(TileEntityMachineChassis machineChassis)
-    {
-        pos = machineChassis.getPos();
-    }
+	public MessageAssembleMachineChassisRequest(TileEntityMachineChassis machineChassis)
+	{
+		pos = machineChassis.getPos();
+	}
 
-    @Override
-    public void toBytes(ByteBuf buf)
-    {
-        buf.writeInt(pos.getX());
-        buf.writeInt(pos.getY());
-        buf.writeInt(pos.getZ());
-    }
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		this.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+	}
 
-    @Override
-    public void fromBytes(ByteBuf buf)
-    {
-        this.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-    }
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(pos.getX());
+		buf.writeInt(pos.getY());
+		buf.writeInt(pos.getZ());
+	}
 
-    @Override
-    public void execute(EntityPlayer player)
-    {
-        if (player.getEntityWorld().isBlockLoaded(this.pos))
-        {
-            TileEntityMachineChassis te = (TileEntityMachineChassis) player.getEntityWorld().getTileEntity(pos);
-            if(te != null)
-                te.assemble();
-        }
-    }
+	@Override
+	public void execute(EntityPlayer player)
+	{
+		if (player.getEntityWorld().isBlockLoaded(this.pos))
+		{
+			TileEntityMachineChassis te = (TileEntityMachineChassis) player.getEntityWorld().getTileEntity(pos);
+			if (te != null)
+				te.assemble();
+		}
+	}
 
-    @Override
-    public Side toSide() {
-        return Side.SERVER;
-    }
+	@Override
+	public Side toSide()
+	{
+		return Side.SERVER;
+	}
 }

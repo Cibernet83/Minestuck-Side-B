@@ -30,7 +30,7 @@ public class LayerHopeGolemFlower implements LayerRenderer<EntityHopeGolem>
 			BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 			GlStateManager.enableRescaleNormal();
 			GlStateManager.pushMatrix();
-			GlStateManager.rotate(5.0F + 180.0F * ((ModelIronGolem)this.golemRenderer.getMainModel()).ironGolemRightArm.rotateAngleX / (float)Math.PI, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(5.0F + 180.0F * ((ModelIronGolem) this.golemRenderer.getMainModel()).ironGolemRightArm.rotateAngleX / (float) Math.PI, 1.0F, 0.0F, 0.0F);
 			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 			GlStateManager.translate(-0.9375F, -0.625F, -0.9375F);
 			float f = 0.5F;
@@ -38,7 +38,7 @@ public class LayerHopeGolemFlower implements LayerRenderer<EntityHopeGolem>
 			int i = entitylivingbaseIn.getBrightnessForRender();
 			int j = i % 65536;
 			int k = i / 65536;
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j, (float) k);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.golemRenderer.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			blockrendererdispatcher.renderBlockBrightness(Blocks.YELLOW_FLOWER.getDefaultState(), 1.0F);

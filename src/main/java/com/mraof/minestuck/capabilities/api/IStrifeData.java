@@ -29,8 +29,8 @@ public interface IStrifeData extends IMinestuckCapabilityBase<EntityLivingBase>
 	boolean canDropCards();
 
 	int getSelectedSpecibusIndex();
-	int getSelectedWeaponIndex();
 	void setSelectedSpecibusIndex(int index);
+	int getSelectedWeaponIndex();
 	void setSelectedWeaponIndex(int index);
 	boolean isArmed();
 	void setArmed(boolean armed);

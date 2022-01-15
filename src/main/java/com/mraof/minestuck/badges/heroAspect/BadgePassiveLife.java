@@ -15,19 +15,19 @@ import net.minecraft.world.World;
 
 public class BadgePassiveLife extends BadgeHeroAspect
 {
+	protected static final int RADIUS = 16;
+
 	public BadgePassiveLife()
 	{
 		super(EnumAspect.LIFE, EnumRole.PASSIVE, EnumAspect.LIGHT);
 	}
 
-	protected static final int RADIUS = 16;
-
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state == GodKeyStates.KeyState.PRESS)
+		if (state == GodKeyStates.KeyState.PRESS)
 		{
-			if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 6)
+			if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 6)
 			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 				return false;
@@ -41,23 +41,23 @@ public class BadgePassiveLife extends BadgeHeroAspect
 				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 6);
 		}
 
-		if(state == GodKeyStates.KeyState.NONE || time >= 19)
+		if (state == GodKeyStates.KeyState.NONE || time >= 19)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(time > 15)
+		if (time > 15)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.LIFE, 20);
 		else
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 10);
 
-		if(time >= 18)
+		if (time >= 18)
 		{
-			for(EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(RADIUS)))
+			for (EntityLivingBase target : world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(RADIUS)))
 			{
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 10);
 				target.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 1200, 3));

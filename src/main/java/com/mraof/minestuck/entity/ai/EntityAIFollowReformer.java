@@ -8,18 +8,30 @@ import net.minecraft.pathfinding.PathNavigateGround;
 
 public class EntityAIFollowReformer extends EntityAIBase
 {
-	/** The entity using this AI that is tempted by the player. */
+	/**
+	 * The entity using this AI that is tempted by the player.
+	 */
 	private final EntityCreature temptedEntity;
 	private final double speed;
-	/** X position of player tempting this mob */
+	/**
+	 * X position of player tempting this mob
+	 */
 	private double targetX;
-	/** Y position of player tempting this mob */
+	/**
+	 * Y position of player tempting this mob
+	 */
 	private double targetY;
-	/** Z position of player tempting this mob */
+	/**
+	 * Z position of player tempting this mob
+	 */
 	private double targetZ;
-	/** Tempting player's pitch */
+	/**
+	 * Tempting player's pitch
+	 */
 	private double pitch;
-	/** Tempting player's yaw */
+	/**
+	 * Tempting player's yaw
+	 */
 	private double yaw;
 
 	private EntityPlayer temptingPlayer;
@@ -38,6 +50,12 @@ public class EntityAIFollowReformer extends EntityAIBase
 	}
 
 	/**
+	 * @see #isRunning
+	 */
+	public boolean isRunning()
+	{
+		return this.isRunning;
+	}	/**
 	 * Returns whether the EntityAIBase should begin execution.
 	 */
 	public boolean shouldExecute()
@@ -66,7 +84,7 @@ public class EntityAIFollowReformer extends EntityAIBase
 				return false;
 			}
 
-			if (Math.abs((double)this.temptingPlayer.rotationPitch - this.pitch) > 5.0D || Math.abs((double)this.temptingPlayer.rotationYaw - this.yaw) > 5.0D)
+			if (Math.abs((double) this.temptingPlayer.rotationPitch - this.pitch) > 5.0D || Math.abs((double) this.temptingPlayer.rotationYaw - this.yaw) > 5.0D)
 			{
 				return false;
 			}
@@ -78,8 +96,8 @@ public class EntityAIFollowReformer extends EntityAIBase
 			this.targetZ = this.temptingPlayer.posZ;
 		}
 
-		this.pitch = (double)this.temptingPlayer.rotationPitch;
-		this.yaw = (double)this.temptingPlayer.rotationYaw;
+		this.pitch = (double) this.temptingPlayer.rotationPitch;
+		this.yaw = (double) this.temptingPlayer.rotationYaw;
 
 		return this.shouldExecute();
 	}
@@ -110,7 +128,7 @@ public class EntityAIFollowReformer extends EntityAIBase
 	 */
 	public void updateTask()
 	{
-		this.temptedEntity.getLookHelper().setLookPositionWithEntity(this.temptingPlayer, (float)(this.temptedEntity.getHorizontalFaceSpeed() + 20), (float)this.temptedEntity.getVerticalFaceSpeed());
+		this.temptedEntity.getLookHelper().setLookPositionWithEntity(this.temptingPlayer, (float) (this.temptedEntity.getHorizontalFaceSpeed() + 20), (float) this.temptedEntity.getVerticalFaceSpeed());
 
 		if (this.temptedEntity.getDistanceSq(this.temptingPlayer) < 6.25D)
 		{
@@ -122,11 +140,5 @@ public class EntityAIFollowReformer extends EntityAIBase
 		}
 	}
 
-	/**
-	 * @see #isRunning
-	 */
-	public boolean isRunning()
-	{
-		return this.isRunning;
-	}
+
 }

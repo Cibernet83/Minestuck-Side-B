@@ -19,18 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class LandAspectRain extends TerrainLandAspect 
+public class LandAspectRain extends TerrainLandAspect
 {
 	static Vec3d skyColor = new Vec3d(0.3D, 0.5D, 0.98D);
 	static Vec3d fogColor = new Vec3d(0.9D, 0.8D, 0.6D);
-	
+
 	//TODO:
 	//Pink stone brick temples		Monsters in these temples tend to guard living trees, Magic Beans, and Fertile Soil.
 	//Light Cloud Dungeons
 	//Custom dungeon loot
 	//Definitely nothing underwater
 	//Giant beanstalks? Maybe some Paper Mario reference here
-	
+
 	@Override
 	public void registerBlocks(StructureBlockRegistry registry)
 	{
@@ -50,36 +50,14 @@ public class LandAspectRain extends TerrainLandAspect
 		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW));
 		registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA));
 	}
-	
-	@Override
-	public ILandTerrainGen createTerrainGenerator(ChunkProviderLands chunkProvider, Random rand)
-	{
-		DefaultTerrainGen out = new DefaultTerrainGen(chunkProvider, rand);
-		out.setSeaHeight(64);		//The ocean is two blocks higher than any other Lands
-		out.oceanVariation += 0.2F;	//The ground under the ocean is a bit more varied
-		out.roughHeight -= 0.1F;	//Rough biomes average a bit lower than normal
-		out.roughVariation += 0.1F;	//But they are more hilly overall
-		return out;
-	}
-	
-	@Override
-	public String getPrimaryName()
-	{
-		return "rain";
-	}
-	
-	@Override
-	public String[] getNames() {
-		return new String[] {"rain", "islands", "sky"};
-	}
-	
+
 	@Override
 	public List<ILandDecorator> getDecorators()
 	{
 		ArrayList<ILandDecorator> list = new ArrayList<ILandDecorator>();
 		list.add(new LeaflessTreeDecorator(MinestuckBlocks.deadLog.getDefaultState(), 0.5F, MinestuckBiomes.mediumNormal));
 		list.add(new LeaflessTreeDecorator(MinestuckBlocks.deadLog.getDefaultState(), 0.25F, MinestuckBiomes.mediumRough));
-		
+
 		list.add(new UndergroundDecoratorVein(MinestuckBlocks.pinkStonePolish.getDefaultState(), 2, 8, 64));
 		list.add(new UndergroundDecoratorVein(MinestuckBlocks.coalOrePinkStone.getDefaultState(), 13, 17, 64));
 		list.add(new UndergroundDecoratorVein(MinestuckBlocks.lapisOrePinkStone.getDefaultState(), 4, 7, 24));
@@ -87,40 +65,63 @@ public class LandAspectRain extends TerrainLandAspect
 		list.add(new UndergroundDecoratorVein(MinestuckBlocks.diamondOrePinkStone.getDefaultState(), 3, 6, 24));
 		return list;
 	}
-	
+
 	@Override
-	public Vec3d getFogColor() 
+	public Vec3d getFogColor()
 	{
 		return fogColor;
 	}
-	
+
 	@Override
 	public Vec3d getSkyColor()
 	{
 		return skyColor;
 	}
-	
-	@Override
-	public float getTemperature()
-	{
-		return 0.5F;
-	}
-	
-	@Override
-	public float getOceanChance()
-	{
-		return 3/4F;
-	}
-	
+
 	@Override
 	public float getRainfall()
 	{
 		return 0.9F;
 	}
-	
+
+	@Override
+	public float getTemperature()
+	{
+		return 0.5F;
+	}
+
+	@Override
+	public float getOceanChance()
+	{
+		return 3 / 4F;
+	}
+
+	@Override
+	public ILandTerrainGen createTerrainGenerator(ChunkProviderLands chunkProvider, Random rand)
+	{
+		DefaultTerrainGen out = new DefaultTerrainGen(chunkProvider, rand);
+		out.setSeaHeight(64);        //The ocean is two blocks higher than any other Lands
+		out.oceanVariation += 0.2F;    //The ground under the ocean is a bit more varied
+		out.roughHeight -= 0.1F;    //Rough biomes average a bit lower than normal
+		out.roughVariation += 0.1F;    //But they are more hilly overall
+		return out;
+	}
+
 	@Override
 	public EnumConsort getConsortType()
 	{
 		return EnumConsort.TURTLE;
+	}
+
+	@Override
+	public String getPrimaryName()
+	{
+		return "rain";
+	}
+
+	@Override
+	public String[] getNames()
+	{
+		return new String[]{"rain", "islands", "sky"};
 	}
 }

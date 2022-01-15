@@ -20,29 +20,31 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class EntityVitalityGel extends Entity implements IEntityAdditionalSpawnData
 {
 	public int cycle;
-	
+
 	public int age = 0;
+	public float animationOffset;
 	private int healAmount = 1;
 	private int health = 5;
-	
 	private EntityPlayer closestPlayer;
-
 	private int targetCycle;
-	
-	public float animationOffset;
 
 	public EntityVitalityGel(World world, double x, double y, double z, int healAmount)
 	{
 		super(world);
 		this.setSize(this.getSizeByValue(), 0.5F);
 		this.setPosition(x, y, z);
-		this.rotationYaw = (float)(Math.random() * 360.0D);
-		this.motionX = (double)((float)(world.rand.nextGaussian() * 0.2D - 0.1D));
-		this.motionY = (double)((float)(world.rand.nextGaussian() * 0.2D));
-		this.motionZ = (double)((float)(world.rand.nextGaussian() * 0.2D - 0.1D));
+		this.rotationYaw = (float) (Math.random() * 360.0D);
+		this.motionX = (double) ((float) (world.rand.nextGaussian() * 0.2D - 0.1D));
+		this.motionY = (double) ((float) (world.rand.nextGaussian() * 0.2D));
+		this.motionZ = (double) ((float) (world.rand.nextGaussian() * 0.2D - 0.1D));
 		this.isImmuneToFire = true;
-		
+
 		this.healAmount = healAmount;
+	}
+
+	public float getSizeByValue()
+	{
+		return (float) healAmount / 4.0F;
 	}
 
 	public EntityVitalityGel(World par1World)
@@ -50,59 +52,9 @@ public class EntityVitalityGel extends Entity implements IEntityAdditionalSpawnD
 		super(par1World);
 		animationOffset = (float) (Math.random() * Math.PI * 2.0D);
 	}
-	
-	/**
-	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-	 * prevent them from trampling crops
-	 */
-	@Override
-	protected boolean canTriggerWalking()
-	{
-		return false;
-	}
-	
-	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount)
-	{
-		if (this.isEntityInvulnerable(source))
-		{
-			return false;
-		} else
-		{
-			this.markVelocityChanged();
-			this.health = (int)((float)this.health - amount);
-			
-			if (this.health <= 0)
-			{
-				this.setDead();
-			}
-			
-			return false;
-		}
-	}
-	
+
 	@Override
 	protected void entityInit() {}
-	
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public int getBrightnessForRender()
-	{
-		float f1 = 0.5F;
-
-		int i = super.getBrightnessForRender();
-		int j = i & 255;
-		int k = i >> 16 & 255;
-		j += (int)(f1 * 15.0F * 16.0F);
-
-		if (j > 240)
-		{
-			j = 240;
-		}
-
-		return j | k << 16;
-	}
 
 	/**
 	 * Called to update the entity's position/logic.
@@ -111,36 +63,36 @@ public class EntityVitalityGel extends Entity implements IEntityAdditionalSpawnD
 	public void onUpdate()
 	{
 		super.onUpdate();
-		
+
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
 		this.motionY -= 0.03D;
-		
+
 		if (this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.posY), MathHelper.floor(this.posZ))).getMaterial() == Material.LAVA)
 		{
 			this.motionY = 0.2D;
-			this.motionX = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-			this.motionZ = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+			this.motionX = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+			this.motionZ = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
 			this.playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
 		}
-		
+
 		double d0 = this.getSizeByValue() * 2.0D;
-		
+
 		if (this.targetCycle < this.cycle - 20 + this.getEntityId() % 100)
 		{
 			if (this.closestPlayer == null || this.closestPlayer.getDistanceSq(this) > d0 * d0)
 			{
 				this.closestPlayer = this.world.getClosestPlayerToEntity(this, d0);
 			}
-			
+
 			this.targetCycle = this.cycle;
 		}
 
 		if (this.closestPlayer != null)
 		{
 			double d1 = (this.closestPlayer.posX - this.posX) / d0;
-			double d2 = (this.closestPlayer.posY + (double)this.closestPlayer.getEyeHeight() - this.posY) / d0;
+			double d2 = (this.closestPlayer.posY + (double) this.closestPlayer.getEyeHeight() - this.posY) / d0;
 			double d3 = (this.closestPlayer.posZ - this.posZ) / d0;
 			double d4 = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
 			double d5 = this.getSizeByValue() * 2.0D - d4;
@@ -155,15 +107,15 @@ public class EntityVitalityGel extends Entity implements IEntityAdditionalSpawnD
 
 		this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 		float f = 0.98F;
-		
-		if(this.onGround)
+
+		if (this.onGround)
 		{
 			f = this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ))).getBlock().slipperiness * 0.98F;
 		}
-		
-		this.motionX *= (double)f;
+
+		this.motionX *= (double) f;
 		this.motionY *= 0.98D;
-		this.motionZ *= (double)f;
+		this.motionZ *= (double) f;
 
 		if (this.onGround)
 		{
@@ -177,7 +129,17 @@ public class EntityVitalityGel extends Entity implements IEntityAdditionalSpawnD
 		{
 			this.setDead();
 		}
-		
+
+	}
+
+	/**
+	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
+	 * prevent them from trampling crops
+	 */
+	@Override
+	protected boolean canTriggerWalking()
+	{
+		return false;
 	}
 
 	/**
@@ -188,22 +150,24 @@ public class EntityVitalityGel extends Entity implements IEntityAdditionalSpawnD
 	{
 		return this.world.handleMaterialAcceleration(this.getEntityBoundingBox(), Material.WATER, this);
 	}
-	
+
+	@SideOnly(Side.CLIENT)
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbt)
+	public int getBrightnessForRender()
 	{
-		nbt.setShort("health", (short)((byte)this.health));
-		nbt.setShort("age", (short)this.age);
-		nbt.setShort("amount", (short)this.healAmount);
-	}
-	
-	@Override
-	public void readEntityFromNBT(NBTTagCompound nbt)
-	{
-		this.health = nbt.getShort("health") & 255;
-		this.age = nbt.getShort("age");
-		if(nbt.hasKey("amount", 99))
-			this.healAmount = nbt.getShort("amount");
+		float f1 = 0.5F;
+
+		int i = super.getBrightnessForRender();
+		int j = i & 255;
+		int k = i >> 16 & 255;
+		j += (int) (f1 * 15.0F * 16.0F);
+
+		if (j > 240)
+		{
+			j = 240;
+		}
+
+		return j | k << 16;
 	}
 
 	/**
@@ -212,38 +176,71 @@ public class EntityVitalityGel extends Entity implements IEntityAdditionalSpawnD
 	@Override
 	public void onCollideWithPlayer(EntityPlayer player)
 	{
-		if(this.world.isRemote?ClientEditHandler.isActive():ServerEditHandler.getData(player) != null)
+		if (this.world.isRemote ? ClientEditHandler.isActive() : ServerEditHandler.getData(player) != null)
 			return;
-		
+
 		if (!this.world.isRemote)
 		{
 			this.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 0.1F, 0.5F * ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.8F));
 			player.heal(healAmount);
 			this.setDead();
 		}
-		else  
+		else
 			this.setDead();
 	}
-	
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		if (this.isEntityInvulnerable(source))
+		{
+			return false;
+		}
+		else
+		{
+			this.markVelocityChanged();
+			this.health = (int) ((float) this.health - amount);
+
+			if (this.health <= 0)
+			{
+				this.setDead();
+			}
+
+			return false;
+		}
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt)
+	{
+		this.health = nbt.getShort("health") & 255;
+		this.age = nbt.getShort("age");
+		if (nbt.hasKey("amount", 99))
+			this.healAmount = nbt.getShort("amount");
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt)
+	{
+		nbt.setShort("health", (short) ((byte) this.health));
+		nbt.setShort("age", (short) this.age);
+		nbt.setShort("amount", (short) this.healAmount);
+	}
+
 	@Override
 	public boolean canBeAttackedWithItem()
 	{
 		return false;
 	}
-	
-	public float getSizeByValue() 
-	{
-		return (float) healAmount/4.0F;
-	}
-	
+
 	@Override
-	public void writeSpawnData(ByteBuf data) 
+	public void writeSpawnData(ByteBuf data)
 	{
 		data.writeInt(this.healAmount);
 	}
-	
+
 	@Override
-	public void readSpawnData(ByteBuf data) 
+	public void readSpawnData(ByteBuf data)
 	{
 		this.healAmount = data.readInt();
 		this.setSize(this.getSizeByValue(), 0.5F);

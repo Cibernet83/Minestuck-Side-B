@@ -26,33 +26,15 @@ public class GuiModusSettings extends GuiScreen implements GuiYesNoCallback
 	protected final Modus modus;
 	protected final NBTTagCompound modusSettings;
 	protected final ResourceLocation settingsGuiTexture;
-	protected int guiX, guiY;
-
 	protected final ArrayList<ModusGuiButton> buttons = new ArrayList<>();
+	protected int guiX, guiY;
 
 	public GuiModusSettings(ItemStack modusStack, ResourceLocation settingsGuiTexture)
 	{
 		this.modusStack = modusStack;
-		this.modus = ((ItemModus)modusStack.getItem()).getModus();
+		this.modus = ((ItemModus) modusStack.getItem()).getModus();
 		this.modusSettings = SylladexUtils.getModusSettings(modusStack);
 		this.settingsGuiTexture = settingsGuiTexture;
-	}
-
-	@Override
-	public void initGui()
-	{
-		guiX = (width - GUI_WIDTH) / 2;
-		guiY = (height - GUI_HEIGHT) / 2;
-
-		buttons.add(new ModusGuiButton(settingsGuiTexture, guiX + EJECT_BUTTON_X, guiY + EJECT_BUTTON_Y, 0, GUI_HEIGHT, EJECT_BUTTON_WIDTH, EJECT_BUTTON_HEIGHT, I18n.format("gui.ejectModusButton"), modus.getTextColor())
-		{
-			@Override
-			public void click()
-			{
-				mc.currentScreen = new GuiYesNo(GuiModusSettings.this, I18n.format("gui.emptySylladex1"), I18n.format("gui.emptySylladex2"), 0);
-				mc.currentScreen.setWorldAndResolution(mc, width, height);
-			}
-		});
 	}
 
 	@Override
@@ -81,16 +63,33 @@ public class GuiModusSettings extends GuiScreen implements GuiYesNoCallback
 	}
 
 	@Override
-	public void confirmClicked(boolean result, int id)
+	public void initGui()
 	{
-		if(result)
-			MinestuckNetwork.sendToServer(new MessageSylladexEmptyRequest());
-		mc.currentScreen = this;
+		guiX = (width - GUI_WIDTH) / 2;
+		guiY = (height - GUI_HEIGHT) / 2;
+
+		buttons.add(new ModusGuiButton(settingsGuiTexture, guiX + EJECT_BUTTON_X, guiY + EJECT_BUTTON_Y, 0, GUI_HEIGHT, EJECT_BUTTON_WIDTH, EJECT_BUTTON_HEIGHT, I18n.format("gui.ejectModusButton"), modus.getTextColor())
+		{
+			@Override
+			public void click()
+			{
+				mc.currentScreen = new GuiYesNo(GuiModusSettings.this, I18n.format("gui.emptySylladex1"), I18n.format("gui.emptySylladex2"), 0);
+				mc.currentScreen.setWorldAndResolution(mc, width, height);
+			}
+		});
 	}
 
 	@Override
 	public boolean doesGuiPauseGame()
 	{
 		return false;
+	}
+
+	@Override
+	public void confirmClicked(boolean result, int id)
+	{
+		if (result)
+			MinestuckNetwork.sendToServer(new MessageSylladexEmptyRequest());
+		mc.currentScreen = this;
 	}
 }

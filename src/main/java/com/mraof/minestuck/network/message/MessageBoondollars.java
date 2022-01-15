@@ -18,23 +18,23 @@ public class MessageBoondollars implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		boondollars = buf.readLong();
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeLong(boondollars);
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		boondollars = buf.readLong();
-	}
-	
-	@Override
 	public void execute(EntityPlayer player)
 	{
 		MinestuckPlayerData.clientData.boondollars = boondollars;
 	}
-	
+
 	@Override
 	public Side toSide()
 	{

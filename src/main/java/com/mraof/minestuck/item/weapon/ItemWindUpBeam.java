@@ -1,8 +1,8 @@
 package com.mraof.minestuck.item.weapon;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.Beam;
+import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.item.properties.PropertyDualWield;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,13 +20,19 @@ public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 	public float beamSpeed;
 	public int beamHurtTime;
 	public int chargeTime;
-	
+
 	protected SoundEvent chargeSound = null;
 	protected SoundEvent releaseSound = null;
-	
+
 	protected ResourceLocation beamTexture = new ResourceLocation(Minestuck.MODID, "textures/entity/projectiles/beam.png");
 
-	public ItemWindUpBeam(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int beamHurtTime, int enchantability) {
+	public ItemWindUpBeam(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int enchantability)
+	{
+		this(name, maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, chargeTime, 15, enchantability);
+	}
+
+	public ItemWindUpBeam(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int beamHurtTime, int enchantability)
+	{
 		super(name, maxUses, damageVsEntity, weaponSpeed, enchantability);
 		this.beamDamage = beamDamage;
 		this.beamRadius = beamRadius;
@@ -35,18 +41,25 @@ public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 		this.chargeTime = chargeTime;
 	}
 
-	public ItemWindUpBeam(String name, int maxUses, double damageVsEntity, double weaponSpeed, float beamRadius, float beamDamage, float beamSpeed, int chargeTime, int enchantability) {
-		this(name, maxUses, damageVsEntity, weaponSpeed, beamRadius, beamDamage, beamSpeed, chargeTime,15, enchantability);
-	}
-
 	@Override
-	public int getMaxItemUseDuration(ItemStack stack) {
-		return 72000;
-	}
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
+		ActionResult<ItemStack> sup = super.onItemRightClick(worldIn, playerIn, handIn);
 
-	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
-		return stack.hasTagCompound() && stack.getTagCompound().getBoolean("InUse") ? EnumAction.BOW : EnumAction.NONE;
+		if (sup.getType() != EnumActionResult.PASS)
+			return sup;
+
+		ItemStack stack = playerIn.getHeldItem(handIn);
+
+		if (hasProperty(PropertyDualWield.class, stack) && (handIn != EnumHand.MAIN_HAND || !ItemStack.areItemsEqualIgnoreDurability(stack, playerIn.getHeldItemOffhand())))
+			return ActionResult.newResult(EnumActionResult.PASS, stack);
+
+		if (chargeSound != null)
+			playerIn.playSound(chargeSound, 0.7f, 1f);
+
+
+		playerIn.setActiveHand(handIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override
@@ -57,35 +70,38 @@ public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 
-		if(stack.hasTagCompound())
+		if (stack.hasTagCompound())
 		{
-			if(stack.getTagCompound().hasUniqueId("Beam"))
+			if (stack.getTagCompound().hasUniqueId("Beam"))
 			{
 				Beam beam = worldIn.getCapability(MinestuckCapabilities.BEAM_DATA, null).getBeam(stack.getTagCompound().getUniqueId("Beam"));
-				if(beam == null)
+				if (beam == null)
 				{
 					stack.getTagCompound().removeTag("BeamLeast");
 					stack.getTagCompound().removeTag("BeamMost");
 					stack.getTagCompound().setBoolean("InUse", false);
 				}
-			} else stack.getTagCompound().setBoolean("InUse", entityIn instanceof EntityLivingBase && ItemStack.areItemsEqualIgnoreDurability(stack, ((EntityLivingBase) entityIn).getActiveItemStack())
-					&& getMaxItemUseDuration(stack) - ((EntityLivingBase) entityIn).getItemInUseCount() <= chargeTime);
+			}
+			else
+				stack.getTagCompound().setBoolean("InUse", entityIn instanceof EntityLivingBase && ItemStack.areItemsEqualIgnoreDurability(stack, ((EntityLivingBase) entityIn).getActiveItemStack())
+																   && getMaxItemUseDuration(stack) - ((EntityLivingBase) entityIn).getItemInUseCount() <= chargeTime);
 		}
 
 		if (entityIn instanceof EntityLivingBase && ItemStack.areItemsEqualIgnoreDurability(stack, ((EntityLivingBase) entityIn).getActiveItemStack())
-				&& getMaxItemUseDuration(stack) - ((EntityLivingBase) entityIn).getItemInUseCount() == chargeTime)
+					&& getMaxItemUseDuration(stack) - ((EntityLivingBase) entityIn).getItemInUseCount() == chargeTime)
 		{
-			if(!worldIn.isRemote)
+			if (!worldIn.isRemote)
 			{
 				Beam beam = new Beam((EntityLivingBase) entityIn, stack, beamSpeed);
 				beam.setDuration(20);
 
 				beam.damage = beamDamage;
 
-				if(!stack.hasTagCompound())
+				if (!stack.hasTagCompound())
 					stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setUniqueId("Beam", beam.getUniqueID());
 
@@ -93,39 +109,30 @@ public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 				Beam.fireBeam(beam);
 			}
 
-			if(releaseSound != null)
+			if (releaseSound != null)
 				entityIn.playSound(releaseSound, 0.7f, 1f);
 		}
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
-		super.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
-
-		if(!worldIn.isRemote && entityLiving instanceof EntityPlayer)
-			((EntityPlayer) entityLiving).getCooldownTracker().setCooldown(this, 20);
+	public EnumAction getItemUseAction(ItemStack stack)
+	{
+		return stack.hasTagCompound() && stack.getTagCompound().getBoolean("InUse") ? EnumAction.BOW : EnumAction.NONE;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	public int getMaxItemUseDuration(ItemStack stack)
 	{
-		ActionResult<ItemStack> sup = super.onItemRightClick(worldIn, playerIn, handIn);
+		return 72000;
+	}
 
-		if(sup.getType() != EnumActionResult.PASS)
-			return sup;
+	@Override
+	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
+	{
+		super.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
 
-		ItemStack stack = playerIn.getHeldItem(handIn);
-
-		if(hasProperty(PropertyDualWield.class, stack) && (handIn != EnumHand.MAIN_HAND || !ItemStack.areItemsEqualIgnoreDurability(stack, playerIn.getHeldItemOffhand())))
-			return ActionResult.newResult(EnumActionResult.PASS, stack);
-
-		if(chargeSound != null)
-			playerIn.playSound(chargeSound, 0.7f, 1f);
-
-
-
-		playerIn.setActiveHand(handIn);
-		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+		if (!worldIn.isRemote && entityLiving instanceof EntityPlayer)
+			((EntityPlayer) entityLiving).getCooldownTracker().setCooldown(this, 20);
 	}
 
 	public ItemWindUpBeam setSounds(SoundEvent chargeSound, SoundEvent releaseSound)
@@ -134,17 +141,24 @@ public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 		this.releaseSound = releaseSound;
 		return this;
 	}
-	
+
 	@Override
-	public float getBeamRadius(ItemStack stack) {
+	public float getBeamRadius(ItemStack stack)
+	{
 		return beamRadius;
 	}
 
 	@Override
-	public int getBeamHurtTime(ItemStack stack) {
+	public int getBeamHurtTime(ItemStack stack)
+	{
 		return beamHurtTime;
 	}
 
+	@Override
+	public void setCustomBeamTexture()
+	{
+		setBeamTexture(getRegistryName().getResourcePath());
+	}
 
 	@Override
 	public ResourceLocation getBeamTexture()
@@ -155,12 +169,6 @@ public class ItemWindUpBeam extends MSWeaponBase implements IBeamStats
 	@Override
 	public void setBeamTexture(String fileName)
 	{
-		beamTexture = new ResourceLocation(getRegistryName().getResourceDomain(), "textures/entity/projectiles/"+fileName+".png");
-	}
-
-	@Override
-	public void setCustomBeamTexture()
-	{
-		setBeamTexture(getRegistryName().getResourcePath());
+		beamTexture = new ResourceLocation(getRegistryName().getResourceDomain(), "textures/entity/projectiles/" + fileName + ".png");
 	}
 }

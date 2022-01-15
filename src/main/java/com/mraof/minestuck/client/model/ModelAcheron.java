@@ -7,7 +7,8 @@ import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelAcheron extends ModelBase {
+public class ModelAcheron extends ModelBase
+{
 	private final ModelRenderer Body;
 	private final ModelRenderer Top;
 	private final ModelRenderer Head;
@@ -19,10 +20,11 @@ public class ModelAcheron extends ModelBase {
 	private final ModelRenderer RightLeg;
 	float scale = 4;
 
-	public ModelAcheron() {
+	public ModelAcheron()
+	{
 		textureWidth = 128;
 		textureHeight = 128;
-		float YOff = -24 + 24/scale;
+		float YOff = -24 + 24 / scale;
 
 		Body = new ModelRenderer(this);
 		Body.setRotationPoint(0.0F, 24.0F + YOff, 0.0F);
@@ -82,7 +84,9 @@ public class ModelAcheron extends ModelBase {
 		f5 *= scale;
 		Body.render(f5);
 	}
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;

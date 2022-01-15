@@ -14,5 +14,6 @@ public abstract class SylladexGuiContainer
 	public abstract void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks);
 	public abstract void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks);
 	public abstract ArrayList<Integer> hit(float x, float y);
+	public abstract boolean isHitting(int[] slots, int index, float x, float y);
 	public abstract boolean isEmpty();
 }

@@ -11,9 +11,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 //TODO separate into independent items
 public class ItemDisk extends MSItemBase
 {
-	
-	private String[] subNames = { "client", "server" };
-	
+
+	private String[] subNames = {"client", "server"};
+
 	public ItemDisk()
 	{
 		super("disk");
@@ -21,24 +21,24 @@ public class ItemDisk extends MSItemBase
 		this.setHasSubtypes(true);
 		this.setCreativeTab(MinestuckTabs.minestuck);
 	}
-	
-	@Override
-	public String getUnlocalizedName(ItemStack itemstack)
-	{
-		return getUnlocalizedName() + "." + subNames[itemstack.getItemDamage()];
-	}
-	
+
 	@Override
 	public int getMetadata(int damageValue)
 	{
 		return damageValue;
 	}
-	
+
+	@Override
+	public String getUnlocalizedName(ItemStack itemstack)
+	{
+		return getUnlocalizedName() + "." + subNames[itemstack.getItemDamage()];
+	}
+
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
-		if(this.isInCreativeTab(tab))
-			for(int i = 0; i < subNames.length; i++)
+		if (this.isInCreativeTab(tab))
+			for (int i = 0; i < subNames.length; i++)
 				items.add(new ItemStack(this, 1, i));
 	}
 

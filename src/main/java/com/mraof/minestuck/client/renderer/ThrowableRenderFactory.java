@@ -14,12 +14,12 @@ public class ThrowableRenderFactory<T extends EntityThrowable> implements IRende
 	protected ModelBase modelBase;
 	protected float shadowSize;
 	protected Item item;
-	
+
 	public ThrowableRenderFactory(Item item)
 	{
 		this.item = item;
 	}
-	
+
 	public Render<? super T> createRenderFor(RenderManager manager)
 	{
 		return new RenderSnowball<>(manager, item, Minecraft.getMinecraft().getRenderItem());

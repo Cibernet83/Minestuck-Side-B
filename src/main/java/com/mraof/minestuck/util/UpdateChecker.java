@@ -20,28 +20,29 @@ public class UpdateChecker extends Thread
 	public static boolean outOfDate = false;
 	public static String latestVersion = Minestuck.class.getAnnotation(Mod.class).version();
 	public static String updateChanges = "";
-	
+
 	@Override
-	public void run() 
+	public void run()
 	{
 		checkUpdates();
 	}
-	
+
 	public static void checkUpdates()
 	{
-		if(latestVersion.equals("@VERSION@"))
+		if (latestVersion.equals("@VERSION@"))
 			return;
-		
-		try {
+
+		try
+		{
 			URL versionURL = new URL("http://minestuck.mraof.com/version.php?mc=1.7.10");
 			URLConnection connection = versionURL.openConnection();
 			connection.setUseCaches(false);
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			
+
 			String version = in.readLine();
 			in.close();
-			
-			if(!version.equals(latestVersion))
+
+			if (!version.equals(latestVersion))
 			{
 				outOfDate = true;
 				latestVersion = version;
@@ -50,9 +51,13 @@ public class UpdateChecker extends Thread
 				updateChanges = in.readLine();
 				in.close();
 			}
-		} catch (MalformedURLException e) {
+		}
+		catch (MalformedURLException e)
+		{
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}

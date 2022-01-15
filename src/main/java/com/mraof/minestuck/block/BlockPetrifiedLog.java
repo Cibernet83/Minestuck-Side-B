@@ -1,8 +1,6 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
-
-import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
@@ -29,42 +27,42 @@ public class BlockPetrifiedLog extends BlockLog implements IRegistryBlock
 		regName = IRegistryObject.unlocToReg(name);
 		MinestuckBlocks.blocks.add(this);
 	}
-	
+
 	@Override
 	public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
 		return false;
 	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
 		IBlockState state = getDefaultState();
-		EnumAxis axis = EnumAxis.values()[meta&3];
+		EnumAxis axis = EnumAxis.values()[meta & 3];
 		state = state.withProperty(LOG_AXIS, axis);
 		return state;
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		EnumAxis axis = (EnumAxis) state.getValue(LOG_AXIS);
+		EnumAxis axis = state.getValue(LOG_AXIS);
 		int meta = axis.ordinal();
 		return meta;
 	}
-	
+
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, LOG_AXIS);
+	}
+
 	@Override
 	public Material getMaterial(IBlockState state)
 	{
 		return Material.ROCK;
 	}
-	
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, new IProperty[] {LOG_AXIS});
-	}
-	
+
 	@Override
 	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
 	{

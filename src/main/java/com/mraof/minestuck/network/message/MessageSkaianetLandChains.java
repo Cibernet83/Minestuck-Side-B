@@ -19,29 +19,29 @@ public class MessageSkaianetLandChains implements MinestuckMessage
 	{
 		this.landChains = landChains;
 	}
-	
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		for(List<Integer> list : landChains)
-		{
-			buf.writeInt(list.size());
-			for(int i : list)
-				buf.writeInt(i);
-		}
-	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		landChains = new ArrayList<>();
-		while(buf.readableBytes() > 0)
+		while (buf.readableBytes() > 0)
 		{
 			int size = buf.readInt();
 			List<Integer> list = new ArrayList<>();
-			for(int i = 0; i < size; i++)
+			for (int i = 0; i < size; i++)
 				list.add(buf.readInt());
 			landChains.add(list);
+		}
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		for (List<Integer> list : landChains)
+		{
+			buf.writeInt(list.size());
+			for (int i : list)
+				buf.writeInt(i);
 		}
 	}
 
@@ -52,7 +52,8 @@ public class MessageSkaianetLandChains implements MinestuckMessage
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.CLIENT;
 	}
 }

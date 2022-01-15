@@ -17,39 +17,41 @@ public class PropertyGuidedArrow extends WeaponProperty implements IPropertyArro
 	}
 
 	@Override
+	public boolean hasGravity(EntityMSUArrow arrow)
+	{
+		return false;
+	}
+
+	@Override
 	public void onProjectileUpdate(EntityMSUArrow arrow)
 	{
-		if(arrow.shootingEntity instanceof EntityLivingBase)
+		if (arrow.shootingEntity instanceof EntityLivingBase)
 		{
 			EntityLivingBase shooter = (EntityLivingBase) arrow.shootingEntity;
 
-			if(ItemStack.areItemsEqualIgnoreDurability(arrow.getBowStack(), shooter.getHeldItemMainhand()) ||
-					(ItemStack.areItemsEqualIgnoreDurability(arrow.getBowStack(), shooter.getHeldItemOffhand())))
+			if (ItemStack.areItemsEqualIgnoreDurability(arrow.getBowStack(), shooter.getHeldItemMainhand()) ||
+						(ItemStack.areItemsEqualIgnoreDurability(arrow.getBowStack(), shooter.getHeldItemOffhand())))
 			{
 				arrow.rotationPitch = -shooter.rotationPitch;
 				arrow.rotationYaw = -(shooter.rotationYaw % 360);
 
-				if(Math.abs(arrow.rotationYaw) > 179)
-					arrow.rotationYaw -= Math.signum(arrow.rotationYaw)*360;
+				if (Math.abs(arrow.rotationYaw) > 179)
+					arrow.rotationYaw -= Math.signum(arrow.rotationYaw) * 360;
 
 				Vec3d lookVec = arrow.getLookVec();
 				PropertyHookshot.moveTowards(arrow, 0.2f, -lookVec.x, -lookVec.y, lookVec.z);
-			} else if(!arrow.world.isRemote) arrow.setDead();
+			}
+			else if (!arrow.world.isRemote) arrow.setDead();
 		}
-		else if(!arrow.world.isRemote) arrow.setDead();
+		else if (!arrow.world.isRemote) arrow.setDead();
 	}
 
 	@Override
 	public EntityArrow customizeArrow(EntityArrow arrow, float chargeTime)
 	{
-		if(!arrow.getIsCritical())
+		if (!arrow.getIsCritical())
 			return null;
 		arrow.setIsCritical(false);
 		return arrow;
-	}
-
-	@Override
-	public boolean hasGravity(EntityMSUArrow arrow) {
-		return false;
 	}
 }

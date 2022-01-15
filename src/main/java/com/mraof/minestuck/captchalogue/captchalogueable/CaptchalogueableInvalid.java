@@ -8,21 +8,30 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class CaptchalogueableInvalid implements ICaptchalogueable {
+public class CaptchalogueableInvalid implements ICaptchalogueable
+{
 	public CaptchalogueableInvalid() { }
 
 	public CaptchalogueableInvalid(NBTTagCompound nbt) { }
 
 	@Override
+	public NBTTagCompound writeData()
+	{
+		return new NBTTagCompound();
+	}
+
+	@Override
 	public void grow(ICaptchalogueable other) { }
 
 	@Override
-	public boolean isEmpty() {
+	public boolean isEmpty()
+	{
 		return true;
 	}
 
 	@Override
-	public boolean isCompatibleWith(ICaptchalogueable other) {
+	public boolean isCompatibleWith(ICaptchalogueable other)
+	{
 		return false;
 	}
 
@@ -33,7 +42,11 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	public void eject(EntityPlayer player) { }
 
 	@Override
-	public ItemStack captchalogueIntoCardItem() {
+	public void drop(World world, double posX, double posY, double posZ) { }
+
+	@Override
+	public ItemStack captchalogueIntoCardItem()
+	{
 		return ItemStack.EMPTY;
 	}
 
@@ -41,11 +54,6 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	public String getName()
 	{
 		return "INVALID";
-	}
-
-	@Override
-	public NBTTagCompound writeData() {
-		return new NBTTagCompound();
 	}
 
 	@Override
@@ -61,7 +69,8 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	}
 
 	@Override
-	public ITextComponent getTextComponent() {
+	public ITextComponent getTextComponent()
+	{
 		return new TextComponentString("INVALID");
 	}
 
@@ -69,10 +78,8 @@ public class CaptchalogueableInvalid implements ICaptchalogueable {
 	public void renderTooltip(GuiSylladex gui, int x, int y) { }
 
 	@Override
-	public String getTextureKey() {
+	public String getTextureKey()
+	{
 		return "invalid";
 	}
-
-	@Override
-	public void drop(World world, double posX, double posY, double posZ) { }
 }

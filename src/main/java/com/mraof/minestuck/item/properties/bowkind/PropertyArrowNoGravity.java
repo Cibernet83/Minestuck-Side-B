@@ -6,14 +6,15 @@ import com.mraof.minestuck.item.properties.WeaponProperty;
 public class PropertyArrowNoGravity extends WeaponProperty implements IPropertyArrow
 {
 	@Override
-	public void onProjectileUpdate(EntityMSUArrow arrow)
+	public boolean hasGravity(EntityMSUArrow arrow)
 	{
-		if(Math.abs(arrow.motionX)+Math.abs(arrow.motionY)+Math.abs(arrow.motionZ) < 0.01f)
-			arrow.setDead();
+		return false;
 	}
 
 	@Override
-	public boolean hasGravity(EntityMSUArrow arrow) {
-		return false;
+	public void onProjectileUpdate(EntityMSUArrow arrow)
+	{
+		if (Math.abs(arrow.motionX) + Math.abs(arrow.motionY) + Math.abs(arrow.motionZ) < 0.01f)
+			arrow.setDead();
 	}
 }

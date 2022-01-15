@@ -34,43 +34,15 @@ public class PotionDecay extends MSPotionBase
 	public static final DamageSource DECAY = new CritDamageSource("decay").setCrit().setDamageBypassesArmor();
 	private static final ResourceLocation ICONS = new ResourceLocation(Minestuck.MODID, "textures/gui/icons.png");
 	private static final Random rand = new Random();
+	@SideOnly(Side.CLIENT)
+	private static long lastSystemTime, healthUpdateCounter;
+	@SideOnly(Side.CLIENT)
+	private static int lastPlayerHealth, playerHealth, updateCounter;
 
 	protected PotionDecay(String name, boolean isBadEffectIn, int liquidColorIn)
 	{
 		super(name, isBadEffectIn, liquidColorIn);
 	}
-
-	@Override
-	public boolean isReady(int duration, int amplifier)
-	{
-		int timeBetweenHits = 40 >> amplifier; // Each increased amplifier halves the amount of time between damages?
-
-		if (timeBetweenHits > 0)
-			return duration % timeBetweenHits == 0;
-		else
-			return true;
-	}
-
-	@Override
-	public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier)
-	{
-		int decayTime = entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getDecayTime();
-		entityLivingBaseIn.attackEntityFrom(DECAY, (decayTime++)/2);
-		if (!entityLivingBaseIn.world.isRemote)
-			entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setDecayTime(decayTime);
-	}
-
-	@Override
-	public void removeAttributesModifiersFromEntity(EntityLivingBase entityLivingBaseIn, AbstractAttributeMap attributeMapIn, int amplifier)
-	{
-		super.removeAttributesModifiersFromEntity(entityLivingBaseIn, attributeMapIn, amplifier);
-		entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setDecayTime(0);
-	}
-
-	@SideOnly(Side.CLIENT)
-	private static long lastSystemTime, healthUpdateCounter;
-	@SideOnly(Side.CLIENT)
-	private static int lastPlayerHealth, playerHealth, updateCounter;
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -86,19 +58,19 @@ public class PotionDecay extends MSPotionBase
 		int width = event.getResolution().getScaledWidth();
 		int height = event.getResolution().getScaledHeight();
 
-		EntityPlayer player = (EntityPlayer)Minecraft.getMinecraft().getRenderViewEntity();
+		EntityPlayer player = (EntityPlayer) Minecraft.getMinecraft().getRenderViewEntity();
 		int health = MathHelper.ceil(player.getHealth());
-		boolean highlight = healthUpdateCounter > (long)updateCounter && (healthUpdateCounter - (long)updateCounter) / 3L %2L == 1L;
+		boolean highlight = healthUpdateCounter > (long) updateCounter && (healthUpdateCounter - (long) updateCounter) / 3L % 2L == 1L;
 
 		if (health < playerHealth && player.hurtResistantTime > 0)
 		{
 			lastSystemTime = Minecraft.getSystemTime();
-			healthUpdateCounter = (long)(updateCounter + 20);
+			healthUpdateCounter = (long) (updateCounter + 20);
 		}
 		else if (health > playerHealth && player.hurtResistantTime > 0)
 		{
 			lastSystemTime = Minecraft.getSystemTime();
-			healthUpdateCounter = (long)(updateCounter + 10);
+			healthUpdateCounter = (long) (updateCounter + 10);
 		}
 
 		if (Minecraft.getSystemTime() - lastSystemTime > 1000L)
@@ -112,13 +84,13 @@ public class PotionDecay extends MSPotionBase
 		int healthLast = lastPlayerHealth;
 
 		IAttributeInstance attrMaxHealth = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
-		float healthMax = (float)attrMaxHealth.getAttributeValue();
+		float healthMax = (float) attrMaxHealth.getAttributeValue();
 		float absorb = MathHelper.ceil(player.getAbsorptionAmount());
 
 		int healthRows = MathHelper.ceil((healthMax + absorb) / 2.0F / 10.0F);
 		int rowHeight = Math.max(10 - (healthRows - 2), 3);
 
-		rand.setSeed((long)(updateCounter * 312871));
+		rand.setSeed((long) (updateCounter * 312871));
 
 		int left = width / 2 - 91;
 		int top = height - GuiIngameForge.left_height;
@@ -131,7 +103,7 @@ public class PotionDecay extends MSPotionBase
 			regen = updateCounter % 25;
 		}
 
-		final int TOP =  Minecraft.getMinecraft().world.getWorldInfo().isHardcoreModeEnabled() ? 9 : 0;
+		final int TOP = Minecraft.getMinecraft().world.getWorldInfo().isHardcoreModeEnabled() ? 9 : 0;
 		final int BACKGROUND_MARGIN = (highlight ? 9 : 0);
 		int MARGIN = 18;
 		float absorbRemaining = absorb;
@@ -139,7 +111,7 @@ public class PotionDecay extends MSPotionBase
 		for (int i = MathHelper.ceil((healthMax + absorb) / 2.0F) - 1; i >= 0; --i)
 		{
 			//int b0 = (highlight ? 1 : 0);
-			int row = MathHelper.ceil((float)(i + 1) / 10.0F) - 1;
+			int row = MathHelper.ceil((float) (i + 1) / 10.0F) - 1;
 			int x = left + i % 10 * 8;
 			int y = top - row * rowHeight;
 
@@ -196,10 +168,10 @@ public class PotionDecay extends MSPotionBase
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.pos((double)(x + 0), (double)(y + height), zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + width), (double)(y + height), zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + width), (double)(y + 0), zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + 0), (double)(y + 0), zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double) (x + 0), (double) (y + height), zLevel).tex((double) ((float) (textureX + 0) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double) (x + width), (double) (y + height), zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double) (x + width), (double) (y + 0), zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY + 0) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double) (x + 0), (double) (y + 0), zLevel).tex((double) ((float) (textureX + 0) * 0.00390625F), (double) ((float) (textureY + 0) * 0.00390625F)).endVertex();
 		tessellator.draw();
 	}
 
@@ -210,5 +182,32 @@ public class PotionDecay extends MSPotionBase
 		if (event.phase != TickEvent.Phase.END)
 			return;
 		updateCounter++;
+	}
+
+	@Override
+	public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier)
+	{
+		int decayTime = entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getDecayTime();
+		entityLivingBaseIn.attackEntityFrom(DECAY, (decayTime++) / 2);
+		if (!entityLivingBaseIn.world.isRemote)
+			entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setDecayTime(decayTime);
+	}
+
+	@Override
+	public boolean isReady(int duration, int amplifier)
+	{
+		int timeBetweenHits = 40 >> amplifier; // Each increased amplifier halves the amount of time between damages?
+
+		if (timeBetweenHits > 0)
+			return duration % timeBetweenHits == 0;
+		else
+			return true;
+	}
+
+	@Override
+	public void removeAttributesModifiersFromEntity(EntityLivingBase entityLivingBaseIn, AbstractAttributeMap attributeMapIn, int amplifier)
+	{
+		super.removeAttributesModifiersFromEntity(entityLivingBaseIn, attributeMapIn, amplifier);
+		entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setDecayTime(0);
 	}
 }

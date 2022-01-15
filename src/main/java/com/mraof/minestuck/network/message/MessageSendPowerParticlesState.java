@@ -19,37 +19,16 @@ public class MessageSendPowerParticlesState implements MinestuckMessage
 
 	public MessageSendPowerParticlesState() { }
 
-	public MessageSendPowerParticlesState(Entity entity, Class badge, MinestuckParticles.PowerParticleState state)
-	{
-		this.entityId = entity.getEntityId();
-		this.badge = badge;
-		this.state = state;
-	}
-
 	public MessageSendPowerParticlesState(Entity entity, MinestuckParticles.PowerParticleState state)
 	{
 		this(entity, null, state);
 	}
 
-	@Override
-	public void toBytes(ByteBuf buf)
+	public MessageSendPowerParticlesState(Entity entity, Class badge, MinestuckParticles.PowerParticleState state)
 	{
-		buf.writeInt(entityId);
-
-		buf.writeBoolean(badge != null);
-		if (badge != null)
-			ByteBufUtils.writeUTF8String(buf, badge.getName());
-
-		buf.writeBoolean(state != null);
-		if (state != null)
-		{
-			buf.writeBoolean(state.type == MinestuckParticles.ParticleType.AURA);
-			if (state.aspect != null)
-				buf.writeByte(state.aspect.ordinal());
-			else
-				buf.writeByte(EnumAspect.values().length + state.clazz.ordinal());
-			buf.writeByte(state.count);
-		}
+		this.entityId = entity.getEntityId();
+		this.badge = badge;
+		this.state = state;
 	}
 
 	@Override
@@ -88,6 +67,27 @@ public class MessageSendPowerParticlesState implements MinestuckMessage
 		}
 
 
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(entityId);
+
+		buf.writeBoolean(badge != null);
+		if (badge != null)
+			ByteBufUtils.writeUTF8String(buf, badge.getName());
+
+		buf.writeBoolean(state != null);
+		if (state != null)
+		{
+			buf.writeBoolean(state.type == MinestuckParticles.ParticleType.AURA);
+			if (state.aspect != null)
+				buf.writeByte(state.aspect.ordinal());
+			else
+				buf.writeByte(EnumAspect.values().length + state.clazz.ordinal());
+			buf.writeByte(state.count);
+		}
 	}
 
 	@Override

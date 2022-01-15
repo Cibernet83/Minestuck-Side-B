@@ -25,22 +25,26 @@ public class BadgeHeir extends BadgeHeroClass
 		super(EnumClass.HEIR);
 	}
 
-	@Override
-	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	// Bluh, these have the same functions but are different classes so they need separate checks
+	@SubscribeEvent
+	public static void onLivingDamage(LivingDamageEvent event)
 	{
-		return false;
+		if (event.getEntity().world.isRemote || !(event.getEntityLiving() instanceof EntityPlayer) || !(event.getSource().getTrueSource() instanceof EntityLivingBase))
+			return;
+
+		doHeirThings((EntityPlayer) event.getEntityLiving(), (EntityLivingBase) event.getSource().getTrueSource(), event.getAmount());
 	}
 
 	private static void doHeirThings(EntityPlayer target, EntityLivingBase trueSource, float amount)
 	{
-		if(target != null && target.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_HEIR))
+		if (target != null && target.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_HEIR))
 		{
-			if(amount == -1 || (target.world.rand.nextFloat() < Math.max(0.1f, amount/target.getHealth()*0.8f * (target.getLuck()/4f-0.2f))))
+			if (amount == -1 || (target.world.rand.nextFloat() < Math.max(0.1f, amount / target.getHealth() * 0.8f * (target.getLuck() / 4f - 0.2f))))
 			{
 				Title title = MinestuckPlayerData.getTitle(IdentifierHandler.encode(target));
-				if(title != null)
+				if (title != null)
 				{
-					if(title.getHeroAspect() == EnumAspect.HOPE)
+					if (title.getHeroAspect() == EnumAspect.HOPE)
 					{
 						trueSource.setFire(5);
 						trueSource.setAir(0);
@@ -53,16 +57,6 @@ public class BadgeHeir extends BadgeHeroClass
 		}
 	}
 
-	// Bluh, these have the same functions but are different classes so they need separate checks
-	@SubscribeEvent
-	public static void onLivingDamage(LivingDamageEvent event)
-	{
-		if (event.getEntity().world.isRemote || !(event.getEntityLiving() instanceof EntityPlayer) || !(event.getSource().getTrueSource() instanceof EntityLivingBase))
-			return;
-
-		doHeirThings((EntityPlayer) event.getEntityLiving(), (EntityLivingBase) event.getSource().getTrueSource(), event.getAmount());
-	}
-
 	@SubscribeEvent
 	public static void onLivingDeath(LivingDeathEvent event)
 	{
@@ -70,5 +64,11 @@ public class BadgeHeir extends BadgeHeroClass
 			return;
 
 		doHeirThings((EntityPlayer) event.getEntityLiving(), (EntityLivingBase) event.getSource().getTrueSource(), -1);
+	}
+
+	@Override
+	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	{
+		return false;
 	}
 }

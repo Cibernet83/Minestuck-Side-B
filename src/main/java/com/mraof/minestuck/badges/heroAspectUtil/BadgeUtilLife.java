@@ -17,37 +17,37 @@ import net.minecraft.world.World;
 
 public class BadgeUtilLife extends BadgeHeroAspectUtil
 {
+	protected static final int RADIUS = 20;
+
 	public BadgeUtilLife()
 	{
 		super(EnumAspect.LIFE, new ItemStack(Items.WHEAT, 200));
 	}
 
-	protected static final int RADIUS = 20;
-
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state.equals(GodKeyStates.KeyState.NONE) || time >= 16)
+		if (state.equals(GodKeyStates.KeyState.NONE) || time >= 16)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(time % 10 == 1)
+		if (time % 10 == 1)
 		{
 			BlockPos targetPos = MinestuckUtils.getTargetBlock(player);
 
-			if(targetPos != null && world.getBlockState(targetPos).getBlock() instanceof IGrowable)
+			if (targetPos != null && world.getBlockState(targetPos).getBlock() instanceof IGrowable)
 			{
 				IGrowable growable = (IGrowable) world.getBlockState(targetPos).getBlock();
-				if(growable.canGrow(world, targetPos, world.getBlockState(targetPos), world.isRemote))
+				if (growable.canGrow(world, targetPos, world.getBlockState(targetPos), world.isRemote))
 				{
 					growable.grow(world, world.rand, targetPos, world.getBlockState(targetPos));
 
-					if(!world.isRemote)
+					if (!world.isRemote)
 						world.playEvent(2005, targetPos, 0);
 
 					badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 4);
@@ -57,20 +57,20 @@ public class BadgeUtilLife extends BadgeHeroAspectUtil
 			}
 		}
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 4)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(time > 10)
+		if (time > 10)
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.BURST, EnumAspect.LIFE, 20);
-        else
-        	badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 6);
+		else
+			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 6);
 
-		if(time >= 15)
+		if (time >= 15)
 		{
-			for(EntityAnimal target : world.getEntitiesWithinAABB(EntityAnimal.class, player.getEntityBoundingBox().grow(RADIUS)))
+			for (EntityAnimal target : world.getEntitiesWithinAABB(EntityAnimal.class, player.getEntityBoundingBox().grow(RADIUS)))
 			{
 				target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.LIFE, 3);
 

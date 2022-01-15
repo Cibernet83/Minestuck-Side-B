@@ -16,46 +16,46 @@ import net.minecraft.util.ResourceLocation;
  */
 public class AlchemiterRecipeCategory implements IRecipeCategory<AlchemiterRecipeWrapper>
 {
-    private IDrawable background;
+	private IDrawable background;
 
-    AlchemiterRecipeCategory(IGuiHelper guiHelper)
-    {
-        ResourceLocation alchemiterBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/alchemiter.png");
-        background = guiHelper.createDrawable(alchemiterBackground, 8, 15, 160, 56);
-    }
-	
+	AlchemiterRecipeCategory(IGuiHelper guiHelper)
+	{
+		ResourceLocation alchemiterBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/alchemiter.png");
+		background = guiHelper.createDrawable(alchemiterBackground, 8, 15, 160, 56);
+	}
+
+	@Override
+	public String getUid()
+	{
+		return "minestuck.alchemiter";
+	}
+
+	@Override
+	public String getTitle()
+	{
+		return I18n.format("tile.miniAlchemiter.name");
+	}
+
 	@Override
 	public String getModName()
 	{
 		return Minestuck.NAME;
 	}
-	
+
 	@Override
-    public String getUid()
-    {
-        return "minestuck.alchemiter";
-    }
+	public IDrawable getBackground()
+	{
+		return background;
+	}
 
-    @Override
-    public String getTitle()
-    {
-        return I18n.format("tile.miniAlchemiter.name");
-    }
-
-    @Override
-    public IDrawable getBackground()
-    {
-        return background;
-    }
-
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, AlchemiterRecipeWrapper recipeWrapper, IIngredients ingredients)
-    {
-        recipeLayout.getItemStacks().init(0, true, 18, 4);
-        recipeLayout.getItemStacks().init(1, false, 126, 4);
-        ItemStack inputDowel = ingredients.getInputs(ItemStack.class).get(0).get(0).copy();
-        inputDowel.setItemDamage(ColorCollector.playerColor + 1);
-        recipeLayout.getItemStacks().set(0, inputDowel);
-        recipeLayout.getItemStacks().set(1, ingredients.getOutputs(ItemStack.class).get(0));
-    }
+	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, AlchemiterRecipeWrapper recipeWrapper, IIngredients ingredients)
+	{
+		recipeLayout.getItemStacks().init(0, true, 18, 4);
+		recipeLayout.getItemStacks().init(1, false, 126, 4);
+		ItemStack inputDowel = ingredients.getInputs(ItemStack.class).get(0).get(0).copy();
+		inputDowel.setItemDamage(ColorCollector.playerColor + 1);
+		recipeLayout.getItemStacks().set(0, inputDowel);
+		recipeLayout.getItemStacks().set(1, ingredients.getOutputs(ItemStack.class).get(0));
+	}
 }

@@ -15,12 +15,12 @@ public class ModelTurtle extends ModelConsort
 	ModelRenderer shell;
 	ModelRenderer shellRim;
 	ModelRenderer nose;
-	
+
 	public ModelTurtle()
 	{
 		textureWidth = 64;
 		textureHeight = 64;
-		
+
 		head = new ModelRenderer(this, 0, 0);
 		head.addBox(-2F, -4F, -4F, 4, 4, 5);
 		head.setRotationPoint(-0.5F, 12F, 1F);
@@ -71,10 +71,17 @@ public class ModelTurtle extends ModelConsort
 		setRotation(nose, 0F, 0F, 0F);
 		head.addChild(nose);
 	}
-	
+
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
+
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-			float headPitch, float scale)
+					   float headPitch, float scale)
 	{
 		super.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 		setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
@@ -86,22 +93,15 @@ public class ModelTurtle extends ModelConsort
 		shell.render(scale);
 		shellRim.render(scale);
 	}
-	
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
-	}
 
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
 	{
-		float angleY = netHeadYaw / (180F / (float)Math.PI);
-		float angleX = headPitch / (180F / (float)Math.PI);
+		float angleY = netHeadYaw / (180F / (float) Math.PI);
+		float angleX = headPitch / (180F / (float) Math.PI);
 		head.rotateAngleY = angleY;
 		head.rotateAngleX = angleX;
 		this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-		this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 	}
 }

@@ -30,16 +30,6 @@ public class MessageMindflayerMovementInputRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeFloat(moveStrafe);
-		buf.writeFloat(moveForward);
-		buf.writeBoolean(jump);
-		buf.writeBoolean(sneak);
-		buf.writeInt(currentItem);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		moveStrafe = buf.readFloat();
@@ -51,28 +41,38 @@ public class MessageMindflayerMovementInputRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeFloat(moveStrafe);
+		buf.writeFloat(moveForward);
+		buf.writeBoolean(jump);
+		buf.writeBoolean(sneak);
+		buf.writeInt(currentItem);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
 		EntityLivingBase target = player.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getMindflayerEntity();
 
-		if(target == null)
+		if (target == null)
 			return;
 
 		if (target instanceof EntityCreature)
-			for (EntityAITasks.EntityAITaskEntry entry : ((EntityCreature)target).tasks.taskEntries)
+			for (EntityAITasks.EntityAITaskEntry entry : ((EntityCreature) target).tasks.taskEntries)
 				if (entry.action instanceof EntityAIMindflayerTarget)
 					((EntityAIMindflayerTarget) entry.action).setMove(moveStrafe, moveForward);
-		else
-		{
-			IBadgeEffects badgeEffects = target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null);
-			badgeEffects.setMovement(moveStrafe, moveForward, jump, sneak);
+				else
+				{
+					IBadgeEffects badgeEffects = target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null);
+					badgeEffects.setMovement(moveStrafe, moveForward, jump, sneak);
 
-			if(target instanceof EntityPlayer && ((EntityPlayer)target).inventory.currentItem != currentItem)
-			{
-				((EntityPlayer)target).inventory.currentItem = currentItem;
-				MinestuckNetwork.sendTo(new MessageCurrentItem(currentItem), (EntityPlayer)target);
-			}
-		}
+					if (target instanceof EntityPlayer && ((EntityPlayer) target).inventory.currentItem != currentItem)
+					{
+						((EntityPlayer) target).inventory.currentItem = currentItem;
+						MinestuckNetwork.sendTo(new MessageCurrentItem(currentItem), (EntityPlayer) target);
+					}
+				}
 	}
 
 	@Override

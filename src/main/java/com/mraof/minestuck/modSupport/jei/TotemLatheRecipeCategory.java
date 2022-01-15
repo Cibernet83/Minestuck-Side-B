@@ -29,13 +29,7 @@ public class TotemLatheRecipeCategory implements IRecipeCategory<TotemLatheRecip
 		ResourceLocation totemLatheBackground = new ResourceLocation(Minestuck.MODID, "textures/gui/lathe.png");
 		background = guiHelper.createDrawable(totemLatheBackground, 25, 24, 130, 36);
 	}
-	
-	@Override
-	public String getModName()
-	{
-		return Minestuck.NAME;
-	}
-	
+
 	@Override
 	public String getUid()
 	{
@@ -46,6 +40,12 @@ public class TotemLatheRecipeCategory implements IRecipeCategory<TotemLatheRecip
 	public String getTitle()
 	{
 		return I18n.format("tile.miniTotemLathe.name");
+	}
+
+	@Override
+	public String getModName()
+	{
+		return Minestuck.NAME;
 	}
 
 	@Override
@@ -64,21 +64,21 @@ public class TotemLatheRecipeCategory implements IRecipeCategory<TotemLatheRecip
 		stackGroup.init(3, false, 107, 9);  //Result
 		List<List<ItemStack>> inputs = ingredients.getInputs(ItemStack.class);
 		List<ItemStack> first = new ArrayList<>();
-		for(ItemStack stack : inputs.get(0))
+		for (ItemStack stack : inputs.get(0))
 		{
 			first.add(AlchemyUtils.createCard(stack, true));
 		}
 		stackGroup.set(0, first);
 
 		List<ItemStack> second = new ArrayList<>();
-		for(ItemStack stack : inputs.get(1))
+		for (ItemStack stack : inputs.get(1))
 		{
 			second.add(AlchemyUtils.createCard(stack, true));
 		}
 		stackGroup.set(1, second);
-		
+
 		stackGroup.set(2, new ItemStack(MinestuckItems.cruxiteDowel, 1, ColorCollector.playerColor + 1));
-		
+
 		List<ItemStack> outputs = new ArrayList<>(ingredients.getOutputs(ItemStack.class).get(0));
 		ItemStack outputDowel = AlchemyUtils.createEncodedItem(outputs.get(0), new ItemStack(MinestuckItems.cruxiteDowel));
 		outputDowel.setItemDamage(ColorCollector.playerColor + 1);

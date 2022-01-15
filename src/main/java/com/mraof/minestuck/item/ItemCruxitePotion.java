@@ -12,8 +12,32 @@ import net.minecraft.world.World;
 public class ItemCruxitePotion extends ItemCruxiteArtifact
 {
 
-	public ItemCruxitePotion() {
+	public ItemCruxitePotion()
+	{
 		super("cruxitePotion");
+	}
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
+		playerIn.setActiveHand(handIn);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+	}
+
+	@Override
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+	{
+		stack.shrink(1);
+		if (entityLiving instanceof EntityPlayer)
+			onArtifactActivated((EntityPlayer) entityLiving);
+
+		return stack;
+	}
+
+	@Override
+	public EnumAction getItemUseAction(ItemStack stack)
+	{
+		return EnumAction.DRINK;
 	}
 
 	@Override
@@ -21,28 +45,5 @@ public class ItemCruxitePotion extends ItemCruxiteArtifact
 	{
 		return 32;
 	}
-	
-	@Override
-	public EnumAction getItemUseAction(ItemStack stack)
-	{
-		return EnumAction.DRINK;
-	}
-	
-	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
-	{
-		stack.shrink(1);
-		if(entityLiving instanceof EntityPlayer)
-			onArtifactActivated((EntityPlayer) entityLiving);
-		
-		return stack;
-	}
-	
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-	{
-		playerIn.setActiveHand(handIn);
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
-	}
-	
+
 }

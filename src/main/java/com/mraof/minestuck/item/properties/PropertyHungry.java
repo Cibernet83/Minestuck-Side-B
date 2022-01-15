@@ -20,34 +20,34 @@ public class PropertyHungry extends WeaponProperty
 	}
 
 	@Override
-	public float damageAgainstEntity(ItemStack stack, EntityLivingBase player, EntityLivingBase target, float amount)
-	{
-		float scale = 1;
-		if(!onCrit && (player instanceof EntityPlayer) && CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1)
-		{
-			FoodStats foodStats = ((EntityPlayer) player).getFoodStats();
-			if(foodStats.getFoodLevel() >= this.amount)
-			{
-				scale = damageMultiplier;
-				foodStats.setFoodLevel(foodStats.getFoodLevel()-this.amount);
-			}
-		}
-		return super.damageAgainstEntity(stack, player, target, amount) * scale;
-	}
-
-	@Override
 	public float onCrit(ItemStack stack, EntityPlayer player, EntityLivingBase target, float damageModifier)
 	{
 		float scale = onCrit ? 1 : super.onCrit(stack, player, target, damageModifier);
-		if(onCrit && CommonEventHandler.getCooledAttackStrength(player) >= 1)
+		if (onCrit && CommonEventHandler.getCooledAttackStrength(player) >= 1)
 		{
 			FoodStats foodStats = player.getFoodStats();
-			if(foodStats.getFoodLevel() >= this.amount)
+			if (foodStats.getFoodLevel() >= this.amount)
 			{
 				scale = damageMultiplier;
-				foodStats.setFoodLevel(foodStats.getFoodLevel()-this.amount);
+				foodStats.setFoodLevel(foodStats.getFoodLevel() - this.amount);
 			}
 		}
 		return scale;
+	}
+
+	@Override
+	public float damageAgainstEntity(ItemStack stack, EntityLivingBase player, EntityLivingBase target, float amount)
+	{
+		float scale = 1;
+		if (!onCrit && (player instanceof EntityPlayer) && CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1)
+		{
+			FoodStats foodStats = ((EntityPlayer) player).getFoodStats();
+			if (foodStats.getFoodLevel() >= this.amount)
+			{
+				scale = damageMultiplier;
+				foodStats.setFoodLevel(foodStats.getFoodLevel() - this.amount);
+			}
+		}
+		return super.damageAgainstEntity(stack, player, target, amount) * scale;
 	}
 }

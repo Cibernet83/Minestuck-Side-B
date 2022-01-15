@@ -16,28 +16,28 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class EditModeEventHandler
 {
-    @SubscribeEvent
-    public static void onPlayerCollision(GetCollisionBoxesEvent event)
-    {
-        if(((event.getEntity() != null && event.getEntity().world.isRemote && event.getEntity().equals(Minecraft.getMinecraft().player) && ClientEditHandler.isActive()) ||
-                (event.getEntity() instanceof EntityPlayer && !event.getEntity().world.isRemote && ServerEditHandler.getData((EntityPlayer) event.getEntity()) != null)) && ((EntityPlayer) event.getEntity()).capabilities.isFlying)
-            event.getCollisionBoxesList().clear();
-    }
+	@SubscribeEvent
+	public static void onPlayerCollision(GetCollisionBoxesEvent event)
+	{
+		if (((event.getEntity() != null && event.getEntity().world.isRemote && event.getEntity().equals(Minecraft.getMinecraft().player) && ClientEditHandler.isActive()) ||
+					 (event.getEntity() instanceof EntityPlayer && !event.getEntity().world.isRemote && ServerEditHandler.getData((EntityPlayer) event.getEntity()) != null)) && ((EntityPlayer) event.getEntity()).capabilities.isFlying)
+			event.getCollisionBoxesList().clear();
+	}
 
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    public static void onPlayerPushOutOfBlocks(PlayerSPPushOutOfBlocksEvent event)
-    {
-        if((event.getEntity() != null && event.getEntity().world.isRemote && event.getEntity().equals(Minecraft.getMinecraft().player) && ClientEditHandler.isActive()))
-            event.setCanceled(true);
-    }
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void onPlayerPushOutOfBlocks(PlayerSPPushOutOfBlocksEvent event)
+	{
+		if ((event.getEntity() != null && event.getEntity().world.isRemote && event.getEntity().equals(Minecraft.getMinecraft().player) && ClientEditHandler.isActive()))
+			event.setCanceled(true);
+	}
 
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    public static void renderBlockOverlay(RenderBlockOverlayEvent event)
-    {
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void renderBlockOverlay(RenderBlockOverlayEvent event)
+	{
 
-        if((Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.world.isRemote && ClientEditHandler.isActive()))
-            event.setCanceled(true);
-    }
+		if ((Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.world.isRemote && ClientEditHandler.isActive()))
+			event.setCanceled(true);
+	}
 }

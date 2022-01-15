@@ -6,7 +6,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 
 import java.util.Map;
 
@@ -17,7 +16,7 @@ public class RenderAlchemiter extends TileEntitySpecialRenderer<TileEntityAlchem
 	{
 		//ModelLoaderRegistry.getModel()
 	}
-	
+
 	public class AlchemiterStateMapper implements IStateMapper
 	{
 		@Override

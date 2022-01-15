@@ -12,15 +12,15 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class MSItemBlock extends ItemBlock implements IRegistryItem
 {
+	public MSItemBlock(Block block)
+	{
+		this(block, 64);
+	}
+
 	public MSItemBlock(Block block, int stackSize)
 	{
 		super(block);
 		setMaxStackSize(stackSize);
-	}
-
-	public MSItemBlock(Block block)
-	{
-		this(block, 64);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class MSItemBlock extends ItemBlock implements IRegistryItem
 	@SideOnly(Side.CLIENT)
 	public void registerModel()
 	{
-		if(getHasSubtypes())
+		if (getHasSubtypes())
 			ModelLoader.setCustomMeshDefinition(this, (stack -> new ModelResourceLocation(getRegistryName(), "inventory")));
 		else
 			ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));

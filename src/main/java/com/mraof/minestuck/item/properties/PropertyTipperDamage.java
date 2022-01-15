@@ -21,6 +21,6 @@ public class PropertyTipperDamage extends WeaponProperty
 	public float damageAgainstEntity(ItemStack stack, EntityLivingBase player, EntityLivingBase target, float amount)
 	{
 		double reach = player.getEntityAttribute(EntityPlayer.REACH_DISTANCE) == null ? EntityPlayer.REACH_DISTANCE.getDefaultValue() : player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
-		return amount*(minPctg + (maxPctg-minPctg) * (float)(1 - Math.abs(player.getDistance(target)/reach - optimalDistance)));
+		return amount * (minPctg + (maxPctg - minPctg) * (float) (1 - Math.abs(player.getDistance(target) / reach - optimalDistance)));
 	}
 }

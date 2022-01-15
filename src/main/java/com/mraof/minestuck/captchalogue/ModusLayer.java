@@ -88,14 +88,6 @@ public class ModusLayer
 		return nbt;
 	}
 
-	public Modus[] getModi()
-	{
-		Modus[] modi = new Modus[this.modi.length];
-		for (int i = 0; i < modi.length; i++)
-			modi[i] = this.modi[i].getModus();
-		return modi;
-	}
-
 	@SideOnly(Side.CLIENT)
 	public String getName(boolean plural)
 	{
@@ -114,6 +106,20 @@ public class ModusLayer
 		}
 	}
 
+	public Modus[] getModi()
+	{
+		Modus[] modi = new Modus[this.modi.length];
+		for (int i = 0; i < modi.length; i++)
+			modi[i] = this.modi[i].getModus();
+		return modi;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices)
+	{
+		return modi[0].getGuiContainer(sylladices, slots, index, textureIndices, getTextureIndices());
+	}
+
 	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex[] getTextureIndices()
 	{
@@ -121,11 +127,5 @@ public class ModusLayer
 		for (int i = 0; i < modi.length; i++)
 			indices[i] = modi[i].getCardTextureIndex();
 		return indices;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public <SYLLADEX extends ISylladex> MultiSylladexGuiContainer getGuiContainer(SylladexList<SYLLADEX> sylladices, int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices)
-	{
-		return modi[0].getGuiContainer(sylladices, slots, index, textureIndices, getTextureIndices());
 	}
 }

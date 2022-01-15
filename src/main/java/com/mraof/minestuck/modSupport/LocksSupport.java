@@ -12,19 +12,20 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LocksSupport {
+public class LocksSupport
+{
 	public static void useKey(World world, BlockPos pos, EntityPlayer player)
 	{
 		ILockableStorage lockables = world.getCapability(LocksCapabilities.LOCKABLES, null);
 		List<Lockable> matching = lockables.get().values().stream().filter(lockable1 -> lockable1.box.intersects(pos)).collect(Collectors.toList());
-		if(matching.isEmpty())
+		if (matching.isEmpty())
 		{
 			return;
 		}
 		world.playSound(player, pos, LocksSoundEvents.LOCK_OPEN, SoundCategory.BLOCKS, 1F, 1F);
-		if(!world.isRemote)
-			for(Lockable lockable : matching)
-				if(lockable.lock.isLocked() || player.isSneaking())
+		if (!world.isRemote)
+			for (Lockable lockable : matching)
+				if (lockable.lock.isLocked() || player.isSneaking())
 					lockable.lock.setLocked(!lockable.lock.isLocked());
 	}
 }

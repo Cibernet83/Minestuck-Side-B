@@ -36,26 +36,26 @@ public class ConsortVillageComponents
 	{
 		MapGenStructureIO.registerStructure(MapGenConsortVillage.Start.class, "MinestuckConsortVillage");
 		ConsortVillageCenter.register();
-		
+
 		MapGenStructureIO.registerStructureComponent(PipeHouse1.class, "MinestuckCVPiH1");
 		MapGenStructureIO.registerStructureComponent(HighPipeHouse1.class, "MinestuckCVHPiH1");
 		MapGenStructureIO.registerStructureComponent(SmallTowerStore.class, "MinestuckCVSToSt");
-		
+
 		MapGenStructureIO.registerStructureComponent(LoweredShellHouse1.class, "MinestuckCVLShH1");
 		MapGenStructureIO.registerStructureComponent(TurtleMarketBuilding1.class, "MinestuckCVTuMB1");
 		MapGenStructureIO.registerStructureComponent(TurtleTemple1.class, "MinestuckCVTuTe1");
-		
+
 		MapGenStructureIO.registerStructureComponent(HighNakHousing1.class, "MinestuckCVHNaH1");
 		MapGenStructureIO.registerStructureComponent(HighNakMarket1.class, "MinestuckCVHNaM1");
 		MapGenStructureIO.registerStructureComponent(HighNakInn1.class, "MinestuckCVHNaInn1");
-		
+
 		MapGenStructureIO.registerStructureComponent(SmallTent1.class, "MinestuckCVSmTe1");
 		MapGenStructureIO.registerStructureComponent(LargeTent1.class, "MinestuckCVLaTe1");
 		MapGenStructureIO.registerStructureComponent(SmallTentStore.class, "MinestuckCVSmTeSt");
-		
+
 		MapGenStructureIO.registerStructureComponent(VillagePath.class, "MinestuckCVPth");
 	}
-	
+
 	public static List<PieceWeight> getStructureVillageWeightedPieceList(Random random, EnumConsort consortType, LandAspectRegistry.AspectCombination landAspects)
 	{
 		List<PieceWeight> list = Lists.newArrayList();
@@ -83,19 +83,19 @@ public class ConsortVillageComponents
 				list.add(new PieceWeight(HighNakInn1.class, 15, MathHelper.getInt(random, 1, 1)));
 				break;
 		}
-		
+
 		list.removeIf(pieceWeight -> pieceWeight.villagePiecesLimit == 0);
-		
+
 		return list;
 	}
-	
+
 	//TODO make sure that components don't generate near the ocean
 	private static StructureComponent generateAndAddComponent(ConsortVillageCenter.VillageCenter start, List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing)
 	{
 		if (Math.abs(structureMinX - start.getBoundingBox().minX) <= 112 && Math.abs(structureMinZ - start.getBoundingBox().minZ) <= 112)
 		{
 			StructureComponent villagePiece = generateComponent(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
-			
+
 			if (villagePiece != null)
 			{
 				structureComponents.add(villagePiece);
@@ -106,11 +106,11 @@ public class ConsortVillageComponents
 		}
 		else return null;
 	}
-	
+
 	private static ConsortVillagePiece generateComponent(ConsortVillageCenter.VillageCenter start, List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing)
 	{
 		int i = updatePieceWeight(start.pieceWeightList);
-		
+
 		if (i <= 0)
 		{
 			return null;
@@ -118,62 +118,62 @@ public class ConsortVillageComponents
 		else
 		{
 			int j = 0;
-			
+
 			while (j < 5)
 			{
 				++j;
 				int k = rand.nextInt(i);
-				
+
 				for (PieceWeight pieceWeight : start.pieceWeightList)
 				{
 					k -= pieceWeight.villagePieceWeight;
-					
+
 					if (k < 0)
 					{
 						if (!pieceWeight.canSpawnMoreVillagePieces() || pieceWeight == start.lastPieceWeightUsed && start.pieceWeightList.size() > 1)
 							break;
-						
+
 						ConsortVillagePiece villagePiece = findAndCreateComponentFactory(start, pieceWeight, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
-						
+
 						if (villagePiece != null)
 						{
 							pieceWeight.villagePiecesSpawned++;
 							start.lastPieceWeightUsed = pieceWeight;
-							
+
 							if (!pieceWeight.canSpawnMoreVillagePieces())
 								start.pieceWeightList.remove(pieceWeight);
-							
+
 							return villagePiece;
 						}
 					}
 				}
 			}
-			
+
 			return null;
 		}
 	}
-	
+
 	private static int updatePieceWeight(List<PieceWeight> list)
 	{
 		boolean flag = false;
 		int totalWeight = 0;
-		
+
 		for (PieceWeight pieceWeight : list)
 		{
 			if (pieceWeight.villagePiecesLimit > 0 && pieceWeight.villagePiecesSpawned < pieceWeight.villagePiecesLimit)
 				flag = true;
-			
+
 			totalWeight += pieceWeight.villagePieceWeight;
 		}
-		
+
 		return flag ? totalWeight : -1;
 	}
-	
+
 	private static ConsortVillagePiece findAndCreateComponentFactory(ConsortVillageCenter.VillageCenter start, PieceWeight weight, List<StructureComponent> structureComponents, Random rand, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing)
 	{
-		Class <? extends ConsortVillagePiece> pieceClass = weight.villagePieceClass;
+		Class<? extends ConsortVillagePiece> pieceClass = weight.villagePieceClass;
 		ConsortVillagePiece villagePiece = null;
-		
+
 		if (pieceClass == PipeHouse1.class)
 		{
 			villagePiece = PipeHouse1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
@@ -182,97 +182,123 @@ public class ConsortVillageComponents
 		{
 			villagePiece = HighPipeHouse1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == SmallTowerStore.class)
+		else if (pieceClass == SmallTowerStore.class)
 		{
 			villagePiece = SmallTowerStore.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == LoweredShellHouse1.class)
+		else if (pieceClass == LoweredShellHouse1.class)
 		{
 			villagePiece = LoweredShellHouse1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == TurtleMarketBuilding1.class)
+		else if (pieceClass == TurtleMarketBuilding1.class)
 		{
 			villagePiece = TurtleMarketBuilding1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == TurtleTemple1.class)
+		else if (pieceClass == TurtleTemple1.class)
 		{
 			villagePiece = TurtleTemple1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == HighNakHousing1.class)
+		else if (pieceClass == HighNakHousing1.class)
 		{
 			villagePiece = HighNakHousing1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == HighNakMarket1.class)
+		else if (pieceClass == HighNakMarket1.class)
 		{
 			villagePiece = HighNakMarket1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == HighNakInn1.class)
+		else if (pieceClass == HighNakInn1.class)
 		{
 			villagePiece = HighNakInn1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == SmallTent1.class)
+		else if (pieceClass == SmallTent1.class)
 		{
 			villagePiece = SmallTent1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == LargeTent1.class)
+		else if (pieceClass == LargeTent1.class)
 		{
 			villagePiece = LargeTent1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		else if(pieceClass == SmallTentStore.class)
+		else if (pieceClass == SmallTentStore.class)
 		{
 			villagePiece = SmallTentStore.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing);
 		}
-		
+
 		return villagePiece;
 	}
-	
+
+	protected static StructureComponent generateAndAddRoadPiece(ConsortVillageCenter.VillageCenter start, List<StructureComponent> componentList, Random rand, int x, int y, int z, EnumFacing facing)
+	{
+		if (Math.abs(x - start.getBoundingBox().minX) <= 112 && Math.abs(z - start.getBoundingBox().minZ) <= 112)
+		{
+			StructureBoundingBox structureboundingbox = VillagePath.findPieceBox(start, componentList, rand, x, y, z, facing);
+
+			if (structureboundingbox != null && structureboundingbox.minY > 10)
+			{
+				StructureComponent structurecomponent = new VillagePath(start, rand, structureboundingbox, facing);
+				componentList.add(structurecomponent);
+				start.pendingRoads.add(structurecomponent);
+				return structurecomponent;
+			}
+			else
+			{
+				return null;
+			}
+		}
+		else
+		{
+			return null;
+		}
+	}
+
 	public static class PieceWeight
 	{
-		public Class <? extends ConsortVillagePiece> villagePieceClass;
 		public final int villagePieceWeight;
+		public Class<? extends ConsortVillagePiece> villagePieceClass;
 		public int villagePiecesSpawned;
 		public int villagePiecesLimit;
-		
-		public PieceWeight(Class <? extends ConsortVillagePiece> pieceClass, int weight, int limit)
+
+		public PieceWeight(Class<? extends ConsortVillagePiece> pieceClass, int weight, int limit)
 		{
 			this.villagePieceClass = pieceClass;
 			this.villagePieceWeight = weight;
 			this.villagePiecesLimit = limit;
 		}
-		
+
 		public boolean canSpawnMoreVillagePieces()
 		{
 			return this.villagePiecesLimit == 0 || this.villagePiecesSpawned < this.villagePiecesLimit;
 		}
 	}
-	
+
+	/////////////////////////Utility
+
 	public static abstract class ConsortVillagePiece extends StructureComponentUtil
 	{
 		protected int averageGroundLvl = -1;
 		protected boolean[] spawns = new boolean[0];
-		
+
 		@Override
 		protected void writeStructureToNBT(NBTTagCompound tagCompound)
 		{
 			tagCompound.setInteger("HPos", this.averageGroundLvl);
-			
-			for(int i = 0; i < spawns.length; i++)
-				tagCompound.setBoolean("spawn"+i, spawns[i]);
+
+			for (int i = 0; i < spawns.length; i++)
+				tagCompound.setBoolean("spawn" + i, spawns[i]);
 		}
-		
+
 		@Override
 		protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager p_143011_2_)
 		{
 			this.averageGroundLvl = tagCompound.getInteger("HPos");
-			
-			for(int i = 0; i < spawns.length; i++)
-				spawns[i] = tagCompound.getBoolean("spawn"+i);
+
+			for (int i = 0; i < spawns.length; i++)
+				spawns[i] = tagCompound.getBoolean("spawn" + i);
 		}
-		
+
 		protected StructureComponent getNextComponentNN(ConsortVillageCenter.VillageCenter start, List<StructureComponent> structureComponents, Random rand, int offsetY, int offsetXZ)
 		{
 			EnumFacing enumfacing = this.getCoordBaseMode();
-			
+
 			if (enumfacing != null)
 			{
 				switch (enumfacing)
@@ -293,11 +319,11 @@ public class ConsortVillageComponents
 				return null;
 			}
 		}
-		
+
 		protected StructureComponent getNextComponentPP(ConsortVillageCenter.VillageCenter start, List<StructureComponent> structureComponents, Random rand, int offsetY, int offsetXZ)
 		{
 			EnumFacing enumfacing = this.getCoordBaseMode();
-			
+
 			if (enumfacing != null)
 			{
 				switch (enumfacing)
@@ -318,7 +344,7 @@ public class ConsortVillageComponents
 				return null;
 			}
 		}
-		
+
 		protected void clearFront(World world, StructureBoundingBox structureBB, int minX, int maxX, int y, int z)
 		{
 			for (int x = minX; x <= maxX; x++)
@@ -338,159 +364,171 @@ public class ConsortVillageComponents
 						this.fillWithBlocks(world, structureBB, x, y, z, x, y + i - 1, z, ladder, ladder, false);
 				}
 		}
-		
+
 		protected void placeRoadtile(int x, int z, StructureBoundingBox boundingBox, World worldIn, IBlockState pathBlock)
 		{
 			BlockPos blockpos = new BlockPos(x, 64, z);
-			
+
 			if (boundingBox.isVecInside(blockpos))
 			{
 				blockpos = worldIn.getTopSolidOrLiquidBlock(blockpos).down();
-				
+
 				if (blockpos.getY() < worldIn.getSeaLevel())
 				{
 					blockpos = new BlockPos(blockpos.getX(), worldIn.getSeaLevel() - 1, blockpos.getZ());
 				}
-				
+
 				while (blockpos.getY() >= worldIn.getSeaLevel() - 1)
 				{
 					IBlockState state = worldIn.getBlockState(blockpos);
-					
+
 					if (state.getMaterial().isLiquid() || state.isNormalCube())
 					{
 						worldIn.setBlockState(blockpos, pathBlock, 2);
 						break;
 					}
-					
+
 					blockpos = blockpos.down();
 				}
 			}
 		}
-		
+
 		protected void blockPillar(int x, int y, int z, StructureBoundingBox boundingBox, World world, IBlockState block)
 		{
 			BlockPos pos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
-			
-			if(!boundingBox.isVecInside(pos))
+
+			if (!boundingBox.isVecInside(pos))
 				return;
-			
-			while(pos.getY() >= world.getSeaLevel())
+
+			while (pos.getY() >= world.getSeaLevel())
 			{
 				world.setBlockState(pos, block, 2);
-				
+
 				pos = pos.down();
-				
-				if(world.getBlockState(pos).isOpaqueCube())
+
+				if (world.getBlockState(pos).isOpaqueCube())
 					break;
 			}
 		}
-		
+
 		protected boolean spawnConsort(int x, int y, int z, StructureBoundingBox boundingBox, World world)
 		{
 			return spawnConsort(x, y, z, boundingBox, world, EnumConsort.MerchantType.NONE, 48);
 		}
-		
-		protected boolean spawnConsort(int x, int y, int z, StructureBoundingBox boundingBox, World world, int maxHomeDistance)
-		{
-			return spawnConsort(x, y, z, boundingBox, world, EnumConsort.MerchantType.NONE, maxHomeDistance);
-		}
-		
+
 		protected boolean spawnConsort(int x, int y, int z, StructureBoundingBox boundingBox, World world, EnumConsort.MerchantType type, int maxHomeDistance)
 		{
 			BlockPos pos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
-			
-			if(boundingBox.isVecInside(pos))
+
+			if (boundingBox.isVecInside(pos))
 			{
 				LandAspectRegistry.AspectCombination aspects = MinestuckDimensionHandler.getAspects(world.provider.getDimension());
-				if(aspects == null)
+				if (aspects == null)
 				{
 					Debug.warn("Tried to spawn a consort in a building that is being generated outside of a land dimension.");
 					return false;
 				}
-				
+
 				Class<? extends EntityConsort> c = aspects.aspectTerrain.getConsortType().getConsortClass();
-				
+
 				try
 				{
 					EntityConsort consort = c.getConstructor(World.class).newInstance(world);
 					consort.setPosition(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-					
+
 					consort.merchantType = type;
 					consort.setHomePosAndDistance(pos, maxHomeDistance);
-					
+
 					consort.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(consort)), null);
-					
+
 					world.spawnEntity(consort);
 					return true;
-				} catch(Exception e)
+				}
+				catch (Exception e)
 				{
 					e.printStackTrace();
 				}
 			}
 			return false;
 		}
+
+		protected boolean spawnConsort(int x, int y, int z, StructureBoundingBox boundingBox, World world, int maxHomeDistance)
+		{
+			return spawnConsort(x, y, z, boundingBox, world, EnumConsort.MerchantType.NONE, maxHomeDistance);
+		}
 	}
-	
-	/////////////////////////Utility
-	
+
 	public static class VillagePath extends ConsortVillagePiece
 	{
 		private int length;
-		
+
 		public VillagePath()
 		{
 		}
-		
+
 		public VillagePath(ConsortVillageCenter.VillageCenter start, Random rand, StructureBoundingBox boundingBox, EnumFacing facing)
 		{
 			this.setCoordBaseMode(facing);
 			this.boundingBox = boundingBox;
 			this.length = Math.max(boundingBox.getXSize(), boundingBox.getZSize());
 		}
-		
+
+		public static StructureBoundingBox findPieceBox(ConsortVillageCenter.VillageCenter start, List<StructureComponent> components, Random rand, int x, int y, int z, EnumFacing facing)
+		{
+			for (int i = 7 * MathHelper.getInt(rand, 3, 5); i >= 7; i -= 7)
+			{
+				StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(x, y, z, 0, 0, 0, 2, 3, i, facing);
+
+				if (StructureComponent.findIntersecting(components, structureboundingbox) == null)
+					return structureboundingbox;
+			}
+
+			return null;
+		}
+
 		@Override
 		protected void writeStructureToNBT(NBTTagCompound tagCompound)
 		{
 			super.writeStructureToNBT(tagCompound);
 			tagCompound.setInteger("Length", this.length);
 		}
-		
+
 		@Override
 		protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager p_143011_2_)
 		{
 			super.readStructureFromNBT(tagCompound, p_143011_2_);
 			this.length = tagCompound.getInteger("Length");
 		}
-		
+
 		@Override
 		public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand)
 		{
 			boolean flag = false;
-			
+
 			for (int i = rand.nextInt(5); i < this.length - 8; i += 2 + rand.nextInt(5))
 			{
-				StructureComponent newPiece = this.getNextComponentNN((ConsortVillageCenter.VillageCenter)componentIn, listIn, rand, 0, i);
-				
+				StructureComponent newPiece = this.getNextComponentNN((ConsortVillageCenter.VillageCenter) componentIn, listIn, rand, 0, i);
+
 				if (newPiece != null)
 				{
 					i += Math.max(newPiece.getBoundingBox().getXSize(), newPiece.getBoundingBox().getZSize());
 					flag = true;
 				}
 			}
-			
+
 			for (int j = rand.nextInt(5); j < this.length - 8; j += 2 + rand.nextInt(5))
 			{
 				StructureComponent newPiece = this.getNextComponentPP((ConsortVillageCenter.VillageCenter) componentIn, listIn, rand, 0, j);
-				
+
 				if (newPiece != null)
 				{
 					j += Math.max(newPiece.getBoundingBox().getXSize(), newPiece.getBoundingBox().getZSize());
 					flag = true;
 				}
 			}
-			
+
 			EnumFacing enumfacing = this.getCoordBaseMode();
-			
+
 			if (flag && rand.nextInt(3) > 0 && enumfacing != null)
 			{
 				switch (enumfacing)
@@ -509,7 +547,7 @@ public class ConsortVillageComponents
 						ConsortVillageComponents.generateAndAddRoadPiece((ConsortVillageCenter.VillageCenter) componentIn, listIn, rand, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH);
 				}
 			}
-			
+
 			if (flag && rand.nextInt(3) > 0 && enumfacing != null)
 			{
 				switch (enumfacing)
@@ -529,26 +567,13 @@ public class ConsortVillageComponents
 				}
 			}
 		}
-		
-		public static StructureBoundingBox findPieceBox(ConsortVillageCenter.VillageCenter start, List<StructureComponent> components, Random rand, int x, int y, int z, EnumFacing facing)
-		{
-			for(int i = 7 * MathHelper.getInt(rand, 3, 5); i >= 7; i -= 7)
-			{
-				StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(x, y, z, 0, 0, 0, 2, 3, i, facing);
-				
-				if(StructureComponent.findIntersecting(components, structureboundingbox) == null)
-					return structureboundingbox;
-			}
-			
-			return null;
-		}
-		
+
 		@Override
 		public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn)
 		{
 			ChunkProviderLands provider = (ChunkProviderLands) worldIn.provider.createChunkGenerator();
 			IBlockState pathBlock = provider.blockRegistry.getBlockState("village_path");
-			
+
 			for (int i = this.boundingBox.minX; i <= this.boundingBox.maxX; ++i)
 			{
 				for (int j = this.boundingBox.minZ; j <= this.boundingBox.maxZ; ++j)
@@ -556,33 +581,8 @@ public class ConsortVillageComponents
 					placeRoadtile(i, j, structureBoundingBoxIn, worldIn, pathBlock);
 				}
 			}
-			
+
 			return true;
-		}
-	}
-	
-	
-	protected static StructureComponent generateAndAddRoadPiece(ConsortVillageCenter.VillageCenter start, List<StructureComponent> componentList, Random rand, int x, int y, int z, EnumFacing facing)
-	{
-		if (Math.abs(x - start.getBoundingBox().minX) <= 112 && Math.abs(z - start.getBoundingBox().minZ) <= 112)
-		{
-			StructureBoundingBox structureboundingbox = VillagePath.findPieceBox(start, componentList, rand, x, y, z, facing);
-			
-			if (structureboundingbox != null && structureboundingbox.minY > 10)
-			{
-				StructureComponent structurecomponent = new VillagePath(start, rand, structureboundingbox, facing);
-				componentList.add(structurecomponent);
-				start.pendingRoads.add(structurecomponent);
-				return structurecomponent;
-			}
-			else
-			{
-				return null;
-			}
-		}
-		else
-		{
-			return null;
 		}
 	}
 }

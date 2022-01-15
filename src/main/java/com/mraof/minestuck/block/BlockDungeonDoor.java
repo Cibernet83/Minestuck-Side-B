@@ -15,53 +15,53 @@ import java.util.Random;
 
 public class BlockDungeonDoor extends MSBlockBase
 {
-    private static final int BLOCK_LIMIT = 100;
-    private static int blockCount = 0;
+	private static final int BLOCK_LIMIT = 100;
+	private static int blockCount = 0;
 
-    public BlockDungeonDoor(String name)
-    {
-        super(name, Material.ROCK);
-        setBlockUnbreakable();
-        setResistance(6000000.0F);
-        disableStats();
-    }
+	public BlockDungeonDoor(String name)
+	{
+		super(name, Material.ROCK);
+		setBlockUnbreakable();
+		setResistance(6000000.0F);
+		disableStats();
+	}
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-    {
-        ItemStack stack = playerIn.getHeldItem(hand);
-        if(stack.getItem() == MinestuckItems.dungeonKey)
-        {
-            activateDoor(worldIn, pos);
-            if(!playerIn.isCreative())
-            stack.shrink(1);
-            blockCount = 0;
-            return true;
-        }
+	private static void activateDoor(World world, BlockPos pos)
+	{
+		world.destroyBlock(pos, false);
 
-        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
-    }
+		if (blockCount >= BLOCK_LIMIT)
+			return;
+		for (EnumFacing direction : EnumFacing.values())
+		{
+			IBlockState state = world.getBlockState(pos.offset(direction));
+			if (state.getBlock() instanceof BlockDungeonDoor)
+			{
+				blockCount++;
+				activateDoor(world, pos.offset(direction));
+			}
+		}
+	}
 
-    private static void activateDoor(World world, BlockPos pos)
-    {
-        world.destroyBlock(pos, false);
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune)
+	{
+		return super.getItemDropped(state, rand, fortune);
+	}
 
-        if(blockCount >= BLOCK_LIMIT)
-            return;
-        for(EnumFacing direction : EnumFacing.values())
-        {
-            IBlockState state = world.getBlockState(pos.offset(direction));
-            if(state.getBlock() instanceof BlockDungeonDoor)
-            {
-                blockCount++;
-                activateDoor(world, pos.offset(direction));
-            }
-        }
-    }
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		ItemStack stack = playerIn.getHeldItem(hand);
+		if (stack.getItem() == MinestuckItems.dungeonKey)
+		{
+			activateDoor(worldIn, pos);
+			if (!playerIn.isCreative())
+				stack.shrink(1);
+			blockCount = 0;
+			return true;
+		}
 
-    @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
-        return super.getItemDropped(state, rand, fortune);
-    }
+		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+	}
 }

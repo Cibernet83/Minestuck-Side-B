@@ -19,15 +19,15 @@ public class PropertyShieldHeal extends WeaponProperty implements IPropertyShiel
 	@Override
 	public void onHitWhileShielding(ItemStack stack, EntityLivingBase player, DamageSource source, float damage, boolean blocked)
 	{
-		if(!onParry && blocked)
-			player.heal(damage*healPctg);
+		if (!onParry && blocked)
+			player.heal(damage * healPctg);
 	}
 
 	@Override
 	public boolean onShieldParry(ItemStack stack, EntityLivingBase player, DamageSource source, float damage)
 	{
-		if(onParry)
-			player.heal(damage*healPctg);
+		if (onParry)
+			player.heal(damage * healPctg);
 		return true;
 	}
 }

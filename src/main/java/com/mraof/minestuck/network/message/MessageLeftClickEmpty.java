@@ -19,10 +19,10 @@ public class MessageLeftClickEmpty implements MinestuckMessage
 	public MessageLeftClickEmpty() { }
 
 	@Override
-	public void toBytes(ByteBuf buf) { }
+	public void fromBytes(ByteBuf buf) { }
 
 	@Override
-	public void fromBytes(ByteBuf buf) { }
+	public void toBytes(ByteBuf buf) { }
 
 	@Override
 	public void execute(EntityPlayer player)
@@ -30,23 +30,24 @@ public class MessageLeftClickEmpty implements MinestuckMessage
 		ItemStack stack = player.getHeldItemMainhand();
 		boolean checkAssigned = MinestuckConfig.restrictedStrife;
 
-		if(checkAssigned)
+		if (checkAssigned)
 		{
 			WeaponAssignedEvent event = new WeaponAssignedEvent(player, stack, StrifeEventHandler.isStackAssigned(stack));
 			MinecraftForge.EVENT_BUS.post(event);
 			checkAssigned = !event.getCheckResult();
 		}
 
-		if(stack.getItem() instanceof IPropertyWeapon && !checkAssigned)
+		if (stack.getItem() instanceof IPropertyWeapon && !checkAssigned)
 		{
 			List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
-			for(WeaponProperty p : propertyList)
+			for (WeaponProperty p : propertyList)
 				p.onEmptyHit(stack, player);
 		}
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.SERVER;
 	}
 }

@@ -36,28 +36,34 @@ public class SpaceSaltEffectEvent extends Event
 	}
 
 	@Override
-	public boolean isCancelable() {
+	public boolean isCancelable()
+	{
 		return true;
 	}
 
-	public BlockPos getBlockPos() {
+	public BlockPos getBlockPos()
+	{
 		return blockPos;
 	}
 
 	@Nullable
-	public EntityPlayer getPlayer() {
+	public EntityPlayer getPlayer()
+	{
 		return player;
 	}
 
-	public EnumFacing getBlockFace() {
+	public EnumFacing getBlockFace()
+	{
 		return blockFace;
 	}
 
-	public World getWorld() {
+	public World getWorld()
+	{
 		return world;
 	}
 
-	public RayTraceResult getRayTrace() {
+	public RayTraceResult getRayTrace()
+	{
 		return rayTrace;
 	}
 }

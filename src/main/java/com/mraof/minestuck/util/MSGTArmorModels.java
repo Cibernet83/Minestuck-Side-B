@@ -1,7 +1,6 @@
 package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.client.model.armor.*;
-import com.mraof.minestuck.util.EnumClass;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

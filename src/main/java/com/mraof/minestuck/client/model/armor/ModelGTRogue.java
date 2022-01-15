@@ -19,14 +19,14 @@ public class ModelGTRogue extends ModelGTAbstract
 		addColorIgnores(6, 7, 8);
 
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F+0.2f, -5.0F, 10, 1, 10, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F+0.2f, 4.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F+0.2f, -5.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 20, 4.0F, -9.0F+0.2f, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 40, 0, -5.0F, -10.0F+0.2f, -4.0F, 10, 1, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 36, -4.0F, -10.0F+0.2f, 4.0F, 8, 1, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 36, -4.0F, -10.0F+0.2f, -5.0F, 8, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F + 0.2f, -5.0F, 10, 1, 10, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F + 0.2f, 4.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F + 0.2f, -5.0F, 10, 8, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 18, 20, 4.0F, -9.0F + 0.2f, -4.0F, 1, 8, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 40, 0, -5.0F, -10.0F + 0.2f, -4.0F, 10, 1, 8, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 18, 36, -4.0F, -10.0F + 0.2f, 4.0F, 8, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 36, -4.0F, -10.0F + 0.2f, -5.0F, 8, 1, 1, 0.0F, false));
 
 		mask = new ModelRenderer(this);
 		mask.setRotationPoint(0.0F, 24.0F, 0.0F);
@@ -68,21 +68,22 @@ public class ModelGTRogue extends ModelGTAbstract
 		leftFoot.setRotationPoint(2.0F, 12.0F, 0.0F);
 		leftFoot.cubeList.add(new ModelBox(leftFoot, 0, 112, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.2515F, true));
 	}
-	
+
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
 		mask.isHidden = hideExtras;
 		super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 	}
-	
+
 	@Override
 	public EntityEquipmentSlot getSkirtSlot()
 	{
 		return EntityEquipmentSlot.CHEST;
 	}
-	
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	{
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;

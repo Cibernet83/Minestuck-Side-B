@@ -15,44 +15,19 @@ import net.minecraft.util.math.Vec3d;
 
 public class LandAspectThought extends TitleLandAspect
 {
-	
+
 	@Override
 	public String getPrimaryName()
 	{
 		return "thought";
 	}
-	
+
 	@Override
 	public String[] getNames()
 	{
 		return new String[]{"thought"};
 	}
-	
-	@Override
-	public void prepareWorldProvider(WorldProviderLands worldProvider)
-	{
-		worldProvider.mergeFogColor(new Vec3d(0.8, 0.3, 0.8), 0.8F);
-	}
-	
-	@Override
-	public void prepareChunkProvider(ChunkProviderLands chunkProvider)
-	{
-	}
-	
-	@Override
-	public void prepareChunkProviderServer(ChunkProviderLands chunkProvider)
-	{
-		chunkProvider.oceanChance = Math.max(chunkProvider.oceanChance, 0.2F);
-		
-		chunkProvider.blockRegistry.setBlockState("ocean", MinestuckBlocks.blockBrainJuice.getDefaultState());
-		chunkProvider.blockRegistry.setBlockState("river", MinestuckBlocks.blockBrainJuice.getDefaultState());
-		chunkProvider.blockRegistry.setBlockState("structure_wool_2", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME));
-		chunkProvider.blockRegistry.setBlockState("carpet", Blocks.CARPET.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME));
-		
-		chunkProvider.decorators.add(new SmallLibraryDecorator(MinestuckBiomes.mediumNormal));
-		chunkProvider.sortDecorators();
-	}
-	
+
 	@Override
 	public boolean isAspectCompatible(TerrainLandAspect aspect)
 	{
@@ -60,5 +35,30 @@ public class LandAspectThought extends TitleLandAspect
 		aspect.registerBlocks(registry);
 		return registry.getBlockState("ocean").getMaterial() != Material.LAVA;
 	}
-	
+
+	@Override
+	public void prepareChunkProvider(ChunkProviderLands chunkProvider)
+	{
+	}
+
+	@Override
+	public void prepareChunkProviderServer(ChunkProviderLands chunkProvider)
+	{
+		chunkProvider.oceanChance = Math.max(chunkProvider.oceanChance, 0.2F);
+
+		chunkProvider.blockRegistry.setBlockState("ocean", MinestuckBlocks.blockBrainJuice.getDefaultState());
+		chunkProvider.blockRegistry.setBlockState("river", MinestuckBlocks.blockBrainJuice.getDefaultState());
+		chunkProvider.blockRegistry.setBlockState("structure_wool_2", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME));
+		chunkProvider.blockRegistry.setBlockState("carpet", Blocks.CARPET.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME));
+
+		chunkProvider.decorators.add(new SmallLibraryDecorator(MinestuckBiomes.mediumNormal));
+		chunkProvider.sortDecorators();
+	}
+
+	@Override
+	public void prepareWorldProvider(WorldProviderLands worldProvider)
+	{
+		worldProvider.mergeFogColor(new Vec3d(0.8, 0.3, 0.8), 0.8F);
+	}
+
 }

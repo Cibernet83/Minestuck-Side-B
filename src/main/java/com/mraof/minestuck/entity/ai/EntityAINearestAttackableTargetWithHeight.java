@@ -11,16 +11,17 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class EntityAINearestAttackableTargetWithHeight extends EntityAITarget 
+public class EntityAINearestAttackableTargetWithHeight extends EntityAITarget
 {
 
+	private final Predicate targetPredicate;
 	EntityLivingBase targetEntity;
 	Class<? extends Entity> targetClass;
 	int targetChance;
 	private float targetHeightDistance;
-	private final Predicate targetPredicate;
-
-	/** Instance of EntityAINearestAttackableTargetSorter. */
+	/**
+	 * Instance of EntityAINearestAttackableTargetSorter.
+	 */
 	private EntityAINearestAttackableTargetWithHeightSorter theNearestAttackableTargetWithHeightSorter;
 	private float targetDistance;
 
@@ -31,11 +32,11 @@ public class EntityAINearestAttackableTargetWithHeight extends EntityAITarget
 
 	public EntityAINearestAttackableTargetWithHeight(EntityCreature owner, Class<? extends Entity> par2Class, float par3, int par4, boolean par5, boolean par6)
 	{
-		this(owner, par2Class, par3, par4, par5, par6, (Predicate)null);
+		this(owner, par2Class, par3, par4, par5, par6, null);
 	}
 
 	public EntityAINearestAttackableTargetWithHeight(EntityCreature owner,
-			Class<? extends Entity> target, float par3, int par4, boolean par5, boolean par6, Predicate par7IEntitySelector)
+													 Class<? extends Entity> target, float par3, int par4, boolean par5, boolean par6, Predicate par7IEntitySelector)
 	{
 		super(owner, par5, par6);
 		this.targetClass = target;
@@ -61,7 +62,7 @@ public class EntityAINearestAttackableTargetWithHeight extends EntityAITarget
 		{
 			if (this.targetClass == EntityPlayer.class)
 			{
-				EntityPlayer entityplayer = this.taskOwner.world.getClosestPlayerToEntity(this.taskOwner, (double)this.targetDistance);	//Was closest vulnerable player
+				EntityPlayer entityplayer = this.taskOwner.world.getClosestPlayerToEntity(this.taskOwner, (double) this.targetDistance);    //Was closest vulnerable player
 
 				if (this.isSuitableTarget(entityplayer, false))
 				{
@@ -71,14 +72,14 @@ public class EntityAINearestAttackableTargetWithHeight extends EntityAITarget
 			}
 			else
 			{
-				List<Entity> list = this.taskOwner.world.getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().grow((double)this.targetDistance, this.targetHeightDistance, (double)this.targetDistance), targetPredicate);
+				List<Entity> list = this.taskOwner.world.getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().grow((double) this.targetDistance, this.targetHeightDistance, (double) this.targetDistance), targetPredicate);
 				Collections.sort(list, this.theNearestAttackableTargetWithHeightSorter);
 				Iterator<Entity> iterator = list.iterator();
-				
+
 				while (iterator.hasNext())
 				{
 					Entity entity = iterator.next();
-					EntityLivingBase entityliving = (EntityLivingBase)entity;
+					EntityLivingBase entityliving = (EntityLivingBase) entity;
 
 					if (this.isSuitableTarget(entityliving, false))
 					{
@@ -101,7 +102,8 @@ public class EntityAINearestAttackableTargetWithHeight extends EntityAITarget
 		this.taskOwner.setAttackTarget(this.targetEntity);
 		super.startExecuting();
 	}
-	public void setTargetHeightDistance(float targetHeightDistance) 
+
+	public void setTargetHeightDistance(float targetHeightDistance)
 	{
 		this.targetHeightDistance = targetHeightDistance;
 	}

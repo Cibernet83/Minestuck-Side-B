@@ -20,17 +20,23 @@ import java.util.Random;
 public class BlockVanillaOre extends MSBlockBase
 {
 	public final Block oreType;
-	
-	public BlockVanillaOre(String name, Block type)	//For vanilla ores with a different background texture
+
+	public BlockVanillaOre(String name, Block type)    //For vanilla ores with a different background texture
 	{
 		super(name, Material.ROCK);
 		oreType = type;
 		setHardness(3.0F);
-		setResistance(5.0F);	//Values normally used by ores
+		setResistance(5.0F);    //Values normally used by ores
 		setHarvestLevel("pickaxe", type.getHarvestLevel(type.getDefaultState()));
 		setCreativeTab(MinestuckTabs.minestuck);
 	}
-	
+
+	@Override
+	public int quantityDropped(Random random)
+	{
+		return oreType.quantityDropped(random);
+	}
+
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
@@ -39,44 +45,38 @@ public class BlockVanillaOre extends MSBlockBase
 		else
 			return oreType.getItemDropped(state, rand, fortune);
 	}
-	
-	@Override
-	public int quantityDropped(Random random)
-	{
-		return oreType.quantityDropped(random);
-	}
-	
-	@Override
-	public int quantityDroppedWithBonus(int fortune, Random random)
-	{
-		return oreType.quantityDroppedWithBonus(fortune, random);
-	}
-	
-	@Override
-	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
-	{
-		return oreType.getExpDrop(state, world, pos, fortune);
-	}
-	
-	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
-	{
-		return oreType.getPickBlock(state, target, world, pos, player);
-	}
-	
+
 	@Override
 	public int damageDropped(IBlockState state)
 	{
 		return oreType.damageDropped(state);
 	}
-	
+
 	@Override
 	protected ItemStack getSilkTouchDrop(IBlockState state)
 	{
-		if(MinestuckConfig.vanillaOreDrop)
+		if (MinestuckConfig.vanillaOreDrop)
 			return new ItemStack(oreType);
 		else
 			return super.getSilkTouchDrop(state);
 	}
-	
+
+	@Override
+	public int quantityDroppedWithBonus(int fortune, Random random)
+	{
+		return oreType.quantityDroppedWithBonus(fortune, random);
+	}
+
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+	{
+		return oreType.getPickBlock(state, target, world, pos, player);
+	}
+
+	@Override
+	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
+	{
+		return oreType.getExpDrop(state, world, pos, fortune);
+	}
+
 }

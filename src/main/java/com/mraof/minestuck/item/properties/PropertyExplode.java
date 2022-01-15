@@ -21,7 +21,7 @@ public class PropertyExplode extends WeaponProperty
 	@Override
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
-		if(!onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1))
+		if (!onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1))
 		{
 			target.hurtResistantTime = 0;
 			target.world.createExplosion(null, target.posX, target.posY, target.posZ, strength, net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(player.world, player));
@@ -31,7 +31,7 @@ public class PropertyExplode extends WeaponProperty
 	@Override
 	public float onCrit(ItemStack stack, EntityPlayer player, EntityLivingBase target, float damageModifier)
 	{
-		if(onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(((EntityPlayer) player)) >= 1))
+		if (onCrit && (player.world.rand.nextFloat() <= chance) && (!(player instanceof EntityPlayer) || CommonEventHandler.getCooledAttackStrength(player) >= 1))
 		{
 			target.hurtResistantTime = 0;
 			target.world.createExplosion(null, target.posX, target.posY, target.posZ, strength, net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(player.world, player));

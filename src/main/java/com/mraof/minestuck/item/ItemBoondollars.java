@@ -22,26 +22,41 @@ import static com.mraof.minestuck.item.MinestuckItems.boondollars;
 
 public class ItemBoondollars extends MSItemBase
 {
-	public ItemBoondollars()	//TODO Add custom crafting recipe that merges boondollar stacks
+	public ItemBoondollars()    //TODO Add custom crafting recipe that merges boondollar stacks
 	{
 		super("boondollars", true);
 		setMaxStackSize(1);
 	}
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
-		if(!worldIn.isRemote)
+		if (!worldIn.isRemote)
 		{
 			MinestuckPlayerData.addBoondollars(playerIn, getCount(playerIn.getHeldItem(handIn)));
 		}
 		return new ActionResult<>(EnumActionResult.SUCCESS, ItemStack.EMPTY);
 	}
-	
+
+	public static int getCount(ItemStack stack)
+	{
+		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("value", 99))
+			return 1;
+		else return stack.getTagCompound().getInteger("value");
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	{
+		int amount = getCount(stack);
+		tooltip.add(I18n.translateToLocalFormatted("item.boondollars.amount", amount));
+	}
+
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
-		if(isInCreativeTab(tab))
+		if (isInCreativeTab(tab))
 		{
 			items.add(new ItemStack(this));
 			items.add(setCount(new ItemStack(this), 10));
@@ -50,26 +65,11 @@ public class ItemBoondollars extends MSItemBase
 			items.add(setCount(new ItemStack(this), 10000));
 		}
 	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-	{
-		int amount = getCount(stack);
-		tooltip.add(I18n.translateToLocalFormatted("item.boondollars.amount", amount));
-	}
-	
-	public static int getCount(ItemStack stack)
-	{
-		if(!stack.hasTagCompound() || !stack.getTagCompound().hasKey("value", 99))
-			return 1;
-		else return stack.getTagCompound().getInteger("value");
-	}
-	
+
 	public static ItemStack setCount(ItemStack stack, int value)
 	{
 		NBTTagCompound nbt = stack.getTagCompound();
-		if(nbt == null)
+		if (nbt == null)
 		{
 			nbt = new NBTTagCompound();
 			stack.setTagCompound(nbt);
@@ -94,17 +94,17 @@ public class ItemBoondollars extends MSItemBase
 		{
 			int size = ItemBoondollars.getCount(stack);
 			String str;
-			if(size < 5)
+			if (size < 5)
 				str = "boondollars0";
-			else if(size < 15)
+			else if (size < 15)
 				str = "boondollars1";
-			else if(size < 50)
+			else if (size < 50)
 				str = "boondollars2";
-			else if(size < 100)
+			else if (size < 100)
 				str = "boondollars3";
-			else if(size < 250)
+			else if (size < 250)
 				str = "boondollars4";
-			else if(size < 1000)
+			else if (size < 1000)
 				str = "boondollars5";
 			else
 				str = "boondollars6";

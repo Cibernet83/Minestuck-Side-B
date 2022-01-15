@@ -17,23 +17,23 @@ public class MessageStopFlightEffect implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeBoolean(isBadEffect);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		isBadEffect = buf.readBoolean();
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeBoolean(isBadEffect);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(isBadEffect && player.isCreative())
+		if (isBadEffect && player.isCreative())
 			player.capabilities.allowFlying = true;
-		if(!isBadEffect && !player.isCreative())
+		if (!isBadEffect && !player.isCreative())
 		{
 			player.capabilities.allowFlying = false;
 			player.capabilities.isFlying = false;

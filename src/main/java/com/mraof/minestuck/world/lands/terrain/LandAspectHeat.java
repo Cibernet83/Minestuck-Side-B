@@ -14,10 +14,10 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LandAspectHeat extends TerrainLandAspect 
+public class LandAspectHeat extends TerrainLandAspect
 {
 	static Vec3d skyColor = new Vec3d(0.4D, 0.0D, 0.0D);
-	
+
 	@Override
 	public void registerBlocks(StructureBlockRegistry registry)
 	{
@@ -37,18 +37,7 @@ public class LandAspectHeat extends TerrainLandAspect
 		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW));
 		registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PURPLE));
 	}
-	
-	@Override
-	public String getPrimaryName()
-	{
-		return "heat";
-	}
 
-	@Override
-	public String[] getNames() {
-		return new String[] {"heat","flame","fire"};
-	}
-	
 	@Override
 	public List<ILandDecorator> getDecorators()
 	{
@@ -59,40 +48,52 @@ public class LandAspectHeat extends TerrainLandAspect
 		list.add(new SurfaceDecoratorVein(Blocks.SOUL_SAND.getDefaultState(), 15, 32, MinestuckBiomes.mediumRough));
 		list.add(new SurfaceDecoratorVein(Blocks.SOUL_SAND.getDefaultState(), 8, 32, MinestuckBiomes.mediumNormal));
 		list.add(new SurfaceDecoratorVein(Blocks.GLOWSTONE.getDefaultState(), 5, 8, MinestuckBiomes.mediumNormal));
-		
+
 		list.add(new UndergroundDecoratorVein(Blocks.GRAVEL.getDefaultState(), 8, 33, 256));
 		list.add(new UndergroundDecoratorVein(MinestuckBlocks.coalOreNetherrack.getDefaultState(), 26, 17, 128));
 		list.add(new UndergroundDecoratorVein(Blocks.QUARTZ_ORE.getDefaultState(), 13, 8, 64));
 		return list;
 	}
-	
+
 	@Override
 	public float getSkylightBase()
 	{
-		return 1/2F;
+		return 1 / 2F;
 	}
-	
+
 	@Override
-	public Vec3d getFogColor() 
+	public Vec3d getFogColor()
 	{
 		return skyColor;
 	}
-	
-	@Override
-	public float getTemperature()
-	{
-		return 2.0F;
-	}
-	
+
 	@Override
 	public float getRainfall()
 	{
 		return 0.0F;
 	}
-	
+
+	@Override
+	public float getTemperature()
+	{
+		return 2.0F;
+	}
+
 	@Override
 	public EnumConsort getConsortType()
 	{
 		return EnumConsort.NAKAGATOR;
+	}
+
+	@Override
+	public String getPrimaryName()
+	{
+		return "heat";
+	}
+
+	@Override
+	public String[] getNames()
+	{
+		return new String[]{"heat", "flame", "fire"};
 	}
 }

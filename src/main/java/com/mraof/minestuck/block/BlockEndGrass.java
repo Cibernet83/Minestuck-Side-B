@@ -1,7 +1,5 @@
 package com.mraof.minestuck.block;
 
-import java.util.Random;
-
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -16,16 +14,26 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Random;
+
 public class BlockEndGrass extends MSBlockBase
 {
 	protected BlockEndGrass()
 	{
-		super("endGrass",Material.ROCK, MapColor.PURPLE);
+		super("endGrass", Material.ROCK, MapColor.PURPLE);
 		this.setDefaultState(this.blockState.getBaseState());
 		this.setTickRandomly(true);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(3.0F);
-		setResistance(15.0F);	//Values used for end stone
+		setResistance(15.0F);    //Values used for end stone
+	}
+
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
+	public int getMetaFromState(IBlockState state)
+	{
+		return 0;
 	}
 
 	/**
@@ -51,7 +59,7 @@ public class BlockEndGrass extends MSBlockBase
 				{
 					for (int i = 0; i < 4; ++i)
 					{
-						BlockPos blockpos = pos.add(rand.nextInt(3) - 1, rand.nextInt(3) - 1, rand.nextInt(5) - 3);	//End grass grows faster north-ways because magnets
+						BlockPos blockpos = pos.add(rand.nextInt(3) - 1, rand.nextInt(3) - 1, rand.nextInt(5) - 3);    //End grass grows faster north-ways because magnets
 						IBlockState iblockstate = worldIn.getBlockState(blockpos);
 						IBlockState iblockstate1 = worldIn.getBlockState(blockpos.up());
 
@@ -72,7 +80,7 @@ public class BlockEndGrass extends MSBlockBase
 
 		if (rand.nextInt(10) == 0)
 		{
-			worldIn.spawnParticle(EnumParticleTypes.PORTAL, (double)((float)pos.getX() + rand.nextFloat()), (double)((float)pos.getY() + 1.1F), (double)((float)pos.getZ() + rand.nextFloat()), 0.0D, 0.0D, 0.0D);
+			worldIn.spawnParticle(EnumParticleTypes.PORTAL, (double) ((float) pos.getX() + rand.nextFloat()), (double) ((float) pos.getY() + 1.1F), (double) ((float) pos.getZ() + rand.nextFloat()), 0.0D, 0.0D, 0.0D);
 		}
 	}
 
@@ -84,16 +92,8 @@ public class BlockEndGrass extends MSBlockBase
 		return Blocks.END_STONE.getItemDropped(Blocks.END_STONE.getDefaultState(), rand, fortune);
 	}
 
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
-	public int getMetaFromState(IBlockState state)
-	{
-		return 0;
-	}
-
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[] {});
+		return new BlockStateContainer(this);
 	}
 }

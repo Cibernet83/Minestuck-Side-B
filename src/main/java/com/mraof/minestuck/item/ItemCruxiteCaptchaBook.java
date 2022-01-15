@@ -17,17 +17,17 @@ public class ItemCruxiteCaptchaBook extends ItemCruxite
 		super(name);
 		setMaxStackSize(1);
 	}
-	
-	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-	{
-	}
-	
+
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 	{
-		if(stack.hasTagCompound() && stack.getTagCompound().hasKey("Author"))
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("Author"))
 			tooltip.add(I18n.format("item.captchalogue_book.author", stack.getTagCompound().getString("Author")));
 		super.addInformation(stack, worldIn, tooltip, flagIn);
+	}
+
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
 	}
 }

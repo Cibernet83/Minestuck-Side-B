@@ -23,17 +23,6 @@ public class MessageConfig implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(MinestuckConfig.cardCost);
-		buf.writeInt(MinestuckConfig.alchemiterMaxStacks);
-		buf.writeBoolean(MinestuckConfig.disableGristWidget);
-		buf.writeByte(MinestuckConfig.treeModusSetting);
-		buf.writeBoolean(dataChecker);
-		buf.writeBoolean(MinestuckConfig.preEntryRungLimit <= 0);
-	}
-	
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		cardCost = buf.readInt();
@@ -42,6 +31,17 @@ public class MessageConfig implements MinestuckMessage
 		treeModusSetting = buf.readByte();
 		dataChecker = buf.readBoolean();
 		preEntryEcheladder = buf.readBoolean();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(MinestuckConfig.cardCost);
+		buf.writeInt(MinestuckConfig.alchemiterMaxStacks);
+		buf.writeBoolean(MinestuckConfig.disableGristWidget);
+		buf.writeByte(MinestuckConfig.treeModusSetting);
+		buf.writeBoolean(dataChecker);
+		buf.writeBoolean(MinestuckConfig.preEntryRungLimit <= 0);
 	}
 
 	@Override
@@ -56,7 +56,8 @@ public class MessageConfig implements MinestuckMessage
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.CLIENT;
 	}
 }

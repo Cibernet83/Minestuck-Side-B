@@ -27,7 +27,7 @@ public class BadgeUtilMind extends BadgeHeroAspectUtil
 		if (state == GodKeyStates.KeyState.NONE)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 1)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 1)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -39,7 +39,7 @@ public class BadgeUtilMind extends BadgeHeroAspectUtil
 		{
 			IGodTierData targetData = target.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
 
-			int tickMod = (int)(4 + 0.4f * player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getTempKarma());
+			int tickMod = (int) (4 + 0.4f * player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getTempKarma());
 			if ((targetData.getStaticKarma() != 0 || targetData.getTempKarma() != 0) && time % tickMod == 0)
 			{
 				if (targetData.getStaticKarma() != 0)

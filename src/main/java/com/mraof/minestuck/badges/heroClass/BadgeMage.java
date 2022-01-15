@@ -24,27 +24,27 @@ public class BadgeMage extends BadgeHeroClass
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state == GodKeyStates.KeyState.NONE)
+		if (state == GodKeyStates.KeyState.NONE)
 			return false;
 
-		if(!player.isCreative())
+		if (!player.isCreative())
 		{
-			if(player.getFoodStats().getFoodLevel() <= 0)
+			if (player.getFoodStats().getFoodLevel() <= 0)
 			{
 				player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 				return false;
 			}
-			if((time % 30) == 0)
-				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-1);
+			if ((time % 30) == 0)
+				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 1);
 		}
 
 		int karma = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).getTotalKarma();
 
 		int alignmentColor = 0x00FF15;
 		int minKarma = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.KARMA) ? 40 : 20;
-		if(karma >= minKarma)
+		if (karma >= minKarma)
 			alignmentColor = 0xFFD800;
-		else if(karma <= -minKarma)
+		else if (karma <= -minKarma)
 			alignmentColor = 0xB200FF;
 
 		if (time > 50)
@@ -53,7 +53,7 @@ public class BadgeMage extends BadgeHeroClass
 
 		if (time > 100)
 			player.sendStatusMessage(new TextComponentTranslation("status.alignmentPrediction." + (karma >= minKarma ? "heroic" : karma <= -minKarma ? "just" : "neutral") + "Self")
-					                         .setStyle(new Style().setColor(karma >= minKarma ? TextFormatting.GOLD : karma <= -minKarma ? TextFormatting.DARK_PURPLE : TextFormatting.GREEN)), true);
+											 .setStyle(new Style().setColor(karma >= minKarma ? TextFormatting.GOLD : karma <= -minKarma ? TextFormatting.DARK_PURPLE : TextFormatting.GREEN)), true);
 
 		return true;
 	}

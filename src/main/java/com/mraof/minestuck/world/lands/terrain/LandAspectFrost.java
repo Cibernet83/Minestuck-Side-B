@@ -1,6 +1,8 @@
 package com.mraof.minestuck.world.lands.terrain;
 
-import com.mraof.minestuck.block.*;
+import com.mraof.minestuck.block.MSBlockLeavesVariant;
+import com.mraof.minestuck.block.MSBlockLogVariant;
+import com.mraof.minestuck.block.MinestuckBlocks;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.biome.MinestuckBiomes;
 import com.mraof.minestuck.world.lands.decorator.*;
@@ -16,7 +18,7 @@ import java.util.List;
 public class LandAspectFrost extends TerrainLandAspect
 {
 	static Vec3d fogColor = new Vec3d(0.5D, 0.6D, 0.98D);
-	
+
 	@Override
 	public void registerBlocks(StructureBlockRegistry registry)
 	{
@@ -36,18 +38,7 @@ public class LandAspectFrost extends TerrainLandAspect
 		registry.setBlockState("structure_wool_1", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE));
 		registry.setBlockState("structure_wool_3", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.CYAN));
 	}
-	
-	@Override
-	public String getPrimaryName()
-	{
-		return "frost";
-	}
-	
-	@Override
-	public String[] getNames() {
-		return new String[] {"frost", "ice", "snow"};
-	}
-	
+
 	@Override
 	public List<ILandDecorator> getDecorators()
 	{
@@ -61,7 +52,7 @@ public class LandAspectFrost extends TerrainLandAspect
 		list.add(new SurfaceDecoratorVein(Blocks.ICE.getDefaultState(), 5, 8, MinestuckBiomes.mediumRough));
 		list.add(new SurfaceDecoratorVein(Blocks.SNOW.getDefaultState(), 8, 16, MinestuckBiomes.mediumRough));
 		list.add(new SurfaceDecoratorVein(Blocks.SNOW.getDefaultState(), 15, 16, MinestuckBiomes.mediumNormal));
-		
+
 		list.add(new UndergroundDecoratorVein(Blocks.PACKED_ICE.getDefaultState(), 2, 8, 64));
 		list.add(new UndergroundDecoratorVein(Blocks.SNOW.getDefaultState(), 3, 16, 64));
 		list.add(new UndergroundDecoratorVein(Blocks.DIRT.getDefaultState(), 3, 28, 64));
@@ -69,46 +60,58 @@ public class LandAspectFrost extends TerrainLandAspect
 		list.add(new UndergroundDecoratorVein(Blocks.DIAMOND_ORE.getDefaultState(), 3, 6, 24));
 		return list;
 	}
-	
+
 	@Override
 	public float getSkylightBase()
 	{
-		return 7/8F;
+		return 7 / 8F;
 	}
-	
+
 	@Override
 	public Vec3d getFogColor()
 	{
 		return fogColor;
 	}
-	
+
 	@Override
 	public Vec3d getSkyColor()
 	{
 		return new Vec3d(0.6D, 0.7D, 0.9D);
 	}
-	
+
 	@Override
 	public int getWeatherType()
 	{
 		return 1;
 	}
-	
+
 	@Override
 	public float getTemperature()
 	{
 		return 0.0F;
 	}
-	
+
 	@Override
 	public float getOceanChance()
 	{
-		return 1/4F;
+		return 1 / 4F;
 	}
-	
+
 	@Override
 	public EnumConsort getConsortType()
 	{
 		return EnumConsort.IGUANA;
+	}
+
+	@Override
+	public String getPrimaryName()
+	{
+		return "frost";
+	}
+
+	@Override
+	public String[] getNames()
+	{
+		return new String[]{"frost", "ice", "snow"};
 	}
 }

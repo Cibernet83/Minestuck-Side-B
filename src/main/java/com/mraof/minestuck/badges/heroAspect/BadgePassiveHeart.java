@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 public class BadgePassiveHeart extends BadgeHeroAspect
 {
-	public static final DamageSource DAMAGE_SOURCE = new DamageSource(Minestuck.MODID+".fragmentedSoul").setDamageBypassesArmor();
+	public static final DamageSource DAMAGE_SOURCE = new DamageSource(Minestuck.MODID + ".fragmentedSoul").setDamageBypassesArmor();
 
 	public BadgePassiveHeart()
 	{
@@ -27,7 +27,7 @@ public class BadgePassiveHeart extends BadgeHeroAspect
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(!state.equals(GodKeyStates.KeyState.HELD))
+		if (!state.equals(GodKeyStates.KeyState.HELD))
 			return false;
 
 		if (time % 10 != 0) // for damage cooldown

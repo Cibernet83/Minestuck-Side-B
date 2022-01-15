@@ -66,7 +66,7 @@ public class MinestuckCapabilities
 	@SubscribeEvent
 	public static void attachEntityCap(AttachCapabilitiesEvent<Entity> event)
 	{
-		if(event.getObject() instanceof EntityPlayer)
+		if (event.getObject() instanceof EntityPlayer)
 		{
 			event.addCapability(new ResourceLocation(Minestuck.MODID, "strife_data"), new MinestuckCapabilityProvider<>(STRIFE_DATA, (EntityPlayer) event.getObject()));
 			event.addCapability(new ResourceLocation(Minestuck.MODID, "god_key_states"), new MinestuckCapabilityProvider<>(GOD_KEY_STATES, (EntityPlayer) event.getObject()));
@@ -83,12 +83,12 @@ public class MinestuckCapabilities
 	@SubscribeEvent
 	public static void onPlayerJoinWorld(EntityJoinWorldEvent event)
 	{
-		if(event.getEntity() instanceof EntityPlayerMP && !(event.getEntity() instanceof FakePlayer))
+		if (event.getEntity() instanceof EntityPlayerMP && !(event.getEntity() instanceof FakePlayer))
 		{
 			IStrifeData cap = event.getEntity().getCapability(STRIFE_DATA, null);
 			cap.setStrifeEnabled(true);
-			MinestuckNetwork.sendTo(new MessageStrifeData((EntityLivingBase)event.getEntity()), (EntityPlayer)event.getEntity());
-			MinestuckNetwork.sendTo(new MessageBeamData(event.getWorld()), (EntityPlayer)event.getEntity());
+			MinestuckNetwork.sendTo(new MessageStrifeData((EntityLivingBase) event.getEntity()), (EntityPlayer) event.getEntity());
+			MinestuckNetwork.sendTo(new MessageBeamData(event.getWorld()), (EntityPlayer) event.getEntity());
 		}
 	}
 
@@ -102,7 +102,7 @@ public class MinestuckCapabilities
 	@SubscribeEvent
 	public static void onClientTick(TickEvent.ClientTickEvent event)
 	{
-		if(Minecraft.getMinecraft().player != null && !Minecraft.getMinecraft().isGamePaused())
+		if (Minecraft.getMinecraft().player != null && !Minecraft.getMinecraft().isGamePaused())
 			Minecraft.getMinecraft().player.world.getCapability(MinestuckCapabilities.BEAM_DATA, null).tickBeams();
 	}
 }

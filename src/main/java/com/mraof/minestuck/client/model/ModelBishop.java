@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelBishop extends ModelBase 
+public class ModelBishop extends ModelBase
 {
 	private ModelRenderer hatKnob;
 	private ModelRenderer head;
@@ -21,7 +21,7 @@ public class ModelBishop extends ModelBase
 	public ModelBishop()
 	{
 		/*addBox(offsetx,offsety,offsetz,sizex,sizey,sizez)
-		 * setRotationPoint(x,y,z) 
+		 * setRotationPoint(x,y,z)
 		 * x is width, y is height (lower numbers are higher), z is length
 		 */
 		float offsetY = -46;
@@ -57,12 +57,12 @@ public class ModelBishop extends ModelBase
 		rightLeg.setRotationPoint(10F, 55F + offsetY, 0F);
 		rightLeg.mirror = true;
 	}
-	
+
 	@Override
 	public void render(Entity entity, float par2, float par3, float par4, float par5, float par6, float par7)
 	{
 		this.setRotationAngles(par2, par3, par4, par5, par6, par7, entity);
-		
+
 		this.body.render(par7);
 		this.rightArm.render(par7);
 		this.leftArm.render(par7);
@@ -71,32 +71,32 @@ public class ModelBishop extends ModelBase
 		this.head.render(par7);
 		this.hatKnob.render(par7);
 	}
-	
+
 	/**
 	 * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
 	 * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
 	 * "far" arms and legs can swing at most.
 	 */
 	@Override
-	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity) 
+	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
 	{
-		this.head.rotateAngleY = par4 / (180F / (float)Math.PI);
-		this.head.rotateAngleX = (par5 + 20) / (180F / (float)Math.PI);
+		this.head.rotateAngleY = par4 / (180F / (float) Math.PI);
+		this.head.rotateAngleX = (par5 + 20) / (180F / (float) Math.PI);
 		this.hatKnob.rotateAngleY = this.head.rotateAngleY;
 		this.hatKnob.rotateAngleX = this.head.rotateAngleX;
 		this.leftLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.4F * par2;
-		this.rightLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2;
+		this.rightLeg.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2;
 		this.leftArm.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 2.0F * par2 * 0.5F;
-		this.rightArm.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 2.0F * par2 * 0.5F;
+		this.rightArm.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 2.0F * par2 * 0.5F;
 
 		if (this.heldItemLeft != 0)
 		{
-			this.leftArm.rotateAngleX = this.leftArm.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemLeft;
+			this.leftArm.rotateAngleX = this.leftArm.rotateAngleX * 0.5F - ((float) Math.PI / 10F) * (float) this.heldItemLeft;
 		}
 
 		if (this.heldItemRight != 0)
 		{
-			this.rightArm.rotateAngleX = this.rightArm.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
+			this.rightArm.rotateAngleX = this.rightArm.rotateAngleX * 0.5F - ((float) Math.PI / 10F) * (float) this.heldItemRight;
 		}
 	}
 }

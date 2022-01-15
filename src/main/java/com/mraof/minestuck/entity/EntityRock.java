@@ -30,117 +30,23 @@ public class EntityRock extends EntityLivingBase
 	private double motionCalcX = 0;
 	private double motionCalcZ = 0;
 
-	public EntityRock(World worldIn) {
+	public EntityRock(World worldIn)
+	{
 		super(worldIn);
 		setSize(2, 2);
 		stepHeight = 1;
 	}
 
 	@Override
-	public double getMountedYOffset() {
-		return height*0.9;
-	}
-
-	@Override
-	public Iterable<ItemStack> getArmorInventoryList() {
-		return NonNullList.create();
-	}
-
-	@Override
-	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
-		return ItemStack.EMPTY;
-	}
-
-	@Override
-	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {
-
-	}
-
-	@Override
-	public EnumHandSide getPrimaryHand() {
-		return EnumHandSide.LEFT;
-	}
-
-	@Nullable
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox()
-	{
-		return getEntityBoundingBox();
-	}
-
-	@Override
-	public boolean canBePushed() {
-		return false;
-	}
-
-	@Override
-	public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
-	{
-		if(!player.isSneaking())
-		{
-			player.startRiding(this);
-			return true;
-		}
-		return super.processInitialInteract(player, hand);
-	}
-
-	@Override
-	public void onUpdate()
-	{
-		super.onUpdate();
-
-		if(canBeSteered())
-		{
-			Entity driver = getControllingPassenger();
-
-			rotationYaw = driver.rotationYaw;
-
-			double f = 0.3 * getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
-			motionX = lerp(motionX, -f * MathHelper.sin(this.rotationYaw * 0.017453292F), 0.6);
-			motionZ = lerp(motionZ, f * MathHelper.cos(this.rotationYaw * 0.017453292F), 0.6);
-		}
-
-		if(Math.abs(posX-motionCalcX) > 0.1 || Math.abs(motionY) > 0.1 || Math.abs(posZ-motionCalcZ) > 0.1)
-		{
-			for(Entity entity : world.getEntitiesWithinAABBExcludingEntity(this, getCollisionBoundingBox().contract(0 , 1, 0)))
-				if(!getPassengers().contains(entity))
-					entity.attackEntityFrom(ROCK_DAMAGE, 20);
-
-			for(int x = (int)getCollisionBoundingBox().minX; x < getCollisionBoundingBox().maxX; x++)
-				for(int z = (int)getCollisionBoundingBox().minZ; z < getCollisionBoundingBox().maxZ; z++)
-				{
-					BlockPos pos = new BlockPos(x, posY, z);
-					if(world.getBlockState(pos).getBlockHardness(world, pos) == 0 && !(world.getBlockState(pos).getBlock() instanceof BlockLiquid))
-						world.destroyBlock(pos, true);
-				}
-		}
-		motionCalcX = this.posX;
-		motionCalcZ = this.posZ;
-	}
-
-	private static double lerp(double a, double b, double slide)
-	{
-		double lowerBnd = Math.min(a, b);
-		double upperBnd = Math.max(a, b);
-
-		return lowerBnd + (upperBnd - lowerBnd) * slide;
-	}
-
-	@Override
-	public void knockBack(Entity entityIn, float strength, double xRatio, double zRatio)
-	{
-	}
-
-	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
-		if(source.isFireDamage() || source == ROCK_DAMAGE)
+		if (source.isFireDamage() || source == ROCK_DAMAGE)
 			return false;
 
-		if(source instanceof EntityDamageSource && source.getImmediateSource() instanceof EntityLivingBase)
+		if (source instanceof EntityDamageSource && source.getImmediateSource() instanceof EntityLivingBase)
 		{
 			ItemStack stack = ((EntityLivingBase) source.getImmediateSource()).getHeldItemMainhand();
-			if(stack.canHarvestBlock(Blocks.STONE.getDefaultState()))
+			if (stack.canHarvestBlock(Blocks.STONE.getDefaultState()))
 				amount *= 3;
 		}
 
@@ -151,10 +57,10 @@ public class EntityRock extends EntityLivingBase
 		maxHurtTime = 0;
 		recentlyHit = 0;
 
-		if(getHealth() <= 0)
+		if (getHealth() <= 0)
 			setDead();
 
-		if(result)
+		if (result)
 			playParticles(5);
 
 		return result;
@@ -169,22 +75,8 @@ public class EntityRock extends EntityLivingBase
 	}
 
 	@Override
-	public void handleStatusUpdate(byte id) {
-		if(id != 3)
-			super.handleStatusUpdate(id);
-	}
-
-	private void playParticles(int particleCount)
+	public void knockBack(Entity entityIn, float strength, double xRatio, double zRatio)
 	{
-		if (this.world instanceof WorldServer)
-		{
-			((WorldServer)this.world).spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX, this.posY + (double)this.height / 1.5D, this.posZ, particleCount, (double)(this.width / 4.0F), (double)(this.height / 4.0F), (double)(this.width / 4.0F), 0.05D, Block.getStateId(Blocks.STONE.getDefaultState()));
-		}
-	}
-
-	protected SoundEvent getFallSound(int heightIn)
-	{
-		return SoundEvents.BLOCK_STONE_FALL;
 	}
 
 	@Nullable
@@ -199,8 +91,97 @@ public class EntityRock extends EntityLivingBase
 		return SoundEvents.BLOCK_STONE_BREAK;
 	}
 
+	protected SoundEvent getFallSound(int heightIn)
+	{
+		return SoundEvents.BLOCK_STONE_FALL;
+	}
+
 	@Override
-	protected boolean canBeRidden(Entity entityIn) {
+	public void handleStatusUpdate(byte id)
+	{
+		if (id != 3)
+			super.handleStatusUpdate(id);
+	}
+
+	@Override
+	public Iterable<ItemStack> getArmorInventoryList()
+	{
+		return NonNullList.create();
+	}
+
+	@Override
+	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn)
+	{
+		return ItemStack.EMPTY;
+	}
+
+	@Override
+	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack)
+	{
+
+	}
+
+	@Override
+	public void onUpdate()
+	{
+		super.onUpdate();
+
+		if (canBeSteered())
+		{
+			Entity driver = getControllingPassenger();
+
+			rotationYaw = driver.rotationYaw;
+
+			double f = 0.3 * getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
+			motionX = lerp(motionX, -f * MathHelper.sin(this.rotationYaw * 0.017453292F), 0.6);
+			motionZ = lerp(motionZ, f * MathHelper.cos(this.rotationYaw * 0.017453292F), 0.6);
+		}
+
+		if (Math.abs(posX - motionCalcX) > 0.1 || Math.abs(motionY) > 0.1 || Math.abs(posZ - motionCalcZ) > 0.1)
+		{
+			for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(this, getCollisionBoundingBox().contract(0, 1, 0)))
+				if (!getPassengers().contains(entity))
+					entity.attackEntityFrom(ROCK_DAMAGE, 20);
+
+			for (int x = (int) getCollisionBoundingBox().minX; x < getCollisionBoundingBox().maxX; x++)
+				for (int z = (int) getCollisionBoundingBox().minZ; z < getCollisionBoundingBox().maxZ; z++)
+				{
+					BlockPos pos = new BlockPos(x, posY, z);
+					if (world.getBlockState(pos).getBlockHardness(world, pos) == 0 && !(world.getBlockState(pos).getBlock() instanceof BlockLiquid))
+						world.destroyBlock(pos, true);
+				}
+		}
+		motionCalcX = this.posX;
+		motionCalcZ = this.posZ;
+	}
+
+	@Nullable
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox()
+	{
+		return getEntityBoundingBox();
+	}
+
+	@Override
+	public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
+	{
+		if (!player.isSneaking())
+		{
+			player.startRiding(this);
+			return true;
+		}
+		return super.processInitialInteract(player, hand);
+	}
+
+	@Override
+	public double getMountedYOffset()
+	{
+		return height * 0.9;
+	}
+
+	@Override
+	protected boolean canBeRidden(Entity entityIn)
+	{
 		return true;
 	}
 
@@ -208,6 +189,26 @@ public class EntityRock extends EntityLivingBase
 	public Entity getControllingPassenger()
 	{
 		return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
+	}
+
+	@Override
+	public boolean canBePushed()
+	{
+		return false;
+	}
+
+	@Override
+	public EnumHandSide getPrimaryHand()
+	{
+		return EnumHandSide.LEFT;
+	}
+
+	private static double lerp(double a, double b, double slide)
+	{
+		double lowerBnd = Math.min(a, b);
+		double upperBnd = Math.max(a, b);
+
+		return lowerBnd + (upperBnd - lowerBnd) * slide;
 	}
 
 	public boolean canBeSteered()
@@ -220,10 +221,18 @@ public class EntityRock extends EntityLivingBase
 		}
 		else
 		{
-			EntityPlayer entityplayer = (EntityPlayer)entity;
+			EntityPlayer entityplayer = (EntityPlayer) entity;
 			IStrifeData cap = entity.getCapability(MinestuckCapabilities.STRIFE_DATA, null);
 
 			return entityplayer.isSprinting() && cap.getSelectedSpecibusIndex() >= 0 && cap.getPortfolio()[cap.getSelectedSpecibusIndex()] != null && cap.getPortfolio()[cap.getSelectedSpecibusIndex()].getKindAbstratus() == MinestuckKindAbstrata.rockkind;
+		}
+	}
+
+	private void playParticles(int particleCount)
+	{
+		if (this.world instanceof WorldServer)
+		{
+			((WorldServer) this.world).spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX, this.posY + (double) this.height / 1.5D, this.posZ, particleCount, (double) (this.width / 4.0F), (double) (this.height / 4.0F), (double) (this.width / 4.0F), 0.05D, Block.getStateId(Blocks.STONE.getDefaultState()));
 		}
 	}
 }

@@ -13,24 +13,25 @@ public class MessageEffectToggle implements MinestuckMessage
 	public MessageEffectToggle() { }
 
 	@Override
-	public void toBytes(ByteBuf buf) { }
-
-	@Override
 	public void fromBytes(ByteBuf buf) { }
 
 	@Override
-	public void execute(EntityPlayer player) 
+	public void toBytes(ByteBuf buf) { }
+
+	@Override
+	public void execute(EntityPlayer player)
 	{
 		IdentifierHandler.PlayerIdentifier handler = IdentifierHandler.encode(player);
 		MinestuckPlayerData.setEffectToggle(handler, !MinestuckPlayerData.getEffectToggle(handler));
-		if(MinestuckPlayerData.getData(handler).effectToggle)
+		if (MinestuckPlayerData.getData(handler).effectToggle)
 			player.sendStatusMessage(new TextComponentTranslation("aspectEffects.on"), true);
 		else
 			player.sendStatusMessage(new TextComponentTranslation("aspectEffects.off"), true);
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.SERVER;
 	}
 }

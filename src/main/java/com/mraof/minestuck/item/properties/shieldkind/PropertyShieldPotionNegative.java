@@ -20,13 +20,13 @@ public class PropertyShieldPotionNegative extends WeaponProperty implements IPro
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		if(stack.hasTagCompound() && entityIn instanceof EntityLivingBase)
+		if (stack.hasTagCompound() && entityIn instanceof EntityLivingBase)
 		{
 			NBTTagCompound nbt = stack.getTagCompound();
-			if(!nbt.getBoolean("Parried") && nbt.getInteger("ParryTime") == 1)
+			if (!nbt.getBoolean("Parried") && nbt.getInteger("ParryTime") == 1)
 			{
 				PotionEffect effect = effects[entityIn.world.rand.nextInt(effects.length)];
-				((EntityLivingBase)entityIn).addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
+				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
 			}
 		}
 	}

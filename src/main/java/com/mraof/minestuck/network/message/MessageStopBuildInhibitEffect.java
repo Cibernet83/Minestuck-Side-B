@@ -11,15 +11,15 @@ public class MessageStopBuildInhibitEffect implements MinestuckMessage
 	public MessageStopBuildInhibitEffect() { }
 
 	@Override
-	public void toBytes(ByteBuf buf) { }
+	public void fromBytes(ByteBuf buf) { }
 
 	@Override
-	public void fromBytes(ByteBuf buf) { }
+	public void toBytes(ByteBuf buf) { }
 
 	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(!player.isCreative())
+		if (!player.isCreative())
 			player.capabilities.allowEdit = !MinestuckUtils.getPlayerGameType(player).hasLimitedInteractions();
 	}
 

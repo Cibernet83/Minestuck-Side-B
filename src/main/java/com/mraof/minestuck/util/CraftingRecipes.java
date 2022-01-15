@@ -40,15 +40,14 @@ import static com.mraof.minestuck.block.MinestuckBlocks.*;
 import static com.mraof.minestuck.item.MinestuckItems.*;
 
 
-
 /**
  * Contains classes for custom recipe types, and for smelting, oredict and similar registering
  */
 public class CraftingRecipes
 {
-	private static int nextAvailableId;
 	public static final RegistryNamespaced<ResourceLocation, IRecipe> REGISTRY = net.minecraftforge.registries.GameData.getWrapper(IRecipe.class);
-	
+	private static int nextAvailableId;
+
 	public static void registerSmelting()
 	{
 		GameRegistry.addSmelting(goldSeeds, new ItemStack(Items.GOLD_NUGGET), 0.1F);
@@ -60,18 +59,18 @@ public class CraftingRecipes
 		GameRegistry.addSmelting(redstoneOreEndStone, new ItemStack(Items.REDSTONE), 0.7F);
 		GameRegistry.addSmelting(woodenCactus, new ItemStack(Items.COAL, 1, 1), 0.15F);
 		GameRegistry.addSmelting(beefSword, new ItemStack(steakSword), 0.5F);
-		if(MinestuckConfig.cruxtruderIntake)
+		if (MinestuckConfig.cruxtruderIntake)
 			GameRegistry.addSmelting(cruxiteDowel, new ItemStack(MinestuckItems.rawCruxite), 0.0F);
-		
+
 		GameRegistry.addSmelting(log, new ItemStack(Items.COAL, 1, 1), 0.15F);
 		GameRegistry.addSmelting(endLog, new ItemStack(Items.COAL, 1, 1), 0.15F);
-		
+
 		TileEntityUraniumCooker.setRadiation(Items.BEEF, new ItemStack(irradiatedSteak));
 		TileEntityUraniumCooker.setRadiation(beefSword, new ItemStack(irradiatedSteakSword));
 		TileEntityUraniumCooker.setRadiation(Items.STICK, new ItemStack(upStick));
 		TileEntityUraniumCooker.setRadiation(Items.MUSHROOM_STEW, new ItemStack(Items.SLIME_BALL));
 		Item ectoSlime = Item.REGISTRY.getObject(new ResourceLocation("minestuckarsenal", "blue_ecto_slime"));
-		if(ectoSlime != null)
+		if (ectoSlime != null)
 		{
 			TileEntityUraniumCooker.setRadiation(ectoSlime, new ItemStack(Items.SLIME_BALL));
 		}
@@ -93,14 +92,14 @@ public class CraftingRecipes
 		OreDictionary.registerOre("oreDiamond", diamondOrePinkStone);
 		OreDictionary.registerOre("oreCruxite", oreCruxite);
 		OreDictionary.registerOre("oreUranium", oreUranium);
-		
+
 		OreDictionary.registerOre("dirt", new ItemStack(coloredDirt, 1, OreDictionary.WILDCARD_VALUE));
-		
+
 		OreDictionary.registerOre("stone", pinkStoneSmooth);
 		OreDictionary.registerOre("chalk", chalk);
 		OreDictionary.registerOre("stoneChalk", chalk);
 		OreDictionary.registerOre("blockChalk", chalk);
-		
+
 		OreDictionary.registerOre("plankWood", glowingPlanks);
 		OreDictionary.registerOre("plankWood", endPlanks);
 		OreDictionary.registerOre("plankWood", deadPlanks);
@@ -109,39 +108,39 @@ public class CraftingRecipes
 		OreDictionary.registerOre("logWood", glowingLog);
 		OreDictionary.registerOre("logWood", endLog);
 		OreDictionary.registerOre("logWood", deadLog);
-		OreDictionary.registerOre("logWood",	new ItemStack(log, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("treeSapling",endSapling);
-		OreDictionary.registerOre("treeSapling",rainbowSapling);
-		OreDictionary.registerOre("treeLeaves",	endLeaves);
-		OreDictionary.registerOre("treeLeaves",	new ItemStack(leaves, 1, OreDictionary.WILDCARD_VALUE));
-		
+		OreDictionary.registerOre("logWood", new ItemStack(log, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("treeSapling", endSapling);
+		OreDictionary.registerOre("treeSapling", rainbowSapling);
+		OreDictionary.registerOre("treeLeaves", endLeaves);
+		OreDictionary.registerOre("treeLeaves", new ItemStack(leaves, 1, OreDictionary.WILDCARD_VALUE));
+
 		OreDictionary.registerOre("cropStrawberry", strawberry);
 		OreDictionary.registerOre("blockCactus", bloomingCactus);
 
 		for (ItemMinestuckRecord record : records)
 			OreDictionary.registerOre("record", record);
 
-		for(Block block : chiseledHeroStones.values())
+		for (Block block : chiseledHeroStones.values())
 		{
 			OreDictionary.registerOre("chiseled_hero_stone", block);
 			OreDictionary.registerOre("hero_stone", block);
 		}
-		for(Block block : heroStones.values())
+		for (Block block : heroStones.values())
 			OreDictionary.registerOre("hero_stone", block);
 	}
-	
+
 	/**
 	 * Regular recipes can typically be made independent on if the ingredients are put to the left or the right, as long as the shape remains.
 	 * With this class, that possible mirror is not possible, and the recipe will instead only follow the patten exactly.
 	 */
 	public static class NonMirroredRecipe extends ShapedRecipes
 	{
-		
+
 		public NonMirroredRecipe(String group, int width, int height, NonNullList<Ingredient> input, ItemStack result)
 		{
 			super(group, width, height, input, result);
 		}
-		
+
 		@Override
 		public boolean matches(InventoryCrafting inv, World world)
 		{
@@ -149,10 +148,10 @@ public class CraftingRecipes
 				for (int j = 0; j <= 3 - this.recipeHeight; ++j)
 					if (this.checkMatch(inv, i, j))
 						return true;
-			
+
 			return false;
 		}
-		
+
 		protected boolean checkMatch(InventoryCrafting inv, int x, int y)
 		{
 			for (int invX = 0; invX < 3; invX++)
@@ -162,22 +161,22 @@ public class CraftingRecipes
 					int posX = invX - x;
 					int posY = invY - y;
 					Ingredient ingredient = Ingredient.EMPTY;
-					
+
 					if (posX >= 0 && posY >= 0 && posX < this.recipeWidth && posY < this.recipeHeight)
 					{
 						ingredient = this.recipeItems.get(posX + posY * this.recipeWidth);
 					}
-					
+
 					if (!ingredient.apply(inv.getStackInRowAndColumn(invX, invY)))
 					{
 						return false;
 					}
 				}
 			}
-			
+
 			return true;
 		}
-		
+
 		public static class Factory extends ShapedFactory
 		{
 			@Override
@@ -187,31 +186,31 @@ public class CraftingRecipes
 			}
 		}
 	}
-	
+
 	/**
 	 * Any recipes made out of this instance will not accept captchalogue cards as ingredients, unless said cards are empty and blank.
 	 * Beware that this class extends NoMirroredRecipe.
 	 */
 	public static class EmptyCardRecipe extends NonMirroredRecipe
 	{
-		
+
 		public EmptyCardRecipe(String group, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result)
 		{
 			super(group, width, height, ingredients, result);
 		}
-		
+
 		@Override
 		public boolean matches(InventoryCrafting crafting, World world)
 		{
-			for(int i = 0; i < crafting.getSizeInventory(); i++)
+			for (int i = 0; i < crafting.getSizeInventory(); i++)
 			{
 				ItemStack stack = crafting.getStackInSlot(i);
-				if(stack.getItem() == MinestuckItems.captchaCard && stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID"))
+				if (stack.getItem() == MinestuckItems.captchaCard && stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID"))
 					return false;
 			}
 			return super.matches(crafting, world);
 		}
-		
+
 		public static class Factory extends ShapedFactory
 		{
 			@Override
@@ -221,36 +220,36 @@ public class CraftingRecipes
 			}
 		}
 	}
-	
+
 	public static class AddEncodeRecipe extends NonMirroredRecipe
 	{
-		
+
 		public AddEncodeRecipe(String group, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result)
 		{
 			super(group, width, height, ingredients, result);
 		}
-		
-		public ItemStack getCraftingResult(final InventoryCrafting crafting) 
+
+		public ItemStack getCraftingResult(final InventoryCrafting crafting)
 		{
 			ItemStack decode = ItemStack.EMPTY;
 			final ItemStack output = super.getCraftingResult(crafting);
 			ItemStack stack = output;
-			
-			for(int i = 0; i < crafting.getSizeInventory(); i++)
+
+			for (int i = 0; i < crafting.getSizeInventory(); i++)
 			{
 				stack = crafting.getStackInSlot(i);
-				if(stack.getItem() == MinestuckItems.captchaCard && stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") && stack.getTagCompound().getBoolean("punched"))
+				if (stack.getItem() == MinestuckItems.captchaCard && stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID") && stack.getTagCompound().getBoolean("punched"))
 				{
 					decode = AlchemyUtils.getDecodedItem(stack);
 					return AlchemyUtils.createEncodedItem(decode, output);
 				}
-					
+
 			}
-			
+
 			return ItemStack.EMPTY;
-			
+
 		}
-		
+
 		public static class Factory extends ShapedFactory
 		{
 			@Override
@@ -260,53 +259,54 @@ public class CraftingRecipes
 			}
 		}
 	}
-	
+
 	public static class RemoveCardRecipe extends NonMirroredRecipe
 	{
-		
+
 		public RemoveCardRecipe(String group, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result)
 		{
 			super(group, width, height, ingredients, result);
 		}
-		
-		
-		public ItemStack getCraftingResult(final InventoryCrafting crafting) 
+
+		@Override
+		public NonNullList<ItemStack> getRemainingItems(InventoryCrafting crafting)
+		{
+			final NonNullList<ItemStack> remainingItems = NonNullList.withSize(crafting.getSizeInventory(), ItemStack.EMPTY);
+
+			for (int i = 0; i < remainingItems.size(); ++i)
+			{
+				final ItemStack stack = crafting.getStackInSlot(i);
+
+				if (AlchemyUtils.hasDecodedObject(stack))
+					remainingItems.set(i, new ItemStack(stack.getItem()));
+				else
+					remainingItems.set(i, ForgeHooks.getContainerItem(stack));
+
+			}
+
+			return remainingItems;
+		}
+
+		public ItemStack getCraftingResult(final InventoryCrafting crafting)
 		{
 			ItemStack decode = ItemStack.EMPTY;
 			final ItemStack output = super.getCraftingResult(crafting);
 			ItemStack stack = output;
-			
-			for(int i = 0; i < crafting.getSizeInventory(); i++)
+
+			for (int i = 0; i < crafting.getSizeInventory(); i++)
 			{
 				stack = crafting.getStackInSlot(i);
-				if(stack.getItem() == MinestuckItems.shunt && stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID"))
+				if (stack.getItem() == MinestuckItems.shunt && stack.hasTagCompound() && stack.getTagCompound().hasKey("contentID"))
 				{
 					decode = AlchemyUtils.getDecodedItem(stack);
 					return AlchemyUtils.createCard(decode, true);
 				}
-					
+
 			}
-			
+
 			return ItemStack.EMPTY;
 		}
-		@Override
-		public NonNullList<ItemStack> getRemainingItems(InventoryCrafting crafting) {
-			final NonNullList<ItemStack> remainingItems = NonNullList.withSize(crafting.getSizeInventory(), ItemStack.EMPTY);
-			
-			for(int i = 0; i < remainingItems.size(); ++i)
-			{
-				final ItemStack stack = crafting.getStackInSlot(i);
-				
-				if(AlchemyUtils.hasDecodedObject(stack))
-					remainingItems.set(i, new ItemStack(stack.getItem()));
-				else
-					remainingItems.set(i, ForgeHooks.getContainerItem(stack));
-				
-			}
-			
-			return remainingItems;
-		}
-		
+
 		public static class Factory extends ShapedFactory
 		{
 			@Override
@@ -316,7 +316,7 @@ public class CraftingRecipes
 			}
 		}
 	}
-	
+
 	public static abstract class ShapedFactory implements IRecipeFactory
 	{
 		@Override
@@ -331,18 +331,18 @@ public class CraftingRecipes
 					throw new JsonSyntaxException("Invalid key entry: '" + entry.getKey() + "' is an invalid symbol (must be 1 character only).");
 				if (" ".equals(entry.getKey()))
 					throw new JsonSyntaxException("Invalid key entry: ' ' is a reserved symbol.");
-				
+
 				ingMap.put(entry.getKey().toCharArray()[0], CraftingHelper.getIngredient(entry.getValue(), context));
 			}
 			ingMap.put(' ', Ingredient.EMPTY);
-			
+
 			JsonArray patternJ = JsonUtils.getJsonArray(json, "pattern");
-			
+
 			if (patternJ.size() == 0)
 				throw new JsonSyntaxException("Invalid pattern: empty pattern not allowed");
 			if (patternJ.size() > 3)
 				throw new JsonSyntaxException("Invalid pattern: too many rows, 3 is maximum");
-			
+
 			String[] pattern = new String[patternJ.size()];
 			for (int x = 0; x < pattern.length; ++x)
 			{
@@ -353,11 +353,11 @@ public class CraftingRecipes
 					throw new JsonSyntaxException("Invalid pattern: each row must be the same width");
 				pattern[x] = line;
 			}
-			
+
 			NonNullList<Ingredient> input = NonNullList.withSize(pattern[0].length() * pattern.length, Ingredient.EMPTY);
 			Set<Character> keys = Sets.newHashSet(ingMap.keySet());
 			keys.remove(' ');
-			
+
 			int x = 0;
 			for (String line : pattern)
 			{
@@ -370,26 +370,31 @@ public class CraftingRecipes
 					keys.remove(chr);
 				}
 			}
-			
+
 			if (!keys.isEmpty())
 				throw new JsonSyntaxException("Key defines symbols that aren't used in pattern: " + keys);
-			
+
 			ItemStack result = CraftingHelper.getItemStack(JsonUtils.getJsonObject(json, "result"), context);
 			return initRecipe(group, pattern[0].length(), pattern.length, input, result);
 		}
-		
+
 		public abstract IRecipe initRecipe(String group, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result);
 	}
 
-	public static class KnittingRecipe extends CraftingRecipes.NonMirroredRecipe {
-		public KnittingRecipe(String group, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result) {
+	public static class KnittingRecipe extends CraftingRecipes.NonMirroredRecipe
+	{
+		public KnittingRecipe(String group, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result)
+		{
 			super(group, width, height, ingredients, result);
 		}
 
-		public boolean matches(InventoryCrafting crafting, World world) {
-			for(int i = 0; i < crafting.getSizeInventory(); ++i) {
+		public boolean matches(InventoryCrafting crafting, World world)
+		{
+			for (int i = 0; i < crafting.getSizeInventory(); ++i)
+			{
 				ItemStack stack = crafting.getStackInSlot(i);
-				if (stack.getItem() instanceof ItemKnittingNeedles && stack.getCount() < 2) {
+				if (stack.getItem() instanceof ItemKnittingNeedles && stack.getCount() < 2)
+				{
 					return false;
 				}
 			}
@@ -398,20 +403,25 @@ public class CraftingRecipes
 		}
 
 		@Override
-		protected boolean checkMatch(InventoryCrafting inv, int x, int y) {
-			for(int invX = 0; invX < 3; ++invX) {
-				for(int invY = 0; invY < 3; ++invY) {
+		protected boolean checkMatch(InventoryCrafting inv, int x, int y)
+		{
+			for (int invX = 0; invX < 3; ++invX)
+			{
+				for (int invY = 0; invY < 3; ++invY)
+				{
 					int posX = invX - x;
 					int posY = invY - y;
 					Ingredient ingredient = Ingredient.EMPTY;
-					if (posX >= 0 && posY >= 0 && posX < this.recipeWidth && posY < this.recipeHeight) {
-						ingredient = (Ingredient)this.recipeItems.get(posX + posY * this.recipeWidth);
+					if (posX >= 0 && posY >= 0 && posX < this.recipeWidth && posY < this.recipeHeight)
+					{
+						ingredient = this.recipeItems.get(posX + posY * this.recipeWidth);
 					}
 
 					ItemStack stack = inv.getStackInRowAndColumn(invX, invY).copy();
-					if(stack.isItemStackDamageable()) stack.setItemDamage(0);
+					if (stack.isItemStackDamageable()) stack.setItemDamage(0);
 
-					if (!ingredient.apply(stack)){
+					if (!ingredient.apply(stack))
+					{
 						return false;
 					}
 				}
@@ -421,38 +431,17 @@ public class CraftingRecipes
 		}
 
 		@Override
-		public NonNullList<Ingredient> getIngredients()
-		{
-			NonNullList<Ingredient> result = super.getIngredients();
-
-			for(Ingredient ingredient : result)
-				for(int i = 0; i < ingredient.getMatchingStacks().length; i++)
-				{
-					ItemStack stack = ingredient.getMatchingStacks()[i];
-					if(stack.getItem() instanceof ItemKnittingNeedles)
-					{
-						stack.setCount(2);
-						NBTTagCompound nbt = new NBTTagCompound();
-						nbt.setBoolean("JEIDisplay", true);
-						stack.setTagCompound(nbt);
-					}
-				}
-
-			return result;
-		}
-
-		@Override
 		public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv)
 		{
-			NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+			NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 
 			for (int i = 0; i < nonnulllist.size(); ++i)
 			{
 				ItemStack itemstack = inv.getStackInSlot(i).copy();
 
-				if(itemstack.getItem() instanceof ItemKnittingNeedles)
+				if (itemstack.getItem() instanceof ItemKnittingNeedles)
 				{
-					itemstack.setItemDamage(itemstack.getItemDamage()+1);
+					itemstack.setItemDamage(itemstack.getItemDamage() + 1);
 					if (itemstack.getMetadata() > itemstack.getMaxDamage())
 					{
 						ForgeEventFactory.onPlayerDestroyItem(ForgeHooks.getCraftingPlayer(), itemstack, null);
@@ -469,11 +458,35 @@ public class CraftingRecipes
 			return nonnulllist;
 		}
 
-		public static class Factory extends CraftingRecipes.ShapedFactory {
-			public Factory() {
+		@Override
+		public NonNullList<Ingredient> getIngredients()
+		{
+			NonNullList<Ingredient> result = super.getIngredients();
+
+			for (Ingredient ingredient : result)
+				for (int i = 0; i < ingredient.getMatchingStacks().length; i++)
+				{
+					ItemStack stack = ingredient.getMatchingStacks()[i];
+					if (stack.getItem() instanceof ItemKnittingNeedles)
+					{
+						stack.setCount(2);
+						NBTTagCompound nbt = new NBTTagCompound();
+						nbt.setBoolean("JEIDisplay", true);
+						stack.setTagCompound(nbt);
+					}
+				}
+
+			return result;
+		}
+
+		public static class Factory extends CraftingRecipes.ShapedFactory
+		{
+			public Factory()
+			{
 			}
 
-			public IRecipe initRecipe(String group, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result) {
+			public IRecipe initRecipe(String group, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result)
+			{
 				return new KnittingRecipe(group, width, height, ingredients, result);
 			}
 		}

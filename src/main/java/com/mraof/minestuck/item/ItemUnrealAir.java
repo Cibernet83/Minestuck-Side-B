@@ -14,9 +14,27 @@ import net.minecraft.world.World;
 
 public class ItemUnrealAir extends MSItemBase
 {
-	public ItemUnrealAir(String name) {
+	public ItemUnrealAir(String name)
+	{
 		super(name);
 		setMaxStackSize(1);
+	}
+
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if (!worldIn.isRemote)
+		{
+			EntityUnrealAir board = new EntityUnrealAir(worldIn);
+			pos = pos.offset(facing);
+			board.setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, worldIn.rand.nextFloat() * 360, worldIn.rand.nextFloat() * -45f - 45f);
+			worldIn.spawnEntity(board);
+		}
+
+		if (!player.isCreative())
+			player.getHeldItem(hand).shrink(1);
+
+		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
@@ -24,35 +42,18 @@ public class ItemUnrealAir extends MSItemBase
 	{
 		ItemStack stack = player.getHeldItem(handIn);
 
-		if(!worldIn.isRemote)
+		if (!worldIn.isRemote)
 		{
 			EntityUnrealAir board = new EntityUnrealAir(worldIn);
-			board.setPositionAndRotation(player.posX, player.posY, player.posZ, worldIn.rand.nextFloat()*360, worldIn.rand.nextFloat()*-45f -45f);
+			board.setPositionAndRotation(player.posX, player.posY, player.posZ, worldIn.rand.nextFloat() * 360, worldIn.rand.nextFloat() * -45f - 45f);
 			worldIn.spawnEntity(board);
 		}
 
-		if(!player.isCreative())
+		if (!player.isCreative())
 			stack.shrink(1);
 
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-	}
-
-	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-	{
-		if(!worldIn.isRemote)
-		{
-			EntityUnrealAir board = new EntityUnrealAir(worldIn);
-			pos = pos.offset(facing);
-			board.setPositionAndRotation(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, worldIn.rand.nextFloat()*360, worldIn.rand.nextFloat()*-45f -45f);
-			worldIn.spawnEntity(board);
-		}
-
-		if(!player.isCreative())
-			player.getHeldItem(hand).shrink(1);
-
-		return EnumActionResult.SUCCESS;
 	}
 
 	@Override

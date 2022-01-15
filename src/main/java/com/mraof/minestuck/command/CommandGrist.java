@@ -1,12 +1,13 @@
 package com.mraof.minestuck.command;
 
+import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.alchemy.GristAmount;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.Grist;
 import com.mraof.minestuck.tracker.MinestuckPlayerTracker;
-import com.mraof.minestuck.util.*;
+import com.mraof.minestuck.util.IdentifierHandler;
 import com.mraof.minestuck.util.IdentifierHandler.PlayerIdentifier;
+import com.mraof.minestuck.util.MinestuckPlayerData;
 import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -18,27 +19,6 @@ import java.util.List;
 
 public class CommandGrist extends CommandBase
 {
-	public static GristAmount[] parseGrist(String[] args, int startOffset) throws CommandException
-	{
-		GristAmount[] grist = new GristAmount[(args.length - startOffset) / 2];
-		for (int i = startOffset; i < args.length - 1; i += 2)
-		{
-			Grist type = Grist.getTypeFromString(args[i].toLowerCase());
-			int numIndex = 1;
-			if (type == null)
-			{    //Support both orders
-				type = Grist.getTypeFromString(args[i + 1].toLowerCase());
-				numIndex = 0;
-
-				if (type == null)
-					throw new SyntaxErrorException("commands.grist.invalidSyntax", args[i]);
-			}
-			grist[(i - startOffset) / 2] = new GristAmount(type, parseInt(args[i + numIndex]));
-		}
-
-		return grist;
-	}
-
 	@Override
 	public String getName()
 	{
@@ -49,12 +29,6 @@ public class CommandGrist extends CommandBase
 	public String getUsage(ICommandSender sender)
 	{
 		return "commands.grist.usage";
-	}
-
-	@Override
-	public int getRequiredPermissionLevel()
-	{
-		return 2;    //Same as /give
 	}
 
 	@Override
@@ -102,12 +76,39 @@ public class CommandGrist extends CommandBase
 		{
 			StringBuilder grist = new StringBuilder();
 			for (GristAmount amount : MinestuckPlayerData.getGristSet(identifier).getArray())
-				if(amount.getAmount() != 0)
+				if (amount.getAmount() != 0)
 					grist.append("\n").append(amount.getAmount()).append(" ").append(amount.getType().getDisplayName());    //TODO properly translate display name for client side
 
 			sender.sendMessage(new TextComponentTranslation("commands.grist.get", displayName, grist.toString()));
 		}
 		else throw new WrongUsageException("commands.invalidSubCommand", command);
+	}
+
+	public static GristAmount[] parseGrist(String[] args, int startOffset) throws CommandException
+	{
+		GristAmount[] grist = new GristAmount[(args.length - startOffset) / 2];
+		for (int i = startOffset; i < args.length - 1; i += 2)
+		{
+			Grist type = Grist.getTypeFromString(args[i].toLowerCase());
+			int numIndex = 1;
+			if (type == null)
+			{    //Support both orders
+				type = Grist.getTypeFromString(args[i + 1].toLowerCase());
+				numIndex = 0;
+
+				if (type == null)
+					throw new SyntaxErrorException("commands.grist.invalidSyntax", args[i]);
+			}
+			grist[(i - startOffset) / 2] = new GristAmount(type, parseInt(args[i + numIndex]));
+		}
+
+		return grist;
+	}
+
+	@Override
+	public int getRequiredPermissionLevel()
+	{
+		return 2;    //Same as /give
 	}
 
 	@Override

@@ -12,22 +12,24 @@ import net.minecraft.world.World;
 
 public class PropertyEldrichBoost extends WeaponProperty
 {
-	@Override
-	public void onEntityItemUpdate(EntityItem entityItem)
-	{
-		ItemStack stack = entityItem.getItem();
-		if(stack.hasTagCompound() && stack.getTagCompound().hasKey("HeldTime"))
-			stack.getTagCompound().setInteger("HeldTime", 0);
-	}
-
 	protected static final Potion[] EFFECTS = new Potion[]{MobEffects.NAUSEA, MobEffects.HUNGER, MobEffects.POISON, MobEffects.BLINDNESS, MobEffects.WITHER};
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public double getAttackDamage(ItemStack stack, double parent)
+	{
+		if (stack.hasTagCompound())
+			return (stack.getTagCompound().getInteger("HeldTime") / 2000f + 1) * parent;
+		return parent;
+	}
 
-		if(!worldIn.isRemote)
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+
+		if (!worldIn.isRemote)
 		{
-			if (entityIn instanceof EntityLivingBase && isSelected) {
+			if (entityIn instanceof EntityLivingBase && isSelected)
+			{
 				if (!stack.hasTagCompound())
 					stack.setTagCompound(new NBTTagCompound());
 				int heldTime = stack.getTagCompound().getInteger("HeldTime");
@@ -37,7 +39,8 @@ public class PropertyEldrichBoost extends WeaponProperty
 				if (heldTime % 40 == 0 && worldIn.rand.nextInt(12000) < heldTime)
 					((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(EFFECTS[(int) Math.min(EFFECTS.length - 1, Math.round(worldIn.rand.nextFloat()) + heldTime / 5000f * EFFECTS.length)], heldTime / 5 + 100, heldTime / 10));
 
-			} else if (stack.hasTagCompound() && stack.getTagCompound().hasKey("HeldTime"))
+			}
+			else if (stack.hasTagCompound() && stack.getTagCompound().hasKey("HeldTime"))
 				stack.getTagCompound().setInteger("HeldTime", 0);
 		}
 
@@ -45,11 +48,11 @@ public class PropertyEldrichBoost extends WeaponProperty
 	}
 
 	@Override
-	public double getAttackDamage(ItemStack stack, double parent)
+	public void onEntityItemUpdate(EntityItem entityItem)
 	{
-		if(stack.hasTagCompound())
-			return (stack.getTagCompound().getInteger("HeldTime")/2000f +1) * parent;
-		return parent;
+		ItemStack stack = entityItem.getItem();
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("HeldTime"))
+			stack.getTagCompound().setInteger("HeldTime", 0);
 	}
 
 	@Override
@@ -58,9 +61,9 @@ public class PropertyEldrichBoost extends WeaponProperty
 		ItemStack stackA = oldStack.copy();
 		ItemStack stackB = newStack.copy();
 
-		if(!stackA.hasTagCompound())
+		if (!stackA.hasTagCompound())
 			stackA.setTagCompound(new NBTTagCompound());
-		if(!stackB.hasTagCompound())
+		if (!stackB.hasTagCompound())
 			stackB.setTagCompound(new NBTTagCompound());
 
 		stackA.getTagCompound().setInteger("HeldTime", 0);
@@ -75,9 +78,9 @@ public class PropertyEldrichBoost extends WeaponProperty
 		ItemStack stackA = oldStack.copy();
 		ItemStack stackB = newStack.copy();
 
-		if(!stackA.hasTagCompound())
+		if (!stackA.hasTagCompound())
 			stackA.setTagCompound(new NBTTagCompound());
-		if(!stackB.hasTagCompound())
+		if (!stackB.hasTagCompound())
 			stackB.setTagCompound(new NBTTagCompound());
 
 		stackA.getTagCompound().setInteger("HeldTime", 0);

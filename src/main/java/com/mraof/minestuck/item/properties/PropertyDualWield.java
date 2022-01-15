@@ -5,7 +5,9 @@ import com.mraof.minestuck.item.IClassedTool;
 import com.mraof.minestuck.item.IPropertyWeapon;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.*;
+import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -28,27 +30,13 @@ import java.util.Map;
 public class PropertyDualWield extends PropertyPlural
 {
 	@Override
-	public EnumActionResult onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
-	{
-		ItemStack offhandStack = player.getHeldItemOffhand();
-		if(player instanceof EntityPlayer && offhandStack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) offhandStack.getItem()).hasProperty(this.getClass(), offhandStack))
-		{
-			List<WeaponProperty> propertyList = new ArrayList<>(((IPropertyWeapon) offhandStack.getItem()).getProperties(offhandStack));
-			propertyList.removeIf(p -> this.getClass().isInstance(p));
-			for(WeaponProperty p : propertyList)
-				p.onItemRightClick(worldIn, player, handIn);
-		}
-		return super.onItemRightClick(worldIn, player, handIn);
-	}
-
-	@Override
 	public void onEntityHit(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
 		super.onEntityHit(stack, target, player);
 
 		ItemStack offhandStack = player.getHeldItemOffhand();
 
-		if(player instanceof EntityPlayer && offhandStack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) offhandStack.getItem()).hasProperty(this.getClass(), offhandStack))
+		if (player instanceof EntityPlayer && offhandStack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) offhandStack.getItem()).hasProperty(this.getClass(), offhandStack))
 		{
 			List<WeaponProperty> propertyList = new ArrayList<>(((IPropertyWeapon) offhandStack.getItem()).getProperties(offhandStack));
 			propertyList.removeIf(p -> this.getClass().isInstance(p));
@@ -56,20 +44,34 @@ public class PropertyDualWield extends PropertyPlural
 			target.hurtResistantTime = 0;
 			attackTargetEntityWithOffhandItem((EntityPlayer) player, target);
 
-			for(WeaponProperty p : propertyList)
+			for (WeaponProperty p : propertyList)
 				p.onEntityHit(stack, target, player);
 		}
+	}
+
+	@Override
+	public EnumActionResult onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
+	{
+		ItemStack offhandStack = player.getHeldItemOffhand();
+		if (player instanceof EntityPlayer && offhandStack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) offhandStack.getItem()).hasProperty(this.getClass(), offhandStack))
+		{
+			List<WeaponProperty> propertyList = new ArrayList<>(((IPropertyWeapon) offhandStack.getItem()).getProperties(offhandStack));
+			propertyList.removeIf(p -> this.getClass().isInstance(p));
+			for (WeaponProperty p : propertyList)
+				p.onItemRightClick(worldIn, player, handIn);
+		}
+		return super.onItemRightClick(worldIn, player, handIn);
 	}
 
 	@Override
 	public float onCrit(ItemStack stack, EntityPlayer player, EntityLivingBase target, float damageModifier)
 	{
 		ItemStack offhandStack = player.getHeldItemOffhand();
-		if(player instanceof EntityPlayer && offhandStack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) offhandStack.getItem()).hasProperty(this.getClass(), offhandStack))
+		if (player instanceof EntityPlayer && offhandStack.getItem() instanceof IPropertyWeapon && ((IPropertyWeapon) offhandStack.getItem()).hasProperty(this.getClass(), offhandStack))
 		{
 			List<WeaponProperty> propertyList = new ArrayList<>(((IPropertyWeapon) offhandStack.getItem()).getProperties(offhandStack));
 			propertyList.removeIf(p -> this.getClass().isInstance(p));
-			for(WeaponProperty p : propertyList)
+			for (WeaponProperty p : propertyList)
 				p.onCrit(stack, player, target, damageModifier);
 		}
 		return super.onCrit(stack, player, target, damageModifier);
@@ -84,7 +86,8 @@ public class PropertyDualWield extends PropertyPlural
 
 				AbstractAttributeMap attrMap = player.getAttributeMap();
 
-				for (Map.Entry<String, AttributeModifier> attr : player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getAttributeModifiers(EntityEquipmentSlot.MAINHAND).entries()) {
+				for (Map.Entry<String, AttributeModifier> attr : player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getAttributeModifiers(EntityEquipmentSlot.MAINHAND).entries())
+				{
 					IAttributeInstance attrInstance = attrMap.getAttributeInstanceByName(attr.getKey());
 
 					if (attrInstance != null && attrInstance.hasModifier(attr.getValue()) && attrInstance.getModifier(attr.getValue().getID()).getAmount() != attr.getValue().getAmount())
@@ -93,13 +96,15 @@ public class PropertyDualWield extends PropertyPlural
 					player.getAttributeMap().applyAttributeModifiers(player.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND).getAttributeModifiers(EntityEquipmentSlot.MAINHAND));
 				}
 
-				float f = (float)player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+				float f = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 				float f1;
 
-				for (Map.Entry<String, AttributeModifier> attr : player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getAttributeModifiers(EntityEquipmentSlot.MAINHAND).entries()) {
+				for (Map.Entry<String, AttributeModifier> attr : player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getAttributeModifiers(EntityEquipmentSlot.MAINHAND).entries())
+				{
 					IAttributeInstance attrInstance = attrMap.getAttributeInstanceByName(attr.getKey());
 
-					if (attrInstance != null && attrInstance.hasModifier(attr.getValue()) && attrInstance.getModifier(attr.getValue().getID()).getAmount() != attr.getValue().getAmount()) {
+					if (attrInstance != null && attrInstance.hasModifier(attr.getValue()) && attrInstance.getModifier(attr.getValue().getID()).getAmount() != attr.getValue().getAmount())
+					{
 						attrInstance.removeModifier(attr.getValue().getID());
 						attrInstance.applyModifier(attr.getValue());
 					}
@@ -107,13 +112,14 @@ public class PropertyDualWield extends PropertyPlural
 				}
 
 				if (targetEntity instanceof EntityLivingBase)
-					f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemOffhand(), ((EntityLivingBase)targetEntity).getCreatureAttribute());
-				else f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemOffhand(), EnumCreatureAttribute.UNDEFINED);
+					f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemOffhand(), ((EntityLivingBase) targetEntity).getCreatureAttribute());
+				else
+					f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemOffhand(), EnumCreatureAttribute.UNDEFINED);
 
 				f *= 0.75f;
 
-				if(player.getHeldItemMainhand().getItem() instanceof IClassedTool && player.getHeldItemOffhand().getItem() instanceof IClassedTool && (((IClassedTool) player.getHeldItemOffhand().getItem()).getToolClass() == null ||
-						!((IClassedTool) player.getHeldItemOffhand().getItem()).getToolClass().equals(((IClassedTool) player.getHeldItemMainhand().getItem()).getToolClass())))
+				if (player.getHeldItemMainhand().getItem() instanceof IClassedTool && player.getHeldItemOffhand().getItem() instanceof IClassedTool && (((IClassedTool) player.getHeldItemOffhand().getItem()).getToolClass() == null ||
+																																								!((IClassedTool) player.getHeldItemOffhand().getItem()).getToolClass().equals(((IClassedTool) player.getHeldItemMainhand().getItem()).getToolClass())))
 					f *= 0.4f;
 
 				float f2 = CommonEventHandler.getCooledAttackStrength(player);
@@ -137,9 +143,9 @@ public class PropertyDualWield extends PropertyPlural
 
 					f = f + f1;
 					boolean flag3 = false;
-					double d0 = (double)(player.distanceWalkedModified - player.prevDistanceWalkedModified);
+					double d0 = (double) (player.distanceWalkedModified - player.prevDistanceWalkedModified);
 
-					if (flag && !flag1 && player.onGround && d0 < (double)player.getAIMoveSpeed())
+					if (flag && !flag1 && player.onGround && d0 < (double) player.getAIMoveSpeed())
 					{
 						ItemStack itemstack = player.getHeldItem(EnumHand.OFF_HAND);
 
@@ -174,18 +180,18 @@ public class PropertyDualWield extends PropertyPlural
 							{
 								if (entitylivingbase != player && entitylivingbase != targetEntity && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < 9.0D)
 								{
-									entitylivingbase.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+									entitylivingbase.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
 									entitylivingbase.attackEntityFrom(DamageSource.causePlayerDamage(player), f3);
 								}
 							}
 
-							player.world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
+							player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
 							player.spawnSweepParticles();
 						}
 
 						if (targetEntity instanceof EntityPlayerMP && targetEntity.velocityChanged)
 						{
-							((EntityPlayerMP)targetEntity).connection.sendPacket(new SPacketEntityVelocity(targetEntity));
+							((EntityPlayerMP) targetEntity).connection.sendPacket(new SPacketEntityVelocity(targetEntity));
 							targetEntity.velocityChanged = false;
 							targetEntity.motionX = d1;
 							targetEntity.motionY = d2;
@@ -196,11 +202,11 @@ public class PropertyDualWield extends PropertyPlural
 						{
 							if (flag)
 							{
-								player.world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, player.getSoundCategory(), 1.0F, 1.0F);
+								player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, player.getSoundCategory(), 1.0F, 1.0F);
 							}
 							else
 							{
-								player.world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, player.getSoundCategory(), 1.0F, 1.0F);
+								player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, player.getSoundCategory(), 1.0F, 1.0F);
 							}
 						}
 
@@ -211,16 +217,16 @@ public class PropertyDualWield extends PropertyPlural
 
 						player.setLastAttackedEntity(targetEntity);
 
-						ItemStack itemstack1 = player.getHeldItemOffhand() ;
+						ItemStack itemstack1 = player.getHeldItemOffhand();
 						Entity entity = targetEntity;
 
 						if (targetEntity instanceof MultiPartEntityPart)
 						{
-							IEntityMultiPart ientitymultipart = ((MultiPartEntityPart)targetEntity).parent;
+							IEntityMultiPart ientitymultipart = ((MultiPartEntityPart) targetEntity).parent;
 
 							if (ientitymultipart instanceof EntityLivingBase)
 							{
-								entity = (EntityLivingBase)ientitymultipart;
+								entity = (EntityLivingBase) ientitymultipart;
 							}
 						}
 
@@ -242,12 +248,12 @@ public class PropertyDualWield extends PropertyPlural
 
 						if (targetEntity instanceof EntityLivingBase)
 						{
-							float f5 = f4 - ((EntityLivingBase)targetEntity).getHealth();
+							float f5 = f4 - ((EntityLivingBase) targetEntity).getHealth();
 							player.addStat(StatList.DAMAGE_DEALT, Math.round(f5 * 10.0F));
 
 							if (player.world instanceof WorldServer && f5 > 2.0F)
 							{
-								int k = (int)((double)f5 * 0.5D);
+								int k = (int) ((double) f5 * 0.5D);
 							}
 						}
 

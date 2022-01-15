@@ -22,108 +22,140 @@ public class TileEntityHolopad extends TileEntity implements ITickable
 {
 	public int innerRotation = 0;
 	protected ItemStack card;
-	
-	public TileEntityHolopad() {
+
+	public TileEntityHolopad()
+	{
 		this.card = ItemStack.EMPTY;
 	}
-	
-	public void onRightClick(EntityPlayer player) {
-		if (!this.world.isRemote) {
+
+	public void onRightClick(EntityPlayer player)
+	{
+		if (!this.world.isRemote)
+		{
 			new AxisAlignedBB(this.pos);
 		}
-		
-		if (!this.card.isEmpty()) {
-			if (player.getHeldItemMainhand().isEmpty()) {
+
+		if (!this.card.isEmpty())
+		{
+			if (player.getHeldItemMainhand().isEmpty())
+			{
 				player.setHeldItem(EnumHand.MAIN_HAND, this.card);
-			} else if (!player.inventory.addItemStackToInventory(this.card)) {
+			}
+			else if (!player.inventory.addItemStackToInventory(this.card))
+			{
 				this.dropItem(false, this.world, this.pos, this.card);
-			} else {
+			}
+			else
+			{
 				player.inventoryContainer.detectAndSendChanges();
 			}
-			
+
 			this.setCard(ItemStack.EMPTY);
 			//this.destroyHologram(this.pos);
-		} else {
+		}
+		else
+		{
 			ItemStack heldStack = player.getHeldItemMainhand();
-			if (this.card.isEmpty() && !heldStack.isEmpty() && AlchemyUtils.isPunchedCard(heldStack)) {
+			if (this.card.isEmpty() && !heldStack.isEmpty() && AlchemyUtils.isPunchedCard(heldStack))
+			{
 				this.setCard(heldStack.splitStack(1));
 				ItemStack in = this.getCard();
 				ItemStack item = new ItemStack(MinestuckBlocks.genericObject);
-				if (in.hasTagCompound() && in.getTagCompound().hasKey("contentID")) {
+				if (in.hasTagCompound() && in.getTagCompound().hasKey("contentID"))
+				{
 					item = AlchemyUtils.getDecodedItem(in);
 				}
-				
+
 				//this.spawnHologram(this.pos, item);
 			}
-			
+
 		}
 	}
-	
-	
-	public void dropItem(boolean inBlock, World worldIn, BlockPos pos, ItemStack item) {
+
+
+	public void dropItem(boolean inBlock, World worldIn, BlockPos pos, ItemStack item)
+	{
 		BlockPos dropPos;
-		if (inBlock) {
-			dropPos = pos;
-		} else if (!worldIn.getBlockState(pos).isBlockNormalCube()) {
-			dropPos = pos;
-		} else if (!worldIn.getBlockState(pos.up()).isBlockNormalCube()) {
-			dropPos = pos.up();
-		} else {
+		if (inBlock)
+		{
 			dropPos = pos;
 		}
-		
-		InventoryHelper.spawnItemStack(worldIn, (double)dropPos.getX(), (double)dropPos.getY(), (double)dropPos.getZ(), item);
+		else if (!worldIn.getBlockState(pos).isBlockNormalCube())
+		{
+			dropPos = pos;
+		}
+		else if (!worldIn.getBlockState(pos.up()).isBlockNormalCube())
+		{
+			dropPos = pos.up();
+		}
+		else
+		{
+			dropPos = pos;
+		}
+
+		InventoryHelper.spawnItemStack(worldIn, (double) dropPos.getX(), (double) dropPos.getY(), (double) dropPos.getZ(), item);
 	}
-	
-	public boolean hasCard() {
-		return !this.getCard().isEmpty();
+
+	public ItemStack getCard()
+	{
+		return this.card;
 	}
-	
-	public void setCard(ItemStack card) {
-		if (card.getItem() == MinestuckItems.captchaCard || card.isEmpty()) {
+
+	public void setCard(ItemStack card)
+	{
+		if (card.getItem() == MinestuckItems.captchaCard || card.isEmpty())
+		{
 			this.card = card;
-			if (this.world != null) {
+			if (this.world != null)
+			{
 				IBlockState state = this.world.getBlockState(this.pos);
 				this.world.notifyBlockUpdate(this.pos, state, state, 2);
 			}
 		}
-		
+
 	}
-	
-	public ItemStack getCard() {
-		return this.card;
+
+	public boolean hasCard()
+	{
+		return !this.getCard().isEmpty();
 	}
-	
-	public void readFromNBT(NBTTagCompound tagCompound) {
+
+	public void readFromNBT(NBTTagCompound tagCompound)
+	{
 		super.readFromNBT(tagCompound);
 		this.setCard(new ItemStack(tagCompound.getCompoundTag("card")));
 	}
-	
-	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
+
+	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound)
+	{
 		super.writeToNBT(tagCompound);
 		tagCompound.setTag("card", this.card.writeToNBT(new NBTTagCompound()));
 		return tagCompound;
 	}
-	
-	public NBTTagCompound getUpdateTag() {
+
+	public SPacketUpdateTileEntity getUpdatePacket()
+	{
+		SPacketUpdateTileEntity packet = new SPacketUpdateTileEntity(this.pos, 0, this.getUpdateTag());
+		return packet;
+	}
+
+	public NBTTagCompound getUpdateTag()
+	{
 		NBTTagCompound nbt = super.getUpdateTag();
 		nbt.setTag("card", this.card.writeToNBT(new NBTTagCompound()));
 		return nbt;
 	}
-	
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		SPacketUpdateTileEntity packet = new SPacketUpdateTileEntity(this.pos, 0, this.getUpdateTag());
-		return packet;
-	}
-	
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	{
 		this.handleUpdateTag(pkt.getNbtCompound());
 	}
-	
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+	{
 		return oldState.getBlock() != newSate.getBlock() || oldState.getValue(BlockHolopad.CARD) != newSate.getValue(BlockHolopad.CARD);
 	}
-	
+
 	@Override
 	public void update()
 	{

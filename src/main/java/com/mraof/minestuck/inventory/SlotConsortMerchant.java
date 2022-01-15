@@ -8,14 +8,14 @@ public class SlotConsortMerchant extends Slot
 {
 	private EntityPlayer player;
 	private InventoryConsortMerchant merchant;
-	
+
 	public SlotConsortMerchant(EntityPlayer player, InventoryConsortMerchant inventoryIn, int index, int xPosition, int yPosition)
 	{
 		super(inventoryIn, index, xPosition, yPosition);
 		this.player = player;
 		merchant = inventoryIn;
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int amount)
 	{

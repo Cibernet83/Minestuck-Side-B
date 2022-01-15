@@ -12,18 +12,44 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Badge extends net.minecraftforge.registries.IForgeRegistryEntry.Impl<Badge> implements Comparable<Badge>
 {
+	private static int sort = 0;
 	private String unlocalizedName;
 	private int sortIndex;
-	private static int sort = 0;
 
 	public Badge()
 	{
 		this.sortIndex = sort++;
 	}
 
-	public String getUnlocalizedName()
+	public static boolean findItem(EntityPlayer player, ItemStack stack, boolean decr)
 	{
-		return "badge." + unlocalizedName;
+		return findItem(player, stack, decr, true);
+	}
+
+	public static boolean findItem(EntityPlayer player, ItemStack stack, boolean decr, boolean ignoreMeta)
+	{
+		stack = stack.copy();
+		for (int i = 0; i < player.inventory.getSizeInventory(); ++i)
+		{
+			ItemStack invStack = player.inventory.getStackInSlot(i);
+			if (!decr)
+				invStack = invStack.copy();
+
+			if (ignoreMeta ? invStack.getItem() == stack.getItem() : invStack.isItemEqual(stack))
+			{
+				if (stack.getCount() > invStack.getCount())
+				{
+					stack.setCount(stack.getCount() - invStack.getCount());
+					invStack.setCount(0);
+				}
+				else
+				{
+					invStack.setCount(invStack.getCount() - stack.getCount());
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public String getDisplayName()
@@ -33,7 +59,18 @@ public class Badge extends net.minecraftforge.registries.IForgeRegistryEntry.Imp
 
 	public TextComponentTranslation getDisplayComponent()
 	{
-		return new TextComponentTranslation(getUnlocalizedName()+".name");
+		return new TextComponentTranslation(getUnlocalizedName() + ".name");
+	}
+
+	public String getUnlocalizedName()
+	{
+		return "badge." + unlocalizedName;
+	}
+
+	public Badge setUnlocalizedName(String unlocalizedName)
+	{
+		this.unlocalizedName = unlocalizedName;
+		return this;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -44,18 +81,12 @@ public class Badge extends net.minecraftforge.registries.IForgeRegistryEntry.Imp
 
 	public String getReadRequirements()
 	{
-		return new TextComponentTranslation(getUnlocalizedName()+".read").getFormattedText();
+		return new TextComponentTranslation(getUnlocalizedName() + ".read").getFormattedText();
 	}
 
 	public String getUnlockRequirements()
 	{
-		return new TextComponentTranslation(getUnlocalizedName()+".unlock").getFormattedText();
-	}
-
-	public Badge setUnlocalizedName(String unlocalizedName)
-	{
-		this.unlocalizedName = unlocalizedName;
-		return this;
+		return new TextComponentTranslation(getUnlocalizedName() + ".unlock").getFormattedText();
 	}
 
 	public boolean canAppearOnList(World world, EntityPlayer player)
@@ -80,7 +111,7 @@ public class Badge extends net.minecraftforge.registries.IForgeRegistryEntry.Imp
 	@SideOnly(Side.CLIENT)
 	public ResourceLocation getTextureLocation()
 	{
-		return new ResourceLocation(getRegistryName().getResourceDomain(), "textures/gui/badges/"+getRegistryName().getResourcePath()+".png");
+		return new ResourceLocation(getRegistryName().getResourceDomain(), "textures/gui/badges/" + getRegistryName().getResourcePath() + ".png");
 	}
 
 	public int getSortIndex()
@@ -88,40 +119,9 @@ public class Badge extends net.minecraftforge.registries.IForgeRegistryEntry.Imp
 		return sortIndex;
 	}
 
-	public static boolean findItem(EntityPlayer player, ItemStack stack, boolean decr)
-	{
-		return findItem(player, stack, decr, true);
-	}
-
-	public static boolean findItem(EntityPlayer player, ItemStack stack, boolean decr, boolean ignoreMeta)
-	{
-		stack = stack.copy();
-		for(int i = 0; i < player.inventory.getSizeInventory(); ++i)
-		{
-			ItemStack invStack = player.inventory.getStackInSlot(i);
-			if(!decr)
-				invStack = invStack.copy();
-
-			if(ignoreMeta ? invStack.getItem() == stack.getItem() : invStack.isItemEqual(stack))
-			{
-				if(stack.getCount() > invStack.getCount())
-				{
-					stack.setCount(stack.getCount() - invStack.getCount());
-					invStack.setCount(0);
-				}
-				else
-				{
-					invStack.setCount(invStack.getCount()-stack.getCount());
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-
 	@Override
-	public int compareTo(Badge o) {
+	public int compareTo(Badge o)
+	{
 		return this.sortIndex - o.sortIndex;
 	}
 

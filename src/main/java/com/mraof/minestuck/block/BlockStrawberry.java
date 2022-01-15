@@ -1,7 +1,6 @@
 package com.mraof.minestuck.block;
 
 import com.mraof.minestuck.item.MinestuckTabs;
-import com.mraof.minestuck.item.block.MSItemBlock;
 import com.mraof.minestuck.util.IRegistryObject;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
@@ -40,67 +39,66 @@ public class BlockStrawberry extends BlockDirectional implements IRegistryBlock
 		regName = IRegistryObject.unlocToReg("strawberry");
 		MinestuckBlocks.blocks.add(this);
 	}
-	
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, FACING);
-	}
-	
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(FACING).ordinal();
-	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(FACING, EnumFacing.VALUES[meta]);
 	}
-	
+
 	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
+	public int getMetaFromState(IBlockState state)
 	{
-		items.add(new ItemStack(this));
+		return state.getValue(FACING).ordinal();
 	}
-	
+
 	@Override
 	public boolean isFullCube(IBlockState state)
 	{
 		return true;
 	}
-	
+
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state)
 	{
 		return EnumBlockRenderType.MODEL;
 	}
-	
+
+	@Override
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
+	{
+		return BlockFaceShape.SOLID;
+	}
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state)
 	{
 		return true;
 	}
-	
-	
+
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
 		EnumFacing playerFacing = EnumFacing.getDirectionFromEntityLiving(pos, placer);
 		return this.getDefaultState().withProperty(FACING, playerFacing);
 	}
-	
+
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
+	{
+		items.add(new ItemStack(this));
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, FACING);
+	}
+
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
 	{
 		return new ItemStack(Item.getItemFromBlock(this));
-	}
-	
-	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
-	{
-		return BlockFaceShape.SOLID;
 	}
 
 	@Override

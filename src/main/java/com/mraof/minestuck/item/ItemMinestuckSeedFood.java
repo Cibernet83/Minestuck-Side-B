@@ -1,7 +1,6 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.util.Debug;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,28 +20,28 @@ import net.minecraftforge.common.EnumPlantType;
 public class ItemMinestuckSeedFood extends ItemFood implements net.minecraftforge.common.IPlantable
 {
 	protected IBlockState plant;
-	
+
 	public ItemMinestuckSeedFood(int amount, float saturation, String name)
 	{
 		super(name, amount, saturation, false);
 	}
-	
+
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-		if(plant==null)
+		if (plant == null)
 		{
 			Debug.warn("Someone tried to plant an ItemMinestuckSeedFood that has no crop to plant! Be sure to define the crops!");
 			return EnumActionResult.FAIL;
 		}
-		
+
 		ItemStack itemstack = player.getHeldItem(hand);
 		net.minecraft.block.state.IBlockState state = worldIn.getBlockState(pos);
 		if (
 				facing == EnumFacing.UP
-				&& player.canPlayerEdit(pos.offset(facing), facing, itemstack)
-				&& state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this)
-				&& worldIn.isAirBlock(pos.up())
-			)
+						&& player.canPlayerEdit(pos.offset(facing), facing, itemstack)
+						&& state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this)
+						&& worldIn.isAirBlock(pos.up())
+		)
 		{
 			worldIn.setBlockState(pos.up(), this.plant, 11);
 			itemstack.shrink(1);
@@ -53,15 +52,22 @@ public class ItemMinestuckSeedFood extends ItemFood implements net.minecraftforg
 			return EnumActionResult.FAIL;
 		}
 	}
-	
+
 	@Override
 	public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos)
 	{
 		return EnumPlantType.Crop;
 	}
-	
+
+	@Override
+	public IBlockState getPlant(IBlockAccess world, BlockPos pos)
+	{
+		return plant;
+	}
+
 	/**
 	 * The setter version of IPlantable's getPlant. Sets the value to be returned by getPlant.
+	 *
 	 * @param plant The blockstate placed in the world when this item is planted
 	 * @return Returns this, for chaining
 	 */
@@ -69,11 +75,5 @@ public class ItemMinestuckSeedFood extends ItemFood implements net.minecraftforg
 	{
 		this.plant = plant;
 		return this;
-	}
-	
-	@Override
-	public IBlockState getPlant(IBlockAccess world, BlockPos pos)
-	{
-		return plant;
 	}
 }

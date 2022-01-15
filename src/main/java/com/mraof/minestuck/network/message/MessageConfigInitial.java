@@ -25,20 +25,6 @@ public class MessageConfigInitial implements MinestuckMessage
 	public MessageConfigInitial() { }
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(MinestuckConfig.overworldEditRange);
-		buf.writeInt(MinestuckConfig.landEditRange);
-		buf.writeInt(ContainerHandler.windowIdStart);
-		buf.writeInt(MinestuckConfig.oreMultiplier);
-		buf.writeBoolean(MinestuckConfig.giveItems);
-		buf.writeBoolean(MinestuckConfig.hardMode);
-
-		for(int i = 0; i < MinestuckConfig.deployConfigurations.length; i++)
-			buf.writeBoolean(MinestuckConfig.deployConfigurations[i]);
-	}
-	
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		overWorldEditRange = buf.readInt();
@@ -49,8 +35,22 @@ public class MessageConfigInitial implements MinestuckMessage
 		hardMode = buf.readBoolean();
 
 		deployValues = new boolean[MinestuckConfig.deployConfigurations.length];
-		for(int i = 0; i < deployValues.length; i++)
+		for (int i = 0; i < deployValues.length; i++)
 			deployValues[i] = buf.readBoolean();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(MinestuckConfig.overworldEditRange);
+		buf.writeInt(MinestuckConfig.landEditRange);
+		buf.writeInt(ContainerHandler.windowIdStart);
+		buf.writeInt(MinestuckConfig.oreMultiplier);
+		buf.writeBoolean(MinestuckConfig.giveItems);
+		buf.writeBoolean(MinestuckConfig.hardMode);
+
+		for (int i = 0; i < MinestuckConfig.deployConfigurations.length; i++)
+			buf.writeBoolean(MinestuckConfig.deployConfigurations[i]);
 	}
 
 	@Override
@@ -62,17 +62,18 @@ public class MessageConfigInitial implements MinestuckMessage
 		ContainerHandler.clientWindowIdStart = windowIdStart;
 		MinestuckConfig.clientHardMode = hardMode;
 
-		if(!Minestuck.isServerRunning)
+		if (!Minestuck.isServerRunning)
 		{
 			DeployList.applyConfigValues(deployValues);
 		}
 
-		if(MinestuckConfig.oreMultiplier != oreMultiplier)
-			player.sendMessage(new TextComponentString("[Minestuck] Ore multiplier config doesn't match the server value. (server: "+oreMultiplier+", you: "+MinestuckConfig.oreMultiplier+") Grist costs will likely not match their actual cost!").setStyle(new Style().setColor(TextFormatting.YELLOW)));
+		if (MinestuckConfig.oreMultiplier != oreMultiplier)
+			player.sendMessage(new TextComponentString("[Minestuck] Ore multiplier config doesn't match the server value. (server: " + oreMultiplier + ", you: " + MinestuckConfig.oreMultiplier + ") Grist costs will likely not match their actual cost!").setStyle(new Style().setColor(TextFormatting.YELLOW)));
 	}
 
 	@Override
-	public Side toSide() {
+	public Side toSide()
+	{
 		return Side.CLIENT;
 	}
 }

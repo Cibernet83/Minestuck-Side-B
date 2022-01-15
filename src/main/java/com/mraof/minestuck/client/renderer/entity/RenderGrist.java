@@ -12,25 +12,25 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderGrist extends Render<EntityGrist>
 {
-	
+
 	public RenderGrist(RenderManager manager)
 	{
 		super(manager);
 		this.shadowSize = 0.15F;
 		this.shadowOpaque = .75F;
 	}
-	
+
 	@Override
 	public void doRender(EntityGrist grist, double d0, double d1, double d2, float f, float f1)
 	{
 		GlStateManager.pushMatrix();
-		GlStateManager.translate((float)d0, (float)d1 + grist.getSizeByValue()/2, (float)d2);
+		GlStateManager.translate((float) d0, (float) d1 + grist.getSizeByValue() / 2, (float) d2);
 		this.bindEntityTexture(grist);
 		BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
 		int j = grist.getBrightnessForRender();
 		int k = j % 65536;
 		int l = j / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)k / 1.0F, (float)l / 1.0F);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) k / 1.0F, (float) l / 1.0F);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -45,11 +45,11 @@ public class RenderGrist extends Render<EntityGrist>
 		GlStateManager.disableBlend();
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
-		
+
 	}
-	
+
 	@Override
-	protected ResourceLocation getEntityTexture(EntityGrist entity) 
+	protected ResourceLocation getEntityTexture(EntityGrist entity)
 	{
 		return new ResourceLocation(entity.getType().getIcon().getResourceDomain(), "textures/grist/" + entity.getType().getIcon().getResourcePath() + ".png");
 	}

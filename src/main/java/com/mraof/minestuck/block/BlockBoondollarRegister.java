@@ -39,262 +39,282 @@ import java.util.Random;
 
 public class BlockBoondollarRegister extends MSBlockContainer
 {
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    public static final PropertyBool POWERED = PropertyBool.create("powered");
-    protected BlockBoondollarRegister()
-    {
-        super("boondollarRegister", Material.IRON);
-        setHarvestLevel("pickaxe", 0);
-        setHardness(3.0F);
+	public static final PropertyDirection FACING = BlockHorizontal.FACING;
+	public static final PropertyBool POWERED = PropertyBool.create("powered");
 
-        setDefaultState(getDefaultState().withProperty(POWERED, false));
-    }
+	protected BlockBoondollarRegister()
+	{
+		super("boondollarRegister", Material.IRON);
+		setHarvestLevel("pickaxe", 0);
+		setHardness(3.0F);
 
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
-    {
-        String key = getUnlocalizedName()+".tooltip";
-        if(!I18n.translateToLocal(key).equals(key))
-            tooltip.add(I18n.translateToLocal(key));
-        if(stack.hasTagCompound())
-        {
-            NBTTagCompound nbt = stack.getTagCompound();
-            if(nbt.hasKey("OwnerName"))
-                tooltip.add(I18n.translateToLocalFormatted("tile.boondollarRegister.machineOwner", nbt.getString("OwnerName")));
-        }
-        super.addInformation(stack, player, tooltip, advanced);
-    }
+		setDefaultState(getDefaultState().withProperty(POWERED, false));
+	}
 
-    @Override
-    protected BlockStateContainer createBlockState()
-    {
-        return new BlockStateContainer(this, new IProperty[]{FACING, POWERED});
-    }
+	@Override
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
+	{
+		if (!(te instanceof TileEntityBoondollarRegister))
+		{
+			super.harvestBlock(worldIn, player, pos, state, te, stack);
+			return;
+		}
 
-    @Override
-    public int getMetaFromState(IBlockState state)
-    {
-        return state.getValue(FACING).getHorizontalIndex() + (state.getValue(POWERED).booleanValue() ? 4 : 0 );
-    }
+		player.addStat(StatList.getBlockStats(this));
+		player.addExhaustion(0.005F);
 
-    @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta % 4)).withProperty(POWERED, meta >= 4);
-    }
+		TileEntityBoondollarRegister vault = (TileEntityBoondollarRegister) te;
+		if (vault.owner != null && IdentifierHandler.encode(player).equals(vault.owner) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) <= 0)
+		{
+			super.harvestBlock(worldIn, player, pos, state, te, stack);
+			onVaultBroken(vault);
+		}
+		else
+		{
+			spawnAsEntity(vault.getWorld(), vault.getPos(), getItem(vault));
+		}
+	}	@Override
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
+	{
+		String key = getUnlocalizedName() + ".tooltip";
+		if (!I18n.translateToLocal(key).equals(key))
+			tooltip.add(I18n.translateToLocal(key));
+		if (stack.hasTagCompound())
+		{
+			NBTTagCompound nbt = stack.getTagCompound();
+			if (nbt.hasKey("OwnerName"))
+				tooltip.add(I18n.translateToLocalFormatted("tile.boondollarRegister.machineOwner", nbt.getString("OwnerName")));
+		}
+		super.addInformation(stack, player, tooltip, advanced);
+	}
 
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        return this.getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-    }
+	public void onVaultBroken(TileEntityBoondollarRegister vault)
+	{
+		if (vault.getStoredBoons() > 0)
+			spawnAsEntity(vault.getWorld(), vault.getPos(), ItemBoondollars.setCount(new ItemStack(MinestuckItems.boondollars), vault.getStoredBoons()));
+		if (!vault.customMessage.isEmpty())
+		{
+			ItemStack paper = new ItemStack(Items.PAPER);
+			paper.setStackDisplayName(vault.customMessage);
+			spawnAsEntity(vault.getWorld(), vault.getPos(), paper);
+		}
+	}	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, FACING, POWERED);
+	}
 
-    @Override
-    public boolean canProvidePower(IBlockState state) {
-        return true;
-    }
+	public ItemStack getItem(TileEntityBoondollarRegister vault)
+	{
+		ItemStack stack = new ItemStack(MinestuckBlocks.boondollarRegister);
 
-    public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
-    {
-        return (blockState.getValue(POWERED)).booleanValue() ? 15 : 0;
-    }
+		if (vault.owner != null)
+			stack.setTagCompound(vault.saveToNBT(new NBTTagCompound()));
 
-    public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
-    {
-        if (!(blockState.getValue(POWERED)).booleanValue())
-        {
-            return 0;
-        }
-        else
-        {
-            return blockState.getValue(FACING) == side ? 15 : 0;
-        }
-    }
+		if (vault.hasCustomName())
+			stack.setStackDisplayName(vault.getName());
 
-    @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
-    {
-        super.updateTick(worldIn, pos, state, rand);
-        if ((state.getValue(POWERED)).booleanValue() && !worldIn.isRemote)
-        {
-            {
-                worldIn.setBlockState(pos, state.withProperty(POWERED, Boolean.valueOf(false)));
-                this.notifyNeighbors(worldIn, pos, state.getValue(FACING));
-                worldIn.markBlockRangeForRenderUpdate(pos, pos);
-            }
-        }
-    }
+		return stack;
+	}	@Override
+	public int getMetaFromState(IBlockState state)
+	{
+		return state.getValue(FACING).getHorizontalIndex() + (state.getValue(POWERED).booleanValue() ? 4 : 0);
+	}
 
-    private void notifyNeighbors(World worldIn, BlockPos pos, EnumFacing facing)
-    {
-        worldIn.notifyNeighborsOfStateChange(pos, this, false);
-        worldIn.notifyNeighborsOfStateChange(pos.offset(facing.getOpposite()), this, false);
-    }
+	@Nullable
+	@Override
+	public TileEntity createNewTileEntity(World worldIn, int meta)
+	{
+		return new TileEntityBoondollarRegister();
+	}	@Override
+	public IBlockState getStateFromMeta(int meta)
+	{
+		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta % 4)).withProperty(POWERED, meta >= 4);
+	}
 
-    @Override
-    public int tickRate(World worldIn) {
-        return 5;
-    }
+	public EnumBlockRenderType getRenderType(IBlockState state)
+	{
+		return EnumBlockRenderType.MODEL;
+	}	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+	{
+		return this.getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+	}
 
-    @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
-    {
-        TileEntityBoondollarRegister te = (TileEntityBoondollarRegister) worldIn.getTileEntity(pos);
+	@Override
+	public boolean canProvidePower(IBlockState state)
+	{
+		return true;
+	}
 
-        if(stack.hasTagCompound())
-        {
-            NBTTagCompound nbt = stack.getTagCompound();
-            if(worldIn.getTileEntity(pos) instanceof TileEntityBoondollarRegister)
-            {
-                TileEntityBoondollarRegister vault = (TileEntityBoondollarRegister) worldIn.getTileEntity(pos);
-                if(stack.hasDisplayName())
-                    vault.setName(stack.getDisplayName());
-                if (nbt.hasUniqueId("owner"))
-                {
-                    vault.loadFromNBT(nbt);
-                    return;
-                }
-            }
-        }
+	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+	{
+		return (blockState.getValue(POWERED)).booleanValue() ? 15 : 0;
+	}
 
-        if(te != null && placer instanceof EntityPlayer)
-        {
-            te.owner = IdentifierHandler.encode((EntityPlayer) placer);
-            te.ownerName = ((EntityPlayer) placer).getDisplayNameString();
-        }
+	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+	{
+		if (!(blockState.getValue(POWERED)).booleanValue())
+		{
+			return 0;
+		}
+		else
+		{
+			return blockState.getValue(FACING) == side ? 15 : 0;
+		}
+	}
 
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-    }
+	@Override
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+	{
+		super.updateTick(worldIn, pos, state, rand);
+		if ((state.getValue(POWERED)).booleanValue() && !worldIn.isRemote)
+		{
+			{
+				worldIn.setBlockState(pos, state.withProperty(POWERED, Boolean.valueOf(false)));
+				this.notifyNeighbors(worldIn, pos, state.getValue(FACING));
+				worldIn.markBlockRangeForRenderUpdate(pos, pos);
+			}
+		}
+	}
 
-    public void onVaultBroken(TileEntityBoondollarRegister vault)
-    {
-        if(vault.getStoredBoons() > 0)
-            spawnAsEntity(vault.getWorld(), vault.getPos(), ItemBoondollars.setCount(new ItemStack(MinestuckItems.boondollars), vault.getStoredBoons()));
-        if(!vault.customMessage.isEmpty())
-        {
-            ItemStack paper = new ItemStack(Items.PAPER);
-            paper.setStackDisplayName(vault.customMessage);
-            spawnAsEntity(vault.getWorld(), vault.getPos(), paper);
-        }
-    }
+	private void notifyNeighbors(World worldIn, BlockPos pos, EnumFacing facing)
+	{
+		worldIn.notifyNeighborsOfStateChange(pos, this, false);
+		worldIn.notifyNeighborsOfStateChange(pos.offset(facing.getOpposite()), this, false);
+	}
 
-    @Override
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
-    {
-        if(!(te instanceof TileEntityBoondollarRegister))
-        {
-            super.harvestBlock(worldIn, player, pos, state, te, stack);
-            return;
-        }
+	@Override
+	public int tickRate(World worldIn)
+	{
+		return 5;
+	}
 
-        player.addStat(StatList.getBlockStats(this));
-        player.addExhaustion(0.005F);
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	{
+		TileEntityBoondollarRegister te = (TileEntityBoondollarRegister) worldIn.getTileEntity(pos);
 
-        TileEntityBoondollarRegister vault = (TileEntityBoondollarRegister) te;
-        if(vault.owner != null && IdentifierHandler.encode(player).equals(vault.owner) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) <= 0)
-        {
-            super.harvestBlock(worldIn, player, pos, state, te, stack);
-            onVaultBroken(vault);
-        }
-        else
-        {
-            spawnAsEntity(vault.getWorld(), vault.getPos(), getItem(vault));
-        }
-    }
+		if (stack.hasTagCompound())
+		{
+			NBTTagCompound nbt = stack.getTagCompound();
+			if (worldIn.getTileEntity(pos) instanceof TileEntityBoondollarRegister)
+			{
+				TileEntityBoondollarRegister vault = (TileEntityBoondollarRegister) worldIn.getTileEntity(pos);
+				if (stack.hasDisplayName())
+					vault.setName(stack.getDisplayName());
+				if (nbt.hasUniqueId("owner"))
+				{
+					vault.loadFromNBT(nbt);
+					return;
+				}
+			}
+		}
 
-    public ItemStack getItem(TileEntityBoondollarRegister vault)
-    {
-        ItemStack stack = new ItemStack(MinestuckBlocks.boondollarRegister);
+		if (te != null && placer instanceof EntityPlayer)
+		{
+			te.owner = IdentifierHandler.encode((EntityPlayer) placer);
+			te.ownerName = ((EntityPlayer) placer).getDisplayNameString();
+		}
 
-        if(vault.owner != null)
-            stack.setTagCompound(vault.saveToNBT(new NBTTagCompound()));
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+	}
 
-        if(vault.hasCustomName())
-            stack.setStackDisplayName(vault.getName());
 
-        return stack;
-    }
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-    {
-        if(!(worldIn.getTileEntity(pos) instanceof TileEntityBoondollarRegister))
-            return false;
-        TileEntityBoondollarRegister te = (TileEntityBoondollarRegister) worldIn.getTileEntity(pos);
-        ItemStack stack = playerIn.getHeldItem(hand);
 
-        IdentifierHandler.PlayerIdentifier playerIdentifier = IdentifierHandler.encode(playerIn);
 
-        if(!worldIn.isRemote)
-        {
-            if (stack.getItem().equals(MinestuckItems.boondollars))
-            {
-                int boonValue = ItemBoondollars.getCount(stack);
-                if(te.isFull(boonValue))
-                    playerIn.sendStatusMessage(new TextComponentTranslation("message.vault.full"), true);
-                else if(boonValue >= te.mav) {
-                    te.addBoondollars(boonValue);
-                    stack.shrink(1);
 
-                    worldIn.setBlockState(pos, state.withProperty(POWERED, true), 3);
-                    worldIn.markBlockRangeForRenderUpdate(pos, pos);
-                    this.notifyNeighbors(worldIn, pos, state.getValue(FACING));
-                    worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 
-                    if (!te.customMessage.isEmpty())
-                        playerIn.sendStatusMessage(new TextComponentString("[" + te.getName() + "] " + te.customMessage), false);
-                } else playerIn.sendStatusMessage(new TextComponentTranslation("message.vault.notEnough", te.mav - boonValue), true);
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if (!(worldIn.getTileEntity(pos) instanceof TileEntityBoondollarRegister))
+			return false;
+		TileEntityBoondollarRegister te = (TileEntityBoondollarRegister) worldIn.getTileEntity(pos);
+		ItemStack stack = playerIn.getHeldItem(hand);
 
-            } else if (playerIdentifier.equals(te.owner)) {
-                if (stack.getItem().equals(Items.PAPER)) {
-                    if (stack.hasDisplayName() && te.customMessage.isEmpty()) {
-                        te.customMessage = stack.getDisplayName();
-                        stack.shrink(1);
-                        playerIn.sendStatusMessage(new TextComponentTranslation("message.vault.msgSet"), true);
-                    } else if (!te.customMessage.isEmpty()) {
-                        ItemStack paper = new ItemStack(Items.PAPER);
-                        paper.setStackDisplayName(te.customMessage);
-                        spawnAsEntity(worldIn, pos, paper);
-                        te.customMessage = "";
-                        playerIn.sendStatusMessage(new TextComponentTranslation("message.vault.msgRemoved"), true);
-                    }
-                } else {
-                    return true;
-                }
-            }
-            return false;
-        }
-        else if(playerIdentifier.equals(te.owner) && !stack.getItem().equals(Items.PAPER) && !stack.getItem().equals(MinestuckItems.boondollars))
-                playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.BOONDOLLAR_REGISTER.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-        return true;
-    }
+		IdentifierHandler.PlayerIdentifier playerIdentifier = IdentifierHandler.encode(playerIn);
 
-    @Override
-    public boolean hasComparatorInputOverride(IBlockState state)
-    {
-        return true;
-    }
+		if (!worldIn.isRemote)
+		{
+			if (stack.getItem().equals(MinestuckItems.boondollars))
+			{
+				int boonValue = ItemBoondollars.getCount(stack);
+				if (te.isFull(boonValue))
+					playerIn.sendStatusMessage(new TextComponentTranslation("message.vault.full"), true);
+				else if (boonValue >= te.mav)
+				{
+					te.addBoondollars(boonValue);
+					stack.shrink(1);
 
-    @Override
-    public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos)
-    {
-        if(worldIn.getTileEntity(pos) instanceof TileEntityBoondollarRegister && worldIn.getBlockState(pos).getValue(POWERED))
-            return ((TileEntityBoondollarRegister) worldIn.getTileEntity(pos)).getComparatorOutput();
-        return super.getComparatorInputOverride(blockState, worldIn, pos);
-    }
+					worldIn.setBlockState(pos, state.withProperty(POWERED, true), 3);
+					worldIn.markBlockRangeForRenderUpdate(pos, pos);
+					this.notifyNeighbors(worldIn, pos, state.getValue(FACING));
+					worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 
-    @Nullable
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta)
-    {
-        return new TileEntityBoondollarRegister();
-    }
+					if (!te.customMessage.isEmpty())
+						playerIn.sendStatusMessage(new TextComponentString("[" + te.getName() + "] " + te.customMessage), false);
+				}
+				else
+					playerIn.sendStatusMessage(new TextComponentTranslation("message.vault.notEnough", te.mav - boonValue), true);
 
-    public boolean isFullCube(IBlockState state) {
-        return true;
-    }
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
-    }
-    public boolean isOpaqueCube(IBlockState state) {
-        return true;
-    }
+			}
+			else if (playerIdentifier.equals(te.owner))
+			{
+				if (stack.getItem().equals(Items.PAPER))
+				{
+					if (stack.hasDisplayName() && te.customMessage.isEmpty())
+					{
+						te.customMessage = stack.getDisplayName();
+						stack.shrink(1);
+						playerIn.sendStatusMessage(new TextComponentTranslation("message.vault.msgSet"), true);
+					}
+					else if (!te.customMessage.isEmpty())
+					{
+						ItemStack paper = new ItemStack(Items.PAPER);
+						paper.setStackDisplayName(te.customMessage);
+						spawnAsEntity(worldIn, pos, paper);
+						te.customMessage = "";
+						playerIn.sendStatusMessage(new TextComponentTranslation("message.vault.msgRemoved"), true);
+					}
+				}
+				else
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		else if (playerIdentifier.equals(te.owner) && !stack.getItem().equals(Items.PAPER) && !stack.getItem().equals(MinestuckItems.boondollars))
+			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.BOONDOLLAR_REGISTER.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+		return true;
+	}
+
+	@Override
+	public boolean hasComparatorInputOverride(IBlockState state)
+	{
+		return true;
+	}
+
+	@Override
+	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos)
+	{
+		if (worldIn.getTileEntity(pos) instanceof TileEntityBoondollarRegister && worldIn.getBlockState(pos).getValue(POWERED))
+			return ((TileEntityBoondollarRegister) worldIn.getTileEntity(pos)).getComparatorOutput();
+		return super.getComparatorInputOverride(blockState, worldIn, pos);
+	}
+
+
+
+	public boolean isFullCube(IBlockState state)
+	{
+		return true;
+	}
+
+
+
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return true;
+	}
 }

@@ -26,33 +26,33 @@ public class MessageSburbCloseRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(player);
-		buf.writeInt(otherPlayer);
-		buf.writeBoolean(isClient);
-	}
-	
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		player = buf.readInt();
 		otherPlayer = buf.readInt();
 		isClient = buf.readBoolean();
 	}
-	
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(player);
+		buf.writeInt(otherPlayer);
+		buf.writeBoolean(isClient);
+	}
+
 	@Override
 	public void execute(EntityPlayer player)
 	{
 		UserListOpsEntry opsEntry = player.getServer().getPlayerList().getOppedPlayers().getEntry(player.getGameProfile());
-		if((!MinestuckConfig.privateComputers || IdentifierHandler.encode(player).getId() == this.player || opsEntry != null && opsEntry.getPermissionLevel() >= 2) && ServerEditHandler.getData(player) == null)
+		if ((!MinestuckConfig.privateComputers || IdentifierHandler.encode(player).getId() == this.player || opsEntry != null && opsEntry.getPermissionLevel() >= 2) && ServerEditHandler.getData(player) == null)
 			SkaianetHandler.closeConnection(IdentifierHandler.getById(this.player), otherPlayer != -1 ? IdentifierHandler.getById(this.otherPlayer) : null, isClient);
 	}
-	
+
 	@Override
 	public Side toSide()
 	{
 		return Side.SERVER;
 	}
-	
+
 }

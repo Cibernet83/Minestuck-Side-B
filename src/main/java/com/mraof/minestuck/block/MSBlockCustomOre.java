@@ -29,30 +29,6 @@ public class MSBlockCustomOre extends MSBlockBase
 		setHarvestLevel("pickaxe", 0);
 	}
 
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(VARIANT, BlockType.values()[meta % BlockType.values().length]);
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return ((BlockType)state.getValue(VARIANT)).ordinal();
-	}
-
-	@Override
-	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
-	{
-		return MathHelper.getInt(MinestuckRandom.getRandom(), 2, 5);
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, VARIANT);
-	}
-
 	public static IBlockState getBlockState(IBlockState ground)
 	{
 		String type = ground.getBlock().getRegistryName().getResourcePath();
@@ -64,10 +40,40 @@ public class MSBlockCustomOre extends MSBlockBase
 	}
 
 	@Override
+	public IBlockState getStateFromMeta(int meta)
+	{
+		return getDefaultState().withProperty(VARIANT, BlockType.values()[meta % BlockType.values().length]);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state)
+	{
+		return state.getValue(VARIANT).ordinal();
+	}
+
+	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
-		for(BlockType blockType : BlockType.values())
+		for (BlockType blockType : BlockType.values())
 			items.add(new ItemStack(this, 1, blockType.ordinal()));
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, VARIANT);
+	}
+
+	@Override
+	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
+	{
+		return MathHelper.getInt(MinestuckRandom.getRandom(), 2, 5);
+	}
+
+	@Override
+	public MSItemBlock getItemBlock()
+	{
+		return new MSItemBlockMultiTexture(this, BlockType.values());
 	}
 
 	public enum BlockType implements IUnlocSerializable
@@ -86,21 +92,17 @@ public class MSBlockCustomOre extends MSBlockBase
 			name = ground.getUnlocalizedName().substring(5);
 			regName = toString().toLowerCase();
 		}
+
 		@Override
 		public String getName()
 		{
 			return regName;
 		}
+
 		@Override
 		public String getUnlocalizedName()
 		{
 			return name;
 		}
-	}
-
-	@Override
-	public MSItemBlock getItemBlock()
-	{
-		return new MSItemBlockMultiTexture(this, BlockType.values());
 	}
 }

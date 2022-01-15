@@ -38,18 +38,21 @@ import java.util.List;
 public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThrowableBase>
 {
 
+	protected final ArrayList<WeaponProperty> properties = new ArrayList<>();
 	protected int useDuration;
 	protected int cooldownTime;
 	protected double attackDamage;
 	protected double attackSpeed;
 	protected float throwSpeed;
 	protected float size = 1;
-	private boolean rotates = false;
-
 	@SideOnly(Side.CLIENT)
 	protected RenderThrowable.IRenderProperties renderProperties;
+	private boolean rotates = false;
 
-	protected final ArrayList<WeaponProperty> properties = new ArrayList<>();
+	public MSThrowableBase(String name, int useDuration, int cooldownTime, int stackSize)
+	{
+		this(name, useDuration, cooldownTime, stackSize, 1.5f, 0, 0);
+	}
 
 	public MSThrowableBase(String name, int useDuration, int cooldownTime, int stackSize, float throwSpeed, double meleeDamage, double meleeSpeed)
 	{
@@ -70,7 +73,7 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 			@SideOnly(Side.CLIENT)
 			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
 			{
-				return !stack.isOnItemFrame() && entityIn == null  ? 1.0F : 0.0F;
+				return !stack.isOnItemFrame() && entityIn == null ? 1.0F : 0.0F;
 			}
 		});
 
@@ -84,16 +87,22 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 				ItemStack thrownStack = stackIn.copy();
 				thrownStack.setCount(1);
 				EntityMSUThrowable proj = new EntityMSUThrowable(worldIn, position.getX(), position.getY(), position.getZ(), thrownStack);
-				if(stackIn.getItem() instanceof MSThrowableBase)
-					proj.setProjectileSize(((MSThrowableBase)stackIn.getItem()).getSize());
+				if (stackIn.getItem() instanceof MSThrowableBase)
+					proj.setProjectileSize(((MSThrowableBase) stackIn.getItem()).getSize());
 				return proj;
 			}
 		});
 	}
 
-	public MSThrowableBase(String name, int useDuration, int cooldownTime, int stackSize)
+	public float getSize()
 	{
-		this(name, useDuration, cooldownTime, stackSize, 1.5f,  0, 0);
+		return size;
+	}
+
+	public MSThrowableBase setSize(float size)
+	{
+		this.size = size;
+		return this;
 	}
 
 	//Throwable Material
@@ -103,36 +112,29 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 		setCreativeTab(MinestuckTabs.minestuck);
 	}
 
-	public MSThrowableBase setSize(float size)
-	{
-		this.size = size;
-		return this;
-	}
-
-	public float getSize()
-	{
-		return size;
-	}
-
 	@Override
-	public int getMaxItemUseDuration(ItemStack stack)
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-		int result = useDuration;
-		for(WeaponProperty p : getProperties(stack))
-			result = p.getMaxItemUseDuration(stack, result);
-		return result;
+		for (WeaponProperty p : getProperties(player.getHeldItem(hand)))
+		{
+			EnumActionResult actionResult = p.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+			if (actionResult != EnumActionResult.PASS)
+				return actionResult;
+		}
+
+		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
-		if(playerIn.isSneaking() && handIn == EnumHand.MAIN_HAND && !playerIn.getHeldItemOffhand().isEmpty())
+		if (playerIn.isSneaking() && handIn == EnumHand.MAIN_HAND && !playerIn.getHeldItemOffhand().isEmpty())
 			return new ActionResult<>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
 
 		for (WeaponProperty p : getProperties(playerIn.getHeldItem(handIn)))
 		{
 			EnumActionResult actionResult = p.onItemRightClick(worldIn, playerIn, handIn);
-			if(actionResult != EnumActionResult.PASS)
+			if (actionResult != EnumActionResult.PASS)
 				return ActionResult.newResult(actionResult, playerIn.getHeldItem(handIn));
 		}
 
@@ -152,8 +154,8 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 		EntityMSUThrowable proj = new EntityMSUThrowable(worldIn, entityLiving, thrownStack);
 		proj.setProjectileSize(this.size);
 
-		for(WeaponProperty p : getProperties(stack))
-			if(p instanceof IPropertyThrowable && !((IPropertyThrowable) p).onProjectileThrow(proj, entityLiving, stack))
+		for (WeaponProperty p : getProperties(stack))
+			if (p instanceof IPropertyThrowable && !((IPropertyThrowable) p).onProjectileThrow(proj, entityLiving, stack))
 				return stack;
 
 		if (!worldIn.isRemote)
@@ -162,45 +164,92 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 			worldIn.spawnEntity(proj);
 		}
 
-		if (!(entityLiving instanceof EntityPlayer) || !((EntityPlayer)entityLiving).capabilities.isCreativeMode)
+		if (!(entityLiving instanceof EntityPlayer) || !((EntityPlayer) entityLiving).capabilities.isCreativeMode)
 			stack.shrink(1);
 		worldIn.playSound(null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-		if(entityLiving instanceof EntityPlayer)
+		if (entityLiving instanceof EntityPlayer)
 		{
-			if(cooldownTime > 0)
-				((EntityPlayer)entityLiving).getCooldownTracker().setCooldown(this, cooldownTime);
-			((EntityPlayer)entityLiving).addStat(StatList.getObjectUseStats(this));
+			if (cooldownTime > 0)
+				((EntityPlayer) entityLiving).getCooldownTracker().setCooldown(this, cooldownTime);
+			((EntityPlayer) entityLiving).addStat(StatList.getObjectUseStats(this));
 		}
 
 		return stack;
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack stack)
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
 	{
-		String name = super.getItemStackDisplayName(stack);
-		for(WeaponProperty p : getProperties(stack))
-			name = p.getItemStackDisplayName(stack, name);
-		return name;
+		for (WeaponProperty p : getProperties(stack))
+			p.onEntityHit(stack, target, player);
+
+
+		return true;
 	}
 
 	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
+	{
+		int dmg = 1;
+		if (!canHarvestBlock(state))
+			dmg = 2;
+		if ((double) state.getBlockHardness(worldIn, pos) == 0.0D)
+			dmg = 0;
+
+		stack.damageItem(dmg, entityLiving);
+
+		getProperties(stack).forEach(p -> p.onBlockDestroyed(stack, worldIn, state, pos, entityLiving));
+
+		return true;
+	}
+
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		getProperties(stack).forEach(p -> p.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected));
+		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+	}
+
+	@Override
+	public EnumAction getItemUseAction(ItemStack stack)
+	{
 		return EnumAction.BOW;
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	public int getMaxItemUseDuration(ItemStack stack)
 	{
-		for (WeaponProperty p : getProperties(player.getHeldItem(hand)))
+		int result = useDuration;
+		for (WeaponProperty p : getProperties(stack))
+			result = p.getMaxItemUseDuration(stack, result);
+		return result;
+	}
+
+	@Override
+	public String getItemStackDisplayName(ItemStack stack)
+	{
+		String name = super.getItemStackDisplayName(stack);
+		for (WeaponProperty p : getProperties(stack))
+			name = p.getItemStackDisplayName(stack, name);
+		return name;
+	}
+
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
+	{
+		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
+		if (slot == EntityEquipmentSlot.MAINHAND)
 		{
-			EnumActionResult actionResult = p.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
-			if(actionResult != EnumActionResult.PASS)
-				return actionResult;
+			double dmg = this.getAttackDamage(stack);
+			double spd = this.getAttackSpeed(stack);
+
+			if (dmg != 0)
+				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", dmg, 0));
+			if (spd != 0)
+				multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", spd, 0));
 		}
 
-		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+		return multimap;
 	}
 
 	@Override
@@ -209,7 +258,7 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 		for (WeaponProperty p : getProperties(player.getHeldItem(hand)))
 		{
 			EnumActionResult actionResult = p.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
-			if(actionResult != EnumActionResult.PASS)
+			if (actionResult != EnumActionResult.PASS)
 				return actionResult;
 		}
 		return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
@@ -223,57 +272,23 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
 	{
-		getProperties(stack).forEach(p -> p.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected));
-		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+		for (WeaponProperty p : getProperties(oldStack))
+			if (!p.shouldCauseReequipAnimation(oldStack, newStack, slotChanged))
+				return false;
+
+		return super.shouldCauseBlockBreakReset(oldStack, newStack);
 	}
-
-	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
-	{
-		for(WeaponProperty p : getProperties(stack))
-			p.onEntityHit(stack, target, player);
-
-
-		return true;
-	}
-
 
 	@Override
 	public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack)
 	{
 		for (WeaponProperty p : getProperties(oldStack))
-			if(!p.shouldCauseBlockBreakReset(oldStack, newStack))
+			if (!p.shouldCauseBlockBreakReset(oldStack, newStack))
 				return false;
 
 		return super.shouldCauseBlockBreakReset(oldStack, newStack);
-	}
-
-	@Override
-	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
-	{
-		for (WeaponProperty p : getProperties(oldStack))
-			if(!p.shouldCauseReequipAnimation(oldStack, newStack, slotChanged))
-				return false;
-
-		return super.shouldCauseBlockBreakReset(oldStack, newStack);
-	}
-
-	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
-	{
-		int dmg = 1;
-		if(!canHarvestBlock(state))
-			dmg = 2;
-		if((double)state.getBlockHardness(worldIn, pos) == 0.0D)
-			dmg = 0;
-
-		stack.damageItem(dmg, entityLiving);
-
-		getProperties(stack).forEach(p -> p.onBlockDestroyed(stack, worldIn, state, pos, entityLiving));
-
-		return true;
 	}
 
 	@Override
@@ -282,13 +297,12 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 		return oldStack.isItemEqualIgnoreDurability(newStack);
 	}
 
-
 	public double getAttackDamage(ItemStack stack)
 	{
 		double dmg = attackDamage;
 
-		for(WeaponProperty p : getProperties(stack))
-			dmg = p.getAttackDamage(stack,dmg);
+		for (WeaponProperty p : getProperties(stack))
+			dmg = p.getAttackDamage(stack, dmg);
 
 		return dmg;
 	}
@@ -297,30 +311,22 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 	{
 		double spd = attackSpeed;
 
-		for(WeaponProperty p : getProperties(stack))
+		for (WeaponProperty p : getProperties(stack))
 			spd = p.getAttackSpeed(stack, spd);
 
 		return spd;
 	}
 
-	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
-		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
-		if (slot == EntityEquipmentSlot.MAINHAND) {
-			double dmg = this.getAttackDamage(stack);
-			double spd = this.getAttackSpeed(stack);
-
-			if(dmg != 0)
-				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", dmg, 0));
-			if(spd != 0)
-				multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", spd, 0));
-		}
-
-		return multimap;
+	@Override
+	public List<WeaponProperty> getProperties()
+	{
+		return properties;
 	}
 
-	@Override
-	public List<WeaponProperty> getProperties() {
-		return properties;
+	@SideOnly(Side.CLIENT)
+	public RenderThrowable.IRenderProperties getRenderProperties()
+	{
+		return renderProperties;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -328,12 +334,6 @@ public class MSThrowableBase extends MSItemBase implements IPropertyWeapon<MSThr
 	{
 		renderProperties = properties;
 		return this;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public RenderThrowable.IRenderProperties getRenderProperties()
-	{
-		return renderProperties;
 	}
 
 	public MSThrowableBase rotates()

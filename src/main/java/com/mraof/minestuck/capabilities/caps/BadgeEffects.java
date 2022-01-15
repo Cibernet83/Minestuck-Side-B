@@ -42,6 +42,12 @@ import java.util.Queue;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeEffects implements IBadgeEffects
 {
+	// Metadata
+	private final Map<Class, MinestuckParticles.PowerParticleState> particleMap = new HashMap<>();
+	// Unserialized data that we don't want to store or ship
+	private Queue<SoulData> timeSoulData = new LinkedList<>();
+	private Vec3d prevPos;
+	private EntityLivingBase owner;
 	// Serialized data
 	private final Map<Class, ISerializableDataType> effects = new HashMap<Class, ISerializableDataType>()
 	{
@@ -57,7 +63,7 @@ public class BadgeEffects implements IBadgeEffects
 		public ISerializableDataType remove(Object key)
 		{
 			if (containsKey(key))
-				send(((Class)key).getName(), null);
+				send(((Class) key).getName(), null);
 			return super.remove(key);
 		}
 
@@ -70,35 +76,57 @@ public class BadgeEffects implements IBadgeEffects
 				return super.put(key, value);
 		}
 	};
+	//Edit Mode Drag
+	private BlockPos editPos1 = null;
+	private BlockPos editPos2 = null;
+	private Vec3d editTraceHit = new Vec3d(0, 0, 0);
+	private EnumFacing editTraceFacing = EnumFacing.NORTH;
+	private boolean isEditDragging = false;
 
-	// Unserialized data that we don't want to store or ship
-	private Queue<SoulData> timeSoulData = new LinkedList<>();
-	private Vec3d prevPos;
+	@SubscribeEvent
+	public static void onPlayerLoggedIn(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent event)
+	{
+		if (!event.player.world.isRemote)
+			MinestuckNetwork.sendTo(new MessageBadgeEffectsAll(event.player), event.player);
+	}
 
-	// Metadata
-	private final Map<Class, MinestuckParticles.PowerParticleState> particleMap = new HashMap<>();
+	@SubscribeEvent
+	public static void onStartTracking(PlayerEvent.StartTracking event) // Only fired from the server
+	{
+		if (event.getTarget() instanceof EntityLivingBase)
+			MinestuckNetwork.sendTo(new MessageBadgeEffectsAll((EntityLivingBase) event.getTarget()), event.getEntityPlayer());
+	}
 
-	private EntityLivingBase owner;
-
-
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
+	{
+		for (MinestuckParticles.PowerParticleState state : event.getEntityLiving().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getPowerParticles().values())
+			if (state.count != 0)
+				spawnClientParticles(event.getEntityLiving(), state);
+	}
 
 	@Override
-	public int getDecayTime() {
+	public int getDecayTime()
+	{
 		return getInt(BadgeActiveDoom.class);
 	}
 
 	@Override
-	public void setDecayTime(int decayTime) {
+	public void setDecayTime(int decayTime)
+	{
 		setInt(BadgeActiveDoom.class, decayTime);
 	}
 
 	@Override
-	public boolean isConcealed() {
+	public boolean isConcealed()
+	{
 		return getBoolean(PotionConceal.class);
 	}
 
 	@Override
-	public void setConcealed(boolean concealed) {
+	public void setConcealed(boolean concealed)
+	{
 		setBoolean(PotionConceal.class, concealed);
 	}
 
@@ -181,17 +209,22 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	@Override
+	public EntityLivingBase getMindflayedBy()
+	{
+		return getEntity(BadgeActiveMind.IsMindflayed.class);
+	}
+
+	@Override
 	public void setMindflayedBy(EntityLivingBase entity)
 	{
 		setEntity(BadgeActiveMind.IsMindflayed.class, entity);
 	}
 
 	@Override
-	public EntityLivingBase getMindflayedBy()
+	public boolean isMindflayed()
 	{
-		return getEntity(BadgeActiveMind.IsMindflayed.class);
+		return getEntity(BadgeActiveMind.IsMindflayed.class) != null;
 	}
-
 
 	@Override
 	public float getMoveStrafe()
@@ -236,11 +269,6 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	@Override
-	public boolean isMindflayed() {
-		return getEntity(BadgeActiveMind.IsMindflayed.class) != null;
-	}
-
-	@Override
 	public boolean isDoingWimdyThing()
 	{
 		return getBoolean(BadgeUtilBreath.class);
@@ -259,12 +287,14 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	@Override
-	public Vec3d getPrevPos() {
+	public Vec3d getPrevPos()
+	{
 		return prevPos;
 	}
 
 	@Override
-	public void setPrevPos(Vec3d pos) {
+	public void setPrevPos(Vec3d pos)
+	{
 		this.prevPos = pos;
 	}
 
@@ -307,11 +337,12 @@ public class BadgeEffects implements IBadgeEffects
 	@Override
 	public BlockPos getManipulatedPos1()
 	{
-		return getVec4Position(BadgeUtilSpace.PosA.class) == null ? null :  new BlockPos(getVec4Position(BadgeUtilSpace.PosA.class));
+		return getVec4Position(BadgeUtilSpace.PosA.class) == null ? null : new BlockPos(getVec4Position(BadgeUtilSpace.PosA.class));
 	}
 
 	@Override
-	public int getManipulatedPos1Dim() {
+	public int getManipulatedPos1Dim()
+	{
 		return getVec4Dimension(BadgeUtilSpace.PosA.class);
 	}
 
@@ -329,9 +360,11 @@ public class BadgeEffects implements IBadgeEffects
 	}
 
 	@Override
-	public int getManipulatedPos2Dim() {
+	public int getManipulatedPos2Dim()
+	{
 		return getVec4Dimension(BadgeUtilSpace.PosB.class);
 	}
+
 	@Override
 	public void setManipulatedPos2(BlockPos pos, int dim)
 	{
@@ -345,61 +378,63 @@ public class BadgeEffects implements IBadgeEffects
 		return getBoolean(BadgeUtilSpace.class);
 	}
 
-
-	//Edit Mode Drag
-	private BlockPos editPos1 = null;
-	private BlockPos editPos2 = null;
-	private Vec3d editTraceHit = new Vec3d(0,0,0);
-	private EnumFacing editTraceFacing = EnumFacing.NORTH;
-	private boolean isEditDragging = false;
-
 	@Override
-	public BlockPos getEditPos1() {
+	public BlockPos getEditPos1()
+	{
 		return editPos1;
 	}
 
 	@Override
-	public BlockPos getEditPos2() {
-		return editPos2;
-	}
-
-	@Override
-	public Vec3d getEditTraceHit() {
-		return editTraceHit;
-	}
-
-	@Override
-	public EnumFacing getEditTraceFacing() {
-		return editTraceFacing;
-	}
-
-	@Override
-	public void setEditPos1(BlockPos pos) {
+	public void setEditPos1(BlockPos pos)
+	{
 		editPos1 = pos;
 	}
 
 	@Override
-	public void setEditPos2(BlockPos pos) {
+	public BlockPos getEditPos2()
+	{
+		return editPos2;
+	}
+
+	@Override
+	public void setEditPos2(BlockPos pos)
+	{
 		editPos2 = pos;
 	}
 
 	@Override
-	public void setEditTraceHit(Vec3d hit) {
+	public Vec3d getEditTraceHit()
+	{
+		return editTraceHit;
+	}
+
+	@Override
+	public void setEditTraceHit(Vec3d hit)
+	{
 		editTraceHit = hit;
 	}
 
 	@Override
-	public void setEditTraceFacing(EnumFacing facing) {
+	public EnumFacing getEditTraceFacing()
+	{
+		return editTraceFacing;
+	}
+
+	@Override
+	public void setEditTraceFacing(EnumFacing facing)
+	{
 		editTraceFacing = facing;
 	}
 
 	@Override
-	public boolean isEditDragging() {
+	public boolean isEditDragging()
+	{
 		return isEditDragging;
 	}
 
 	@Override
-	public void setEditDragging(boolean v) {
+	public void setEditDragging(boolean v)
+	{
 		isEditDragging = v;
 	}
 
@@ -476,11 +511,109 @@ public class BadgeEffects implements IBadgeEffects
 			}
 	}
 
-
 	@Override
 	public void setOwner(EntityLivingBase entity)
 	{
 		this.owner = entity;
+	}
+
+	@Override
+	public void receive(String key, ISerializableDataType value)
+	{
+		try
+		{
+			effects.replace(Class.forName(key), value);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	private void setMovementInput(Class badge, float moveStrafe, float moveForward, boolean jump, boolean sneak)
+	{
+		if (moveStrafe == 0 && moveForward == 0 && jump == false && sneak == false)
+			effects.remove(badge);
+		else
+			effects.put(badge, new MovementInputData(moveStrafe, moveForward, jump, sneak));
+	}
+
+	private boolean getMovementInputSneak(Class badge)
+	{
+		return effects.containsKey(badge) && ((MovementInputData) effects.get(badge)).getValue().isSneaking();
+	}
+
+	private boolean getMovementInputJump(Class badge)
+	{
+		return effects.containsKey(badge) && ((MovementInputData) effects.get(badge)).getValue().isJumping();
+	}
+
+	private float getMovementInputForward(Class badge)
+	{
+		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().getMoveForward() : 0;
+	}
+
+	private float getMovementInputStrafe(Class badge)
+	{
+		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().getMoveStrafe() : 0;
+	}
+
+	private void setEntity(Class badge, EntityLivingBase entity)
+	{
+		if (entity == null)
+			effects.remove(badge);
+		else
+			effects.put(badge, new EntityData(entity));
+	}
+
+	private EntityLivingBase getEntity(Class badge)
+	{
+		return effects.containsKey(badge) ? ((EntityData) effects.get(badge)).getValue() : null;
+	}
+
+	private void setVec4(Class badge, Vec3d position, int dimension)
+	{
+		if (position == null)
+			effects.remove(badge);
+		else
+			effects.put(badge, new Vec4Data(position, dimension));
+	}
+
+	private int getVec4Dimension(Class badge)
+	{
+		return effects.containsKey(badge) ? ((Vec4Data) effects.get(badge)).getValue().getDimension() : 0;
+	}
+
+	private Vec3d getVec4Position(Class badge)
+	{
+		return effects.containsKey(badge) ? ((Vec4Data) effects.get(badge)).getValue().getPosition() : null;
+	}
+
+	private void setBoolean(Class badge, boolean value)
+	{
+		if (value == false)
+			effects.remove(badge);
+		else
+			effects.put(badge, new BooleanData(value));
+	}
+
+	private boolean getBoolean(Class badge)
+	{
+		return effects.containsKey(badge) ? ((BooleanData) effects.get(badge)).getValue() : false;
+	}
+
+	private void setInt(Class badge, int value)
+	{
+		if (value == 0)
+			effects.remove(badge);
+		else
+			effects.put(badge, new IntegerData(value));
+	}
+
+	private int getInt(Class badge)
+	{
+		return effects.containsKey(badge) ? ((IntegerData) effects.get(badge)).getValue() : 0;
 	}
 
 	@Override
@@ -504,7 +637,7 @@ public class BadgeEffects implements IBadgeEffects
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setString("Badge", entry.getKey().getName());
 			tag.setByte("Type", (byte) entry.getValue().type.ordinal());
-			if(entry.getValue().aspect != null)
+			if (entry.getValue().aspect != null)
 				tag.setByte("Aspect", (byte) entry.getValue().aspect.ordinal());
 			else tag.setByte("Class", (byte) entry.getValue().clazz.ordinal());
 			tag.setByte("Count", (byte) entry.getValue().count);
@@ -538,18 +671,18 @@ public class BadgeEffects implements IBadgeEffects
 			try
 			{
 				NBTTagCompound tag = (NBTTagCompound) tagBase;
-				if(tag.hasKey("Aspect"))
-				particleMap.put(Class.forName(tag.getString("Badge")), new MinestuckParticles.PowerParticleState(
-						MinestuckParticles.ParticleType.values()[tag.getByte("Type")],
-						 EnumAspect.values()[tag.getByte("Aspect")],
-						tag.getByte("Count")
-						));
+				if (tag.hasKey("Aspect"))
+					particleMap.put(Class.forName(tag.getString("Badge")), new MinestuckParticles.PowerParticleState(
+							MinestuckParticles.ParticleType.values()[tag.getByte("Type")],
+							EnumAspect.values()[tag.getByte("Aspect")],
+							tag.getByte("Count")
+					));
 				else
-				particleMap.put(Class.forName(tag.getString("Badge")), new MinestuckParticles.PowerParticleState(
-								MinestuckParticles.ParticleType.values()[tag.getByte("Type")],
-								EnumClass.values()[tag.getByte("Class")],
-						tag.getByte("Count")
-				));
+					particleMap.put(Class.forName(tag.getString("Badge")), new MinestuckParticles.PowerParticleState(
+							MinestuckParticles.ParticleType.values()[tag.getByte("Type")],
+							EnumClass.values()[tag.getByte("Class")],
+							tag.getByte("Count")
+					));
 			}
 			catch (ClassNotFoundException e)
 			{
@@ -558,129 +691,11 @@ public class BadgeEffects implements IBadgeEffects
 			}
 	}
 
-
-
 	private void send(String key, ISerializableDataType value)
 	{
 		if (owner instanceof EntityPlayer)
 			MinestuckNetwork.sendToTrackingAndSelf(new MessageBadgeEffect(owner, key, value), (EntityPlayer) owner);
 		else
 			MinestuckNetwork.sendToTracking(new MessageBadgeEffect(owner, key, value), owner);
-	}
-
-	@Override
-	public void receive(String key, ISerializableDataType value)
-	{
-		try
-		{
-			effects.replace(Class.forName(key), value);
-		}
-		catch (ClassNotFoundException e)
-		{
-			throw new RuntimeException(e);
-		}
-
-	}
-
-
-
-	private int getInt(Class badge) {
-		return effects.containsKey(badge) ? ((IntegerData) effects.get(badge)).getValue() : 0;
-	}
-
-	private void setInt(Class badge, int value) {
-		if (value == 0)
-			effects.remove(badge);
-		else
-			effects.put(badge, new IntegerData(value));
-	}
-
-	private boolean getBoolean(Class badge)
-	{
-		return effects.containsKey(badge) ? ((BooleanData) effects.get(badge)).getValue() : false;
-	}
-
-	private void setBoolean(Class badge, boolean value)
-	{
-		if (value == false)
-			effects.remove(badge);
-		else
-			effects.put(badge, new BooleanData(value));
-	}
-
-	private Vec3d getVec4Position(Class badge) {
-		return effects.containsKey(badge) ? ((Vec4Data) effects.get(badge)).getValue().getPosition() : null;
-	}
-
-	private int getVec4Dimension(Class badge) {
-		return effects.containsKey(badge) ? ((Vec4Data) effects.get(badge)).getValue().getDimension() : 0;
-	}
-
-	private void setVec4(Class badge, Vec3d position, int dimension) {
-		if (position == null)
-			effects.remove(badge);
-		else
-			effects.put(badge, new Vec4Data(position, dimension));
-	}
-
-	private float getMovementInputStrafe(Class badge) {
-		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().getMoveStrafe() : 0;
-	}
-
-	private float getMovementInputForward(Class badge) {
-		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().getMoveForward() : 0;
-	}
-
-	private boolean getMovementInputJump(Class badge) {
-		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().isJumping() : false;
-	}
-
-	private boolean getMovementInputSneak(Class badge) {
-		return effects.containsKey(badge) ? ((MovementInputData) effects.get(badge)).getValue().isSneaking() : false;
-	}
-
-	private void setMovementInput(Class badge, float moveStrafe, float moveForward, boolean jump, boolean sneak)
-	{
-		if (moveStrafe == 0 && moveForward == 0 && jump == false && sneak == false)
-			effects.remove(badge);
-		else
-			effects.put(badge, new MovementInputData(moveStrafe, moveForward, jump, sneak));
-	}
-
-	private EntityLivingBase getEntity(Class badge) {
-		return effects.containsKey(badge) ? ((EntityData) effects.get(badge)).getValue() : null;
-	}
-
-	private void setEntity(Class badge, EntityLivingBase entity)
-	{
-		if (entity == null)
-			effects.remove(badge);
-		else
-			effects.put(badge, new EntityData(entity));
-	}
-
-
-
-	@SubscribeEvent
-	public static void onPlayerLoggedIn(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent event)
-	{
-		if (!event.player.world.isRemote)
-			MinestuckNetwork.sendTo(new MessageBadgeEffectsAll(event.player), event.player);
-	}
-
-	@SubscribeEvent
-	public static void onStartTracking(PlayerEvent.StartTracking event) // Only fired from the server
-	{
-		if (event.getTarget() instanceof EntityLivingBase)
-			MinestuckNetwork.sendTo(new MessageBadgeEffectsAll((EntityLivingBase) event.getTarget()), event.getEntityPlayer());
-	}
-
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event)
-	{
-		for (MinestuckParticles.PowerParticleState state : event.getEntityLiving().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getPowerParticles().values())
-			if (state.count != 0)
-				spawnClientParticles(event.getEntityLiving(), state);
 	}
 }

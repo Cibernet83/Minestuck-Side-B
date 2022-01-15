@@ -22,41 +22,48 @@ import java.util.Random;
 
 public class MapGenConsortVillage extends MapGenStructure
 {
-	
+
 	private static final List<Biome> BIOMES = Arrays.asList(MinestuckBiomes.mediumNormal);
-	
+
 	private static final int VILLAGE_DISTANCE = 24;
 	private static final int MIN_VILLAGE_DISTANCE = 5;
-	
+
 	private final ChunkProviderLands chunkProvider;
-	
+
 	public MapGenConsortVillage(ChunkProviderLands chunkProvider)
 	{
 		this.chunkProvider = chunkProvider;
 	}
-	
+
 	@Override
 	public String getStructureName()
 	{
 		return "ConsortVillage";
 	}
-	
+
+	@Nullable
+	@Override
+	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored)
+	{
+		return null;
+	}
+
 	@Override
 	protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ)
 	{
 		int i = chunkX;
 		int j = chunkZ;
-		
-		if(chunkX < 0)
+
+		if (chunkX < 0)
 		{
 			chunkX -= VILLAGE_DISTANCE - 1;
 		}
-		
-		if(chunkZ < 0)
+
+		if (chunkZ < 0)
 		{
 			chunkZ -= VILLAGE_DISTANCE - 1;
 		}
-		
+
 		int k = chunkX / VILLAGE_DISTANCE;
 		int l = chunkZ / VILLAGE_DISTANCE;
 		Random random = this.world.setRandomSeed(k, l, 10387312);
@@ -64,58 +71,48 @@ public class MapGenConsortVillage extends MapGenStructure
 		l = l * VILLAGE_DISTANCE;
 		k = k + random.nextInt(VILLAGE_DISTANCE - MIN_VILLAGE_DISTANCE);
 		l = l + random.nextInt(VILLAGE_DISTANCE - MIN_VILLAGE_DISTANCE);
-		
-		if(i == k && j == l)
+
+		if (i == k && j == l)
 		{
 			boolean flag = this.world.getBiomeProvider().areBiomesViable(i * 16 + 8, j * 16 + 8, 16, BIOMES);
-			if(flag)
-			{
-				return true;
-			}
+			return flag;
 		}
 		return false;
 	}
-	
+
 	@Override
 	protected StructureStart getStructureStart(int chunkX, int chunkZ)
 	{
 		return new Start(chunkProvider, world, this.rand, chunkX, chunkZ);
 	}
-	
-	@Nullable
-	@Override
-	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored)
-	{
-		return null;
-	}
-	
+
 	public BlockPos findAndMarkNextVillage(EntityPlayerMP player, String type, NBTTagList list)
 	{
 		HashSet<Long> set = new HashSet<Long>(list.tagCount());
-		for(int i = 0; i < list.tagCount(); i++)
+		for (int i = 0; i < list.tagCount(); i++)
 			set.add(((NBTTagLong) list.get(i)).getLong());
-		
-		for(long l : this.structureMap.keySet())
+
+		for (long l : this.structureMap.keySet())
 		{
-			if(!set.contains(l))
+			if (!set.contains(l))
 			{
 				StructureStart start = this.structureMap.get(l);
 				list.appendTag(new NBTTagLong(l));
-				return new BlockPos(start.getChunkPosX()*16 + 8, 90, start.getChunkPosZ()*16 + 8);
+				return new BlockPos(start.getChunkPosX() * 16 + 8, 90, start.getChunkPosZ() * 16 + 8);
 			}
 		}
-		
+
 		Debug.warn("Couldn't find village");
 		return null;
 	}
-	
+
 	public static class Start extends StructureStart
 	{
 		public Start()
 		{
-		
+
 		}
-		
+
 		public Start(ChunkProviderLands provider, World world, Random rand, int chunkX, int chunkZ)
 		{
 			super(chunkX, chunkZ);
@@ -124,15 +121,16 @@ public class MapGenConsortVillage extends MapGenStructure
 			ConsortVillageCenter.VillageCenter start = ConsortVillageCenter.getVillageStart(provider, (chunkX << 4) + rand.nextInt(16), (chunkZ << 4) + rand.nextInt(16), rand, pieceWeightList, landAspects);
 			components.add(start);
 			start.buildComponent(start, components, rand);
-			
-			while(!start.pendingHouses.isEmpty() || !start.pendingRoads.isEmpty())
+
+			while (!start.pendingHouses.isEmpty() || !start.pendingRoads.isEmpty())
 			{
-				if(!start.pendingRoads.isEmpty())
+				if (!start.pendingRoads.isEmpty())
 				{
 					int index = rand.nextInt(start.pendingRoads.size());
 					StructureComponent component = start.pendingRoads.remove(index);
 					component.buildComponent(start, components, rand);
-				} else
+				}
+				else
 				{
 					int index = rand.nextInt(start.pendingHouses.size());
 					StructureComponent component = start.pendingHouses.remove(index);

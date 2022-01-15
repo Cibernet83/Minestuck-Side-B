@@ -18,29 +18,29 @@ override customMapGenStructure()in the terrain landspect class to take care of t
 
 public class MapGenCloudDungeon extends MapGenStructure
 {
-	
-	@Override
-	protected boolean canSpawnStructureAtCoords(int chunkX, int chunkY)
-	{
-		return Math.abs(chunkX) > 3 || Math.abs(chunkY) > 3;
-	}
-	
-	@Override
-	protected StructureStart getStructureStart(int par1, int par2)
-	{
-		return new StructureCloudDungeonStart(this.world, this.rand, par1, par2);
-	}
-	
+
 	@Override
 	public String getStructureName()
 	{
 		return "CloudDungeon";
 	}
-	
+
 	@Nullable
 	@Override
 	public BlockPos getNearestStructurePos(World worldIn, BlockPos pos, boolean findUnexplored)
 	{
 		return null;
+	}
+
+	@Override
+	protected boolean canSpawnStructureAtCoords(int chunkX, int chunkY)
+	{
+		return Math.abs(chunkX) > 3 || Math.abs(chunkY) > 3;
+	}
+
+	@Override
+	protected StructureStart getStructureStart(int par1, int par2)
+	{
+		return new StructureCloudDungeonStart(this.world, this.rand, par1, par2);
 	}
 }

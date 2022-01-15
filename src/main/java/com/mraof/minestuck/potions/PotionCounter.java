@@ -19,13 +19,14 @@ public class PotionCounter extends MSPotionBase
 	@Override
 	public void performEffect(EntityLivingBase entity, int amplifier)
 	{
-		for(Potion key : counteredPotions)
-			if(entity.getActivePotionEffect(key) != null)
+		for (Potion key : counteredPotions)
+			if (entity.getActivePotionEffect(key) != null)
 				entity.removePotionEffect(key);
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isReady(int duration, int amplifier)
+	{
 		return true;
 	}
 }

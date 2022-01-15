@@ -25,6 +25,14 @@ public class MessagePorkhollowWithdraw implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		reciever = IdentifierHandler.getById(buf.readInt()).getPlayer();
+		amount = buf.readInt();
+		count = buf.readInt();
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		IdentifierHandler.PlayerIdentifier identifier = IdentifierHandler.encode(reciever);
@@ -32,33 +40,25 @@ public class MessagePorkhollowWithdraw implements MinestuckMessage
 		buf.writeInt(amount);
 		buf.writeInt(count);
 	}
-	
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		reciever = IdentifierHandler.getById(buf.readInt()).getPlayer();
-		amount = buf.readInt();
-		count = buf.readInt();
-	}
-	
+
 	@Override
 	public void execute(EntityPlayer sender)
 	{
-		if(MinestuckPlayerData.addBoondollars(sender, -amount))
+		if (MinestuckPlayerData.addBoondollars(sender, -amount))
 		{
 			int split = 0;
-			if(count > 0)
+			if (count > 0)
 				split = amount / count;
-			for(int i = 0; i < count; i++)
+			for (int i = 0; i < count; i++)
 				MinestuckUtils.giveBoonItem(sender, split);
-			if(split * count != amount)
+			if (split * count != amount)
 				MinestuckUtils.giveBoonItem(sender, amount - split * count);
 			//sender.sendMessage(new TextComponentTranslation("message.atm.withdrawSuccess", amount));
 		}
 		else
 			sender.sendMessage(new TextComponentTranslation("commands.porkhollow.notEnough"));
 	}
-	
+
 	@Override
 	public Side toSide()
 	{

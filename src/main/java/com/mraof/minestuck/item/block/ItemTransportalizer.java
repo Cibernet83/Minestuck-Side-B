@@ -16,17 +16,17 @@ public class ItemTransportalizer extends MSItemBlock
 	{
 		super(block);
 	}
-	
+
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState)
 	{
-		if(super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState))
+		if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState))
 		{
-			if(stack.hasDisplayName() && stack.getDisplayName().length() == 4)
+			if (stack.hasDisplayName() && stack.getDisplayName().length() == 4)
 			{
 				TileEntity te = world.getTileEntity(pos);
-				if(te instanceof TileEntityTransportalizer)
-					((TileEntityTransportalizer)te).setId(stack.getDisplayName().toUpperCase());
+				if (te instanceof TileEntityTransportalizer)
+					((TileEntityTransportalizer) te).setId(stack.getDisplayName().toUpperCase());
 			}
 			return true;
 		}

@@ -32,7 +32,7 @@ public class BlockHeroStone extends MSBlockBase implements IGodTierBlock
 {
 	protected EnumAspect aspect;
 	protected boolean isChiseled;
-	
+
 	public BlockHeroStone(EnumAspect aspect, boolean isChiseled)
 	{
 		super("heroStone" + (isChiseled ? "Chiseled" : ""), Material.ROCK, getAspectMapColor(aspect));
@@ -44,39 +44,38 @@ public class BlockHeroStone extends MSBlockBase implements IGodTierBlock
 		setCreativeTab(MinestuckTabs.godTier);
 	}
 
-	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-	{
-		super.addInformation(stack, worldIn, tooltip, flagIn);
-		
-		String heroAspect = TextFormatting.OBFUSCATED + "Thing" + TextFormatting.RESET;
-		
-		if(getAspect() != null)
-			heroAspect = getAspect().getDisplayName();
-			
-		
-		tooltip.add(heroAspect);
-	}
-	
 	protected static MapColor getAspectMapColor(EnumAspect aspect)
 	{
-		if(aspect == null)
+		if (aspect == null)
 			return MapColor.SILVER;
-		switch(aspect)
+		switch (aspect)
 		{
-			case DOOM: return MapColor.GREEN_STAINED_HARDENED_CLAY;
-			case HOPE: return MapColor.SAND;
-			case LIFE: return MapColor.SILVER_STAINED_HARDENED_CLAY;
-			case MIND: return MapColor.GRASS;
-			case RAGE: return MapColor.PURPLE;
-			case TIME: return MapColor.RED;
-			case VOID: return MapColor.BLUE_STAINED_HARDENED_CLAY;
-			case BLOOD: return MapColor.NETHERRACK;
-			case HEART: return MapColor.MAGENTA_STAINED_HARDENED_CLAY;
-			case LIGHT: return MapColor.ADOBE;
-			case SPACE: return MapColor.BLACK;
-			case BREATH: return MapColor.LAPIS;
-			default: return MapColor.SILVER;
+			case DOOM:
+				return MapColor.GREEN_STAINED_HARDENED_CLAY;
+			case HOPE:
+				return MapColor.SAND;
+			case LIFE:
+				return MapColor.SILVER_STAINED_HARDENED_CLAY;
+			case MIND:
+				return MapColor.GRASS;
+			case RAGE:
+				return MapColor.PURPLE;
+			case TIME:
+				return MapColor.RED;
+			case VOID:
+				return MapColor.BLUE_STAINED_HARDENED_CLAY;
+			case BLOOD:
+				return MapColor.NETHERRACK;
+			case HEART:
+				return MapColor.MAGENTA_STAINED_HARDENED_CLAY;
+			case LIGHT:
+				return MapColor.ADOBE;
+			case SPACE:
+				return MapColor.BLACK;
+			case BREATH:
+				return MapColor.LAPIS;
+			default:
+				return MapColor.SILVER;
 		}
 	}
 
@@ -85,31 +84,31 @@ public class BlockHeroStone extends MSBlockBase implements IGodTierBlock
 	{
 		ItemStack stack = playerIn.getHeldItem(hand);
 
-		if(stack.getItem().equals(MinestuckItems.moonstoneChisel))
+		if (stack.getItem().equals(MinestuckItems.moonstoneChisel))
 		{
-			if(!worldIn.isRemote)
+			if (!worldIn.isRemote)
 			{
 				float luck = playerIn.getLuck();
 				int val = 1;
-				val += Math.signum(luck)*((worldIn.rand.nextInt(10) < Math.abs(luck) ? 1 : 0));
+				val += Math.signum(luck) * ((worldIn.rand.nextInt(10) < Math.abs(luck) ? 1 : 0));
 
 				EnumAspect aspect = getAspect();
-				if(aspect == null)
+				if (aspect == null)
 					aspect = EnumAspect.values()[worldIn.rand.nextInt(EnumAspect.values().length)];
 
-				InventoryHelper.spawnItemStack(worldIn,pos.getX(),pos.getY(),pos.getZ(), new ItemStack(MinestuckItems.heroStoneShards.get(aspect), val));
+				InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(MinestuckItems.heroStoneShards.get(aspect), val));
 				stack.damageItem(1, playerIn);
 				return true;
 			}
 		}
-		else if(!(playerIn instanceof FakePlayer))
+		else if (!(playerIn instanceof FakePlayer))
 		{
 			Title title = worldIn.isRemote ? MinestuckPlayerData.clientData.title : MinestuckPlayerData.getTitle(IdentifierHandler.encode(playerIn));
 			EnumAspect aspect = getAspect();
 
-			if(!playerIn.isSneaking() && playerIn.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isGodTier() && (aspect == null || aspect == title.getHeroAspect()) && facing == EnumFacing.UP)
+			if (!playerIn.isSneaking() && playerIn.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isGodTier() && (aspect == null || aspect == title.getHeroAspect()) && facing == EnumFacing.UP)
 			{
-				if(worldIn.isRemote)
+				if (worldIn.isRemote)
 					playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MEDITATE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 				return true;
 			}
@@ -118,12 +117,6 @@ public class BlockHeroStone extends MSBlockBase implements IGodTierBlock
 		return false;
 	}
 
-	@Override
-	public EnumAspect getAspect()
-	{
-		return aspect;
-	}
-	
 	public boolean isChiseled() {return isChiseled;}
 
 	@Override
@@ -131,5 +124,25 @@ public class BlockHeroStone extends MSBlockBase implements IGodTierBlock
 	{
 		setRegistryName("hero_stone" + (isChiseled ? "_chiseled" : "") + (aspect == null ? "" : "_" + aspect.toString()));
 		registry.register(this);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	{
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+
+		String heroAspect = TextFormatting.OBFUSCATED + "Thing" + TextFormatting.RESET;
+
+		if (getAspect() != null)
+			heroAspect = getAspect().getDisplayName();
+
+
+		tooltip.add(heroAspect);
+	}
+
+	@Override
+	public EnumAspect getAspect()
+	{
+		return aspect;
 	}
 }

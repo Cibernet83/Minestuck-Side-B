@@ -22,6 +22,13 @@ public class MessageTransportalizerDestIdRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		destId = ByteBufUtils.readUTF8String(buf);
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(pos.getX());
@@ -31,17 +38,10 @@ public class MessageTransportalizerDestIdRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		destId = ByteBufUtils.readUTF8String(buf);
-	}
-
-	@Override
 	public void execute(EntityPlayer player)
 	{
 		TileEntityTransportalizer te = (TileEntityTransportalizer) player.world.getTileEntity(pos);
-		if(te != null)
+		if (te != null)
 			te.setDestId(destId);
 	}
 

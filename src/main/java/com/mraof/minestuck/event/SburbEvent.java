@@ -8,18 +8,18 @@ public abstract class SburbEvent extends Event
 {
 	private final SburbConnection connection;
 	private final Session session;
-	
+
 	public SburbEvent(SburbConnection connection, Session session)
 	{
 		this.connection = connection;
 		this.session = session;
 	}
-	
+
 	public SburbConnection getConnection()
 	{
 		return connection;
 	}
-	
+
 	public Session getSession()
 	{
 		return session;

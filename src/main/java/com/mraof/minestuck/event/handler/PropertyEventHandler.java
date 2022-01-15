@@ -37,35 +37,6 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class PropertyEventHandler
 {
-	@SubscribeEvent
-	public static void onCrit(CriticalHitEvent event)
-	{
-		ItemStack stack = event.getEntityPlayer().getHeldItemMainhand();
-
-		if(!event.getTarget().world.isRemote && event.isVanillaCritical() && stack.getItem() instanceof IPropertyWeapon && event.getTarget() instanceof EntityLivingBase)
-		{
-			List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
-			for(WeaponProperty p : propertyList)
-				event.setDamageModifier(p.onCrit(event.getEntityPlayer().getHeldItemMainhand(), event.getEntityPlayer(), (EntityLivingBase) event.getTarget(), event.getDamageModifier()));
-		}
-	}
-
-	@SubscribeEvent
-	public static void onLivingHurt(LivingHurtEvent event)
-	{
-		if(!(event.getSource() instanceof CustomDamageSource) && event.getSource().getImmediateSource() instanceof EntityLivingBase && event.getSource().getDamageType() == "player")
-		{
-			ItemStack stack = ((EntityLivingBase) event.getSource().getImmediateSource()).getHeldItemMainhand();
-
-			if(stack.getItem() instanceof IPropertyWeapon)
-			{
-				List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
-				for(WeaponProperty p : propertyList)
-					event.setAmount(p.damageAgainstEntity(stack, (EntityLivingBase) event.getSource().getImmediateSource(), event.getEntityLiving(), event.getAmount()));
-			}
-		}
-	}
-
 	public static final HashMap<Item, CustomDamageSource> CUSTOM_DAMAGE = new HashMap<Item, CustomDamageSource>()
 	{{
 		put(MinestuckItems.cactusCutlass, new CustomDamageSource("cactus"));
@@ -78,27 +49,33 @@ public class PropertyEventHandler
 		put(MinestuckItems.batleacks, new CustomDamageSource("sbahj"));
 	}};
 
-	public static class CustomDamageSource extends EntityDamageSource
+	@SubscribeEvent
+	public static void onCrit(CriticalHitEvent event)
 	{
-		public CustomDamageSource(String damageTypeIn)
-		{
-			super(damageTypeIn, null);
-		}
+		ItemStack stack = event.getEntityPlayer().getHeldItemMainhand();
 
-		public CustomDamageSource setEntitySource(Entity entitySource)
+		if (!event.getTarget().world.isRemote && event.isVanillaCritical() && stack.getItem() instanceof IPropertyWeapon && event.getTarget() instanceof EntityLivingBase)
 		{
-			damageSourceEntity = entitySource;
-			return this;
+			List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
+			for (WeaponProperty p : propertyList)
+				event.setDamageModifier(p.onCrit(event.getEntityPlayer().getHeldItemMainhand(), event.getEntityPlayer(), (EntityLivingBase) event.getTarget(), event.getDamageModifier()));
 		}
+	}
 
-		public ITextComponent getDeathMessage(EntityLivingBase entityLivingBaseIn)
+	@SubscribeEvent
+	public static void onLivingHurt(LivingHurtEvent event)
+	{
+		if (!(event.getSource() instanceof CustomDamageSource) && event.getSource().getImmediateSource() instanceof EntityLivingBase && event.getSource().getDamageType() == "player")
 		{
-			ItemStack itemstack = this.damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase)this.damageSourceEntity).getHeldItemMainhand() : ItemStack.EMPTY;
-			String s = "death.attack." + Minestuck.MODID + "." + this.damageType;
-			String s1 = s + ".item";
-			return !itemstack.isEmpty() && itemstack.hasDisplayName() && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, new Object[] {entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName(), itemstack.getTextComponent()}) : new TextComponentTranslation(s, new Object[] {entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName()});
-		}
+			ItemStack stack = ((EntityLivingBase) event.getSource().getImmediateSource()).getHeldItemMainhand();
 
+			if (stack.getItem() instanceof IPropertyWeapon)
+			{
+				List<WeaponProperty> propertyList = ((IPropertyWeapon) stack.getItem()).getProperties(stack);
+				for (WeaponProperty p : propertyList)
+					event.setAmount(p.damageAgainstEntity(stack, (EntityLivingBase) event.getSource().getImmediateSource(), event.getEntityLiving(), event.getAmount()));
+			}
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -111,33 +88,33 @@ public class PropertyEventHandler
 	@SubscribeEvent
 	public static void onAttack(LivingAttackEvent event)
 	{
-		if(!(event.getSource() instanceof CustomDamageSource) && event.getSource().getImmediateSource() instanceof EntityLivingBase && event.getSource().getDamageType() == "player")
+		if (!(event.getSource() instanceof CustomDamageSource) && event.getSource().getImmediateSource() instanceof EntityLivingBase && event.getSource().getDamageType() == "player")
 		{
 			ItemStack stack = ((EntityLivingBase) event.getSource().getImmediateSource()).getHeldItemMainhand();
 
-			if(CUSTOM_DAMAGE.containsKey(stack.getItem()))
+			if (CUSTOM_DAMAGE.containsKey(stack.getItem()))
 			{
 				event.setCanceled(true);
 				event.getEntity().attackEntityFrom(CUSTOM_DAMAGE.get(stack.getItem()).setEntitySource(event.getSource().getImmediateSource()), event.getAmount());
 			}
 		}
 
-		if(!event.getEntityLiving().isEntityInvulnerable(event.getSource()) && !event.getEntity().world.isRemote)
+		if (!event.getEntityLiving().isEntityInvulnerable(event.getSource()) && !event.getEntity().world.isRemote)
 		{
 			ItemStack stack = event.getEntityLiving().getActiveItemStack();
 
-			if(stack.getItem().isShield(stack, event.getEntityLiving()) && stack.getItem() instanceof MSShieldBase && (!(event.getEntityLiving() instanceof EntityPlayer) || !((EntityPlayer) event.getEntityLiving()).getCooldownTracker().hasCooldown(stack.getItem())))
+			if (stack.getItem().isShield(stack, event.getEntityLiving()) && stack.getItem() instanceof MSShieldBase && (!(event.getEntityLiving() instanceof EntityPlayer) || !((EntityPlayer) event.getEntityLiving()).getCooldownTracker().hasCooldown(stack.getItem())))
 				((MSShieldBase) stack.getItem()).onHitWhileShielding(stack, event.getEntityLiving(), event.getSource(), event.getAmount(), MSShieldBase.canBlockDamageSource(event.getEntityLiving(), event.getSource()));
 
 			stack = event.getEntityLiving().getHeldItemMainhand().getItem() instanceof MSShieldBase ? event.getEntityLiving().getHeldItemMainhand()
-																									: event.getEntityLiving().getHeldItemOffhand().getItem() instanceof MSShieldBase ? event.getEntityLiving().getHeldItemOffhand() : ItemStack.EMPTY;
+							: event.getEntityLiving().getHeldItemOffhand().getItem() instanceof MSShieldBase ? event.getEntityLiving().getHeldItemOffhand() : ItemStack.EMPTY;
 
 
 			boolean isStunned = false;
-			if(event.getEntityLiving() instanceof EntityPlayer)
+			if (event.getEntityLiving() instanceof EntityPlayer)
 				isStunned = ((EntityPlayer) event.getEntityLiving()).getCooldownTracker().hasCooldown(stack.getItem());
 
-			if(!stack.isEmpty() && !isStunned && !event.getSource().isUnblockable() && ((MSShieldBase)stack.getItem()).isParrying(stack) && ((MSShieldBase)stack.getItem()).onShieldParry(stack, event.getEntityLiving(), event.getSource(), event.getAmount()))
+			if (!stack.isEmpty() && !isStunned && !event.getSource().isUnblockable() && ((MSShieldBase) stack.getItem()).isParrying(stack) && ((MSShieldBase) stack.getItem()).onShieldParry(stack, event.getEntityLiving(), event.getSource(), event.getAmount()))
 			{
 				if (!event.getSource().isProjectile())
 				{
@@ -145,7 +122,7 @@ public class PropertyEventHandler
 					damageShield(event.getEntityLiving(), stack, 1);
 
 					if (entity instanceof EntityLivingBase)
-						((EntityLivingBase)entity).knockBack(event.getEntityLiving(), 0.5F, event.getEntityLiving().posX - entity.posX, event.getEntityLiving().posZ - entity.posZ);
+						((EntityLivingBase) entity).knockBack(event.getEntityLiving(), 0.5F, event.getEntityLiving().posX - entity.posX, event.getEntityLiving().posZ - entity.posZ);
 				}
 
 				EntityLivingBase player = event.getEntityLiving();
@@ -167,11 +144,34 @@ public class PropertyEventHandler
 			{
 				EnumHand enumhand = entity.getHeldItemMainhand().equals(stack) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
 				net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem((EntityPlayer) entity, copyBeforeUse, enumhand);
-				entity.setItemStackToSlot(enumhand ==  EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND, ItemStack.EMPTY);
+				entity.setItemStackToSlot(enumhand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND, ItemStack.EMPTY);
 
 				entity.resetActiveHand();
 				entity.playSound(SoundEvents.ITEM_SHIELD_BREAK, 0.8F, 0.8F + entity.world.rand.nextFloat() * 0.4F);
 			}
 		}
+	}
+
+	public static class CustomDamageSource extends EntityDamageSource
+	{
+		public CustomDamageSource(String damageTypeIn)
+		{
+			super(damageTypeIn, null);
+		}
+
+		public CustomDamageSource setEntitySource(Entity entitySource)
+		{
+			damageSourceEntity = entitySource;
+			return this;
+		}
+
+		public ITextComponent getDeathMessage(EntityLivingBase entityLivingBaseIn)
+		{
+			ItemStack itemstack = this.damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase) this.damageSourceEntity).getHeldItemMainhand() : ItemStack.EMPTY;
+			String s = "death.attack." + Minestuck.MODID + "." + this.damageType;
+			String s1 = s + ".item";
+			return !itemstack.isEmpty() && itemstack.hasDisplayName() && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName(), itemstack.getTextComponent()) : new TextComponentTranslation(s, entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName());
+		}
+
 	}
 }

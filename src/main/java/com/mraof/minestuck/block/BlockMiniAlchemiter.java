@@ -33,34 +33,18 @@ import java.util.List;
 
 public class BlockMiniAlchemiter extends MSFacingBase
 {
-	private static final AxisAlignedBB ALCHMITER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1/2D, 1.0D);
-	private static final AxisAlignedBB[] ALCHEMITER_POLE_AABB = {new AxisAlignedBB(0.0D, 2/16D, 0.0D, 4.5/16D, 1.0D, 1/8D), new AxisAlignedBB(7/8D, 2/16D, 0.0D, 1.0D, 1.0D, 4.5/16D), new AxisAlignedBB(11.5/16D, 2/16D, 7/8D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 2/16D, 11.5/16D, 1/8D, 1.0D, 1.0D)};
+	private static final AxisAlignedBB ALCHMITER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1 / 2D, 1.0D);
+	private static final AxisAlignedBB[] ALCHEMITER_POLE_AABB = {new AxisAlignedBB(0.0D, 2 / 16D, 0.0D, 4.5 / 16D, 1.0D, 1 / 8D), new AxisAlignedBB(7 / 8D, 2 / 16D, 0.0D, 1.0D, 1.0D, 4.5 / 16D), new AxisAlignedBB(11.5 / 16D, 2 / 16D, 7 / 8D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 2 / 16D, 11.5 / 16D, 1 / 8D, 1.0D, 1.0D)};
 
 	public BlockMiniAlchemiter()
 	{
-		 super("miniAlchemiter");
+		super("miniAlchemiter");
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata)
 	{
 		return new TileEntityMiniAlchemiter();
-	}
-
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-	{
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (!(tileEntity instanceof TileEntityMiniSburbMachine) || playerIn.isSneaking())
-			return false;
-
-		if(!worldIn.isRemote)
-		{
-			((TileEntityMiniSburbMachine) tileEntity).owner = IdentifierHandler.encode(playerIn);
-			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-		}
-		return true;
 	}
 
 	@Override
@@ -74,8 +58,40 @@ public class BlockMiniAlchemiter extends MSFacingBase
 	{
 		super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, p_185477_7_);
 		AxisAlignedBB bb = ALCHEMITER_POLE_AABB[getActualState(state, worldIn, pos).getValue(FACING).getHorizontalIndex()].offset(pos);
-		if(entityBox.intersects(bb))
+		if (entityBox.intersects(bb))
 			collidingBoxes.add(bb);
+	}
+
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+									EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		if (!(tileEntity instanceof TileEntityMiniSburbMachine) || playerIn.isSneaking())
+			return false;
+
+		if (!worldIn.isRemote)
+		{
+			((TileEntityMiniSburbMachine) tileEntity).owner = IdentifierHandler.encode(playerIn);
+			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MACHINE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+		}
+		return true;
+	}
+
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+	{
+		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
+
+		boolean b = super.removedByPlayer(state, world, pos, player, willHarvest);
+
+		if (!world.isRemote && willHarvest && te != null)
+		{
+			ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1);
+			spawnAsEntity(world, pos, stack);
+		}
+
+		return b;
 	}
 
 	@Override
@@ -93,10 +109,10 @@ public class BlockMiniAlchemiter extends MSFacingBase
 		//EnumFacing placedFacing = player.getHorizontalFacing().getOpposite();
 		double hitX = rayTraceResult.hitVec.x - pos.getX(), hitZ = rayTraceResult.hitVec.z - pos.getZ();
 		boolean r = placedFacing.getAxis() == EnumFacing.Axis.Z;
-		boolean f = placedFacing== EnumFacing.NORTH || placedFacing==EnumFacing.EAST;
-		double d1 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
-		double d2 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
-		double d3 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
+		boolean f = placedFacing == EnumFacing.NORTH || placedFacing == EnumFacing.EAST;
+		double d1 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
+		double d2 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
+		double d3 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
 
 		boolean placeable;
 		AxisAlignedBB boundingBox;
@@ -104,7 +120,7 @@ public class BlockMiniAlchemiter extends MSFacingBase
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.glLineWidth(2.0F);
 		GlStateManager.disableTexture2D();
-		GlStateManager.depthMask(false);	//GL stuff was copied from the standard mouseover bounding box drawing, which is likely why the alpha isn't working
+		GlStateManager.depthMask(false);    //GL stuff was copied from the standard mouseover bounding box drawing, which is likely why the alpha isn't working
 		BlockPos mchnPos = pos;
 
 		pos = pos.offset(placedFacing.rotateY());
@@ -116,17 +132,17 @@ public class BlockMiniAlchemiter extends MSFacingBase
 		BlockPos placementPos = pos;
 		if (placedFacing == EnumFacing.EAST || placedFacing == EnumFacing.NORTH)
 			pos = pos.offset(placedFacing.rotateYCCW(), 3);
-		if(placedFacing == EnumFacing.EAST || placedFacing == EnumFacing.SOUTH)
+		if (placedFacing == EnumFacing.EAST || placedFacing == EnumFacing.SOUTH)
 			pos = pos.offset(placedFacing.getOpposite(), 3);
 
 		boundingBox = new AxisAlignedBB(0, 0, 0, 4, 4, 4).offset(pos).offset(-d1, -d2, -d3).shrink(0.002);
 		placeable = SpaceSaltUtils.canPlaceAlchemiter(stack, player, player.world, placementPos, placedFacing, mchnPos);
 
-		BlockPos rodOff = new BlockPos(0,0,0).offset(placedFacing, -3);
+		BlockPos rodOff = new BlockPos(0, 0, 0).offset(placedFacing, -3);
 
 		//If you don't want the extra details to the alchemiter outline, comment out the following two lines
-		RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(1F/4F + rodOff.getX(),1,1F/4F + rodOff.getZ(), 3F/4F + rodOff.getX(), 4, 3F/4F + rodOff.getZ()).offset(placementPos).offset(-d1, -d2, -d3).shrink(0.002), placeable ? 0 : 1, placeable ? 1 : 0, 0, 0.5F);
-		RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(0,0,0, 4, 1, 4).offset(pos).offset(-d1, -d2, -d3).shrink(0.002), placeable ? 0 : 1, placeable ? 1 : 0, 0, 0.5F);
+		RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(1F / 4F + rodOff.getX(), 1, 1F / 4F + rodOff.getZ(), 3F / 4F + rodOff.getX(), 4, 3F / 4F + rodOff.getZ()).offset(placementPos).offset(-d1, -d2, -d3).shrink(0.002), placeable ? 0 : 1, placeable ? 1 : 0, 0, 0.5F);
+		RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(0, 0, 0, 4, 1, 4).offset(pos).offset(-d1, -d2, -d3).shrink(0.002), placeable ? 0 : 1, placeable ? 1 : 0, 0, 0.5F);
 
 		RenderGlobal.drawSelectionBoundingBox(boundingBox, placeable ? 0 : 1, placeable ? 1 : 0, 0, 0.5F);
 		GlStateManager.depthMask(true);
@@ -140,22 +156,6 @@ public class BlockMiniAlchemiter extends MSFacingBase
 	public MSItemBlock getItemBlock()
 	{
 		return new ItemMiniSburbMachine(this);
-	}
-
-	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-	{
-		TileEntityMiniSburbMachine te = (TileEntityMiniSburbMachine) world.getTileEntity(pos);
-
-		boolean b = super.removedByPlayer(state, world, pos, player, willHarvest);
-
-		if(!world.isRemote && willHarvest && te != null)
-		{
-			ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1);
-			spawnAsEntity(world, pos, stack);
-		}
-
-		return b;
 	}
 
 

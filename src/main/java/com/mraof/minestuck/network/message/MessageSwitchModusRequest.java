@@ -15,10 +15,10 @@ public class MessageSwitchModusRequest implements MinestuckMessage
 	public MessageSwitchModusRequest() { }
 
 	@Override
-	public void toBytes(ByteBuf buf) { }
+	public void fromBytes(ByteBuf buf) { }
 
 	@Override
-	public void fromBytes(ByteBuf buf) { }
+	public void toBytes(ByteBuf buf) { }
 
 	@Override
 	public void execute(EntityPlayer player)
@@ -26,7 +26,7 @@ public class MessageSwitchModusRequest implements MinestuckMessage
 		ItemStack modusStack = player.getHeldItemMainhand();
 		if (!(modusStack.getItem() instanceof ItemModus))
 			return;
-		Modus modus = ((ItemModus)modusStack.getItem()).getModus();
+		Modus modus = ((ItemModus) modusStack.getItem()).getModus();
 		if (modus.getAlternate() == null)
 			return;
 

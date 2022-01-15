@@ -22,24 +22,11 @@ public class PotionConceal extends MSPotionBase
 		super(name, isBadEffectIn, liquidColorIn);
 	}
 
-	@Override
-	public void performEffect(EntityLivingBase entity, int amplifier)
-	{
-		if(entity.getActivePotionEffect(MobEffects.GLOWING) != null)
-			entity.removePotionEffect(this);
-	}
-
-	@Override
-	public boolean isReady(int duration, int amplifier)
-	{
-		return true;
-	}
-
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void onLivingRender(RenderLivingEvent.Pre event)
 	{
-		if(event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isConcealed())
+		if (event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isConcealed())
 		{
 			event.getEntity().setInvisible(true);
 			event.getEntity().setGlowing(false);
@@ -50,15 +37,21 @@ public class PotionConceal extends MSPotionBase
 	@SubscribeEvent
 	public static void onPlayerVisibility(PlayerEvent.Visibility event)
 	{
-		if(event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isConcealed())
+		if (event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).isConcealed())
 			event.modifyVisibility(0);
 	}
 
 	@Override
-	public void applyAttributesModifiersToEntity(EntityLivingBase entityLivingBaseIn, AbstractAttributeMap attributeMapIn, int amplifier)
+	public void performEffect(EntityLivingBase entity, int amplifier)
 	{
-		super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
-		entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setConcealed(true);
+		if (entity.getActivePotionEffect(MobEffects.GLOWING) != null)
+			entity.removePotionEffect(this);
+	}
+
+	@Override
+	public boolean isReady(int duration, int amplifier)
+	{
+		return true;
 	}
 
 	@Override
@@ -67,5 +60,12 @@ public class PotionConceal extends MSPotionBase
 		super.removeAttributesModifiersFromEntity(entityLivingBaseIn, attributeMapIn, amplifier);
 		entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setConcealed(false);
 		((WorldServer) entityLivingBaseIn.world).getEntityTracker().sendToTrackingAndSelf(entityLivingBaseIn, new SPacketEntityMetadata(entityLivingBaseIn.getEntityId(), entityLivingBaseIn.getDataManager(), true));
+	}
+
+	@Override
+	public void applyAttributesModifiersToEntity(EntityLivingBase entityLivingBaseIn, AbstractAttributeMap attributeMapIn, int amplifier)
+	{
+		super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
+		entityLivingBaseIn.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).setConcealed(true);
 	}
 }

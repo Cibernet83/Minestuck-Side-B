@@ -27,7 +27,7 @@ public class RenderDecoy extends RenderLivingBase<EntityDecoy>
 	public void doRender(EntityDecoy entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		mainModel = (entity.world.getPlayerEntityByUUID(entity.uuid) instanceof AbstractClientPlayer &&
-				((AbstractClientPlayer) entity.world.getPlayerEntityByUUID(entity.uuid)).getSkinType().equals("slim")) ? MODEL_SLIM : MODEL;
+							 ((AbstractClientPlayer) entity.world.getPlayerEntityByUUID(entity.uuid)).getSkinType().equals("slim")) ? MODEL_SLIM : MODEL;
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 

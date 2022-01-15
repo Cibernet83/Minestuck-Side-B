@@ -26,21 +26,30 @@ import java.util.Set;
 
 public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TODO extend MSUWeaponBase
 {
+	private final CruxiteArtifactTeleporter teleporter;
 	protected float efficiency;
-	/** Damage versus entities. */
+	/**
+	 * Damage versus entities.
+	 */
 	protected float attackDamage;
 	protected float attackSpeed;
-	/** The material this tool is made from. */
+	/**
+	 * The material this tool is made from.
+	 */
 	//protected Item.ToolMaterial toolMaterial;
 	protected String toolClass = "";
-	private final CruxiteArtifactTeleporter teleporter;
+
+	public ItemCruxiteTool(String name, String toolClass, boolean isEntryArtifact)
+	{
+		this(name, toolClass, 0.0F, 0.0F, 7.0f, 3, isEntryArtifact);
+	}
 
 	public ItemCruxiteTool(String name, String toolClass, float attackDamageIn, float attackSpeedIn, float efficiency, int maxUses, boolean isEntryArtifact)
 	{
 		super(name);
-		if(isEntryArtifact)
+		if (isEntryArtifact)
 		{
-			teleporter =  new CruxiteArtifactTeleporter();
+			teleporter = new CruxiteArtifactTeleporter();
 			MinestuckItems.cruxiteArtifacts.add(this);
 		}
 		else
@@ -59,50 +68,45 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 
 		setCreativeTab(MinestuckTabs.minestuck);
 	}
-	
-	public ItemCruxiteTool(String name, String toolClass, boolean isEntryArtifact)
-	{
-		this(name, toolClass, 0.0F, 0.0F, 7.0f, 3, isEntryArtifact);
-	}
-	
+
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
 	}
-	
+
 	public float getDestroySpeed(ItemStack stack, IBlockState state)
 	{
 		if (state.getBlock().isToolEffective(toolClass, state))
 			return efficiency;
 		return 1.0F;
 	}
-	
+
 	/**
 	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
 	 * the damage on the stack.
 	 */
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
 	{
-		stack.damageItem(getMaxDamage(stack)+1, attacker);
+		stack.damageItem(getMaxDamage(stack) + 1, attacker);
 		return true;
 	}
-	
+
 	/**
 	 * Called when a Block is destroyed using this Item. Return true to trigger the "Use Item" statistic.
 	 */
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
 	{
-		if ((double)state.getBlockHardness(worldIn, pos) != 0.0D)
+		if ((double) state.getBlockHardness(worldIn, pos) != 0.0D)
 		{
-			if(state.getBlock().isToolEffective(toolClass, state))
+			if (state.getBlock().isToolEffective(toolClass, state))
 			{
 				ICaptchalogueable storedStack = ModusStorage.getStoredItem(stack);
-				
-				if(!worldIn.isRemote)
+
+				if (!worldIn.isRemote)
 					stack.damageItem(1, entityLiving);
-				if(stack.isEmpty())
+				if (stack.isEmpty())
 				{
-					if(isEntryArtifact() && entityLiving instanceof EntityPlayer)
+					if (isEntryArtifact() && entityLiving instanceof EntityPlayer)
 					{
 						getTeleporter().onArtifactActivated((EntityPlayer) entityLiving);
 						return true;
@@ -110,17 +114,17 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 
 					worldIn.playSound(null, entityLiving.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-					if(entityLiving instanceof EntityPlayer)
+					if (entityLiving instanceof EntityPlayer)
 						storedStack.fetch((EntityPlayer) entityLiving);
 					else storedStack.drop(entityLiving);
 				}
 			}
-			else if(!worldIn.isRemote) stack.damageItem(getMaxDamage(stack)+1, entityLiving);
+			else if (!worldIn.isRemote) stack.damageItem(getMaxDamage(stack) + 1, entityLiving);
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Returns True is the item is renderer in full 3D when hold.
 	 */
@@ -129,7 +133,13 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 	{
 		return true;
 	}
-	
+
+	@Override
+	public boolean isEnchantable(ItemStack stack)
+	{
+		return false;
+	}
+
 	/**
 	 * Return the enchantability factor of the item, most of the time is based on material.
 	 */
@@ -137,45 +147,45 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 	{
 		return -1;
 	}
-	
-	@Override
-	public boolean isEnchantable(ItemStack stack)
-	{
-		return false;
-	}
-	
+
 	/**
 	 * Return whether this item is repairable in an anvil.
 	 *
 	 * @param toRepair the {@code ItemStack} being repaired
-	 * @param repair the {@code ItemStack} being used to perform the repair
+	 * @param repair   the {@code ItemStack} being used to perform the repair
 	 */
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
 	 */
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
 	{
 		Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
-		
+
 		if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
 		{
-			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", (double)this.attackDamage, 0));
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", (double)this.attackSpeed, 0));
+			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", (double) this.attackDamage, 0));
+			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", (double) this.attackSpeed, 0));
 		}
-		
+
 		return multimap;
 	}
-	
+
+	@Override
+	public Set<String> getToolClasses(ItemStack stack)
+	{
+		return toolClass != null ? com.google.common.collect.ImmutableSet.of(toolClass) : super.getToolClasses(stack);
+	}
+
 	@javax.annotation.Nullable
 	@Override
 	public int getHarvestLevel(ItemStack stack, String toolClass, @javax.annotation.Nullable EntityPlayer player, @javax.annotation.Nullable IBlockState blockState)
 	{
-		int level = super.getHarvestLevel(stack, toolClass,  player, blockState);
+		int level = super.getHarvestLevel(stack, toolClass, player, blockState);
 		if (level == -1 && toolClass.equals(this.toolClass))
 		{
 			return 2;
@@ -185,20 +195,16 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 			return level;
 		}
 	}
-	
-	@Override
-	public Set<String> getToolClasses(ItemStack stack)
-	{
-		return toolClass != null ? com.google.common.collect.ImmutableSet.of(toolClass) : super.getToolClasses(stack);
-	}
 
 	@Override
-	public boolean isEntryArtifact() {
+	public boolean isEntryArtifact()
+	{
 		return teleporter != null;
 	}
 
 	@Override
-	public CruxiteArtifactTeleporter getTeleporter() {
+	public CruxiteArtifactTeleporter getTeleporter()
+	{
 		return teleporter;
 	}
 }

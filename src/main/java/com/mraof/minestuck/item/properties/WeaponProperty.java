@@ -57,23 +57,28 @@ public abstract class WeaponProperty
 
 	}
 
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
 		return EnumActionResult.PASS;
 	}
 
-	public int getMaxItemUseDuration(ItemStack stack, int duration) {
+	public int getMaxItemUseDuration(ItemStack stack, int duration)
+	{
 		return duration;
 	}
 
-	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
+	{
 		return EnumActionResult.PASS;
 	}
 
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+	{
 		return stack;
 	}
 
-	public EnumActionResult onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	public EnumActionResult onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
 		return EnumActionResult.PASS;
 	}
 
@@ -97,7 +102,8 @@ public abstract class WeaponProperty
 		return true;
 	}
 
-	public float onCrit(ItemStack stack, EntityPlayer player, EntityLivingBase target, float damageModifier) {
+	public float onCrit(ItemStack stack, EntityPlayer player, EntityLivingBase target, float damageModifier)
+	{
 		return damageModifier;
 	}
 
@@ -116,7 +122,7 @@ public abstract class WeaponProperty
 		return false;
 	}
 
-	public void getAttributeModifiers(EntityLivingBase player, ItemStack stack, Multimap<String, AttributeModifier> multimap) {  }
+	public void getAttributeModifiers(EntityLivingBase player, ItemStack stack, Multimap<String, AttributeModifier> multimap) { }
 
 	public int onDurabilityChanged(ItemStack stack, int damage) {return damage;}
 

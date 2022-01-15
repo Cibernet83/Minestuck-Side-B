@@ -21,11 +21,11 @@ public class PropertyCrowdDamage extends WeaponProperty
 	{
 		float buff = 1;
 
-		for(EntityLivingBase entity : player.world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(crowdRadius)))
+		for (EntityLivingBase entity : player.world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(crowdRadius)))
 		{
-			if(entity == player)
+			if (entity == player)
 				continue;
-			if((buffPerEntity < 1 && buff <= maxBuff) || (buffPerEntity >= 1 && buff >= maxBuff))
+			if ((buffPerEntity < 1 && buff <= maxBuff) || (buffPerEntity >= 1 && buff >= maxBuff))
 			{
 				buff = maxBuff;
 				break;
@@ -33,6 +33,6 @@ public class PropertyCrowdDamage extends WeaponProperty
 			buff += buffPerEntity;
 		}
 
-		return amount * (buff+1);
+		return amount * (buff + 1);
 	}
 }

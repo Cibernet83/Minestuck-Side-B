@@ -1,8 +1,6 @@
 package com.mraof.minestuck.network.message;
 
 import com.mraof.minestuck.captchalogue.ModusLayer;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
-import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.network.MinestuckMessage;
 import com.mraof.minestuck.tileentity.TileEntityModusControlDeck;
 import com.mraof.minestuck.util.SylladexUtils;
@@ -25,6 +23,15 @@ public class MessageModusControlDeckSyncRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		lengths = new int[buf.readByte()];
+		for (int i = 0; i < lengths.length; i++)
+			lengths[i] = (buf.readByte() & 0xff) + 1;
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(pos.getX());
@@ -33,15 +40,6 @@ public class MessageModusControlDeckSyncRequest implements MinestuckMessage
 		buf.writeByte(lengths.length);
 		for (int length : lengths)
 			buf.writeByte(length - 1);
-	}
-
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		lengths = new int[buf.readByte()];
-		for (int i = 0; i < lengths.length; i++)
-			lengths[i] = (buf.readByte() & 0xff) + 1;
 	}
 
 	@Override
@@ -59,15 +57,7 @@ public class MessageModusControlDeckSyncRequest implements MinestuckMessage
 		for (int i = 0; i < layerCount; i++)
 			modusLayers[i] = te.getLayer(i, i + 1 == layerCount ? -1 : lengths[i]);
 
-		// Eject previous sylladex
-		MultiSylladex sylladex = SylladexUtils.getSylladex(player);
-		sylladex.ejectAll(false, true);
-		int cards = sylladex.getTotalSlots();
-
-		// Make new sylladex
-		sylladex = ISylladex.newSylladex(player, modusLayers);
-		sylladex.addCards(cards);
-		SylladexUtils.setSylladex(player, sylladex);
+		SylladexUtils.changeModi(player, modusLayers);
 	}
 
 	@Override

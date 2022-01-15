@@ -18,75 +18,78 @@ import java.util.Random;
 
 public class LandAspectCake extends TitleLandAspect
 {
-	
+
 	@Override
 	public String getPrimaryName()
 	{
 		return "cake";
 	}
-	
+
 	@Override
 	public String[] getNames()
 	{
-		return new String[] {"cake", "dessert"};
+		return new String[]{"cake", "dessert"};
 	}
-	
+
 	@Override
 	public void prepareChunkProviderServer(ChunkProviderLands chunkProvider)
 	{
-		
+
 		chunkProvider.blockRegistry.setBlockState("structure_wool_2", Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE));
 		chunkProvider.blockRegistry.setBlockState("carpet", Blocks.CARPET.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA));
-		
+
 		chunkProvider.decorators.add(new CakeDecorator(chunkProvider.temperature));
 		chunkProvider.decorators.add(new CakePedestalDecorator(MinestuckBiomes.mediumNormal, MinestuckBiomes.mediumRough));
 		chunkProvider.sortDecorators();
 	}
-	
+
 	private static class CakeDecorator extends SingleBlockDecorator
 	{
 		public float redCakeChance;
+
 		public CakeDecorator(float temperature)
 		{
-			redCakeChance = MathHelper.clamp(temperature/2, 0, 1);
+			redCakeChance = MathHelper.clamp(temperature / 2, 0, 1);
 		}
-		
+
 		@Override
 		public IBlockState pickBlock(Random random)
 		{
-			int bites = Math.max(0, (int) (random.nextDouble()*10) - 6);
+			int bites = Math.max(0, (int) (random.nextDouble() * 10) - 6);
 			float f = random.nextFloat();
-			if(f < 0.1F)
+			if (f < 0.1F)
 			{
-				if(random.nextFloat() < redCakeChance)
+				if (random.nextFloat() < redCakeChance)
 					return (f < 0.05F ? MinestuckBlocks.redCake : MinestuckBlocks.hotCake).getDefaultState().withProperty(BlockCake.BITES, bites);
-				else return (f < 0.05F ? MinestuckBlocks.blueCake : MinestuckBlocks.coldCake).getDefaultState().withProperty(BlockCake.BITES, bites);
+				else
+					return (f < 0.05F ? MinestuckBlocks.blueCake : MinestuckBlocks.coldCake).getDefaultState().withProperty(BlockCake.BITES, bites);
 			}
-			else if(f < 0.4F)
+			else if (f < 0.4F)
 				return MinestuckBlocks.appleCake.getDefaultState().withProperty(BlockCake.BITES, bites);
-			else if(random.nextFloat() < 0.01)
+			else if (random.nextFloat() < 0.01)
 				return MinestuckBlocks.reverseCake.getDefaultState().withProperty(BlockCake.BITES, bites);
 			else
 				return Blocks.CAKE.getDefaultState().withProperty(BlockCake.BITES, bites);
 		}
-		
-		@Override
-		public int getCount(Random random)
-		{
-			if(random.nextDouble() < 0.2)
-			{
-				int blocks = 0;
-				for(int i = 0; i < 10; i++)
-					if(random.nextBoolean())
-						blocks++;
-				return blocks;
-			}
-			return 0;
-		}
+
 		@Override
 		public boolean canPlace(BlockPos pos, World world)
 		{
 			return Blocks.CAKE.canPlaceBlockAt(world, pos) && !world.getBlockState(pos).getMaterial().isLiquid() && world.getBlockState(pos).getBlock().isReplaceable(world, pos);
+		}
+
+		@Override
+		public int getCount(Random random)
+		{
+			if (random.nextDouble() < 0.2)
+			{
+				int blocks = 0;
+				for (int i = 0; i < 10; i++)
+					if (random.nextBoolean())
+						blocks++;
+				return blocks;
+			}
+			return 0;
 		}
 	}
 }

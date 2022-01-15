@@ -16,20 +16,20 @@ import net.minecraft.world.World;
 
 public class BadgePassiveTime extends BadgeHeroAspect
 {
+	protected static final int ENERGY_USE = 8;
+
 	public BadgePassiveTime()
 	{
 		super(EnumAspect.TIME, EnumRole.PASSIVE, EnumAspect.SPACE);
 	}
 
-	protected static final int ENERGY_USE = 8;
-
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state != GodKeyStates.KeyState.PRESS)
+		if (state != GodKeyStates.KeyState.PRESS)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -38,7 +38,7 @@ public class BadgePassiveTime extends BadgeHeroAspect
 		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.TIME, target != null ? 5 : 2);
 
-		if(target != null)
+		if (target != null)
 		{
 			target.addPotionEffect(new PotionEffect(MinestuckPotions.TIME_STOP, 80, 0));
 			if (!player.isCreative())

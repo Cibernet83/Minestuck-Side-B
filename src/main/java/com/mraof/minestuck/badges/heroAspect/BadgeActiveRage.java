@@ -13,26 +13,26 @@ import net.minecraft.world.World;
 
 public class BadgeActiveRage extends BadgeHeroAspect
 {
+	protected static final int ENERGY_USE = 3;
+
 	public BadgeActiveRage()
 	{
 		super(EnumAspect.RAGE, EnumRole.ACTIVE, EnumAspect.HOPE);
 	}
 
-	protected static final int ENERGY_USE = 3;
-
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state != GodKeyStates.KeyState.PRESS)
+		if (state != GodKeyStates.KeyState.PRESS)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
 		}
 
-		if(!player.isPotionActive(MinestuckPotions.RAGE_BERSERK))
+		if (!player.isPotionActive(MinestuckPotions.RAGE_BERSERK))
 		{
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.RAGE, 10);
 

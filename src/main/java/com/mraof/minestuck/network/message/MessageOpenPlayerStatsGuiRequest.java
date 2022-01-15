@@ -20,21 +20,21 @@ public class MessageOpenPlayerStatsGuiRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(id);
-	}
-
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		id = buf.readInt();
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(id);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(player instanceof EntityPlayerMP)
+		if (player instanceof EntityPlayerMP)
 		{
 			EntityPlayerMP playerMP = (EntityPlayerMP) player;
 			playerMP.openContainer = ContainerHandler.getPlayerStatsContainer(playerMP, id, ServerEditHandler.getData(playerMP) != null);

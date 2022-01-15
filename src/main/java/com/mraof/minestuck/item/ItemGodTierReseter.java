@@ -12,41 +12,40 @@ import net.minecraft.world.World;
 
 public class ItemGodTierReseter extends MSItemBase
 {
-    public ItemGodTierReseter(String name)
-    {
-        super(name);
-        setMaxStackSize(1);
-    }
+	public ItemGodTierReseter(String name)
+	{
+		super(name);
+		setMaxStackSize(1);
+	}
 
-    @Override
-    public int getMaxItemUseDuration(ItemStack stack)
-    {
-        return 60;
-    }
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
+		playerIn.setActiveHand(handIn);
+		return new ActionResult<>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+	}
 
-    @Override
-    public EnumAction getItemUseAction(ItemStack stack)
-    {
-        return EnumAction.BOW;
-    }
+	@Override
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+	{
+		if (entityLiving instanceof EntityPlayer && MinestuckUtils.resetGodTier((EntityPlayer) entityLiving))
+		{
+			stack.shrink(1);
+			return stack;
+		}
 
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-    {
-        playerIn.setActiveHand(handIn);
-        return new ActionResult<>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
-    }
+		return super.onItemUseFinish(stack, worldIn, entityLiving);
+	}
 
+	@Override
+	public EnumAction getItemUseAction(ItemStack stack)
+	{
+		return EnumAction.BOW;
+	}
 
-    @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
-    {
-        if(entityLiving instanceof EntityPlayer && MinestuckUtils.resetGodTier((EntityPlayer)entityLiving))
-        {
-            stack.shrink(1);
-            return stack;
-        }
-
-        return super.onItemUseFinish(stack, worldIn, entityLiving);
-    }
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack)
+	{
+		return 60;
+	}
 }

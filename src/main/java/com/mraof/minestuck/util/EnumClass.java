@@ -16,75 +16,67 @@ import java.util.Random;
  * (including lord and muse, but they are by default not generated in the <code>getRandomClass()</code> method,
  * thought they can be included by setting the parameter <code>includeSpecial</code> to <code>true</code>)
  * The <code>toString()</code> method is overridden and returns a lower-cased version of the title-class name.
+ *
  * @author kirderf1
  */
 public enum EnumClass
 {
-	BARD,HEIR,KNIGHT,MAGE,MAID,PAGE,PRINCE,ROGUE,SEER,SYLPH,THIEF,WITCH,
-	LORD,MUSE;	//Special title-classes
-	
+	BARD, HEIR, KNIGHT, MAGE, MAID, PAGE, PRINCE, ROGUE, SEER, SYLPH, THIEF, WITCH,
+	LORD, MUSE;    //Special title-classes
+
 	/**
 	 * This method generates one of the 12 default title-classes that is not found in the <code>unavailableClasses</code> set.
+	 *
 	 * @param unavailableClasses An <code>EnumSet&#60;EnumClass&#62;</code> that includes all forbidden title-classes,
-	 *                              typically all title-classes that is already being used by other players.
-	 * @param rand Random used to select a title-class.
+	 *                           typically all title-classes that is already being used by other players.
+	 * @param rand               Random used to select a title-class.
 	 * @return null if <code>unavailableClasses</code> has been filled, else a random <code>EnumClass</code> that isn't in <code>unavailableClasses</code>.
 	 */
 	public static EnumClass getRandomClass(@Nullable EnumSet<EnumClass> unavailableClasses, @Nonnull Random rand)
 	{
 		return getRandomClass(unavailableClasses, rand, false);
 	}
-	
+
 	/**
 	 * This method generates one of the 12 default title-classes that is not found in the <code>unavailableClasses</code> set.
 	 * If you don't want the two special title-classes to be forbidden, use <code>true</code> as the <code>includeSpecial</code> parameter.
+	 *
 	 * @param unavailableClasses An <code>EnumSet&#60;EnumClass&#62;</code> that includes all forbidden title-classes,
-	 *                              typically all title-classes that is already being used by other players.
-	 * @param rand Random used to select a title-class.
-	 * @param includeSpecial If it should include the two special title-classes.
+	 *                           typically all title-classes that is already being used by other players.
+	 * @param rand               Random used to select a title-class.
+	 * @param includeSpecial     If it should include the two special title-classes.
 	 * @return null if <code>unavailableClasses</code> has been filled, else a random <code>EnumClass</code> that isn't in <code>unavailableClasses</code>.
 	 */
 	public static EnumClass getRandomClass(@Nullable EnumSet<EnumClass> unavailableClasses, @Nonnull Random rand, boolean includeSpecial)
 	{
-		if(unavailableClasses == null)
+		if (unavailableClasses == null)
 			unavailableClasses = EnumSet.noneOf(EnumClass.class);
-		if(!includeSpecial)	//Prevent generation of the special "master" classes unless includeSpecial is true
+		if (!includeSpecial)    //Prevent generation of the special "master" classes unless includeSpecial is true
 		{
 			unavailableClasses.add(LORD);
 			unavailableClasses.add(MUSE);
 		}
-		
-		EnumSet<EnumClass> classes = EnumSet.complementOf(unavailableClasses);	//TODO Does it make more sense for the parameter to instead be a set of available classes?
-		if(classes.isEmpty())
-			return null;	//No class available to generate
-		
+
+		EnumSet<EnumClass> classes = EnumSet.complementOf(unavailableClasses);    //TODO Does it make more sense for the parameter to instead be a set of available classes?
+		if (classes.isEmpty())
+			return null;    //No class available to generate
+
 		int classInt = rand.nextInt(classes.size());
-		for(EnumClass c : classes)	//Go through each available title-class until the index generated is reached
+		for (EnumClass c : classes)    //Go through each available title-class until the index generated is reached
 		{
-			if(classInt == 0)
+			if (classInt == 0)
 				return c;
 			classInt--;
 		}
-		
+
 		return null;
 	}
-	
-	/**
-	 * Takes the enum name for this title-class and returns a lowercase version.
-	 * Aside from regular use of the method, it is useful for producing
-	 * the unlocalized name of the title-class using <code>"title." + titleClass.toString()</code>
-	 * @return the name of this title-class
-	 */
-	@Override
-	public String toString()
-	{
-		return this.name().toLowerCase();
-	}
-	
+
 	/**
 	 * Translates and returns the proper name of this title-class. Should only be used client-side.
 	 * For usage in messages sent to a player from a server, use <code>asTextComponent()</code>.
 	 * For debugging purposes, use <code>toString()</code> instead.
+	 *
 	 * @return a translated string of the name.
 	 */
 	@SideOnly(Side.CLIENT)
@@ -92,10 +84,24 @@ public enum EnumClass
 	{
 		return I18n.format("title." + this.toString());
 	}
-	
+
+	/**
+	 * Takes the enum name for this title-class and returns a lowercase version.
+	 * Aside from regular use of the method, it is useful for producing
+	 * the unlocalized name of the title-class using <code>"title." + titleClass.toString()</code>
+	 *
+	 * @return the name of this title-class
+	 */
+	@Override
+	public String toString()
+	{
+		return this.name().toLowerCase();
+	}
+
 	/**
 	 * Creates a text component for this title-class that will be translated client-side.
 	 * Used for messages from the mod that for example will be sent trough chat.
+	 *
 	 * @return a text component that will translate into the name of the title-class
 	 */
 	public ITextComponent asTextComponent()

@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 public class BlockModusControlDeck extends MSBlockContainer
 {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	protected static final AxisAlignedBB AABB = new AxisAlignedBB(1/16d, 0, 1/16d, 15/16d, 4/16d, 15/16d);
+	protected static final AxisAlignedBB AABB = new AxisAlignedBB(1 / 16d, 0, 1 / 16d, 15 / 16d, 4 / 16d, 15 / 16d);
 
 	public BlockModusControlDeck()
 	{
@@ -35,14 +35,9 @@ public class BlockModusControlDeck extends MSBlockContainer
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING);
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state)
+	public boolean isFullBlock(IBlockState state)
 	{
-		return state.getValue(FACING).ordinal() - 2;
+		return false;
 	}
 
 	@Override
@@ -52,52 +47,40 @@ public class BlockModusControlDeck extends MSBlockContainer
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+	public int getMetaFromState(IBlockState state)
+	{
+		return state.getValue(FACING).ordinal() - 2;
+	}
+
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	{
 		return AABB;
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	public boolean isOpaqueCube(IBlockState state)
 	{
-		int l = MathHelper.floor((double)(placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-
-		EnumFacing facing = new EnumFacing[]{EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST}[l];
-
-		worldIn.setBlockState(pos, state.withProperty(FACING, facing), 2);
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state) {
 		return false;
-	}
-
-	@Override
-	public boolean isFullBlock(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
-
-	@Nullable
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityModusControlDeck();
 	}
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-		if(!(worldIn.getTileEntity(pos) instanceof TileEntityModusControlDeck))
+		if (!(worldIn.getTileEntity(pos) instanceof TileEntityModusControlDeck))
 			return false;
 
 		TileEntityModusControlDeck te = (TileEntityModusControlDeck) worldIn.getTileEntity(pos);
 
-		if(facing == EnumFacing.UP && !playerIn.isSneaking() && te.handleInsert(playerIn, hand))
+		if (facing == EnumFacing.UP && !playerIn.isSneaking() && te.handleInsert(playerIn, hand))
 			return true;
-		else if(facing == EnumFacing.UP == playerIn.isSneaking() && te.getCartridgeCount() > 0)
+		else if (facing == EnumFacing.UP == playerIn.isSneaking() && te.getCartridgeCount() > 0)
 		{
 			playerIn.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.MODUS_CONTROL_DECK.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 			return true;
@@ -106,11 +89,34 @@ public class BlockModusControlDeck extends MSBlockContainer
 	}
 
 	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	{
+		int l = MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+		EnumFacing facing = new EnumFacing[]{EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST}[l];
+
+		worldIn.setBlockState(pos, state.withProperty(FACING, facing), 2);
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, FACING);
+	}
+
+	@Nullable
+	@Override
+	public TileEntity createNewTileEntity(World worldIn, int meta)
+	{
+		return new TileEntityModusControlDeck();
+	}
+
+	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state)
 	{
-		if(world.getTileEntity(pos) instanceof TileEntityModusControlDeck)
+		if (world.getTileEntity(pos) instanceof TileEntityModusControlDeck)
 		{
-			for(ItemStack stack : ((TileEntityModusControlDeck) world.getTileEntity(pos)).getInventory())
+			for (ItemStack stack : ((TileEntityModusControlDeck) world.getTileEntity(pos)).getInventory())
 				InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 		}
 

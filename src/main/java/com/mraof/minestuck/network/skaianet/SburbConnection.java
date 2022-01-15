@@ -16,7 +16,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SburbConnection
 {
-	
+
+	//Only used by the edit handler
+	public int centerX, centerZ;
+	public NBTTagList inventory;
+	//Non-saved variables used by the edit handler
+	public double posX, posZ;
+	public boolean useCoordinates;
 	ComputerData client;
 	/**
 	 * Identifier for the client player. Beware that this might be null if connection.client isn't null
@@ -29,7 +35,6 @@ public class SburbConnection
 	 * It is recommended to use connection.getServerName() instead if possible
 	 */
 	PlayerIdentifier serverIdentifier;
-	
 	/**
 	 * Display name used by computer guis
 	 */
@@ -40,7 +45,6 @@ public class SburbConnection
 	 */
 	@SideOnly(Side.CLIENT)
 	int clientId, serverId;
-	
 	boolean isActive;
 	boolean isMain;
 	boolean enteredGame;
@@ -52,54 +56,42 @@ public class SburbConnection
 	 */
 	boolean[] givenItemList = new boolean[DeployList.getEntryCount()];
 	NBTTagList unregisteredItems = new NBTTagList();
-	
-	//Only used by the edit handler
-	public int centerX, centerZ;
-	public NBTTagList inventory;
-	
-	//Non-saved variables used by the edit handler
-	public double posX, posZ;
-	public boolean useCoordinates;
-	
+
 	SburbConnection()
 	{
 		this.canSplit = true;
 		this.isActive = true;
 	}
-	
-	public PlayerIdentifier getClientIdentifier()
-	{
-		if(clientIdentifier == null)
-			return client.owner;
-		else return clientIdentifier;
-	}
-	
-	public PlayerIdentifier getServerIdentifier()
-	{
-		if(serverIdentifier == null)
-			return server.owner;
-		else return serverIdentifier;
-	}
-	
+
 	public ComputerData getClientData() {return client;}
+
 	public ComputerData getServerData() {return server;}
-	public boolean enteredGame(){return enteredGame;}
-	public boolean isMain(){return isMain;}
+
+	public boolean enteredGame() {return enteredGame;}
+
+	public boolean isMain() {return isMain;}
+
 	public int getClientDimension() {return clientHomeLand;}
-	public boolean[] givenItems(){return givenItemList;}
+
+	public boolean[] givenItems() {return givenItemList;}
+
 	@SideOnly(Side.CLIENT)
 	public String getClientDisplayName() {return clientName;}
+
 	@SideOnly(Side.CLIENT)
 	public String getServerDisplayName() {return serverName;}
+
 	@SideOnly(Side.CLIENT)
 	public int getClientId() {return clientId;}
+
 	@SideOnly(Side.CLIENT)
 	public int getServerId() {return serverId;}
-	
+
 	public void writeBytes(ByteBuf data)
 	{
 		data.writeBoolean(isMain);
-		if(isMain){
+		if (isMain)
+		{
 			data.writeBoolean(isActive);
 			data.writeBoolean(enteredGame);
 		}
@@ -109,32 +101,46 @@ public class SburbConnection
 		ByteBufUtils.writeUTF8String(data, getServerIdentifier().getUsername());
 	}
 
+	public PlayerIdentifier getClientIdentifier()
+	{
+		if (clientIdentifier == null)
+			return client.owner;
+		else return clientIdentifier;
+	}
+
+	public PlayerIdentifier getServerIdentifier()
+	{
+		if (serverIdentifier == null)
+			return server.owner;
+		else return serverIdentifier;
+	}
+
 	public NBTTagCompound write()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setBoolean("isMain", isMain);
-		if(inventory != null)
+		if (inventory != null)
 			nbt.setTag("inventory", inventory);
-		if(isMain)
+		if (isMain)
 		{
 			nbt.setBoolean("isActive", isActive);
 			nbt.setBoolean("enteredGame", enteredGame);
 			nbt.setBoolean("canSplit", canSplit);
 			NBTTagList list = unregisteredItems.copy();
 			String[] deployNames = DeployList.getNameList();
-			for(int i = 0; i < givenItemList.length; i++)
+			for (int i = 0; i < givenItemList.length; i++)
 			{
-				if(givenItemList[i])
+				if (givenItemList[i])
 					list.appendTag(new NBTTagString(deployNames[i]));
 			}
-			
+
 			nbt.setTag("givenItems", list);
-			if(enteredGame)
+			if (enteredGame)
 			{
 				nbt.setInteger("clientLand", clientHomeLand);
 			}
 		}
-		if(isActive)
+		if (isActive)
 		{
 			nbt.setTag("client", client.write());
 			nbt.setTag("server", server.write());
@@ -151,26 +157,26 @@ public class SburbConnection
 	public void read(NBTTagCompound nbt)
 	{
 		isMain = nbt.getBoolean("isMain");
-		if(nbt.hasKey("inventory"))
+		if (nbt.hasKey("inventory"))
 			inventory = (NBTTagList) nbt.getTag("inventory");
-		if(isMain)
+		if (isMain)
 		{
 			isActive = nbt.getBoolean("isActive");
 			enteredGame = nbt.getBoolean("enteredGame");
-			
-			if(nbt.hasKey("canSplit"))
+
+			if (nbt.hasKey("canSplit"))
 				canSplit = nbt.getBoolean("canSplit");
 			NBTTagList list = nbt.getTagList("givenItems", 8);
-			for(int i = 0; i < list.tagCount(); i++)
+			for (int i = 0; i < list.tagCount(); i++)
 			{
 				String name = list.getStringTagAt(i);
 				int ordinal = DeployList.getOrdinal(name);
-				if(ordinal == -1)
+				if (ordinal == -1)
 					unregisteredItems.appendTag(new NBTTagString(name));
 				else givenItemList[ordinal] = true;
 			}
 		}
-		if(isActive)
+		if (isActive)
 		{
 			client = new ComputerData();
 			client.read(nbt.getCompoundTag("client"));
@@ -182,22 +188,24 @@ public class SburbConnection
 			clientIdentifier = IdentifierHandler.load(nbt, "client");
 			serverIdentifier = IdentifierHandler.load(nbt, "server");
 		}
-		if(enteredGame)
+		if (enteredGame)
 		{
 			clientHomeLand = nbt.getInteger("clientLand");
-			if(MinestuckDimensionHandler.isLandDimension(clientHomeLand))
+			if (MinestuckDimensionHandler.isLandDimension(clientHomeLand))
 			{
 				BlockPos spawn = MinestuckDimensionHandler.getSpawn(clientHomeLand);
-				if(spawn != null)
+				if (spawn != null)
 				{
 					centerX = spawn.getX();
 					centerZ = spawn.getZ();
-				} else
+				}
+				else
 				{
 					Debug.errorf("While loading skaianet, the dimension %d was registered as a land dimension, but without having a spawn point. This should not happen!", clientHomeLand);
 					centerX = centerZ = 0;
 				}
-			} else
+			}
+			else
 			{
 				Debug.errorf("The connection between %s and %s had a home dimension %d that isn't a land dimension. For safety measures, the connection will be loaded as if the player had not yet entered.", getClientIdentifier().getUsername(), getServerIdentifier().getUsername(), clientHomeLand);
 				enteredGame = false;
@@ -205,5 +213,5 @@ public class SburbConnection
 		}
 		artifactType = nbt.getInteger("artifact");
 	}
-	
+
 }

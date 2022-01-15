@@ -2,9 +2,9 @@ package com.mraof.minestuck.damage;
 
 public interface IMSGTDamage
 {
-    IMSGTDamage setCrit();
-    boolean isCrit();
+	IMSGTDamage setCrit();
+	boolean isCrit();
 
-    IMSGTDamage setGodproof();
-    boolean isGodproof();
+	IMSGTDamage setGodproof();
+	boolean isGodproof();
 }

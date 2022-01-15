@@ -14,29 +14,31 @@ import net.minecraft.world.World;
 
 public class BlockPlatinumTransportalizer extends BlockCustomTransportalizer
 {
-    public BlockPlatinumTransportalizer() {
-        super(MapColor.WHITE_STAINED_HARDENED_CLAY, "platinumTransportalizer");
-        setBlockUnbreakable();
-        setResistance(6000000.0F);
-        disableStats();
-    }
+	public BlockPlatinumTransportalizer()
+	{
+		super(MapColor.WHITE_STAINED_HARDENED_CLAY, "platinumTransportalizer");
+		setBlockUnbreakable();
+		setResistance(6000000.0F);
+		disableStats();
+	}
 
-    @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if (!playerIn.isCreative())
+		{
+			if (playerIn instanceof EntityPlayerMP)
+				playerIn.sendStatusMessage(new TextComponentTranslation("message.transportalizer.notOpped"), true);
+			return true;
+		}
 
-        return new TileEntityPlatinumTransportalizer();
-    }
+		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+	}
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-    {
-        if(!playerIn.isCreative())
-        {
-            if (playerIn instanceof EntityPlayerMP)
-                playerIn.sendStatusMessage(new TextComponentTranslation("message.transportalizer.notOpped"), true);
-            return true;
-        }
+	@Override
+	public TileEntity createNewTileEntity(World world, int metadata)
+	{
 
-        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
-    }
+		return new TileEntityPlatinumTransportalizer();
+	}
 }

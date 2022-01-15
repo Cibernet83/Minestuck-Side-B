@@ -17,7 +17,7 @@ public class QuestBedWorldGenHandler implements IWorldGenerator
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
 	{
-		if(chunkGenerator instanceof ChunkProviderLands)
-			QUEST_BED.generate(world, random, new BlockPos(chunkX*16, 80, chunkZ*16));
+		if (chunkGenerator instanceof ChunkProviderLands)
+			QUEST_BED.generate(world, random, new BlockPos(chunkX * 16, 80, chunkZ * 16));
 	}
 }

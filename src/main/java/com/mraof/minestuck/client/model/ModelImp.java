@@ -5,12 +5,11 @@
 // - ZeuX
 package com.mraof.minestuck.client.model;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.opengl.GL11;
 
 public class ModelImp extends ModelBase
 {
@@ -31,7 +30,7 @@ public class ModelImp extends ModelBase
 		Head.addBox(-3F, -3F, -5F, 5, 5, 5);
 		Head.setRotationPoint(0F, 15F, 0F);
 		Head.mirror = true;
-		setRotation(Head, 0F, 0F, 0F); 
+		setRotation(Head, 0F, 0F, 0F);
 		Body = new ModelRenderer(this, 0, 10);
 		Body.addBox(-3F, -4F, -2F, 5, 6, 4);
 		Body.setRotationPoint(0F, 19F, 0F);
@@ -41,7 +40,7 @@ public class ModelImp extends ModelBase
 		Armright.addBox(-1F, 0F, -1F, 1, 5, 1);
 		Armright.setRotationPoint(-3F, 16F, 0F);
 		Armright.mirror = true;
-		setRotation(Armright, 0F, 0.0371786F, 0.0371786F); 
+		setRotation(Armright, 0F, 0.0371786F, 0.0371786F);
 		Armleft = new ModelRenderer(this, 0, 20);
 		Armleft.addBox(0F, 0F, -1F, 1, 5, 1);
 		Armleft.setRotationPoint(2F, 16F, 0F);
@@ -58,13 +57,20 @@ public class ModelImp extends ModelBase
 		Legright.mirror = true;
 		setRotation(Legright, 0F, 0F, 0F);
 	}
-	
+
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
+
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
-		scale*=1.5F;
+		scale *= 1.5F;
 		GL11.glTranslatef(0F, -0.8F, 0F);
-		
+
 		setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
 		Head.render(scale);
 		Body.render(scale);
@@ -73,19 +79,12 @@ public class ModelImp extends ModelBase
 		Legleft.render(scale);
 		Legright.render(scale);
 	}
-	
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
-	}
-	
+
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
 	{
 		this.Legleft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-		this.Legright.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.Legright.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 	}
 
 }

@@ -5,5 +5,5 @@ package com.mraof.minestuck.entity;
  */
 public interface IBigEntity
 {
-    PartGroup getGroup();
+	PartGroup getGroup();
 }

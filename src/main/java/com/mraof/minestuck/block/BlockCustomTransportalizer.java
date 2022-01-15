@@ -4,7 +4,6 @@ package com.mraof.minestuck.block;//
 //
 
 
-
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.client.gui.MinestuckGuiHandler.GuiId;
 import com.mraof.minestuck.tileentity.TileEntityTransportalizer;
@@ -37,91 +36,112 @@ import java.util.List;
 
 public abstract class BlockCustomTransportalizer extends MSBlockContainer
 {
-    protected static final AxisAlignedBB TRANSPORTALIZER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
+	protected static final AxisAlignedBB TRANSPORTALIZER_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
 
-    public BlockCustomTransportalizer(MapColor color, String name)
-    {
-        super(name, Material.IRON, color);
-    }
-    
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
-        String key = getUnlocalizedName()+".tooltip";
-        if(!I18n.translateToLocal(key).equals(key))
-            tooltip.add(I18n.translateToLocal(key));
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-    }
-    
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return TRANSPORTALIZER_AABB;
-    }
+	public BlockCustomTransportalizer(MapColor color, String name)
+	{
+		super(name, Material.IRON, color);
+	}
 
-    public abstract TileEntity createNewTileEntity(World world, int metadata);
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	{
+		return TRANSPORTALIZER_AABB;
+	}
 
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
-        if (!world.isRemote && entity.getRidingEntity() == null && entity.getPassengers().isEmpty() && !world.isRemote) {
-            if (entity.timeUntilPortal == 0) {
-                ((TileEntityTransportalizer)world.getTileEntity(pos)).teleport(entity);
-            } else {
-                entity.timeUntilPortal = entity.getPortalCooldown();
-            }
-        }
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
+	{
+		return BlockFaceShape.UNDEFINED;
+	}
 
-    }
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
 
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		TileEntityTransportalizer tileEntity = (TileEntityTransportalizer) worldIn.getTileEntity(pos);
+		if (tileEntity != null && !playerIn.isSneaking())
+		{
+			if (worldIn.isRemote)
+			{
+				playerIn.openGui(Minestuck.instance, GuiId.TRANSPORTALIZER.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			}
 
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
-    }
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        TileEntityTransportalizer tileEntity = (TileEntityTransportalizer)worldIn.getTileEntity(pos);
-        if (tileEntity != null && !playerIn.isSneaking()) {
-            if (worldIn.isRemote) {
-                playerIn.openGui(Minestuck.instance, GuiId.TRANSPORTALIZER.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-            }
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity)
+	{
+		if (!world.isRemote && entity.getRidingEntity() == null && entity.getPassengers().isEmpty() && !world.isRemote)
+		{
+			if (entity.timeUntilPortal == 0)
+			{
+				((TileEntityTransportalizer) world.getTileEntity(pos)).teleport(entity);
+			}
+			else
+			{
+				entity.timeUntilPortal = entity.getPortalCooldown();
+			}
+		}
 
-            return true;
-        } else {
-            return false;
-        }
-    }
+	}
 
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
-        player.addStat(StatList.getBlockStats(this));
-        player.addExhaustion(0.005F);
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0) {
-            List<ItemStack> items = new ArrayList();
-            ItemStack itemstack = this.getSilkTouchDrop(state);
-            if (!itemstack.isEmpty()) {
-                if (te instanceof TileEntityTransportalizer) {
-                    itemstack.setStackDisplayName(((TileEntityTransportalizer)te).getId());
-                }
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	{
+		String key = getUnlocalizedName() + ".tooltip";
+		if (!I18n.translateToLocal(key).equals(key))
+			tooltip.add(I18n.translateToLocal(key));
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+	}
 
-                items.add(itemstack);
-            }
+	public abstract TileEntity createNewTileEntity(World world, int metadata);
 
-            ForgeEventFactory.fireBlockHarvesting(items, worldIn, pos, state, 0, 1.0F, true, player);
-            Iterator var9 = items.iterator();
+	public EnumBlockRenderType getRenderType(IBlockState state)
+	{
+		return EnumBlockRenderType.MODEL;
+	}
 
-            while(var9.hasNext()) {
-                ItemStack item = (ItemStack)var9.next();
-                spawnAsEntity(worldIn, pos, item);
-            }
-        } else {
-            this.harvesters.set(player);
-            int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
-            this.dropBlockAsItem(worldIn, pos, state, i);
-            this.harvesters.set(null);
-        }
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
+	{
+		player.addStat(StatList.getBlockStats(this));
+		player.addExhaustion(0.005F);
+		if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0)
+		{
+			List<ItemStack> items = new ArrayList();
+			ItemStack itemstack = this.getSilkTouchDrop(state);
+			if (!itemstack.isEmpty())
+			{
+				if (te instanceof TileEntityTransportalizer)
+				{
+					itemstack.setStackDisplayName(((TileEntityTransportalizer) te).getId());
+				}
 
-    }
+				items.add(itemstack);
+			}
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-        return BlockFaceShape.UNDEFINED;
-    }
+			ForgeEventFactory.fireBlockHarvesting(items, worldIn, pos, state, 0, 1.0F, true, player);
+			Iterator var9 = items.iterator();
+
+			while (var9.hasNext())
+			{
+				ItemStack item = (ItemStack) var9.next();
+				spawnAsEntity(worldIn, pos, item);
+			}
+		}
+		else
+		{
+			this.harvesters.set(player);
+			int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
+			this.dropBlockAsItem(worldIn, pos, state, i);
+			this.harvesters.set(null);
+		}
+
+	}
 }

@@ -37,33 +37,6 @@ public class GuiModusControlDeck extends GuiScreen
 	}
 
 	@Override
-	public void initGui()
-	{
-		MultiSylladex sylladex = SylladexUtils.getSylladex(mc.player);
-		int yOffset = (height / 2) - (guiHeight / 2);
-
-		int lengthCount = te.getLayerCount() - 1;
-		ModusLayer[] currentLayers = sylladex.getModusLayers();
-		int currentLengthCount = currentLayers.length - 1;
-
-		lengthFields = new GuiTextField[lengthCount];
-		for (int i = 0; i < lengthCount; i++)
-		{
-			GuiTextField lengthField = new GuiTextField(0, fontRenderer, width / 2 - 20, yOffset + 25 + i * 30, 40, 20);
-			lengthField.setMaxStringLength(4);
-			lengthField.setFocused(false);
-			lengthField.setText(String.valueOf(currentLayers.length > lengthCount ? currentLayers[i + currentLengthCount - lengthCount].getLength() : i < lengthCount - currentLengthCount ? 4 : currentLayers[i - (lengthCount - currentLengthCount)].getLength()));
-			lengthFields[i] = lengthField;
-		}
-
-		syncButton = new GuiButton(0, width / 2 - 20, yOffset + 50 + lengthFields.length * 30, 40, 20, I18n.format("gui.sync"));
-		buttonList.add(syncButton);
-
-		totalCards = sylladex.getTotalSlots();
-		recalculateBottomLength();
-	}
-
-	@Override
 	public void drawScreen(int x, int y, float f1)
 	{
 		this.drawDefaultBackground();
@@ -120,7 +93,7 @@ public class GuiModusControlDeck extends GuiScreen
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		if(button.id == 0)
+		if (button.id == 0)
 		{
 			this.mc.displayGuiScreen(null);
 
@@ -129,6 +102,33 @@ public class GuiModusControlDeck extends GuiScreen
 				lengths[i] = Integer.parseInt(lengthFields[i].getText());
 			MinestuckNetwork.sendToServer(new MessageModusControlDeckSyncRequest(te, lengths));
 		}
+	}
+
+	@Override
+	public void initGui()
+	{
+		MultiSylladex sylladex = SylladexUtils.getSylladex(mc.player);
+		int yOffset = (height / 2) - (guiHeight / 2);
+
+		int lengthCount = te.getLayerCount() - 1;
+		ModusLayer[] currentLayers = sylladex.getModusLayers();
+		int currentLengthCount = currentLayers.length - 1;
+
+		lengthFields = new GuiTextField[lengthCount];
+		for (int i = 0; i < lengthCount; i++)
+		{
+			GuiTextField lengthField = new GuiTextField(0, fontRenderer, width / 2 - 20, yOffset + 25 + i * 30, 40, 20);
+			lengthField.setMaxStringLength(4);
+			lengthField.setFocused(false);
+			lengthField.setText(String.valueOf(currentLayers.length > lengthCount ? currentLayers[i + currentLengthCount - lengthCount].getLength() : i < lengthCount - currentLengthCount ? 4 : currentLayers[i - (lengthCount - currentLengthCount)].getLength()));
+			lengthFields[i] = lengthField;
+		}
+
+		syncButton = new GuiButton(0, width / 2 - 20, yOffset + 50 + lengthFields.length * 30, 40, 20, I18n.format("gui.sync"));
+		buttonList.add(syncButton);
+
+		totalCards = sylladex.getTotalSlots();
+		recalculateBottomLength();
 	}
 
 	private void recalculateBottomLength()

@@ -1,11 +1,11 @@
 package com.mraof.minestuck.capabilities.api;
 
-import com.mraof.minestuck.client.particles.MinestuckParticles;
-import com.mraof.minestuck.util.SoulData;
-import com.mraof.minestuck.network.ISerializableDataType;
 import com.mraof.minestuck.capabilities.IMinestuckCapabilityBase;
+import com.mraof.minestuck.client.particles.MinestuckParticles;
+import com.mraof.minestuck.network.ISerializableDataType;
 import com.mraof.minestuck.util.EnumAspect;
 import com.mraof.minestuck.util.EnumClass;
+import com.mraof.minestuck.util.SoulData;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -39,8 +39,8 @@ public interface IBadgeEffects extends IMinestuckCapabilityBase<EntityLivingBase
 
 	EntityLivingBase getMindflayerEntity();
 	void setMindflayerEntity(EntityLivingBase entity);
-	void setMindflayedBy(EntityLivingBase entity);
 	EntityLivingBase getMindflayedBy();
+	void setMindflayedBy(EntityLivingBase entity);
 	boolean isMindflayed();
 
 	float getMoveStrafe();
@@ -78,12 +78,12 @@ public interface IBadgeEffects extends IMinestuckCapabilityBase<EntityLivingBase
 	boolean isManipulatingPos2();
 
 	BlockPos getEditPos1();
-	BlockPos getEditPos2();
-	Vec3d getEditTraceHit();
-	EnumFacing getEditTraceFacing();
 	void setEditPos1(BlockPos pos);
+	BlockPos getEditPos2();
 	void setEditPos2(BlockPos pos);
+	Vec3d getEditTraceHit();
 	void setEditTraceHit(Vec3d hit);
+	EnumFacing getEditTraceFacing();
 	void setEditTraceFacing(EnumFacing facing);
 
 	boolean isEditDragging();
@@ -93,24 +93,26 @@ public interface IBadgeEffects extends IMinestuckCapabilityBase<EntityLivingBase
 	// ----- Particles
 	Map<Class, MinestuckParticles.PowerParticleState> getPowerParticles();
 
-	default void startPowerParticles(Class badge, MinestuckParticles.ParticleType particleType, EnumAspect aspect, int count) {
+	default void startPowerParticles(Class badge, MinestuckParticles.ParticleType particleType, EnumAspect aspect, int count)
+	{
 		startPowerParticles(badge, new MinestuckParticles.PowerParticleState(particleType, aspect, count));
 	}
-	default void startPowerParticles(Class badge, MinestuckParticles.ParticleType particleType, EnumClass clazz, int count) {
+	void startPowerParticles(Class badge, MinestuckParticles.PowerParticleState state);
+	default void startPowerParticles(Class badge, MinestuckParticles.ParticleType particleType, EnumClass clazz, int count)
+	{
 		startPowerParticles(badge, new MinestuckParticles.PowerParticleState(particleType, clazz, count));
 	}
-	void startPowerParticles(Class badge, MinestuckParticles.PowerParticleState state);
-
 	void stopPowerParticles(Class badge);
 
-	default void oneshotPowerParticles(MinestuckParticles.ParticleType particleType, EnumAspect aspect, int count) {
+	default void oneshotPowerParticles(MinestuckParticles.ParticleType particleType, EnumAspect aspect, int count)
+	{
 		oneshotPowerParticles(new MinestuckParticles.PowerParticleState(particleType, aspect, count));
 	}
-	default void oneshotPowerParticles(MinestuckParticles.ParticleType particleType, EnumClass clazz, int count) {
+	void oneshotPowerParticles(MinestuckParticles.PowerParticleState state);
+	default void oneshotPowerParticles(MinestuckParticles.ParticleType particleType, EnumClass clazz, int count)
+	{
 		oneshotPowerParticles(new MinestuckParticles.PowerParticleState(particleType, clazz, count));
 	}
-	void oneshotPowerParticles(MinestuckParticles.PowerParticleState state);
-
 	// ----- Data
 	void setOwner(EntityLivingBase entity);
 

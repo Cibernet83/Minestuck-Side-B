@@ -4,10 +4,9 @@ import net.minecraft.item.ItemStack;
 
 public interface IWearsCosmetics
 {
-	void setHeadStack(ItemStack stack);
 	ItemStack getHeadStack();
-
-	void setCosmeticPickupDelay(int i);
+	void setHeadStack(ItemStack stack);
 	int getCosmeticPickupDelay();
+	void setCosmeticPickupDelay(int i);
 	int shrinkPickupDelay();
 }

@@ -20,6 +20,12 @@ public class MessageBoondollarRegisterTakeRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+	}
+
+	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(pos.getX());
@@ -28,15 +34,9 @@ public class MessageBoondollarRegisterTakeRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-	}
-
-	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(player.world.getTileEntity(pos) instanceof TileEntityBoondollarRegister)
+		if (player.world.getTileEntity(pos) instanceof TileEntityBoondollarRegister)
 		{
 			TileEntityBoondollarRegister vault = (TileEntityBoondollarRegister) player.world.getTileEntity(pos);
 			MinestuckPlayerData.addBoondollars(player, vault.getStoredBoons());

@@ -28,6 +28,13 @@ public class BadgeActiveTime extends BadgeHeroAspect
 		super(EnumAspect.TIME, EnumRole.ACTIVE, EnumAspect.BREATH);
 	}
 
+	@SubscribeEvent
+	public static void onEntityJoinWorld(EntityJoinWorldEvent event)
+	{
+		if (event.getEntity().hasCapability(MinestuckCapabilities.BADGE_EFFECTS, null))
+			event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getTimeSoulData().clear();
+	}
+
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
@@ -37,7 +44,7 @@ public class BadgeActiveTime extends BadgeHeroAspect
 		while (soulData.size() > RECALL_TICKS)
 			soulData.remove();
 
-		if(state != GodKeyStates.KeyState.HELD || time > 20)
+		if (state != GodKeyStates.KeyState.HELD || time > 20)
 			return false;
 
 		if (time < 20)
@@ -46,7 +53,7 @@ public class BadgeActiveTime extends BadgeHeroAspect
 			return true;
 		}
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < ENERGY_USE)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -57,18 +64,11 @@ public class BadgeActiveTime extends BadgeHeroAspect
 		soulData.element().apply(player);
 		soulData.clear();
 
-		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.TIME,4);
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.TIME, 4);
 
 		if (!player.isCreative())
 			player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - ENERGY_USE);
 
 		return true;
-	}
-
-	@SubscribeEvent
-	public static void onEntityJoinWorld(EntityJoinWorldEvent event)
-	{
-		if(event.getEntity().hasCapability(MinestuckCapabilities.BADGE_EFFECTS, null))
-			event.getEntity().getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).getTimeSoulData().clear();
 	}
 }

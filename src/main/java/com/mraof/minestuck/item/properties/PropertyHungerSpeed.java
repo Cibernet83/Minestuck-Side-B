@@ -17,38 +17,38 @@ public class PropertyHungerSpeed extends WeaponProperty
 	}
 
 	@Override
-	public void onEntityItemUpdate(EntityItem entityItem)
+	public double getAttackSpeed(ItemStack stack, double parent)
 	{
-		ItemStack stack = entityItem.getItem();
-		if(stack.hasTagCompound())
+		if (stack.hasTagCompound())
 		{
-			if(stack.getTagCompound().hasKey("Hunger"))
-				stack.getTagCompound().removeTag("Hunger");
-			if(stack.getTagCompound().hasNoTags())
-				stack.setTagCompound(null);
+			double add = ((stack.getTagCompound().getInteger("Hunger") / 2f) * parent) / 10f * (maxMultiplier - 1);
+			return parent + add - parent * (maxMultiplier - 1);
 		}
+		return parent;
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
 
-		if(!worldIn.isRemote)
+		if (!worldIn.isRemote)
 		{
-			if (entityIn instanceof EntityPlayer) {
+			if (entityIn instanceof EntityPlayer)
+			{
 				if (!stack.hasTagCompound())
 					stack.setTagCompound(new NBTTagCompound());
 
 				int hunger = ((EntityPlayer) entityIn).getFoodStats().getFoodLevel();
 
-				if(stack.getTagCompound().getInteger("Hunger") != hunger)
+				if (stack.getTagCompound().getInteger("Hunger") != hunger)
 					stack.getTagCompound().setInteger("Hunger", hunger);
 
 			}
 			else if (stack.hasTagCompound())
 			{
-				if(stack.getTagCompound().hasKey("Hunger"))
+				if (stack.getTagCompound().hasKey("Hunger"))
 					stack.getTagCompound().removeTag("Hunger");
-				if(stack.getTagCompound().hasNoTags())
+				if (stack.getTagCompound().hasNoTags())
 					stack.setTagCompound(null);
 			}
 		}
@@ -57,14 +57,16 @@ public class PropertyHungerSpeed extends WeaponProperty
 	}
 
 	@Override
-	public double getAttackSpeed(ItemStack stack, double parent)
+	public void onEntityItemUpdate(EntityItem entityItem)
 	{
-		if(stack.hasTagCompound())
+		ItemStack stack = entityItem.getItem();
+		if (stack.hasTagCompound())
 		{
-			double add = ((stack.getTagCompound().getInteger("Hunger")/2f)*parent)/10f*(maxMultiplier-1);
-			return parent + add - parent*(maxMultiplier-1);
+			if (stack.getTagCompound().hasKey("Hunger"))
+				stack.getTagCompound().removeTag("Hunger");
+			if (stack.getTagCompound().hasNoTags())
+				stack.setTagCompound(null);
 		}
-		return parent;
 	}
 
 	@Override
@@ -73,9 +75,9 @@ public class PropertyHungerSpeed extends WeaponProperty
 		ItemStack stackA = oldStack.copy();
 		ItemStack stackB = newStack.copy();
 
-		if(!stackA.hasTagCompound())
+		if (!stackA.hasTagCompound())
 			stackA.setTagCompound(new NBTTagCompound());
-		if(!stackB.hasTagCompound())
+		if (!stackB.hasTagCompound())
 			stackB.setTagCompound(new NBTTagCompound());
 
 		stackA.getTagCompound().setInteger("Hunger", 0);
@@ -90,9 +92,9 @@ public class PropertyHungerSpeed extends WeaponProperty
 		ItemStack stackA = oldStack.copy();
 		ItemStack stackB = newStack.copy();
 
-		if(!stackA.hasTagCompound())
+		if (!stackA.hasTagCompound())
 			stackA.setTagCompound(new NBTTagCompound());
-		if(!stackB.hasTagCompound())
+		if (!stackB.hasTagCompound())
 			stackB.setTagCompound(new NBTTagCompound());
 
 		stackA.getTagCompound().setInteger("Hunger", 0);

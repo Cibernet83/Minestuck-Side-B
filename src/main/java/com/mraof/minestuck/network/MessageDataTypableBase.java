@@ -31,18 +31,20 @@ public abstract class MessageDataTypableBase implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
-		data.forEach((String key, ISerializableDataType dataType) -> {
-			dataType.serialize(buf);
+		dataTypes.forEach((String key, Class<? extends ISerializableDataType> dataType) ->
+		{
+			data.put(key, ISerializableDataType.deserialize(buf, dataType));
 		});
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
-		dataTypes.forEach((String key, Class<? extends ISerializableDataType> dataType) -> {
-			data.put(key, ISerializableDataType.deserialize(buf, dataType));
+		data.forEach((String key, ISerializableDataType dataType) ->
+		{
+			dataType.serialize(buf);
 		});
 	}
 

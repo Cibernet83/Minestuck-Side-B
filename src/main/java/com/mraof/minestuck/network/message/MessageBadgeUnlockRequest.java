@@ -13,39 +13,39 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class MessageBadgeUnlockRequest implements MinestuckMessage
 {
-    private Badge badge;
+	private Badge badge;
 
-    public MessageBadgeUnlockRequest() { }
+	public MessageBadgeUnlockRequest() { }
 
-    public MessageBadgeUnlockRequest(Badge badge)
-    {
-        this.badge = badge;
-    }
+	public MessageBadgeUnlockRequest(Badge badge)
+	{
+		this.badge = badge;
+	}
 
-    @Override
-    public void toBytes(ByteBuf buf)
-    {
-        ByteBufUtils.writeRegistryEntry(buf, badge);
-    }
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		badge = ByteBufUtils.readRegistryEntry(buf, MinestuckBadges.REGISTRY);
+	}
 
-    @Override
-    public void fromBytes(ByteBuf buf)
-    {
-        badge = ByteBufUtils.readRegistryEntry(buf, MinestuckBadges.REGISTRY);
-    }
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		ByteBufUtils.writeRegistryEntry(buf, badge);
+	}
 
-    @Override
-    public void execute(EntityPlayer player)
-    {
-        IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
+	@Override
+	public void execute(EntityPlayer player)
+	{
+		IGodTierData data = player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null);
 
-        if(((badge instanceof MasterBadge && data.getMasterBadge() == null) || data.getBadgesLeft() > 0) && !data.hasBadge(badge) && ((player.isCreative() && data.hasMasterControl()) || badge.canUnlock(player.world, player)))
-            data.addBadge(badge, true);
-    }
+		if (((badge instanceof MasterBadge && data.getMasterBadge() == null) || data.getBadgesLeft() > 0) && !data.hasBadge(badge) && ((player.isCreative() && data.hasMasterControl()) || badge.canUnlock(player.world, player)))
+			data.addBadge(badge, true);
+	}
 
-    @Override
-    public Side toSide()
-    {
-        return Side.SERVER;
-    }
+	@Override
+	public Side toSide()
+	{
+		return Side.SERVER;
+	}
 }

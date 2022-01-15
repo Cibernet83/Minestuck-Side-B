@@ -16,11 +16,9 @@ public class MessageStrifeRetrieveRequest implements MinestuckMessage
 
 	public MessageStrifeRetrieveRequest() { }
 
-	public MessageStrifeRetrieveRequest(int index, boolean isCard, EnumHand hand)
+	public MessageStrifeRetrieveRequest(int index)
 	{
-		this.index = index;
-		this.isCard = isCard;
-		this.hand = hand;
+		this(index, true);
 	}
 
 	public MessageStrifeRetrieveRequest(int index, boolean isCard)
@@ -28,17 +26,11 @@ public class MessageStrifeRetrieveRequest implements MinestuckMessage
 		this(index, isCard, EnumHand.MAIN_HAND);
 	}
 
-	public MessageStrifeRetrieveRequest(int index)
+	public MessageStrifeRetrieveRequest(int index, boolean isCard, EnumHand hand)
 	{
-		this(index, true);
-	}
-
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(index);
-		buf.writeBoolean(isCard);
-		buf.writeBoolean(hand == EnumHand.MAIN_HAND);
+		this.index = index;
+		this.isCard = isCard;
+		this.hand = hand;
 	}
 
 	@Override
@@ -50,9 +42,17 @@ public class MessageStrifeRetrieveRequest implements MinestuckMessage
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(index);
+		buf.writeBoolean(isCard);
+		buf.writeBoolean(hand == EnumHand.MAIN_HAND);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(isCard)
+		if (isCard)
 			StrifePortfolioHandler.retrieveCard(player, index);
 		else
 			StrifePortfolioHandler.retrieveWeapon(player, index, hand);

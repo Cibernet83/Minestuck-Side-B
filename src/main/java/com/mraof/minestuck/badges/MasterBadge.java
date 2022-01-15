@@ -25,26 +25,28 @@ public class MasterBadge extends BadgeLevel
 		this.limit = limit;
 	}
 
-	public float getStatNumber(EntityPlayer player)
-	{
-		return Math.max(0, Math.min(limit + (player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_OVERLORD) ? 20 : 0), (player.getLuck()+1)*baseStat));
-	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
-	public String getDisplayTooltip() {
-		return I18n.format(getUnlocalizedName() + ".tooltip", getStatNumber(Minecraft.getMinecraft().player), (MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(Minecraft.getMinecraft().player)/2));
+	public String getDisplayTooltip()
+	{
+		return I18n.format(getUnlocalizedName() + ".tooltip", getStatNumber(Minecraft.getMinecraft().player), (MinestuckBadges.MASTER_BADGE_WISE.getStatNumber(Minecraft.getMinecraft().player) / 2));
+	}
+
+	public float getStatNumber(EntityPlayer player)
+	{
+		return Math.max(0, Math.min(limit + (player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_OVERLORD) ? 20 : 0), (player.getLuck() + 1) * baseStat));
 	}
 
 	@Override
-	public String getUnlockRequirements() {
+	public String getUnlockRequirements()
+	{
 		return I18n.format("badge.class.unlock", requiredXp);
 	}
 
 	@Override
 	public boolean canUnlock(World world, EntityPlayer player)
 	{
-		if(player.experienceLevel >= requiredXp)
+		if (player.experienceLevel >= requiredXp)
 		{
 			player.experienceLevel -= requiredLevel;
 			MinestuckNetwork.sendTo(new MessageAddXp(-requiredLevel), player);
@@ -57,7 +59,7 @@ public class MasterBadge extends BadgeLevel
 	@SideOnly(Side.CLIENT)
 	public ResourceLocation getTextureLocation()
 	{
-		return new ResourceLocation(getRegistryName().getResourceDomain(), "textures/gui/badges/"+getRegistryName().getResourcePath() +
-																		   (Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_OVERLORD) ? "_overlord" : "") +".png");
+		return new ResourceLocation(getRegistryName().getResourceDomain(), "textures/gui/badges/" + getRegistryName().getResourcePath() +
+																				   (Minecraft.getMinecraft().player.getCapability(MinestuckCapabilities.GOD_TIER_DATA, null).isBadgeActive(MinestuckBadges.BADGE_OVERLORD) ? "_overlord" : "") + ".png");
 	}
 }

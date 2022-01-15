@@ -20,28 +20,28 @@ public class MessagePlayerColorRequest implements MinestuckMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(color);
-	}
-	
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		color = buf.readInt();
 	}
 
 	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(color);
+	}
+
+	@Override
 	public void execute(EntityPlayer player)
 	{
-		if(SburbHandler.canSelectColor((EntityPlayerMP) player))
+		if (SburbHandler.canSelectColor((EntityPlayerMP) player))
 			MinestuckPlayerData.getData(player).color = this.color;
 	}
-	
+
 	@Override
 	public Side toSide()
 	{
 		return Side.SERVER;
 	}
-	
+
 }

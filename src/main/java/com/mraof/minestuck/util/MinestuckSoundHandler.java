@@ -55,7 +55,7 @@ public class MinestuckSoundHandler
 	public static SoundEvent whipCrock = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.whip_crock"));
 	public static SoundEvent gasterBlasterCharge = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.gaster_blaster.charge"));
 	public static SoundEvent gasterBlasterRelease = new SoundEvent(new ResourceLocation(Minestuck.MODID, "item.gaster_blaster.release"));
-	
+
 	public static void initSound()
 	{
 		//Records
@@ -63,9 +63,9 @@ public class MinestuckSoundHandler
 		soundEmissaryOfDance = new SoundEvent(soundLocation).setRegistryName(soundLocation);
 		soundLocation = new ResourceLocation(Minestuck.MODID, "record.danceStab");
 		soundDanceStabDance = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"record.retroBattle");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "record.retroBattle");
 		soundRetroBattleTheme = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		
+
 		//Misc.
 		soundLocation = new ResourceLocation(Minestuck.MODID, "warhorn");
 		soundWarhorn = new SoundEvent(soundLocation).setRegistryName(soundLocation);
@@ -75,44 +75,44 @@ public class MinestuckSoundHandler
 		soundScreech = new SoundEvent(soundLocation).setRegistryName(soundLocation);
 		soundLocation = new ResourceLocation(Minestuck.MODID, "upcheladder");
 		soundUpcheladder = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		
+
 		//Nakagators
-		soundLocation = new ResourceLocation(Minestuck.MODID,"nakagatorAmbient");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "nakagatorAmbient");
 		soundNakagatorAmbient = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"nakagatorHurt");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "nakagatorHurt");
 		soundNakagatorHurt = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"nakagatorDeath");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "nakagatorDeath");
 		soundNakagatorDeath = new SoundEvent(soundLocation).setRegistryName(soundLocation);
 		//Iguanas
-		soundLocation = new ResourceLocation(Minestuck.MODID,"iguanaAmbient");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "iguanaAmbient");
 		soundIguanaAmbient = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"iguanaHurt");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "iguanaHurt");
 		soundIguanaHurt = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"iguanaDeath");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "iguanaDeath");
 		soundIguanaDeath = new SoundEvent(soundLocation).setRegistryName(soundLocation);
 		//Salamanders
-		soundLocation = new ResourceLocation(Minestuck.MODID,"salamanderAmbient");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "salamanderAmbient");
 		soundSalamanderAmbient = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"salamanderHurt");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "salamanderHurt");
 		soundSalamanderHurt = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"salamanderDeath");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "salamanderDeath");
 		soundSalamanderDeath = new SoundEvent(soundLocation).setRegistryName(soundLocation);
 		//Turtles
-		soundLocation = new ResourceLocation(Minestuck.MODID,"turtleHurt");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "turtleHurt");
 		soundTurtleHurt = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"turtleDeath");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "turtleDeath");
 		soundTurtleDeath = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		
+
 		//Frogs
-		soundLocation = new ResourceLocation(Minestuck.MODID,"frogAmbient");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "frogAmbient");
 		soundFrogAmbient = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"frogHurt");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "frogHurt");
 		soundFrogHurt = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"frogDeath");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "frogDeath");
 		soundFrogDeath = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		soundLocation = new ResourceLocation(Minestuck.MODID,"frogGold");
+		soundLocation = new ResourceLocation(Minestuck.MODID, "frogGold");
 		soundFrogGold = new SoundEvent(soundLocation).setRegistryName(soundLocation);
-		
+
 		//Imps
 		soundLocation = new ResourceLocation(Minestuck.MODID, "impAmbient");
 		soundImpAmbient = new SoundEvent(soundLocation).setRegistryName(soundLocation);
@@ -149,7 +149,7 @@ public class MinestuckSoundHandler
 		soundLocation = new ResourceLocation(Minestuck.MODID, "giclopsDeath");
 		soundGiclopsDeath = new SoundEvent(soundLocation).setRegistryName(soundLocation);
 	}
-	
+
 	@SubscribeEvent
 	public static void registerSound(RegistryEvent.Register<SoundEvent> event)
 	{
@@ -162,7 +162,7 @@ public class MinestuckSoundHandler
 		registry.register(soundWhispers);
 		registry.register(soundScreech);
 		registry.register(soundUpcheladder);
-		
+
 		registry.register(soundNakagatorAmbient);
 		registry.register(soundNakagatorHurt);
 		registry.register(soundNakagatorDeath);
@@ -174,7 +174,7 @@ public class MinestuckSoundHandler
 		registry.register(soundSalamanderDeath);
 		registry.register(soundTurtleHurt);
 		registry.register(soundTurtleDeath);
-		
+
 		registry.register(soundFrogAmbient);
 		registry.register(soundFrogHurt);
 		registry.register(soundFrogDeath);

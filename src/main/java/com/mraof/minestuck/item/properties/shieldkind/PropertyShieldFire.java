@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item.properties.shieldkind;
 
-import com.mraof.minestuck.item.weapon.MSShieldBase;
 import com.mraof.minestuck.item.properties.WeaponProperty;
+import com.mraof.minestuck.item.weapon.MSShieldBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -29,65 +29,65 @@ public class PropertyShieldFire extends WeaponProperty implements IPropertyShiel
 	}
 
 	@Override
-	public void onEntityItemUpdate(EntityItem entityItem)
-	{
-		super.onEntityItemUpdate(entityItem);
-
-		if(entityItem.getItem().hasTagCompound())
-			entityItem.getItem().getTagCompound().removeTag("Lit");
-	}
-
-	public boolean isLit(ItemStack stack)
-	{
-		if(!stack.hasTagCompound())
-			return false;
-		if(chanceParry > 0 && stack.getItem() instanceof MSShieldBase && ((MSShieldBase) stack.getItem()).isParrying(stack))
-			return true;
-		return stack.getTagCompound().getBoolean("Lit");
-	}
-
-
-	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 
-		if(chance > 0 && entityIn instanceof EntityLivingBase && stack.equals(((EntityLivingBase) entityIn).getActiveItemStack()))
+		if (chance > 0 && entityIn instanceof EntityLivingBase && stack.equals(((EntityLivingBase) entityIn).getActiveItemStack()))
 		{
-			if(lightOnSneak)
+			if (lightOnSneak)
 			{
 				boolean isLit = stack.hasTagCompound() && stack.getTagCompound().getBoolean("Lit");
-				if(isLit != entityIn.isSneaking())
+				if (isLit != entityIn.isSneaking())
 					entityIn.playSound(isLit ? SoundEvents.BLOCK_FIRE_EXTINGUISH : SoundEvents.ITEM_FLINTANDSTEEL_USE, 1, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 			}
 
-			if(!stack.hasTagCompound())
+			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
 			stack.getTagCompound().setBoolean("Lit", !lightOnSneak || entityIn.isSneaking());
-		} else if(stack.hasTagCompound())
+		}
+		else if (stack.hasTagCompound())
 			stack.getTagCompound().removeTag("Lit");
+	}
+
+	@Override
+	public void onEntityItemUpdate(EntityItem entityItem)
+	{
+		super.onEntityItemUpdate(entityItem);
+
+		if (entityItem.getItem().hasTagCompound())
+			entityItem.getItem().getTagCompound().removeTag("Lit");
 	}
 
 	@Override
 	public boolean isAbilityActive(ItemStack stack, World world, EntityLivingBase player)
 	{
-		if(chance > 0 && isLit(stack) && stack.equals(player.getActiveItemStack()))
+		if (chance > 0 && isLit(stack) && stack.equals(player.getActiveItemStack()))
 			return true;
 
 		return chanceParry > 0 && stack.getItem() instanceof MSShieldBase && ((MSShieldBase) stack.getItem()).isParrying(stack);
 	}
 
+	public boolean isLit(ItemStack stack)
+	{
+		if (!stack.hasTagCompound())
+			return false;
+		if (chanceParry > 0 && stack.getItem() instanceof MSShieldBase && ((MSShieldBase) stack.getItem()).isParrying(stack))
+			return true;
+		return stack.getTagCompound().getBoolean("Lit");
+	}
+
 	@Override
 	public void onHitWhileShielding(ItemStack stack, EntityLivingBase player, DamageSource source, float damage, boolean blocked)
 	{
-		if(isLit(stack) && blocked && source.getImmediateSource() != null && (player.world.rand.nextFloat() < chance))
-			source.getImmediateSource().setFire(fireTicks/20);
+		if (isLit(stack) && blocked && source.getImmediateSource() != null && (player.world.rand.nextFloat() < chance))
+			source.getImmediateSource().setFire(fireTicks / 20);
 	}
 
 	@Override
 	public boolean onShieldParry(ItemStack stack, EntityLivingBase player, DamageSource source, float damage)
 	{
-		if(source.getImmediateSource() != null && (player.world.rand.nextFloat() < chanceParry))
+		if (source.getImmediateSource() != null && (player.world.rand.nextFloat() < chanceParry))
 			source.getImmediateSource().setFire(fireTicksParry);
 		return true;
 	}

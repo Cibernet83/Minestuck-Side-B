@@ -20,17 +20,21 @@ public class BlockUraniumOre extends MSBlockCustomOre
 	}
 
 	@Override
+	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
+	{
+		return MathHelper.getInt(MinestuckRandom.getRandom(), 2, 5);
+	}	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
 		return MinestuckItems.rawUranium;
 	}
-	
+
 	@Override
 	public int quantityDropped(Random random)
 	{
 		return 1;
 	}
-	
+
 	@Override
 	public int quantityDroppedWithBonus(int par1, Random par2Random)
 	{
@@ -50,10 +54,6 @@ public class BlockUraniumOre extends MSBlockCustomOre
 			return this.quantityDropped(par2Random);
 		}
 	}
-	
-	@Override
-	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
-	{
-		return MathHelper.getInt(MinestuckRandom.getRandom(), 2, 5);
-	}
+
+
 }

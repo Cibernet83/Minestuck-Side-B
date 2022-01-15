@@ -77,6 +77,15 @@ public class CardGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
+	public boolean isHitting(int[] slots, int index, float x, float y)
+	{
+		x -= this.x;
+		y -= this.y;
+
+		return !(x < 0 || x > width || y < 0 || y > height);
+	}
+
+	@Override
 	public boolean isEmpty()
 	{
 		return false;
@@ -87,6 +96,7 @@ public class CardGuiContainer extends SylladexGuiContainer
 		public final Modus modus;
 		public final ResourceLocation texture;
 		public final int index;
+
 		public CardTextureIndex(Modus modus, ResourceLocation texture, int index)
 		{
 			this.modus = modus;

@@ -20,7 +20,7 @@ public class PropertyPotionBeam extends WeaponProperty implements IPropertyBeam
 	@Override
 	public DamageSource onEntityImpact(ItemStack stack, Beam beam, Entity entity, DamageSource damageSource)
 	{
-		if(entity instanceof EntityLivingBase)
+		if (entity instanceof EntityLivingBase)
 			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(potionEffect.getPotion(), potionEffect.getDuration(), potionEffect.getAmplifier(), potionEffect.getIsAmbient(), potionEffect.doesShowParticles()));
 		return damageSource;
 	}

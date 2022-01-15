@@ -13,66 +13,67 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 public class ItemWalletEntity extends MSItemBase
 {
-    public ItemWalletEntity(String name)
-    {
-        super(name, null, 1, false);
-    }
+	public ItemWalletEntity(String name)
+	{
+		super(name, null, 1, false);
+	}
 
-    @Override
-    public String getItemStackDisplayName(ItemStack stack)
-    {
-        if(stack.hasTagCompound() && stack.getTagCompound().hasKey("EntityName"))
-            return stack.getTagCompound().getString("EntityName");
-        return super.getItemStackDisplayName(stack);
-    }
+	public static void storeEntity(Entity entity, ItemStack stack)
+	{
+		if (entity instanceof EntityPlayer)
+			return;
 
-    @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-    {
-        spawnEntity(entityIn, worldIn, stack);
-    }
+		NBTTagCompound nbt = entity.writeToNBT(new NBTTagCompound());
+		nbt.setString("id", EntityRegistry.getEntry(entity.getClass()).getRegistryName().toString());
 
-    @Override
-    public boolean onEntityItemUpdate(EntityItem entityItem)
-    {
-        spawnEntity(entityItem, entityItem.world, entityItem.getItem());
-        return super.onEntityItemUpdate(entityItem);
-    }
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setTag("Entity", nbt);
+		stack.getTagCompound().setString("EntityName", entity.getName());
 
-    public static void spawnEntity(Entity source, World world, ItemStack stack)
-    {
-        if(world.isRemote || !stack.hasTagCompound() || !stack.getTagCompound().hasKey("Entity"))
-            return;
+	}
 
-        NBTTagCompound nbt = stack.getTagCompound().getCompoundTag("Entity");
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		spawnEntity(entityIn, worldIn, stack);
+	}
 
-        if(nbt.hasUniqueId("UUID") && world instanceof WorldServer && ((WorldServer) world).getEntityFromUuid(nbt.getUniqueId("UUID")) != null)
-        {
-            nbt.removeTag("UUIDMost");
-            nbt.removeTag("UUIDLeast");
-        }
+	@Override
+	public String getItemStackDisplayName(ItemStack stack)
+	{
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("EntityName"))
+			return stack.getTagCompound().getString("EntityName");
+		return super.getItemStackDisplayName(stack);
+	}
 
-        Entity entity = AnvilChunkLoader.readWorldEntityPos(nbt, world, source.posX, source.posY, source.posZ, true);
-        if(entity != null) {
-            entity.motionX = SylladexUtils.rand.nextDouble() - 0.5D;
-            entity.motionZ = SylladexUtils.rand.nextDouble() - 0.5D;
-            entity.setPosition(source.posX, source.posY + 1.0D, source.posZ);
-        }
-        stack.shrink(1);
-    }
+	@Override
+	public boolean onEntityItemUpdate(EntityItem entityItem)
+	{
+		spawnEntity(entityItem, entityItem.world, entityItem.getItem());
+		return super.onEntityItemUpdate(entityItem);
+	}
 
-    public static void storeEntity(Entity entity, ItemStack stack)
-    {
-        if(entity instanceof EntityPlayer)
-            return;
+	public static void spawnEntity(Entity source, World world, ItemStack stack)
+	{
+		if (world.isRemote || !stack.hasTagCompound() || !stack.getTagCompound().hasKey("Entity"))
+			return;
 
-        NBTTagCompound nbt = entity.writeToNBT(new NBTTagCompound());
-        nbt.setString("id", EntityRegistry.getEntry(entity.getClass()).getRegistryName().toString());
+		NBTTagCompound nbt = stack.getTagCompound().getCompoundTag("Entity");
 
-        if(!stack.hasTagCompound())
-            stack.setTagCompound(new NBTTagCompound());
-        stack.getTagCompound().setTag("Entity", nbt);
-        stack.getTagCompound().setString("EntityName", entity.getName());
+		if (nbt.hasUniqueId("UUID") && world instanceof WorldServer && ((WorldServer) world).getEntityFromUuid(nbt.getUniqueId("UUID")) != null)
+		{
+			nbt.removeTag("UUIDMost");
+			nbt.removeTag("UUIDLeast");
+		}
 
-    }
+		Entity entity = AnvilChunkLoader.readWorldEntityPos(nbt, world, source.posX, source.posY, source.posZ, true);
+		if (entity != null)
+		{
+			entity.motionX = SylladexUtils.rand.nextDouble() - 0.5D;
+			entity.motionZ = SylladexUtils.rand.nextDouble() - 0.5D;
+			entity.setPosition(source.posX, source.posY + 1.0D, source.posZ);
+		}
+		stack.shrink(1);
+	}
 }

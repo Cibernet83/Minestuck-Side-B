@@ -21,15 +21,16 @@ public class PropertyWhisperingTerror extends WeaponProperty
 	}
 
 	@Override
-	public void onEntityHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) {
-		if (attacker instanceof EntityPlayer && (double)attacker.getRNG().nextFloat() < chance)
+	public void onEntityHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker)
+	{
+		if (attacker instanceof EntityPlayer && (double) attacker.getRNG().nextFloat() < chance)
 		{
 			if (!attacker.world.isRemote)
 			{
 				String[] options = new String[]{"item.clawOfNrubyiglith.message.machinations", "item.clawOfNrubyiglith.message.stir", "item.clawOfNrubyiglith.message.suffering", "item.clawOfNrubyiglith.message.will", "item.clawOfNrubyiglith.message.done", "item.clawOfNrubyiglith.message.conspiracies"};
 				Random rand = new Random();
 				int num = rand.nextInt(options.length);
-				ITextComponent message = new TextComponentTranslation(options[num], new Object[0]);
+				ITextComponent message = new TextComponentTranslation(options[num]);
 				message.getStyle().setColor(TextFormatting.DARK_PURPLE);
 				attacker.sendMessage(message);
 			}

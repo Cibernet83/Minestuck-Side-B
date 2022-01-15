@@ -8,13 +8,15 @@ import javax.annotation.Nullable;
 
 public class RenderArrow extends net.minecraft.client.renderer.entity.RenderArrow<EntityMSUArrow>
 {
-	public RenderArrow(RenderManager renderManagerIn) {
+	public RenderArrow(RenderManager renderManagerIn)
+	{
 		super(renderManagerIn);
 	}
 
 	@Nullable
 	@Override
-	protected ResourceLocation getEntityTexture(EntityMSUArrow entity) {
+	protected ResourceLocation getEntityTexture(EntityMSUArrow entity)
+	{
 		return entity.getArrowTexture();
 	}
 }

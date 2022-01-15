@@ -21,26 +21,23 @@ public abstract class TileEntityMachine extends TileEntity implements ISidedInve
 	public int maxProgress = 100;
 	public boolean ready = false;
 	public boolean overrideStop = false;
-	protected NonNullList<ItemStack> inv = NonNullList.<ItemStack>withSize(4, ItemStack.EMPTY);
-
-	protected abstract boolean isAutomatic();
+	protected NonNullList<ItemStack> inv = NonNullList.withSize(4, ItemStack.EMPTY);
 
 	public abstract boolean allowOverrideStop();
+
+	@Override
+	public boolean isEmpty()
+	{
+		for (ItemStack stack : inv)
+			if (!stack.isEmpty())
+				return false;
+		return true;
+	}
 
 	@Override
 	public ItemStack getStackInSlot(int index)
 	{
 		return index >= this.getSizeInventory() ? ItemStack.EMPTY : this.inv.get(index);
-	}
-
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack)
-	{
-		this.inv.set(index, stack);
-		if (stack.getCount() > this.getInventoryStackLimit())
-		{
-			stack.setCount(this.getInventoryStackLimit());
-		}
 	}
 
 	@Override
@@ -56,12 +53,13 @@ public abstract class TileEntityMachine extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public boolean isEmpty()
+	public void setInventorySlotContents(int index, ItemStack stack)
 	{
-		for (ItemStack stack : inv)
-			if (!stack.isEmpty())
-				return false;
-		return true;
+		this.inv.set(index, stack);
+		if (stack.getCount() > this.getInventoryStackLimit())
+		{
+			stack.setCount(this.getInventoryStackLimit());
+		}
 	}
 
 	@Override
@@ -74,21 +72,33 @@ public abstract class TileEntityMachine extends TileEntity implements ISidedInve
 	public boolean isUsableByPlayer(EntityPlayer player)
 	{
 		return this.world.getTileEntity(pos) == this &&
-				player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) < 64;
+					   player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) < 64;
 	}
 
 	@Override
+	public void openInventory(EntityPlayer playerIn)
+	{
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer playerIn)
+	{
+	}	@Override
 	public void readFromNBT(NBTTagCompound tagCompound)
 	{
 		super.readFromNBT(tagCompound);
 
 		this.progress = tagCompound.getInteger("progress");
 		this.overrideStop = tagCompound.getBoolean("overrideStop");
-		inv = NonNullList.<ItemStack>withSize(4, ItemStack.EMPTY);
+		inv = NonNullList.withSize(4, ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(tagCompound, inv);
 	}
 
 	@Override
+	public int getField(int id)
+	{
+		return 0;
+	}	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound)
 	{
 		super.writeToNBT(tagCompound);
@@ -101,12 +111,19 @@ public abstract class TileEntityMachine extends TileEntity implements ISidedInve
 	}
 
 	@Override
+	public void setField(int id, int value)
+	{
+	}	@Override
 	public NBTTagCompound getUpdateTag()
 	{
 		return this.writeToNBT(new NBTTagCompound());
 	}
 
 	@Override
+	public int getFieldCount()
+	{
+		return 0;
+	}	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
 		NBTTagCompound tagCompound = this.getUpdateTag();
@@ -114,16 +131,14 @@ public abstract class TileEntityMachine extends TileEntity implements ISidedInve
 	}
 
 	@Override
+	public void clear()
+	{
+		inv.clear();
+	}	@Override
 	public void handleUpdateTag(NBTTagCompound tag)
 	{
 		this.readFromNBT(tag);
 
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.handleUpdateTag(pkt.getNbtCompound());
 	}
 
 	@Override
@@ -152,7 +167,13 @@ public abstract class TileEntityMachine extends TileEntity implements ISidedInve
 			processContents();
 			world.notifyBlockUpdate(pos, state, state, 3);
 		}
+	}	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	{
+		this.handleUpdateTag(pkt.getNbtCompound());
 	}
+
+	protected abstract boolean isAutomatic();
 
 	public abstract boolean contentsValid();
 
@@ -170,36 +191,15 @@ public abstract class TileEntityMachine extends TileEntity implements ISidedInve
 		return new TextComponentTranslation(getName());
 	}
 
-	@Override
-	public void openInventory(EntityPlayer playerIn)
-	{
-	}
 
-	@Override
-	public void closeInventory(EntityPlayer playerIn)
-	{
-	}
 
-	@Override
-	public int getField(int id)
-	{
-		return 0;
-	}
 
-	@Override
-	public void setField(int id, int value)
-	{
-	}
 
-	@Override
-	public int getFieldCount()
-	{
-		return 0;
-	}
 
-	@Override
-	public void clear()
-	{
-		inv.clear();
-	}
+
+
+
+
+
+
 }

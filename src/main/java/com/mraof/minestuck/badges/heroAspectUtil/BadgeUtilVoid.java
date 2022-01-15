@@ -25,21 +25,11 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Minestuck.MODID)
 public class BadgeUtilVoid extends BadgeHeroAspectUtil
 {
-	public BadgeUtilVoid() {
-		super(EnumAspect.VOID, new ItemStack(Items.ENDER_PEARL, 200));
-	}
+	private static final HashMap<World, List<EntityItem>> prevItems = new HashMap<>();
 
-	@Override
-	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	public BadgeUtilVoid()
 	{
-		if(state != GodKeyStates.KeyState.PRESS)
-			return false;
-
-		player.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.ITEM_VOID.ordinal(), world, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
-
-		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.VOID, 20);
-
-		return true;
+		super(EnumAspect.VOID, new ItemStack(Items.ENDER_PEARL, 200));
 	}
 
 	@SubscribeEvent
@@ -51,26 +41,24 @@ public class BadgeUtilVoid extends BadgeHeroAspectUtil
 		GameData.addItemToVoid(event.getEntityItem().getItem());
 	}
 
-	private static final HashMap<World, List<EntityItem>> prevItems = new HashMap<>();
-
 	@SubscribeEvent
 	public static void worldTick(TickEvent.WorldTickEvent event)
 	{
-		if(event.world.isRemote || event.phase == TickEvent.Phase.END)
+		if (event.world.isRemote || event.phase == TickEvent.Phase.END)
 			return;
 
-		if(!prevItems.containsKey(event.world))
+		if (!prevItems.containsKey(event.world))
 			prevItems.put(event.world, new ArrayList<>());
 
 		List<EntityItem> items = prevItems.get(event.world);
 
-		for(EntityItem item : items)
+		for (EntityItem item : items)
 		{
 			NBTTagCompound nbt = new NBTTagCompound();
 			item.writeEntityToNBT(nbt);
 			int health = nbt.getInteger("Health");
 
-			if(health <= 0 || (item.posY <= -64 && !item.isDead))
+			if (health <= 0 || (item.posY <= -64 && !item.isDead))
 			{
 				GameData.addItemToVoid(item.getItem().copy());
 				item.setDead();
@@ -79,5 +67,18 @@ public class BadgeUtilVoid extends BadgeHeroAspectUtil
 
 		items.clear();
 		items.addAll(event.world.getEntities(EntityItem.class, e -> true));
+	}
+
+	@Override
+	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
+	{
+		if (state != GodKeyStates.KeyState.PRESS)
+			return false;
+
+		player.openGui(Minestuck.instance, MinestuckGuiHandler.GuiId.ITEM_VOID.ordinal(), world, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
+
+		badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.VOID, 20);
+
+		return true;
 	}
 }

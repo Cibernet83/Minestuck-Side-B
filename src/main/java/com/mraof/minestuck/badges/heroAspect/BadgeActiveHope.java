@@ -23,10 +23,10 @@ public class BadgeActiveHope extends BadgeHeroAspect
 	@Override
 	public boolean onBadgeTick(World world, EntityPlayer player, IBadgeEffects badgeEffects, GodKeyStates.KeyState state, int time)
 	{
-		if(state != GodKeyStates.KeyState.HELD)
+		if (state != GodKeyStates.KeyState.HELD)
 			return false;
 
-		if(!player.isCreative() && player.getFoodStats().getFoodLevel() < 1)
+		if (!player.isCreative() && player.getFoodStats().getFoodLevel() < 1)
 		{
 			player.sendStatusMessage(new TextComponentTranslation("status.tooExhausted"), true);
 			return false;
@@ -34,18 +34,18 @@ public class BadgeActiveHope extends BadgeHeroAspect
 
 		EntityLivingBase target = MinestuckUtils.getTargetEntity(player);
 
-		if(target instanceof EntityHopeGolem && ((EntityHopeGolem) target).getOwner() == player)
+		if (target instanceof EntityHopeGolem && ((EntityHopeGolem) target).getOwner() == player)
 		{
-			((EntityHopeGolem) target).setHopeTicks(((EntityHopeGolem) target).getHopeTicks() + Math.max(10-(int) (player.getHealth()/player.getMaxHealth()*10), 1)+10);
+			((EntityHopeGolem) target).setHopeTicks(((EntityHopeGolem) target).getHopeTicks() + Math.max(10 - (int) (player.getHealth() / player.getMaxHealth() * 10), 1) + 10);
 
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, 4);
 			target.getCapability(MinestuckCapabilities.BADGE_EFFECTS, null).oneshotPowerParticles(MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, 10);
 
-			if((player.ticksExisted % 10) == 0 && !player.isCreative())
-				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel()-1);
+			if ((player.ticksExisted % 10) == 0 && !player.isCreative())
+				player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - 1);
 		}
 
-		else if(time <= 160)
+		else if (time <= 160)
 		{
 			badgeEffects.startPowerParticles(getClass(), MinestuckParticles.ParticleType.AURA, EnumAspect.HOPE, (int) ((float) time / 320f * 20));
 

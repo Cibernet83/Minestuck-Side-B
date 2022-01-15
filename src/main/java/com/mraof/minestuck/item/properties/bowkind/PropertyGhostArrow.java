@@ -7,7 +7,8 @@ import net.minecraft.util.math.RayTraceResult;
 public class PropertyGhostArrow extends WeaponProperty implements IPropertyArrow
 {
 	@Override
-	public boolean onEntityImpact(EntityMSUArrow arrow, RayTraceResult result) {
+	public boolean onEntityImpact(EntityMSUArrow arrow, RayTraceResult result)
+	{
 		return false;
 	}
 }

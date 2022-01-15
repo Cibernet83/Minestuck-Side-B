@@ -22,38 +22,38 @@ import java.util.List;
 public class InventoryConsortMerchant implements IInventory
 {
 	private final NonNullList<ItemStack> inv = NonNullList.withSize(9, ItemStack.EMPTY);
+	private final int[] prices = new int[9];
 	private EnumConsort consortType;
 	private EnumConsort.MerchantType merchantType;
-	private final int[] prices = new int[9];
 	private EntityConsort consort;
-	
+
 	public InventoryConsortMerchant(EntityConsort consort, NBTTagList list)
 	{
 		this.consort = consort;
 		consortType = consort.getConsortType();
 		merchantType = consort.merchantType;
-		
-		for(int i = 0; i < list.tagCount() && i < 9; i++)
+
+		for (int i = 0; i < list.tagCount() && i < 9; i++)
 		{
 			NBTTagCompound nbt = list.getCompoundTagAt(i);
 			ItemStack stack = new ItemStack(nbt);
 			inv.set(i, stack);
-			if(!stack.isEmpty())
+			if (!stack.isEmpty())
 				prices[i] = nbt.getInteger("price");
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public InventoryConsortMerchant()
 	{
 	}
-	
+
 	public InventoryConsortMerchant(EntityConsort consort, List<Tuple<ItemStack, Integer>> stocks)
 	{
 		this.consort = consort;
 		consortType = consort.getConsortType();
 		merchantType = consort.merchantType;
-		
+
 		for (int i = 0; i < stocks.size(); i++)
 		{
 			Tuple<ItemStack, Integer> entry = stocks.get(i);
@@ -61,7 +61,7 @@ public class InventoryConsortMerchant implements IInventory
 			prices[i] = entry.getSecond();
 		}
 	}
-	
+
 	protected void handlePurchase(EntityPlayer player, boolean all, int index)
 	{
 		if (!player.world.isRemote && index >= 0 && index < inv.size())
@@ -74,24 +74,26 @@ public class InventoryConsortMerchant implements IInventory
 			if (amountPurchased == 0)
 			{
 				player.sendMessage(new TextComponentTranslation("consort.cantAfford"));
-			} else
+			}
+			else
 			{
 				MinestuckPlayerData.addBoondollars(player, -(amountPurchased * prices[index]));
 				ItemStack items = stack.splitStack(amountPurchased);
-				
+
 				if (!player.addItemStackToInventory(items))
 				{
 					EntityItem entity = player.dropItem(items, false);
 					if (entity != null)
 						entity.setNoPickupDelay();
-					else Debug.warn("Couldn't spawn in an item purchased from a consort! "+items);
-				} else player.inventoryContainer.detectAndSendChanges();
-				
+					else Debug.warn("Couldn't spawn in an item purchased from a consort! " + items);
+				}
+				else player.inventoryContainer.detectAndSendChanges();
+
 				player.openContainer.detectAndSendChanges();
 			}
 		}
 	}
-	
+
 	public NBTTagList writeToNBT()
 	{
 		NBTTagList list = new NBTTagList();
@@ -103,93 +105,93 @@ public class InventoryConsortMerchant implements IInventory
 		}
 		return list;
 	}
-	
+
 	public EnumConsort getConsortType()
 	{
 		return consortType;
 	}
-	
+
 	public EnumConsort.MerchantType getMerchantType()
 	{
 		return merchantType;
 	}
-	
+
 	@Override
 	public int getSizeInventory()
 	{
 		return 9;
 	}
-	
+
 	@Override
 	public boolean isEmpty()
 	{
-		for(ItemStack stack : inv)
-			if(!stack.isEmpty())
+		for (ItemStack stack : inv)
+			if (!stack.isEmpty())
 				return false;
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public ItemStack getStackInSlot(int index)
 	{
 		return inv.get(index);
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int index, int count)
 	{
 		return ItemStack.EMPTY;
 	}
-	
+
 	@Override
 	public ItemStack removeStackFromSlot(int index)
 	{
 		return ItemStack.EMPTY;
 	}
-	
+
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack)
 	{
 		inv.set(index, stack);
 	}
-	
+
 	@Override
 	public int getInventoryStackLimit()
 	{
 		return 0;
 	}
-	
+
 	@Override
 	public void markDirty()
 	{
-	
+
 	}
-	
+
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player)
 	{
 		return true;
 	}
-	
+
 	@Override
 	public void openInventory(EntityPlayer player)
 	{
-	
+
 	}
-	
+
 	@Override
 	public void closeInventory(EntityPlayer player)
 	{
-	
+
 	}
-	
+
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack)
 	{
 		return false;
 	}
-	
+
 	@Override
 	public int getField(int id)
 	{
@@ -199,7 +201,7 @@ public class InventoryConsortMerchant implements IInventory
 			return merchantType.ordinal();
 		else return prices[(id - 2) % 9];
 	}
-	
+
 	@Override
 	public void setField(int id, int value)
 	{
@@ -209,36 +211,36 @@ public class InventoryConsortMerchant implements IInventory
 			merchantType = EnumConsort.MerchantType.values()[value % EnumConsort.MerchantType.values().length];
 		else prices[(id - 2) % 9] = value;
 	}
-	
+
 	@Override
 	public int getFieldCount()
 	{
 		return 11;
 	}
-	
+
 	@Override
 	public void clear()
 	{
 		inv.clear();
-		for(int i = 0; i < 9; i++)
+		for (int i = 0; i < 9; i++)
 			prices[i] = 0;
 	}
-	
+
 	@Override
 	public String getName()
 	{
-		return null;	//TODO
+		return null;    //TODO
 	}
-	
+
 	@Override
 	public boolean hasCustomName()
 	{
 		return false;
 	}
-	
+
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return null;	//TODO
+		return null;    //TODO
 	}
 }
