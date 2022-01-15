@@ -164,6 +164,11 @@ public abstract class MultiSylladex<T extends Sylladex> extends Sylladex impleme
 
 	public abstract BottomSylladex getFirstBottomSylladex();
 
+	public Sylladex get(int i)
+	{
+		return getSylladices().get(i);
+	}
+
 	public Sylladex getFirst()
 	{
 		return getSylladices().getFirstWithSlots();

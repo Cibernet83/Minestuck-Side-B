@@ -29,6 +29,7 @@ public abstract class MultiSylladexGuiContainer extends SylladexGuiContainer
 
 		for (SylladexGuiContainer container : containers)
 		{
+			if (container.isEmpty()) continue;
 			xOffset = Math.min(xOffset, container.x);
 			yOffset = Math.min(yOffset, container.y);
 			width = Math.max(width, container.x + container.width);
@@ -38,6 +39,7 @@ public abstract class MultiSylladexGuiContainer extends SylladexGuiContainer
 		height -= yOffset;
 		for (SylladexGuiContainer container : containers)
 		{
+			if (container.isEmpty()) continue;
 			container.x -= xOffset;
 			container.y -= yOffset;
 		}
@@ -50,7 +52,8 @@ public abstract class MultiSylladexGuiContainer extends SylladexGuiContainer
 		GlStateManager.translate(x, y, 0);
 
 		for (int i = 0; i < containers.size(); i++)
-			containers.get(i).draw(gui, mouseX - x, mouseY - y, partialTicks, fetchable && sylladex.canGet(i));
+			if (!containers.get(i).isEmpty())
+				containers.get(i).draw(gui, mouseX - x, mouseY - y, partialTicks, fetchable && sylladex.canGet(i));
 
 		GlStateManager.popMatrix();
 	}
