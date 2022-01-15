@@ -175,6 +175,11 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 		return null;
 	}
 
+	public boolean doesRestrictCards()
+	{
+		return true;
+	}
+
 	/**
 	 * Get a new MultiSylladexGuiContainer or a subtype that draws different positions or animations.
 	 */

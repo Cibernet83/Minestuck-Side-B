@@ -18,6 +18,12 @@ public class ModusArray extends Modus
 	}
 
 	@Override
+	public boolean doesRestrictCards()
+	{
+		return false;
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public CardGuiContainer.CardTextureIndex getNewCardTextureIndex(NBTTagCompound settings)
 	{

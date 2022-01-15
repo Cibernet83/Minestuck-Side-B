@@ -2,8 +2,8 @@ package com.mraof.minestuck.captchalogue;
 
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.captchalogue.modus.Modus;
-import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
+import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainer;
@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.function.Function;
 
 public class ModusLayer
 {
@@ -45,26 +46,33 @@ public class ModusLayer
 
 	public ICaptchalogueable get(SylladexList<? extends Sylladex> sylladices, int[] slots, int index, boolean asCard)
 	{
-		for (ModusSettings modus : MinestuckUtils.reverse(modi))
-			if (modus.canGet(sylladices, slots, index))
-				return modus.get(sylladices, slots, index, asCard);
-		return null;
+		return doGetOperation((modus) -> modus.canGet(sylladices, slots, index) ? modus.get(sylladices, slots, index, asCard) : null);
 	}
 
 	public boolean canGet(SylladexList<? extends Sylladex> sylladices, int[] slots, int index)
 	{
-		for (ModusSettings modus : MinestuckUtils.reverse(modi))
-			if (modus.canGet(sylladices, slots, index))
-				return true;
-		return false;
+		Boolean result = doGetOperation((modus) -> modus.canGet(sylladices, slots, index) ? true : null);
+		return result != null && result;
 	}
 
 	public boolean canGet(SylladexList<? extends Sylladex> sylladices, int index)
 	{
+		Boolean result = doGetOperation((modus) -> modus.canGet(sylladices, index) ? true : null);
+		return result != null && result;
+	}
+
+	private <T> T doGetOperation(Function<ModusSettings, T> operation)
+	{
 		for (ModusSettings modus : MinestuckUtils.reverse(modi))
-			if (modus.canGet(sylladices, index))
-				return true;
-		return false;
+			if (!modus.getModus().doesRestrictCards() && modus != modi[modi.length - 1])
+				return null;
+			else
+			{
+				T result = operation.apply(modus);
+				if (result != null)
+					return result;
+			}
+		return null;
 	}
 
 	public void put(SylladexList<? extends Sylladex> sylladexes, ICaptchalogueable object)
