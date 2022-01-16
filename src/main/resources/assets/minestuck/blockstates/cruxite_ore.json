@@ -1,0 +1,11 @@
+{
+    "variants": {
+        "variant=stone": { "model": "minestuck:cruxite_stone" },
+        "variant=netherrack": { "model": "minestuck:cruxite_netherrack" },
+        "variant=cobblestone": { "model": "minestuck:cruxite_cobblestone" },
+        "variant=sandstone": { "model": "minestuck:cruxite_sandstone" },
+        "variant=sandstone_red": { "model": "minestuck:cruxite_sandstone_red" },
+        "variant=end_stone": { "model": "minestuck:cruxite_end_stone" },
+        "variant=pink_stone": { "model": "minestuck:cruxite_pink_stone" }
+    }
+}

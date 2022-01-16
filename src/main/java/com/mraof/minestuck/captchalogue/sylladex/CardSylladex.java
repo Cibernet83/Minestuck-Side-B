@@ -1,6 +1,5 @@
 package com.mraof.minestuck.captchalogue.sylladex;
 
-import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
@@ -13,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class CardSylladex implements ISylladex
+public class CardSylladex extends Sylladex
 {
 	private final EntityPlayer player;
 	private final BottomSylladex owner;
@@ -28,7 +27,7 @@ public class CardSylladex implements ISylladex
 
 	public CardSylladex(BottomSylladex owner, ICaptchalogueable object)
 	{
-		this.player = owner.player;
+		this.player = owner.getPlayer();
 		this.owner = owner;
 		this.object = object;
 	}
@@ -36,7 +35,9 @@ public class CardSylladex implements ISylladex
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		object = ICaptchalogueable.readFromNBT(nbt);
-	}	@Override
+	}
+
+	@Override
 	public ICaptchalogueable get(int[] slots, int index, boolean asCard)
 	{
 		checkSlots(slots, index);
@@ -54,6 +55,12 @@ public class CardSylladex implements ISylladex
 	{
 		checkSlots(slots, index);
 		return true; // Leave this true instead of !isEmpty because there may be gaps in places that make objects irretrievable
+	}
+
+	@Override
+	public boolean canGet(int index)
+	{
+		return true;
 	}
 
 	@Override
@@ -129,6 +136,12 @@ public class CardSylladex implements ISylladex
 		return markedForDeletion ? 0 : 1;
 	}
 
+	@Override
+	public EntityPlayer getPlayer()
+	{
+		return player;
+	}
+
 	private void checkSlots(int[] slots, int i)
 	{
 		if (markedForDeletion)
@@ -143,12 +156,10 @@ public class CardSylladex implements ISylladex
 		return ICaptchalogueable.writeToNBT(object);
 	}
 
-
-
 	@Override
 	@SideOnly(Side.CLIENT)
-	public CardGuiContainer generateSubContainer(int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices)
+	public CardGuiContainer generateSubContainer(CardGuiContainer.CardTextureIndex[] textureIndices)
 	{
-		return new CardGuiContainer(textureIndices, object, player.getCapability(MinestuckCapabilities.SYLLADEX_DATA, null).getSylladex().canGet(slots, 0));
+		return new CardGuiContainer(textureIndices, object);
 	}
 }

@@ -3,7 +3,7 @@ package com.mraof.minestuck.captchalogue.modus;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.captchalogue.captchalogueable.CaptchalogueableItemStack;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.SylladexList;
 import com.mraof.minestuck.client.gui.captchalogue.modus.GuiModusSettings;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
@@ -22,7 +22,7 @@ public class ModusEightBall extends Modus
 	}
 
 	@Override
-	public <SYLLADEX extends ISylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
+	public <SYLLADEX extends Sylladex> ICaptchalogueable get(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, int[] slots, int i, boolean asCard)
 	{
 		ICaptchalogueable item = super.get(sylladices, settings, slots, i, asCard);
 
@@ -45,15 +45,15 @@ public class ModusEightBall extends Modus
 	}
 
 	@Override
-	public int getPrimaryColor()
-	{
-		return 0x0E04FB;
-	}
-
-	@Override
 	public GuiModusSettings getSettingsGui(ItemStack modusStack)
 	{
 		return new GuiModusSettings(modusStack, new ResourceLocation(Minestuck.MODID, "textures/gui/fetch_modus/eight_ball_modus.png"));
+	}
+
+	@Override
+	public int getPrimaryColor()
+	{
+		return 0x0E04FB;
 	}
 
 	@Override

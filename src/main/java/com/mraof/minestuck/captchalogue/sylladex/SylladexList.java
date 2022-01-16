@@ -4,7 +4,7 @@ import com.mraof.minestuck.util.MinestuckUtils;
 
 import java.util.LinkedList;
 
-public class SylladexList<SYLLADEX extends ISylladex> extends LinkedList<SYLLADEX>
+public class SylladexList<SYLLADEX extends Sylladex> extends LinkedList<SYLLADEX>
 {
 	public SYLLADEX removeFirstWithSlots()
 	{
@@ -50,5 +50,26 @@ public class SylladexList<SYLLADEX extends ISylladex> extends LinkedList<SYLLADE
 			if (sylladex.getTotalSlots() != sylladex.getFreeSlots())
 				return sylladex;
 		return null;
+	}
+
+	public int sizeWithSlots()
+	{
+		int size = 0;
+		for (SYLLADEX sylladex : this)
+			if (sylladex.getTotalSlots() > 0)
+				size++;
+		return size;
+	}
+
+	public int transformIndexToWithSlots(int i)
+	{
+		if (get(i).getTotalSlots() == 0)
+			return -1;
+
+		int newi = i;
+		for (int j = 0; j < i; j++)
+			if (get(j).getTotalSlots() == 0)
+				newi--;
+		return newi;
 	}
 }

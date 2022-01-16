@@ -1,8 +1,6 @@
 package com.mraof.minestuck.world.gen;
 
 import com.google.common.base.Predicate;
-import com.mraof.minestuck.block.BlockCruxiteOre;
-import com.mraof.minestuck.block.BlockUraniumOre;
 import com.mraof.minestuck.world.WorldProviderLands;
 import com.mraof.minestuck.world.lands.gen.ChunkProviderLands;
 import net.minecraft.block.state.IBlockState;
@@ -48,9 +46,9 @@ public class OreHandler implements IWorldGenerator
 		if (world.provider instanceof WorldProviderLands)
 			groundType = ((ChunkProviderLands) world.provider.createChunkGenerator()).getGroundBlock();
 		if (block.getBlock() == oreCruxite)
-			block = BlockCruxiteOre.getBlockState(groundType);
+			block = oreCruxite.getBlockState(groundType);
 		if (block.getBlock() == oreUranium)
-			block = BlockUraniumOre.getBlockState(groundType);
+			block = oreUranium.getBlockState(groundType);
 		for (int x = 0; x < chancesToSpawn; x++)
 		{
 			int posX = blockXPos + random.nextInt(maxX);

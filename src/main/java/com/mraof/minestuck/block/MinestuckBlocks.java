@@ -226,8 +226,8 @@ public class MinestuckBlocks
 	public static final Block strawberryStem = new MSBlockStem("strawberryStem", (BlockDirectional) strawberry).setCreativeTab(null);
 
 	//Ores
-	public static final Block oreCruxite = new BlockCruxiteOre();
-	public static final Block oreUranium = new BlockUraniumOre();
+	public static final MSBlockCustomOre oreCruxite = new BlockCruxiteOre();
+	public static final MSBlockCustomOre oreUranium = new BlockUraniumOre();
 	public static final Block coalOreNetherrack = new BlockVanillaOre("coalOreNetherrack", Blocks.COAL_ORE);
 	public static final Block coalOrePinkStone = new BlockVanillaOre("coalOrePinkStone", Blocks.COAL_ORE);
 	public static final Block ironOreEndStone = new BlockVanillaOre("ironOreEndStone", Blocks.IRON_ORE);

@@ -1,6 +1,5 @@
 package com.mraof.minestuck.util;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.mraof.minestuck.capabilities.MinestuckCapabilities;
 import com.mraof.minestuck.capabilities.api.IGodTierData;
@@ -97,6 +96,11 @@ public class MinestuckUtils
 	public static int multiply(int color, float factor)
 	{
 		return (MathHelper.clamp((int) (((color & 0xFF0000) >> 16) * factor), 0x00, 0xFF) << 16) | (MathHelper.clamp((int) (((color & 0x00FF00) >> 8) * factor), 0x00, 0xFF) << 8) | (MathHelper.clamp((int) ((color & 0x0000FF) * factor), 0x00, 0xFF));
+	}
+
+	public static float tan(float angle)
+	{
+		return MathHelper.sin(angle) / MathHelper.cos(angle);
 	}
 
 	public static Vec3d getRGBVecFromHex(int hex)

@@ -7,7 +7,7 @@ import com.mraof.minestuck.capabilities.api.ISylladexData;
 import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.ModusSettings;
 import com.mraof.minestuck.captchalogue.modus.Modus;
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.network.MinestuckNetwork;
 import com.mraof.minestuck.network.message.MessageSylladexData;
@@ -40,7 +40,7 @@ public class SylladexData implements ISylladexData
 			Modus modus = Modus.REGISTRY.getValue(new ResourceLocation(MinestuckConfig.defaultModusTypes[index]));
 			if (modus != null)
 			{
-				MultiSylladex newSylladex = ISylladex.newSylladex(player, new ModusLayer(-1, new ModusSettings(modus, new NBTTagCompound())));
+				MultiSylladex newSylladex = Sylladex.newSylladex(player, new ModusLayer(-1, new ModusSettings(modus, new NBTTagCompound())));
 				newSylladex.addCards(MinestuckConfig.initialModusSize);
 				cap.setSylladex(newSylladex);
 				MinestuckNetwork.sendTo(new MessageSylladexData(player), player);
@@ -87,7 +87,7 @@ public class SylladexData implements ISylladexData
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		sylladex = ISylladex.readFromNBT(owner, nbt.getCompoundTag("Sylladex"));
+		sylladex = Sylladex.readFromNBT(owner, nbt.getCompoundTag("Sylladex"));
 		givenModus = nbt.getBoolean("GivenModus");
 	}
 

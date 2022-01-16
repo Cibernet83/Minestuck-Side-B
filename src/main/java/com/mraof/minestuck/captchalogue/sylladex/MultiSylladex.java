@@ -10,11 +10,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public abstract class MultiSylladex implements ISylladex
+public abstract class MultiSylladex<T extends Sylladex> extends Sylladex implements Iterable<T>
 {
-	public final EntityPlayer player;
+	private final EntityPlayer player;
 	protected final ModusLayer modi;
 	public boolean autoBalanceNewCards = false;
 
@@ -37,6 +38,12 @@ public abstract class MultiSylladex implements ISylladex
 	public boolean canGet(int[] slots, int index)
 	{
 		return modi.canGet(getSylladices(), slots, index);
+	}
+
+	@Override
+	public boolean canGet(int index)
+	{
+		return modi.canGet(getSylladices(), index);
 	}
 
 	@Override
@@ -66,7 +73,7 @@ public abstract class MultiSylladex implements ISylladex
 	@Override
 	public boolean tryEjectCard()
 	{
-		for (ISylladex sylladex : getSylladices())
+		for (Sylladex sylladex : getSylladices())
 			if (sylladex.tryEjectCard())
 				return true;
 		return false;
@@ -76,7 +83,7 @@ public abstract class MultiSylladex implements ISylladex
 	public int getFreeSlots()
 	{
 		int slots = 0;
-		for (ISylladex sylladex : getSylladices())
+		for (Sylladex sylladex : getSylladices())
 			slots += sylladex.getFreeSlots();
 		return slots;
 	}
@@ -85,19 +92,31 @@ public abstract class MultiSylladex implements ISylladex
 	public int getTotalSlots()
 	{
 		int slots = 0;
-		for (ISylladex sylladex : getSylladices())
+		for (Sylladex sylladex : getSylladices())
 			slots += sylladex.getTotalSlots();
 		return slots;
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public MultiSylladexGuiContainer generateSubContainer(int[] slots, int index, CardGuiContainer.CardTextureIndex[] textureIndices)
+	public EntityPlayer getPlayer()
 	{
-		return modi.getGuiContainer(getSylladices(), slots, index, textureIndices);
+		return player;
 	}
 
-	protected abstract SylladexList<? extends ISylladex> getSylladices();
+	@Override
+	@SideOnly(Side.CLIENT)
+	public MultiSylladexGuiContainer generateSubContainer(CardGuiContainer.CardTextureIndex[] textureIndices)
+	{
+		return modi.getGuiContainer(this, textureIndices);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public MultiSylladexGuiContainer generateSubContainer()
+	{
+		return generateSubContainer(null);
+	}
+
+	protected abstract SylladexList<T> getSylladices();
 
 	public void addCards(int cards)
 	{
@@ -144,4 +163,20 @@ public abstract class MultiSylladex implements ISylladex
 	}
 
 	public abstract BottomSylladex getFirstBottomSylladex();
+
+	public Sylladex get(int i)
+	{
+		return getSylladices().get(i);
+	}
+
+	public Sylladex getFirst()
+	{
+		return getSylladices().getFirstWithSlots();
+	}
+
+	@Override
+	public Iterator<T> iterator()
+	{
+		return getSylladices().iterator();
+	}
 }

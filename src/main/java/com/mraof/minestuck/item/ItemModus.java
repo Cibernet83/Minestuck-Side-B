@@ -16,6 +16,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -36,7 +38,8 @@ public class ItemModus extends MSItemBase
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	@SideOnly(Side.CLIENT)
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) // FIXME: This runs twice on integrated servers
 	{
 		if (player.isSneaking())
 		{

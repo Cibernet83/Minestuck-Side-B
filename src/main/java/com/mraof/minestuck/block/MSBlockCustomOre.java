@@ -29,14 +29,14 @@ public class MSBlockCustomOre extends MSBlockBase
 		setHarvestLevel("pickaxe", 0);
 	}
 
-	public static IBlockState getBlockState(IBlockState ground)
+	public IBlockState getBlockState(IBlockState ground)
 	{
 		String type = ground.getBlock().getRegistryName().getResourcePath();
 		int meta = 0;
 		for (BlockType blockType : BlockType.values())
 			if (type.equals(blockType.getName()))
 				meta = blockType.ordinal();
-		return MinestuckBlocks.oreCruxite.getBlockState().getBaseState().withProperty(VARIANT, BlockType.values()[meta]);
+		return getBlockState().getBaseState().withProperty(VARIANT, BlockType.values()[meta]);
 	}
 
 	@Override

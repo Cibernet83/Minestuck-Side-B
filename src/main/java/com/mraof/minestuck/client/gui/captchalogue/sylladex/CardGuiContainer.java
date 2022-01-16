@@ -5,32 +5,34 @@ import com.mraof.minestuck.captchalogue.modus.Modus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 
+import static com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainerCyclone.QUADRANT;
+
 @SideOnly(Side.CLIENT)
 public class CardGuiContainer extends SylladexGuiContainer
 {
+
 	private final ICaptchalogueable object;
 	private final CardTextureIndex[] textureIndices;
-	private final boolean fetchable;
 
-	public CardGuiContainer(CardTextureIndex[] textureIndices, ICaptchalogueable object, boolean fetchable)
+	public CardGuiContainer(CardTextureIndex[] textureIndices, ICaptchalogueable object)
 	{
 		this.textureIndices = textureIndices;
 		this.object = object;
-		this.fetchable = fetchable;
 		this.width = 21;
 		this.height = 26;
 	}
 
 	@Override
-	public void update(int depth, float partialTicks) { }
+	public void update(int depth, float directionAngle, float partialTicks) { }
 
 	@Override
-	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks) // TODO: Darken unusable cards
+	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks, boolean fetchable)
 	{
 		int width = (int) this.width;
 		int height = (int) this.height;
@@ -38,7 +40,9 @@ public class CardGuiContainer extends SylladexGuiContainer
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
 
-		if (!fetchable)
+		if (fetchable)
+			GlStateManager.color(1f, 1f, 1f);
+		else
 			GlStateManager.color(0.8f, 0.8f, 0.8f);
 
 		for (int i = 0; i < textureIndices.length; i++)
@@ -52,16 +56,14 @@ public class CardGuiContainer extends SylladexGuiContainer
 		if (object != null)
 			object.draw(gui, mouseX, mouseY, partialTicks);
 
-		if (!fetchable)
-			GlStateManager.color(1f, 1f, 1f);
-
+		GlStateManager.color(1f, 1f, 1f);
 		GlStateManager.popMatrix();
 	}
 
 	@Override
-	public void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	public void drawPeek(int[] slots, int index, GuiSylladex gui, float mouseX, float mouseY, float partialTicks, boolean fetchable)
 	{
-		draw(gui, mouseX, mouseY, partialTicks);
+		draw(gui, mouseX, mouseY, partialTicks, fetchable);
 	}
 
 	@Override
@@ -89,6 +91,34 @@ public class CardGuiContainer extends SylladexGuiContainer
 	public boolean isEmpty()
 	{
 		return false;
+	}
+
+	@Override
+	protected float getMaxVertexDistance(float angle)
+	{
+		angle = MathHelper.positiveModulo(angle, QUADRANT * 4);
+		if (angle < QUADRANT)
+			return height * MathHelper.cos(angle);
+		else if (angle < QUADRANT * 2)
+			return 0;
+		else if (angle < QUADRANT * 3)
+			return -width * MathHelper.sin(angle);
+		else
+			return height * MathHelper.cos(angle) - width * MathHelper.sin(angle);
+	}
+
+	@Override
+	protected float getMinVertexDistance(float angle)
+	{
+		angle = MathHelper.positiveModulo(angle, QUADRANT * 4);
+		if (angle < QUADRANT)
+			return -width * MathHelper.sin(angle);
+		else if (angle < QUADRANT * 2)
+			return height * MathHelper.cos(angle) - width * MathHelper.sin(angle);
+		else if (angle < QUADRANT * 3)
+			return height * MathHelper.cos(angle);
+		else
+			return 0;
 	}
 
 	public static class CardTextureIndex

@@ -1,6 +1,6 @@
 package com.mraof.minestuck.network.message;
 
-import com.mraof.minestuck.captchalogue.sylladex.ISylladex;
+import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.network.MinestuckMessage;
@@ -42,7 +42,7 @@ public class MessageSylladexData implements MinestuckMessage
 	{
 		if (nbt != null)
 		{
-			MultiSylladex sylladex = ISylladex.readFromNBT(player, nbt);
+			MultiSylladex sylladex = Sylladex.readFromNBT(player, nbt);
 			SylladexUtils.setSylladex(Minecraft.getMinecraft().player, sylladex);
 			if (Minecraft.getMinecraft().currentScreen instanceof GuiSylladex)
 				((GuiSylladex) Minecraft.getMinecraft().currentScreen).updateSylladex(sylladex);
