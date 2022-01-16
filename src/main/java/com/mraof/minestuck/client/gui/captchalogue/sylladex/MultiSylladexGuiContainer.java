@@ -3,6 +3,7 @@ package com.mraof.minestuck.client.gui.captchalogue.sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.Sylladex;
 import com.mraof.minestuck.captchalogue.sylladex.MultiSylladex;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -112,12 +113,21 @@ public abstract class MultiSylladexGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
-	protected float getLongestDistanceToLine(float x, float y, float angle)
+	protected float getMaxVertexDistance(float angle)
 	{
-		float length = 0;
-		for (SylladexGuiContainer container : getContainers())
-			length = Math.max(length, container.getLongestDistanceToLine(x - container.x, y - container.y, angle));
-		return length;
+		float dist = -Float.MAX_VALUE;
+		for (SylladexGuiContainer container : containers)
+			dist = Math.max(dist, container.y * MathHelper.cos(angle) - container.x * MathHelper.sin(angle) + container.getMaxVertexDistance(angle));
+		return dist;
+	}
+
+	@Override
+	protected float getMinVertexDistance(float angle)
+	{
+		float dist = Float.MAX_VALUE;
+		for (SylladexGuiContainer container : containers)
+			dist = Math.min(dist, container.y * MathHelper.cos(angle) - container.x * MathHelper.sin(angle) + container.getMinVertexDistance(angle));
+		return dist;
 	}
 
 	protected MultiSylladex getSylladex()

@@ -11,9 +11,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 
+import static com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladexGuiContainerCyclone.QUADRANT;
+
 @SideOnly(Side.CLIENT)
 public class CardGuiContainer extends SylladexGuiContainer
 {
+
 	private final ICaptchalogueable object;
 	private final CardTextureIndex[] textureIndices;
 
@@ -91,13 +94,31 @@ public class CardGuiContainer extends SylladexGuiContainer
 	}
 
 	@Override
-	protected float getLongestDistanceToLine(float x, float y, float angle)
+	protected float getMaxVertexDistance(float angle)
 	{
-		float length = 0;
-		for (float a : new float[]{-x, -x + width})
-			for (float b : new float[]{-y, -y + height})
-				length = Math.max(length, Math.abs(b * MathHelper.cos(angle) - a * MathHelper.sin(angle)));
-		return length;
+		angle = MathHelper.positiveModulo(angle, QUADRANT * 4);
+		if (angle < QUADRANT)
+			return height * MathHelper.cos(angle);
+		else if (angle < QUADRANT * 2)
+			return 0;
+		else if (angle < QUADRANT * 3)
+			return -width * MathHelper.sin(angle);
+		else
+			return height * MathHelper.cos(angle) - width * MathHelper.sin(angle);
+	}
+
+	@Override
+	protected float getMinVertexDistance(float angle)
+	{
+		angle = MathHelper.positiveModulo(angle, QUADRANT * 4);
+		if (angle < QUADRANT)
+			return -width * MathHelper.sin(angle);
+		else if (angle < QUADRANT * 2)
+			return height * MathHelper.cos(angle) - width * MathHelper.sin(angle);
+		else if (angle < QUADRANT * 3)
+			return height * MathHelper.cos(angle);
+		else
+			return 0;
 	}
 
 	public static class CardTextureIndex

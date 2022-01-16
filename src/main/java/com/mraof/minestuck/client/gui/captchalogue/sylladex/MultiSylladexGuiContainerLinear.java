@@ -25,9 +25,7 @@ public class MultiSylladexGuiContainerLinear extends MultiSylladexGuiContainer
 		float slope = moveY / moveX;
 
 		directionAngle -= (float)Math.PI / 3f;
-		while (directionAngle < 0)
-			directionAngle += (float)Math.PI;
-		directionAngle %= (float)Math.PI;
+		directionAngle = MathHelper.positiveModulo(directionAngle, (float)Math.PI);
 
 		float distanceX = 0;
 		float distanceY = 0;
