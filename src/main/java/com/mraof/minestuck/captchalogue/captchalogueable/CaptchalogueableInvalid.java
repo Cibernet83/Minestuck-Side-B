@@ -1,5 +1,6 @@
 package com.mraof.minestuck.captchalogue.captchalogueable;
 
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -39,6 +40,12 @@ public class CaptchalogueableInvalid implements ICaptchalogueable
 	}
 
 	@Override
+	public boolean isLooselyCompatibleWith(ICaptchalogueable other)
+	{
+		return false;
+	}
+
+	@Override
 	public void fetch(EntityPlayerMP player) { }
 
 	@Override
@@ -60,7 +67,7 @@ public class CaptchalogueableInvalid implements ICaptchalogueable
 	}
 
 	@Override
-	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	public void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks)
 	{
 		gui.drawTexturedModalRect(0, 0, 0, 0, 16, 16);
 	}

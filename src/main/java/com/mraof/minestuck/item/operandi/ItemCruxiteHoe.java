@@ -11,6 +11,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
@@ -55,13 +56,14 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem, ICruxiteAr
 		return true;
 	}
 
-	protected void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state)
+	@Override
+	protected void setBlock(ItemStack stack, EntityPlayer player, World world, BlockPos pos, IBlockState state)
 	{
-		worldIn.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-		if (!worldIn.isRemote)
+		if (!world.isRemote)
 		{
-			worldIn.setBlockState(pos, state, 11);
+			world.setBlockState(pos, state, 11);
 			stack.damageItem(1, player);
 		}
 		if (stack.isEmpty())
@@ -73,9 +75,10 @@ public class ItemCruxiteHoe extends ItemHoe implements IRegistryItem, ICruxiteAr
 			}
 
 			ICaptchalogueable storedStack = ModusStorage.getStoredItem(stack);
-			worldIn.playSound(null, player.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
+			world.playSound(null, player.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-			storedStack.fetch(player);
+			if (!world.isRemote)
+				storedStack.fetch((EntityPlayerMP) player);
 		}
 	}
 

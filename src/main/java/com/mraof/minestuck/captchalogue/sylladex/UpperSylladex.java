@@ -4,6 +4,7 @@ import com.mraof.minestuck.captchalogue.ModusLayer;
 import com.mraof.minestuck.captchalogue.captchalogueable.ICaptchalogueable;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -81,7 +82,7 @@ public class UpperSylladex extends MultiSylladex<MultiSylladex>
 			}
 		}
 		if (leastSlots == 256)
-			object.eject(getPlayer());
+			object.eject((EntityPlayerMP) getPlayer());
 		else
 			leastSlotsSylladex.addCard(object);
 	}

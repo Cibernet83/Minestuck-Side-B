@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -114,8 +115,8 @@ public class ItemCruxiteTool extends MSItemBase implements ICruxiteArtifact //TO
 
 					worldIn.playSound(null, entityLiving.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-					if (entityLiving instanceof EntityPlayer)
-						storedStack.fetch((EntityPlayer) entityLiving);
+					if (entityLiving instanceof EntityPlayerMP)
+						storedStack.fetch((EntityPlayerMP) entityLiving);
 					else storedStack.drop(entityLiving);
 				}
 			}

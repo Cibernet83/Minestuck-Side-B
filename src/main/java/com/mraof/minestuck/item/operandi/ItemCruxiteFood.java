@@ -7,6 +7,7 @@ import com.mraof.minestuck.util.MinestuckSounds;
 import com.mraof.minestuck.util.ModusStorage;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
@@ -42,7 +43,7 @@ public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 
 	public static FoodItemConsumer getConsumer()
 	{
-		return ((stack, worldIn, player) ->
+		return ((stack, world, player) ->
 		{
 
 			if (stack.getItem() instanceof ICruxiteArtifact && ((ICruxiteArtifact) stack.getItem()).isEntryArtifact())
@@ -57,9 +58,10 @@ public class ItemCruxiteFood extends ItemFood implements ICruxiteArtifact
 			if (storedStack.isEmpty())
 				return null;
 
-			worldIn.playSound(null, player.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
+			world.playSound(null, player.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-			storedStack.fetch(player);
+			if (!world.isRemote)
+				storedStack.fetch((EntityPlayerMP) player);
 			return null;
 		});
 	}

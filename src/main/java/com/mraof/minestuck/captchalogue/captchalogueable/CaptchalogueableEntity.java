@@ -47,6 +47,7 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 		entityNbt = nbtTagCompound;
 	}
 
+	@SideOnly(Side.CLIENT)
 	public Entity getEntity()
 	{
 		return AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);

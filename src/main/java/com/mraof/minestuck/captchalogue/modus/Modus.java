@@ -87,14 +87,14 @@ public abstract class Modus extends IForgeRegistryEntry.Impl<Modus> implements I
 	 */
 	public <SYLLADEX extends Sylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object)
 	{
-		getSylladexToPutInto(sylladices, settings).put(object);
+		getSylladexToPutInto(sylladices, settings, object).put(object);
 	}
 
 	/**
 	 * Find a sylladex to put something into, and if there isn't one available, make one available. There is known to be
 	 * an existing card.
 	 */
-	protected <SYLLADEX extends Sylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
+	protected <SYLLADEX extends Sylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object)
 	{
 		SYLLADEX freeSylladex = getMostFreeSlotsSylladex(sylladices, settings);
 

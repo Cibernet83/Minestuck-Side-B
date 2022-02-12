@@ -265,8 +265,8 @@ public class CommonEventHandler
 				{
 					event.getEntityLiving().world.playSound(null, event.getEntityLiving().getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-					if ((event.getEntityLiving() instanceof EntityPlayer))
-						storedStack.fetch((EntityPlayer) event.getEntityLiving());
+					if ((event.getEntityLiving() instanceof EntityPlayerMP))
+						storedStack.fetch((EntityPlayerMP) event.getEntityLiving());
 					else storedStack.drop(event.getEntity());
 				}
 			}

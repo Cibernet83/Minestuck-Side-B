@@ -71,6 +71,12 @@ public abstract class MultiSylladex<T extends Sylladex> extends Sylladex impleme
 	}
 
 	@Override
+	public void eject(int[] slots, int index)
+	{
+		getSylladices().get(slots[index]).eject(slots, index + 1);
+	}
+
+	@Override
 	public boolean tryEjectCard()
 	{
 		for (Sylladex sylladex : getSylladices())
@@ -95,6 +101,22 @@ public abstract class MultiSylladex<T extends Sylladex> extends Sylladex impleme
 		for (Sylladex sylladex : getSylladices())
 			slots += sylladex.getTotalSlots();
 		return slots;
+	}
+
+	@Override
+	public ArrayList<Integer> hitLooselyCompatibleObject(ICaptchalogueable other)
+	{
+		SylladexList<T> sylladices = getSylladices();
+		for (int i = 0; i < sylladices.size(); i++)
+		{
+			ArrayList<Integer> slots = sylladices.get(i).hitLooselyCompatibleObject(other);
+			if (slots != null)
+			{
+				slots.add(0, i);
+				return slots;
+			}
+		}
+		return null;
 	}
 
 	@Override

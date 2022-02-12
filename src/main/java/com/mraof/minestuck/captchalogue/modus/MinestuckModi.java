@@ -57,7 +57,7 @@ public class MinestuckModi
 	//public static final Modus juju = new ModusJuju("juju");
 	//public static final Modus mspa = new ModusMSPA("mspa"); //yeah, not really planned, but still
 
-	//public static final Modus set = new ModusSet("set");
+	public static final Modus set = new ModusSet("set");
 
 	//side-b
 	public static final Modus cyclone = new ModusCyclone("cyclone");

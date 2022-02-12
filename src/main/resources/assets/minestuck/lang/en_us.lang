@@ -2700,6 +2700,7 @@ modus.stack.alone.singular=Stack
 modus.queue.alone.singular=Queue
 modus.array.alone.singular=Array
 modus.captchaCard.alone.singular=Card
+modus.set.alone.singular=Set
 
 modus.modUs.alone.singular=ModUs
 modus.modUs.alone.plural=ModUsses

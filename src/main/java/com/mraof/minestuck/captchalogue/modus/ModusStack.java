@@ -39,14 +39,14 @@ public class ModusStack extends Modus
 	@Override
 	public <SYLLADEX extends Sylladex> void put(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object)
 	{
-		SYLLADEX sylladex = getSylladexToPutInto(sylladices, settings);
+		SYLLADEX sylladex = getSylladexToPutInto(sylladices, settings, object);
 		sylladices.remove(sylladex);
 		sylladices.addFirst(sylladex);
 		sylladex.put(object);
 	}
 
 	@Override
-	protected <SYLLADEX extends Sylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings)
+	protected <SYLLADEX extends Sylladex> SYLLADEX getSylladexToPutInto(SylladexList<SYLLADEX> sylladices, NBTTagCompound settings, ICaptchalogueable object)
 	{
 		SYLLADEX freeSylladex = getMostFreeSlotsSylladex(sylladices, settings);
 

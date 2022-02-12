@@ -11,6 +11,7 @@ import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.item.ItemFood;
 import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.ModusStorage;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -32,9 +33,10 @@ public class ModusPopTart extends Modus
 			if (storedStack != null && !storedStack.isEmpty())
 			{
 				boolean isHandEmpty = player.getHeldItemMainhand().isEmpty();
-				storedStack.fetch(player);
-				if (!worldIn.isRemote)
+				if (worldIn.isRemote)
 					player.sendStatusMessage(new TextComponentTranslation("status.popTartEat", storedStack.getDisplayName()), true);
+				else
+					storedStack.fetch((EntityPlayerMP) player);
 				if (isHandEmpty && !player.getHeldItemMainhand().isEmpty())
 					return player.getHeldItemMainhand();
 			}

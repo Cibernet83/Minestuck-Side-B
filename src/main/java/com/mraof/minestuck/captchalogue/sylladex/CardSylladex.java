@@ -7,10 +7,13 @@ import com.mraof.minestuck.item.MinestuckItems;
 import com.mraof.minestuck.util.AlchemyUtils;
 import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 
 public class CardSylladex extends Sylladex
 {
@@ -101,22 +104,28 @@ public class CardSylladex extends Sylladex
 	@Override
 	public void eject()
 	{
-		get(null, 0, false).eject(owner, owner.getSylladices().indexOf(this) + 1, player);
+		get(null, 0, false).eject(owner, owner.getSylladices().indexOf(this) + 1, (EntityPlayerMP) player);
 		this.object = null;
+	}
+
+	@Override
+	public void eject(int[] slots, int index)
+	{
+		eject();
 	}
 
 	@Override
 	public void ejectAll(boolean asCards, boolean onlyFull)
 	{
 		if (!onlyFull || object != null)
-			get(null, -1, asCards).eject(player);
+			get(null, -1, asCards).eject((EntityPlayerMP) player);
 		this.object = null;
 	}
 
 	@Override
 	public boolean tryEjectCard()
 	{
-		if (object != null && object.tryPopCard(owner, owner.getSylladices().indexOf(this) + 1, player))
+		if (object != null && object.tryPopCard(owner, owner.getSylladices().indexOf(this) + 1, (EntityPlayerMP) player))
 		{
 			object = null;
 			return true;
@@ -134,6 +143,12 @@ public class CardSylladex extends Sylladex
 	public int getTotalSlots()
 	{
 		return markedForDeletion ? 0 : 1;
+	}
+
+	@Override
+	public ArrayList<Integer> hitLooselyCompatibleObject(ICaptchalogueable other)
+	{
+		return object != null && object.isLooselyCompatibleWith(other) ? new ArrayList<>() : null;
 	}
 
 	@Override

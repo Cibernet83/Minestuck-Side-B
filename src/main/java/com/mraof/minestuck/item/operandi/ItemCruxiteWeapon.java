@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
@@ -53,8 +54,8 @@ public class ItemCruxiteWeapon extends ItemCruxiteTool
 
 			attacker.world.playSound(null, attacker.getPosition(), MinestuckSounds.operandiTaskComplete, SoundCategory.PLAYERS, 1, 1);
 
-			if ((attacker instanceof EntityPlayer))
-				storedStack.fetch((EntityPlayer) attacker);
+			if (attacker instanceof EntityPlayerMP)
+				storedStack.fetch((EntityPlayerMP) attacker);
 			else storedStack.drop(attacker);
 		}
 

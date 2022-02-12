@@ -9,6 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+
 public abstract class Sylladex
 {
 	public static MultiSylladex readFromNBT(EntityPlayer player, NBTTagCompound nbt)
@@ -28,10 +30,12 @@ public abstract class Sylladex
 	public abstract void put(ICaptchalogueable object);
 	public abstract void grow(ICaptchalogueable object);
 	public abstract void eject();
+	public abstract void eject(int[] slots, int index);
 	public abstract void ejectAll(boolean asCards, boolean onlyFull);
 	public abstract boolean tryEjectCard();
 	public abstract int getFreeSlots();
 	public abstract int getTotalSlots();
+	public abstract ArrayList<Integer> hitLooselyCompatibleObject(ICaptchalogueable other);
 	public abstract EntityPlayer getPlayer();
 	public abstract NBTTagCompound writeToNBT();
 	@SideOnly(Side.CLIENT)

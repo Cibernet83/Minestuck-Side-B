@@ -1,6 +1,7 @@
 package com.mraof.minestuck.captchalogue.captchalogueable;
 
 import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.item.MinestuckItems;
 import net.minecraft.client.resources.I18n;
@@ -54,6 +55,12 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
+	public boolean isLooselyCompatibleWith(ICaptchalogueable other)
+	{
+		return false;
+	}
+
+	@Override
 	public void fetch(EntityPlayerMP player) { }
 
 	@Override
@@ -85,10 +92,10 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	public void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks)
 	{
 		//TODO grayscale would be neat
-		parent.draw(gui, 20, 20, partialTicks);
+		parent.draw(gui, card, 20, 20, partialTicks);
 	}
 
 	@Override
