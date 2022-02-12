@@ -116,7 +116,7 @@ public class CardSylladex extends Sylladex
 	@Override
 	public boolean tryEjectCard()
 	{
-		if (object != null && object.tryEjectCard(owner, owner.getSylladices().indexOf(this) + 1, player))
+		if (object != null && object.tryPopCard(owner, owner.getSylladices().indexOf(this) + 1, player))
 		{
 			object = null;
 			return true;

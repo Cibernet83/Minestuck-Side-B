@@ -84,10 +84,10 @@ public class SylladexUtils
 		boolean fetched = false;
 		if (asCard)
 		{
-			ICaptchalogueable card = sylladex.tryGetEmptyCard(slotStack, 0);
-			if (card != null)
+			ICaptchalogueable emptyCard = sylladex.tryGetEmptyCard(slotStack, 0);
+			if (emptyCard != null)
 			{
-				card.fetch(player);
+				emptyCard.fetch(player);
 				fetched = true;
 			}
 		}

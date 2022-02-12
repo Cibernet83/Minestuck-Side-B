@@ -1,7 +1,7 @@
 package com.mraof.minestuck.captchalogue.captchalogueable;
 
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
@@ -30,16 +30,19 @@ public class CaptchalogueableInvalid implements ICaptchalogueable
 	}
 
 	@Override
+	public void empty() { }
+
+	@Override
 	public boolean isCompatibleWith(ICaptchalogueable other)
 	{
 		return false;
 	}
 
 	@Override
-	public void fetch(EntityPlayer player) { }
+	public void fetch(EntityPlayerMP player) { }
 
 	@Override
-	public void eject(EntityPlayer player) { }
+	public void eject(EntityPlayerMP player) { }
 
 	@Override
 	public void drop(World world, double posX, double posY, double posZ) { }

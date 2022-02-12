@@ -1,5 +1,6 @@
 package com.mraof.minestuck.captchalogue.captchalogueable;
 
+import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.util.SylladexUtils;
 import net.minecraft.client.Minecraft;
@@ -9,7 +10,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class CaptchalogueableEntity implements ICaptchalogueable
 {
-	private NBTTagCompound entityNbt;
+	private final NBTTagCompound entityNbt;
 
 	public CaptchalogueableEntity(Entity entity)
 	{
@@ -46,6 +47,11 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 		entityNbt = nbtTagCompound;
 	}
 
+	public Entity getEntity()
+	{
+		return AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);
+	}
+
 	@Override
 	public NBTTagCompound writeData()
 	{
@@ -58,7 +64,15 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	@Override
 	public boolean isEmpty()
 	{
-		return entityNbt.hasNoTags() && !ForgeRegistries.ENTITIES.containsKey(new ResourceLocation(entityNbt.getString("id")));
+		return entityNbt.hasNoTags() || !ForgeRegistries.ENTITIES.containsKey(new ResourceLocation(entityNbt.getString("id")));
+	}
+
+	@Override
+	public void empty()
+	{
+		for (String key : entityNbt.getKeySet())
+			entityNbt.removeTag(key);
+		assert entityNbt.hasNoTags();
 	}
 
 	@Override
@@ -68,13 +82,21 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	}
 
 	@Override
-	public void fetch(EntityPlayer player)
+	public boolean isLooselyCompatibleWith(ICaptchalogueable other)
+	{
+		if (!(other instanceof CaptchalogueableEntity))
+			return false;
+		return getName().equals(other.getName());
+	}
+
+	@Override
+	public void fetch(EntityPlayerMP player)
 	{
 		eject(player);
 	}
 
 	@Override
-	public void eject(EntityPlayer player)
+	public void eject(EntityPlayerMP player)
 	{
 		Entity entity = AnvilChunkLoader.readWorldEntityPos(entityNbt, player.world, player.posX, player.posY + 1.0D, player.posZ, true);
 		if (entity != null)
@@ -94,7 +116,6 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	 * only used in debugging, use getDisplayName instead
 	 */
 	@Override
-	@Deprecated
 	public String getName()
 	{
 		return entityNbt.getString("id");
@@ -102,10 +123,9 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks)
+	public void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks)
 	{
-		Entity entity = AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);
-
+		Entity entity = getEntity();
 		if (entity != null)
 			drawEntityOnScreen(10, 20, 10, -mouseX, -mouseY, entity);
 	}
@@ -114,17 +134,14 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	@SideOnly(Side.CLIENT)
 	public String getDisplayName()
 	{
-		Entity entity = AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);
-		return entity.getName();
+		return getEntity().getName();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ITextComponent getTextComponent()
 	{
-
-		Entity entity = AnvilChunkLoader.readWorldEntity(entityNbt, Minecraft.getMinecraft().world, false);
-		return entity.getDisplayName();
+		return getEntity().getDisplayName();
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import static com.mraof.minestuck.client.gui.captchalogue.sylladex.MultiSylladex
 @SideOnly(Side.CLIENT)
 public class CardGuiContainer extends SylladexGuiContainer
 {
+	public static final int CARD_WIDTH = 21, CARD_HEIGHT = 26;
 
 	private final ICaptchalogueable object;
 	private final CardTextureIndex[] textureIndices;
@@ -24,19 +25,27 @@ public class CardGuiContainer extends SylladexGuiContainer
 	{
 		this.textureIndices = textureIndices;
 		this.object = object;
-		this.width = 21;
-		this.height = 26;
+		this.width = CARD_WIDTH;
+		this.height = CARD_HEIGHT;
 	}
 
 	@Override
 	public void update(int depth, float directionAngle, float partialTicks) { }
 
+	public static void drawCard(GuiSylladex gui, CardTextureIndex[] textureIndices)
+	{
+		for (int i = 0; i < textureIndices.length; i++)
+		{
+			Minecraft.getMinecraft().getTextureManager().bindTexture(textureIndices[i].texture);
+			gui.drawTexturedModalRect(i * CARD_WIDTH / textureIndices.length, 0,
+									  textureIndices[i].index % 12 * CARD_WIDTH + i * CARD_WIDTH / textureIndices.length, textureIndices[i].index / 12 * CARD_HEIGHT,
+									  CARD_WIDTH / textureIndices.length, CARD_HEIGHT);
+		}
+	}
+
 	@Override
 	public void draw(GuiSylladex gui, float mouseX, float mouseY, float partialTicks, boolean fetchable)
 	{
-		int width = (int) this.width;
-		int height = (int) this.height;
-
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
 
@@ -45,16 +54,10 @@ public class CardGuiContainer extends SylladexGuiContainer
 		else
 			GlStateManager.color(0.8f, 0.8f, 0.8f);
 
-		for (int i = 0; i < textureIndices.length; i++)
-		{
-			Minecraft.getMinecraft().getTextureManager().bindTexture(textureIndices[i].texture);
-			gui.drawTexturedModalRect(i * width / textureIndices.length, 0,
-					textureIndices[i].index % 12 * width + i * width / textureIndices.length, textureIndices[i].index / 12 * height,
-					width / textureIndices.length, height);
-		}
+		drawCard(gui, textureIndices);
 
 		if (object != null)
-			object.draw(gui, mouseX, mouseY, partialTicks);
+			object.draw(gui, this, mouseX, mouseY, partialTicks);
 
 		GlStateManager.color(1f, 1f, 1f);
 		GlStateManager.popMatrix();
@@ -119,6 +122,11 @@ public class CardGuiContainer extends SylladexGuiContainer
 			return height * MathHelper.cos(angle);
 		else
 			return 0;
+	}
+
+	public CardTextureIndex[] getTextureIndices()
+	{
+		return textureIndices;
 	}
 
 	public static class CardTextureIndex
