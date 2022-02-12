@@ -123,11 +123,10 @@ public interface ICaptchalogueable
 		return this;
 	}
 	String getName();
+	String getDisplayName();
 
 	@SideOnly(Side.CLIENT)
 	void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks);
-	@SideOnly(Side.CLIENT)
-	String getDisplayName();
 	@SideOnly(Side.CLIENT)
 	ITextComponent getTextComponent();
 	@SideOnly(Side.CLIENT)

@@ -4,12 +4,12 @@ import com.mraof.minestuck.captchalogue.sylladex.BottomSylladex;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.CardGuiContainer;
 import com.mraof.minestuck.client.gui.captchalogue.sylladex.GuiSylladex;
 import com.mraof.minestuck.item.MinestuckItems;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -91,18 +91,17 @@ public class CaptchalogueableGhost implements ICaptchalogueable
 	}
 
 	@Override
+	public String getDisplayName()
+	{
+		return I18n.translateToLocalFormatted("captchalogueable.ghost", parent.getDisplayName());
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks)
 	{
 		//TODO grayscale would be neat
 		parent.draw(gui, card, 20, 20, partialTicks);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getDisplayName()
-	{
-		return I18n.format("captchalogueable.ghost", parent.getDisplayName());
 	}
 
 	@Override

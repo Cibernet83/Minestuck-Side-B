@@ -67,15 +67,15 @@ public class CaptchalogueableInvalid implements ICaptchalogueable
 	}
 
 	@Override
-	public void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks)
-	{
-		gui.drawTexturedModalRect(0, 0, 0, 0, 16, 16);
-	}
-
-	@Override
 	public String getDisplayName()
 	{
 		return "INVALID";
+	}
+
+	@Override
+	public void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks)
+	{
+		gui.drawTexturedModalRect(0, 0, 0, 0, 16, 16);
 	}
 
 	@Override

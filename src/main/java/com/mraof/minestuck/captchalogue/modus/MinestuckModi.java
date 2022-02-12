@@ -1,7 +1,6 @@
 package com.mraof.minestuck.captchalogue.modus;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.item.ItemModus;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -21,14 +20,7 @@ public class MinestuckModi
 	public static final Modus queue = new ModusQueue("queue");
 	//public static final Modus tree = new ModusTree("tree");
 	//public static final Modus hashmap = new ModusHashmap("hashmap");
-	public static final Modus hashtable = new ModusArray("hashtable") //TODO just registering this so that we can have pretty captcharoid cards
-	{
-		@Override
-		public ItemModus makeItem()
-		{
-			return null;
-		}
-	};
+	public static final Modus hashtable = new ModusHashtable("hashtable");
 	public static final Modus array = new ModusArray("array");
 
 	//alpha

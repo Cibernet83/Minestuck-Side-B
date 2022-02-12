@@ -1,0 +1,6 @@
+{
+    "parent": "minestuck:item/fetch_modus",
+    "textures": {
+        "texture": "minestuck:items/fetch_modi/hashtable_modus"
+    }
+}

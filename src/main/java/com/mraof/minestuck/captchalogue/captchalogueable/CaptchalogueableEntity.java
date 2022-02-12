@@ -14,8 +14,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
@@ -123,19 +125,22 @@ public class CaptchalogueableEntity implements ICaptchalogueable
 	}
 
 	@Override
+	public String getDisplayName()
+	{
+		{
+			EntityEntry entry = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(entityNbt.getString("id")));
+			String s = entry == null ? "generic" : entry.getName();
+			return I18n.translateToLocal("entity." + s + ".name");
+		}
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks)
 	{
 		Entity entity = getEntity();
 		if (entity != null)
 			drawEntityOnScreen(10, 20, 10, -mouseX, -mouseY, entity);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getDisplayName()
-	{
-		return getEntity().getName();
 	}
 
 	@Override

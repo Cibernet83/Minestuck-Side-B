@@ -1790,6 +1790,7 @@ item.queueModus.name=Queue Modus
 item.queueStackModus.name=Queue-Stack Modus
 item.treeModus.name=Tree Modus
 item.hashmapModus.name=Hashmap Modus
+item.hashtableModus.name=Hashtable Modus
 item.setModus.name=Set Modus
 item.setModus.tooltip=This modus is quite similar to the array modus. Surely this is what you were looking for?
 item.wildMagicModus.name=Wild Magic Modus
@@ -2725,6 +2726,10 @@ modus.popTart.suffix.singular=tart
 modus.cyclone.alone.singular=Cyclone
 modus.cyclone.prefix=Cy
 modus.cyclone.suffix.singular=clone
+
+modus.hashtable.alone.singular=Hashtable
+modus.hashtable.prefix=Hash
+modus.hashtable.suffix.singular=table
 
 property.item.broken=Broken %s
 

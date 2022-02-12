@@ -152,6 +152,12 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 	}
 
 	@Override
+	public String getDisplayName()
+	{
+		return (stack.isEmpty() ? "" : (stack.getCount() + "x ")) + stack.getDisplayName();
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks)
 	{
@@ -169,13 +175,6 @@ public class CaptchalogueableItemStack implements ICaptchalogueable
 			RenderHelper.disableStandardItemLighting();
 			GlStateManager.color(1F, 1F, 1F, 1F);
 		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getDisplayName()
-	{
-		return (stack.getCount() <= 1 ? "" : (stack.getCount() + "x ")) + stack.getDisplayName();
 	}
 
 	@Override

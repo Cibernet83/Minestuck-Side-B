@@ -110,6 +110,12 @@ public class CaptchalogueableHashStack implements ICaptchalogueable
 	}
 
 	@Override
+	public String getDisplayName()
+	{
+		return "~" + stacks.getLast().getDisplayName() + "...";
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void draw(GuiSylladex gui, CardGuiContainer card, float mouseX, float mouseY, float partialTicks)
 	{
@@ -120,13 +126,6 @@ public class CaptchalogueableHashStack implements ICaptchalogueable
 			GlStateManager.translate(-2, -2, 0);
 		}
 		stacks.getLast().draw(gui, card, mouseX, mouseY, partialTicks);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getDisplayName()
-	{
-		return "~" + stacks.getLast().getDisplayName() + "...";
 	}
 
 	@Override
