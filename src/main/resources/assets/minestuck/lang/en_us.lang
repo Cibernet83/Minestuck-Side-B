@@ -2731,6 +2731,10 @@ modus.hashtable.alone.singular=Hashtable
 modus.hashtable.prefix=Hash
 modus.hashtable.suffix.singular=table
 
+modus.sacrifice.alone.singular=Sacrifice
+modus.sacrifice.prefix=Sacri
+modus.sacrifice.suffix.singular=crifice
+
 property.item.broken=Broken %s
 
 status.wildMagicRoll=You rolled a %s!

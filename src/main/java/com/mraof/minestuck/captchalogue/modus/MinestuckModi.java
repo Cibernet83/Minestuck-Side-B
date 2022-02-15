@@ -64,7 +64,7 @@ public class MinestuckModi
 	public static final Modus popTart = new ModusPopTart("popTart");
 	//public static final Modus slime = new ModusSlime("slime");
 	//public static final Modus monster = new ModusMonster("monster");
-	//public static final Modus sacrifice = new ModusSacrifice("sacrifice");
+	public static final Modus sacrifice = new ModusSacrifice("sacrifice");
 	//public static final Modus operandi = new ModusOperandi("operandi");
 	//public static final Modus capitalist = new ModusCapitalist("capitalist");
 	//public static final Modus modUs = new ModusCommunist("modUs");
